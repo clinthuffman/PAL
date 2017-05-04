@@ -1,0 +1,9 @@
+bin\Debug\PALFunctions.dll
+bin\Debug\PALFunctions.pdb
+bin\Debug\PALFunctions.xml
+obj\Debug\ResolveAssemblyReference.cache
+obj\Debug\PALFunctions.Resources.resources
+obj\Debug\PALFunctions.vbproj.GenerateResource.Cache
+obj\Debug\PALFunctions.dll
+obj\Debug\PALFunctions.xml
+obj\Debug\PALFunctions.pdb

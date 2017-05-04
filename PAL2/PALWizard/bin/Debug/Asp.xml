@@ -1,0 +1,103 @@
+<?xml version="1.0"?>
+<PAL PALVERSION="2.0" NAME="Active Server Pages" DESCRIPTION="This threshold file displays and analyzes specific Active Server Page counters." CONTENTOWNERS="Clint Huffman" FEEDBACKEMAILADDRESS="clinth@microsoft.com" VERSION="1.0">
+  <ANALYSIS NAME="Active Server Pages Errors/Sec" ENABLED="True" CATEGORY="Active Server Pages" PRIMARYDATASOURCE="\Active Server Pages\Errors/Sec" ID="6db12b82-11db-4f2c-aa7e-cdb4be26e055" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\Active Server Pages\Errors/Sec" COLLECTIONVARNAME="CollectionOfActiveServerPagesErrorsSec" EXPRESSIONPATH="\Active Server Pages\Errors/Sec" TRENDVARNAME="TrendActiveServerPagesErrorsSec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Active Server Pages\Errors/Sec" ISTHRESHOLDSADDED="False" DATASOURCE="\Active Server Pages\Errors/Sec" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[The number of errors per second.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Active Server Pages Request Execution Time" ENABLED="True" CATEGORY="Active Server Pages" PRIMARYDATASOURCE="\Active Server Pages\Request Execution Time" ID="c210f5f7-f62c-4662-b6ba-15729c67838f" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\Active Server Pages\Request Execution Time" COLLECTIONVARNAME="CollectionOfActiveServerPagesRequestExecutionTime" EXPRESSIONPATH="\Active Server Pages\Request Execution Time" TRENDVARNAME="TrendActiveServerPagesRequestExecutionTime" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Active Server Pages\Request Execution Time" ISTHRESHOLDSADDED="True" DATASOURCE="\Active Server Pages\Request Execution Time" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $CollectionOfActiveServerPagesRequestExecutionTime -MinThreshold 3000 -MaxThreshold 6000 -IsOperatorGreaterThan $True -UseMaxValue $False]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $CollectionOfActiveServerPagesRequestExecutionTime -MinThreshold 6000 -MaxThreshold 9999.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="More than 3 seconds of ASP execution time" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[#// Use PowerShell code to create alerts when the conditions for this threshold are met.
+#// Optionally use the variables listed above in the Variables list box.
+#// If the condition for this threshold is a static value, then use the StaticThreshold() function.
+#// Otherwise, you will need to manually loop through the counter instance collection object.
+#// The counter instance collection object has a unique name for each counter data source in this analysis.
+#// See the variables in the Variables list box above for more information on the counter instance collection object.
+
+#// Here is a ready to use example on how to use the StaticThreshold() function to define a threshold:
+StaticThreshold -CollectionOfCounterInstances $CollectionOfActiveServerPagesRequestExecutionTime -Operator 'gt' -Threshold 3000
+
+#// The -Operator parameter accepts gt for greater than, ge for greater than or equal to, lt for less than,
+#//  and le for less than or equal to. -Threshold is the static value for the threshold.]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="More than 6 seconds of ASP execution time" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[#// Use PowerShell code to create alerts when the conditions for this threshold are met.
+#// Optionally use the variables listed above in the Variables list box.
+#// If the condition for this threshold is a static value, then use the StaticThreshold() function.
+#// Otherwise, you will need to manually loop through the counter instance collection object.
+#// The counter instance collection object has a unique name for each counter data source in this analysis.
+#// See the variables in the Variables list box above for more information on the counter instance collection object.
+
+#// Here is a ready to use example on how to use the StaticThreshold() function to define a threshold:
+StaticThreshold -CollectionOfCounterInstances $CollectionOfActiveServerPagesRequestExecutionTime -Operator 'gt' -Threshold 6000
+
+#// The -Operator parameter accepts gt for greater than, ge for greater than or equal to, lt for less than,
+#//  and le for less than or equal to. -Threshold is the static value for the threshold.]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The number of milliseconds that it took to execute the most recent request.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Active Server Pages Request Wait Time" ENABLED="True" CATEGORY="Active Server Pages" PRIMARYDATASOURCE="\Active Server Pages\Request Wait Time" ID="22f1b401-30f8-4f6d-a3d2-496b35f076cd" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\Active Server Pages\Request Wait Time" COLLECTIONVARNAME="CollectionOfActiveServerPagesRequestWaitTime" EXPRESSIONPATH="\Active Server Pages\Request Wait Time" TRENDVARNAME="TrendActiveServerPagesRequestWaitTime" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Active Server Pages\Request Wait Time" ISTHRESHOLDSADDED="False" DATASOURCE="\Active Server Pages\Request Wait Time" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[The number of milliseconds the most recent request was waiting in the queue.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Active Server Pages Requests Queued" ENABLED="True" CATEGORY="Active Server Pages" PRIMARYDATASOURCE="\Active Server Pages\Requests Queued" ID="255239e4-b34a-483a-aa05-f9137cf463c7" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\Active Server Pages\Requests Queued" COLLECTIONVARNAME="CollectionOfActiveServerPagesRequestsQueued" EXPRESSIONPATH="\Active Server Pages\Requests Queued" TRENDVARNAME="TrendActiveServerPagesRequestsQueued" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Active Server Pages\Requests Queued" ISTHRESHOLDSADDED="True" DATASOURCE="\Active Server Pages\Requests Queued" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $CollectionOfActiveServerPagesRequestsQueued -MinThreshold 10 -MaxThreshold 20 -IsOperatorGreaterThan $True -UseMaxValue $False]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $CollectionOfActiveServerPagesRequestsQueued -MinThreshold 20 -MaxThreshold 29.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="More than 10 ASP requests queued" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[#// Use PowerShell code to create alerts when the conditions for this threshold are met.
+#// Optionally use the variables listed above in the Variables list box.
+#// If the condition for this threshold is a static value, then use the StaticThreshold() function.
+#// Otherwise, you will need to manually loop through the counter instance collection object.
+#// The counter instance collection object has a unique name for each counter data source in this analysis.
+#// See the variables in the Variables list box above for more information on the counter instance collection object.
+
+#// Here is a ready to use example on how to use the StaticThreshold() function to define a threshold:
+StaticThreshold -CollectionOfCounterInstances $CollectionOfActiveServerPagesRequestsQueued -Operator 'gt' -Threshold 10
+
+#// The -Operator parameter accepts gt for greater than, ge for greater than or equal to, lt for less than,
+#//  and le for less than or equal to. -Threshold is the static value for the threshold.]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="More than 20 ASP requests queued" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[#// Use PowerShell code to create alerts when the conditions for this threshold are met.
+#// Optionally use the variables listed above in the Variables list box.
+#// If the condition for this threshold is a static value, then use the StaticThreshold() function.
+#// Otherwise, you will need to manually loop through the counter instance collection object.
+#// The counter instance collection object has a unique name for each counter data source in this analysis.
+#// See the variables in the Variables list box above for more information on the counter instance collection object.
+
+#// Here is a ready to use example on how to use the StaticThreshold() function to define a threshold:
+StaticThreshold -CollectionOfCounterInstances $CollectionOfActiveServerPagesRequestsQueued -Operator 'gt' -Threshold 20
+
+#// The -Operator parameter accepts gt for greater than, ge for greater than or equal to, lt for less than,
+#//  and le for less than or equal to. -Threshold is the static value for the threshold.]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The number of requests waiting for service from the queue.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Active Server Pages Requests/Sec" ENABLED="True" CATEGORY="Active Server Pages" PRIMARYDATASOURCE="\Active Server Pages\Requests/Sec" ID="695e0e58-8f48-452d-a215-77ecd492a082" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\Active Server Pages\Requests/Sec" COLLECTIONVARNAME="CollectionOfActiveServerPagesRequestsSec" EXPRESSIONPATH="\Active Server Pages\Requests/Sec" TRENDVARNAME="TrendActiveServerPagesRequestsSec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Active Server Pages\Requests/Sec" ISTHRESHOLDSADDED="False" DATASOURCE="\Active Server Pages\Requests/Sec" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[The number of requests executed per second.]]></DESCRIPTION>
+  </ANALYSIS>
+  <INHERITANCE FILEPATH="SystemOverview.xml" />
+</PAL>

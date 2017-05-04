@@ -1,0 +1,378 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2013 rel. 2 sp2 (x64) (http://www.altova.com) by Josh Townseand (VMtoday) -->
+<PAL NAME="VMWare View PCoIP and Guest Performance" DESCRIPTION="Display VMWare View guest VM Processor and VM Memory counters, plus PCoIP stats.  Note that these counters may not be 100% accurate - see http://vpivot.com/2010/02/10/inaccuracy-of-in-guest-performance-counters/ for more info.  Also monitor esxtop data from ESXi servers and View Connection server and Security Server performance to fully understand disagnostic performance of View environment." VERSION="1.0" CONTENTOWNERS="Josh Townsend" FEEDBACKEMAILADDRESS="josh@vmtoday.com" LANGUAGE="English" LANGUAGECODE="en" PALVERSION="2.0">
+	<!--<QUESTION DATATYPE="integer" DEFAULTVALUE="1" QUESTIONVARNAME="NumberOfVirtualCPUs">How many virtual CPU's does the View desktop have assigned?  Enter same value when asked 'How many processors (physical and virtual) does the server have?'</QUESTION>
+	<QUESTION DATATYPE="integer" DEFAULTVALUE="2" QUESTIONVARNAME="vRAMSize">How much RAM in GB does the View desktop have assigned?  Enter same value when asked 'How much memory did the server have in gigabytes?'</QUESTION>
+	<QUESTION DATATYPE="boolean" DEFAULTVALUE="False" QUESTIONVARNAME="ViewParentSixtyFourBit">Was the computer 64-bit?</QUESTION>
+	<QUESTION DATATYPE="boolean" DEFAULTVALUE="True" QUESTIONVARNAME="LinkedClone">Was the desktop a Linked Clone</QUESTION>
+   -->
+	<ANALYSIS NAME="Memory Active in MB" ENABLED="True" CATEGORY="VM Memory" PRIMARYDATASOURCE="\VM Memory\Memory Active in MB" ID="eee6c87f-f8a9-4828-b31d-c40c1f2aa1db" FROMALLCOUNTERSTATS="False">
+		<DESCRIPTION><![CDATA[Amount of memory that is actively used by the virtual machine, as estimated by VMkernel based on recently touched memory pages.<br>
+		A large delta between memory active and vRAM allocated could indicate over-sized VM's.  Consider reducing memory allocation to VM's and monitor.
+		<b>See http://www.vmware.com/files/pdf/perf-vsphere-memory_management.pdf for information on how VMware manages memory!!!</b>]]></DESCRIPTION>
+		<DATASOURCE TYPE="CounterLog" NAME="\VM Memory\Memory Active in MB" COLLECTIONVARNAME="CollectionOfVMMemoryMemoryActiveinMB" EXPRESSIONPATH="\VM Memory\Memory Active in MB" TRENDVARNAME="TrendVMMemoryMemoryActiveinMB" DATATYPE="integer"/>
+		<CHART CHARTTITLE="\VM Memory\Memory Active in MB" ISTHRESHOLDSADDED="False" DATASOURCE="\VM Memory\Memory Active in MB" CHARTLABELS="instance"/>
+	</ANALYSIS>
+	<ANALYSIS NAME="Memory Ballooned in MB" ENABLED="True" CATEGORY="VM Memory" PRIMARYDATASOURCE="\VM Memory\Memory Ballooned in MB" ID="0d0e9edc-06b4-4212-b024-f94ca285dbde" FROMALLCOUNTERSTATS="False">
+		<DESCRIPTION><![CDATA[The amount of memory that has been reclaimed from this virtual machine via the VMware Memory Balloon mechanism.<br>
+		When VMware tools are installed on a virtual machine they provide device drivers into the host virtualization layer, from within the guest operating system.  Part of this package that is installed is the balloon driver or "vmmemctl" which can be observed inside the guest.  The balloon driver communicates to the hypervisor to reclaim memory inside the guest when it is no longer valuable to the operating system.  If the Physical ESX server begins to run low on memory it will grow the balloon driver to reclaim memory from the guest.  This process reduces the chance that the physical ESX host will begin to swap, which you will cause performance degradation.<br>
+		Ballooning indicates that your ESXi hosts have some memory contention.  In general, a little bit of ballooning is not bad.  Ballooning at a low level allows ESXi to reclaim inactive memory pages from guest VM's.  However, if there are not enough inactive pages to claim, active pages may be reclaimed.  This can hurt performance of the guest VM.<br>
+		<b>Resolution</b>
+		<ul>
+		<li>Verify Distributed Resource Scheduler is enabled on your cluster.  DRS can redistribute VM's from over-subscribed hosts to less busy hosts.
+		<li>Install more memory in physical hosts. 
+		<li>Change the power policy of VMware View pools to suspend or power-off to conserve host resources.  Note: this is at the expense of increased logon times for users.
+		<li>Add additional hosts to cluster.  Note configuration maximums of 8 hosts per cluster in older versions of vSphere and View when using VMFS-based Linked Clones.
+		<li>Reduce the amount of memory given to View desktops.  Review the Memory Active in MB counter (above).  If memory active is substantially below configured memory, reduce the amount of memory given to desktops.  Recommended starting values are 2GB for XP, 2GB for Win7 x86 and 3GB for Win7 x64.
+		</ul>
+		See <a href="http://www.virtualinsanity.com/index.php/2010/02/19/performance-troubleshooting-vmware-vsphere-memory/">http://www.virtualinsanity.com/index.php/2010/02/19/performance-troubleshooting-vmware-vsphere-memory/</a> for more.]]></DESCRIPTION>
+		<DATASOURCE TYPE="CounterLog" NAME="\VM Memory\Memory Ballooned in MB" COLLECTIONVARNAME="CollectionOfVMMemoryMemoryBalloonedinMB" EXPRESSIONPATH="\VM Memory\Memory Ballooned in MB" TRENDVARNAME="TrendVMMemoryMemoryBalloonedinMB" DATATYPE="integer"/>
+		<CHART CHARTTITLE="\VM Memory\Memory Ballooned in MB" ISTHRESHOLDSADDED="False" DATASOURCE="\VM Memory\Memory Ballooned in MB" CHARTLABELS="instance"/>
+	</ANALYSIS>
+	<ANALYSIS NAME="Memory Limit in MB" ENABLED="True" CATEGORY="VM Memory" PRIMARYDATASOURCE="\VM Memory\Memory Limit in MB" ID="6e01e4de-80bf-4ee1-80e1-ea0b885481b2" FROMALLCOUNTERSTATS="False">
+		<DESCRIPTION><![CDATA[The maximum amount of memory that is allowed to the virtual machine. Assigning a Memory Limit ensures that this virtual machine never consumes more than a certain amount of the allowed memory. By limiting the amount of memory consumed, a portion of this shared resource is allowed to other virtual machines.<br>
+		In vSphere, it's possible to set memory limits that define a maximum quantity of memory a VM is allowed to consume. You might want to set such limits to protect physical memory from being over-consumed by a memory-hungry VM.
+		However, if you don't plan carefully, setting a VM memory limit can have an unexpected impact on VM performance. That impact occurs because the VM is unaware that a limit has been placed upon it. A limited VM with 4GB of assigned vRAM operates under the assumption that it has its full memory assignment. As it attempts to use more memory than its limit, that memory must come from ballooning or swapping. Either of these actions can incur a performance tax on the host, which can impact the performance of other VMs on that host.
+		<br>
+		It's generally not a good idea to set memory limits on VMs. Instead, you should adjust downward the quantity of vRAM assigned to that VM.<br>
+		<br>
+		<b>The Memory Limit value shown below should be equal to the amount of vRAM allocated to your View desktop.  If the value is less than vRAM assigned, you are limited.</b>]]></DESCRIPTION>
+		<DATASOURCE TYPE="CounterLog" NAME="\VM Memory\Memory Limit in MB" COLLECTIONVARNAME="CollectionOfVMMemoryMemoryLimitinMB" EXPRESSIONPATH="\VM Memory\Memory Limit in MB" TRENDVARNAME="TrendVMMemoryMemoryLimitinMB" DATATYPE="integer"/>
+		<CHART CHARTTITLE="\VM Memory\Memory Limit in MB" ISTHRESHOLDSADDED="False" DATASOURCE="\VM Memory\Memory Limit in MB" CHARTLABELS="instance"/>
+	</ANALYSIS>
+	<ANALYSIS NAME="Memory Mapped in MB" ENABLED="True" CATEGORY="VM Memory" PRIMARYDATASOURCE="\VM Memory\Memory Mapped in MB" ID="ea9aff19-0b2f-44ee-bc45-a17f49897b94" FROMALLCOUNTERSTATS="False">
+		<DESCRIPTION><![CDATA[The mapped memory size of this virtual machine. This is the current total amount of guest memory that is backed by physical memory. Note that this number may include pages of memory shared between multiple virtual machines and thus may be an overestimate of the amount of physical host memory *consumed* by this virtual machine.]]></DESCRIPTION>
+		<DATASOURCE TYPE="CounterLog" NAME="\VM Memory\Memory Mapped in MB" COLLECTIONVARNAME="CollectionOfVMMemoryMemoryMappedinMB" EXPRESSIONPATH="\VM Memory\Memory Mapped in MB" TRENDVARNAME="TrendVMMemoryMemoryMappedinMB" DATATYPE="integer"/>
+		<CHART CHARTTITLE="\VM Memory\Memory Mapped in MB" ISTHRESHOLDSADDED="False" DATASOURCE="\VM Memory\Memory Mapped in MB" CHARTLABELS="instance"/>
+	</ANALYSIS>
+	<ANALYSIS NAME="Memory Overhead in MB" ENABLED="True" CATEGORY="VM Memory" PRIMARYDATASOURCE="\VM Memory\Memory Overhead in MB" ID="f1a437b8-7432-4a6c-858b-c4b0bdbd090c" FROMALLCOUNTERSTATS="False">
+		<DESCRIPTION><![CDATA[The amount of overhead memory associated with this virtual machine consumed on the host system.  Once a virtual machine is powered on the ESX host reserves memory for the the normal operations of VMware infrastructure.  This memory can’t be used for swapping or ballooning, and is reserved for the system.  Bigger VM's require more overhead to run.<br>
+		See this page for vSphere 5 overhead values: <a href="http://pubs.vmware.com/vsphere-50/index.jsp?topic=%2Fcom.vmware.vsphere.resmgmt.doc_50%2FGUID-B42C72C1-F8D5-40DC-93D1-FB31849B1114.html">http://pubs.vmware.com/vsphere-50/index.jsp?topic=%2Fcom.vmware.vsphere.resmgmt.doc_50%2FGUID-B42C72C1-F8D5-40DC-93D1-FB31849B1114.html</a><br>
+		If you chronically oversize your VM's, the overhead consumed will increase.  This leads to a less efficient datacenter and reduced resources for running VM's as overhead memory cannot be shared, swapped or ballooned.  Right-size your VM's.]]></DESCRIPTION>
+		<DATASOURCE TYPE="CounterLog" NAME="\VM Memory\Memory Overhead in MB" COLLECTIONVARNAME="CollectionOfVMMemoryMemoryOverheadinMB" EXPRESSIONPATH="\VM Memory\Memory Overhead in MB" TRENDVARNAME="TrendVMMemoryMemoryOverheadinMB" DATATYPE="integer"/>
+		<CHART CHARTTITLE="\VM Memory\Memory Overhead in MB" ISTHRESHOLDSADDED="False" DATASOURCE="\VM Memory\Memory Overhead in MB" CHARTLABELS="instance"/>
+	</ANALYSIS>
+	<ANALYSIS NAME="Memory Reservation in MB" ENABLED="True" CATEGORY="VM Memory" PRIMARYDATASOURCE="\VM Memory\Memory Reservation in MB" ID="554eaae2-bf3e-49c8-a841-7650a1bcbd4f" FROMALLCOUNTERSTATS="False">
+		<DESCRIPTION><![CDATA[The minimum amount of memory that is guaranteed to the virtual machine. Assigning a Memory Reservation ensures that even as other virtual machines on the same host consume memory, there is still a certain minimum amount for this virtual machine.<br>
+		Reservations may be used in View environments to reduce the footprint of VM's on disk as reserved memory is included in the .vswap file written to disk for each VM.<br>
+		<br>
+		A small reservation on the parent VM can also help ensure that each VM in the pool has at least a little bit of vRAM to work in heavily oversubscribed environments.  Take care to not over reserve resources in your environment - do not reserve 100% of memory for each View desktop.<br>
+		<br>
+		Starting values for View desktop reservations might be around 10%.  For example, If reserving 10% of a 2GB desktop, our vswap is reduced by 205MB per desktop.  On a 200 desktop deployment, this can lead to 41GB disk savings (205mb * 200).  205mb reserved memory will probably be enough to keep a Windows desktop running (barely) even if all other memory is ballooned or swapped out if you failed to plan and over-over-subscribed your environment.<br>
+		<br>
+		Note: This example 41GB of disk savings will be lost to reserved ESXi host RAM across the cluster.  You will not be able to use this host RAM, even if the VM's with reserved memory are totally idle.  This can exacerbate problems caused by oversubscription.  To mitigate this impact, consider setting your View pools where you have set a reservation to have a powered-off power policy.  A suspend power policy will consume disk space, negating the savings you were trying to achieve by reserving memory.]]></DESCRIPTION>
+		<DATASOURCE TYPE="CounterLog" NAME="\VM Memory\Memory Reservation in MB" COLLECTIONVARNAME="CollectionOfVMMemoryMemoryReservationinMB" EXPRESSIONPATH="\VM Memory\Memory Reservation in MB" TRENDVARNAME="TrendVMMemoryMemoryReservationinMB" DATATYPE="integer"/>
+		<CHART CHARTTITLE="\VM Memory\Memory Reservation in MB" ISTHRESHOLDSADDED="False" DATASOURCE="\VM Memory\Memory Reservation in MB" CHARTLABELS="instance"/>
+	</ANALYSIS>
+	<ANALYSIS NAME="Memory Shared in MB" ENABLED="True" CATEGORY="VM Memory" PRIMARYDATASOURCE="\VM Memory\Memory Shared in MB" ID="fd9a24fe-feb3-4cda-a028-fe6b52efacf9" FROMALLCOUNTERSTATS="False">
+		<DESCRIPTION><![CDATA[The amount of physical memory associated with this virtual machine that is copy-on-write (COW) shared on the host.<br>
+		<B>Sharing is good!</b><br>
+		<br>
+		In View environments, most running VM's will share a common image, especially with Linked Clone pools where all VM's are running against a common base disk.<br>
+		Read more about Transparent Page Sharing (TPS) in View environemnts here: <a href="http://myvirtualcloud.net/?p=1797">http://myvirtualcloud.net/?p=1797</a> and here: <a href="http://myvirtualcloud.net/?p=2545">http://myvirtualcloud.net/?p=2545</a>.<br>
+		<br>
+		When multiple virtual machines are running, some of them may have identical sets of memory content. This presents opportunities for sharing memory across virtual machines (as well as sharing within a single virtual machine). For example, several virtual machines may be running the same guest operating system, have the same applications, or contain the same user data. With page sharing,the hypervisor can reclaim the redundant copies and only keep one copy, which is shared by multiple virtual machines in the hostphysical memory. As a result, the total virtual machine host memory consumption is reduced and a higher level of memory overcommitment is possible.<br>
+		<br>
+		In ESXi, the redundant page copies are identified by their contents. This means that pages with identical content can be shared regardless of when, where, and how those contents are generated. ESX scans the content of guest physical memory for sharing opportunities. Instead of comparing each byte of a candidate guest physical page to other pages, an action that is prohibitively expensive, ESX uses hashing to identify potentially identical pages.]]></DESCRIPTION>
+		<DATASOURCE TYPE="CounterLog" NAME="\VM Memory\Memory Shared in MB" COLLECTIONVARNAME="CollectionOfVMMemoryMemorySharedinMB" EXPRESSIONPATH="\VM Memory\Memory Shared in MB" TRENDVARNAME="TrendVMMemoryMemorySharedinMB" DATATYPE="integer"/>
+		<CHART CHARTTITLE="\VM Memory\Memory Shared in MB" ISTHRESHOLDSADDED="False" DATASOURCE="\VM Memory\Memory Shared in MB" CHARTLABELS="instance"/>
+	</ANALYSIS>
+	<ANALYSIS NAME="Memory Shared Saved in MB" ENABLED="True" CATEGORY="VM Memory" PRIMARYDATASOURCE="\VM Memory\Memory Shared Saved in MB" ID="2dae6cea-c2cf-4446-b9ae-26007516c093" FROMALLCOUNTERSTATS="False">
+		<DESCRIPTION><![CDATA[The estimated amount of physical memory on the host saved from copy-on-write (COW) shared guest physical memory.<br>
+		<br>
+		This shows the total amount of memory saved on the particular host this VM was running on.  More is better.  If this value is near zero (0), investigate your host configuration.<br>
+		<br>
+		Review <a href="http://myvirtualcloud.net/?p=1328">http://myvirtualcloud.net/?p=1328</a> for information on tuning TPS settings to drive higher levels of memory sharing per host.]]></DESCRIPTION>
+		<DATASOURCE TYPE="CounterLog" NAME="\VM Memory\Memory Shared Saved in MB" COLLECTIONVARNAME="CollectionOfVMMemoryMemorySharedSavedinMB" EXPRESSIONPATH="\VM Memory\Memory Shared Saved in MB" TRENDVARNAME="TrendVMMemoryMemorySharedSavedinMB" DATATYPE="integer"/>
+		<CHART CHARTTITLE="\VM Memory\Memory Shared Saved in MB" ISTHRESHOLDSADDED="False" DATASOURCE="\VM Memory\Memory Shared Saved in MB" CHARTLABELS="instance"/>
+	</ANALYSIS>
+	<ANALYSIS NAME="Memory Shares" ENABLED="True" CATEGORY="VM Memory" PRIMARYDATASOURCE="\VM Memory\Memory Shares" ID="51e9ea76-ac11-4157-aac3-0542b897b429" FROMALLCOUNTERSTATS="False">
+		<DESCRIPTION><![CDATA[The number of memory shares allocated to the virtual machine.<br>
+		<br>
+		<b>This value alone is not significant.</b>  Shares must be considered across all VM's on the host, cluster, and resource pool, if used.  If the VM with performance problems has a lower number of shares (or is in a resource pool with a lower number of shares, or oversubscribed shares (<a href="http://vmtoday.com/2012/03/vmware-vsphere-resource-pools-resource-allocation-revisited/">http://vmtoday.com/2012/03/vmware-vsphere-resource-pools-resource-allocation-revisited/</a>) than other VM's it may suffer performance degradation in environments where there is resource contention and/or memory oversubscription.<br>
+		<br>
+		Shares play an important role in determining the allocation targets when memory is overcommitted. When the hypervisor needs memory, it reclaims memory from the virtual machine that owns the fewest shares-per-allocated page. <br>
+		<br>	
+		A significant limitation of the pure proportional-share algorithm is that it does not incorporate any information about the actual memory usage of the virtual machine. As a result, some idle virtual machines with high shares can retain idle memory unproductively, while some active virtual machines with fewer shares suffer from the lack of memory.<br>
+		<br>
+		ESX resolves this problem by estimating a virtual machine's working set size and charging a virtual machine more for the idle memory than for the actively used memory through an idle tax. A virtual machine's shares-per-allocated page ratio is adjusted to be lower if a fraction of the virtual machine’s memory is idle. Hence, memory will be reclaimed preferentially from the virtual machines that  are not fully utilizing their allocated memory. The detailed algorithm can be found in Memory Resource Management in VMware  ESX Server.<br>
+		]]></DESCRIPTION>
+		<DATASOURCE TYPE="CounterLog" NAME="\VM Memory\Memory Shares" COLLECTIONVARNAME="CollectionOfVMMemoryMemoryShares" EXPRESSIONPATH="\VM Memory\Memory Shares" TRENDVARNAME="TrendVMMemoryMemoryShares" DATATYPE="integer"/>
+		<CHART CHARTTITLE="\VM Memory\Memory Shares" ISTHRESHOLDSADDED="False" DATASOURCE="\VM Memory\Memory Shares" CHARTLABELS="instance"/>
+	</ANALYSIS>
+	<ANALYSIS NAME="Memory Swapped in MB" ENABLED="True" CATEGORY="VM Memory" PRIMARYDATASOURCE="\VM Memory\Memory Swapped in MB" ID="3c9bd38a-c0e8-4711-802b-9aebf3faad10" FROMALLCOUNTERSTATS="False">
+		<DESCRIPTION><![CDATA[The amount of memory associated with this virtual machine that has been swapped by ESX.<br>
+		If this is much above zero for an active machine you've got problems.  TPS and Ballooning have failed to provide sufficient memory for the host to use for other running VM's because you are oversubscribed, so ESXi is now swapping to disk.  Swapping is a slow operation and causes severe degradation of guest performance.<br>
+		<br>
+		<b>Resolution</b>
+		<ul>
+		<li>Verify Distributed Resource Scheduler is enabled on your cluster.  DRS can redistribute VM's from over-subscribed hosts to less busy hosts.
+		<li>Install more memory in physical hosts. 
+		<li>Change the power policy of VMware View pools to suspend or power-off to conserve host resources.  Note: this is at the expense of increased logon times for users.
+		<li>Add additional hosts to cluster.  Note configuration maximums of 8 hosts per cluster in older versions of vSphere and View when using VMFS-based Linked Clones.
+		<li>Reduce the amount of memory given to View desktops.  Review the Memory Active in MB counter (above).  If memory active is substantially below configured memory, reduce the amount of memory given to desktops.  Recommended starting values are 2GB for XP, 2GB for Win7 x86 and 3GB for Win7 x64.
+		</ul>]]></DESCRIPTION>
+		<DATASOURCE TYPE="CounterLog" NAME="\VM Memory\Memory Swapped in MB" COLLECTIONVARNAME="CollectionOfVMMemoryMemorySwappedinMB" EXPRESSIONPATH="\VM Memory\Memory Swapped in MB" TRENDVARNAME="TrendVMMemoryMemorySwappedinMB" DATATYPE="integer"/>
+		<CHART CHARTTITLE="\VM Memory\Memory Swapped in MB" ISTHRESHOLDSADDED="False" DATASOURCE="\VM Memory\Memory Swapped in MB" CHARTLABELS="instance"/>
+	</ANALYSIS>
+	<ANALYSIS NAME="Memory Used in MB" ENABLED="True" CATEGORY="VM Memory" PRIMARYDATASOURCE="\VM Memory\Memory Used in MB" ID="d0c4963f-5ae1-4640-a20c-81fe80f20bed" FROMALLCOUNTERSTATS="False">
+		<DESCRIPTION><![CDATA[The estimated amount of physical host memory currently consumed for this virtual machine's physical memory. This is the same as 'Memory Mapped in MB' - 'Memory Shared Saved in MB'.]]></DESCRIPTION>
+		<DATASOURCE TYPE="CounterLog" NAME="\VM Memory\Memory Used in MB" COLLECTIONVARNAME="CollectionOfVMMemoryMemoryUsedinMB" EXPRESSIONPATH="\VM Memory\Memory Used in MB" TRENDVARNAME="TrendVMMemoryMemoryUsedinMB" DATATYPE="integer"/>
+		<CHART CHARTTITLE="\VM Memory\Memory Used in MB" ISTHRESHOLDSADDED="False" DATASOURCE="\VM Memory\Memory Used in MB" CHARTLABELS="instance"/>
+	</ANALYSIS>
+	<ANALYSIS NAME="Limit in MHz" ENABLED="True" CATEGORY="VM Processor" PRIMARYDATASOURCE="\VM Processor(*)\Limit in MHz" ID="0177e245-1868-44c0-9030-fa0f3884f557" FROMALLCOUNTERSTATS="False">
+		<DESCRIPTION><![CDATA[The maximum processing power in MHz allowed to the virtual machine. Assigning a CPU Limit ensures that this virtual machine never consumes more than a certain amount of the available processor power. By limiting the amount of processing power consumed, a portion of the processing power becomes available to other virtual machines.<br>
+		<br>
+		From VMware KB <a href"http://kb.vmware.com/selfservice/microsites/search.do?language=en_US&cmd=displayKC&externalId=1033115">1033115</a>: When a CPU Limit is set on a virtual machine resource settings, the virtual machine is deliberately held from being scheduled to a PCPU when it has used up its allocated CPU resource. This happens regardless of the CPU utilization. If the limit is set to 500MHz, the virtual machine is descheduled from the PCPU and has to wait before it is allowed to be scheduled again. As such, the virtual machine might experience performance degradation.<br>
+		<br>
+		Note: For an SMP virtual machine, the sum of all vCPUs cannot exceed the specified limit. For example, 4 vCPU virtual machine with a limit of 1200MHz and equal load among vCPUs would result in a max of 300MHz per vCPU.<br>
+		<br>
+		<br>
+		Translated, this means that we're not slowing down the pCPU for this VM - that's not possible.  What we are doing is basically artificially introducing CPU Ready (for more on CPU Ready see here: <a href="http://vmtoday.com/2010/08/high-cpu-ready-poor-performance/">http://vmtoday.com/2010/08/high-cpu-ready-poor-performance/</a>) for the VM.<br>
+		<br>
+		If the value shown here is less than the 'Host Processor Speed in MHz' value, you are limited.  The default for VM's is 'unlimited', which should appear as some unwieldy number in the range of terahertz or petahertz (not that your servers can do this).
+		]]></DESCRIPTION>
+		<DATASOURCE TYPE="CounterLog" NAME="\VM Processor(*)\Limit in MHz" COLLECTIONVARNAME="CollectionOfVMProcessorLimitinMHz" EXPRESSIONPATH="\VM Processor(*)\Limit in MHz" TRENDVARNAME="TrendVMProcessorLimitinMHz" DATATYPE="integer"/>
+		<CHART CHARTTITLE="\VM Processor(*)\Limit in MHz" ISTHRESHOLDSADDED="False" DATASOURCE="\VM Processor(*)\Limit in MHz" CHARTLABELS="instance"/>
+	</ANALYSIS>
+	<ANALYSIS NAME="Reservation in MHz" ENABLED="True" CATEGORY="VM Processor" PRIMARYDATASOURCE="\VM Processor(*)\Reservation in MHz" ID="d3cf6a34-303d-49e6-aa31-9471a96af18b" FROMALLCOUNTERSTATS="False">
+		<DESCRIPTION><![CDATA[The minimum processing power in MHz available to the virtual machine. Assigning a CPU Reservation ensures that even as other virtual machines on the same host consume shared processing power, there is still a certain minimum amount for this virtual machine.<br>
+		<br>
+		See <a href="http://www.yellow-bricks.com/2010/07/08/reservations-primer/">http://www.yellow-bricks.com/2010/07/08/reservations-primer/</a> and <a href="http://frankdenneman.nl/2010/06/reservations-and-cpu-scheduling/">http://frankdenneman.nl/2010/06/reservations-and-cpu-scheduling/</a>for more info on reservations.<br>
+		<br>
+		In general, you should not be setting a reservation for Veiw desktops.  There may be some unique use cases for reserving CPU for high-profile users' desktops (CEO, CTO, your own admin console) in View.  Do this sparingly, as reservations can limit the ESXi scheduler and make your virtual datacenter inefficient.  CPU Reservations can introduce higher CPU ready for VM's without reservations.  Reservations may not solve CPU Ready issues for the VM's they are set on either (<a href="http://joshodgers.com/2012/07/22/common-mistake-using-cpu-reservations-to-solve-cpu-ready/">http://joshodgers.com/2012/07/22/common-mistake-using-cpu-reservations-to-solve-cpu-ready/</a>]]></DESCRIPTION>
+		<DATASOURCE TYPE="CounterLog" NAME="\VM Processor(*)\Reservation in MHz" COLLECTIONVARNAME="CollectionOfVMProcessorReservationinMHz" EXPRESSIONPATH="\VM Processor(*)\Reservation in MHz" TRENDVARNAME="TrendVMProcessorReservationinMHz" DATATYPE="integer"/>
+		<CHART CHARTTITLE="\VM Processor(*)\Reservation in MHz" ISTHRESHOLDSADDED="False" DATASOURCE="\VM Processor(*)\Reservation in MHz" CHARTLABELS="instance"/>
+	</ANALYSIS>
+	<ANALYSIS NAME="Shares" ENABLED="True" CATEGORY="VM Processor" PRIMARYDATASOURCE="\VM Processor(*)\Shares" ID="fb2bcdfb-35fa-4dda-bb74-1e068b1a332d" FROMALLCOUNTERSTATS="False">
+		<DESCRIPTION><![CDATA[The number of CPU shares allocated to the virtual machine.<br>
+		<br>
+		Each virtual machine is granted a number of CPU shares. The more shares a virtual machine has, the more often it gets a time slice of a CPU when there is no CPU idle time. Shares represent a relative metric for allocating CPU capacity.<br>
+		<br>
+		<b>This value alone is not significant.</b>  Shares must be considered across all VM's on the host, cluster, and resource pool, if used.  If the VM with performance problems has a lower number of shares (or is in a resource pool with a lower number of shares, or oversubscribed shares (<a href="http://vmtoday.com/2012/03/vmware-vsphere-resource-pools-resource-allocation-revisited/">http://vmtoday.com/2012/03/vmware-vsphere-resource-pools-resource-allocation-revisited/</a>) than other VM's it may suffer performance degradation in environments where there is resource contention and/or memory oversubscription.<br>
+		<br>
+		Read this VMware PDF for a deep-dive into CPU Scheduling: <a href="http://www.vmware.com/files/pdf/techpaper/VMW_vSphere41_cpu_schedule_ESX.pdf">http://www.vmware.com/files/pdf/techpaper/VMW_vSphere41_cpu_schedule_ESX.pdf</a><br>
+		<br>
+		If this value is variable (not a flat line), this may indicate that your VM is in a resource pool configured with a set number of shares.  As your View environment dynamically spins up and down VM's within the pool, the percentage of shares for a particular machine will vary.  Understand the impact of shares, reservations and limits on VMs and Resource Pools!!!!
+		]]></DESCRIPTION>
+		<DATASOURCE TYPE="CounterLog" NAME="\VM Processor(*)\Shares" COLLECTIONVARNAME="CollectionOfVMProcessorShares" EXPRESSIONPATH="\VM Processor(*)\Shares" TRENDVARNAME="TrendVMProcessorShares" DATATYPE="integer"/>
+		<CHART CHARTTITLE="\VM Processor(*)\Shares" ISTHRESHOLDSADDED="False" DATASOURCE="\VM Processor(*)\Shares" CHARTLABELS="instance"/>
+	</ANALYSIS>
+	<ANALYSIS NAME="CPU stolen time" ENABLED="True" CATEGORY="VM Processor" PRIMARYDATASOURCE="\VM Processor(*)\CPU stolen time" ID="73a2331a-269d-4703-800f-4cbde00c2bab" FROMALLCOUNTERSTATS="False">
+		<DESCRIPTION><![CDATA[The time (in ms) that the VM was runnable but not scheduled to run.<br>
+		<br>
+		<b>This is CPU Ready!!!</b><br>
+		<br>
+		For more on CPU Ready see: <a href="http://vmtoday.com/2010/08/high-cpu-ready-poor-performance/">http://vmtoday.com/2010/08/high-cpu-ready-poor-performance/</a><br>
+		<br>
+		CPU Ready is often a sign of over subscribing CPU resources or over-sizing your virtual machines.  This counter shows CPU Ready time as a percentage per <b>milisecond</b> that the CPU was ready to run but could not be scheduled by the ESXi Scheduler.  Multiply by 100 to get percentage of CPU Ready.  In general, anything above 10% CPU Ready will result in poor performance. <br>
+		For more on Scheduling/Time Keeping in VM's see: <a href="http://www.vmware.com/files/pdf/Timekeeping-In-VirtualMachines.pdf">http://www.vmware.com/files/pdf/Timekeeping-In-VirtualMachines.pdf</a>.  Also see the vSphere Performance Monitoring Guide here: <a href="http://pubs.vmware.com/vsphere-50/topic/com.vmware.ICbase/PDF/vsphere-esxi-vcenter-server-50-monitoring-performance-guide.pdf">http://pubs.vmware.com/vsphere-50/topic/com.vmware.ICbase/PDF/vsphere-esxi-vcenter-server-50-monitoring-performance-guide.pdf</a><br>
+		<br>
+		If this counter is in a warning or critical state, check CPU Ready for the host that this VM is running on in vCenter.  The value in the realtime graph is a summation of miliseconds VM's were ready but could not be scheduled.  Divide the value shown in the vCenter ESXi Performance tab by the number of milisecond timeslices in the graph (realtime graph = 20 second refresh = 20000 slices).  Example: If CPU ready is 5200 on the CPU/RealTime graph, divide 5200/20000 = .26 x 100 = 26% CPU RDY.  Also check ESXTOP on the ESXi host that this VM is running on.  If multiple VM's show high CPU ready, you are over-provisioning VM's with too many vCPU's or have too high of a consolidation ration (too many VM's per host).  Remove vCPU's or add additional pCPU's or hosts.<br>
+		
+		]]></DESCRIPTION>
+		<DATASOURCE TYPE="CounterLog" NAME="\VM Processor(*)\CPU stolen time" COLLECTIONVARNAME="CollectionOfVMProcessorCPUstolentime" EXPRESSIONPATH="\VM Processor(*)\CPU stolen time" TRENDVARNAME="TrendVMProcessorCPUstolentime" DATATYPE="integer"/>
+		<CHART CHARTTITLE="\VM Processor(*)\CPU stolen time" ISTHRESHOLDSADDED="False" DATASOURCE="\VM Processor(*)\CPU stolen time" CHARTLABELS="instance"/>
+	</ANALYSIS>
+	<ANALYSIS NAME="% Processor Time" ENABLED="True" CATEGORY="VM Processor" PRIMARYDATASOURCE="\VM Processor(*)\% Processor Time" ID="772fa005-25f7-4b62-8b9d-a66091b5f15f" FROMALLCOUNTERSTATS="False">
+		<DESCRIPTION><![CDATA[Current load of the VM's virtual processor(s).<br>
+		<br>
+		This is the amount of time that the CPU is active.  If the VM is using vSMP, this is the aggregate average of all CPU's in the VM.<br>
+		<br>
+		If this value is regularly over 70%, you may benefit from adding an additional vCPU.  Be aware, however, that an additional CPU multiplied over all VM's may drive CPU Ready upwards, negatively impacting performance.]]></DESCRIPTION>
+		<DATASOURCE TYPE="CounterLog" NAME="\VM Processor(*)\% Processor Time" COLLECTIONVARNAME="CollectionOfVMProcessorPercentProcessorTime" EXPRESSIONPATH="\VM Processor(*)\% Processor Time" TRENDVARNAME="TrendVMProcessorPercentProcessorTime" DATATYPE="integer"/>
+		<CHART CHARTTITLE="\VM Processor(*)\% Processor Time" ISTHRESHOLDSADDED="False" DATASOURCE="\VM Processor(*)\% Processor Time" CHARTLABELS="instance"/>
+	</ANALYSIS>
+	<ANALYSIS NAME="Effective VM Speed in MHz" ENABLED="True" CATEGORY="VM Processor" PRIMARYDATASOURCE="\VM Processor(*)\Effective VM Speed in MHz" ID="dab0158b-6deb-4623-aeda-159d6acdb8e5" FROMALLCOUNTERSTATS="False">
+		<DESCRIPTION><![CDATA[The <b>approximate<b> average effective speed of the VM's virtual CPU over the time period between the two samples.<br>
+		<br>
+		Remember, A VM's vCPU cannot go any faster than the speed of a single core/thread of the physical CPU that's backing it.]]></DESCRIPTION>
+		<DATASOURCE TYPE="CounterLog" NAME="\VM Processor(*)\Effective VM Speed in MHz" COLLECTIONVARNAME="CollectionOfVMProcessorEffectiveVMSpeedinMHz" EXPRESSIONPATH="\VM Processor(*)\Effective VM Speed in MHz" TRENDVARNAME="TrendVMProcessorEffectiveVMSpeedinMHz" DATATYPE="integer"/>
+		<CHART CHARTTITLE="\VM Processor(*)\Effective VM Speed in MHz" ISTHRESHOLDSADDED="False" DATASOURCE="\VM Processor(*)\Effective VM Speed in MHz" CHARTLABELS="instance"/>
+	</ANALYSIS>
+	<ANALYSIS NAME="Host processor speed in MHz" ENABLED="True" CATEGORY="VM Processor" PRIMARYDATASOURCE="\VM Processor(*)\Host processor speed in MHz" ID="c1f66654-e0f0-4d0c-973a-29f30bba0c66" FROMALLCOUNTERSTATS="False">
+		<DESCRIPTION><![CDATA[Host Processor speed.<br>
+		<br>
+		This is the clock speed of the physical processor backing the VM.  If this value fluxuates, it could be due to a couple issues:<br>
+		1.) vMotion of VM between hosts with different physical hardware.  Best practice for VMware vSphere clusters suggests maintaining hosts with identical hardare configurations to prevent unpredictable performance as VM's are vMotioned from host to host.  Identical host configuration may also help VMware vSphere Distributed Resource Scheduler recommend best placement for VM's.<br>
+		2.) Power Management settings - if your host is configured with active/dynamic power management in BIOS.  Consider setting a static 'High Performance' power management profile or disable power management in BIOS.  See this VMware KB for more info: <a href="http://kb.vmware.com/selfservice/microsites/search.do?language=en_US&cmd=displayKC&externalId=1018206">http://kb.vmware.com/selfservice/microsites/search.do?language=en_US&cmd=displayKC&externalId=1018206</a>]]></DESCRIPTION>
+		<DATASOURCE TYPE="CounterLog" NAME="\VM Processor(*)\Host processor speed in MHz" COLLECTIONVARNAME="CollectionOfVMProcessorHostprocessorspeedinMHz" EXPRESSIONPATH="\VM Processor(*)\Host processor speed in MHz" TRENDVARNAME="TrendVMProcessorHostprocessorspeedinMHz" DATATYPE="integer"/>
+		<CHART CHARTTITLE="\VM Processor(*)\Host processor speed in MHz" ISTHRESHOLDSADDED="False" DATASOURCE="\VM Processor(*)\Host processor speed in MHz" CHARTLABELS="instance"/>
+	</ANALYSIS>
+	<ANALYSIS NAME="Audio Bytes Received" ENABLED="True" CATEGORY="PCoIP Session Audio" PRIMARYDATASOURCE="\PCoIP Session Audio Statistics(PCoIP Session)\Audio Bytes Received" ID="1c2de0da-9b2c-41ca-b974-5e8f4ef936dc" FROMALLCOUNTERSTATS="False">
+		<DESCRIPTION><![CDATA[Total number of audio bytes that have been received since the PCoIP session started.<br>
+		<br>
+		This value is incremental - it will continue to climb over the term of the PCoIP session.  Rapid climbing suggests a user is inputing audio - this may be dictation activity (medical or legal settings), WebEx sessions, etc.  Consider implementing a PCoIP Group Policy (<a href="http://www.vmware.com/files/pdf/view/VMware-View-5-PCoIP-Network-Optimization-Guide.pdf"><http://www.vmware.com/files/pdf/view/VMware-View-5-PCoIP-Network-Optimization-Guide.pdf</a>) with the 'Configure the PCoIP session audio bandwidth limit' setting enabled.  PCoIP Session Audio Bandwidth Limit will configure audio compression to control maximum audio bandwidth.<br>
+		The audio processing monitors the bandwidth used for audio. The processing selects the audio compression algorithm that provides the best audio possible, given the current bandwidth utilization. If a bandwidth limit is set, the processing reduces quality by changing the compression algorithm selection until the bandwidth limit is reached. If minimum quality audio cannot be provided within the bandwidth limit specified, audio is disabled.<br>
+		To allow for uncompressed high quality stereo audio, set this value to higher than 1600 kbit/s. A value of 450 kbit/s and higher allows for stereo, high-quality, compressed audio. A value between 50 kbit/s and 450 kbit/s results in audio that ranges between FM radio and phone call quality. A value below 50 kbit/s might result in no audio playback.<br>
+		This setting applies to View Agent only. You must enable audio on both endpoints before this setting has any effect.<br>
+		In addition, this setting has no effect on USB audio.<br>
+		If this setting is disabled or not configured, a default audio bandwidth limit of 500 kilobits per second is configured to constrain the audio compression algorithm selected. If the setting is configured, the value is measured in kilobits per second, with a default audio bandwidth limit of 500 kilobits per second.<br>
+		]]></DESCRIPTION>
+		<DATASOURCE TYPE="CounterLog" NAME="\PCoIP Session Audio Statistics(PCoIP Session)\Audio Bytes Received" COLLECTIONVARNAME="CollectionOfAudioBytesReceived" EXPRESSIONPATH="\PCoIP Session Audio Statistics(PCoIP Session)\Audio Bytes Received" TRENDVARNAME="TrendOfAudioBytesReceived" DATATYPE="integer"/>
+		<CHART CHARTTITLE="\PCoIP Session Audio Statistics(PCoIP Session)\Audio Bytes Received" ISTHRESHOLDSADDED="False" DATASOURCE="\PCoIP Session Audio Statistics(PCoIP Session)\Audio Bytes Received" CHARTLABELS="instance"/>
+	</ANALYSIS>
+	<ANALYSIS NAME="Audio Bytes Sent" ENABLED="True" CATEGORY="PCoIP Session Audio" PRIMARYDATASOURCE="\PCoIP Session Audio Statistics(PCoIP Session)\Audio Bytes Sent" ID="e2f7cd3e-1fef-4936-8297-644e4a29d335" FROMALLCOUNTERSTATS="False">
+		<DESCRIPTION><![CDATA[Total number of audio bytes that have been sent since the PCoIP session started.<br>
+		<br>
+		This value is incremental - it will continue to climb over the term of the PCoIP session.  Rapid climbing suggests a user is streaming audio.  Consider implementing a PCoIP Group Policy (<a href="http://www.vmware.com/files/pdf/view/VMware-View-5-PCoIP-Network-Optimization-Guide.pdf"><http://www.vmware.com/files/pdf/view/VMware-View-5-PCoIP-Network-Optimization-Guide.pdf</a>) with the 'Configure the PCoIP session audio bandwidth limit' setting enabled.  PCoIP Session Audio Bandwidth Limit will configure audio compression to control maximum audio bandwidth.<br>
+		The audio processing monitors the bandwidth used for audio. The processing selects the audio compression algorithm that provides the best audio possible, given the current bandwidth utilization. If a bandwidth limit is set, the processing reduces quality by changing the compression algorithm selection until the bandwidth limit is reached. If minimum quality audio cannot be provided within the bandwidth limit specified, audio is disabled.<br>
+		To allow for uncompressed high quality stereo audio, set this value to higher than 1600 kbit/s. A value of 450 kbit/s and higher allows for stereo, high-quality, compressed audio. A value between 50 kbit/s and 450 kbit/s results in audio that ranges between FM radio and phone call quality. A value below 50 kbit/s might result in no audio playback.<br>
+		This setting applies to View Agent only. You must enable audio on both endpoints before this setting has any effect.<br>
+		In addition, this setting has no effect on USB audio.<br>
+		If this setting is disabled or not configured, a default audio bandwidth limit of 500 kilobits per second is configured to constrain the audio compression algorithm selected. If the setting is configured, the value is measured in kilobits per second, with a default audio bandwidth limit of 500 kilobits per second.<br>
+		]]></DESCRIPTION>
+		<DATASOURCE TYPE="CounterLog" NAME="\PCoIP Session Audio Statistics(PCoIP Session)\Audio Bytes Sent" COLLECTIONVARNAME="CollectionOfAudioBytesSent" EXPRESSIONPATH="\PCoIP Session Audio Statistics(PCoIP Session)\Audio Bytes Sent" TRENDVARNAME="TrendOfAudioBytesSent" DATATYPE="integer"/>
+		<CHART CHARTTITLE="\PCoIP Session Audio Statistics(PCoIP Session)\Audio Bytes Sent" ISTHRESHOLDSADDED="False" DATASOURCE="\PCoIP Session Audio Statistics(PCoIP Session)\Audio Bytes Sent" CHARTLABELS="instance"/>
+	</ANALYSIS>
+	<ANALYSIS NAME="Audio RX BW kbit/sec" ENABLED="True" CATEGORY="PCoIP Session Audio" PRIMARYDATASOURCE="\PCoIP Session Audio Statistics(PCoIP Session)\Audio RX BW kbit/sec" ID="bfd2b405-a627-48c3-820a-67a8812d8b75" FROMALLCOUNTERSTATS="False">
+		<DESCRIPTION><![CDATA[Bandwidth for ingoing audio packets averaged over the sampling period (in seconds).  Throttle audio bandwidth using Group Policies if needed.  Size WAN links to accomodate PCoIP session bandwidth.]]></DESCRIPTION>
+		<DATASOURCE TYPE="CounterLog" NAME="\PCoIP Session Audio Statistics(PCoIP Session)\Audio RX BW kbit/sec" COLLECTIONVARNAME="CollectionOfAudioRXBWkbit/sec" EXPRESSIONPATH="\PCoIP Session Audio Statistics(PCoIP Session)\Audio RX BW kbit/sec" TRENDVARNAME="TrendOfAudioRXBWkbit/sec" DATATYPE="integer"/>
+		<CHART CHARTTITLE="\PCoIP Session Audio Statistics(PCoIP Session)\Audio RX BW kbit/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\PCoIP Session Audio Statistics(PCoIP Session)\Audio RX BW kbit/sec" CHARTLABELS="instance"/>
+	</ANALYSIS>
+	<ANALYSIS NAME="Audio TX BW kbit/sec" ENABLED="True" CATEGORY="PCoIP Session Audio" PRIMARYDATASOURCE="\PCoIP Session Audio Statistics(PCoIP Session)\Audio TX BW kbit/sec" ID="a1adb6ae-d850-45cc-a928-094928d33229" FROMALLCOUNTERSTATS="False">
+		<DESCRIPTION><![CDATA[Bandwidth for outgoing audio packets averaged over the sampling period (in seconds).  Throttle audio bandwidth using Group Policies if needed.  Size WAN links to accomodate PCoIP session bandwidth.]]></DESCRIPTION>
+		<DATASOURCE TYPE="CounterLog" NAME="\PCoIP Session Audio Statistics(PCoIP Session)\Audio TX BW kbit/sec" COLLECTIONVARNAME="CollectionOfAudioTXBWkbit/sec" EXPRESSIONPATH="\PCoIP Session Audio Statistics(PCoIP Session)\Audio TX BW kbit/sec" TRENDVARNAME="TrendOfAudioTXBWkbit/sec" DATATYPE="integer"/>
+		<CHART CHARTTITLE="\PCoIP Session Audio Statistics(PCoIP Session)\Audio TX BW kbit/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\PCoIP Session Audio Statistics(PCoIP Session)\Audio TX BW kbit/sec" CHARTLABELS="instance"/>
+	</ANALYSIS>
+	<ANALYSIS NAME="Audio TX BW Limit kbit/sec" ENABLED="True" CATEGORY="PCoIP Session Audio" PRIMARYDATASOURCE="\PCoIP Session Audio Statistics(PCoIP Session)\Audio TX BW Limit kbit/sec" ID="3128a5a7-79d1-455a-a710-331c37a8009c" FROMALLCOUNTERSTATS="False">
+		<DESCRIPTION><![CDATA[Transmit bandwidth limit for outgoing audio packets as defined by the GPO setting.  If you have limited Audio bandwidth in the PCoIP Group Policy, the limit is shown here.  See this link for more info: <a href="http://pubs.vmware.com/view-51/topic/com.vmware.view.administration.doc/GUID-6C22A209-AFC1-47EF-9DFF-39AFB38D655D.html">http://pubs.vmware.com/view-51/topic/com.vmware.view.administration.doc/GUID-6C22A209-AFC1-47EF-9DFF-39AFB38D655D.html</a>]]></DESCRIPTION>
+		<DATASOURCE TYPE="CounterLog" NAME="\PCoIP Session Audio Statistics(PCoIP Session)\Audio TX BW Limit kbit/sec" COLLECTIONVARNAME="CollectionOfAudioTXBWLimitkbit/sec" EXPRESSIONPATH="\PCoIP Session Audio Statistics(PCoIP Session)\Audio TX BW Limit kbit/sec" TRENDVARNAME="TrendOfAudioTXBWLimitkbit/sec" DATATYPE="integer"/>
+		<CHART CHARTTITLE="\PCoIP Session Audio Statistics(PCoIP Session)\Audio TX BW Limit kbit/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\PCoIP Session Audio Statistics(PCoIP Session)\Audio TX BW Limit kbit/sec" CHARTLABELS="instance"/>
+	</ANALYSIS>
+	<ANALYSIS NAME="General PCoIP Bytes Received" ENABLED="True" CATEGORY="PCoIP General" PRIMARYDATASOURCE="\PCoIP Session General Statistics(PCoIP Session)\Bytes Received" ID="36f17099-860d-46b5-8ce3-d9bc23e63c08" FROMALLCOUNTERSTATS="False">
+		<DESCRIPTION><![CDATA[Total number of bytes that have been received since the PCoIP session started.]]></DESCRIPTION>
+		<DATASOURCE TYPE="CounterLog" NAME="\PCoIP Session General Statistics(PCoIP Session)\Bytes Received" COLLECTIONVARNAME="CollectionOfGeneralPCoIPBytesReceived" EXPRESSIONPATH="\PCoIP Session General Statistics(PCoIP Session)\Bytes Received" TRENDVARNAME="TrendOfGeneralPCoIPBytesReceived" DATATYPE="integer"/>
+		<CHART CHARTTITLE="\PCoIP Session General Statistics(PCoIP Session)\Bytes Received" ISTHRESHOLDSADDED="False" DATASOURCE="\PCoIP Session General Statistics(PCoIP Session)\Bytes Received" CHARTLABELS="instance"/>
+	</ANALYSIS>
+	<ANALYSIS NAME="General PCoIP Bytes Sent" ENABLED="True" CATEGORY="PCoIP General" PRIMARYDATASOURCE="\PCoIP Session General Statistics(PCoIP Session)\Bytes Sent" ID="d2678c6a-bd6c-469e-8d94-aae6303d1de9" FROMALLCOUNTERSTATS="False">
+		<DESCRIPTION><![CDATA[Total number of bytes that have been transmitted since the PCoIP session started.]]></DESCRIPTION>
+		<DATASOURCE TYPE="CounterLog" NAME="\PCoIP Session General Statistics(PCoIP Session)\Bytes Sent" COLLECTIONVARNAME="CollectionOfGeneralPCoIPBytesSent" EXPRESSIONPATH="\PCoIP Session General Statistics(PCoIP Session)\Bytes Sent" TRENDVARNAME="TrendOfGeneralPCoIPBytesSent" DATATYPE="integer"/>
+		<CHART CHARTTITLE="\PCoIP Session General Statistics(PCoIP Session)\Bytes Sent" ISTHRESHOLDSADDED="False" DATASOURCE="\PCoIP Session General Statistics(PCoIP Session)\Bytes Sent" CHARTLABELS="instance"/>
+	</ANALYSIS>
+	<ANALYSIS NAME="General PCoIP Packets Received" ENABLED="True" CATEGORY="PCoIP General" PRIMARYDATASOURCE="\PCoIP Session General Statistics(PCoIP Session)\Packets Received" ID="18644001-7783-425f-942e-4199962664f8" FROMALLCOUNTERSTATS="False">
+		<DESCRIPTION><![CDATA[Total number of packets that have been received since the PCoIP session started. Note that not all packets are the same size.]]></DESCRIPTION>
+		<DATASOURCE TYPE="CounterLog" NAME="\PCoIP Session General Statistics(PCoIP Session)\Packets Received" COLLECTIONVARNAME="CollectionOfGeneralPCoIPPacketsReceived" EXPRESSIONPATH="\PCoIP Session General Statistics(PCoIP Session)\Packets Received" TRENDVARNAME="TrendOfGeneralPCoIPPacketsReceived" DATATYPE="integer"/>
+		<CHART CHARTTITLE="\PCoIP Session General Statistics(PCoIP Session)\Packets Received" ISTHRESHOLDSADDED="False" DATASOURCE="\PCoIP Session General Statistics(PCoIP Session)\Packets Received" CHARTLABELS="instance"/>
+	</ANALYSIS>
+	<ANALYSIS NAME="General PCoIP Packets Sent" ENABLED="True" CATEGORY="PCoIP General" PRIMARYDATASOURCE="\PCoIP Session General Statistics(PCoIP Session)\Packets Sent" ID="e3cbf065-a38b-45d4-9f77-6d74b96fdd60" FROMALLCOUNTERSTATS="False">
+		<DESCRIPTION><![CDATA[Total number of packets that have been transmitted since the PCoIP session started. Note that not all packets are the same size.]]></DESCRIPTION>
+		<DATASOURCE TYPE="CounterLog" NAME="\PCoIP Session General Statistics(PCoIP Session)\Packets Sent" COLLECTIONVARNAME="CollectionOfGeneralPCoIPPacketsSent" EXPRESSIONPATH="\PCoIP Session General Statistics(PCoIP Session)\Packets Sent" TRENDVARNAME="TrendOfGeneralPCoIPPacketsSent" DATATYPE="integer"/>
+		<CHART CHARTTITLE="\PCoIP Session General Statistics(PCoIP Session)\Packets Sent" ISTHRESHOLDSADDED="False" DATASOURCE="\PCoIP Session General Statistics(PCoIP Session)\Packets Sent" CHARTLABELS="instance"/>
+	</ANALYSIS>
+	<ANALYSIS NAME="General PCoIP RX Packets Lost" ENABLED="True" CATEGORY="PCoIP General" PRIMARYDATASOURCE="\PCoIP Session General Statistics(PCoIP Session)\RX Packets Lost" ID="d923aa66-b201-439c-a50a-8d1aa68d6a97" FROMALLCOUNTERSTATS="False">
+		<DESCRIPTION><![CDATA[Total number of receive packets that have been lost since the PCoIP session started.  PCoIP is a UDP based protocol and can tolerate some packet loss.  However, because PCoIP is dynamically able to control session, when packet loss is too high, PCoIP will throttle sessions (not just the one with packet loss) to improve the user experience.  See <a href="http://myvirtualcloud.net/?p=1537">http://myvirtualcloud.net/?p=1537</a> for more info.]]></DESCRIPTION>
+		<DATASOURCE TYPE="CounterLog" NAME="\PCoIP Session General Statistics(PCoIP Session)\RX Packets Lost" COLLECTIONVARNAME="CollectionOfGeneralPCoIPRXPacketsLost" EXPRESSIONPATH="\PCoIP Session General Statistics(PCoIP Session)\RX Packets Lost" TRENDVARNAME="TrendOfGeneralPCoIPRXPacketsLost" DATATYPE="integer"/>
+		<CHART CHARTTITLE="\PCoIP Session General Statistics(PCoIP Session)\RX Packets Lost" ISTHRESHOLDSADDED="False" DATASOURCE="\PCoIP Session General Statistics(PCoIP Session)\RX Packets Lost" CHARTLABELS="instance"/>
+	</ANALYSIS>
+	<ANALYSIS NAME="General PCoIP Session Duration Seconds" ENABLED="True" CATEGORY="PCoIP General" PRIMARYDATASOURCE="\PCoIP Session General Statistics(PCoIP Session)\Session Duration Seconds" ID="1e8c383f-7669-4114-85fd-3740cd87e410" FROMALLCOUNTERSTATS="False">
+		<DESCRIPTION><![CDATA[An incrementing number that represents the total number of seconds the PCoIP session has been open.]]></DESCRIPTION>
+		<DATASOURCE TYPE="CounterLog" NAME="\PCoIP Session General Statistics(PCoIP Session)\Session Duration Seconds" COLLECTIONVARNAME="CollectionOfGeneralPCoIPSessionDurationSeconds" EXPRESSIONPATH="\PCoIP Session General Statistics(PCoIP Session)\Session Duration Seconds" TRENDVARNAME="TrendOfGeneralPCoIPSessionDurationSeconds" DATATYPE="integer"/>
+		<CHART CHARTTITLE="\PCoIP Session General Statistics(PCoIP Session)\Session Duration Seconds" ISTHRESHOLDSADDED="False" DATASOURCE="\PCoIP Session General Statistics(PCoIP Session)\Session Duration Seconds" CHARTLABELS="instance"/>
+	</ANALYSIS>
+	<ANALYSIS NAME="General PCoIP TX Packets Lost" ENABLED="True" CATEGORY="PCoIP General" PRIMARYDATASOURCE="\PCoIP Session General Statistics(PCoIP Session)\TX Packets Lost" ID="0bedeb74-17bc-402f-a612-27c3549ac76e" FROMALLCOUNTERSTATS="False">
+		<DESCRIPTION><![CDATA[Total number of transmit packets that have been lost since the PCoIP session started.  PCoIP is a UDP based protocol and can tolerate some packet loss.  However, because PCoIP is dynamically able to control session, when packet loss is too high, PCoIP will throttle sessions (not just the one with packet loss) to improve the user experience.  See <a href="http://myvirtualcloud.net/?p=1537">http://myvirtualcloud.net/?p=1537</a> for more info.]]></DESCRIPTION>
+		<DATASOURCE TYPE="CounterLog" NAME="\PCoIP Session General Statistics(PCoIP Session)\TX Packets Lost" COLLECTIONVARNAME="CollectionOfGeneralPCoIPTXPacketsLost" EXPRESSIONPATH="\PCoIP Session General Statistics(PCoIP Session)\TX Packets Lost" TRENDVARNAME="TrendOfGeneralPCoIPTXPacketsLost" DATATYPE="integer"/>
+		<CHART CHARTTITLE="\PCoIP Session General Statistics(PCoIP Session)\TX Packets Lost" ISTHRESHOLDSADDED="False" DATASOURCE="\PCoIP Session General Statistics(PCoIP Session)\TX Packets Lost" CHARTLABELS="instance"/>
+	</ANALYSIS>
+	<ANALYSIS NAME="Imaging Active Minimum Quality" ENABLED="True" CATEGORY="PCoIP Imaging" PRIMARYDATASOURCE="\PCoIP Session Imaging Statistics(PCoIP Session)\Imaging Active Minimum Quality" ID="c0e123c4-5572-4c3d-9b8f-db83a551a709" FROMALLCOUNTERSTATS="False">
+		<DESCRIPTION><![CDATA[The lowest encoded quality (0 to 100), updated every second. Not to be confused with the GPO setting.  Lower minimum image quality will translate to a poorer user experience and a lossy display.  Lossy is bad for some settings, such as medial imaging.]]></DESCRIPTION>
+		<DATASOURCE TYPE="CounterLog" NAME="\PCoIP Session Imaging Statistics(PCoIP Session)\Imaging Active Minimum Quality" COLLECTIONVARNAME="CollectionOfImagingActiveMinimumQuality" EXPRESSIONPATH="\PCoIP Session Imaging Statistics(PCoIP Session)\Imaging Active Minimum Quality" TRENDVARNAME="TrendOfImagingActiveMinimumQuality" DATATYPE="integer"/>
+		<CHART CHARTTITLE="\PCoIP Session Imaging Statistics(PCoIP Session)\Imaging Active Minimum Quality" ISTHRESHOLDSADDED="False" DATASOURCE="\PCoIP Session Imaging Statistics(PCoIP Session)\Imaging Active Minimum Quality" CHARTLABELS="instance"/>
+	</ANALYSIS>
+	<ANALYSIS NAME="Imaging Bytes Received" ENABLED="True" CATEGORY="PCoIP Imaging" PRIMARYDATASOURCE="\PCoIP Session Imaging Statistics(PCoIP Session)\Imaging Bytes Received" ID="9f989f53-c9fb-4bdd-a491-a3dc14de2fd4" FROMALLCOUNTERSTATS="False">
+		<DESCRIPTION><![CDATA[Total number of imaging bytes that have been received since the PCoIP session started.  This value is incremental - it will continue to climb over the term of the PCoIP session.  Rapid climbing suggests a user is using a web cam or other video input device.]]></DESCRIPTION>
+		<DATASOURCE TYPE="CounterLog" NAME="\PCoIP Session Imaging Statistics(PCoIP Session)\Imaging Bytes Received" COLLECTIONVARNAME="CollectionOfImagingBytesReceived" EXPRESSIONPATH="\PCoIP Session Imaging Statistics(PCoIP Session)\Imaging Bytes Received" TRENDVARNAME="TrendOfImagingBytesReceived" DATATYPE="integer"/>
+		<CHART CHARTTITLE="\PCoIP Session Imaging Statistics(PCoIP Session)\Imaging Bytes Received" ISTHRESHOLDSADDED="False" DATASOURCE="\PCoIP Session Imaging Statistics(PCoIP Session)\Imaging Bytes Received" CHARTLABELS="instance"/>
+	</ANALYSIS>
+	<ANALYSIS NAME="Imaging Bytes Sent" ENABLED="True" CATEGORY="PCoIP Imaging" PRIMARYDATASOURCE="\PCoIP Session Imaging Statistics(PCoIP Session)\Imaging Bytes Sent" ID="f0745301-c751-4a62-adac-be94c90875a8" FROMALLCOUNTERSTATS="False">
+		<DESCRIPTION><![CDATA[Total number of imaging bytes that have been sent since the PCoIP session started.  This value is incremental - it will continue to climb over the term of the PCoIP session.  Rapid climbing suggests a user is streaming video.]]></DESCRIPTION>
+		<DATASOURCE TYPE="CounterLog" NAME="\PCoIP Session Imaging Statistics(PCoIP Session)\Imaging Bytes Sent" COLLECTIONVARNAME="CollectionOfImagingBytesSent" EXPRESSIONPATH="\PCoIP Session Imaging Statistics(PCoIP Session)\Imaging Bytes Sent" TRENDVARNAME="TrendOfImagingBytesSent" DATATYPE="integer"/>
+		<CHART CHARTTITLE="\PCoIP Session Imaging Statistics(PCoIP Session)\Imaging Bytes Sent" ISTHRESHOLDSADDED="False" DATASOURCE="\PCoIP Session Imaging Statistics(PCoIP Session)\Imaging Bytes Sent" CHARTLABELS="instance"/>
+	</ANALYSIS>
+	<ANALYSIS NAME="Imaging Decoder Capability kbit/sec" ENABLED="True" CATEGORY="PCoIP Imaging" PRIMARYDATASOURCE="\PCoIP Session Imaging Statistics(PCoIP Session)\Imaging Decoder Capability kbit/sec" ID="d1be14d3-0f60-4d50-ba90-dbec117c3f3f" FROMALLCOUNTERSTATS="False">
+		<DESCRIPTION><![CDATA[The current estimate of the decoder processing capability.  This will show how well the client end-point is able to received the data that is being sent to it.]]></DESCRIPTION>
+		<DATASOURCE TYPE="CounterLog" NAME="\PCoIP Session Imaging Statistics(PCoIP Session)\Imaging Decoder Capability kbit/sec" COLLECTIONVARNAME="CollectionOfImagingDecoderCapabilitykbit/sec" EXPRESSIONPATH="\PCoIP Session Imaging Statistics(PCoIP Session)\Imaging Decoder Capability kbit/sec" TRENDVARNAME="TrendOfImagingDecoderCapabilitykbit/sec" DATATYPE="integer"/>
+		<CHART CHARTTITLE="\PCoIP Session Imaging Statistics(PCoIP Session)\Imaging Decoder Capability kbit/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\PCoIP Session Imaging Statistics(PCoIP Session)\Imaging Decoder Capability kbit/sec" CHARTLABELS="instance"/>
+	</ANALYSIS>
+	<ANALYSIS NAME="Imaging Encoded Frames/sec" ENABLED="True" CATEGORY="PCoIP Imaging" PRIMARYDATASOURCE="\PCoIP Session Imaging Statistics(PCoIP Session)\Imaging Encoded Frames/sec" ID="971a1679-0eb8-43d4-aa52-9d2a63cdb673" FROMALLCOUNTERSTATS="False">
+		<DESCRIPTION><![CDATA[The number of imaging frames which were encoded over a one second sampling period.  This can be controlled/throttled by using the 'PCoIP Image Quality Levels' Group Policy settings.]]></DESCRIPTION>
+		<DATASOURCE TYPE="CounterLog" NAME="\PCoIP Session Imaging Statistics(PCoIP Session)\Imaging Encoded Frames/sec" COLLECTIONVARNAME="CollectionOfImagingEncodedFrames/sec" EXPRESSIONPATH="\PCoIP Session Imaging Statistics(PCoIP Session)\Imaging Encoded Frames/sec" TRENDVARNAME="TrendOfImagingEncodedFrames/sec" DATATYPE="integer"/>
+		<CHART CHARTTITLE="\PCoIP Session Imaging Statistics(PCoIP Session)\Imaging Encoded Frames/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\PCoIP Session Imaging Statistics(PCoIP Session)\Imaging Encoded Frames/sec" CHARTLABELS="instance"/>
+	</ANALYSIS>
+	<ANALYSIS NAME="Imaging RX BW kbit/sec" ENABLED="True" CATEGORY="PCoIP Imaging" PRIMARYDATASOURCE="\PCoIP Session Imaging Statistics(PCoIP Session)\Imaging RX BW kbit/sec" ID="2e1df338-8223-405d-91f3-21d1353de91a" FROMALLCOUNTERSTATS="False">
+		<DESCRIPTION><![CDATA[Bandwidth for incoming imaging packets averaged over the sampling period (in seconds).]]></DESCRIPTION>
+		<DATASOURCE TYPE="CounterLog" NAME="\PCoIP Session Imaging Statistics(PCoIP Session)\Imaging RX BW kbit/sec" COLLECTIONVARNAME="CollectionOfImagingRXBWkbit/sec" EXPRESSIONPATH="\PCoIP Session Imaging Statistics(PCoIP Session)\Imaging RX BW kbit/sec" TRENDVARNAME="TrendOfImagingRXBWkbit/sec" DATATYPE="integer"/>
+		<CHART CHARTTITLE="\PCoIP Session Imaging Statistics(PCoIP Session)\Imaging RX BW kbit/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\PCoIP Session Imaging Statistics(PCoIP Session)\Imaging RX BW kbit/sec" CHARTLABELS="instance"/>
+	</ANALYSIS>
+	<ANALYSIS NAME="Imaging TX BW kbit/sec" ENABLED="True" CATEGORY="PCoIP Imaging" PRIMARYDATASOURCE="\PCoIP Session Imaging Statistics(PCoIP Session)\Imaging TX BW kbit/sec" ID="47a71b6e-a3be-4ac6-aaaa-3b1450d7f405" FROMALLCOUNTERSTATS="False">
+		<DESCRIPTION><![CDATA[Bandwidth for outgoing imaging packets averaged over the sampling period (in seconds).]]></DESCRIPTION>
+		<DATASOURCE TYPE="CounterLog" NAME="\PCoIP Session Imaging Statistics(PCoIP Session)\Imaging TX BW kbit/sec" COLLECTIONVARNAME="CollectionOfImagingTXBWkbit/sec" EXPRESSIONPATH="\PCoIP Session Imaging Statistics(PCoIP Session)\Imaging TX BW kbit/sec" TRENDVARNAME="TrendOfImagingTXBWkbit/sec" DATATYPE="integer"/>
+		<CHART CHARTTITLE="\PCoIP Session Imaging Statistics(PCoIP Session)\Imaging TX BW kbit/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\PCoIP Session Imaging Statistics(PCoIP Session)\Imaging TX BW kbit/sec" CHARTLABELS="instance"/>
+	</ANALYSIS>
+	<ANALYSIS NAME="Network Round Trip Latency ms" ENABLED="True" CATEGORY="PCoIP Network" PRIMARYDATASOURCE="\PCoIP Session Network Statistics(PCoIP Session)\Round Trip Latency ms" ID="2661afae-acc5-4c56-9023-ab9ad26bf98c" FROMALLCOUNTERSTATS="False">
+		<DESCRIPTION><![CDATA[Round trip latency (in milliseconds) between server and client.  PCoIP is capable of tolerating packet loss and latency as it is a UDP based protocol and able to dynamically manage itself.  Howerver, too much loss or latency will result in a poor user experience.<br>
+		Bandwidth requirements for PCoIP are defined here: <a href="http://pubs.vmware.com/view-51/index.jsp?topic=%2Fcom.vmware.view.planning.doc%2FGUID-5DC232B4-778B-4D9C-B995-B8850CF35096.html">http://pubs.vmware.com/view-51/index.jsp?topic=%2Fcom.vmware.view.planning.doc%2FGUID-5DC232B4-778B-4D9C-B995-B8850CF35096.html</a> and here: <a href="http://www.vmware.com/files/pdf/view/VMware-View-5-PCoIP-Network-Optimization-Guide.pdf">http://www.vmware.com/files/pdf/view/VMware-View-5-PCoIP-Network-Optimization-Guide.pdf</a><br>
+		With the reduced bandwidth consumption in View 5, adding 3D users is satisfactory on a WAN with up to approximately 100ms latency.<br>
+		Ensure that the round-trip network latency is less than 250 ms as a minimum.
+		]]></DESCRIPTION>
+		<DATASOURCE TYPE="CounterLog" NAME="\PCoIP Session Network Statistics(PCoIP Session)\Round Trip Latency ms" COLLECTIONVARNAME="CollectionOfNetworkRoundTripLatencyms" EXPRESSIONPATH="\PCoIP Session Network Statistics(PCoIP Session)\Round Trip Latency ms" TRENDVARNAME="TrendOfNetworkRoundTripLatencyms" DATATYPE="integer"/>
+		<CHART CHARTTITLE="\PCoIP Session Network Statistics(PCoIP Session)\Round Trip Latency ms" ISTHRESHOLDSADDED="False" DATASOURCE="\PCoIP Session Network Statistics(PCoIP Session)\Round Trip Latency ms" CHARTLABELS="instance"/>
+	</ANALYSIS>
+	<ANALYSIS NAME="Network RX BW kbit/sec" ENABLED="True" CATEGORY="PCoIP Network" PRIMARYDATASOURCE="\PCoIP Session Network Statistics(PCoIP Session)\RX BW kbit/sec" ID="24d3dd59-8e41-473e-8493-074ee0141dcf" FROMALLCOUNTERSTATS="False">
+		<DESCRIPTION><![CDATA[Overall bandwidth for incoming PCoIP packets averaged over the sampling period (in seconds).]]></DESCRIPTION>
+		<DATASOURCE TYPE="CounterLog" NAME="\PCoIP Session Network Statistics(PCoIP Session)\RX BW kbit/sec" COLLECTIONVARNAME="CollectionOfNetworkRXBWkbit/sec" EXPRESSIONPATH="\PCoIP Session Network Statistics(PCoIP Session)\RX BW kbit/sec" TRENDVARNAME="TrendOfNetworkRXBWkbit/sec" DATATYPE="integer"/>
+		<CHART CHARTTITLE="\PCoIP Session Network Statistics(PCoIP Session)\RX BW kbit/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\PCoIP Session Network Statistics(PCoIP Session)\RX BW kbit/sec" CHARTLABELS="instance"/>
+	</ANALYSIS>
+	<ANALYSIS NAME="Network RX BW Peak kbit/sec" ENABLED="True" CATEGORY="PCoIP Network" PRIMARYDATASOURCE="\PCoIP Session Network Statistics(PCoIP Session)\RX BW Peak kbit/sec" ID="33adc684-3226-489c-9c8e-b969a384b8e2" FROMALLCOUNTERSTATS="False">
+		<DESCRIPTION><![CDATA[Peak bandwidth for incoming PCoIP packets within a one second sampling period.]]></DESCRIPTION>
+		<DATASOURCE TYPE="CounterLog" NAME="\PCoIP Session Network Statistics(PCoIP Session)\RX BW Peak kbit/sec" COLLECTIONVARNAME="CollectionOfNetworkRXBWPeakkbit/sec" EXPRESSIONPATH="\PCoIP Session Network Statistics(PCoIP Session)\RX BW Peak kbit/sec" TRENDVARNAME="TrendOfNetworkRXBWPeakkbit/sec" DATATYPE="integer"/>
+		<CHART CHARTTITLE="\PCoIP Session Network Statistics(PCoIP Session)\RX BW Peak kbit/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\PCoIP Session Network Statistics(PCoIP Session)\RX BW Peak kbit/sec" CHARTLABELS="instance"/>
+	</ANALYSIS>
+	<ANALYSIS NAME="Network RX Packet Loss %" ENABLED="True" CATEGORY="PCoIP Network" PRIMARYDATASOURCE="\PCoIP Session Network Statistics(PCoIP Session)\RX Packet Loss %" ID="53776742-a681-49a7-a12e-dd4c7321ae53" FROMALLCOUNTERSTATS="False">
+		<DESCRIPTION><![CDATA[Percentage of received packets lost during a sampling period.]]></DESCRIPTION>
+		<DATASOURCE TYPE="CounterLog" NAME="\PCoIP Session Network Statistics(PCoIP Session)\RX Packet Loss %" COLLECTIONVARNAME="CollectionOfNetworkRXPacketLoss%" EXPRESSIONPATH="\PCoIP Session Network Statistics(PCoIP Session)\RX Packet Loss %" TRENDVARNAME="TrendOfNetworkRXPacketLoss%" DATATYPE="integer"/>
+		<CHART CHARTTITLE="\PCoIP Session Network Statistics(PCoIP Session)\RX Packet Loss %" ISTHRESHOLDSADDED="False" DATASOURCE="\PCoIP Session Network Statistics(PCoIP Session)\RX Packet Loss %" CHARTLABELS="instance"/>
+	</ANALYSIS>
+	<ANALYSIS NAME="Network TX BW Active Limit kbit/sec" ENABLED="True" CATEGORY="PCoIP Network" PRIMARYDATASOURCE="\PCoIP Session Network Statistics(PCoIP Session)\TX BW Active Limit kbit/sec" ID="2fafcc77-f429-4829-9e5a-7b1efd3d5851" FROMALLCOUNTERSTATS="False">
+		<DESCRIPTION><![CDATA[The current estimate of the available network bandwidth, updated every second.]]></DESCRIPTION>
+		<DATASOURCE TYPE="CounterLog" NAME="\PCoIP Session Network Statistics(PCoIP Session)\TX BW Active Limit kbit/sec" COLLECTIONVARNAME="CollectionOfNetworkTXBWActiveLimitkbit/sec" EXPRESSIONPATH="\PCoIP Session Network Statistics(PCoIP Session)\TX BW Active Limit kbit/sec" TRENDVARNAME="TrendOfNetworkTXBWActiveLimitkbit/sec" DATATYPE="integer"/>
+		<CHART CHARTTITLE="\PCoIP Session Network Statistics(PCoIP Session)\TX BW Active Limit kbit/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\PCoIP Session Network Statistics(PCoIP Session)\TX BW Active Limit kbit/sec" CHARTLABELS="instance"/>
+	</ANALYSIS>
+	<ANALYSIS NAME="Network TX BW kbit/sec" ENABLED="True" CATEGORY="PCoIP Network" PRIMARYDATASOURCE="\PCoIP Session Network Statistics(PCoIP Session)\TX BW kbit/sec" ID="156ea75d-d0e7-49bc-bd00-470feb73662a" FROMALLCOUNTERSTATS="False">
+		<DESCRIPTION><![CDATA[Overall bandwidth for outgoing PCoIP packets averaged over the sampling period (in seconds).]]></DESCRIPTION>
+		<DATASOURCE TYPE="CounterLog" NAME="\PCoIP Session Network Statistics(PCoIP Session)\TX BW kbit/sec" COLLECTIONVARNAME="CollectionOfNetworkTXBWkbit/sec" EXPRESSIONPATH="\PCoIP Session Network Statistics(PCoIP Session)\TX BW kbit/sec" TRENDVARNAME="TrendOfNetworkTXBWkbit/sec" DATATYPE="integer"/>
+		<CHART CHARTTITLE="\PCoIP Session Network Statistics(PCoIP Session)\TX BW kbit/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\PCoIP Session Network Statistics(PCoIP Session)\TX BW kbit/sec" CHARTLABELS="instance"/>
+	</ANALYSIS>
+	<ANALYSIS NAME="Network TX BW Limit kbit/sec" ENABLED="True" CATEGORY="PCoIP Network" PRIMARYDATASOURCE="\PCoIP Session Network Statistics(PCoIP Session)\TX BW Limit kbit/sec" ID="ff981694-9818-435c-b7f0-2f42365791c4" FROMALLCOUNTERSTATS="False">
+		<DESCRIPTION><![CDATA[Transmit bandwidth limit for outgoing packets as defined by the minimum of: GPO setting on client and server, local network connection, and Zero Client firmware negotiated value based on encryption limits]]></DESCRIPTION>
+		<DATASOURCE TYPE="CounterLog" NAME="\PCoIP Session Network Statistics(PCoIP Session)\TX BW Limit kbit/sec" COLLECTIONVARNAME="CollectionOfNetworkTXBWLimitkbit/sec" EXPRESSIONPATH="\PCoIP Session Network Statistics(PCoIP Session)\TX BW Limit kbit/sec" TRENDVARNAME="TrendOfNetworkTXBWLimitkbit/sec" DATATYPE="integer"/>
+		<CHART CHARTTITLE="\PCoIP Session Network Statistics(PCoIP Session)\TX BW Limit kbit/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\PCoIP Session Network Statistics(PCoIP Session)\TX BW Limit kbit/sec" CHARTLABELS="instance"/>
+	</ANALYSIS>
+	<ANALYSIS NAME="Network TX Packet Loss %" ENABLED="True" CATEGORY="PCoIP Network" PRIMARYDATASOURCE="\PCoIP Session Network Statistics(PCoIP Session)\TX Packet Loss %" ID="81ae43a0-f64e-4ca0-a3e3-348ccb8cba1f" FROMALLCOUNTERSTATS="False">
+		<DESCRIPTION><![CDATA[Percentage of transmitted packets lost during a sampling period.]]></DESCRIPTION>
+		<DATASOURCE TYPE="CounterLog" NAME="\PCoIP Session Network Statistics(PCoIP Session)\TX Packet Loss %" COLLECTIONVARNAME="CollectionOfNetworkTXPacketLoss%" EXPRESSIONPATH="\PCoIP Session Network Statistics(PCoIP Session)\TX Packet Loss %" TRENDVARNAME="TrendOfNetworkTXPacketLoss%" DATATYPE="integer"/>
+		<CHART CHARTTITLE="\PCoIP Session Network Statistics(PCoIP Session)\TX Packet Loss %" ISTHRESHOLDSADDED="False" DATASOURCE="\PCoIP Session Network Statistics(PCoIP Session)\TX Packet Loss %" CHARTLABELS="instance"/>
+	</ANALYSIS>
+	<ANALYSIS NAME="USB Bytes Received" ENABLED="True" CATEGORY="PCoIP USB" PRIMARYDATASOURCE="\PCoIP Session USB Statistics(PCoIP Session)\USB Bytes Received" ID="4b1fa017-26c1-427a-a333-9bd44cb1e6da" FROMALLCOUNTERSTATS="False">
+		<DESCRIPTION><![CDATA[Total number of USB bytes that have been received since the PCoIP session started.]]></DESCRIPTION>
+		<DATASOURCE TYPE="CounterLog" NAME="\PCoIP Session USB Statistics(PCoIP Session)\USB Bytes Received" COLLECTIONVARNAME="CollectionOfUSBBytesReceived" EXPRESSIONPATH="\PCoIP Session USB Statistics(PCoIP Session)\USB Bytes Received" TRENDVARNAME="TrendOfUSBBytesReceived" DATATYPE="integer"/>
+		<CHART CHARTTITLE="\PCoIP Session USB Statistics(PCoIP Session)\USB Bytes Received" ISTHRESHOLDSADDED="False" DATASOURCE="\PCoIP Session USB Statistics(PCoIP Session)\USB Bytes Received" CHARTLABELS="instance"/>
+	</ANALYSIS>
+	<ANALYSIS NAME="USB Bytes Sent" ENABLED="True" CATEGORY="PCoIP USB" PRIMARYDATASOURCE="\PCoIP Session USB Statistics(PCoIP Session)\USB Bytes Sent" ID="3b3ef11e-304d-45a1-bced-53f437dfffc5" FROMALLCOUNTERSTATS="False">
+		<DESCRIPTION><![CDATA[Total number of USB bytes that have been sent since the PCoIP session started.]]></DESCRIPTION>
+		<DATASOURCE TYPE="CounterLog" NAME="\PCoIP Session USB Statistics(PCoIP Session)\USB Bytes Sent" COLLECTIONVARNAME="CollectionOfUSBBytesSent" EXPRESSIONPATH="\PCoIP Session USB Statistics(PCoIP Session)\USB Bytes Sent" TRENDVARNAME="TrendOfUSBBytesSent" DATATYPE="integer"/>
+		<CHART CHARTTITLE="\PCoIP Session USB Statistics(PCoIP Session)\USB Bytes Sent" ISTHRESHOLDSADDED="False" DATASOURCE="\PCoIP Session USB Statistics(PCoIP Session)\USB Bytes Sent" CHARTLABELS="instance"/>
+	</ANALYSIS>
+	<ANALYSIS NAME="USB RX BW kbit/sec" ENABLED="True" CATEGORY="PCoIP USB" PRIMARYDATASOURCE="\PCoIP Session USB Statistics(PCoIP Session)\USB RX BW kbit/sec" ID="9ddcdc52-8535-422e-8a19-fd79adc5def1" FROMALLCOUNTERSTATS="False">
+		<DESCRIPTION><![CDATA[Bandwidth for incoming USB packets averaged over the sampling period (in seconds).  USB Bandwidth can spike if users are attaching USB Mass Storage Devices, USB Microphones, USB Web Cams, or USB CD/DVD readers/burners.  Consider controlling what USB devices users are allowed to connect to a View desktop via Group Polciy (Client or Agent policies -> USB Filtering) <a href="http://pubs.vmware.com/view-51/topic/com.vmware.view.administration.doc/GUID-C6E7AF06-1D9F-4096-8753-D6F6C7B58DB1.html#GUID-C6E7AF06-1D9F-4096-8753-D6F6C7B58DB1__TABLE_8F439159BE6344C0BFEED401A49AD9A6">http://pubs.vmware.com/view-51/topic/com.vmware.view.administration.doc/GUID-C6E7AF06-1D9F-4096-8753-D6F6C7B58DB1.html#GUID-C6E7AF06-1D9F-4096-8753-D6F6C7B58DB1__TABLE_8F439159BE6344C0BFEED401A49AD9A6</a>]]></DESCRIPTION>
+		<DATASOURCE TYPE="CounterLog" NAME="\PCoIP Session USB Statistics(PCoIP Session)\USB RX BW kbit/sec" COLLECTIONVARNAME="CollectionOfUSBRXBWkbit/sec" EXPRESSIONPATH="\PCoIP Session USB Statistics(PCoIP Session)\USB RX BW kbit/sec" TRENDVARNAME="TrendOfUSBRXBWkbit/sec" DATATYPE="integer"/>
+		<CHART CHARTTITLE="\PCoIP Session USB Statistics(PCoIP Session)\USB RX BW kbit/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\PCoIP Session USB Statistics(PCoIP Session)\USB RX BW kbit/sec" CHARTLABELS="instance"/>
+	</ANALYSIS>
+	<ANALYSIS NAME="USB TX BW kbit/sec" ENABLED="True" CATEGORY="PCoIP USB" PRIMARYDATASOURCE="\PCoIP Session USB Statistics(PCoIP Session)\USB TX BW kbit/sec" ID="3dcc0e0d-13c9-47ef-8529-99957af925ee" FROMALLCOUNTERSTATS="False">
+		<DESCRIPTION><![CDATA[Bandwidth for outgoing USB packets averaged over the sampling period (in seconds).  USB Bandwidth can spike if users are attaching USB Mass Storage Devices, USB Microphones, USB Web Cams, or USB CD/DVD readers/burners.  Consider controlling what USB devices users are allowed to connect to a View desktop via Group Polciy (Client or Agent policies -> USB Filtering) <a href="http://pubs.vmware.com/view-51/topic/com.vmware.view.administration.doc/GUID-C6E7AF06-1D9F-4096-8753-D6F6C7B58DB1.html#GUID-C6E7AF06-1D9F-4096-8753-D6F6C7B58DB1__TABLE_8F439159BE6344C0BFEED401A49AD9A6">http://pubs.vmware.com/view-51/topic/com.vmware.view.administration.doc/GUID-C6E7AF06-1D9F-4096-8753-D6F6C7B58DB1.html#GUID-C6E7AF06-1D9F-4096-8753-D6F6C7B58DB1__TABLE_8F439159BE6344C0BFEED401A49AD9A6</a>]]></DESCRIPTION>
+		<DATASOURCE TYPE="CounterLog" NAME="\PCoIP Session USB Statistics(PCoIP Session)\USB TX BW kbit/sec" COLLECTIONVARNAME="CollectionOfUSBTXBWkbit/sec" EXPRESSIONPATH="\PCoIP Session USB Statistics(PCoIP Session)\USB TX BW kbit/sec" TRENDVARNAME="TrendOfUSBTXBWkbit/sec" DATATYPE="integer"/>
+		<CHART CHARTTITLE="\PCoIP Session USB Statistics(PCoIP Session)\USB TX BW kbit/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\PCoIP Session USB Statistics(PCoIP Session)\USB TX BW kbit/sec" CHARTLABELS="instance"/>
+	</ANALYSIS>
+	<INHERITANCE FILEPATH="SystemOverview.xml"/>
+</PAL>

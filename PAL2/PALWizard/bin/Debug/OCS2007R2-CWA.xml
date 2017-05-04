@@ -1,0 +1,228 @@
+<PAL NAME="Microsoft OCS 2007 R2 - CWA" DESCRIPTION="Performance counter thresholds for Microsoft Office Communications Server 2007 R2 Communicator Web Access Server." CONTENTOWNERS="Doug Deitterick" FEEDBACKEMAILADDRESS="dodeitte@microsoft.com" VERSION="2.0" PALVERSION="2.0" LANGUAGE="English" LANGUAGECODE="en">
+  <INHERITANCE FILEPATH="QuickSystemOverview.xml" />
+  <ANALYSIS NAME="CWA - 00 - Directory Search CWA - 003 - LDAP errors" ENABLED="True" CATEGORY="CWA - 00 - Directory Search" PRIMARYDATASOURCE="\CWA - 00 - Directory Search(_Total)\CWA - 003 - LDAP errors" ID="{6d1250c8-7d57-437e-a27e-7687ac5869e4}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\CWA - 00 - Directory Search(_Total)\CWA - 003 - LDAP errors" COLLECTIONVARNAME="CWA00DirectorySearchCWA003LDAPerrors_Total" EXPRESSIONPATH="\CWA - 00 - Directory Search(_Total)\CWA - 003 - LDAP errors" DATATYPE="integer" />
+    <CHART CHARTTITLE="\CWA - 00 - Directory Search(_Total)\CWA - 003 - LDAP errors" ISTHRESHOLDSADDED="True" DATASOURCE="\CWA - 00 - Directory Search(_Total)\CWA - 003 - LDAP errors" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $CWA00DirectorySearchCWA003LDAPerrors_Total -MinThreshold 2 -MaxThreshold 5 -IsOperatorGreaterThan $True -UseMaxValue $False]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $CWA00DirectorySearchCWA003LDAPerrors_Total -MinThreshold 5 -MaxThreshold 5.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Greater than or equal to 2" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CWA00DirectorySearchCWA003LDAPerrors_Total -Operator 'ge' -Threshold 2]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="Greater than or equal to5" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CWA00DirectorySearchCWA003LDAPerrors_Total -Operator 'gt' -Threshold 5]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[This counter shows the total number of LDAP errors that have occurred during Communicator Web Access directory search operations.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="CWA - 01 - Authentication Module CWA - 003 - Forms auth logon failures" ENABLED="True" CATEGORY="CWA - 01 - Authentication Module" PRIMARYDATASOURCE="\CWA - 01 - Authentication Module(_Total)\CWA - 003 - Forms auth logon failures" ID="{4ffe1504-8ce3-40f2-af7b-ebbfbe2f8bd7}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\CWA - 01 - Authentication Module(_Total)\CWA - 003 - Forms auth logon failures" COLLECTIONVARNAME="CWA01AuthenticationModuleCWA003Formsauthlogonfailures_Total" EXPRESSIONPATH="\CWA - 01 - Authentication Module(_Total)\CWA - 003 - Forms auth logon failures" DATATYPE="integer" />
+    <CHART CHARTTITLE="\CWA - 01 - Authentication Module(_Total)\CWA - 003 - Forms auth logon failures" ISTHRESHOLDSADDED="True" DATASOURCE="\CWA - 01 - Authentication Module(_Total)\CWA - 003 - Forms auth logon failures" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $CWA01AuthenticationModuleCWA003Formsauthlogonfailures_Total -MinThreshold 300 -MaxThreshold 500 -IsOperatorGreaterThan $True -UseMaxValue $False]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $CWA01AuthenticationModuleCWA003Formsauthlogonfailures_Total -MinThreshold 500 -MaxThreshold 599.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Greater than or equal to 300" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CWA01AuthenticationModuleCWA003Formsauthlogonfailures_Total -Operator 'ge' -Threshold 300]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="Greater than or equal to 500" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CWA01AuthenticationModuleCWA003Formsauthlogonfailures_Total -Operator 'ge' -Threshold 500]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[This counter shows the total number of forms logon attempts that have failed since the Communicator Web Access virtual server was started.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="CWA - 01 - Authentication Module CWA - 007 - IWA auth logon failures" ENABLED="True" CATEGORY="CWA - 01 - Authentication Module" PRIMARYDATASOURCE="\CWA - 01 - Authentication Module(_Total)\CWA - 007 - IWA auth logon failures" ID="{d26b70c1-985c-4757-a894-80a36b111ac7}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\CWA - 01 - Authentication Module(_Total)\CWA - 007 - IWA auth logon failures" COLLECTIONVARNAME="CWA01AuthenticationModuleCWA007IWAauthlogonfailures_Total" EXPRESSIONPATH="\CWA - 01 - Authentication Module(_Total)\CWA - 007 - IWA auth logon failures" DATATYPE="integer" />
+    <CHART CHARTTITLE="\CWA - 01 - Authentication Module(_Total)\CWA - 007 - IWA auth logon failures" ISTHRESHOLDSADDED="True" DATASOURCE="\CWA - 01 - Authentication Module(_Total)\CWA - 007 - IWA auth logon failures" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $CWA01AuthenticationModuleCWA007IWAauthlogonfailures_Total -MinThreshold 400 -MaxThreshold 600 -IsOperatorGreaterThan $True -UseMaxValue $False]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $CWA01AuthenticationModuleCWA007IWAauthlogonfailures_Total -MinThreshold 600 -MaxThreshold 699.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Greater than or equal to 400" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CWA01AuthenticationModuleCWA007IWAauthlogonfailures_Total -Operator 'ge' -Threshold 400]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="Greater than or equal to 600" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CWA01AuthenticationModuleCWA007IWAauthlogonfailures_Total -Operator 'ge' -Threshold 600]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[This counter shows the total number of failed logons that used IIS authentication since the Communicator Web Access virtual server was started. The IIS authentication types used are NTLM, Kerberos, or single sign on (SSO) authentication if the Communicator Web Access server is in SSO mode.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="CWA - 01 - Authentication Module CWA - 012 - LDAP error total" ENABLED="True" CATEGORY="CWA - 01 - Authentication Module" PRIMARYDATASOURCE="\CWA - 01 - Authentication Module(_Total)\CWA - 012 - LDAP error total" ID="{072b9efd-808f-43b8-a993-0bc8784f357b}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\CWA - 01 - Authentication Module(_Total)\CWA - 012 - LDAP error total" COLLECTIONVARNAME="CWA01AuthenticationModuleCWA012LDAPerrortotal_Total" EXPRESSIONPATH="\CWA - 01 - Authentication Module(_Total)\CWA - 012 - LDAP error total" DATATYPE="integer" />
+    <CHART CHARTTITLE="\CWA - 01 - Authentication Module(_Total)\CWA - 012 - LDAP error total" ISTHRESHOLDSADDED="True" DATASOURCE="\CWA - 01 - Authentication Module(_Total)\CWA - 012 - LDAP error total" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $CWA01AuthenticationModuleCWA012LDAPerrortotal_Total -MinThreshold 2 -MaxThreshold 5 -IsOperatorGreaterThan $True -UseMaxValue $False]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $CWA01AuthenticationModuleCWA012LDAPerrortotal_Total -MinThreshold 5 -MaxThreshold 5.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Greater than or equal to 2" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CWA01AuthenticationModuleCWA012LDAPerrortotal_Total -Operator 'ge' -Threshold 2]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="Greater than or equal to 5" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CWA01AuthenticationModuleCWA012LDAPerrortotal_Total -Operator 'ge' -Threshold 5]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[This counter shows the total number of authorizations that have failed due to LDAP errors during binds and searches since the Communicator Web Access virtual server was started.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="CWA - 01 - Authentication Module CWA - 014 - Logons denied due to server throttling" ENABLED="True" CATEGORY="CWA - 01 - Authentication Module" PRIMARYDATASOURCE="\CWA - 01 - Authentication Module(_Total)\CWA - 014 - Logons denied due to server throttling" ID="{3451f516-f7cd-4e0b-8f4e-92367a8ccf44}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\CWA - 01 - Authentication Module(_Total)\CWA - 014 - Logons denied due to server throttling" COLLECTIONVARNAME="CWA01AuthenticationModuleCWA014Logonsdeniedduetoserverthrottling_Total" EXPRESSIONPATH="\CWA - 01 - Authentication Module(_Total)\CWA - 014 - Logons denied due to server throttling" DATATYPE="integer" />
+    <CHART CHARTTITLE="\CWA - 01 - Authentication Module(_Total)\CWA - 014 - Logons denied due to server throttling" ISTHRESHOLDSADDED="True" DATASOURCE="\CWA - 01 - Authentication Module(_Total)\CWA - 014 - Logons denied due to server throttling" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $CWA01AuthenticationModuleCWA014Logonsdeniedduetoserverthrottling_Total -MinThreshold 12 -MaxThreshold 15 -IsOperatorGreaterThan $True -UseMaxValue $False]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $CWA01AuthenticationModuleCWA014Logonsdeniedduetoserverthrottling_Total -MinThreshold 15 -MaxThreshold 19.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Greater than or equal to 12" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CWA01AuthenticationModuleCWA014Logonsdeniedduetoserverthrottling_Total -Operator 'ge' -Threshold 12]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="Greater than or equal to 15" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CWA01AuthenticationModuleCWA014Logonsdeniedduetoserverthrottling_Total -Operator 'ge' -Threshold 15]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[This counter shows the total number of logon attempts that were not allowed due to server throttling under heavy resource consumption.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="CWA - 02 - Security CWA - 001 - Requests rejected due to invalid ticket / sec" ENABLED="True" CATEGORY="CWA - 02 - Security" PRIMARYDATASOURCE="\CWA - 02 - Security(_Total)\CWA - 001 - Requests rejected due to invalid ticket / sec" ID="{e0317608-c2a6-4c5e-89c2-f21b6e7467ea}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\CWA - 02 - Security(_Total)\CWA - 001 - Requests rejected due to invalid ticket / sec" COLLECTIONVARNAME="CWA02SecurityCWA001Requestsrejectedduetoinvalidticketsec_Total" EXPRESSIONPATH="\CWA - 02 - Security(_Total)\CWA - 001 - Requests rejected due to invalid ticket / sec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\CWA - 02 - Security(_Total)\CWA - 001 - Requests rejected due to invalid ticket / sec" ISTHRESHOLDSADDED="True" DATASOURCE="\CWA - 02 - Security(_Total)\CWA - 001 - Requests rejected due to invalid ticket / sec" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $CWA02SecurityCWA001Requestsrejectedduetoinvalidticketsec_Total -MinThreshold 4 -MaxThreshold 10 -IsOperatorGreaterThan $True -UseMaxValue $False]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $CWA02SecurityCWA001Requestsrejectedduetoinvalidticketsec_Total -MinThreshold 10 -MaxThreshold 11.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Greater than or equal to 4" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CWA02SecurityCWA001Requestsrejectedduetoinvalidticketsec_Total -Operator 'ge' -Threshold 4]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="Greater than or equal to 10" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CWA02SecurityCWA001Requestsrejectedduetoinvalidticketsec_Total -Operator 'ge' -Threshold 10]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[This counter shows the per-second rate of requests that were rejected due to an invalid ticket in the request. This problem occurs occasionally under normal circumstances, but spikes can be symptomatic of a denial of service attack or hacking attempt.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="CWA - 03 - User session Service CWA - 004 - Sessions failed to sign in" ENABLED="True" CATEGORY="CWA - 03 - User session Service" PRIMARYDATASOURCE="\CWA - 03 - User session Service(_Total)\CWA - 004 - Sessions failed to sign in" ID="{2c72f431-cdcb-4cd8-ba4e-13706c36bf85}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\CWA - 03 - User session Service(_Total)\CWA - 004 - Sessions failed to sign in" COLLECTIONVARNAME="CWA03UsersessionServiceCWA004Sessionsfailedtosignin_Total" EXPRESSIONPATH="\CWA - 03 - User session Service(_Total)\CWA - 004 - Sessions failed to sign in" DATATYPE="integer" />
+    <CHART CHARTTITLE="\CWA - 03 - User session Service(_Total)\CWA - 004 - Sessions failed to sign in" ISTHRESHOLDSADDED="True" DATASOURCE="\CWA - 03 - User session Service(_Total)\CWA - 004 - Sessions failed to sign in" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $CWA03UsersessionServiceCWA004Sessionsfailedtosignin_Total -MinThreshold 40 -MaxThreshold 75 -IsOperatorGreaterThan $True -UseMaxValue $False]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $CWA03UsersessionServiceCWA004Sessionsfailedtosignin_Total -MinThreshold 75 -MaxThreshold 99.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Greater than or equal to 40" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CWA03UsersessionServiceCWA004Sessionsfailedtosignin_Total -Operator 'ge' -Threshold 40]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="Greater than or equal to 75" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CWA03UsersessionServiceCWA004Sessionsfailedtosignin_Total -Operator 'gt' -Threshold 75]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[This counter shows the total number of user sessions that failed to sign in to Office Communications Server since the Communicator Web Access virtual server was started.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="CWA - 03 - User session Service CWA - 007 - Total sessions timed out" ENABLED="True" CATEGORY="CWA - 03 - User session Service" PRIMARYDATASOURCE="\CWA - 03 - User session Service(_Total)\CWA - 007 - Total sessions timed out" ID="{2d50ead7-b64f-4410-992d-db3c074fa301}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\CWA - 03 - User session Service(_Total)\CWA - 007 - Total sessions timed out" COLLECTIONVARNAME="CWA03UsersessionServiceCWA007Totalsessionstimedout_Total" EXPRESSIONPATH="\CWA - 03 - User session Service(_Total)\CWA - 007 - Total sessions timed out" DATATYPE="integer" />
+    <CHART CHARTTITLE="\CWA - 03 - User session Service(_Total)\CWA - 007 - Total sessions timed out" ISTHRESHOLDSADDED="True" DATASOURCE="\CWA - 03 - User session Service(_Total)\CWA - 007 - Total sessions timed out" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $CWA03UsersessionServiceCWA007Totalsessionstimedout_Total -MinThreshold 300 -MaxThreshold 600 -IsOperatorGreaterThan $True -UseMaxValue $False]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $CWA03UsersessionServiceCWA007Totalsessionstimedout_Total -MinThreshold 600 -MaxThreshold 639.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Greater than or equal to 300" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CWA03UsersessionServiceCWA007Totalsessionstimedout_Total -Operator 'ge' -Threshold 300]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="Greater than or equal to 600" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CWA03UsersessionServiceCWA007Totalsessionstimedout_Total -Operator 'ge' -Threshold 600]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[This counter shows the total number of Communicator Web Access user sessions that timed out due to communication failure with clients.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="CWA - 03 - User session Service CWA - 016 - Requests to nonexistent sessions" ENABLED="True" CATEGORY="CWA - 03 - User session Service" PRIMARYDATASOURCE="\CWA - 03 - User session Service(_Total)\CWA - 016 - Requests to nonexistent sessions" ID="{6d8c3fa5-e65a-477e-981a-b40476e42982}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\CWA - 03 - User session Service(_Total)\CWA - 016 - Requests to nonexistent sessions" COLLECTIONVARNAME="CWA03UsersessionServiceCWA016Requeststononexistentsessions_Total" EXPRESSIONPATH="\CWA - 03 - User session Service(_Total)\CWA - 016 - Requests to nonexistent sessions" DATATYPE="integer" />
+    <CHART CHARTTITLE="\CWA - 03 - User session Service(_Total)\CWA - 016 - Requests to nonexistent sessions" ISTHRESHOLDSADDED="True" DATASOURCE="\CWA - 03 - User session Service(_Total)\CWA - 016 - Requests to nonexistent sessions" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $CWA03UsersessionServiceCWA016Requeststononexistentsessions_Total -MinThreshold 300 -MaxThreshold 600 -IsOperatorGreaterThan $True -UseMaxValue $False]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $CWA03UsersessionServiceCWA016Requeststononexistentsessions_Total -MinThreshold 600 -MaxThreshold 639.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Greater than or equal to 300" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CWA03UsersessionServiceCWA016Requeststononexistentsessions_Total -Operator 'ge' -Threshold 300]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="Greater than or equal to 600" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CWA03UsersessionServiceCWA016Requeststononexistentsessions_Total -Operator 'ge' -Threshold 600]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[This counter shows the total number of requests targeting nonexistent sessions since the Communicator Web Access virtual server was started.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="CWA - 03 - User session Service CWA - 018 - Total requests failed" ENABLED="True" CATEGORY="CWA - 03 - User session Service" PRIMARYDATASOURCE="\CWA - 03 - User session Service(_Total)\CWA - 018 - Total requests failed" ID="{f2e8dd6c-fd5c-4d98-8790-94554722753d}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\CWA - 03 - User session Service(_Total)\CWA - 018 - Total requests failed" COLLECTIONVARNAME="CWA03UsersessionServiceCWA018Totalrequestsfailed_Total" EXPRESSIONPATH="\CWA - 03 - User session Service(_Total)\CWA - 018 - Total requests failed" DATATYPE="integer" />
+    <CHART CHARTTITLE="\CWA - 03 - User session Service(_Total)\CWA - 018 - Total requests failed" ISTHRESHOLDSADDED="True" DATASOURCE="\CWA - 03 - User session Service(_Total)\CWA - 018 - Total requests failed" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $CWA03UsersessionServiceCWA018Totalrequestsfailed_Total -MinThreshold 300 -MaxThreshold 600 -IsOperatorGreaterThan $True -UseMaxValue $False]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $CWA03UsersessionServiceCWA018Totalrequestsfailed_Total -MinThreshold 600 -MaxThreshold 639.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Greater than or equal to 300" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CWA03UsersessionServiceCWA018Totalrequestsfailed_Total -Operator 'ge' -Threshold 300]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="Greater than or equal to 600" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CWA03UsersessionServiceCWA018Totalrequestsfailed_Total -Operator 'ge' -Threshold 600]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[This counter shows the total number of requests that failed to process since the Communicator Web Access virtual server was started.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MCX - 01 - User session Service MCX - 005 - Sessions failed to sign in" ENABLED="True" CATEGORY="MCX - 01 - User session Service" PRIMARYDATASOURCE="\MCX - 01 - User session Service(_Total)\MCX - 005 - Sessions failed to sign in" ID="{eebee17d-13bc-47d7-889b-e631fec03244}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MCX - 01 - User session Service(_Total)\MCX - 005 - Sessions failed to sign in" COLLECTIONVARNAME="MCX01UsersessionServiceMCX005Sessionsfailedtosignin_Total" EXPRESSIONPATH="\MCX - 01 - User session Service(_Total)\MCX - 005 - Sessions failed to sign in" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MCX - 01 - User session Service(_Total)\MCX - 005 - Sessions failed to sign in" ISTHRESHOLDSADDED="True" DATASOURCE="\MCX - 01 - User session Service(_Total)\MCX - 005 - Sessions failed to sign in" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $MCX01UsersessionServiceMCX005Sessionsfailedtosignin_Total -MinThreshold 5 -MaxThreshold 7 -IsOperatorGreaterThan $True -UseMaxValue $False]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $MCX01UsersessionServiceMCX005Sessionsfailedtosignin_Total -MinThreshold 7 -MaxThreshold 9.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Greater than or equal to 5" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $MCX01UsersessionServiceMCX005Sessionsfailedtosignin_Total -Operator 'ge' -Threshold 5]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="Greater than or equal to 7" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $MCX01UsersessionServiceMCX005Sessionsfailedtosignin_Total -Operator 'ge' -Threshold 7]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[This counter shows the total number of user sessions that failed to sign in to Office Communications Server since the Communicator Mobile Component virtual server was started.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MCX - 01 - User session Service MCX - 011 - Total sessions timed out" ENABLED="True" CATEGORY="MCX - 01 - User session Service" PRIMARYDATASOURCE="\MCX - 01 - User session Service(_Total)\MCX - 011 - Total sessions timed out" ID="{0e674d35-eb0c-4eff-8491-872fbedde49b}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MCX - 01 - User session Service(_Total)\MCX - 011 - Total sessions timed out" COLLECTIONVARNAME="MCX01UsersessionServiceMCX011Totalsessionstimedout_Total" EXPRESSIONPATH="\MCX - 01 - User session Service(_Total)\MCX - 011 - Total sessions timed out" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MCX - 01 - User session Service(_Total)\MCX - 011 - Total sessions timed out" ISTHRESHOLDSADDED="True" DATASOURCE="\MCX - 01 - User session Service(_Total)\MCX - 011 - Total sessions timed out" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $MCX01UsersessionServiceMCX011Totalsessionstimedout_Total -MinThreshold 300 -MaxThreshold 600 -IsOperatorGreaterThan $True -UseMaxValue $False]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $MCX01UsersessionServiceMCX011Totalsessionstimedout_Total -MinThreshold 600 -MaxThreshold 639.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Greater than or equal to 300" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $MCX01UsersessionServiceMCX011Totalsessionstimedout_Total -Operator 'ge' -Threshold 300]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="Greater than or equal to 600" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $MCX01UsersessionServiceMCX011Totalsessionstimedout_Total -Operator 'ge' -Threshold 600]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[This counter shows the total number of Communicator Mobile Component user sessions that timed out due to communication failure with clients.]]></DESCRIPTION>
+  </ANALYSIS>
+</PAL>

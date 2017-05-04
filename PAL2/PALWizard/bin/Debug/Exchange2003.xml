@@ -1,0 +1,703 @@
+<PAL NAME="Microsoft Exchange 2003" DESCRIPTION="General Exchange 2003 Server performance analysis. Created by Mike Lagase" CONTENTOWNERS="Mike Lagase" FEEDBACKEMAILADDRESS="mikelag@microsoft.com" VERSION="2.0" PALVERSION="2.0" LANGUAGE="English" LANGUAGECODE="en">
+  <ANALYSIS NAME="LogicalDisk Read Latency Analysis" ENABLED="True" CATEGORY="LogicalDisk" PRIMARYDATASOURCE="\LogicalDisk(*)\Avg. Disk sec/Read" ID="{dfb21d00-cf83-49e7-bf63-3d82db3d63c3}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\LogicalDisk(*)\Avg. Disk sec/Read" COLLECTIONVARNAME="LogicalDiskAvgDisksecReadALL" EXPRESSIONPATH="\LogicalDisk(*)\Avg. Disk sec/Read" DATATYPE="round3">
+      <EXCLUDE INSTANCE="_Total" />
+    </DATASOURCE>
+    <THRESHOLD NAME="Greater than 10ms logical disk READ response times" CONDITION="Warning" COLOR="#FFFF00" PRIORITY="52" ID="">
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $LogicalDiskAvgDisksecReadALL -Operator 'gt' -Threshold 0.010
+         ]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="Greater than 20ms logical disk READ response times" CONDITION="Critical" COLOR="Red" PRIORITY="100" ID="">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $LogicalDiskAvgDisksecReadALL -Operator 'gt' -Threshold 0.020
+        ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\LogicalDisk(*)\Avg. Disk sec/Read" ISTHRESHOLDSADDED="True" DATASOURCE="\LogicalDisk(*)\Avg. Disk sec/Read" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $LogicalDiskAvgDisksecReadALL -MinThreshold 0.010 -MaxThreshold 0.020 -UseMaxValue $False
+        ]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $LogicalDiskAvgDisksecReadALL -MinThreshold 0.020 -MaxThreshold 0.029999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+    <DESCRIPTION><![CDATA[Avg. Disk sec/Read is the average time, in seconds, of a read of data to the disk. This analysis determines if any of the physical disks are responding slowly.<BR>
+<BR>
+If the response times are greater than <B>.010 (10 milliseconds)</B>, then the disk subsystem is keeping up with demand, but does not have much overhead left.<BR>
+<BR>
+If the response times are greater than <B>.020 (20 milliseconds)</B>, then noticeable slow downs and performance issues affecting users may be occurring.<BR>
+<BR>
+<B>Reference:</B><BR>
+Ruling Out Disk-Bound Problems<BR>
+<A HREF="http://technet.microsoft.com/en-us/library/5bcdd349-dcc6-43eb-9dc3-54175f7061ad.aspx">http://technet.microsoft.com/en-us/library/5bcdd349-dcc6-43eb-9dc3-54175f7061ad.aspx</A><BR>
+Monitoring Mailbox Servers<BR>
+<A HREF="http://technet.microsoft.com/en-us/library/bb201689(EXCHG.80).aspx">http://technet.microsoft.com/en-us/library/bb201689(EXCHG.80).aspx</A><BR>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="LogicalDisk Write Latency Analysis" ENABLED="True" CATEGORY="LogicalDisk" PRIMARYDATASOURCE="\LogicalDisk(*)\Avg. Disk sec/Write" ID="{28eaa0b2-0bc2-41f8-8c27-9045b597d001}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\LogicalDisk(*)\Avg. Disk sec/Write" COLLECTIONVARNAME="LogicalDiskAvgDisksecWriteALL" EXPRESSIONPATH="\LogicalDisk(*)\Avg. Disk sec/Write" DATATYPE="round3">
+      <EXCLUDE INSTANCE="_Total" />
+    </DATASOURCE>
+    <THRESHOLD NAME="Greater than 10ms logical disk WRITE response times" CONDITION="Warning" COLOR="Yellow" PRIORITY="50" ID="">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+         StaticThreshold -CollectionOfCounterInstances $LogicalDiskAvgDisksecWriteALL -Operator 'gt' -Threshold 0.010
+         ]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="Greater than 20ms logical disk WRITE response times" CONDITION="Critical" COLOR="Red" PRIORITY="100" ID="">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $LogicalDiskAvgDisksecWriteALL -Operator 'gt' -Threshold 0.020
+        ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\LogicalDisk(*)\Avg. Disk sec/Write" ISTHRESHOLDSADDED="True" DATASOURCE="\LogicalDisk(*)\Avg. Disk sec/Write" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $LogicalDiskAvgDisksecWriteALL -MinThreshold 0.010 -MaxThreshold 0.020 -UseMaxValue $False        ]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $LogicalDiskAvgDisksecWriteALL -MinThreshold 0.020 -MaxThreshold 0.029999 -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Greater than 900ms - Slower than a 3.5 inch floppy drive" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[#// Use PowerShell code to create alerts when the conditions for this threshold are met.
+#// Optionally use the variables listed above in the Variables list box.
+#// If the condition for this threshold is a static value, then use the StaticThreshold() function.
+#// Otherwise, you will need to manually loop through the counter instance collection object.
+#// The counter instance collection object has a unique name for each counter data source in this analysis.
+#// See the variables in the Variables list box above for more information on the counter instance collection object.
+
+#// Here is a ready to use example on how to use the StaticThreshold() function to define a threshold:
+StaticThreshold -CollectionOfCounterInstances $LogicalDiskAvgDisksecWriteALL -Operator 'gt' -Threshold 0.9
+#// The -Operator parameter accepts gt for greater than, ge for greater than or equal to, lt for less than,
+#//  and le for less than or equal to. -Threshold is the static value for the threshold.]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[Avg. Disk sec/Write is the average time, in seconds, of a write of data to the disk. This analysis determines if any of the physical disks are responding slowly.<BR>
+<BR>
+If the response times are greater than <B>.010 (15 milliseconds)</B>, then the disk subsystem is keeping up with demand, but does not have much overhead left.<BR>
+<BR>
+If the response times are greater than <B>.020 (25 milliseconds)</B>, then noticeable slow downs and performance issues affecting users may be occurring.<BR>
+<BR>
+<B>Reference:</B><BR>
+Ruling Out Disk-Bound Problems<BR>
+<A HREF="http://technet.microsoft.com/en-us/library/5bcdd349-dcc6-43eb-9dc3-54175f7061ad.aspx">http://technet.microsoft.com/en-us/library/5bcdd349-dcc6-43eb-9dc3-54175f7061ad.aspx</A><BR>
+Monitoring Mailbox Servers<BR>
+<A HREF="http://technet.microsoft.com/en-us/library/bb201689(EXCHG.80).aspx">http://technet.microsoft.com/en-us/library/bb201689(EXCHG.80).aspx</A><BR>
+<BR>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Log Writes/sec" ENABLED="True" CATEGORY="Database" PRIMARYDATASOURCE="\Database(*)\Log Writes/sec" ID="{5c27ef35-bddf-45df-b7dd-175faa474b47}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The average sum of all sequential write I/O operations to the Exchange log file disk volumes (.log files). ]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\Database(*)\Log Writes/sec" COLLECTIONVARNAME="DatabaseLogWritessecALL" EXPRESSIONPATH="\Database(*)\Log Writes/sec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Database(*)\Log Writes/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\Database(*)\Log Writes/sec" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Database Pages Written/sec" ENABLED="True" CATEGORY="Database" PRIMARYDATASOURCE="\Database(*)\Database Pages Written/sec" ID="{cd645941-2ce0-413b-9cdd-31a5a1153ca8}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The number of pages that are written to the database files from the database cache per second. ]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\Database(*)\Database Pages Written/sec" COLLECTIONVARNAME="DatabaseDatabasePagesWrittensecALL" EXPRESSIONPATH="\Database(*)\Database Pages Written/sec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Database(*)\Database Pages Written/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\Database(*)\Database Pages Written/sec" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Database Cache Size" ENABLED="True" CATEGORY="Database" PRIMARYDATASOURCE="\Database(*)\Database Cache Size" ID="{d7dd715e-c2f7-43a5-81fd-af3897cf7e85}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The average amount of system memory used by the database cache manager to hold commonly used information from the database files to prevent file operations. If the database cache size seems too small for optimal performance and there is very little available memory on the system, adding more memory to the system may increase performance. If there is a lot of available memory on the system and the database cache size is not growing beyond a certain point, the database cache size may be restricted to an artificially low limit. Increasing this limit may increase performance. ]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\Database(*)\Database Cache Size" COLLECTIONVARNAME="DatabaseDatabaseCacheSizeALL" EXPRESSIONPATH="\Database(*)\Database Cache Size" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Database(*)\Database Cache Size" ISTHRESHOLDSADDED="False" DATASOURCE="\Database(*)\Database Cache Size" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Log Record Stalls/sec" ENABLED="True" CATEGORY="Database" PRIMARYDATASOURCE="\Database(*)\Log Record Stalls/sec" ID="{91bd61c3-0491-4aec-a86c-1a0607ec2c74}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\Database(*)\Log Record Stalls/sec" COLLECTIONVARNAME="DatabaseLogRecordStallssecALL" EXPRESSIONPATH="\Database(*)\Log Record Stalls/sec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Database(*)\Log Record Stalls/sec" ISTHRESHOLDSADDED="True" DATASOURCE="\Database(*)\Log Record Stalls/sec" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $DatabaseLogRecordStallssecALL -MinThreshold 10 -MaxThreshold 100 -IsOperatorGreaterThan $True -UseMaxValue $False]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $DatabaseLogRecordStallssecALL -MinThreshold 100 -MaxThreshold 109.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Log records not being processed in a timely fashion" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $DatabaseLogRecordStallssecALL -Operator 'gt' -Threshold 10]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="High Log record stalls due to server performance issues" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $DatabaseLogRecordStallssecALL -Operator 'gt' -Threshold 100]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[Log Record Stalls/sec is the number of log records that cannot be added to the log buffers per second because they are full. If this counter is non-zero most of the time, the log buffer size may be a bottleneck. <br>
+<br>
+The average value of the Log Record Stalls/sec performance counter should be under 10 per second. The maximum value should not exceed 100 per second. 
+ ]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Log Threads Waiting" ENABLED="True" CATEGORY="Database" PRIMARYDATASOURCE="\Database(*)\Log Threads Waiting" ID="{cd681584-1684-4e47-99b6-e662c54e3069}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\Database(*)\Log Threads Waiting" COLLECTIONVARNAME="DatabaseLogThreadsWaitingALL" EXPRESSIONPATH="\Database(*)\Log Threads Waiting" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Database(*)\Log Threads Waiting" ISTHRESHOLDSADDED="True" DATASOURCE="\Database(*)\Log Threads Waiting" CHARTLABELS="instance">
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $DatabaseLogThreadsWaitingALL -MinThreshold 10 -MaxThreshold 19.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Log threads not being processed in a timely manner" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $DatabaseLogThreadsWaitingALL -Operator 'gt' -Threshold 10]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The Log Threads Waiting performance counter shows the number of threads waiting to complete an update of the database by writing their data to the log. If the value of the Log Threads Waiting performance counter is too high, the log may be a bottleneck for other transactions. ]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Client Out Queue Length" ENABLED="True" CATEGORY="Epoxy" PRIMARYDATASOURCE="\Epoxy(*)\Client Out Queue Length" ID="{c4cd294d-9fc9-4df4-ae03-131fc50c6887}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The Client Out Queue Length (DSAccess) performance counter indicates the number of messages in the queue that contains Directory Service Access (DSAccess) messages sent by the Inetinfo.exe process. The queues should be under 10 at all times.<br>
+<br>
+The Client Out Queue Length (SMTP) performance counter indicates the number of messages in the queue that contains Simple Mail Transfer Protocol (SMTP) messages sent by the Inetinfo.exe process. The queues should be under 50 at all times unless there is a mail queue.
+
+]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\Epoxy(*)\Client Out Queue Length" COLLECTIONVARNAME="EpoxyClientOutQueueLengthALL" EXPRESSIONPATH="\Epoxy(*)\Client Out Queue Length" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Epoxy(*)\Client Out Queue Length" ISTHRESHOLDSADDED="False" DATASOURCE="\Epoxy(*)\Client Out Queue Length" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Store Out Queue Length" ENABLED="True" CATEGORY="Epoxy" PRIMARYDATASOURCE="\Epoxy(*)\Store Out Queue Length" ID="{e2791e80-59b3-4be7-b63e-ce33f938a9e0}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The Client Out Queue Length (SMTP) performance counter indicates the number of messages in the queue that contains Simple Mail Transfer Protocol (SMTP) messages sent by the Inetinfo.exe process. The queues should be under 50 at all times unless there is a mail queue.<br>
+<br>
+The Store Out Queue Length (SMTP) performance counter indicates the number of messages in the queue that contains Simple Mail Transfer Protocol (SMTP) messages sent by the Store.exe process. The queues should be under 50 at all times unless there is a mail queue.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\Epoxy(*)\Store Out Queue Length" COLLECTIONVARNAME="EpoxyStoreOutQueueLengthALL" EXPRESSIONPATH="\Epoxy(*)\Store Out Queue Length" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Epoxy(*)\Store Out Queue Length" ISTHRESHOLDSADDED="False" DATASOURCE="\Epoxy(*)\Store Out Queue Length" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Exchmem: Number of heaps with memory errors" ENABLED="True" CATEGORY="MSExchangeIS" PRIMARYDATASOURCE="\MSExchangeIS\Exchmem: Number of heaps with memory errors" ID="{7caca785-c852-49c7-b463-2145bbe26856}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Indicates the total number of exchmem heaps that failed allocations due to insufficient available memory. ]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeIS\Exchmem: Number of heaps with memory errors" COLLECTIONVARNAME="MSExchangeISExchmemNumberofheapswithmemoryerrors" EXPRESSIONPATH="\MSExchangeIS\Exchmem: Number of heaps with memory errors" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeIS\Exchmem: Number of heaps with memory errors" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeIS\Exchmem: Number of heaps with memory errors" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Exchmem: Number of memory errors" ENABLED="True" CATEGORY="MSExchangeIS" PRIMARYDATASOURCE="\MSExchangeIS\Exchmem: Number of memory errors" ID="{737ef62b-58d9-43eb-aa1b-85ab653422df}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Indicates the total number of exchmem allocations that could not be satisfied by available memory. ]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeIS\Exchmem: Number of memory errors" COLLECTIONVARNAME="MSExchangeISExchmemNumberofmemoryerrors" EXPRESSIONPATH="\MSExchangeIS\Exchmem: Number of memory errors" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeIS\Exchmem: Number of memory errors" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeIS\Exchmem: Number of memory errors" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Exchmem: Number of Additional Heaps" ENABLED="True" CATEGORY="MSExchangeIS" PRIMARYDATASOURCE="\MSExchangeIS\Exchmem: Number of Additional Heaps" ID="{9bf852a4-0663-48e8-bf47-99bf675bea25}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Indicates the number of exchmem heaps created by store after startup. ]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeIS\Exchmem: Number of Additional Heaps" COLLECTIONVARNAME="MSExchangeISExchmemNumberofAdditionalHeaps" EXPRESSIONPATH="\MSExchangeIS\Exchmem: Number of Additional Heaps" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeIS\Exchmem: Number of Additional Heaps" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeIS\Exchmem: Number of Additional Heaps" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Mailbox Send Queue Size" ENABLED="True" CATEGORY="MSExchangeIS Mailbox" PRIMARYDATASOURCE="\MSExchangeIS Mailbox(*)\Send Queue Size" ID="{71011cc5-96ec-4f32-94b8-5a09031023cc}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Send Queue Size is the number of messages in the mailbox store's send queue.<br>
+<br>
+This counter should remain at zero during normal operations.  ]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeIS Mailbox(*)\Send Queue Size" COLLECTIONVARNAME="MSExchangeISMailboxSendQueueSizeALL" EXPRESSIONPATH="\MSExchangeIS Mailbox(*)\Send Queue Size" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeIS Mailbox(*)\Send Queue Size" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeIS Mailbox(*)\Send Queue Size" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Mailbox Receive Queue Size" ENABLED="True" CATEGORY="MSExchangeIS Mailbox" PRIMARYDATASOURCE="\MSExchangeIS Mailbox(*)\Receive Queue Size" ID="{938ff8e8-759f-4fff-8a3d-940411acd34d}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Receive Queue Size is the number of messages in the mailbox store's receive queue.<br>
+<br>
+This counter should remain at zero during normal operations.  ]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeIS Mailbox(*)\Receive Queue Size" COLLECTIONVARNAME="MSExchangeISMailboxReceiveQueueSizeALL" EXPRESSIONPATH="\MSExchangeIS Mailbox(*)\Receive Queue Size" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeIS Mailbox(*)\Receive Queue Size" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeIS Mailbox(*)\Receive Queue Size" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Local Delivery Rate" ENABLED="True" CATEGORY="MSExchangeIS Mailbox" PRIMARYDATASOURCE="\MSExchangeIS Mailbox(*)\Local Delivery Rate" ID="{92b3ae5b-809f-4076-83cf-b36ce158cb02}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Local Delivery Rate indicates the rate at which messages are being delivered locally.
+]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeIS Mailbox(*)\Local Delivery Rate" COLLECTIONVARNAME="MSExchangeISMailboxLocalDeliveryRateALL" EXPRESSIONPATH="\MSExchangeIS Mailbox(*)\Local Delivery Rate" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeIS Mailbox(*)\Local Delivery Rate" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeIS Mailbox(*)\Local Delivery Rate" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Folder Opens/sec" ENABLED="True" CATEGORY="MSExchangeIS Mailbox" PRIMARYDATASOURCE="\MSExchangeIS Mailbox(*)\Folder Opens/sec" ID="{2e5c1720-8ebe-4fa8-8d85-f929a6cc1738}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Folder Opens/sec indicates the rate that requests to open folders are submitted to the Exchange store. 
+
+]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeIS Mailbox(*)\Folder Opens/sec" COLLECTIONVARNAME="MSExchangeISMailboxFolderOpenssecALL" EXPRESSIONPATH="\MSExchangeIS Mailbox(*)\Folder Opens/sec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeIS Mailbox(*)\Folder Opens/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeIS Mailbox(*)\Folder Opens/sec" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Message Opens/sec" ENABLED="True" CATEGORY="MSExchangeIS Mailbox" PRIMARYDATASOURCE="\MSExchangeIS Mailbox(*)\Message Opens/sec" ID="{1c3bb02a-0378-4c4c-ab9b-b8f6eb9de8a5}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Message Opens/sec indicates the rate that requests to open messages are submitted to the Exchange store.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeIS Mailbox(*)\Message Opens/sec" COLLECTIONVARNAME="MSExchangeISMailboxMessageOpenssecALL" EXPRESSIONPATH="\MSExchangeIS Mailbox(*)\Message Opens/sec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeIS Mailbox(*)\Message Opens/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeIS Mailbox(*)\Message Opens/sec" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Public Send Queue Size" ENABLED="True" CATEGORY="MSExchangeIS Public" PRIMARYDATASOURCE="\MSExchangeIS Public(*)\Send Queue Size" ID="{7121bf80-7e96-4997-a160-e22d4d9b0654}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Send Queue Size is the number of messages in the public store's send queue.<br>
+<br>
+This counter should remain at zero during normal operations. ]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeIS Public(*)\Send Queue Size" COLLECTIONVARNAME="MSExchangeISPublicSendQueueSizeALL" EXPRESSIONPATH="\MSExchangeIS Public(*)\Send Queue Size" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeIS Public(*)\Send Queue Size" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeIS Public(*)\Send Queue Size" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Public Receive Queue Size" ENABLED="True" CATEGORY="MSExchangeIS Public" PRIMARYDATASOURCE="\MSExchangeIS Public(*)\Receive Queue Size" ID="{5f70b61b-ee5e-4e61-a8df-f073c3e394ab}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Receive Queue Size is the number of messages in the public store's receive queue. <br>
+<br>
+This counter should remain at zero during normal operations.  
+]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeIS Public(*)\Receive Queue Size" COLLECTIONVARNAME="MSExchangeISPublicReceiveQueueSizeALL" EXPRESSIONPATH="\MSExchangeIS Public(*)\Receive Queue Size" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeIS Public(*)\Receive Queue Size" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeIS Public(*)\Receive Queue Size" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Public Replication Receive Queue Size" ENABLED="True" CATEGORY="MSExchangeIS Public" PRIMARYDATASOURCE="\MSExchangeIS Public(*)\Replication Receive Queue Size" ID="{f0f1ea55-01a0-4f86-a756-1a1cff9a364c}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Indicates the number of replication messages waiting to be processed. <br>
+<br>
+This value should not go above 100. ]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeIS Public(*)\Replication Receive Queue Size" COLLECTIONVARNAME="MSExchangeISPublicReplicationReceiveQueueSizeALL" EXPRESSIONPATH="\MSExchangeIS Public(*)\Replication Receive Queue Size" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeIS Public(*)\Replication Receive Queue Size" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeIS Public(*)\Replication Receive Queue Size" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Slow Findrow Rate" ENABLED="True" CATEGORY="MSExchangeIS Mailbox" PRIMARYDATASOURCE="\MSExchangeIS Mailbox(*)\Slow Findrow Rate" ID="{2cd1c13f-7238-4f94-9d4d-42d9d0c7b197}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeIS Mailbox(*)\Slow Findrow Rate" COLLECTIONVARNAME="MSExchangeISMailboxSlowFindrowRateALL" EXPRESSIONPATH="\MSExchangeIS Mailbox(*)\Slow Findrow Rate" DATATYPE="integer">
+      <EXCLUDE INSTANCE="_Total" />
+    </DATASOURCE>
+    <CHART CHARTTITLE="\MSExchangeIS Mailbox(*)\Slow Findrow Rate" ISTHRESHOLDSADDED="True" DATASOURCE="\MSExchangeIS Mailbox(*)\Slow Findrow Rate" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $MSExchangeISMailboxSlowFindrowRateALL -MinThreshold 2 -MaxThreshold 9 -IsOperatorGreaterThan $True -UseMaxValue $False]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $MSExchangeISMailboxSlowFindrowRateALL -MinThreshold 9 -MaxThreshold 19.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Client search engines moderate use" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $MSExchangeISMailboxSlowFindrowRateALL -Operator 'gt' -Threshold 2]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="Client search engines may be affecting server performance" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $MSExchangeISMailboxSlowFindrowRateALL -Operator 'gt' -Threshold 9]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The rate at which the slower FindRow has to be used in the store.<br>
+<br>
+If these values indicate a warning or critical error, then Desktop search engines might be having an adverse affect on Exchange server performance. If this is the case, then have the clients change their profiles to cached mode instead of online mode. Doing this will take the processing time off of the server and put it on the client by using the local desktop search instead of querying the server directly that generates a lot of RPC requests to the server.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="RPC Operations/sec" ENABLED="True" CATEGORY="MSExchangeIS" PRIMARYDATASOURCE="\MSExchangeIS\RPC Operations/sec" ID="{b88257cb-abf0-40f8-ba1a-7aee08c0d506}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeIS\RPC Operations/sec" COLLECTIONVARNAME="MSExchangeISRPCOperationssec" EXPRESSIONPATH="\MSExchangeIS\RPC Operations/sec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeIS\RPC Operations/sec" ISTHRESHOLDSADDED="True" DATASOURCE="\MSExchangeIS\RPC Operations/sec" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $MSExchangeISRPCOperationssec -MinThreshold 1000 -MaxThreshold 1100.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="High RPC Operations/sec detected" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $MSExchangeISRPCOperationssec -Operator 'gt' -Threshold 1000]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The RPC Operations/sec performance counter shows the rate at which remote procedure call (RPC) operations occur. The RPC Operations/sec performance counter is a good rate counter to measure Exchange Server workload because all MAPI-based actions use the RPC protocol. 
+
+]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="RPC Requests" ENABLED="True" CATEGORY="MSExchangeIS" PRIMARYDATASOURCE="\MSExchangeIS\RPC Requests" ID="{601d059d-c245-4e89-baf1-1124d9389eb3}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeIS\RPC Requests" COLLECTIONVARNAME="MSExchangeISRPCRequests" EXPRESSIONPATH="\MSExchangeIS\RPC Requests" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeIS\RPC Requests" ISTHRESHOLDSADDED="True" DATASOURCE="\MSExchangeIS\RPC Requests" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $MSExchangeISRPCRequests -MinThreshold 15 -MaxThreshold 70 -IsOperatorGreaterThan $True -UseMaxValue $False]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $MSExchangeISRPCRequests -MinThreshold 70 -MaxThreshold 99.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="RPC requests are high" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $MSExchangeISRPCRequests -Operator 'gt' -Threshold 15]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="High RPC Requests Detected" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $MSExchangeISRPCRequests -Operator 'gt' -Threshold 70]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The RPC Requests performance counter indicates the number of MAPI remote procedure call (RPC), or client, requests that are currently being processed by the Microsoft Exchange Information Store service. <br>
+<br>
+The average value of the RPC Requests performance counter should be under 30 at all times. By default, the maximum value for RPC requests is 100. Therefore, unless it is configured otherwise, the Microsoft Exchange Information Store service can service only 100 RPC Requests at the same time before it rejects client requests. 
+
+]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="RPC Averaged Latency" ENABLED="True" CATEGORY="MSExchangeIS" PRIMARYDATASOURCE="\MSExchangeIS\RPC Averaged Latency" ID="{aa622052-1e00-462e-ace4-f3e5e1c15160}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeIS\RPC Averaged Latency" COLLECTIONVARNAME="MSExchangeISRPCAveragedLatency" EXPRESSIONPATH="\MSExchangeIS\RPC Averaged Latency" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeIS\RPC Averaged Latency" ISTHRESHOLDSADDED="True" DATASOURCE="\MSExchangeIS\RPC Averaged Latency" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $MSExchangeISRPCAveragedLatency -MinThreshold 50 -MaxThreshold 100 -IsOperatorGreaterThan $True -UseMaxValue $False]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $MSExchangeISRPCAveragedLatency -MinThreshold 100 -MaxThreshold 119.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="RPC Averaged Latency is high" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $MSExchangeISRPCAveragedLatency -Operator 'gt' -Threshold 50]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="RPC Averaged Latency Critical" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $MSExchangeISRPCAveragedLatency -Operator 'gt' -Threshold 100]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The RPC Averaged Latency performance counter shows the remote procedure call (RPC) latency, in milliseconds, averaged for the past 1,024 packets. The maximum value of the RPC Averaged Latency performance counter should be less than 50 milliseconds at all times.
+
+]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="User Count" ENABLED="True" CATEGORY="MSExchangeIS" PRIMARYDATASOURCE="\MSExchangeIS\User Count" ID="{9e289e0f-715d-461d-b2de-e6ad72b9294e}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[User Count is the actual count of users (not connections) that are currently using the Exchange store. Performance measurement must always be correlated with current user numbers when interpreting this counter. ]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeIS\User Count" COLLECTIONVARNAME="MSExchangeISUserCount" EXPRESSIONPATH="\MSExchangeIS\User Count" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeIS\User Count" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeIS\User Count" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Virus Scan Queue Length" ENABLED="True" CATEGORY="MSExchangeIS" PRIMARYDATASOURCE="\MSExchangeIS\Virus Scan Queue Length" ID="{5169f59f-bf83-42db-bfe3-169dc9f0a240}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeIS\Virus Scan Queue Length" COLLECTIONVARNAME="MSExchangeISVirusScanQueueLength" EXPRESSIONPATH="\MSExchangeIS\Virus Scan Queue Length" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeIS\Virus Scan Queue Length" ISTHRESHOLDSADDED="True" DATASOURCE="\MSExchangeIS\Virus Scan Queue Length" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $MSExchangeISVirusScanQueueLength -MinThreshold 100 -MaxThreshold 500 -IsOperatorGreaterThan $True -UseMaxValue $False]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $MSExchangeISVirusScanQueueLength -MinThreshold 500 -MaxThreshold 599.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Virus Scanner taking excessive time scanning messages" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $MSExchangeISVirusScanQueueLength -Operator 'gt' -Threshold 100]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="Virus Scanner performance critical" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $MSExchangeISVirusScanQueueLength -Operator 'gt' -Threshold 500]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The Virus Scan Queue Length performance counter indicates the current number of outstanding requests that are queued for virus scanning. <br>
+<br>
+If the Virus Scan Queue Length counter increases with RPC requests for MSExchangeIS, then a potential bottleneck could be the Antivirus software <br>
+<br>
+If this value is at a warning or critical stage, then this can indicate performance issues related to the following: <br>
+<br>
+- Decreased server performance, usually caused by a CPU bottleneck.<br>
+- Larger than usual server load.<br>
+- An out-of-date virus scanning engine.<br>
+- An incorrectly configured virus scanning engine.<br>
+]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="VM Largest Block Size" ENABLED="True" CATEGORY="MSExchangeIS" PRIMARYDATASOURCE="\MSExchangeIS\VM Largest Block Size" ID="{70dd815f-bcfd-421d-81c0-4e1a225f968f}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeIS\VM Largest Block Size" COLLECTIONVARNAME="MSExchangeISVMLargestBlockSize" EXPRESSIONPATH="\MSExchangeIS\VM Largest Block Size" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeIS\VM Largest Block Size" ISTHRESHOLDSADDED="True" DATASOURCE="\MSExchangeIS\VM Largest Block Size" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $MSExchangeISVMLargestBlockSize -MinThreshold 16384000 -MaxThreshold 32768000 -IsOperatorGreaterThan $False -UseMaxValue $False]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $MSExchangeISVMLargestBlockSize -MinThreshold 0.001 -MaxThreshold 16384000 -IsOperatorGreaterThan $False -UseMaxValue $False]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Free blocks of virtual memory getting low" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $MSExchangeISVMLargestBlockSize -Operator 'lt' -Threshold 32768000]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="Free blocks of virtual memory critical" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $MSExchangeISVMLargestBlockSize -Operator 'lt' -Threshold 16384000]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[Displays the size (in bytes) of the largest free block of virtual memory. This counter is a line that slopes down while virtual memory is consumed. When this counter drops below 32 MB, Exchange 2003 logs a warning (Event ID=9582) in the event log. When this counter drops below 16 MB, Exchange logs an error. ]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="VM Total 16MB Free Blocks" ENABLED="True" CATEGORY="MSExchangeIS" PRIMARYDATASOURCE="\MSExchangeIS\VM Total 16MB Free Blocks" ID="{006a0df6-b1ee-4429-a745-66b0e1866e75}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeIS\VM Total 16MB Free Blocks" COLLECTIONVARNAME="MSExchangeISVMTotal16MBFreeBlocks" EXPRESSIONPATH="\MSExchangeIS\VM Total 16MB Free Blocks" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeIS\VM Total 16MB Free Blocks" ISTHRESHOLDSADDED="True" DATASOURCE="\MSExchangeIS\VM Total 16MB Free Blocks" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $MSExchangeISVMTotal16MBFreeBlocks -MinThreshold 2 -MaxThreshold 4 -IsOperatorGreaterThan $False -UseMaxValue $False]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $MSExchangeISVMTotal16MBFreeBlocks -MinThreshold 0.001 -MaxThreshold 2 -IsOperatorGreaterThan $False -UseMaxValue $False]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="VM Total Free Blocks getting low" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $MSExchangeISVMTotal16MBFreeBlocks -Operator 'lt' -Threshold 4]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="VM Total Free Blocks critical" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $MSExchangeISVMTotal16MBFreeBlocks -Operator 'lt' -Threshold 2]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[Displays the total number of free virtual memory blocks that are greater than or equal to 16 MB. This counter displays a line that may first rise, but then may eventually fall when free memory becomes more fragmented. It starts by displaying a few large blocks of virtual memory and may progress to displaying a greater number of separate, smaller blocks. When these blocks become smaller than 16 MB, the line begins to fall. ]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="VM Total Free Blocks" ENABLED="True" CATEGORY="MSExchangeIS" PRIMARYDATASOURCE="\MSExchangeIS\VM Total Free Blocks" ID="{ddfbc598-437a-4356-b200-2da354f6bb7b}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeIS\VM Total Free Blocks" COLLECTIONVARNAME="MSExchangeISVMTotalFreeBlocks" EXPRESSIONPATH="\MSExchangeIS\VM Total Free Blocks" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeIS\VM Total Free Blocks" ISTHRESHOLDSADDED="True" DATASOURCE="\MSExchangeIS\VM Total Free Blocks" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $MSExchangeISVMTotalFreeBlocks -MinThreshold 2 -MaxThreshold 4 -IsOperatorGreaterThan $False -UseMaxValue $False]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $MSExchangeISVMTotalFreeBlocks -MinThreshold 0.001 -MaxThreshold 2 -IsOperatorGreaterThan $False -UseMaxValue $False]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="VM Total Free Block getting low" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $MSExchangeISVMTotalFreeBlocks -Operator 'lt' -Threshold 4]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="VM Total Free Blocks critical" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $MSExchangeISVMTotalFreeBlocks -Operator 'lt' -Threshold 2]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[Displays the total number of free virtual memory blocks regardless of size. This counter displays a line that may first rise, but then may eventually fall when free memory first becomes fragmented into smaller blocks, and then when these blocks are consumed. Use this counter to measure the degree to which available virtual memory is being fragmented. The average block size is the Process\Virtual Bytes\STORE instance divided by MSExchangeIS\VM Total Free Blocks. 
+]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="VM Total Large Free Block Bytes" ENABLED="True" CATEGORY="MSExchangeIS" PRIMARYDATASOURCE="\MSExchangeIS\VM Total Large Free Block Bytes" ID="{22003b91-2a71-4601-b4af-81d8245b0998}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeIS\VM Total Large Free Block Bytes" COLLECTIONVARNAME="MSExchangeISVMTotalLargeFreeBlockBytes" EXPRESSIONPATH="\MSExchangeIS\VM Total Large Free Block Bytes" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeIS\VM Total Large Free Block Bytes" ISTHRESHOLDSADDED="True" DATASOURCE="\MSExchangeIS\VM Total Large Free Block Bytes" CHARTLABELS="instance">
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $MSExchangeISVMTotalLargeFreeBlockBytes -MinThreshold 0.001 -MaxThreshold 51200000 -IsOperatorGreaterThan $False -UseMaxValue $False]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Total Free Block Bytes critical" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $MSExchangeISVMTotalLargeFreeBlockBytes -Operator 'lt' -Threshold 51200000]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[Displays the sum in bytes of all the free virtual memory blocks that are greater than or equal to 16 MB. This counter monitors store memory fragmentation and forms a line that slopes down when memory is consumed. On a healthy server, the line should stay above 50 MB. ]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Restricted View Cache Miss Rate" ENABLED="True" CATEGORY="MSExchangeIS Mailbox" PRIMARYDATASOURCE="\MSExchangeIS Mailbox(*)\Restricted View Cache Miss Rate" ID="{ce0d4882-c259-4d41-b068-a0dd32071484}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The rate at which restricted views are created in the mailbox store.<br>
+<br>
+If this value is high, then we might be creating a lot of search restrictions instead of reusing cached views in the store causing performance delays at the client and server.<br>
+<br>
+If users are opening other users calendars with more than 5,000 calendar items and the Outlook versions being utilized is Outlook 2003 SP1 or earlier, then applying http://support.microsoft.com/?id=896418 may help this situation.<br>
+<br>
+Another possible solution is to use the "Reset Views" registry key on the server per http://support.microsoft.com/?id=216076 to see if performance increases at that point. If that helps, then lowering the "Aging Keep Time" on the server may help.<br>
+<br>
+If the delay is still occurring, then we may have to increase msExchMaxCachedViews per https://technet.microsoft.com/en-us/library/aa996115.aspx to allow more search restrictions to be created in the store. It is recommended to increase this value to a maximum of 20 search folders. If a larger setting is required, it is recommended to move mailboxes that are exhibiting this problem to their own Storage Group to help alleviate some of the pain. <br>
+<br>
+For a client side fix for a single folder, you can use MFCMAPI to modify the PR_MAX_CACHED_VIEWS on the folder itself increasing the amount of cached views available for that folder]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeIS Mailbox(*)\Restricted View Cache Miss Rate" COLLECTIONVARNAME="MSExchangeISMailboxRestrictedViewCacheMissRateALL" EXPRESSIONPATH="\MSExchangeIS Mailbox(*)\Restricted View Cache Miss Rate" DATATYPE="integer" />
+    <CHART CHARTTITLE="MSExchangeIS Mailbox(*)\Restricted View Cache Miss Rate" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeIS Mailbox(*)\Restricted View Cache Miss Rate" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Search Task Rate" ENABLED="True" CATEGORY="MSExchangeIS Mailbox" PRIMARYDATASOURCE="\MSExchangeIS Mailbox(*)\Search Task Rate" ID="{56e25cd4-4550-45fe-9d75-00129c86c397}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The number of search tasks created per second. <br>
+<br>
+The counter increments when we have a DEEP traversal of the folders in a users mailbox (search for all subfolders) searching for a string in the inbox or subject.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeIS Mailbox(*)\Search Task Rate" COLLECTIONVARNAME="MSExchangeISMailboxSearchTaskRateALL" EXPRESSIONPATH="\MSExchangeIS Mailbox(*)\Search Task Rate" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeIS Mailbox(*)\Search Task Rate" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeIS Mailbox(*)\Search Task Rate" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Categorizer Queue Length" ENABLED="True" CATEGORY="SMTP Server" PRIMARYDATASOURCE="\SMTP Server(*)\Categorizer Queue Length" ID="{01c97047-3a5f-40e8-8020-bc124e6d39f5}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\SMTP Server(*)\Categorizer Queue Length" COLLECTIONVARNAME="SMTPServerCategorizerQueueLengthALL" EXPRESSIONPATH="\SMTP Server(*)\Categorizer Queue Length" DATATYPE="integer" />
+    <CHART CHARTTITLE="\SMTP Server(*)\Categorizer Queue Length" ISTHRESHOLDSADDED="True" DATASOURCE="\SMTP Server(*)\Categorizer Queue Length" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $SMTPServerCategorizerQueueLengthALL -MinThreshold 3 -MaxThreshold 10 -IsOperatorGreaterThan $True -UseMaxValue $False]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $SMTPServerCategorizerQueueLengthALL -MinThreshold 10 -MaxThreshold 19.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Global Catalog search times slow" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $SMTPServerCategorizerQueueLengthALL -Operator 'gt' -Threshold 3]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="Global Catalog search times critical" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $SMTPServerCategorizerQueueLengthALL -Operator 'gt' -Threshold 10]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The SMTP Server\Categorizer Queue Length counter indicates the number of messages in the Simple Mail Transfer Protocol (SMTP) Categorizer queue waiting for directory service attribute searches using global catalog servers.
+<br><br>
+The categorizer performs the following core operations: 
+<br>
+- Resolves and validates all recipients. <br>
+- Determines limits and restrictions for all recipients. <br>
+- Expands distribution lists if that is required. <br>
+- Determines whether the message is for local or remote delivery<br>
+<br><br>
+This error indicates that there may be problems with server or network performance, Directory Service Access (DSAccess), the Active DirectoryÃ‚Â® directory service, or outages with key servers in the Exchange Server organization. An increase in the Categorizer Queue Length counter may indicate a either a slow response or no response in consulting Active Directory or in handing off messages for local delivery or SMTP. This might cause delayed mail delivery.
+
+]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Local Queue Length" ENABLED="True" CATEGORY="SMTP Server" PRIMARYDATASOURCE="\SMTP Server(*)\Local Queue Length" ID="{5630efa8-f44a-4daa-b772-fd8c7f4a52be}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\SMTP Server(*)\Local Queue Length" COLLECTIONVARNAME="SMTPServerLocalQueueLengthALL" EXPRESSIONPATH="\SMTP Server(*)\Local Queue Length" DATATYPE="integer" />
+    <CHART CHARTTITLE="\SMTP Server(*)\Local Queue Length" ISTHRESHOLDSADDED="True" DATASOURCE="\SMTP Server(*)\Local Queue Length" CHARTLABELS="instance">
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $SMTPServerLocalQueueLengthALL -MinThreshold 1000 -MaxThreshold 1009.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Local Queue Length Critical" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $SMTPServerLocalQueueLengthALL -Operator 'gt' -Threshold 1000]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The SMTP Server\Local Queue Length counter indicates the number of messages in the SMTP queue for local delivery. As a general guideline, the maximum value should be less than 1,000. The queue should remain steady near its average with a small amount of variance.
+<br><br>
+If you are seeing high queues for Local Delivery, then there may be performance issues on the server causing slow message delivery locally to the store. Check other counters for Disk Latencies, High CPU, LDAP latencies, and any Antivirus software that might be interacting with the store.
+<br><br>
+If this server houses a journaling mailbox, then ensure that these mailboxes do not contain high items counts as having millions of messages in this mailbox could cause slow performance with no errors being logged.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Messages Delivered/sec" ENABLED="True" CATEGORY="SMTP Server" PRIMARYDATASOURCE="\SMTP Server(*)\Messages Delivered/sec" ID="{0fa9e052-6523-4893-bd81-d679eebc4ab6}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Messages Delivered/sec indicates the rate that messages are being delivered to local mailboxes.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\SMTP Server(*)\Messages Delivered/sec" COLLECTIONVARNAME="SMTPServerMessagesDeliveredsecALL" EXPRESSIONPATH="\SMTP Server(*)\Messages Delivered/sec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\SMTP Server(*)\Messages Delivered/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\SMTP Server(*)\Messages Delivered/sec" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Remote Queue Length" ENABLED="True" CATEGORY="SMTP Server" PRIMARYDATASOURCE="\SMTP Server(*)\Remote Queue Length" ID="{b75ca466-8828-4357-b1d5-2b54755ee3d2}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\SMTP Server(*)\Remote Queue Length" COLLECTIONVARNAME="SMTPServerRemoteQueueLengthALL" EXPRESSIONPATH="\SMTP Server(*)\Remote Queue Length" DATATYPE="integer" />
+    <CHART CHARTTITLE="\SMTP Server(*)\Remote Queue Length" ISTHRESHOLDSADDED="True" DATASOURCE="\SMTP Server(*)\Remote Queue Length" CHARTLABELS="instance">
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $SMTPServerRemoteQueueLengthALL -MinThreshold 1000 -MaxThreshold 1009.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Remote Queue Length critical" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $SMTPServerRemoteQueueLengthALL -Operator 'gt' -Threshold 1000]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The SMTP Server\Remote Queue Length counter indicates the number of messages in the SMTP queue for remote delivery. As a general guideline, the maximum value should be less than 1,000. The queue should remain steady near its average with small variance.
+
+]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="DSAccess Processes LDAP Read Time Analysis" ENABLED="True" CATEGORY="MSExchangeDSAccess Processes" PRIMARYDATASOURCE="\MSExchangeDSAccess Processes(*)\LDAP Read Time" ID="{62473cb2-2cb6-41cd-b177-16f5717a9997}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeDSAccess Processes(*)\LDAP Read Time" COLLECTIONVARNAME="MSExchangeDSAccessProcessesLDAPReadTimeALL" EXPRESSIONPATH="\MSExchangeDSAccess Processes(*)\LDAP Read Time" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeDSAccess Processes(*)\LDAP Read Time" ISTHRESHOLDSADDED="True" DATASOURCE="\MSExchangeDSAccess Processes(*)\LDAP Read Time" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $MSExchangeDSAccessProcessesLDAPReadTimeALL -MinThreshold 50 -MaxThreshold 100 -IsOperatorGreaterThan $True -UseMaxValue $False]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $MSExchangeDSAccessProcessesLDAPReadTimeALL -MinThreshold 100 -MaxThreshold 109.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Average LDAP Read times are higher than normal" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $MSExchangeDSAccessProcessesLDAPReadTimeALL -Operator 'gt' -Threshold 50]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="High LDAP Read Times detected" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $MSExchangeDSAccessProcessesLDAPReadTimeALL -Operator 'gt' -Threshold 100]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The LDAP Read Time performance counter shows the time in milliseconds that a Lightweight Directory Access Protocol (LDAP) read request takes to be fulfilled. <br>
+<br>
+The average value should be under 50 milliseconds. Maximum values should not exceed 100 milliseconds. <br>
+<br>
+High LDAP read latencies can be caused by high remote procedure call (RPC) latencies and by increasing queues. High LDAP read latencies generally indicate one of the following problems: <br>
+<br>
+- A performance problem with the network connection to the domain controller.<br>
+- Performance problems with the domain controller itself. <br>
+- Network cards, switches, etc. are not hard coded to a particular speed/duplex setting.<br>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="DSAccess Processes LDAP Search Time Analysis" ENABLED="True" CATEGORY="MSExchangeDSAccess Processes" PRIMARYDATASOURCE="\MSExchangeDSAccess Processes(*)\LDAP Search Time" ID="{c6233165-6c6e-4484-870d-64091875705d}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeDSAccess Processes(*)\LDAP Search Time" COLLECTIONVARNAME="MSExchangeDSAccessProcessesLDAPSearchTimeALL" EXPRESSIONPATH="\MSExchangeDSAccess Processes(*)\LDAP Search Time" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeDSAccess Processes(*)\LDAP Search Time" ISTHRESHOLDSADDED="True" DATASOURCE="\MSExchangeDSAccess Processes(*)\LDAP Search Time" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $MSExchangeDSAccessProcessesLDAPSearchTimeALL -MinThreshold 50 -MaxThreshold 100 -IsOperatorGreaterThan $True -UseMaxValue $False]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $MSExchangeDSAccessProcessesLDAPSearchTimeALL -MinThreshold 100 -MaxThreshold 109.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Average LDAP Search times are higher than normal" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $MSExchangeDSAccessProcessesLDAPSearchTimeALL -Operator 'gt' -Threshold 50]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="High LDAP search times detected" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $MSExchangeDSAccessProcessesLDAPSearchTimeALL -Operator 'gt' -Threshold 100]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The LDAP Search Time performance counter shows the time in milliseconds that a Lightweight Directory Access Protocol (LDAP) search request takes to be fulfilled. <br>
+<br>
+The average value should be under 50 milliseconds. Maximum values should not exceed 100 milliseconds. <br>
+<br>
+High LDAP search latencies can be caused by high remote procedure call (RPC) latencies and by increasing queues. High LDAP search latencies generally indicate one of the following problems: <br>
+<br>
+- A performance problem with the network connection to the domain controller.<br>
+- Performance problems with the domain controller itself. <br>
+- Network cards, switches, etc. are not hard coded to a particular speed/duplex setting.<br>
+]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Virus Scan Files Scanned/Sec" ENABLED="True" CATEGORY="MSExchangeIS" PRIMARYDATASOURCE="\MSExchangeIS\Virus Scan Files Scanned/Sec" ID="{c4a2edfe-3840-4637-bcf2-2950c6236f54}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[This is the rate at which attachments are being scanned.
+]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeIS\Virus Scan Files Scanned/Sec" COLLECTIONVARNAME="MSExchangeISVirusScanFilesScannedSec" EXPRESSIONPATH="\MSExchangeIS\Virus Scan Files Scanned/Sec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeIS\Virus Scan Files Scanned/Sec" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeIS\Virus Scan Files Scanned/Sec" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Virus Scan Messages Processed/Sec" ENABLED="True" CATEGORY="MSExchangeIS" PRIMARYDATASOURCE="\MSExchangeIS\Virus Scan Messages Processed/Sec" ID="{7064ba52-dbac-430e-8b24-a77176ec0a53}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[This is the rate at which messages are processed regardless of resulting status (PRESENT, CLEANED, NOT_PRESENT)
+]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeIS\Virus Scan Messages Processed/Sec" COLLECTIONVARNAME="MSExchangeISVirusScanMessagesProcessedSec" EXPRESSIONPATH="\MSExchangeIS\Virus Scan Messages Processed/Sec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeIS\Virus Scan Messages Processed/Sec" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeIS\Virus Scan Messages Processed/Sec" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="DSAccess LDAP Search Time Analysis" ENABLED="True" CATEGORY="MSExchangeDSAccess Domain Controllers" PRIMARYDATASOURCE="\MSExchangeDSAccess Domain Controllers(*)\LDAP Search Time" ID="{b8d6787a-3276-422b-a837-2a6fac398b26}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeDSAccess Domain Controllers(*)\LDAP Search Time" COLLECTIONVARNAME="MSExchangeDSAccessDomainControllersLDAPSearchTimeALL" EXPRESSIONPATH="\MSExchangeDSAccess Domain Controllers(*)\LDAP Search Time" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeDSAccess Domain Controllers(*)\LDAP Search Time" ISTHRESHOLDSADDED="True" DATASOURCE="\MSExchangeDSAccess Domain Controllers(*)\LDAP Search Time" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $MSExchangeDSAccessDomainControllersLDAPSearchTimeALL -MinThreshold 50 -MaxThreshold 100 -IsOperatorGreaterThan $True -UseMaxValue $False]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $MSExchangeDSAccessDomainControllersLDAPSearchTimeALL -MinThreshold 100 -MaxThreshold 109.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Average LDAP Search times are higher than normal" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $MSExchangeDSAccessDomainControllersLDAPSearchTimeALL -Operator 'gt' -Threshold 50]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="High LDAP search times detected" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $MSExchangeDSAccessDomainControllersLDAPSearchTimeALL -Operator 'gt' -Threshold 100]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The LDAP Search Time performance counter shows the time in milliseconds that a Lightweight Directory Access Protocol (LDAP) search request takes to be fulfilled. <br>
+<br>
+The average value should be under 50 milliseconds. Maximum values should not exceed 100 milliseconds. <br>
+<br>
+High LDAP search latencies can be caused by high remote procedure call (RPC) latencies and by increasing queues. High LDAP search latencies generally indicate one of the following problems: <br>
+<br>
+- A performance problem with the network connection to the domain controller.<br>
+- Performance problems with the domain controller itself. <br>
+- Network cards, switches, etc. are not hard coded to a particular speed/duplex setting.<br>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="DSAccess LDAP Read Time Analysis" ENABLED="True" CATEGORY="MSExchangeDSAccess Domain Controllers" PRIMARYDATASOURCE="\MSExchangeDSAccess Domain Controllers(*)\LDAP Read Time" ID="{e1a5a515-2dc8-4561-9aa3-849044a76079}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeDSAccess Domain Controllers(*)\LDAP Read Time" COLLECTIONVARNAME="MSExchangeDSAccessDomainControllersLDAPReadTimeALL" EXPRESSIONPATH="\MSExchangeDSAccess Domain Controllers(*)\LDAP Read Time" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeDSAccess Domain Controllers(*)\LDAP Read Time" ISTHRESHOLDSADDED="True" DATASOURCE="\MSExchangeDSAccess Domain Controllers(*)\LDAP Read Time" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $MSExchangeDSAccessDomainControllersLDAPReadTimeALL -MinThreshold 50 -MaxThreshold 59.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Average LDAP Read times are higher than normal" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $MSExchangeDSAccessDomainControllersLDAPReadTimeALL -Operator 'gt' -Threshold 50]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The LDAP Read Time performance counter shows the time in milliseconds that a Lightweight Directory Access Protocol (LDAP) read request takes to be fulfilled. <br>
+<br>
+The average value should be under 50 milliseconds. Maximum values should not exceed 100 milliseconds. <br>
+<br>
+High LDAP read latencies can be caused by high remote procedure call (RPC) latencies and by increasing queues. High LDAP read latencies generally indicate one of the following problems:<br>
+<br>
+- A performance problem with the network connection to the domain controller.<br>
+- Performance problems with the domain controller itself. <br>
+- Network cards, switches, etc. are not hard coded to a particular speed/duplex setting.<br>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="DSAccess LDAP Read calls/Sec Analysis" ENABLED="True" CATEGORY="MSExchangeDSAccess Domain Controllers" PRIMARYDATASOURCE="\MSExchangeDSAccess Domain Controllers(*)\LDAP Read calls/Sec" ID="{44acc279-20b1-498f-bdab-99b277b9562b}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[LDAP Read calls/Sec is the number of Depth 0 LDAP search calls made by this process per second]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeDSAccess Domain Controllers(*)\LDAP Read calls/Sec" COLLECTIONVARNAME="MSExchangeDSAccessDomainControllersLDAPReadcallsSecALL" EXPRESSIONPATH="\MSExchangeDSAccess Domain Controllers(*)\LDAP Read calls/Sec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeDSAccess Domain Controllers(*)\LDAP Read calls/Sec" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeDSAccess Domain Controllers(*)\LDAP Read calls/Sec" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="DSAccess LDAP Search calls/Sec Analysis" ENABLED="True" CATEGORY="MSExchangeDSAccess Domain Controllers" PRIMARYDATASOURCE="\MSExchangeDSAccess Domain Controllers(*)\LDAP Search calls/Sec" ID="{1c21e5c3-c0a6-4cea-b623-07b332ef8e8a}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[LDAP Search calls/Sec is the number of Depth 1 or 2 LDAP Search calls made by this process per second]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeDSAccess Domain Controllers(*)\LDAP Search calls/Sec" COLLECTIONVARNAME="MSExchangeDSAccessDomainControllersLDAPSearchcallsSecALL" EXPRESSIONPATH="\MSExchangeDSAccess Domain Controllers(*)\LDAP Search calls/Sec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeDSAccess Domain Controllers(*)\LDAP Search calls/Sec" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeDSAccess Domain Controllers(*)\LDAP Search calls/Sec" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Cache Hits/Sec" ENABLED="True" CATEGORY="MSExchangeDSAccess Caches" PRIMARYDATASOURCE="\MSExchangeDSAccess Caches(*)\Cache Hits/Sec" ID="{2a96e9c8-0787-4368-b277-ada39e95ccb5}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Cache Hits/Sec is the number of "object found in cache" events per seconds]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeDSAccess Caches(*)\Cache Hits/Sec" COLLECTIONVARNAME="MSExchangeDSAccessCachesCacheHitsSecALL" EXPRESSIONPATH="\MSExchangeDSAccess Caches(*)\Cache Hits/Sec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeDSAccess Caches(*)\Cache Hits/Sec" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeDSAccess Caches(*)\Cache Hits/Sec" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="LDAP Searches/Sec" ENABLED="True" CATEGORY="MSExchangeDSaccess Caches" PRIMARYDATASOURCE="\MSExchangeDSaccess Caches(*)\LDAP Searches/Sec" ID="{5ce2f37a-45b6-40a6-b3f7-d32028814a41}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[LDAP Searches/Sec is the number of LDAP search requests issued per second]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeDSaccess Caches(*)\LDAP Searches/Sec" COLLECTIONVARNAME="MSExchangeDSaccessCachesLDAPSearchesSecALL" EXPRESSIONPATH="\MSExchangeDSaccess Caches(*)\LDAP Searches/Sec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeDSaccess Caches(*)\LDAP Searches/Sec" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeDSaccess Caches(*)\LDAP Searches/Sec" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Process (System)\% Processor Time" ENABLED="True" CATEGORY="Process" PRIMARYDATASOURCE="\Process(System)\% Processor Time" ID="{d28a4f79-410c-4d65-9f8f-4595f0457b7d}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[% Processor Time is the percentage of elapsed time that all of process threads used the processor to execution instructions. An instruction is the basic unit of execution in a computer, a thread is the object that executes instructions, and a process is the object created when a program is run. Code executed to handle some hardware interrupts and trap conditions are included in this count.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\Process(System)\% Processor Time" COLLECTIONVARNAME="ProcessPercentProcessorTimeSystem" EXPRESSIONPATH="\Process(System)\% Processor Time" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Process(System)\% Processor Time" ISTHRESHOLDSADDED="False" DATASOURCE="\Process(System)\% Processor Time" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Process (Inetinfo)\% Processor Time" ENABLED="True" CATEGORY="Process" PRIMARYDATASOURCE="\Process(inetinfo)\% Processor Time" ID="{3fdd4a87-10a1-4c07-a749-7bd407456337}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[% Processor Time is the percentage of elapsed time that all of process threads used the processor to execution instructions. An instruction is the basic unit of execution in a computer, a thread is the object that executes instructions, and a process is the object created when a program is run. Code executed to handle some hardware interrupts and trap conditions are included in this count.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\Process(inetinfo)\% Processor Time" COLLECTIONVARNAME="ProcessPercentProcessorTimeinetinfo" EXPRESSIONPATH="\Process(inetinfo)\% Processor Time" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Process(inetinfo)\% Processor Time" ISTHRESHOLDSADDED="False" DATASOURCE="\Process(inetinfo)\% Processor Time" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Process (Store)\% Processor Time" ENABLED="True" CATEGORY="Process" PRIMARYDATASOURCE="\Process(store)\% Processor Time" ID="{ea563b3f-c4ec-4dbc-8f9d-dc87a8354aad}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[% Processor Time is the percentage of elapsed time that all of process threads used the processor to execution instructions. An instruction is the basic unit of execution in a computer, a thread is the object that executes instructions, and a process is the object created when a program is run. Code executed to handle some hardware interrupts and trap conditions are included in this count.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\Process(store)\% Processor Time" COLLECTIONVARNAME="ProcessPercentProcessorTimestore" EXPRESSIONPATH="\Process(store)\% Processor Time" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Process(store)\% Processor Time" ISTHRESHOLDSADDED="False" DATASOURCE="\Process(store)\% Processor Time" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Process (emsmta)% Processor Time" ENABLED="True" CATEGORY="Process" PRIMARYDATASOURCE="\Process(emsmta)\% Processor Time" ID="{5f239a0a-0362-4e95-8296-494d6e023005}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[% Processor Time is the percentage of elapsed time that all of process threads used the processor to execution instructions. An instruction is the basic unit of execution in a computer, a thread is the object that executes instructions, and a process is the object created when a program is run. Code executed to handle some hardware interrupts and trap conditions are included in this count.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\Process(emsmta)\% Processor Time" COLLECTIONVARNAME="ProcessPercentProcessorTimeemsmta" EXPRESSIONPATH="\Process(emsmta)\% Processor Time" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Process(emsmta)\% Processor Time" ISTHRESHOLDSADDED="False" DATASOURCE="\Process(emsmta)\% Processor Time" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Slow QP Threads" ENABLED="True" CATEGORY="MSExchangeIS" PRIMARYDATASOURCE="\MSExchangeIS\Slow QP Threads" ID="{ac2099f8-3ba3-4a11-965b-e91e044bbfcb}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeIS\Slow QP Threads" COLLECTIONVARNAME="MSExchangeISSlowQPThreads" EXPRESSIONPATH="\MSExchangeIS\Slow QP Threads" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeIS\Slow QP Threads" ISTHRESHOLDSADDED="True" DATASOURCE="\MSExchangeIS\Slow QP Threads" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $MSExchangeISSlowQPThreads -MinThreshold 1 -MaxThreshold 10 -IsOperatorGreaterThan $True -UseMaxValue $False]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $MSExchangeISSlowQPThreads -MinThreshold 10 -MaxThreshold 19.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Search Folders may be affecting overall server performance" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $MSExchangeISSlowQPThreads -Operator 'gt' -Threshold 1]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="Excessive Search Folder Usage" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $MSExchangeISSlowQPThreads -Operator 'gt' -Threshold 10]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[Number of Query Processor threads currently running unoptimized queries.<br>
+<br>
+An unoptimized search for a string in the textcontext or subject will result a hit of the counter. For example, an OWA user searching in the subject or body field of a particular folder.<br>
+<br>
+If the server is experiencing high CPU utilization for the Information Store process, disk activity is high, RPC requests has a plateau, and this counter is high, you may have an issue where Search folders are causing performance bottlenecks on the server. If users have high items counts and 3rd party application make use of search folders in a users mailbox, this could be a cause. Running an isinteg -dump against an affected mailbox store will help show if there is a Search FID problem.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Slow Search Threads" ENABLED="True" CATEGORY="MSExchangeIS" PRIMARYDATASOURCE="\MSExchangeIS\Slow Search Threads" ID="{e5928d0f-57a3-490f-b92a-08034b28e524}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Number of Search threads currently running unoptimized queries.<br>
+<br>
+This counter can be enabled by setting "Search Flags" to 0 in the registry under each mailbox store. <b>Note: </b> Setting this flag will turn off CI and Query processing causing slower search code to be hit. <br>
+<br>
+<b> This is normally disabled for testing/troubleshooting purposes and this registry key should be removed after the problem has been identified</b><br>
+<br>]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeIS\Slow Search Threads" COLLECTIONVARNAME="MSExchangeISSlowSearchThreads" EXPRESSIONPATH="\MSExchangeIS\Slow Search Threads" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeIS\Slow Search Threads" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeIS\Slow Search Threads" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <INHERITANCE FILEPATH="QuickSystemOverview.xml" />
+  <INHERITANCE FILEPATH="IIS.xml" />
+</PAL>

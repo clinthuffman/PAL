@@ -1,0 +1,22 @@
+<PAL NAME="LogRhythm Log Forwarding Agent" DESCRIPTION="Performance counter thresholds for Log Rhythm Agent forwarding syslog." CONTENTOWNERS="mcsf" FEEDBACKEMAILADDRESS="mcsf@nodelivery.net" VERSION="1.0" PALVERSION="2.0" LANGUAGE="English" LANGUAGECODE="en">
+  <ANALYSIS NAME="LogRhythm Agent Log Processing" ENABLED="True" CATEGORY="LogRhythm System Agent" PRIMARYDATASOURCE="\LogRhythm System Monitor\Syslog TCP Messages Received / Sec" ID="{87878787-7878-8888-7777-000000000001}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\LogRhythm System Monitor\Syslog TCP Messages Received / Sec" COLLECTIONVARNAME="LogRhythmSystemMonitorSyslogTCPMessagesReceivedPerSec" EXPRESSIONPATH="\LogRhythm System Monitor\Syslog TCP Messages Received / Sec" DATATYPE="integer" />
+    <CHART CHARTTITLE="LogRhythm System Monitor - Syslog TCP Messages Received / Sec" ISTHRESHOLDSADDED="True" DATASOURCE="\LogRhythm System Monitor\Syslog TCP Messages Received / Sec" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $LogRhythmSystemMonitorSyslogTCPMessagesReceivedPerSec -MinThreshold 5 -MaxThreshold 1000 -IsOperatorGreaterThan $False-UseMaxValue $False]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $LogRhythmSystemMonitorSyslogTCPMessagesReceivedPerSec -MinThreshold 1 -MaxThreshold 1000 -IsOperatorGreaterThan $False -UseMaxValue $False]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Less than 5" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $LogRhythmSystemMonitorSyslogTCPMessagesReceivedPerSec -Operator 'lt' -Threshold 5]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="Less than 1" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $LogRhythmSystemMonitorSyslogTCPMessagesReceivedPerSec -Operator 'lt' -Threshold 1]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[Counter of TCP Syslogs Received Per Second]]></DESCRIPTION>
+  </ANALYSIS>
+</PAL>

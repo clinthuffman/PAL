@@ -1,0 +1,147 @@
+<PAL NAME="Dynamics AX 2012 AOS and WCF (RTM)" DESCRIPTION="Performance counter thresholds for Dynamics AX 2012." CONTENTOWNERS="Dick Wenning" FEEDBACKEMAILADDRESS="dwenning@promentum.nl" VERSION="1.0.26." PALVERSION="2.0">
+  <ANALYSIS NAME="Microsoft Dynamics AX Object Server TOTAL NUMBER OF CLEARS" ENABLED="True" CATEGORY="Microsoft Dynamics AX Object Server" PRIMARYDATASOURCE="\Microsoft Dynamics AX Object Server(*)\TOTAL NUMBER OF CLEARS" ID="44342d29-9540-4a14-9a4e-d2aee11e25de" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\Microsoft Dynamics AX Object Server(*)\TOTAL NUMBER OF CLEARS" COLLECTIONVARNAME="CollectionOfMicrosoftDynamicsAXObjectServerTOTALNUMBEROFCLEARS" EXPRESSIONPATH="\Microsoft Dynamics AX Object Server(*)\TOTAL NUMBER OF CLEARS" TRENDVARNAME="TrendMicrosoftDynamicsAXObjectServerTOTALNUMBEROFCLEARS" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Microsoft Dynamics AX Object Server(*)\TOTAL NUMBER OF CLEARS" ISTHRESHOLDSADDED="False" DATASOURCE="\Microsoft Dynamics AX Object Server(*)\TOTAL NUMBER OF CLEARS" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[The total number of times cache was cleared of all contents.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Microsoft Dynamics AX Object Server TOTAL NUMBER OF CLEARS TRIGGERED BY AOS DATA SYNCHRONIZATION" ENABLED="True" CATEGORY="Microsoft Dynamics AX Object Server" PRIMARYDATASOURCE="\Microsoft Dynamics AX Object Server(*)\TOTAL NUMBER OF CLEARS TRIGGERED BY AOS DATA SYNCHRONIZATION" ID="18cdc6bb-c645-4924-9a92-b4a0e9dbec19" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The total number of times cache was cleared because of AOS data synchronization.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\Microsoft Dynamics AX Object Server(*)\TOTAL NUMBER OF CLEARS TRIGGERED BY AOS DATA SYNCHRONIZATION" COLLECTIONVARNAME="CollectionOfMicrosoftDynamicsAXObjectServerTOTALNUMBEROFCLEARSTRIGGEREDBYAOSDATASYNCHRONIZATION" EXPRESSIONPATH="\Microsoft Dynamics AX Object Server(*)\TOTAL NUMBER OF CLEARS TRIGGERED BY AOS DATA SYNCHRONIZATION" TRENDVARNAME="TrendMicrosoftDynamicsAXObjectServerTOTALNUMBEROFCLEARSTRIGGEREDBYAOSDATASYNCHRONIZATION" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Microsoft Dynamics AX Object Server(*)\TOTAL NUMBER OF CLEARS TRIGGERED BY AOS DATA SYNCHRONIZATION" ISTHRESHOLDSADDED="False" DATASOURCE="\Microsoft Dynamics AX Object Server(*)\TOTAL NUMBER OF CLEARS TRIGGERED BY AOS DATA SYNCHRONIZATION" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Microsoft Dynamics AX Object Server TOTAL NUMBER OF DELETES FROM DATA CACHE" ENABLED="True" CATEGORY="Microsoft Dynamics AX Object Server" PRIMARYDATASOURCE="\Microsoft Dynamics AX Object Server(*)\TOTAL NUMBER OF DELETES FROM DATA CACHE" ID="855b9dff-92dd-47a4-8fce-928c061f4076" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The total number of times records were deleted from data cache.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\Microsoft Dynamics AX Object Server(*)\TOTAL NUMBER OF DELETES FROM DATA CACHE" COLLECTIONVARNAME="CollectionOfMicrosoftDynamicsAXObjectServerTOTALNUMBEROFDELETESFROMDATACACHE" EXPRESSIONPATH="\Microsoft Dynamics AX Object Server(*)\TOTAL NUMBER OF DELETES FROM DATA CACHE" TRENDVARNAME="TrendMicrosoftDynamicsAXObjectServerTOTALNUMBEROFDELETESFROMDATACACHE" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Microsoft Dynamics AX Object Server(*)\TOTAL NUMBER OF DELETES FROM DATA CACHE" ISTHRESHOLDSADDED="False" DATASOURCE="\Microsoft Dynamics AX Object Server(*)\TOTAL NUMBER OF DELETES FROM DATA CACHE" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Microsoft Dynamics AX Object Server TOTAL NUMBER OF HITS" ENABLED="True" CATEGORY="Microsoft Dynamics AX Object Server" PRIMARYDATASOURCE="\Microsoft Dynamics AX Object Server(*)\TOTAL NUMBER OF HITS" ID="113f822a-9d29-402b-9756-6e68c715e46a" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The total number of times record as found successfully in the cache.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\Microsoft Dynamics AX Object Server(*)\TOTAL NUMBER OF HITS" COLLECTIONVARNAME="CollectionOfMicrosoftDynamicsAXObjectServerTOTALNUMBEROFHITS" EXPRESSIONPATH="\Microsoft Dynamics AX Object Server(*)\TOTAL NUMBER OF HITS" TRENDVARNAME="TrendMicrosoftDynamicsAXObjectServerTOTALNUMBEROFHITS" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Microsoft Dynamics AX Object Server(*)\TOTAL NUMBER OF HITS" ISTHRESHOLDSADDED="False" DATASOURCE="\Microsoft Dynamics AX Object Server(*)\TOTAL NUMBER OF HITS" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Microsoft Dynamics AX Object Server TOTAL NUMBER OF MISSES" ENABLED="True" CATEGORY="Microsoft Dynamics AX Object Server" PRIMARYDATASOURCE="\Microsoft Dynamics AX Object Server(*)\TOTAL NUMBER OF MISSES" ID="943993cf-32e8-46d3-a0ee-8a7c1ed45332" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The total number of time record was not found in the cache.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\Microsoft Dynamics AX Object Server(*)\TOTAL NUMBER OF MISSES" COLLECTIONVARNAME="CollectionOfMicrosoftDynamicsAXObjectServerTOTALNUMBEROFMISSES" EXPRESSIONPATH="\Microsoft Dynamics AX Object Server(*)\TOTAL NUMBER OF MISSES" TRENDVARNAME="TrendMicrosoftDynamicsAXObjectServerTOTALNUMBEROFMISSES" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Microsoft Dynamics AX Object Server(*)\TOTAL NUMBER OF MISSES" ISTHRESHOLDSADDED="False" DATASOURCE="\Microsoft Dynamics AX Object Server(*)\TOTAL NUMBER OF MISSES" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Microsoft Dynamics AX Object Server TOTAL NUMBER OF SELECTS ON CACHED TABLES" ENABLED="True" CATEGORY="Microsoft Dynamics AX Object Server" PRIMARYDATASOURCE="\Microsoft Dynamics AX Object Server(*)\TOTAL NUMBER OF SELECTS ON CACHED TABLES" ID="2d60bd87-5612-4ccf-a483-7f09daf1f5d0" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\Microsoft Dynamics AX Object Server(*)\TOTAL NUMBER OF SELECTS ON CACHED TABLES" COLLECTIONVARNAME="CollectionOfMicrosoftDynamicsAXObjectServerTOTALNUMBEROFSELECTSONCACHEDTABLES" EXPRESSIONPATH="\Microsoft Dynamics AX Object Server(*)\TOTAL NUMBER OF SELECTS ON CACHED TABLES" TRENDVARNAME="TrendMicrosoftDynamicsAXObjectServerTOTALNUMBEROFSELECTSONCACHEDTABLES" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Microsoft Dynamics AX Object Server(*)\TOTAL NUMBER OF SELECTS ON CACHED TABLES" ISTHRESHOLDSADDED="False" DATASOURCE="\Microsoft Dynamics AX Object Server(*)\TOTAL NUMBER OF SELECTS ON CACHED TABLES" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[The total number of selects on tables that are cached.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="ServiceModelService 4.0.0.0 Calls" ENABLED="True" CATEGORY="ServiceModelService 4.0.0.0" PRIMARYDATASOURCE="\ServiceModelService 4.0.0.0(*)\Calls" ID="97a00835-6429-4c82-9aac-454629fc01b3" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\ServiceModelService 4.0.0.0(*)\Calls" COLLECTIONVARNAME="CollectionOfServiceModelService4000Calls" EXPRESSIONPATH="\ServiceModelService 4.0.0.0(*)\Calls" TRENDVARNAME="TrendServiceModelService4000Calls" DATATYPE="integer" />
+    <CHART CHARTTITLE="\ServiceModelService 4.0.0.0(*)\Calls" ISTHRESHOLDSADDED="False" DATASOURCE="\ServiceModelService 4.0.0.0(*)\Calls" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="ServiceModelService 4.0.0.0 Calls Duration" ENABLED="True" CATEGORY="ServiceModelService 4.0.0.0" PRIMARYDATASOURCE="\ServiceModelService 4.0.0.0(*)\Calls Duration" ID="759ad6c2-17a5-42c6-8761-f66f5a10a5f3" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\ServiceModelService 4.0.0.0(*)\Calls Duration" COLLECTIONVARNAME="CollectionOfServiceModelService4000CallsDuration" EXPRESSIONPATH="\ServiceModelService 4.0.0.0(*)\Calls Duration" TRENDVARNAME="TrendServiceModelService4000CallsDuration" DATATYPE="round3" />
+    <CHART CHARTTITLE="\ServiceModelService 4.0.0.0(*)\Calls Duration" ISTHRESHOLDSADDED="True" DATASOURCE="\ServiceModelService 4.0.0.0(*)\Calls Duration" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $CollectionOfServiceModelService4000CallsDuration -MinThreshold 1 -MaxThreshold 2 -IsOperatorGreaterThan $True -UseMaxValue $False]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $CollectionOfServiceModelService4000CallsDuration -MinThreshold 2 -MaxThreshold 15 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="WCF call  time warning" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfServiceModelService4000CallsDuration -Operator 'gt' -Threshold 1
+]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="WCF call time Critical" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfServiceModelService4000CallsDuration -Operator 'gt' -Threshold 2
+]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="ServiceModelService 4.0.0.0 Calls Failed" ENABLED="True" CATEGORY="ServiceModelService 4.0.0.0" PRIMARYDATASOURCE="\ServiceModelService 4.0.0.0(*)\Calls Failed" ID="090d7323-7537-4b41-beac-84f79a4ea893" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\ServiceModelService 4.0.0.0(*)\Calls Failed" COLLECTIONVARNAME="CollectionOfServiceModelService4000CallsFailed" EXPRESSIONPATH="\ServiceModelService 4.0.0.0(*)\Calls Failed" TRENDVARNAME="TrendServiceModelService4000CallsFailed" DATATYPE="integer" />
+    <CHART CHARTTITLE="\ServiceModelService 4.0.0.0(*)\Calls Failed" ISTHRESHOLDSADDED="False" DATASOURCE="\ServiceModelService 4.0.0.0(*)\Calls Failed" CHARTLABELS="instance" />
+    <THRESHOLD NAME="WCF message format error" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfServiceModelService4000CallsFailed -Operator 'gt' -Threshold 1
+]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="ServiceModelService 4.0.0.0 Calls Faulted" ENABLED="True" CATEGORY="ServiceModelService 4.0.0.0" PRIMARYDATASOURCE="\ServiceModelService 4.0.0.0(*)\Calls Faulted" ID="94a92f3b-ca68-498d-91a0-c3b03c5263c7" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\ServiceModelService 4.0.0.0(*)\Calls Faulted" COLLECTIONVARNAME="CollectionOfServiceModelService4000CallsFaulted" EXPRESSIONPATH="\ServiceModelService 4.0.0.0(*)\Calls Faulted" TRENDVARNAME="TrendServiceModelService4000CallsFaulted" DATATYPE="integer" />
+    <CHART CHARTTITLE="\ServiceModelService 4.0.0.0(*)\Calls Faulted" ISTHRESHOLDSADDED="False" DATASOURCE="\ServiceModelService 4.0.0.0(*)\Calls Faulted" CHARTLABELS="instance" />
+    <THRESHOLD NAME="WFC result error from AX" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfServiceModelService4000CallsFaulted -Operator 'gt' -Threshold 1
+]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="ServiceModelService 4.0.0.0 Percent Of Max Concurrent Calls" ENABLED="True" CATEGORY="ServiceModelService 4.0.0.0" PRIMARYDATASOURCE="\ServiceModelService 4.0.0.0(*)\Percent Of Max Concurrent Calls" ID="5f74de2e-ac7a-4d09-8d1e-4ba67d97daa2" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\ServiceModelService 4.0.0.0(*)\Percent Of Max Concurrent Calls" COLLECTIONVARNAME="CollectionOfServiceModelService4000PercentOfMaxConcurrentCalls" EXPRESSIONPATH="\ServiceModelService 4.0.0.0(*)\Percent Of Max Concurrent Calls" TRENDVARNAME="TrendServiceModelService4000PercentOfMaxConcurrentCalls" DATATYPE="round2" />
+    <CHART CHARTTITLE="\ServiceModelService 4.0.0.0(*)\Percent Of Max Concurrent Calls" ISTHRESHOLDSADDED="True" DATASOURCE="\ServiceModelService 4.0.0.0(*)\Percent Of Max Concurrent Calls" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $CollectionOfServiceModelService4000PercentOfMaxConcurrentCalls -MinThreshold 70 -MaxThreshold 90 -IsOperatorGreaterThan $True -UseMaxValue $False]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $CollectionOfServiceModelService4000PercentOfMaxConcurrentCalls -MinThreshold 90 -MaxThreshold 100 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="MaxConcurrentCalls warning" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfServiceModelService4000PercentOfMaxConcurrentCalls -Operator 'gt' -Threshold 70]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="MaxConcurrentCalls critical" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfServiceModelService4000PercentOfMaxConcurrentCalls -Operator 'gt' -Threshold 90
+]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[Default MaxConcurrentCalls  is 200.  Increase this value (config file of service group)  in case CPU use is still below 80%,
+This value is a percentage of consumed sessions, example 16% means 200 * 0.16 = 32 Calls
+
+Enable counters http://msdn.microsoft.com/en-us/library/ms735098.aspx
+Explanation http://blogs.msdn.com/b/sajay/archive/2009/09/14/wcf-performance-counters.aspx
+]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="ServiceModelService 4.0.0.0 Percent Of Max Concurrent Instances" ENABLED="True" CATEGORY="ServiceModelService 4.0.0.0" PRIMARYDATASOURCE="\ServiceModelService 4.0.0.0(*)\Percent Of Max Concurrent Instances" ID="aecc8898-a903-46b0-a204-98857cdc1ee7" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\ServiceModelService 4.0.0.0(*)\Percent Of Max Concurrent Instances" COLLECTIONVARNAME="CollectionOfServiceModelService4000PercentOfMaxConcurrentInstances" EXPRESSIONPATH="\ServiceModelService 4.0.0.0(*)\Percent Of Max Concurrent Instances" TRENDVARNAME="TrendServiceModelService4000PercentOfMaxConcurrentInstances" DATATYPE="round2" />
+    <CHART CHARTTITLE="\ServiceModelService 4.0.0.0(*)\Percent Of Max Concurrent Instances" ISTHRESHOLDSADDED="True" DATASOURCE="\ServiceModelService 4.0.0.0(*)\Percent Of Max Concurrent Instances" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $CollectionOfServiceModelService4000PercentOfMaxConcurrentInstances -MinThreshold 70 -MaxThreshold 90 -IsOperatorGreaterThan $True -UseMaxValue $False]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $CollectionOfServiceModelService4000PercentOfMaxConcurrentInstances -MinThreshold 90 -MaxThreshold 100 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="MaxConcurrentInstances warning" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfServiceModelService4000PercentOfMaxConcurrentInstances -Operator 'gt' -Threshold 70
+]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="MaxConcurrentInstances Critical" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfServiceModelService4000PercentOfMaxConcurrentInstances -Operator 'gt' -Threshold 90]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[Default MaxConcurrentInstances  is 200.  Increase this value (config file of service group)  in case CPU use is still below 80%,
+This value is a percentage of consumed sessions, example 16% means 200 * 0.16 = 32 instances
+
+Enable counters http://msdn.microsoft.com/en-us/library/ms735098.aspx
+Explanation http://blogs.msdn.com/b/sajay/archive/2009/09/14/wcf-performance-counters.aspx
+]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="ServiceModelService 4.0.0.0 Percent Of Max Concurrent Sessions" ENABLED="True" CATEGORY="ServiceModelService 4.0.0.0" PRIMARYDATASOURCE="\ServiceModelService 4.0.0.0(*)\Percent Of Max Concurrent Sessions" ID="353ab6ab-a698-4461-a666-092321b9021e" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\ServiceModelService 4.0.0.0(*)\Percent Of Max Concurrent Sessions" COLLECTIONVARNAME="CollectionOfServiceModelService4000PercentOfMaxConcurrentSessions" EXPRESSIONPATH="\ServiceModelService 4.0.0.0(*)\Percent Of Max Concurrent Sessions" TRENDVARNAME="TrendServiceModelService4000PercentOfMaxConcurrentSessions" DATATYPE="round2" />
+    <CHART CHARTTITLE="\ServiceModelService 4.0.0.0(*)\Percent Of Max Concurrent Sessions" ISTHRESHOLDSADDED="True" DATASOURCE="\ServiceModelService 4.0.0.0(*)\Percent Of Max Concurrent Sessions" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $CollectionOfServiceModelService4000PercentOfMaxConcurrentSessions -MinThreshold 70 -MaxThreshold 90 -IsOperatorGreaterThan $True -UseMaxValue $False]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $CollectionOfServiceModelService4000PercentOfMaxConcurrentSessions -MinThreshold 90 -MaxThreshold 100 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="MaxConcurrentSessions Warning" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfServiceModelService4000PercentOfMaxConcurrentSessions -Operator 'gt' -Threshold 70]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="MaxConcurrentSessions Critical" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfServiceModelService4000PercentOfMaxConcurrentSessions -Operator 'gt' -Threshold 90]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[Default MaxConcurrentSessions  is 200.  Increase this value (config file of service group)  in case CPU use is still below 80%,
+This value is a percentage of consumed sessions, example 16% means 200 * 0.16 = 32 treads.
+
+Enable counters http://msdn.microsoft.com/en-us/library/ms735098.aspx
+Explanation http://blogs.msdn.com/b/sajay/archive/2009/09/14/wcf-performance-counters.aspx
+]]></DESCRIPTION>
+  </ANALYSIS>
+  <INHERITANCE FILEPATH="dynamicsax.xml" />
+</PAL>

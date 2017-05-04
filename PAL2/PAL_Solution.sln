@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "PALFunctions", "PALFunctions\PALFunctions.vbproj", "{E425B7F1-07C9-4D27-AC80-5A195C387449}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "PALWizard", "PALWizard\PALWizard.vbproj", "{7AF66ECB-B503-413C-B76C-11821D01EDF8}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "PAL_Setup", "PAL_Setup\PAL_Setup.vdproj", "{31025770-08CC-4346-94A0-A258A729A398}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E425B7F1-07C9-4D27-AC80-5A195C387449}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E425B7F1-07C9-4D27-AC80-5A195C387449}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E425B7F1-07C9-4D27-AC80-5A195C387449}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E425B7F1-07C9-4D27-AC80-5A195C387449}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7AF66ECB-B503-413C-B76C-11821D01EDF8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7AF66ECB-B503-413C-B76C-11821D01EDF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7AF66ECB-B503-413C-B76C-11821D01EDF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7AF66ECB-B503-413C-B76C-11821D01EDF8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{31025770-08CC-4346-94A0-A258A729A398}.Debug|Any CPU.ActiveCfg = Debug
+		{31025770-08CC-4346-94A0-A258A729A398}.Release|Any CPU.ActiveCfg = Release
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

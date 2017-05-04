@@ -1,0 +1,210 @@
+<PAL NAME="Microsoft Exchange 2007 - CAS" DESCRIPTION="Use this for general analysis of the Exchange 2007 CAS Role. For the latest XML updates for this tool, go to http://blogs.technet.com/mikelag/archive/2008/08/20/xml-updates-for-the-pal-tool.aspx&#xD;&#xA;" CONTENTOWNERS="Mike Lagase" FEEDBACKEMAILADDRESS="paltool@microsoft.com;mikelag@microsoft.com" VERSION="1.0" PALVERSION="2.0" LANGUAGE="English" LANGUAGECODE="en">
+  <ANALYSIS NAME="MSExchange ActiveSync Requests/sec" ENABLED="True" CATEGORY="MSExchange ActiveSync" PRIMARYDATASOURCE="\MSExchange ActiveSync\Requests/sec" ID="{ba810024-6836-44be-9a7e-f036e0612f0f}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Requests/sec is the number of HTTP requests that are received from the client via ASP.NET per second.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange ActiveSync\Requests/sec" COLLECTIONVARNAME="MSExchangeActiveSyncRequestssec" EXPRESSIONPATH="\MSExchange ActiveSync\Requests/sec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange ActiveSync\Requests/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange ActiveSync\Requests/sec" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange ActiveSync Average Request Time" ENABLED="True" CATEGORY="MSExchange ActiveSync" PRIMARYDATASOURCE="\MSExchange ActiveSync\Average Request Time" ID="{ed6ff34e-ff76-43fa-919e-d7accde6182d}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Average Request Time is the average time, in milliseconds, that elapsed while waiting for a request to complete. The transaction is tracked from the time Exchange ActiveSync receives the request and sends the response. The network latency between the device or client and Exchange ActiveSync on the Client Access server is not factored into this calculation.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange ActiveSync\Average Request Time" COLLECTIONVARNAME="MSExchangeActiveSyncAverageRequestTime" EXPRESSIONPATH="\MSExchange ActiveSync\Average Request Time" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange ActiveSync\Average Request Time" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange ActiveSync\Average Request Time" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange ActiveSync Ping Commands Pending" ENABLED="True" CATEGORY="MSExchange ActiveSync" PRIMARYDATASOURCE="\MSExchange ActiveSync\Ping Commands Pending" ID="{23902cf0-1bbd-4539-92cf-06c0a1477ee3}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Ping Commands Pending is the number of Ping commands that are currently pending on the server.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange ActiveSync\Ping Commands Pending" COLLECTIONVARNAME="MSExchangeActiveSyncPingCommandsPending" EXPRESSIONPATH="\MSExchange ActiveSync\Ping Commands Pending" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange ActiveSync\Ping Commands Pending" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange ActiveSync\Ping Commands Pending" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange ActiveSync Sync Commands/sec" ENABLED="True" CATEGORY="MSExchange ActiveSync" PRIMARYDATASOURCE="\MSExchange ActiveSync\Sync Commands/sec" ID="{e1789b2f-d2c7-42a6-99f6-6ee883baae77}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Sync Commands/sec is the number of Sync commands that are processed per second. Clients use this command to synchronize items within a folder.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange ActiveSync\Sync Commands/sec" COLLECTIONVARNAME="MSExchangeActiveSyncSyncCommandssec" EXPRESSIONPATH="\MSExchange ActiveSync\Sync Commands/sec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange ActiveSync\Sync Commands/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange ActiveSync\Sync Commands/sec" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Availability Service\Availability Requests (sec)" ENABLED="True" CATEGORY="MSExchange Availability Service" PRIMARYDATASOURCE="\MSExchange Availability Service\Availability Requests (sec)" ID="{b65087ff-5784-4eb9-b8da-48df6b4a3f74}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Availability Requests per second is the number  of requests serviced per second. The request can be only for free busy or include suggestions. One request may contain multiple mailboxes.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Availability Service\Availability Requests (sec)" COLLECTIONVARNAME="MSExchangeAvailabilityServiceAvailabilityRequestssec" EXPRESSIONPATH="\MSExchange Availability Service\Availability Requests (sec)" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Availability Service\Availability Requests (sec)" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Availability Service\Availability Requests (sec)" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Availability Service Average Time to Process a Free Busy Request" ENABLED="True" CATEGORY="MSExchange Availability Service" PRIMARYDATASOURCE="\MSExchange Availability Service\Average Time to Process a Free Busy Request" ID="{1c1938f6-17f9-4d6d-a131-7d42966fe37a}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Average Time to Process a Free Busy Request is the average time to process a free busy request in seconds. One request may contain multiple mailboxes. Free busy responses do not have meeting suggestions.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Availability Service\Average Time to Process a Free Busy Request" COLLECTIONVARNAME="MSExchangeAvailabilityServiceAverageTimetoProcessaFreeBusyRequest" EXPRESSIONPATH="\MSExchange Availability Service\Average Time to Process a Free Busy Request" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Availability Service\Average Time to Process a Free Busy Request" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Availability Service\Average Time to Process a Free Busy Request" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Availability Service Average Time to Process a Cross-Forest Free Busy Request" ENABLED="True" CATEGORY="MSExchange Availability Service" PRIMARYDATASOURCE="\MSExchange Availability Service\Average Time to Process a Cross-Forest Free Busy Request" ID="{3485e09d-eaaa-4fe9-9533-cf5d034409e9}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Average Time to Process a Cross-Forest Free Busy Request is the average time to process a cross-forest free busy request in seconds. One request may contain multiple mailboxes. Free busy responses do not have meeting suggestions.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Availability Service\Average Time to Process a Cross-Forest Free Busy Request" COLLECTIONVARNAME="MSExchangeAvailabilityServiceAverageTimetoProcessaCrossForestFreeBusyRequest" EXPRESSIONPATH="\MSExchange Availability Service\Average Time to Process a Cross-Forest Free Busy Request" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Availability Service\Average Time to Process a Cross-Forest Free Busy Request" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Availability Service\Average Time to Process a Cross-Forest Free Busy Request" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Availability Service Average Time to Process a Cross-Site Free Busy Request" ENABLED="True" CATEGORY="MSExchange Availability Service" PRIMARYDATASOURCE="\MSExchange Availability Service\Average Time to Process a Cross-Site Free Busy Request" ID="{3df9704c-574a-4416-891b-a2ffc9166a28}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Average Time to Process a Cross-Site Free Busy Request is the average time to process a cross-site free busy request in seconds. One request may contain multiple mailboxes. Free busy responses do not have meeting suggestions.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Availability Service\Average Time to Process a Cross-Site Free Busy Request" COLLECTIONVARNAME="MSExchangeAvailabilityServiceAverageTimetoProcessaCrossSiteFreeBusyRequest" EXPRESSIONPATH="\MSExchange Availability Service\Average Time to Process a Cross-Site Free Busy Request" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Availability Service\Average Time to Process a Cross-Site Free Busy Request" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Availability Service\Average Time to Process a Cross-Site Free Busy Request" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Availability Service Average Time to Process a Meeting Suggestions Request" ENABLED="True" CATEGORY="MSExchange Availability Service" PRIMARYDATASOURCE="\MSExchange Availability Service\Average Time to Process a Meeting Suggestions Request" ID="{7730c8bb-c5de-44c9-bbaa-35d150f328ae}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Average Time to Process a Meeting Suggestions Request is the average time to process a meeting suggestions request in seconds. One request may contain multiple mailboxes. This time includes time for fetching free busy.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Availability Service\Average Time to Process a Meeting Suggestions Request" COLLECTIONVARNAME="MSExchangeAvailabilityServiceAverageTimetoProcessaMeetingSuggestionsRequest" EXPRESSIONPATH="\MSExchange Availability Service\Average Time to Process a Meeting Suggestions Request" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Availability Service\Average Time to Process a Meeting Suggestions Request" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Availability Service\Average Time to Process a Meeting Suggestions Request" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Availability Service Average Number of Mailboxes Processed per Request" ENABLED="True" CATEGORY="MSExchange Availability Service" PRIMARYDATASOURCE="\MSExchange Availability Service\Average Number of Mailboxes Processed per Request" ID="{f64800c9-253d-4fd8-8b15-c413a4778be7}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Average Number of Mailboxes Processed per Request is the average number of mailboxes processed per request. Some of the mailboxes may have errors during processing.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Availability Service\Average Number of Mailboxes Processed per Request" COLLECTIONVARNAME="MSExchangeAvailabilityServiceAverageNumberofMailboxesProcessedperRequest" EXPRESSIONPATH="\MSExchange Availability Service\Average Number of Mailboxes Processed per Request" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Availability Service\Average Number of Mailboxes Processed per Request" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Availability Service\Average Number of Mailboxes Processed per Request" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange OWA Current Unique Users" ENABLED="True" CATEGORY="MSExchange OWA" PRIMARYDATASOURCE="\MSExchange OWA\Current Unique Users" ID="{7916e653-10ae-401b-ac01-1d449ad49d74}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Current Unique Users is the number of unique users currently logged on to Outlook Web Access. This value monitors the number of unique active user sessions, so that users are only removed from this count after they log off or their session times out.<br>
+<br>
+This is used for information purposes only.<br>
+<br>
+]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange OWA\Current Unique Users" COLLECTIONVARNAME="MSExchangeOWACurrentUniqueUsers" EXPRESSIONPATH="\MSExchange OWA\Current Unique Users" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange OWA\Current Unique Users" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange OWA\Current Unique Users" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeFDS:OAB Download Task Queued" ENABLED="True" CATEGORY="MSExchangeFDS:OAB" PRIMARYDATASOURCE="\MSExchangeFDS:OAB(*)\Download Task Queued" ID="{6602f596-12bd-4c47-a86d-fc0afd9d67dc}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Download Task Queued is '1' if task is queued for execution, otherwise '0.'<br>
+<br>
+This is used for information purposes only.<br>
+<br>
+]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeFDS:OAB(*)\Download Task Queued" COLLECTIONVARNAME="MSExchangeFDSOABDownloadTaskQueuedALL" EXPRESSIONPATH="\MSExchangeFDS:OAB(*)\Download Task Queued" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeFDS:OAB(*)\Download Task Queued" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeFDS:OAB(*)\Download Task Queued" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeFDS:OAB Download Tasks Completed" ENABLED="True" CATEGORY="MSExchangeFDS:OAB" PRIMARYDATASOURCE="\MSExchangeFDS:OAB(*)\Download Tasks Completed" ID="{de39053c-973c-42ac-872a-f8146c824aef}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Shows the number of OAB download tasks completed since the File Distribution service started. The default value is every 480 minutes or 8 hours.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeFDS:OAB(*)\Download Tasks Completed" COLLECTIONVARNAME="MSExchangeFDSOABDownloadTasksCompletedALL" EXPRESSIONPATH="\MSExchangeFDS:OAB(*)\Download Tasks Completed" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeFDS:OAB(*)\Download Tasks Completed" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeFDS:OAB(*)\Download Tasks Completed" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeFDS:UM Download Task Queued" ENABLED="True" CATEGORY="MSExchangeFDS:UM" PRIMARYDATASOURCE="\MSExchangeFDS:UM\Download Task Queued" ID="{74dd9ee5-5641-44a6-a30d-e29cade817d7}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Download Task Queued is '1' if task is queued for execution, otherwise '0.'<br>
+<br>
+This is used for information purposes only.<br>
+<br>
+]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeFDS:UM\Download Task Queued" COLLECTIONVARNAME="MSExchangeFDSUMDownloadTaskQueued" EXPRESSIONPATH="\MSExchangeFDS:UM\Download Task Queued" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeFDS:UM\Download Task Queued" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeFDS:UM\Download Task Queued" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange OWA Average Search Time" ENABLED="True" CATEGORY="MSExchange OWA" PRIMARYDATASOURCE="\MSExchange OWA\Average Search Time" ID="{77f555ef-3c2d-4943-9cc5-1910805978b5}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Average Search Time is the average time that elapsed while waiting for a search to complete.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange OWA\Average Search Time" COLLECTIONVARNAME="MSExchangeOWAAverageSearchTime" EXPRESSIONPATH="\MSExchange OWA\Average Search Time" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange OWA\Average Search Time" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange OWA\Average Search Time" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange OWA Requests/sec" ENABLED="True" CATEGORY="MSExchange OWA" PRIMARYDATASOURCE="\MSExchange OWA\Requests/sec" ID="{2c863703-0654-4666-84f2-3a43fd481823}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Requests/sec is the number of requests handled by Outlook Web Access per second.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange OWA\Requests/sec" COLLECTIONVARNAME="MSExchangeOWARequestssec" EXPRESSIONPATH="\MSExchange OWA\Requests/sec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange OWA\Requests/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange OWA\Requests/sec" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeWS Requests/sec" ENABLED="True" CATEGORY="MSExchangeWS" PRIMARYDATASOURCE="\MSExchangeWS\Requests/sec" ID="{426e87f9-6750-49de-86c8-1de5721126bc}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Requests per second is the number of requests processed each second.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeWS\Requests/sec" COLLECTIONVARNAME="MSExchangeWSRequestssec" EXPRESSIONPATH="\MSExchangeWS\Requests/sec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeWS\Requests/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeWS\Requests/sec" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange OWA Average Response Time" ENABLED="True" CATEGORY="MSExchange OWA" PRIMARYDATASOURCE="\MSExchange OWA\Average Response Time" ID="{e6fcdb70-97c9-432c-b12b-574713eb0656}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Average Response Time is the average time (in milliseconds) that elapsed between the beginning and end of an OEH or ASPX request.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange OWA\Average Response Time" COLLECTIONVARNAME="MSExchangeOWAAverageResponseTime" EXPRESSIONPATH="\MSExchange OWA\Average Response Time" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange OWA\Average Response Time" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange OWA\Average Response Time" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange OWA Queued Conversion Requests" ENABLED="True" CATEGORY="MSExchange OWA" PRIMARYDATASOURCE="\MSExchange OWA\Queued Conversion Requests" ID="{2ca99e84-5e68-4961-9a57-6f4308ce10f2}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Queued Conversion Requests is the number of requests for conversion that are currently waiting to be processed.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange OWA\Queued Conversion Requests" COLLECTIONVARNAME="MSExchangeOWAQueuedConversionRequests" EXPRESSIONPATH="\MSExchange OWA\Queued Conversion Requests" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange OWA\Queued Conversion Requests" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange OWA\Queued Conversion Requests" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange OWA Active Conversions" ENABLED="True" CATEGORY="MSExchange OWA" PRIMARYDATASOURCE="\MSExchange OWA\Active Conversions" ID="{cd3c9451-ee37-4dd5-83ad-3ebbf48a8ac4}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Active Conversions is the number of conversions that are currently being processed by the WebReady Document Viewing service.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange OWA\Active Conversions" COLLECTIONVARNAME="MSExchangeOWAActiveConversions" EXPRESSIONPATH="\MSExchange OWA\Active Conversions" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange OWA\Active Conversions" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange OWA\Active Conversions" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange OWA Average Conversion Time" ENABLED="True" CATEGORY="MSExchange OWA" PRIMARYDATASOURCE="\MSExchange OWA\Average Conversion Time" ID="{5ae14149-5391-44f8-bdcf-96d564e9abe5}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Average Conversion Time is the average length of time, in milliseconds, it has taken to convert a document since the process was restarted.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange OWA\Average Conversion Time" COLLECTIONVARNAME="MSExchangeOWAAverageConversionTime" EXPRESSIONPATH="\MSExchange OWA\Average Conversion Time" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange OWA\Average Conversion Time" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange OWA\Average Conversion Time" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangePop3 Connections Current" ENABLED="True" CATEGORY="MSExchangePop3" PRIMARYDATASOURCE="\MSExchangePop3\Connections Current" ID="{9d4bedce-f049-419b-81fd-4604ba9d6ccd}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Current Connections is the number of connections that are currently open on the POP service.<br>
+<br>
+This counter is used to report load on the server.<br>
+<br>
+]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangePop3\Connections Current" COLLECTIONVARNAME="MSExchangePop3ConnectionsCurrent" EXPRESSIONPATH="\MSExchangePop3\Connections Current" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangePop3\Connections Current" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangePop3\Connections Current" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangePop3\Average Command Processing Time  Average Command Processing Time (milliseconds)" ENABLED="True" CATEGORY="MSExchangePop3" PRIMARYDATASOURCE="\MSExchangePop3\Average Command Processing Time (milliseconds)" ID="{af4710c7-729b-4986-8f3e-02c725ae775d}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Average Command Processing Time is the average processing time, in milliseconds, for the last 1024 commands received from clients.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangePop3\Average Command Processing Time (milliseconds)" COLLECTIONVARNAME="MSExchangePop3AverageCommandProcessingTimemilliseconds" EXPRESSIONPATH="\MSExchangePop3\Average Command Processing Time (milliseconds)" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangePop3\Average Command Processing Time (milliseconds)" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangePop3\Average Command Processing Time (milliseconds)" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeImap4\Average Command Processing Time  Average Command Processing Time (milliseconds)" ENABLED="True" CATEGORY="MSExchangeImap4" PRIMARYDATASOURCE="\MSExchangeImap4\Average Command Processing Time (milliseconds)" ID="{11d737cd-4310-4c76-a4bd-1b67f0556564}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Average Command Processing Time is the average processing time, in milliseconds, for the last 1024 commands received from clients.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeImap4\Average Command Processing Time (milliseconds)" COLLECTIONVARNAME="MSExchangeImap4AverageCommandProcessingTimemilliseconds" EXPRESSIONPATH="\MSExchangeImap4\Average Command Processing Time (milliseconds)" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeImap4\Average Command Processing Time (milliseconds)" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeImap4\Average Command Processing Time (milliseconds)" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeImap4 Current Connections" ENABLED="True" CATEGORY="MSExchangeImap4" PRIMARYDATASOURCE="\MSExchangeImap4\Current Connections" ID="{5f8d753c-7996-44ff-85de-a5e2ab097048}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Current Connections is the number of connections that are currently open on the IMAP service.<br>
+<br>
+This counter is used to report load on the server.<br>
+<br>
+]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeImap4\Current Connections" COLLECTIONVARNAME="MSExchangeImap4CurrentConnections" EXPRESSIONPATH="\MSExchangeImap4\Current Connections" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeImap4\Current Connections" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeImap4\Current Connections" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeAutodiscover Requests/sec" ENABLED="True" CATEGORY="MSExchangeAutodiscover" PRIMARYDATASOURCE="\MSExchangeAutodiscover\Requests/sec" ID="{4ffa67fd-9f19-4b92-ac4d-f81c8fcd5249}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Requests per second is the number of Autodiscover requests processed each second.<br>
+<br>
+This counter is used to report load on the server.<br>
+<br>]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeAutodiscover\Requests/sec" COLLECTIONVARNAME="MSExchangeAutodiscoverRequestssec" EXPRESSIONPATH="\MSExchangeAutodiscover\Requests/sec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeAutodiscover\Requests/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeAutodiscover\Requests/sec" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange ADAccess Domain Controllers LDAP Search Time" ENABLED="True" CATEGORY="MSExchange ADAccess Domain Controllers" PRIMARYDATASOURCE="\MSExchange ADAccess Domain Controllers(*)\LDAP Search Time" ID="{4e89bdde-3fb0-4ab8-8aeb-1521083af7eb}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[LDAP Search Time is the time (in ms) taken to send an LDAP search request and receive a response]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange ADAccess Domain Controllers(*)\LDAP Search Time" COLLECTIONVARNAME="MSExchangeADAccessDomainControllersLDAPSearchTimeALL" EXPRESSIONPATH="\MSExchange ADAccess Domain Controllers(*)\LDAP Search Time" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange ADAccess Domain Controllers(*)\LDAP Search Time" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange ADAccess Domain Controllers(*)\LDAP Search Time" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange ADAccess Caches LDAP Searches/Sec" ENABLED="True" CATEGORY="MSExchange ADAccess Caches" PRIMARYDATASOURCE="\MSExchange ADAccess Caches(*)\LDAP Searches/Sec" ID="{7cbd6108-5dc7-41e3-9ffd-e33735920d9d}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[LDAP Searches/Sec is the number of LDAP search requests issued per second.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange ADAccess Caches(*)\LDAP Searches/Sec" COLLECTIONVARNAME="MSExchangeADAccessCachesLDAPSearchesSecALL" EXPRESSIONPATH="\MSExchange ADAccess Caches(*)\LDAP Searches/Sec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange ADAccess Caches(*)\LDAP Searches/Sec" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange ADAccess Caches(*)\LDAP Searches/Sec" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange ADAccess Domain Controllers LDAP Read Time" ENABLED="True" CATEGORY="MSExchange ADAccess Domain Controllers" PRIMARYDATASOURCE="\MSExchange ADAccess Domain Controllers(*)\LDAP Read Time" ID="{6040dc05-1a76-4a68-b8ab-dff2a004e1ac}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[LDAP Read Time for a given DC is the time (in ms) taken to send an LDAP read request to the specified DC and receive a response]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange ADAccess Domain Controllers(*)\LDAP Read Time" COLLECTIONVARNAME="MSExchangeADAccessDomainControllersLDAPReadTimeALL" EXPRESSIONPATH="\MSExchange ADAccess Domain Controllers(*)\LDAP Read Time" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange ADAccess Domain Controllers(*)\LDAP Read Time" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange ADAccess Domain Controllers(*)\LDAP Read Time" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange ADAccess Processes LDAP Read Time" ENABLED="True" CATEGORY="MSExchange ADAccess Processes" PRIMARYDATASOURCE="\MSExchange ADAccess Processes(*)\LDAP Read Time" ID="{ac20e3fe-47fe-4b96-8ead-2162e6db3bd5}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[LDAP Read Time is the time (in ms) taken to send an LDAP read request and receive a response]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange ADAccess Processes(*)\LDAP Read Time" COLLECTIONVARNAME="MSExchangeADAccessProcessesLDAPReadTimeALL" EXPRESSIONPATH="\MSExchange ADAccess Processes(*)\LDAP Read Time" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange ADAccess Processes(*)\LDAP Read Time" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange ADAccess Processes(*)\LDAP Read Time" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange ADAccess Processes LDAP Search Time" ENABLED="True" CATEGORY="MSExchange ADAccess Processes" PRIMARYDATASOURCE="\MSExchange ADAccess Processes(*)\LDAP Search Time" ID="{5ea2f376-6466-4a78-aec0-ac6bd500cfd2}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[LDAP Search Time is the time (in ms) taken to send an LDAP search request and receive a response]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange ADAccess Processes(*)\LDAP Search Time" COLLECTIONVARNAME="MSExchangeADAccessProcessesLDAPSearchTimeALL" EXPRESSIONPATH="\MSExchange ADAccess Processes(*)\LDAP Search Time" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange ADAccess Processes(*)\LDAP Search Time" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange ADAccess Processes(*)\LDAP Search Time" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange ADAccess Domain Controllers LDAP Searches timed out per minute" ENABLED="True" CATEGORY="MSExchange ADAccess Domain Controllers" PRIMARYDATASOURCE="\MSExchange ADAccess Domain Controllers(*)\LDAP Searches timed out per minute" ID="{65f575f2-735a-48ad-a858-fdd647e68e8d}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[LDAP Searches timed out per minute is the number of LDAP searches returned LDAP_TIMEOUT during the last minute<br>
+<br>
+This counter is indicitive of an overloaded domain controller or there are network connectivity problems to the DC.<br>
+<br>
+]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange ADAccess Domain Controllers(*)\LDAP Searches timed out per minute" COLLECTIONVARNAME="MSExchangeADAccessDomainControllersLDAPSearchestimedoutperminuteALL" EXPRESSIONPATH="\MSExchange ADAccess Domain Controllers(*)\LDAP Searches timed out per minute" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange ADAccess Domain Controllers(*)\LDAP Searches timed out per minute" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange ADAccess Domain Controllers(*)\LDAP Searches timed out per minute" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange ADAccess Domain Controllers Long running LDAP operations/Min" ENABLED="True" CATEGORY="MSExchange ADAccess Domain Controllers" PRIMARYDATASOURCE="\MSExchange ADAccess Domain Controllers(*)\Long running LDAP operations/Min" ID="{c50b449c-538c-4123-9b4e-9700456a9410}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Long running LDAP operations/Min is the number of LDAP operations on this DC that took longer than the specified threshold per minute (default threshold is 15 seconds)<br>
+<br>
+This counter is useful for determining domain controller latencies that may affect overall Exchange performance.<br>
+<br>
+]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange ADAccess Domain Controllers(*)\Long running LDAP operations/Min" COLLECTIONVARNAME="MSExchangeADAccessDomainControllersLongrunningLDAPoperationsMinALL" EXPRESSIONPATH="\MSExchange ADAccess Domain Controllers(*)\Long running LDAP operations/Min" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange ADAccess Domain Controllers(*)\Long running LDAP operations/Min" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange ADAccess Domain Controllers(*)\Long running LDAP operations/Min" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange ADAccess Domain Controllers LDAP Search calls/Sec" ENABLED="True" CATEGORY="MSExchange ADAccess Domain Controllers" PRIMARYDATASOURCE="\MSExchange ADAccess Domain Controllers(*)\LDAP Search calls/Sec" ID="{bc100cf6-3935-4465-b955-54214d2b95ed}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[LDAP Search calls/Sec is the number of Depth 1 or 2 LDAP Search calls made by this process per second<br>
+<br>
+This counter is useful to determine if there is an increase in LDAP calls to the domain controllers possibly affecting overall latency on the server.<br>
+<br>
+]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange ADAccess Domain Controllers(*)\LDAP Search calls/Sec" COLLECTIONVARNAME="MSExchangeADAccessDomainControllersLDAPSearchcallsSecALL" EXPRESSIONPATH="\MSExchange ADAccess Domain Controllers(*)\LDAP Search calls/Sec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange ADAccess Domain Controllers(*)\LDAP Search calls/Sec" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange ADAccess Domain Controllers(*)\LDAP Search calls/Sec" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <INHERITANCE FILEPATH="QuickSystemOverview.xml" />
+  <INHERITANCE FILEPATH="IIS.xml" />
+  <INHERITANCE FILEPATH="AspDotNet.xml" />
+</PAL>

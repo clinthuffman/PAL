@@ -1,0 +1,114 @@
+<PAL NAME=".NET Framework v1.1 or greater" DESCRIPTION="Analysis of .NET Framework v1.1 or greater applications." CONTENTOWNERS="Clint Huffman" FEEDBACKEMAILADDRESS="clinth@microsoft.com" VERSION="1.3.2" PALVERSION="2.0" LANGUAGE="English" LANGUAGECODE="en">
+  <ANALYSIS NAME=".NET CLR Exceptions / Second" ENABLED="True" CATEGORY=".NET CLR Exceptions" PRIMARYDATASOURCE="\.NET CLR Exceptions(*)\# of Exceps Thrown / sec" ID="{6a1ef2b8-d9c2-420b-aec4-ab351e7a35cd}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\.NET CLR Exceptions(*)\# of Exceps Thrown / sec" COLLECTIONVARNAME="CollectionOfNETCLRExceptionsNumberOfExcepsThrownsecALL" EXPRESSIONPATH="\.NET CLR Exceptions(*)\# of Exceps Thrown / sec" DATATYPE="Integer" />
+    <THRESHOLD NAME="More than 10 .NET CLR Exceptions Thrown / sec" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfNETCLRExceptionsNumberOfExcepsThrownsecALL -Operator 'gt' -Threshold 10
+         ]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="More than 50 .NET CLR Exceptions Thrown / sec" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfNETCLRExceptionsNumberOfExcepsThrownsecALL -Operator 'gt' -Threshold 50
+        ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\.NET CLR Exceptions(*)\# of Exceps Thrown / sec" ISTHRESHOLDSADDED="True" DATASOURCE="\.NET CLR Exceptions(*)\# of Exceps Thrown / sec" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfNETCLRExceptionsNumberOfExcepsThrownsecALL -MinThreshold 10 -MaxThreshold 49 -UseMaxValue $False
+        ]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfNETCLRExceptionsNumberOfExcepsThrownsecALL -MinThreshold 50 -MaxThreshold 99.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+    <DESCRIPTION><![CDATA[
+      The total number of managed exceptions thrown per second. As this number increases, performance degrades. Exceptions should not be thrown as part of normal processing. Note, however, that Response.Redirect, Server.Transfer, and Response.End all cause a ThreadAbortException to be thrown multiple times, and a site that relies heavily upon these methods will incur a performance penalty. If you must use Response.Redirect, call Response.Redirect(url, false), which does not call Response.End, and hence does not throw. The downside is that the user code that follows the call to Response.Redirect(url, false) will execute. It is also possible to use a static HTML page to redirect. Microsoft Knowledge Base Article 312629 provides further detail. In addition to monitoring this very useful performance counter, the Application_Error event should be used in order to alert administrators to problems. In general, identify the exceptions and try to elimimate them.<BR>
+      <BR>
+      <B>Thresholds:</B> This analysis throws a warning alert if .NET CLR Exceptions per second is greater than 10 and a critical alert if .NET CLR Exceptions per second is greater than 50.<BR>
+      <BR>
+      <B>Next Steps:</B>
+      <UL>
+      <LI><B>Check the Application Event Logs:</B> Review the Application Event logs on the server. Many .NET exceptions will be detailed in the application event logs.</LI>
+      <LI><B>Use a Windows Debugger:</B> Tools such as the Windows Debugger (WinDBG) can help with diagnosing these issues.</LI>
+      </UL>
+      <BR>
+      <B>Need Assistance?</B> Microsoft Premier Field Engineering (PFE) offers onsite assistance with issues like this. Contact your Microsoft Technical Account Manager (TAM) for more information. If you do not have a Microsoft Premier Support Agreement, then go to <A HREF="http://www.microsoft.com/services/microsoftservices/srv_premier.mspx">http://www.microsoft.com/services/microsoftservices/srv_premier.mspx</A> for more info.<BR>
+      <BR>
+      References:
+      <UL>
+      <LI><A HREF="http://msdn2.microsoft.com/en-us/library/ms972959.aspx">ASP.NET Performance</A></LI>
+      <LI><A HREF="http://www.microsoft.com/whdc/devtools/debugging/default.mspx">Debugging Tools for Windows</A></LI>
+      </UL>
+      ]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME=".NET CLR Loading Current appdomains" ENABLED="True" CATEGORY=".NET CLR Loading" PRIMARYDATASOURCE="\.NET CLR Loading(*)\Current appdomains" ID="{18c99436-32af-4b27-b91f-a0fa255d7463}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[
+      The current number of AppDomains loaded in the process. This analysis checks for an increasing trend of app domains loaded. This analysis throws a warning alert if there is more than 10 appdomains created per hour and a critical alert if More than 100 appdomains are created per hour.
+      ]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\.NET CLR Loading(*)\Current appdomains" COLLECTIONVARNAME="CollectionOfNETCLRLoadingCurrentappdomainsALL" EXPRESSIONPATH="\.NET CLR Loading(*)\Current appdomains" DATATYPE="Integer" />
+    <THRESHOLD NAME="An increasing trend of more than 10 app domains per hour" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfNETCLRLoadingCurrentappdomainsALL -Operator 'gt' -Threshold 10 -IsTrendOnly $True
+         ]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="An increasing trend of more than 100 app domains per hour" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfNETCLRLoadingCurrentappdomainsALL -Operator 'gt' -Threshold 100 -IsTrendOnly $True
+        ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\.NET CLR Loading(*)\Current appdomains" ISTHRESHOLDSADDED="False" DATASOURCE="\.NET CLR Loading(*)\Current appdomains" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Memory Leak Detection in .NET" ENABLED="True" CATEGORY=".NET CLR Memory" PRIMARYDATASOURCE="\.NET CLR Memory(*)\# Bytes in all Heaps" ID="{62176119-d89b-45ae-91cd-d4d48c37f6f4}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\.NET CLR Memory(*)\# Bytes in all Heaps" COLLECTIONVARNAME="CollectionOfNETCLRMemoryBytesinallHeapsALL" EXPRESSIONPATH="\.NET CLR Memory(*)\# Bytes in all Heaps" DATATYPE="Integer" />
+    <THRESHOLD NAME="An increasing trend of more than 5 MB per hour in .NET CLR Memory" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfNETCLRMemoryBytesinallHeapsALL -Operator 'gt' -Threshold 5242880 -IsTrendOnly $True
+         ]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="An increasing trend of more than 10 MB per hour in .NET CLR Memory" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfNETCLRMemoryBytesinallHeapsALL -Operator 'gt' -Threshold 10485760 -IsTrendOnly $True
+        ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\.NET CLR Memory(*)\# Bytes in all Heaps" ISTHRESHOLDSADDED="False" DATASOURCE="\.NET CLR Memory(*)\# Bytes in all Heaps" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[The number of bytes committed by managed objects. This is the sum of the large object heap and the generation 0, 1, and 2 heaps. These regions of memory are of type MEM_COMMIT (see Platform SDK documentation for VirtualAlloc). The value of this counter will always be less than the value of Process\Private Bytes, which counts all MEM_COMMIT regions for the process. Private Bytes minus # Bytes in all Heaps is the number of bytes committed by unmanaged objects. The first step in the investigation of excessive memory usage is to determine whether it is being used by managed or unmanaged objects. To investigate excessive managed memory usage, I recommend WINDBG.EXE and SOS.DLL, which you can read about in Production Debugging for .NET Framework Applications. SOS.DLL has a "!dumpheap Ã¢â‚¬â€œstat" command that lists the count, size, and type of objects in the managed heap. You can use "!dumpheap Ã¢â‚¬â€œmt" to obtain the address of an object, and "!gcroot" to see its roots. The command "!eeheap" presents memory usage statistics for the managed heaps. 
+      <P>
+      Another useful tool for diagnosing memory usage is the CLR Profiler, discussed in more detail below. 
+      <P>
+      Excessive managed memory usage is commonly caused by: 
+      <OL type="a">
+        <LI>Reading large data sets into memory.</LI>
+        <LI>Creating excessive cache entries.</LI>
+        <LI>Uploading or downloading large files.</LI>
+        <LI>Excessive use of regular expressions or strings while parsing files. </LI>
+        <LI>Excessive ViewState.</LI>
+        <LI>Too much data in session state or too many sessions.</LI>
+      </OL>
+      <BR><BR>
+      Reference:
+      <UL>
+      <LI><A HREF="http://msdn2.microsoft.com/en-us/library/ms972959.aspx">ASP.NET Performance</A></LI>
+      </UL>
+      ]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME=".NET CLR Memory % Time in GC" ENABLED="True" CATEGORY=".NET CLR Memory" PRIMARYDATASOURCE="\.NET CLR Memory(*)\% Time in GC" ID="{fb137fbc-5af5-4f0d-b786-ab435c84932a}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\.NET CLR Memory(*)\% Time in GC" COLLECTIONVARNAME="NETCLRMemoryPercentTimeinGCALL" EXPRESSIONPATH="\.NET CLR Memory(*)\% Time in GC" DATATYPE="integer" />
+    <CHART CHARTTITLE="\.NET CLR Memory(*)\% Time in GC" ISTHRESHOLDSADDED="True" DATASOURCE="\.NET CLR Memory(*)\% Time in GC" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $NETCLRMemoryPercentTimeinGCALL -MinThreshold 10 -MaxThreshold 20 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="More than 10% time spent in the .NET garbage collector (GC)" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $NETCLRMemoryPercentTimeinGCALL -Operator 'gt' -Threshold 10]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[% Time in GC is the percentage of elapsed time that was spent in performing a garbage collection (GC) since the last GC cycle. This counter is usually an indicator of the work done by the Garbage Collector on behalf of the application to collect and compact memory. This counter is updated only at the end of every GC and the counter value reflects the last observed value; its not an average.]]></DESCRIPTION>
+  </ANALYSIS>
+  <!--<INHERITANCE FILEPATH="QuickSystemOverview.xml" />-->
+  <INHERITANCE FILEPATH="" />
+</PAL>

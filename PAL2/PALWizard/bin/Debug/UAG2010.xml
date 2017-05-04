@@ -1,0 +1,556 @@
+<?xml version="1.0"?>
+<PAL NAME="UAG 2010" DESCRIPTION="Thresholds for Microsoft Forefront Unified Access Gateway (UAG) 2010. Beta version. " VERSION="0.2" PALVERSION="2.0" CONTENTOWNERS="Zbigniew Kukowski" FEEDBACKEMAILADDRESS="zkukow@microsoft.com">
+  <ANALYSIS NAME="ASP.NET Application Restarts" ENABLED="False" CATEGORY="IIS Engine" PRIMARYDATASOURCE="\ASP.NET\Application Restarts" ID="c84224ac-092f-4442-9d6e-bfd452c1b53e" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\ASP.NET\Application Restarts" COLLECTIONVARNAME="CollectionOfASPNETApplicationRestarts" EXPRESSIONPATH="\ASP.NET\Application Restarts" TRENDVARNAME="TrendASPNETApplicationRestarts" DATATYPE="integer" />
+    <CHART CHARTTITLE="\ASP.NET\Application Restarts" ISTHRESHOLDSADDED="False" DATASOURCE="\ASP.NET\Application Restarts" CHARTLABELS="instance">
+    </CHART>
+    <THRESHOLD NAME="More than 1 ASP.NET application restart per hour" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[
+StaticThreshold -CollectionOfCounterInstances $CollectionOfASPNETApplicationRestarts -Operator 'gt' -Threshold 1 -IsTrendOnly $True
+
+]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="More than 5 ASP.NET application restart per hour" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfASPNETApplicationRestarts -Operator 'gt' -Threshold 5 -IsTrendOnly $True
+
+
+]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[Number of times the application has been restarted during the web server's lifetime.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="ASP.NET Applications Forms Authentication Failure" ENABLED="False" CATEGORY="IIS Engine" PRIMARYDATASOURCE="\ASP.NET Applications(*)\Forms Authentication Failure" ID="87b3e78b-21a7-4b32-9fc8-c147e45642f5" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\ASP.NET Applications(*)\Forms Authentication Failure" COLLECTIONVARNAME="CollectionOfASPNETApplicationsFormsAuthenticationFailure" EXPRESSIONPATH="\ASP.NET Applications(*)\Forms Authentication Failure" TRENDVARNAME="TrendASPNETApplicationsFormsAuthenticationFailure" DATATYPE="integer" />
+    <CHART CHARTTITLE="\ASP.NET Applications(*)\Forms Authentication Failure" ISTHRESHOLDSADDED="False" DATASOURCE="\ASP.NET Applications(*)\Forms Authentication Failure" CHARTLABELS="instance" />
+    <THRESHOLD NAME="More than 20  failed forms authentication ticket validations during one hour" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfASPNETApplicationsFormsAuthenticationFailure -Operator 'gt' -Threshold 20 -IsTrendOnly $True
+
+]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[Number of failed forms authentication ticket validations since the application was started.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="ASP.NET Applications Request Execution Time" ENABLED="False" CATEGORY="IIS Engine" PRIMARYDATASOURCE="\ASP.NET Applications(*)\Request Execution Time" ID="9e3d6aa5-f107-4976-bd88-a5baf573f074" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\ASP.NET Applications(*)\Request Execution Time" COLLECTIONVARNAME="CollectionOfASPNETApplicationsRequestExecutionTime" EXPRESSIONPATH="\ASP.NET Applications(*)\Request Execution Time" TRENDVARNAME="TrendASPNETApplicationsRequestExecutionTime" DATATYPE="integer" />
+    <CHART CHARTTITLE="\ASP.NET Applications(*)\Request Execution Time" ISTHRESHOLDSADDED="True" DATASOURCE="\ASP.NET Applications(*)\Request Execution Time" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $CollectionOfASPNETApplicationsRequestExecutionTime -MinThreshold 5000 -MaxThreshold 8000 -IsOperatorGreaterThan $True -UseMaxValue $False]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $CollectionOfASPNETApplicationsRequestExecutionTime -MinThreshold 8000 -MaxThreshold 9999.99 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="More than 8 sec. to execute request" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfASPNETApplicationsRequestExecutionTime -Operator 'gt' -Threshold 8000]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="More than 5 sec. to execute request" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfASPNETApplicationsRequestExecutionTime -Operator 'gt' -Threshold 5000
+]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The number of milliseconds that it took to execute the most recent request.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="ASP.NET Apps v2.0.50727 Request Execution Time" ENABLED="False" CATEGORY="IIS Engine" PRIMARYDATASOURCE="\ASP.NET Apps v2.0.50727(*)\Request Execution Time" ID="604dc218-7cde-4a11-a3db-54e8e688da41" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\ASP.NET Apps v2.0.50727(*)\Request Execution Time" COLLECTIONVARNAME="CollectionOfASPNETAppsv2050727RequestExecutionTime" EXPRESSIONPATH="\ASP.NET Apps v2.0.50727(*)\Request Execution Time" TRENDVARNAME="TrendASPNETAppsv2050727RequestExecutionTime" DATATYPE="integer">
+      <EXCLUDE INSTANCE="__TOTAL__" />
+    </DATASOURCE>
+    <CHART CHARTTITLE="\ASP.NET Apps v2.0.50727(*)\Request Execution Time" ISTHRESHOLDSADDED="True" DATASOURCE="\ASP.NET Apps v2.0.50727(*)\Request Execution Time" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $CollectionOfASPNETAppsv2050727RequestExecutionTime -MinThreshold 5000 -MaxThreshold 8000 -IsOperatorGreaterThan $True -UseMaxValue $False]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $CollectionOfASPNETAppsv2050727RequestExecutionTime -MinThreshold 8000 -MaxThreshold 9999.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="More than 8 sec. to execute request" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfASPNETAppsv2050727RequestExecutionTime -Operator 'gt' -Threshold 8000
+]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="More than 5 sec. to execute request" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfASPNETAppsv2050727RequestExecutionTime -Operator 'gt' -Threshold 5000
+]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The number of milliseconds that it took to execute the most recent request.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="ASP.NET Apps v2.0.50727 Requests In Application Queue" ENABLED="False" CATEGORY="IIS Engine" PRIMARYDATASOURCE="\ASP.NET Apps v2.0.50727(*)\Requests In Application Queue" ID="1ca7993f-906c-45ec-939c-2c028c21fbf0" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\ASP.NET Apps v2.0.50727(*)\Requests In Application Queue" COLLECTIONVARNAME="CollectionOfASPNETAppsv2050727RequestsInApplicationQueue" EXPRESSIONPATH="\ASP.NET Apps v2.0.50727(*)\Requests In Application Queue" TRENDVARNAME="TrendASPNETAppsv2050727RequestsInApplicationQueue" DATATYPE="integer" />
+    <CHART CHARTTITLE="\ASP.NET Apps v2.0.50727(*)\Requests In Application Queue" ISTHRESHOLDSADDED="True" DATASOURCE="\ASP.NET Apps v2.0.50727(*)\Requests In Application Queue" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $CollectionOfASPNETAppsv2050727RequestsInApplicationQueue -MinThreshold 1 -MaxThreshold 5 -IsOperatorGreaterThan $True -UseMaxValue $False]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $CollectionOfASPNETAppsv2050727RequestsInApplicationQueue -MinThreshold 5 -MaxThreshold 5.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="More than 1 request in queue" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[
+StaticThreshold -CollectionOfCounterInstances $CollectionOfASPNETAppsv2050727RequestsInApplicationQueue -Operator 'gt' -Threshold 1]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="More than 5 request in queue" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfASPNETAppsv2050727RequestsInApplicationQueue -Operator 'gt' -Threshold 5]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The number of requests in the application request queue.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="ASP.NET Apps v2.0.50727 Forms Authentication Failure" ENABLED="False" CATEGORY="IIS Engine" PRIMARYDATASOURCE="\ASP.NET Apps v2.0.50727(*)\Forms Authentication Failure" ID="4e242939-3032-41c0-8fa6-7f1c7bad5448" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Number of failed forms authentication ticket validations since the application was started.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\ASP.NET Apps v2.0.50727(*)\Forms Authentication Failure" COLLECTIONVARNAME="CollectionOfASPNETAppsv2050727FormsAuthenticationFailure" EXPRESSIONPATH="\ASP.NET Apps v2.0.50727(*)\Forms Authentication Failure" TRENDVARNAME="TrendASPNETAppsv2050727FormsAuthenticationFailure" DATATYPE="integer" />
+    <CHART CHARTTITLE="\ASP.NET Apps v2.0.50727(*)\Forms Authentication Failure" ISTHRESHOLDSADDED="False" DATASOURCE="\ASP.NET Apps v2.0.50727(*)\Forms Authentication Failure" CHARTLABELS="instance" />
+    <THRESHOLD NAME="More than 20  failed forms authentication per hour" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfASPNETAppsv2050727FormsAuthenticationFailure -Operator 'gt' -Threshold 20 -IsTrendOnly $True
+]]></CODE>
+    </THRESHOLD>
+  </ANALYSIS>
+  <ANALYSIS NAME="Active Server Pages Request Execution Time" ENABLED="False" CATEGORY="IIS Engine" PRIMARYDATASOURCE="\Active Server Pages\Request Execution Time" ID="411e7845-6507-4354-88fb-fa74d3a1a361" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\Active Server Pages\Request Execution Time" COLLECTIONVARNAME="CollectionOfActiveServerPagesRequestExecutionTime" EXPRESSIONPATH="\Active Server Pages\Request Execution Time" TRENDVARNAME="TrendActiveServerPagesRequestExecutionTime" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Active Server Pages\Request Execution Time" ISTHRESHOLDSADDED="True" DATASOURCE="\Active Server Pages\Request Execution Time" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $CollectionOfActiveServerPagesRequestExecutionTime -MinThreshold 3000 -MaxThreshold 6000 -IsOperatorGreaterThan $True -UseMaxValue $False]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $CollectionOfActiveServerPagesRequestExecutionTime -MinThreshold 6000 -MaxThreshold 6499.99 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="More than 3 seconds to execute request" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfActiveServerPagesRequestExecutionTime -Operator 'gt' -Threshold 3000]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="More than 6 seconds to execute request" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfActiveServerPagesRequestExecutionTime -Operator 'gt' -Threshold 6000]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The number of milliseconds that it took to execute the most recent request.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Active Server Pages Requests Queued" ENABLED="False" CATEGORY="IIS Engine" PRIMARYDATASOURCE="\Active Server Pages\Requests Queued" ID="5e424346-b504-40bf-9b93-43ed3b5ff0a3" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\Active Server Pages\Requests Queued" COLLECTIONVARNAME="CollectionOfActiveServerPagesRequestsQueued" EXPRESSIONPATH="\Active Server Pages\Requests Queued" TRENDVARNAME="TrendActiveServerPagesRequestsQueued" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Active Server Pages\Requests Queued" ISTHRESHOLDSADDED="True" DATASOURCE="\Active Server Pages\Requests Queued" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $CollectionOfActiveServerPagesRequestsQueued -MinThreshold 10 -MaxThreshold 20 -IsOperatorGreaterThan $True -UseMaxValue $False]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $CollectionOfActiveServerPagesRequestsQueued -MinThreshold 20 -MaxThreshold 24.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="More than 10 requests" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfActiveServerPagesRequestsQueued -Operator 'gt' -Threshold 10]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="More than 20 requests" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfActiveServerPagesRequestsQueued -Operator 'gt' -Threshold 20]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The number of requests waiting for service from the queue.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME=".NET CLR Memory % Time in GC" ENABLED="False" CATEGORY="IIS Engine" PRIMARYDATASOURCE="\.NET CLR Memory(*)\% Time in GC" ID="1987d2e0-6524-4b92-afac-2099a8ff3bca" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\.NET CLR Memory(*)\% Time in GC" COLLECTIONVARNAME="CollectionOfNETCLRMemoryPercentTimeinGC" EXPRESSIONPATH="\.NET CLR Memory(*)\% Time in GC" TRENDVARNAME="TrendNETCLRMemoryPercentTimeinGC" DATATYPE="integer" />
+    <CHART CHARTTITLE="\.NET CLR Memory(*)\% Time in GC" ISTHRESHOLDSADDED="True" DATASOURCE="\.NET CLR Memory(*)\% Time in GC" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $CollectionOfNETCLRMemoryPercentTimeinGC -MinThreshold 10 -MaxThreshold 14.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="More than 10%" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfNETCLRMemoryPercentTimeinGC -Operator 'gt' -Threshold 10]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[% Time in GC is the percentage of elapsed time that was spent in performing a garbage collection (GC) since the last GC cycle. This counter is usually an indicator of the work done by the Garbage Collector on behalf of the application to collect and compact memory. This counter is updated only at the end of every GC and the counter value reflects the last observed value; its not an average.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME=".NET CLR Memory # Bytes in all Heaps" ENABLED="False" CATEGORY="IIS Engine" PRIMARYDATASOURCE="\.NET CLR Memory(*)\# Bytes in all Heaps" ID="15f4e5c0-bcad-400a-a674-2ecb7db64e85" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\.NET CLR Memory(*)\# Bytes in all Heaps" COLLECTIONVARNAME="CollectionOfNETCLRMemory#BytesinallHeaps" EXPRESSIONPATH="\.NET CLR Memory(*)\# Bytes in all Heaps" TRENDVARNAME="TrendNETCLRMemory#BytesinallHeaps" DATATYPE="integer">
+      <EXCLUDE INSTANCE="_Global_" />
+    </DATASOURCE>
+    <CHART CHARTTITLE="\.NET CLR Memory(*)\# Bytes in all Heaps" ISTHRESHOLDSADDED="True" DATASOURCE="\.NET CLR Memory(*)\# Bytes in all Heaps" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $CollectionOfNETCLRMemory#BytesinallHeaps -MinThreshold 5242880 -MaxThreshold 10485760 -IsOperatorGreaterThan $True -UseMaxValue $False]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $CollectionOfNETCLRMemory#BytesinallHeaps -MinThreshold 10485760 -MaxThreshold 20000000 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="More than 10 MB allocated" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfNETCLRMemory#BytesinallHeaps -Operator 'gt' -Threshold 10485760
+]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="More than 5MB allocated" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfNETCLRMemory#BytesinallHeaps -Operator 'gt' -Threshold 5242880
+]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[This counter is the sum of four other counters; Gen 0 Heap Size; Gen 1 Heap Size; Gen 2 Heap Size and the Large Object Heap Size. This counter indicates the current memory allocated in bytes on the GC Heaps.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="IPsec DoS Protection Current State Entries" ENABLED="False" CATEGORY="IPsec" PRIMARYDATASOURCE="\IPsec DoS Protection\Current State Entries" ID="c35559d2-f82c-4192-818b-a4818ce65e1c" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\IPsec DoS Protection\Current State Entries" COLLECTIONVARNAME="CollectionOfIPsecDoSProtectionCurrentStateEntries" EXPRESSIONPATH="\IPsec DoS Protection\Current State Entries" TRENDVARNAME="TrendIPsecDoSProtectionCurrentStateEntries" DATATYPE="integer" />
+    <CHART CHARTTITLE="\IPsec DoS Protection\Current State Entries" ISTHRESHOLDSADDED="True" DATASOURCE="\IPsec DoS Protection\Current State Entries" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $CollectionOfIPsecDoSProtectionCurrentStateEntries -MinThreshold 1000 -MaxThreshold 2000 -IsOperatorGreaterThan $True -UseMaxValue $False]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $CollectionOfIPsecDoSProtectionCurrentStateEntries -MinThreshold 2000 -MaxThreshold 2249.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="More than 1000 state entries" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfIPsecDoSProtectionCurrentStateEntries -Operator 'gt' -Threshold 1000
+]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="More than 2000 state entries" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfIPsecDoSProtectionCurrentStateEntries -Operator 'gt' -Threshold 2000]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[Current State Entries is the number of state entries in the table. A state entry is a pair of IPv6 addresses that is authorized to pass through from a public to an internal interface.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="IPsec DoS Protection Inbound Rate Limit Discarded IPv6 IPsec Authenticated Packets/sec" ENABLED="False" CATEGORY="IPsec" PRIMARYDATASOURCE="\IPsec DoS Protection\Inbound Rate Limit Discarded IPv6 IPsec Authenticated Packets/sec" ID="1973ac3b-9213-4fcb-9c95-fe1e7603d7be" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\IPsec DoS Protection\Inbound Rate Limit Discarded IPv6 IPsec Authenticated Packets/sec" COLLECTIONVARNAME="CollectionOfIPsecDoSProtectionInboundRateLimitDiscardedIPv6IPsecAuthenticatedPacketssec" EXPRESSIONPATH="\IPsec DoS Protection\Inbound Rate Limit Discarded IPv6 IPsec Authenticated Packets/sec" TRENDVARNAME="TrendIPsecDoSProtectionInboundRateLimitDiscardedIPv6IPsecAuthenticatedPacketssec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\IPsec DoS Protection\Inbound Rate Limit Discarded IPv6 IPsec Authenticated Packets/sec" ISTHRESHOLDSADDED="True" DATASOURCE="\IPsec DoS Protection\Inbound Rate Limit Discarded IPv6 IPsec Authenticated Packets/sec" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $CollectionOfIPsecDoSProtectionInboundRateLimitDiscardedIPv6IPsecAuthenticatedPacketssec -MinThreshold 100 -MaxThreshold 149.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="More than 100 discarded IPv6 IPsec packets per sec" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfIPsecDoSProtectionInboundRateLimitDiscardedIPv6IPsecAuthenticatedPacketssec -Operator 'gt' -Threshold 100]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[Inbound Rate Limit Discarded IPv6 IPsec Authenticated Packets per Second is the rate at which authenticated IKEv1, IKEv2, AuthIP, or ESP IPv6 packets are received on a public interface and discarded because they exceed the rate limit for IPv6 IPsec authenticated packets. An authenticated packet is an IPsec packet with an associated state entry. A state entry is a pair of IPv6 addresses that is authorized to pass through from a public to an internal interface.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="IPsec DoS Protection Inbound Rate Limit Discarded ICMPv6 Packets/sec" ENABLED="False" CATEGORY="IPsec" PRIMARYDATASOURCE="\IPsec DoS Protection\Inbound Rate Limit Discarded ICMPv6 Packets/sec" ID="9eb94acc-c91a-4e0d-aebb-7af5504cefc4" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\IPsec DoS Protection\Inbound Rate Limit Discarded ICMPv6 Packets/sec" COLLECTIONVARNAME="CollectionOfIPsecDoSProtectionInboundRateLimitDiscardedICMPv6Packetssec" EXPRESSIONPATH="\IPsec DoS Protection\Inbound Rate Limit Discarded ICMPv6 Packets/sec" TRENDVARNAME="TrendIPsecDoSProtectionInboundRateLimitDiscardedICMPv6Packetssec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\IPsec DoS Protection\Inbound Rate Limit Discarded ICMPv6 Packets/sec" ISTHRESHOLDSADDED="True" DATASOURCE="\IPsec DoS Protection\Inbound Rate Limit Discarded ICMPv6 Packets/sec" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $CollectionOfIPsecDoSProtectionInboundRateLimitDiscardedICMPv6Packetssec -MinThreshold 20 -MaxThreshold 24.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="More than 20 discarded packets" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfIPsecDoSProtectionInboundRateLimitDiscardedICMPv6Packetssec -Operator 'gt' -Threshold 20
+]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[Inbound Rate Limit Discarded ICMPv6 Packets per Second is the rate at which ICMPv6 packets are received on a public interface and discarded because they exceeded the rate limit for ICMPv6 packets.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="IPsec DoS Protection Inbound Rate Limit Discarded IPv6 IPsec Unauthenticated Packets/sec" ENABLED="False" CATEGORY="IPsec" PRIMARYDATASOURCE="\IPsec DoS Protection\Inbound Rate Limit Discarded IPv6 IPsec Unauthenticated Packets/sec" ID="4cefbdf9-91e7-48e8-a24a-b232475d11b3" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\IPsec DoS Protection\Inbound Rate Limit Discarded IPv6 IPsec Unauthenticated Packets/sec" COLLECTIONVARNAME="CollectionOfIPsecDoSProtectionInboundRateLimitDiscardedIPv6IPsecUnauthenticatedPacketssec" EXPRESSIONPATH="\IPsec DoS Protection\Inbound Rate Limit Discarded IPv6 IPsec Unauthenticated Packets/sec" TRENDVARNAME="TrendIPsecDoSProtectionInboundRateLimitDiscardedIPv6IPsecUnauthenticatedPacketssec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\IPsec DoS Protection\Inbound Rate Limit Discarded IPv6 IPsec Unauthenticated Packets/sec" ISTHRESHOLDSADDED="True" DATASOURCE="\IPsec DoS Protection\Inbound Rate Limit Discarded IPv6 IPsec Unauthenticated Packets/sec" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $CollectionOfIPsecDoSProtectionInboundRateLimitDiscardedIPv6IPsecUnauthenticatedPacketssec -MinThreshold 100 -MaxThreshold 149.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="More than 100 discarded IPv6 IPsec packets per sec" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfIPsecDoSProtectionInboundRateLimitDiscardedIPv6IPsecUnauthenticatedPacketssec -Operator 'gt' -Threshold 100]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[Inbound Rate Limit Discarded IPv6 IPsec Unauthenticated Packets per Second is the rate of unauthenticated IKEv1, IKEv2, AuthIP, or ESP IPv6 packets received on a public interface and discarded because they exceeded the rate limit for IPv6 IPsec unauthenticated packets. An unauthenticated packet is an IPsec packet without an associated state entry. A state entry is a pair of IPv6 addresses that is authorized to pass through from a public to an internal interface.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="IPsec AuthIP IPv6 Failed Main Mode Negotiations" ENABLED="False" CATEGORY="IPsec" PRIMARYDATASOURCE="\IPsec AuthIP IPv6\Failed Main Mode Negotiations" ID="ca4256de-aee3-455e-a894-e7f88d5c29f6" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\IPsec AuthIP IPv6\Failed Main Mode Negotiations" COLLECTIONVARNAME="CollectionOfIPsecAuthIPIPv6FailedMainModeNegotiations" EXPRESSIONPATH="\IPsec AuthIP IPv6\Failed Main Mode Negotiations" TRENDVARNAME="TrendIPsecAuthIPIPv6FailedMainModeNegotiations" DATATYPE="integer" />
+    <CHART CHARTTITLE="\IPsec AuthIP IPv6\Failed Main Mode Negotiations" ISTHRESHOLDSADDED="True" DATASOURCE="\IPsec AuthIP IPv6\Failed Main Mode Negotiations" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $CollectionOfIPsecAuthIPIPv6FailedMainModeNegotiations -MinThreshold 5 -MaxThreshold 10 -IsOperatorGreaterThan $True -UseMaxValue $False]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $CollectionOfIPsecAuthIPIPv6FailedMainModeNegotiations -MinThreshold 10 -MaxThreshold 14.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="More than 5 failures" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfIPsecAuthIPIPv6FailedMainModeNegotiations -Operator 'gt' -Threshold 5]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="More than 10 failures" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfIPsecAuthIPIPv6FailedMainModeNegotiations -Operator 'gt' -Threshold 10]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[Failed Main Mode Negotiations is the number of failed main mode negotiations since IPsec was last started.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="IPsec Driver Packets That Failed Replay Detection/sec" ENABLED="False" CATEGORY="IPsec" PRIMARYDATASOURCE="\IPsec Driver\Packets That Failed Replay Detection/sec" ID="1cc3357b-2786-4d8e-ac3e-f5a7c63be7e7" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\IPsec Driver\Packets That Failed Replay Detection/sec" COLLECTIONVARNAME="CollectionOfIPsecDriverPacketsThatFailedReplayDetectionsec" EXPRESSIONPATH="\IPsec Driver\Packets That Failed Replay Detection/sec" TRENDVARNAME="TrendIPsecDriverPacketsThatFailedReplayDetectionsec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\IPsec Driver\Packets That Failed Replay Detection/sec" ISTHRESHOLDSADDED="True" DATASOURCE="\IPsec Driver\Packets That Failed Replay Detection/sec" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $CollectionOfIPsecDriverPacketsThatFailedReplayDetectionsec -MinThreshold 100 -MaxThreshold 149.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="More than 100 failed detections" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfIPsecDriverPacketsThatFailedReplayDetectionsec -Operator 'gt' -Threshold 100]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[Packets That Failed Replay Detection per Second is the rate of packets that contained an invalid sequence number since the computer was last started. Increases in this counter might indicate a network problem or replay attack.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="IPsec Driver Incorrect SPI Packets/sec" ENABLED="False" CATEGORY="IPsec" PRIMARYDATASOURCE="\IPsec Driver\Incorrect SPI Packets/sec" ID="fcb30f8c-95a2-411b-a80e-2c15b6b87e1e" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\IPsec Driver\Incorrect SPI Packets/sec" COLLECTIONVARNAME="CollectionOfIPsecDriverIncorrectSPIPacketssec" EXPRESSIONPATH="\IPsec Driver\Incorrect SPI Packets/sec" TRENDVARNAME="TrendIPsecDriverIncorrectSPIPacketssec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\IPsec Driver\Incorrect SPI Packets/sec" ISTHRESHOLDSADDED="True" DATASOURCE="\IPsec Driver\Incorrect SPI Packets/sec" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $CollectionOfIPsecDriverIncorrectSPIPacketssec -MinThreshold 100 -MaxThreshold 149.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="More than 100 incorrect packets" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfIPsecDriverIncorrectSPIPacketssec -Operator 'gt' -Threshold 100]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[Incorrect SPI packets per Second is the rate of packets for which the Security Parameter Index (SPI) was incorrect since the computer was last started. A large number of packets with bad SPIs within a short amount of time might indicate a packet spoofing attack.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Teredo Server In - Teredo Server Total Packets: Success + Error / sec" ENABLED="False" CATEGORY="Transition technologies" PRIMARYDATASOURCE="\Teredo Server(Default)\In - Teredo Server Total Packets: Success + Error / sec" ID="fc266404-bb30-4fa3-be03-724aaa385cbd" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\Teredo Server(Default)\In - Teredo Server Total Packets: Success + Error / sec" COLLECTIONVARNAME="CollectionOfTeredoServerInTeredoServerTotalPacketsSuccess+Errorsec" EXPRESSIONPATH="\Teredo Server(Default)\In - Teredo Server Total Packets: Success + Error / sec" TRENDVARNAME="TrendTeredoServerInTeredoServerTotalPacketsSuccess+Errorsec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Teredo Server(Default)\In - Teredo Server Total Packets: Success + Error / sec" ISTHRESHOLDSADDED="False" DATASOURCE="\Teredo Server(Default)\In - Teredo Server Total Packets: Success + Error / sec" CHARTLABELS="instance" />
+    <THRESHOLD NAME="No Teredo traffic or Direct Access disabled" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[
+StaticThreshold -CollectionOfCounterInstances $CollectionOfTeredoServerInTeredoServerTotalPacketsSuccess+Errorsec -Operator 'le' -Threshold 0]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[Rate of total packets received by the Teredo server.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Forefront UAG DNS64 Dropped Queries" ENABLED="False" CATEGORY="Transition technologies" PRIMARYDATASOURCE="\Forefront UAG DNS64\Total Query Dropped/sec" ID="cd4ebbd1-998f-4c00-94cd-821528639c6b" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\Forefront UAG DNS64\Total Query Dropped/sec" COLLECTIONVARNAME="CollectionOfForefrontUAGDNS64TotalQueryDroppedsec" EXPRESSIONPATH="\Forefront UAG DNS64\Total Query Dropped/sec" TRENDVARNAME="TrendForefrontUAGDNS64TotalQueryDroppedsec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Forefront UAG DNS64\Total Query Dropped/sec" ISTHRESHOLDSADDED="True" DATASOURCE="\Forefront UAG DNS64\Total Query Dropped/sec" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $CollectionOfForefrontUAGDNS64TotalQueryDroppedsec -MinThreshold 5 -MaxThreshold 5.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <DATASOURCE TYPE="CounterLog" NAME="\Forefront UAG DNS64\Total Query Dropped" EXPRESSIONPATH="\Forefront UAG DNS64\Total Query Dropped" COLLECTIONVARNAME="CollectionOfForefrontUAGDNS64TotalQueryDropped" DATATYPE="integer" />
+    <THRESHOLD NAME="More than 5 quesries dropped per sec." CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfForefrontUAGDNS64TotalQueryDroppedsec -Operator 'gt' -Threshold 5]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="More than 30 queries dropped." CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfForefrontUAGDNS64TotalQueryDropped -Operator 'gt' -Threshold 30]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[Queries dropped by the DNS64]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Forefront UAG DNS64 Total Query Average Processing Time" ENABLED="False" CATEGORY="Transition technologies" PRIMARYDATASOURCE="\Forefront UAG DNS64\Total Query Average Processing Time" ID="068d3881-d675-4886-b0ee-11ca629b022f" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\Forefront UAG DNS64\Total Query Average Processing Time" COLLECTIONVARNAME="CollectionOfForefrontUAGDNS64TotalQueryAverageProcessingTime" EXPRESSIONPATH="\Forefront UAG DNS64\Total Query Average Processing Time" TRENDVARNAME="TrendForefrontUAGDNS64TotalQueryAverageProcessingTime" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Forefront UAG DNS64\Total Query Average Processing Time" ISTHRESHOLDSADDED="True" DATASOURCE="\Forefront UAG DNS64\Total Query Average Processing Time" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $CollectionOfForefrontUAGDNS64TotalQueryAverageProcessingTime -MinThreshold 0.4 -MaxThreshold 0.499 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Processing time longer than 0.4" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfForefrontUAGDNS64TotalQueryAverageProcessingTime -Operator 'gt' -Threshold 0.4]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The average processing time of all queries.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="IPHTTPS Global Errors - Authentication Errors" ENABLED="False" CATEGORY="Transition technologies" PRIMARYDATASOURCE="\IPHTTPS Global(*)\Errors - Authentication Errors" ID="b392417a-ae87-4064-b595-b7dcffdb6f86" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\IPHTTPS Global(*)\Errors - Authentication Errors" COLLECTIONVARNAME="CollectionOfIPHTTPSGlobalErrorsAuthenticationErrors" EXPRESSIONPATH="\IPHTTPS Global(*)\Errors - Authentication Errors" TRENDVARNAME="TrendIPHTTPSGlobalErrorsAuthenticationErrors" DATATYPE="integer" />
+    <CHART CHARTTITLE="\IPHTTPS Global(*)\Errors - Authentication Errors" ISTHRESHOLDSADDED="False" DATASOURCE="\IPHTTPS Global(*)\Errors - Authentication Errors" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[Total authentication errors.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Web Service Current Blocked Async I/O Requests" ENABLED="False" CATEGORY="IIS Engine" PRIMARYDATASOURCE="\Web Service(*)\Current Blocked Async I/O Requests" ID="bc71d08d-427e-4be8-a19b-685b63974f8b" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Current requests temporarily blocked due to bandwidth throttling settings.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\Web Service(*)\Current Blocked Async I/O Requests" COLLECTIONVARNAME="CollectionOfWebServiceCurrentBlockedAsyncIORequests" EXPRESSIONPATH="\Web Service(*)\Current Blocked Async I/O Requests" TRENDVARNAME="TrendWebServiceCurrentBlockedAsyncIORequests" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Web Service(*)\Current Blocked Async I/O Requests" ISTHRESHOLDSADDED="False" DATASOURCE="\Web Service(*)\Current Blocked Async I/O Requests" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Terminal Service Gateway Connection request authorization time" ENABLED="False" CATEGORY="Remote Desktop Gateway" PRIMARYDATASOURCE="\Terminal Service Gateway\Connection request authorization time" ID="82115924-1f84-453b-b3b0-a0044e4b264d" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\Terminal Service Gateway\Connection request authorization time" COLLECTIONVARNAME="CollectionOfTerminalServiceGatewayConnectionrequestauthorizationtime" EXPRESSIONPATH="\Terminal Service Gateway\Connection request authorization time" TRENDVARNAME="TrendTerminalServiceGatewayConnectionrequestauthorizationtime" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Terminal Service Gateway\Connection request authorization time" ISTHRESHOLDSADDED="True" DATASOURCE="\Terminal Service Gateway\Connection request authorization time" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $CollectionOfTerminalServiceGatewayConnectionrequestauthorizationtime -MinThreshold 1 -MaxThreshold 5 -IsOperatorGreaterThan $True -UseMaxValue $False]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $CollectionOfTerminalServiceGatewayConnectionrequestauthorizationtime -MinThreshold 5 -MaxThreshold 5.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="More than 1 sec." CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[
+StaticThreshold -CollectionOfCounterInstances $CollectionOfTerminalServiceGatewayConnectionrequestauthorizationtime -Operator 'gt' -Threshold 1]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="More than 5 sec." CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfTerminalServiceGatewayConnectionrequestauthorizationtime -Operator 'gt' -Threshold 5]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[Shows the average connection request authentication and authorization times in seconds.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Terminal Service Gateway % Failed Connections" ENABLED="True" CATEGORY="Remote Desktop Gateway" PRIMARYDATASOURCE="\Terminal Service Gateway\Successful connections" ID="42419c5a-7870-40fd-89a3-14dcf30b2739" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\Terminal Service Gateway\Successful connections" COLLECTIONVARNAME="CollectionOfTerminalServiceGatewaySuccessfulconnections" EXPRESSIONPATH="\Terminal Service Gateway\Successful connections" TRENDVARNAME="TrendTerminalServiceGatewaySuccessfulconnections" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Terminal Service Gateway\% Failed Connections" ISTHRESHOLDSADDED="True" DATASOURCE="\Terminal Service Gateway\% Failed Connections" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $CollectionOfTerminalServiceGatewayPercentFailedConnections -MinThreshold 20 -MaxThreshold 30 -IsOperatorGreaterThan $True -UseMaxValue $False]]></CODE>
+      </SERIES>
+    </CHART>
+    <DATASOURCE TYPE="CounterLog" NAME="\Terminal Service Gateway\Failed connections" EXPRESSIONPATH="\Terminal Service Gateway\Failed connections" COLLECTIONVARNAME="CollectionOfTerminalServiceGatewayFailedconnections" DATATYPE="integer" />
+    <DATASOURCE TYPE="Generated" NAME="\Terminal Service Gateway\% Failed Connections" EXPRESSIONPATH="\Terminal Service Gateway\% Failed Connections" COLLECTIONVARNAME="CollectionOfTerminalServiceGatewayPercentFailedConnections" DATATYPE="integer">
+      <CODE><![CDATA[
+          $CollectionOfTerminalServiceGatewayPercentFailedConnections = @{}
+          For ($i=0;$i -lt $CollectionOfTerminalServiceGatewaySuccessfulconnections.Count;$i++)
+          {
+            For ($a=0;$a -lt $CollectionOfTerminalServiceGatewayFailedconnections.Count;$a++)
+            {
+              If ($CollectionOfTerminalServiceGatewaySuccessfulconnections[$i].CounterInstance -eq $CollectionOfTerminalServiceGatewayFailedconnections[$a].CounterInstance)
+              { 
+                $b = $a
+              }
+            }
+            $alValues = New-Object System.Collections.ArrayList
+            For ($v=0;$v -lt $CollectionOfTerminalServiceGatewaySuccessfulconnections[$i].Value.Count;$v++)
+            {
+              If (($CollectionOfTerminalServiceGatewaySuccessfulconnections[$i].Value[$v] -gt 0) -and ($CollectionOfTerminalServiceGatewayFailedconnections[$b].Value[$v] -gt 0))
+              {
+                [int]$iPercentageOfFailedConnections = ([double]$CollectionOfTerminalServiceGatewaySuccessfulconnections[$i].Value[$v] / [double]$CollectionOfTerminalServiceGatewayFailedconnections[$b].Value[$v]) * 100
+                [void] $alValues.Add($iPercentageOfFailedConnections)
+              }
+              Else
+              {
+                [void] $alValues.Add(0)
+              }
+            }
+            $sGeneratedInstanceName = "\\$($CollectionOfTerminalServiceGatewaySuccessfulconnections[$i].CounterComputer)\$($CollectionOfTerminalServiceGatewaySuccessfulconnections[$i].CounterObject)($($CollectionOfTerminalServiceGatewaySuccessfulconnections[$i].CounterInstance))\% Failed Connections"
+            $CollectionOfTerminalServiceGatewayPercentFailedConnections.Add($sGeneratedInstanceName,$alValues)
+          }
+        ]]></CODE>
+    </DATASOURCE>
+    <THRESHOLD NAME="More than 20% of failed connections" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfTerminalServiceGatewayPercentFailedConnections -Operator 'gt' -Threshold 20]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[Shows the number of requests that were successfully processed and connected]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="NPS Authentication Clients Bad Authenticators / sec." ENABLED="False" CATEGORY="NPS" PRIMARYDATASOURCE="\NPS Authentication Clients\Bad Authenticators / sec." ID="a2c31cab-f1a3-4ccb-a2c7-a48aa9c0b214" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\NPS Authentication Clients\Bad Authenticators / sec." COLLECTIONVARNAME="CollectionOfNPSAuthenticationClientsBadAuthenticatorssec" EXPRESSIONPATH="\NPS Authentication Clients\Bad Authenticators / sec." TRENDVARNAME="TrendNPSAuthenticationClientsBadAuthenticatorssec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\NPS Authentication Clients\Bad Authenticators / sec." ISTHRESHOLDSADDED="True" DATASOURCE="\NPS Authentication Clients\Bad Authenticators / sec." CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $CollectionOfNPSAuthenticationClientsBadAuthenticatorssec -MinThreshold 0 -MaxThreshold 0.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Invalids Message Authenticator per sec." CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfNPSAuthenticationClientsBadAuthenticatorssec -Operator 'gt' -Threshold 0]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The average number of RADIUS packets  per second that contain an invalid Message Authenticator attribute.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="NPS Authentication Clients Dropped Packets" ENABLED="False" CATEGORY="NPS" PRIMARYDATASOURCE="\NPS Authentication Clients\Dropped Packets" ID="b2782395-8526-4a81-ac9c-af340953781b" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\NPS Authentication Clients\Dropped Packets" COLLECTIONVARNAME="CollectionOfNPSAuthenticationClientsDroppedPackets" EXPRESSIONPATH="\NPS Authentication Clients\Dropped Packets" TRENDVARNAME="TrendNPSAuthenticationClientsDroppedPackets" DATATYPE="integer" />
+    <CHART CHARTTITLE="\NPS Authentication Clients\Dropped Packets" ISTHRESHOLDSADDED="True" DATASOURCE="\NPS Authentication Clients\Dropped Packets" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $CollectionOfNPSAuthenticationClientsDroppedPackets -MinThreshold 1 -MaxThreshold 1.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="More than 1 dropped packet" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfNPSAuthenticationClientsDroppedPackets -Operator 'gt' -Threshold 1]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The number of incoming packets that are silently discarded for a reason other than "malformed," "invalid Message Authenticator," or "unknown type".]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="NPS Policy Engine Pending Requests" ENABLED="False" CATEGORY="NPS" PRIMARYDATASOURCE="\NPS Policy Engine\Pending Requests" ID="4762d4f6-8341-4d1f-996b-2833e75fd18a" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\NPS Policy Engine\Pending Requests" COLLECTIONVARNAME="CollectionOfNPSPolicyEnginePendingRequests" EXPRESSIONPATH="\NPS Policy Engine\Pending Requests" TRENDVARNAME="TrendNPSPolicyEnginePendingRequests" DATATYPE="integer" />
+    <CHART CHARTTITLE="\NPS Policy Engine\Pending Requests" ISTHRESHOLDSADDED="True" DATASOURCE="\NPS Policy Engine\Pending Requests" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $CollectionOfNPSPolicyEnginePendingRequests -MinThreshold 20 -MaxThreshold 60 -IsOperatorGreaterThan $True -UseMaxValue $False]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $CollectionOfNPSPolicyEnginePendingRequests -MinThreshold 60 -MaxThreshold 64.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="More than 60 pending requests" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfNPSPolicyEnginePendingRequests -Operator 'gt' -Threshold 60]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="More than 20 pending requests" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[
+StaticThreshold -CollectionOfCounterInstances $CollectionOfNPSPolicyEnginePendingRequests -Operator 'gt' -Threshold 20]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The number of requests that have entered the policy engine but have not yet completed the process.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="NPS Policy Engine Last Round-Trip Time" ENABLED="False" CATEGORY="NPS" PRIMARYDATASOURCE="\NPS Policy Engine\Last Round-Trip Time" ID="2cd6742b-fe90-489a-8ff1-c03cdff70faa" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\NPS Policy Engine\Last Round-Trip Time" COLLECTIONVARNAME="CollectionOfNPSPolicyEngineLastRoundTripTime" EXPRESSIONPATH="\NPS Policy Engine\Last Round-Trip Time" TRENDVARNAME="TrendNPSPolicyEngineLastRoundTripTime" DATATYPE="integer" />
+    <CHART CHARTTITLE="\NPS Policy Engine\Last Round-Trip Time" ISTHRESHOLDSADDED="True" DATASOURCE="\NPS Policy Engine\Last Round-Trip Time" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $CollectionOfNPSPolicyEngineLastRoundTripTime -MinThreshold 500 -MaxThreshold 549.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="More than 500 000 sec." CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfNPSPolicyEngineLastRoundTripTime -Operator 'ge' -Threshold 500
+]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The interval (in hundredths of a second) between the most recent request to the policy engine and its response.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="NPS Authentication Clients Malformed Packets / sec." ENABLED="False" CATEGORY="NPS" PRIMARYDATASOURCE="\NPS Authentication Clients\Malformed Packets / sec." ID="023b9c8d-5c9c-4ad5-95d0-9070d11ea66e" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\NPS Authentication Clients\Malformed Packets / sec." COLLECTIONVARNAME="CollectionOfNPSAuthenticationClientsMalformedPacketssec" EXPRESSIONPATH="\NPS Authentication Clients\Malformed Packets / sec." TRENDVARNAME="TrendNPSAuthenticationClientsMalformedPacketssec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\NPS Authentication Clients\Malformed Packets / sec." ISTHRESHOLDSADDED="True" DATASOURCE="\NPS Authentication Clients\Malformed Packets / sec." CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $CollectionOfNPSAuthenticationClientsMalformedPacketssec -MinThreshold 0 -MaxThreshold 0.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Malformed packet received" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfNPSAuthenticationClientsMalformedPacketssec -Operator 'ge' -Threshold 1]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The average number of packets containing malformed data received per second.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="NPS Authentication Clients Unknown Type / sec." ENABLED="False" CATEGORY="NPS" PRIMARYDATASOURCE="\NPS Authentication Clients\Unknown Type / sec." ID="cf3737d2-af55-4d24-994d-9b2048480a55" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The average number of unknown type (non-RADIUS) packets received per second.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\NPS Authentication Clients\Unknown Type / sec." COLLECTIONVARNAME="CollectionOfNPSAuthenticationClientsUnknownTypesec" EXPRESSIONPATH="\NPS Authentication Clients\Unknown Type / sec." TRENDVARNAME="TrendNPSAuthenticationClientsUnknownTypesec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\NPS Authentication Clients\Unknown Type / sec." ISTHRESHOLDSADDED="True" DATASOURCE="\NPS Authentication Clients\Unknown Type / sec." CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $CollectionOfNPSAuthenticationClientsUnknownTypesec -MinThreshold 0 -MaxThreshold 0.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="non-RADIUS packet received" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[
+StaticThreshold -CollectionOfCounterInstances $CollectionOfNPSAuthenticationClientsUnknownTypesec -Operator 'ge' -Threshold 1
+]]></CODE>
+    </THRESHOLD>
+  </ANALYSIS>
+  <QUESTION QUESTIONVARNAME="DA_InUse" DATATYPE="boolean" DEFAULTVALUE="False">Direct Access used?</QUESTION>
+  <ANALYSIS NAME="Active Server Pages Requests Not Found" ENABLED="False" CATEGORY="IIS Engine" PRIMARYDATASOURCE="\Active Server Pages\Requests Not Found" ID="59f50e0a-5c62-48fa-9964-82b74bf128dd" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\Active Server Pages\Requests Not Found" COLLECTIONVARNAME="CollectionOfActiveServerPagesRequestsNotFound" EXPRESSIONPATH="\Active Server Pages\Requests Not Found" TRENDVARNAME="TrendActiveServerPagesRequestsNotFound" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Active Server Pages\Requests Not Found" ISTHRESHOLDSADDED="True" DATASOURCE="\Active Server Pages\Requests Not Found" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $CollectionOfActiveServerPagesRequestsNotFound -MinThreshold 10 -MaxThreshold 11.99 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="More than 10 requests not found" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfActiveServerPagesRequestsNotFound -Operator 'gt' -Threshold 10]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The number of requests for files that were no found.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="NPS Authentication Server Bad Authenticators" ENABLED="False" CATEGORY="NPS" PRIMARYDATASOURCE="\NPS Authentication Server\Bad Authenticators" ID="6f1dde8b-d4ef-42ee-b0d0-5fe5ee5aee32" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\NPS Authentication Server\Bad Authenticators" COLLECTIONVARNAME="CollectionOfNPSAuthenticationServerBadAuthenticators" EXPRESSIONPATH="\NPS Authentication Server\Bad Authenticators" TRENDVARNAME="TrendNPSAuthenticationServerBadAuthenticators" DATATYPE="integer" />
+    <CHART CHARTTITLE="\NPS Authentication Server\Bad Authenticators" ISTHRESHOLDSADDED="True" DATASOURCE="\NPS Authentication Server\Bad Authenticators" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $CollectionOfNPSAuthenticationServerBadAuthenticators -MinThreshold 1 -MaxThreshold 1.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="At least one invalid Message Authenticator per sec." CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfNPSAuthenticationServerBadAuthenticators -Operator 'ge' -Threshold 1]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The number of RADIUS packets that contain an invalid Message Authenticator attribute.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="NPS Authentication Server Dropped Packets" ENABLED="False" CATEGORY="NPS" PRIMARYDATASOURCE="\NPS Authentication Server\Dropped Packets" ID="b8fef5b0-dd9c-4233-bd5f-d67f3676b3d2" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\NPS Authentication Server\Dropped Packets" COLLECTIONVARNAME="CollectionOfNPSAuthenticationServerDroppedPackets" EXPRESSIONPATH="\NPS Authentication Server\Dropped Packets" TRENDVARNAME="TrendNPSAuthenticationServerDroppedPackets" DATATYPE="integer" />
+    <CHART CHARTTITLE="\NPS Authentication Server\Dropped Packets" ISTHRESHOLDSADDED="True" DATASOURCE="\NPS Authentication Server\Dropped Packets" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $CollectionOfNPSAuthenticationServerDroppedPackets -MinThreshold 0 -MaxThreshold 0.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="At least one packets dropped" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[
+StaticThreshold -CollectionOfCounterInstances $CollectionOfNPSAuthenticationServerDroppedPackets -Operator 'gt' -Threshold 0]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The number of incoming packets that are silently discarded for a reason other than "malformed," "invalid Message Authenticator," or "unknown type".]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="NPS Authentication Server Invalid Requests" ENABLED="False" CATEGORY="NPS" PRIMARYDATASOURCE="\NPS Authentication Server\Invalid Requests" ID="ff1efd22-ef02-49fe-9d4f-4c7d2a2d5305" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\NPS Authentication Server\Invalid Requests" COLLECTIONVARNAME="CollectionOfNPSAuthenticationServerInvalidRequests" EXPRESSIONPATH="\NPS Authentication Server\Invalid Requests" TRENDVARNAME="TrendNPSAuthenticationServerInvalidRequests" DATATYPE="integer" />
+    <CHART CHARTTITLE="\NPS Authentication Server\Invalid Requests" ISTHRESHOLDSADDED="True" DATASOURCE="\NPS Authentication Server\Invalid Requests" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $CollectionOfNPSAuthenticationServerInvalidRequests -MinThreshold 0 -MaxThreshold 0.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="At least one invalid request" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[
+StaticThreshold -CollectionOfCounterInstances $CollectionOfNPSAuthenticationServerInvalidRequests -Operator 'gt' -Threshold 0]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The number of RADIUS packets received from unknown clients or remote RADIUS servers.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="NPS Authentication Server Malformed Packets" ENABLED="False" CATEGORY="NPS" PRIMARYDATASOURCE="\NPS Authentication Server\Malformed Packets" ID="ac1bfb68-7073-4f46-9a9d-e0b6b424c047" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\NPS Authentication Server\Malformed Packets" COLLECTIONVARNAME="CollectionOfNPSAuthenticationServerMalformedPackets" EXPRESSIONPATH="\NPS Authentication Server\Malformed Packets" TRENDVARNAME="TrendNPSAuthenticationServerMalformedPackets" DATATYPE="integer" />
+    <CHART CHARTTITLE="\NPS Authentication Server\Malformed Packets" ISTHRESHOLDSADDED="True" DATASOURCE="\NPS Authentication Server\Malformed Packets" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $CollectionOfNPSAuthenticationServerMalformedPackets -MinThreshold 0 -MaxThreshold 0.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Malformed packet received" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfNPSAuthenticationServerMalformedPackets -Operator 'gt' -Threshold 0
+]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The number of packets containing malformed data received.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="NPS Authentication Server Unknown Type" ENABLED="False" CATEGORY="NPS" PRIMARYDATASOURCE="\NPS Authentication Server\Unknown Type" ID="75429f37-2a42-4234-832c-a780c7c19dfb" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\NPS Authentication Server\Unknown Type" COLLECTIONVARNAME="CollectionOfNPSAuthenticationServerUnknownType" EXPRESSIONPATH="\NPS Authentication Server\Unknown Type" TRENDVARNAME="TrendNPSAuthenticationServerUnknownType" DATATYPE="integer" />
+    <CHART CHARTTITLE="\NPS Authentication Server\Unknown Type" ISTHRESHOLDSADDED="True" DATASOURCE="\NPS Authentication Server\Unknown Type" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $CollectionOfNPSAuthenticationServerUnknownType -MinThreshold 0 -MaxThreshold 0.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="non-RADIUS packet received" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfNPSAuthenticationServerUnknownType -Operator 'gt' -Threshold 0
+]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The number of unknown type (non-RADIUS) packets received.]]></DESCRIPTION>
+  </ANALYSIS>
+  <INHERITANCE FILEPATH="TMG2010.xml" />
+</PAL>

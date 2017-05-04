@@ -1,0 +1,69 @@
+<PAL NAME="Microsoft OCS 2007 R2 - Monitoring" DESCRIPTION="Performance counter thresholds for Microsoft Office Communications Server 2007 R2 Monitoring Server." CONTENTOWNERS="Doug Deitterick" FEEDBACKEMAILADDRESS="dodeitte@microsoft.com" VERSION="2.0" PALVERSION="2.0" LANGUAGE="English" LANGUAGECODE="en">
+  <INHERITANCE FILEPATH="QuickSystemOverview.xml" />
+  <ANALYSIS NAME="LC:QMS - 00 - QoEMonitoringServer QMS - 002 - Total number of message transactions that failed" ENABLED="True" CATEGORY="LC:QMS - 00 - QoEMonitoringServer" PRIMARYDATASOURCE="\LC:QMS - 00 - QoEMonitoringServer\QMS - 002 - Total number of message transactions that failed" ID="{35e1061d-9676-4638-b3db-5c29a5a7158a}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\LC:QMS - 00 - QoEMonitoringServer\QMS - 002 - Total number of message transactions that failed" COLLECTIONVARNAME="LCQMS00QoEMonitoringServerQMS002Totalnumberofmessagetransactionsthatfailed" EXPRESSIONPATH="\LC:QMS - 00 - QoEMonitoringServer\QMS - 002 - Total number of message transactions that failed" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LC:QMS - 00 - QoEMonitoringServer\QMS - 002 - Total number of message transactions that failed" ISTHRESHOLDSADDED="True" DATASOURCE="\LC:QMS - 00 - QoEMonitoringServer\QMS - 002 - Total number of message transactions that failed" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $LCQMS00QoEMonitoringServerQMS002Totalnumberofmessagetransactionsthatfailed -MinThreshold 5 -MaxThreshold 10 -IsOperatorGreaterThan $True -UseMaxValue $False]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $LCQMS00QoEMonitoringServerQMS002Totalnumberofmessagetransactionsthatfailed -MinThreshold 10 -MaxThreshold 13.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Greater than or equal to 5" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $LCQMS00QoEMonitoringServerQMS002Totalnumberofmessagetransactionsthatfailed -Operator 'ge' -Threshold 5]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="Greater than or equal to 10" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $LCQMS00QoEMonitoringServerQMS002Totalnumberofmessagetransactionsthatfailed -Operator 'ge' -Threshold 10]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[This counter represents the total number of message queue/database transactions that failed since the server was started.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="LC:CDR Service - 01 - READ CDR Service - 002 - Messages that failed validation" ENABLED="True" CATEGORY="LC:CDR Service - 01 - READ" PRIMARYDATASOURCE="\LC:CDR Service - 01 - READ\CDR Service - 002 - Messages that failed validation" ID="{cca8e748-0198-4be1-9c61-78a08969adc2}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\LC:CDR Service - 01 - READ\CDR Service - 002 - Messages that failed validation" COLLECTIONVARNAME="LCCDRService01READCDRService002Messagesthatfailedvalidation" EXPRESSIONPATH="\LC:CDR Service - 01 - READ\CDR Service - 002 - Messages that failed validation" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LC:CDR Service - 01 - READ\CDR Service - 002 - Messages that failed validation" ISTHRESHOLDSADDED="True" DATASOURCE="\LC:CDR Service - 01 - READ\CDR Service - 002 - Messages that failed validation" CHARTLABELS="instance">
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $LCCDRService01READCDRService002Messagesthatfailedvalidation -MinThreshold 1 -MaxThreshold 1.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Greater than or equal to 1" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $LCCDRService01READCDRService002Messagesthatfailedvalidation -Operator 'ge' -Threshold 1]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[Number of messages that failed validation.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="LC:CDR Service - 01 - READ CDR Service - 006 - Dropped messages from MQ" ENABLED="True" CATEGORY="LC:CDR Service - 01 - READ" PRIMARYDATASOURCE="\LC:CDR Service - 01 - READ\CDR Service - 006 - Dropped messages from MQ" ID="{5bd63767-a0bb-4dcb-8ebb-833183800ff1}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\LC:CDR Service - 01 - READ\CDR Service - 006 - Dropped messages from MQ" COLLECTIONVARNAME="LCCDRService01READCDRService006DroppedmessagesfromMQ" EXPRESSIONPATH="\LC:CDR Service - 01 - READ\CDR Service - 006 - Dropped messages from MQ" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LC:CDR Service - 01 - READ\CDR Service - 006 - Dropped messages from MQ" ISTHRESHOLDSADDED="True" DATASOURCE="\LC:CDR Service - 01 - READ\CDR Service - 006 - Dropped messages from MQ" CHARTLABELS="instance">
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $LCCDRService01READCDRService006DroppedmessagesfromMQ -MinThreshold 1 -MaxThreshold 1.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Greater than or equal to 1" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $LCCDRService01READCDRService006DroppedmessagesfromMQ -Operator 'ge' -Threshold 1]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[Number of messages dropped from MSMQ queue.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="LC:CDR Service - 02 - WRITE CDR Service - 002 - Messages failed to be written to DB" ENABLED="True" CATEGORY="LC:CDR Service - 02 - WRITE" PRIMARYDATASOURCE="\LC:CDR Service - 02 - WRITE\CDR Service - 002 - Messages failed to be written to DB" ID="{bed60f32-e15c-41c0-b5b7-82cc7b20dde4}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\LC:CDR Service - 02 - WRITE\CDR Service - 002 - Messages failed to be written to DB" COLLECTIONVARNAME="LCCDRService02WRITECDRService002MessagesfailedtobewrittentoDB" EXPRESSIONPATH="\LC:CDR Service - 02 - WRITE\CDR Service - 002 - Messages failed to be written to DB" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LC:CDR Service - 02 - WRITE\CDR Service - 002 - Messages failed to be written to DB" ISTHRESHOLDSADDED="True" DATASOURCE="\LC:CDR Service - 02 - WRITE\CDR Service - 002 - Messages failed to be written to DB" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $LCCDRService02WRITECDRService002MessagesfailedtobewrittentoDB -MinThreshold 1 -MaxThreshold 500 -IsOperatorGreaterThan $True -UseMaxValue $False]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $LCCDRService02WRITECDRService002MessagesfailedtobewrittentoDB -MinThreshold 500 -MaxThreshold 509.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Greater than or equal to 1" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $LCCDRService02WRITECDRService002MessagesfailedtobewrittentoDB -Operator 'ge' -Threshold 1]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="Greater than or equal to 500" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $LCCDRService02WRITECDRService002MessagesfailedtobewrittentoDB -Operator 'ge' -Threshold 500]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[Number of messages failed to be written to SQL database.]]></DESCRIPTION>
+  </ANALYSIS>
+</PAL>

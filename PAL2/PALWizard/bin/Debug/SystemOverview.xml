@@ -1,0 +1,272 @@
+<?xml version="1.0"?>
+<PAL PALVERSION="2.0" NAME="System Overview" DESCRIPTION="General operating system performance analysis. Use this for a general analysis for any Windows computer." CONTENTOWNERS="Clint Huffman" FEEDBACKEMAILADDRESS="clinth@microsoft.com" VERSION="1.2.2" LANGUAGE="English" LANGUAGECODE="en">
+  <ANALYSIS NAME="Process Private Bytes" ENABLED="True" CATEGORY="Process" PRIMARYDATASOURCE="\Process(*)\Private Bytes" ID="{bf135d67-22c5-4839-b039-3b8c0e587cd8}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\Process(*)\Private Bytes" COLLECTIONVARNAME="ProcessPrivateBytes" EXPRESSIONPATH="\Process(*)\Private Bytes" DATATYPE="integer">
+      <EXCLUDE INSTANCE="_Total" />
+    </DATASOURCE>
+    <CHART CHARTTITLE="\Process(*)\Private Bytes" ISTHRESHOLDSADDED="False" DATASOURCE="\Process(*)\Private Bytes" CHARTLABELS="instance">
+    </CHART>
+    <THRESHOLD NAME="Increasing trend of more than 100 MB per hour - may not be accurate on counter logs of less than 1 hour" CONDITION="Warning" COLOR="Yellow" PRIORITY="51">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $ProcessPrivateBytes -Operator 'gt' -Threshold 100MB -IsTrendOnly $True]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="More than 1 GB of system committed memory usage" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $ProcessPrivateBytes -Operator 'gt' -Threshold 1GB]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[This analysis determines if one or more processes are leaking private, committed, memory over time. A process consuming large portions of memory is okay as long as the process returns the memory back to the system. Look for increasing trends in the chart. An increasing trend over a long period of time could indicate a system committed memory leak. Private Bytes is the current size, in bytes, of memory that this process has allocated that cannot be shared with other processes. This analysis checks for a 100 MB per hour increasing trend. Use this analysis in correlation with the <B>\Memory\Committed Bytes</B> performance counter.<BR>
+<BR>
+Use this analysis in correlation with the <B>\Memory\Committed Bytes</B>. If you suspect a memory leak condition, then install and use the Debug Diag tool. For more information on the Debug Diag Tool, see the references section.<BR>
+<BR>
+<B>References:</B><BR>
+<BR>
+Debug Diagnostic Tool v1.1 http://www.microsoft.com/downloads/details.aspx?FamilyID=28bd5941-c458-46f1-b24d-f60151d875a3&displaylang=en]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Process Handle Count" ENABLED="True" CATEGORY="Process" PRIMARYDATASOURCE="\Process(*)\Handle Count" ID="{ff63f07d-dec2-4abc-b99a-d1841d340695}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\Process(*)\Handle Count" COLLECTIONVARNAME="ProcessHandleCount" EXPRESSIONPATH="\Process(*)\Handle Count" DATATYPE="integer">
+      <EXCLUDE INSTANCE="_Total" />
+    </DATASOURCE>
+    <CHART CHARTTITLE="\Process(*)\Handle Count" ISTHRESHOLDSADDED="False" DATASOURCE="\Process(*)\Handle Count" CHARTLABELS="instance" />
+    <THRESHOLD NAME="Increasing trend of more than 100 handles per hour" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $ProcessHandleCount -Operator 'gt' -Threshold 100 -IsTrendOnly $True]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="More than 16,384 handles open - possible ephemeral/dynamic/outbound port exhaustion" CONDITION="Warning" COLOR="Yellow" PRIORITY="51">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $ProcessHandleCount -Operator 'gt' -Threshold 16384]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[This analysis checks each process to determine if there is a handle leak and if more than 20,000 handles are open by a process. Handle leaks can be attributed to system committed memory leaks. If this analysis throws alerts, then you need to manually open the performance monitor log and look at the instances <b>\Process(*)\Handle Count</b> to determine which process is leaking handles. More than 20,000 handles may indicate a handle leak which might be related to ephemeral port exhaustion.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Process Thread Count" ENABLED="True" CATEGORY="Process" PRIMARYDATASOURCE="\Process(*)\Thread Count" ID="{cc52e99a-9c8a-4b5d-91c7-11dcb2ac9f77}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\Process(*)\Thread Count" COLLECTIONVARNAME="ProcessThreadCount" EXPRESSIONPATH="\Process(*)\Thread Count" DATATYPE="integer">
+      <EXCLUDE INSTANCE="_Total" />
+    </DATASOURCE>
+    <CHART CHARTTITLE="\Process(*)\Thread Count" ISTHRESHOLDSADDED="False" DATASOURCE="\Process(*)\Thread Count" CHARTLABELS="instance" />
+    <THRESHOLD NAME="Increasing trend of more than 100 threads per hour - may not be accurate on counter logs of less than 1 hour" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $ProcessThreadCount -Operator 'gt' -Threshold 100 -IsTrendOnly $True]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="More than 1000 threads" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $ProcessThreadCount -Operator 'gt' -Threshold 1000]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The number of threads currently active in this process. An instruction is the basic unit of execution in a processor, and a thread is the object that executes instructions. Every running process has at least one thread.<BR>
+<BR>
+This analysis checks each process to determine if it is leaking more than 100 threads per hour and if it has more than 1000 threads. A process with a large number of threads and/or an aggressive upward trend could indicate a thread leak which typically results in a system committed memory leak and/or high context switching. High context switching will result in high privileged mode CPU usage.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Process Working Set" ENABLED="True" CATEGORY="Process" PRIMARYDATASOURCE="\Process(*)\Working Set" ID="{e32af772-a24e-4a01-abe8-cd4f9d98253a}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\Process(*)\Working Set" COLLECTIONVARNAME="ProcessWorkingSet" EXPRESSIONPATH="\Process(*)\Working Set" DATATYPE="integer">
+      <EXCLUDE INSTANCE="_Total" />
+    </DATASOURCE>
+    <THRESHOLD NAME="Increasing trend of more than 100 MB per hour - may not be accurate on counter logs of less than 1 hour" CONDITION="Warning" COLOR="Yellow" PRIORITY="50" ID="">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $ProcessWorkingSet -Operator 'gt' -Threshold 100MB -IsTrendOnly $True]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\Process(*)\Working Set" ISTHRESHOLDSADDED="False" DATASOURCE="\Process(*)\Working Set" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[Working Set is the current size, in bytes, of the Working Set of a process. The Working Set is the set of memory pages touched recently by the threads in the process. It is the amount of RAM consumed by each process. If available physical memory (RAM) in the computer is above a threshold, pages are left in the Working Set of a process longer.  When available memory falls below a threshold, pages are trimmed from Working Sets more frequently than when not in a low available memory condition. If the trimmed page are still in RAM, but not in the processes working set (due to being trimmed), then some of them may be soft-faulted (RAM to RAM) back into the Working Set.<BR>
+This analysis checks for an increasing trend of 100 MB or more per hour in all of the processes combined. This could be an aggressive working set (RAM usage) leak, but keep in mind that this is only tracking the amount of RAM used by all of the processes and does not include committed memory that has trimmed from the working set. This is generally why Private Bytes is a better counter to use for general memory leaks. With that said, Working Set is a helpful counter to have when analyzing low physical memory conditions that might be induced by page locking which can preven the virtual memory manager from trimming. Use this analysis in correlation with Available Memory Analysis.<BR>
+<BR>
+<B>Reference:</B><BR>
+<UL>
+<LI><A HREF="http://technet.microsoft.com/en-us/library/7a44b064-8872-4edf-aac7-36b2a17f662a.aspx">Ruling Out Memory-Bound Problems<BR></A></LI>
+<LI><A HREF="http://blogs.technet.com/clinth/archive/2009/07/07/the-case-of-the-out-of-memory-biztalk-server.aspx">The Case of the Out of Memory BizTalk Server</A></LI>
+</UL>
+]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Process % Processor Time" ENABLED="True" CATEGORY="Process" PRIMARYDATASOURCE="\Process(*)\% Processor Time" ID="{5d1ee989-6e41-410b-8e41-a9d26b52d171}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\Process(*)\% Processor Time" COLLECTIONVARNAME="ProcessPercentProcessorTimeALL" EXPRESSIONPATH="\Process(*)\% Processor Time" MINVARNAME="MinPercentProcessorTime" AVGVARNAME="AvgPercentProcessorTime" MAXVARNAME="MaxPercentProcessorTime" TRENDVARNAME="TrendPercentProcessorTime" DATATYPE="integer">
+      <EXCLUDE INSTANCE="Idle" />
+      <EXCLUDE INSTANCE="_Total" />
+    </DATASOURCE>
+    <CHART CHARTTITLE="\Process(*)\% Processor Time" ISTHRESHOLDSADDED="True" DATASOURCE="\Process(*)\% Processor Time" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[[Int] $NumberOfLogicalProcessors = $CollectionOfProcessorPercentProcessorTime.Count - 1
+$FiftyPercentOverallProcessorUsage = $NumberOfLogicalProcessors * 50
+$SeventyFivePercentOverallProcessorUsage = $NumberOfLogicalProcessors * 75
+StaticChartThreshold -CollectionOfCounterInstances $ProcessPercentProcessorTimeALL -MinThreshold $FiftyPercentOverallProcessorUsage -MaxThreshold $SeventyFivePercentOverallProcessorUsage -IsOperatorGreaterThan $True -UseMaxValue $False]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[[Int] $NumberOfLogicalProcessors = $CollectionOfProcessorPercentProcessorTime.Count - 1
+$SeventyFivePercentOverallProcessorUsage = $NumberOfLogicalProcessors * 75
+$OneHundredPercentOverallProcessorUsage = ($NumberOfLogicalProcessors * 100) - 0.001
+StaticChartThreshold -CollectionOfCounterInstances $ProcessPercentProcessorTimeALL -MinThreshold $SeventyFivePercentOverallProcessorUsage -MaxThreshold $OneHundredPercentOverallProcessorUsage -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <DATASOURCE TYPE="CounterLog" NAME="\Processor(*)\% Processor Time" EXPRESSIONPATH="\Processor(*)\% Processor Time" COLLECTIONVARNAME="CollectionOfProcessorPercentProcessorTime" DATATYPE="integer" />
+    <THRESHOLD NAME="More than 50% of overall processor time usage" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[[Int] $NumberOfLogicalProcessors = $CollectionOfProcessorPercentProcessorTime.Count - 1
+$OverallProcessThreshold = $NumberOfLogicalProcessors * 50
+StaticThreshold -CollectionOfCounterInstances $ProcessPercentProcessorTimeALL -Operator 'gt' -Threshold $OverallProcessThreshold]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="More than 75% of overall processor time usage" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[[Int] $NumberOfLogicalProcessors = $CollectionOfProcessorPercentProcessorTime.Count - 1
+$OverallProcessThreshold = $NumberOfLogicalProcessors * 75
+StaticThreshold -CollectionOfCounterInstances $ProcessPercentProcessorTimeALL -Operator 'gt' -Threshold $OverallProcessThreshold]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[This analysis checks all of the processes to determine if any of the processes are consuming a large amount of CPU.<BR>
+<BR>
+If a user-mode processor bottleneck is suspected, then consider using a process profiler to analyze the functions causing the high CPU consumption. See How To: Identify Functions causing a High User-mode CPU Bottleneck for Server Applications in a Production Environment article in the references section for more information.<BR>
+<BR>
+<b>Role Specific</b><br>
+<br>
+- \Process(MSExchangeMailboxAssistants*)\% Processor Time should be less than 5% of overll CPU<br>
+<br>
+- \Process(msftefd*)\% Processor Time should be less than 10% of what the store process is consuming. <b>Note:</b> If indexing is running and overall CPU is greater than 80%, then msfte should backoff it's CPU usage if that threshold is hit.<br>
+<br>
+<B>References:</B><BR>
+Measuring .NET Application Performance<BR>
+http://msdn2.microsoft.com/en-us/library/ms998579.aspx<BR>
+<BR>
+How To: Identify Functions causing a High User-mode CPU Bottleneck for Server Applications in a Production Environment http://www.codeplex.com/PerfTesting/Wiki/View.aspx?title=How%20To%3a%20Identify%20a%20Disk%20Performance%20Bottleneck%20Using%20SPA&referringTitle=How%20Tos ]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Process Virtual Bytes" ENABLED="True" CATEGORY="Process" PRIMARYDATASOURCE="\Process(*)\Virtual Bytes" ID="{b722a20b-d937-428b-b1b7-011f0176a9ed}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\Process(*)\Virtual Bytes" COLLECTIONVARNAME="ProcessVirtualBytesALL" EXPRESSIONPATH="\Process(*)\Virtual Bytes" DATATYPE="integer">
+      <EXCLUDE INSTANCE="_Total" />
+    </DATASOURCE>
+    <CHART CHARTTITLE="\Process(*)\Virtual Bytes" ISTHRESHOLDSADDED="True" DATASOURCE="\Process(*)\Virtual Bytes" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+$SixtyFourBit = $OS.substring(0,2)
+If ($SixtyFourBit -eq '32')
+{
+	$PercentageOfMaxProcessAddressSpace = 0.60 * 2GB
+	$MaxProcessAddressSpace = 2GB
+}
+Else
+{
+	$PercentageOfMaxProcessAddressSpace = 0.60 * 8TB
+	$MaxProcessAddressSpace = 8TB
+}
+StaticChartThreshold -CollectionOfCounterInstances $ProcessVirtualBytesALL -MinThreshold $PercentageOfMaxProcessAddressSpace -MaxThreshold $MaxProcessAddressSpace -IsOperatorGreaterThan $True -UseMaxValue $False]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[
+$SixtyFourBit = $OS.substring(0,2)
+If ($SixtyFourBit -eq '32')
+{
+	$PercentageOfMaxProcessAddressSpace = 0.75 * 2GB
+	$MaxProcessAddressSpace = 2GB
+}
+Else
+{
+	$PercentageOfMaxProcessAddressSpace = 0.75 * 8TB
+	$MaxProcessAddressSpace = 8TB
+}
+StaticChartThreshold -CollectionOfCounterInstances $ProcessVirtualBytesALL -MinThreshold $PercentageOfMaxProcessAddressSpace -MaxThreshold $MaxProcessAddressSpace -IsOperatorGreaterThan $True -UseMaxValue $False]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Greater than 60 percent of estimated process virtual address space" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[
+$SixtyFourBit = $OS.substring(0,2)
+If ($SixtyFourBit -eq '32')
+{
+	$PercentageOfMaxProcessAddressSpace = 0.60 * 2GB
+	StaticThreshold -CollectionOfCounterInstances $ProcessVirtualBytesALL -Operator 'gt' -Threshold $PercentageOfMaxProcessAddressSpace
+}
+Else
+{
+	$PercentageOfMaxProcessAddressSpace = 0.60 * 8TB
+	StaticThreshold -CollectionOfCounterInstances $ProcessVirtualBytesALL -Operator 'gt' -Threshold $PercentageOfMaxProcessAddressSpace
+}]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="Greater than 75 percent of estimated process virtual address space" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[
+$SixtyFourBit = $OS.substring(0,2)
+If ($SixtyFourBit -eq '32')
+{
+	$PercentageOfMaxProcessAddressSpace = 0.75 * 2GB
+	StaticThreshold -CollectionOfCounterInstances $ProcessVirtualBytesALL -Operator 'gt' -Threshold $PercentageOfMaxProcessAddressSpace
+}
+Else
+{
+	$PercentageOfMaxProcessAddressSpace = 0.75 * 8TB
+	StaticThreshold -CollectionOfCounterInstances $ProcessVirtualBytesALL -Operator 'gt' -Threshold $PercentageOfMaxProcessAddressSpace
+}]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[This analysis determines if any of the processes are consuming too much of their respective virtual address space. 32-bit processes, by default, can only access up to 2 GB of virtual address space. If the process is close to this maximum, then it commonly results in an out of memory error. If a process is close to it's respective maximum, then consider migrating the application to 64-bit which has 8 TB or more virtual address space. It is important that processes have plenty of virtual address space.<BR>
+<BR>
+<B>Note:</B> This analysis assumes that all processes are 32-bit on 32-bit Windows and Windows Server and assumes that all processes are 64-bit on 64-bit Windows and Windows Server.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Process IO Data Operations/sec" ENABLED="True" CATEGORY="Process" PRIMARYDATASOURCE="\Process(*)\IO Data Operations/sec" ID="{c6cd5155-ab45-40ae-90d8-0d562e60e566}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\Process(*)\IO Data Operations/sec" COLLECTIONVARNAME="CollectionOfProcessIODataOperationssecALL" EXPRESSIONPATH="\Process(*)\IO Data Operations/sec" DATATYPE="integer">
+      <EXCLUDE INSTANCE="_Total" />
+    </DATASOURCE>
+    <THRESHOLD NAME="More than 1000 data IO operations (network, disk, or device IO) per second" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfProcessIODataOperationssecALL -Operator 'gt' -Threshold 1000]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\Process(*)\IO Data Operations/sec" ISTHRESHOLDSADDED="True" DATASOURCE="\Process(*)\IO Data Operations/sec" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfProcessIODataOperationssecALL -MinThreshold 1000 -MaxThreshold 1299.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="More than 100 data IO operations (network, disk, or device IO) per second" CONDITION="Warning" COLOR="Yellow" PRIORITY="49">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfProcessIODataOperationssecALL -Operator 'gt' -Threshold 100]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The rate at which the process is issuing read and write IO data operations. This counter counts all IO activity generated by the process to include file, network and device IO. These IO operations are often, but not always related to disk and/or network IO.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Process IO Other Operations/sec" ENABLED="True" CATEGORY="Process" PRIMARYDATASOURCE="\Process(*)\IO Other Operations/sec" ID="{d85a7da5-aef3-47bc-b814-87581706fea8}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\Process(*)\IO Other Operations/sec" COLLECTIONVARNAME="CollectionOfProcessIOOtherOperationssecALL" EXPRESSIONPATH="\Process(*)\IO Other Operations/sec" DATATYPE="integer">
+      <EXCLUDE INSTANCE="_Total" />
+    </DATASOURCE>
+    <THRESHOLD NAME="More than 1000 other IO operations (network, disk, or device IO) per second" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfProcessIOOtherOperationssecALL -Operator 'gt' -Threshold 1000]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\Process(*)\IO Other Operations/sec" ISTHRESHOLDSADDED="True" DATASOURCE="\Process(*)\IO Other Operations/sec" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfProcessIOOtherOperationssecALL -MinThreshold 1000 -MaxThreshold 1299.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+    <DESCRIPTION><![CDATA[The rate at which the process is issuing IO other operations that are neither read nor write operations (for example, a control function). This counter counts all IO activity generated by the process to include file, network and device IO.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Process ID Process" ENABLED="True" CATEGORY="Process" PRIMARYDATASOURCE="\Process(*)\ID Process" ID="3a1afd8a-9143-41ad-bbe9-dbd03a6e2346" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\Process(*)\ID Process" COLLECTIONVARNAME="CollectionOfProcessIDProcess" EXPRESSIONPATH="\Process(*)\ID Process" TRENDVARNAME="TrendProcessIDProcess" DATATYPE="integer">
+      <EXCLUDE INSTANCE="_Total" />
+    </DATASOURCE>
+    <CHART CHARTTITLE="\Process(*)\ID Process" ISTHRESHOLDSADDED="False" DATASOURCE="\Process(*)\ID Process" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[ID Process is the unique identifier of this process. ID Process numbers are reused, so they only identify a process for the lifetime of that process.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Process IO Read Operations/sec" ENABLED="True" CATEGORY="Process" PRIMARYDATASOURCE="\Process(*)\IO Read Operations/sec" ID="cfb952d7-5aff-4014-8aec-83bbf23b0017" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\Process(*)\IO Read Operations/sec" COLLECTIONVARNAME="CollectionOfProcessIOReadOperationssec" EXPRESSIONPATH="\Process(*)\IO Read Operations/sec" TRENDVARNAME="TrendProcessIOReadOperationssec" DATATYPE="integer">
+      <EXCLUDE INSTANCE="_Total" />
+    </DATASOURCE>
+    <CHART CHARTTITLE="\Process(*)\IO Read Operations/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\Process(*)\IO Read Operations/sec" CHARTLABELS="instance" />
+    <THRESHOLD NAME="More than 1000 read IO operations (network, disk, or device IO) per second" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfProcessIOReadOperationssec -Operator 'gt' -Threshold 1000]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The rate at which the process is issuing read I/O operations. This counter counts all I/O activity generated by the process to include file, network and device IO.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Process IO Write Operations/sec" ENABLED="True" CATEGORY="Process" PRIMARYDATASOURCE="\Process(*)\IO Write Operations/sec" ID="2b7f4fe7-7693-4270-8e96-21850b7560e3" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\Process(*)\IO Write Operations/sec" COLLECTIONVARNAME="CollectionOfProcessIOWriteOperationssec" EXPRESSIONPATH="\Process(*)\IO Write Operations/sec" TRENDVARNAME="TrendProcessIOWriteOperationssec" DATATYPE="integer">
+      <EXCLUDE INSTANCE="_Total" />
+    </DATASOURCE>
+    <CHART CHARTTITLE="\Process(*)\IO Write Operations/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\Process(*)\IO Write Operations/sec" CHARTLABELS="instance" />
+    <THRESHOLD NAME="More than 1000 write IO operations (network, disk, or device IO) per second" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfProcessIOWriteOperationssec -Operator 'gt' -Threshold 1000]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The rate at which the process is issuing write IO operations. This counter counts all IO activity generated by the process to include file, network and device IO.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Process % Privileged Time" ENABLED="True" CATEGORY="Process" PRIMARYDATASOURCE="\Process(*)\% Privileged Time" ID="fd357126-a449-4f5f-8e4a-3ff476f3421c" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\Process(*)\% Privileged Time" COLLECTIONVARNAME="CollectionOfProcessPercentPrivilegedTime" EXPRESSIONPATH="\Process(*)\% Privileged Time" TRENDVARNAME="TrendProcessPercentPrivilegedTime" DATATYPE="integer">
+      <EXCLUDE INSTANCE="_Total" />
+      <EXCLUDE INSTANCE="Idle" />
+    </DATASOURCE>
+    <CHART CHARTTITLE="\Process(*)\% Privileged Time" ISTHRESHOLDSADDED="False" DATASOURCE="\Process(*)\% Privileged Time" CHARTLABELS="instance" />
+    <THRESHOLD NAME="More than 10% of overall kernel mode time" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[[Int] $NumberOfLogicalProcessors = $CollectionOfProcessorPercentProcessorTime.Count - 1
+$OverallProcessThreshold = $NumberOfLogicalProcessors * 10
+StaticThreshold -CollectionOfCounterInstances $CollectionOfProcessPercentPrivilegedTime -Operator 'gt' -Threshold $OverallProcessThreshold]]></CODE>
+    </THRESHOLD>
+    <DATASOURCE TYPE="CounterLog" NAME="\Processor(*)\% Processor Time" EXPRESSIONPATH="\Processor(*)\% Processor Time" COLLECTIONVARNAME="CollectionOfProcessorPercentProcessorTime" DATATYPE="integer" />
+    <THRESHOLD NAME="More than 20% of overall kernel mode time" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[[Int] $NumberOfLogicalProcessors = $CollectionOfProcessorPercentProcessorTime.Count - 1
+$OverallProcessThreshold = $NumberOfLogicalProcessors * 20
+StaticThreshold -CollectionOfCounterInstances $CollectionOfProcessorPercentProcessorTime -Operator 'gt' -Threshold $OverallProcessThreshold]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[% Privileged Time is the percentage of elapsed time that the process threads spent executing code in privileged mode. When a Windows system service is called, the service will often run in privileged mode to gain access to system-private data. Such data is protected from access by threads executing in user mode. Calls to the system can be explicit or implicit, such as page faults or interrupts. Unlike some early operating systems, Windows uses process boundaries for subsystem protection in addition to the traditional protection of user and privileged modes. Some work done by Windows on behalf of the application might appear in other subsystem processes in addition to the privileged time in the process.]]></DESCRIPTION>
+  </ANALYSIS>
+  <INHERITANCE FILEPATH="QuickSystemOverview.xml" />
+</PAL>

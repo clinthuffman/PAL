@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<PAL PALVERSION="2.0" NAME="Windows power states" DESCRIPTION="Analyzes the power states of the operating system to identify areas of improvement." VERSION="1.0" CONTENTOWNERS="Clint Huffman" FEEDBACKEMAILADDRESS="clinth@microsoft.com">
+  <ANALYSIS NAME="Power Meter Power" ENABLED="True" CATEGORY="Power Meter" PRIMARYDATASOURCE="\Power Meter(*)\Power" ID="80a7fa25-af6c-44d8-b9bd-ba6477c51e58" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\Power Meter(*)\Power" COLLECTIONVARNAME="CollectionOfPowerMeterPower" EXPRESSIONPATH="\Power Meter(*)\Power" TRENDVARNAME="TrendPowerMeterPower" DATATYPE="integer">
+      <EXCLUDE INSTANCE="_Total" />
+    </DATASOURCE>
+    <CHART CHARTTITLE="\Power Meter(*)\Power" ISTHRESHOLDSADDED="False" DATASOURCE="\Power Meter(*)\Power" CHARTLABELS="instance" />
+    <THRESHOLD NAME="On battery power" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[#// Use PowerShell code to create alerts when the conditions for this threshold are met.
+#// Optionally use the variables listed above in the Variables list box.
+#// If the condition for this threshold is a static value, then use the StaticThreshold() function.
+#// Otherwise, you will need to manually loop through the counter instance collection object.
+#// The counter instance collection object has a unique name for each counter data source in this analysis.
+#// See the variables in the Variables list box above for more information on the counter instance collection object.
+
+#// Here is a ready to use example on how to use the StaticThreshold() function to define a threshold:
+StaticThreshold -CollectionOfCounterInstances $CollectionOfPowerMeterPower -Operator 'gt' -Threshold 0
+
+#// The -Operator parameter accepts gt for greater than, ge for greater than or equal to, lt for less than,
+#//  and le for less than or equal to. -Threshold is the static value for the threshold.]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[This counter displays power consumption in milliwatts.]]></DESCRIPTION>
+  </ANALYSIS>
+  <INHERITANCE FILEPATH="QuickSystemOverview.xml" />
+</PAL>

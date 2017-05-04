@@ -1,0 +1,874 @@
+<PAL NAME="Microsoft OCS 2007 R2 - Enterprise" DESCRIPTION="Performance counter thresholds for Microsoft Office Communications Server 2007 R2 Enterprise Edition Server." CONTENTOWNERS="Doug Deitterick" FEEDBACKEMAILADDRESS="dodeitte@microsoft.com" VERSION="2.0" PALVERSION="2.0" LANGUAGE="English" LANGUAGECODE="en">
+  <INHERITANCE FILEPATH="QuickSystemOverview.xml" />
+  <ANALYSIS NAME="LC:RGS - 01 - Response Group Service Match Making RGS - 001 - Current number of calls" ENABLED="True" CATEGORY="LC:RGS - 01 - Response Group Service Match Making" PRIMARYDATASOURCE="\LC:RGS - 01 - Response Group Service Match Making\RGS - 001 - Current number of calls" ID="{89f1bc19-f8ca-40bc-89d6-59a22f7b7dd4}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\LC:RGS - 01 - Response Group Service Match Making\RGS - 001 - Current number of calls" COLLECTIONVARNAME="LCRGS01ResponseGroupServiceMatchMakingRGS001Currentnumberofcalls" EXPRESSIONPATH="\LC:RGS - 01 - Response Group Service Match Making\RGS - 001 - Current number of calls" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LC:RGS - 01 - Response Group Service Match Making\RGS - 001 - Current number of calls" ISTHRESHOLDSADDED="True" DATASOURCE="\LC:RGS - 01 - Response Group Service Match Making\RGS - 001 - Current number of calls" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $LCRGS01ResponseGroupServiceMatchMakingRGS001Currentnumberofcalls -MinThreshold 400 -MaxThreshold 500 -IsOperatorGreaterThan $True -UseMaxValue $False]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $LCRGS01ResponseGroupServiceMatchMakingRGS001Currentnumberofcalls -MinThreshold 500 -MaxThreshold 509.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Greater than or equal to 400" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $LCRGS01ResponseGroupServiceMatchMakingRGS001Currentnumberofcalls -Operator 'ge' -Threshold 400]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="Greater than or equal to 500" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $LCRGS01ResponseGroupServiceMatchMakingRGS001Currentnumberofcalls -Operator 'ge' -Threshold 500]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The number of calls that are currently being handled.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="LC:AcpMcu - 00 - AcpMcu Conferences ACPMCU - 007 - Throttled Sip Connections" ENABLED="True" CATEGORY="LC:AcpMcu - 00 - AcpMcu Conferences" PRIMARYDATASOURCE="\LC:AcpMcu - 00 - AcpMcu Conferences\ACPMCU - 007 - Throttled Sip Connections" ID="{5debedf6-5ad9-463d-8ce0-c89a2f76b1b4}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\LC:AcpMcu - 00 - AcpMcu Conferences\ACPMCU - 007 - Throttled Sip Connections" COLLECTIONVARNAME="LCAcpMcu00AcpMcuConferencesACPMCU007ThrottledSipConnections" EXPRESSIONPATH="\LC:AcpMcu - 00 - AcpMcu Conferences\ACPMCU - 007 - Throttled Sip Connections" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LC:AcpMcu - 00 - AcpMcu Conferences\ACPMCU - 007 - Throttled Sip Connections" ISTHRESHOLDSADDED="True" DATASOURCE="\LC:AcpMcu - 00 - AcpMcu Conferences\ACPMCU - 007 - Throttled Sip Connections" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $LCAcpMcu00AcpMcuConferencesACPMCU007ThrottledSipConnections -MinThreshold 1 -MaxThreshold 1.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Greater than or equal to 1" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $LCAcpMcu00AcpMcuConferencesACPMCU007ThrottledSipConnections -Operator 'ge' -Threshold 1]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The number of throttled Sip connections]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="LC:AcpMcu - 02 - MCU Health And Performance ACPMCU - 005 - MCU Health State" ENABLED="True" CATEGORY="LC:AcpMcu - 02 - MCU Health And Performance" PRIMARYDATASOURCE="\LC:AcpMcu - 02 - MCU Health And Performance\ACPMCU - 005 - MCU Health State" ID="{af687ef2-1e7d-445d-ae77-48eb4df3ff0e}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\LC:AcpMcu - 02 - MCU Health And Performance\ACPMCU - 005 - MCU Health State" COLLECTIONVARNAME="LCAcpMcu02MCUHealthAndPerformanceACPMCU005MCUHealthState" EXPRESSIONPATH="\LC:AcpMcu - 02 - MCU Health And Performance\ACPMCU - 005 - MCU Health State" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LC:AcpMcu - 02 - MCU Health And Performance\ACPMCU - 005 - MCU Health State" ISTHRESHOLDSADDED="True" DATASOURCE="\LC:AcpMcu - 02 - MCU Health And Performance\ACPMCU - 005 - MCU Health State" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $LCAcpMcu02MCUHealthAndPerformanceACPMCU005MCUHealthState -MinThreshold 1 -MaxThreshold 2 -IsOperatorGreaterThan $True -UseMaxValue $False]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $LCAcpMcu02MCUHealthAndPerformanceACPMCU005MCUHealthState -MinThreshold 2 -MaxThreshold 2.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Loaded" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $LCAcpMcu02MCUHealthAndPerformanceACPMCU005MCUHealthState -Operator 'ge' -Threshold 1]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="Full" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $LCAcpMcu02MCUHealthAndPerformanceACPMCU005MCUHealthState -Operator 'ge' -Threshold 2]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The current health of the MCU. 0 = Normal. 1 = Loaded. 2 = Full. 3 = Unavailable.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="LC:API - 00 - API Application Instance Counters API - 026 - Transactions Pending Dispatch Completion" ENABLED="True" CATEGORY="LC:API - 00 - API Application Instance Counters" PRIMARYDATASOURCE="\LC:API - 00 - API Application Instance Counters(_Total)\API - 026 - Transactions Pending Dispatch Completion" ID="{6b6c00d8-b9aa-4874-a2fd-7c67931c6acb}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\LC:API - 00 - API Application Instance Counters(_Total)\API - 026 - Transactions Pending Dispatch Completion" COLLECTIONVARNAME="LCAPI00APIApplicationInstanceCountersAPI026TransactionsPendingDispatchCompletion_Total" EXPRESSIONPATH="\LC:API - 00 - API Application Instance Counters(_Total)\API - 026 - Transactions Pending Dispatch Completion" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LC:API - 00 - API Application Instance Counters(_Total)\API - 026 - Transactions Pending Dispatch Completion" ISTHRESHOLDSADDED="True" DATASOURCE="\LC:API - 00 - API Application Instance Counters(_Total)\API - 026 - Transactions Pending Dispatch Completion" CHARTLABELS="instance">
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $LCAPI00APIApplicationInstanceCountersAPI026TransactionsPendingDispatchCompletion_Total -MinThreshold 1000 -MaxThreshold 1019.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Greater than or equal to 1000" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $LCAPI00APIApplicationInstanceCountersAPI026TransactionsPendingDispatchCompletion_Total -Operator 'ge' -Threshold 1000]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The current total number of active transactions awaiting Dispatch completion.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="LC:QMSAgent - 00 - QoEMonitoringServerAgent QMSAgent - 004 - Number of rejected metrics reports" ENABLED="True" CATEGORY="LC:QMSAgent - 00 - QoEMonitoringServerAgent" PRIMARYDATASOURCE="\LC:QMSAgent - 00 - QoEMonitoringServerAgent\QMSAgent - 004 - Number of rejected metrics reports" ID="{b849978c-59f5-412e-a6f9-cdea2e8673ee}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\LC:QMSAgent - 00 - QoEMonitoringServerAgent\QMSAgent - 004 - Number of rejected metrics reports" COLLECTIONVARNAME="LCQMSAgent00QoEMonitoringServerAgentQMSAgent004Numberofrejectedmetricsreports" EXPRESSIONPATH="\LC:QMSAgent - 00 - QoEMonitoringServerAgent\QMSAgent - 004 - Number of rejected metrics reports" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LC:QMSAgent - 00 - QoEMonitoringServerAgent\QMSAgent - 004 - Number of rejected metrics reports" ISTHRESHOLDSADDED="True" DATASOURCE="\LC:QMSAgent - 00 - QoEMonitoringServerAgent\QMSAgent - 004 - Number of rejected metrics reports" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $LCQMSAgent00QoEMonitoringServerAgentQMSAgent004Numberofrejectedmetricsreports -MinThreshold 50 -MaxThreshold 100 -IsOperatorGreaterThan $True -UseMaxValue $False]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $LCQMSAgent00QoEMonitoringServerAgentQMSAgent004Numberofrejectedmetricsreports -MinThreshold 100 -MaxThreshold 109.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Greater than or equal to 50" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $LCQMSAgent00QoEMonitoringServerAgentQMSAgent004Numberofrejectedmetricsreports -Operator 'ge' -Threshold 50]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="Greater than or equal to 100" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $LCQMSAgent00QoEMonitoringServerAgentQMSAgent004Numberofrejectedmetricsreports -Operator 'ge' -Threshold 100]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[This counter represents the number of QoE metrics reports rejected due to an invalid encoding or server processing errors.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="LC:QMSAgent - 00 - QoEMonitoringServerAgent QMSAgent - 014 - Total number of metrics reports rejected by the external report consumer" ENABLED="True" CATEGORY="LC:QMSAgent - 00 - QoEMonitoringServerAgent" PRIMARYDATASOURCE="\LC:QMSAgent - 00 - QoEMonitoringServerAgent\QMSAgent - 014 - Total number of metrics reports rejected by the external report consumer" ID="{d1f259ee-ca46-4e72-ad7b-be46d0eef1c0}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\LC:QMSAgent - 00 - QoEMonitoringServerAgent\QMSAgent - 014 - Total number of metrics reports rejected by the external report consumer" COLLECTIONVARNAME="LCQMSAgent00QoEMonitoringServerAgentQMSAgent014Totalnumberofmetricsreportsrejectedbytheexternalreportconsumer" EXPRESSIONPATH="\LC:QMSAgent - 00 - QoEMonitoringServerAgent\QMSAgent - 014 - Total number of metrics reports rejected by the external report consumer" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LC:QMSAgent - 00 - QoEMonitoringServerAgent\QMSAgent - 014 - Total number of metrics reports rejected by the external report consumer" ISTHRESHOLDSADDED="True" DATASOURCE="\LC:QMSAgent - 00 - QoEMonitoringServerAgent\QMSAgent - 014 - Total number of metrics reports rejected by the external report consumer" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $LCQMSAgent00QoEMonitoringServerAgentQMSAgent014Totalnumberofmetricsreportsrejectedbytheexternalreportconsumer -MinThreshold 50 -MaxThreshold 100 -IsOperatorGreaterThan $True -UseMaxValue $False]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $LCQMSAgent00QoEMonitoringServerAgentQMSAgent014Totalnumberofmetricsreportsrejectedbytheexternalreportconsumer -MinThreshold 100 -MaxThreshold 109.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Greater than or equal to 50" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $LCQMSAgent00QoEMonitoringServerAgentQMSAgent014Totalnumberofmetricsreportsrejectedbytheexternalreportconsumer -Operator 'ge' -Threshold 50]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="Greater than or equal to 100" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $LCQMSAgent00QoEMonitoringServerAgentQMSAgent014Totalnumberofmetricsreportsrejectedbytheexternalreportconsumer -Operator 'ge' -Threshold 100]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[This counter represents the total number of metrics reports that the external report consumer rejected as invalid.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="LC:QMSAgent - 00 - QoEMonitoringServerAgent QMSAgent - 015 - Total number of failures occurred while sending reports to the external report consumer" ENABLED="True" CATEGORY="LC:QMSAgent - 00 - QoEMonitoringServerAgent" PRIMARYDATASOURCE="\LC:QMSAgent - 00 - QoEMonitoringServerAgent\QMSAgent - 015 - Total number of failures occurred while sending reports to the external report consumer" ID="{2dda6642-aa7a-4135-8aae-c2dda7e2b343}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\LC:QMSAgent - 00 - QoEMonitoringServerAgent\QMSAgent - 015 - Total number of failures occurred while sending reports to the external report consumer" COLLECTIONVARNAME="LCQMSAgent00QoEMonitoringServerAgentQMSAgent015Totalnumberoffailuresoccurredwhilesendingreportstotheexternalreportconsumer" EXPRESSIONPATH="\LC:QMSAgent - 00 - QoEMonitoringServerAgent\QMSAgent - 015 - Total number of failures occurred while sending reports to the external report consumer" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LC:QMSAgent - 00 - QoEMonitoringServerAgent\QMSAgent - 015 - Total number of failures occurred while sending reports to the external report consumer" ISTHRESHOLDSADDED="True" DATASOURCE="\LC:QMSAgent - 00 - QoEMonitoringServerAgent\QMSAgent - 015 - Total number of failures occurred while sending reports to the external report consumer" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $LCQMSAgent00QoEMonitoringServerAgentQMSAgent015Totalnumberoffailuresoccurredwhilesendingreportstotheexternalreportconsumer -MinThreshold 25 -MaxThreshold 50 -IsOperatorGreaterThan $True -UseMaxValue $False]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $LCQMSAgent00QoEMonitoringServerAgentQMSAgent015Totalnumberoffailuresoccurredwhilesendingreportstotheexternalreportconsumer -MinThreshold 50 -MaxThreshold 59.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Greater than or equal to 25" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $LCQMSAgent00QoEMonitoringServerAgentQMSAgent015Totalnumberoffailuresoccurredwhilesendingreportstotheexternalreportconsumer -Operator 'ge' -Threshold 25]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="Greater than or equal to 50" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $LCQMSAgent00QoEMonitoringServerAgentQMSAgent015Totalnumberoffailuresoccurredwhilesendingreportstotheexternalreportconsumer -Operator 'ge' -Threshold 50]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[This counter represents the total number of failures that occurred while sending reports to the external report consumer since the server was started.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="LC:QMSAgent - 00 - QoEMonitoringServerAgent QMSAgent - 016 - Total number of reports that could not be sent to the external report consumer" ENABLED="True" CATEGORY="LC:QMSAgent - 00 - QoEMonitoringServerAgent" PRIMARYDATASOURCE="\LC:QMSAgent - 00 - QoEMonitoringServerAgent\QMSAgent - 016 - Total number of reports that could not be sent to the external report consumer" ID="{abe86f75-2632-49c3-8d50-e55bb38a836f}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\LC:QMSAgent - 00 - QoEMonitoringServerAgent\QMSAgent - 016 - Total number of reports that could not be sent to the external report consumer" COLLECTIONVARNAME="LCQMSAgent00QoEMonitoringServerAgentQMSAgent016Totalnumberofreportsthatcouldnotbesenttotheexternalreportconsumer" EXPRESSIONPATH="\LC:QMSAgent - 00 - QoEMonitoringServerAgent\QMSAgent - 016 - Total number of reports that could not be sent to the external report consumer" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LC:QMSAgent - 00 - QoEMonitoringServerAgent\QMSAgent - 016 - Total number of reports that could not be sent to the external report consumer" ISTHRESHOLDSADDED="True" DATASOURCE="\LC:QMSAgent - 00 - QoEMonitoringServerAgent\QMSAgent - 016 - Total number of reports that could not be sent to the external report consumer" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $LCQMSAgent00QoEMonitoringServerAgentQMSAgent016Totalnumberofreportsthatcouldnotbesenttotheexternalreportconsumer -MinThreshold 50 -MaxThreshold 100 -IsOperatorGreaterThan $True -UseMaxValue $False]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $LCQMSAgent00QoEMonitoringServerAgentQMSAgent016Totalnumberofreportsthatcouldnotbesenttotheexternalreportconsumer -MinThreshold 100 -MaxThreshold 109.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Greater than or equal to 50" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $LCQMSAgent00QoEMonitoringServerAgentQMSAgent016Totalnumberofreportsthatcouldnotbesenttotheexternalreportconsumer -Operator 'ge' -Threshold 50]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="Greater than or equal to 100" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $LCQMSAgent00QoEMonitoringServerAgentQMSAgent016Totalnumberofreportsthatcouldnotbesenttotheexternalreportconsumer -Operator 'ge' -Threshold 100]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[This counter represents total number of reports dropped due to exceeding the maximum configured memory storage allowed for reports.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="LC:ImMcu - 00 - IMMcu Conferences IMMCU - 020 - Throttled Sip Connections" ENABLED="True" CATEGORY="LC:ImMcu - 00 - IMMcu Conferences" PRIMARYDATASOURCE="\LC:ImMcu - 00 - IMMcu Conferences\IMMCU - 020 - Throttled Sip Connections" ID="{367a8fc6-a009-4853-aa1e-b7a843908c7f}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\LC:ImMcu - 00 - IMMcu Conferences\IMMCU - 020 - Throttled Sip Connections" COLLECTIONVARNAME="LCImMcu00IMMcuConferencesIMMCU020ThrottledSipConnections" EXPRESSIONPATH="\LC:ImMcu - 00 - IMMcu Conferences\IMMCU - 020 - Throttled Sip Connections" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LC:ImMcu - 00 - IMMcu Conferences\IMMCU - 020 - Throttled Sip Connections" ISTHRESHOLDSADDED="True" DATASOURCE="\LC:ImMcu - 00 - IMMcu Conferences\IMMCU - 020 - Throttled Sip Connections" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $LCImMcu00IMMcuConferencesIMMCU020ThrottledSipConnections -MinThreshold 1 -MaxThreshold 10 -IsOperatorGreaterThan $True -UseMaxValue $False]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $LCImMcu00IMMcuConferencesIMMCU020ThrottledSipConnections -MinThreshold 10 -MaxThreshold 13.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Greater than or equal to 1" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $LCImMcu00IMMcuConferencesIMMCU020ThrottledSipConnections -Operator 'ge' -Threshold 1]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="Greater than or equal to 10" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $LCImMcu00IMMcuConferencesIMMCU020ThrottledSipConnections -Operator 'ge' -Threshold 10]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The number of throttled Sip connections]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="LC:ImMcu - 02 - MCU Health And Performance IMMCU - 005 - MCU Health State" ENABLED="True" CATEGORY="LC:ImMcu - 02 - MCU Health And Performance" PRIMARYDATASOURCE="\LC:ImMcu - 02 - MCU Health And Performance\IMMCU - 005 - MCU Health State" ID="{b018e0e6-5ab7-4cc2-894b-cbfef6fcc007}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\LC:ImMcu - 02 - MCU Health And Performance\IMMCU - 005 - MCU Health State" COLLECTIONVARNAME="LCImMcu02MCUHealthAndPerformanceIMMCU005MCUHealthState" EXPRESSIONPATH="\LC:ImMcu - 02 - MCU Health And Performance\IMMCU - 005 - MCU Health State" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LC:ImMcu - 02 - MCU Health And Performance\IMMCU - 005 - MCU Health State" ISTHRESHOLDSADDED="True" DATASOURCE="\LC:ImMcu - 02 - MCU Health And Performance\IMMCU - 005 - MCU Health State" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $LCImMcu02MCUHealthAndPerformanceIMMCU005MCUHealthState -MinThreshold 1 -MaxThreshold 2 -IsOperatorGreaterThan $True -UseMaxValue $False]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $LCImMcu02MCUHealthAndPerformanceIMMCU005MCUHealthState -MinThreshold 2 -MaxThreshold 2.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Loaded" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $LCImMcu02MCUHealthAndPerformanceIMMCU005MCUHealthState -Operator 'ge' -Threshold 1]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="Full" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $LCImMcu02MCUHealthAndPerformanceIMMCU005MCUHealthState -Operator 'ge' -Threshold 2]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The current health of the MCU. 0 = Normal. 1 = Loaded. 2 = Full. 3 = Unavailable.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="LC:RoutingApps - 00 - UC Routing Applications RoutingApps - 006 - Failed Exchange UM calls" ENABLED="True" CATEGORY="LC:RoutingApps - 00 - UC Routing Applications" PRIMARYDATASOURCE="\LC:RoutingApps - 00 - UC Routing Applications\RoutingApps - 006 - Failed Exchange UM calls" ID="{25c01933-1bc7-40a0-b5d5-d1c27a3688c9}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\LC:RoutingApps - 00 - UC Routing Applications\RoutingApps - 006 - Failed Exchange UM calls" COLLECTIONVARNAME="LCRoutingApps00UCRoutingApplicationsRoutingApps006FailedExchangeUMcalls" EXPRESSIONPATH="\LC:RoutingApps - 00 - UC Routing Applications\RoutingApps - 006 - Failed Exchange UM calls" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LC:RoutingApps - 00 - UC Routing Applications\RoutingApps - 006 - Failed Exchange UM calls" ISTHRESHOLDSADDED="True" DATASOURCE="\LC:RoutingApps - 00 - UC Routing Applications\RoutingApps - 006 - Failed Exchange UM calls" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $LCRoutingApps00UCRoutingApplicationsRoutingApps006FailedExchangeUMcalls -MinThreshold 5 -MaxThreshold 20 -IsOperatorGreaterThan $True -UseMaxValue $False]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $LCRoutingApps00UCRoutingApplicationsRoutingApps006FailedExchangeUMcalls -MinThreshold 20 -MaxThreshold 23.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Greater than or equal to 5" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $LCRoutingApps00UCRoutingApplicationsRoutingApps006FailedExchangeUMcalls -Operator 'ge' -Threshold 5]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="Greater than or equal to 20" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $LCRoutingApps00UCRoutingApplicationsRoutingApps006FailedExchangeUMcalls -Operator 'ge' -Threshold 20]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The number of times a caller did not reach any Exchange UM server due to errors or configuration problems.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="LC:RoutingApps - 00 - UC Routing Applications RoutingApps - 022 - Received 5XX from VOIP gateway" ENABLED="True" CATEGORY="LC:RoutingApps - 00 - UC Routing Applications" PRIMARYDATASOURCE="\LC:RoutingApps - 00 - UC Routing Applications\RoutingApps - 022 - Received 5XX from VOIP gateway" ID="{08c5d2b5-f0af-4ca6-bec6-9ad0ea26dbb1}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\LC:RoutingApps - 00 - UC Routing Applications\RoutingApps - 022 - Received 5XX from VOIP gateway" COLLECTIONVARNAME="LCRoutingApps00UCRoutingApplicationsRoutingApps022Received5XXfromVOIPgateway" EXPRESSIONPATH="\LC:RoutingApps - 00 - UC Routing Applications\RoutingApps - 022 - Received 5XX from VOIP gateway" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LC:RoutingApps - 00 - UC Routing Applications\RoutingApps - 022 - Received 5XX from VOIP gateway" ISTHRESHOLDSADDED="True" DATASOURCE="\LC:RoutingApps - 00 - UC Routing Applications\RoutingApps - 022 - Received 5XX from VOIP gateway" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $LCRoutingApps00UCRoutingApplicationsRoutingApps022Received5XXfromVOIPgateway -MinThreshold 50 -MaxThreshold 100 -IsOperatorGreaterThan $True -UseMaxValue $False]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $LCRoutingApps00UCRoutingApplicationsRoutingApps022Received5XXfromVOIPgateway -MinThreshold 100 -MaxThreshold 109.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Greater than or equal to 50" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $LCRoutingApps00UCRoutingApplicationsRoutingApps022Received5XXfromVOIPgateway -Operator 'ge' -Threshold 50]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="Greater than or equal to 100" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $LCRoutingApps00UCRoutingApplicationsRoutingApps022Received5XXfromVOIPgateway -Operator 'ge' -Threshold 100]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[Number of instances in which a 5XX response was received from a VOIP gateway]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="LC:RoutingApps - 00 - UC Routing Applications RoutingApps - 025 - Calls failed due to gateway unavailability" ENABLED="True" CATEGORY="LC:RoutingApps - 00 - UC Routing Applications" PRIMARYDATASOURCE="\LC:RoutingApps - 00 - UC Routing Applications\RoutingApps - 025 - Calls failed due to gateway unavailability" ID="{4fddbc12-fa7f-4e1f-b13e-86c5493112c9}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\LC:RoutingApps - 00 - UC Routing Applications\RoutingApps - 025 - Calls failed due to gateway unavailability" COLLECTIONVARNAME="LCRoutingApps00UCRoutingApplicationsRoutingApps025Callsfailedduetogatewayunavailability" EXPRESSIONPATH="\LC:RoutingApps - 00 - UC Routing Applications\RoutingApps - 025 - Calls failed due to gateway unavailability" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LC:RoutingApps - 00 - UC Routing Applications\RoutingApps - 025 - Calls failed due to gateway unavailability" ISTHRESHOLDSADDED="True" DATASOURCE="\LC:RoutingApps - 00 - UC Routing Applications\RoutingApps - 025 - Calls failed due to gateway unavailability" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $LCRoutingApps00UCRoutingApplicationsRoutingApps025Callsfailedduetogatewayunavailability -MinThreshold 10 -MaxThreshold 30 -IsOperatorGreaterThan $True -UseMaxValue $False]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $LCRoutingApps00UCRoutingApplicationsRoutingApps025Callsfailedduetogatewayunavailability -MinThreshold 30 -MaxThreshold 33.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Greater than or equal to 10" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $LCRoutingApps00UCRoutingApplicationsRoutingApps025Callsfailedduetogatewayunavailability -Operator 'ge' -Threshold 10]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="Greater than or equal to 30" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $LCRoutingApps00UCRoutingApplicationsRoutingApps025Callsfailedduetogatewayunavailability -Operator 'ge' -Threshold 30]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[Number of calls failed due to gateway unavailability]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="LC:SIP - 01 - Peers SIP - 001 - TLS Connections Active" ENABLED="True" CATEGORY="LC:SIP - 01 - Peers" PRIMARYDATASOURCE="\LC:SIP - 01 - Peers(_Total)\SIP - 001 - TLS Connections Active" ID="{312e5586-d87c-4c2c-9a4e-7e157019acff}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\LC:SIP - 01 - Peers(_Total)\SIP - 001 - TLS Connections Active" COLLECTIONVARNAME="LCSIP01PeersSIP001TLSConnectionsActive_Total" EXPRESSIONPATH="\LC:SIP - 01 - Peers(_Total)\SIP - 001 - TLS Connections Active" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LC:SIP - 01 - Peers(_Total)\SIP - 001 - TLS Connections Active" ISTHRESHOLDSADDED="True" DATASOURCE="\LC:SIP - 01 - Peers(_Total)\SIP - 001 - TLS Connections Active" CHARTLABELS="instance">
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $LCSIP01PeersSIP001TLSConnectionsActive_Total -MinThreshold 20000 -MaxThreshold 20009.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Greater than or equal to 20,000" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $LCSIP01PeersSIP001TLSConnectionsActive_Total -Operator 'ge' -Threshold 20000]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The number of established TLS connections that are currently active. TLS Connection is considered established when peer certificate and, possibly, host name are verified for trust relationship.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="LC:SIP - 01 - Peers SIP - 018 - Sends Timed-Out" ENABLED="True" CATEGORY="LC:SIP - 01 - Peers" PRIMARYDATASOURCE="\LC:SIP - 01 - Peers(_Total)\SIP - 018 - Sends Timed-Out" ID="{b10e9359-e042-4642-b706-f76b80773cdc}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\LC:SIP - 01 - Peers(_Total)\SIP - 018 - Sends Timed-Out" COLLECTIONVARNAME="LCSIP01PeersSIP018SendsTimedOut_Total" EXPRESSIONPATH="\LC:SIP - 01 - Peers(_Total)\SIP - 018 - Sends Timed-Out" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LC:SIP - 01 - Peers(_Total)\SIP - 018 - Sends Timed-Out" ISTHRESHOLDSADDED="True" DATASOURCE="\LC:SIP - 01 - Peers(_Total)\SIP - 018 - Sends Timed-Out" CHARTLABELS="instance">
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $LCSIP01PeersSIP018SendsTimedOut_Total -MinThreshold 1000 -MaxThreshold 1029.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Greater than or equal to 1000" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $LCSIP01PeersSIP018SendsTimedOut_Total -Operator 'ge' -Threshold 1000]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The total number of sends dropped because they stayed in the outgoing (send) queue for too long.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="LC:SIP - 01 - Peers SIP - 023 - Flow-controlled Connections" ENABLED="True" CATEGORY="LC:SIP - 01 - Peers" PRIMARYDATASOURCE="\LC:SIP - 01 - Peers(_Total)\SIP - 023 - Flow-controlled Connections" ID="{f65f1a07-f38e-40c0-957d-db176b2a1900}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\LC:SIP - 01 - Peers(_Total)\SIP - 023 - Flow-controlled Connections" COLLECTIONVARNAME="LCSIP01PeersSIP023FlowcontrolledConnections_Total" EXPRESSIONPATH="\LC:SIP - 01 - Peers(_Total)\SIP - 023 - Flow-controlled Connections" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LC:SIP - 01 - Peers(_Total)\SIP - 023 - Flow-controlled Connections" ISTHRESHOLDSADDED="True" DATASOURCE="\LC:SIP - 01 - Peers(_Total)\SIP - 023 - Flow-controlled Connections" CHARTLABELS="instance">
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $LCSIP01PeersSIP023FlowcontrolledConnections_Total -MinThreshold 100 -MaxThreshold 109.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Greater than or equal to 100" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $LCSIP01PeersSIP023FlowcontrolledConnections_Total -Operator 'ge' -Threshold 100]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The number of connections that are currently being flow-controlled (no socket receives are posted).]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="LC:SIP - 01 - Peers SIP - 024 - Flow-controlled Connections Dropped" ENABLED="True" CATEGORY="LC:SIP - 01 - Peers" PRIMARYDATASOURCE="\LC:SIP - 01 - Peers(_Total)\SIP - 024 - Flow-controlled Connections Dropped" ID="{31c48230-4727-400b-90c9-7e1d0f643da3}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\LC:SIP - 01 - Peers(_Total)\SIP - 024 - Flow-controlled Connections Dropped" COLLECTIONVARNAME="LCSIP01PeersSIP024FlowcontrolledConnectionsDropped_Total" EXPRESSIONPATH="\LC:SIP - 01 - Peers(_Total)\SIP - 024 - Flow-controlled Connections Dropped" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LC:SIP - 01 - Peers(_Total)\SIP - 024 - Flow-controlled Connections Dropped" ISTHRESHOLDSADDED="True" DATASOURCE="\LC:SIP - 01 - Peers(_Total)\SIP - 024 - Flow-controlled Connections Dropped" CHARTLABELS="instance">
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $LCSIP01PeersSIP024FlowcontrolledConnectionsDropped_Total -MinThreshold 10 -MaxThreshold 11.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Greater than or equal to 10" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $LCSIP01PeersSIP024FlowcontrolledConnectionsDropped_Total -Operator 'ge' -Threshold 10]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The total number of connections dropped because of excessive flow-control.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="LC:SIP - 02 - Protocol SIP - 005 - Incoming Requests Dropped/sec" ENABLED="True" CATEGORY="LC:SIP - 02 - Protocol" PRIMARYDATASOURCE="\LC:SIP - 02 - Protocol\SIP - 005 - Incoming Requests Dropped/sec" ID="{2d8a7347-da99-40ad-b8f9-c2ac09968f5c}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\LC:SIP - 02 - Protocol\SIP - 005 - Incoming Requests Dropped/sec" COLLECTIONVARNAME="LCSIP02ProtocolSIP005IncomingRequestsDroppedsec" EXPRESSIONPATH="\LC:SIP - 02 - Protocol\SIP - 005 - Incoming Requests Dropped/sec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LC:SIP - 02 - Protocol\SIP - 005 - Incoming Requests Dropped/sec" ISTHRESHOLDSADDED="True" DATASOURCE="\LC:SIP - 02 - Protocol\SIP - 005 - Incoming Requests Dropped/sec" CHARTLABELS="instance">
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $LCSIP02ProtocolSIP005IncomingRequestsDroppedsec -MinThreshold 0 -MaxThreshold 0.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Greater than 0" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $LCSIP02ProtocolSIP005IncomingRequestsDroppedsec -Operator 'gt' -Threshold 0]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The per-second rate of incoming requests dropped because they could not be processed (due to bad headers, insufficient routing information, server resource allocation failure).]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="LC:SIP - 02 - Protocol SIP - 009 - Incoming Responses Dropped/sec" ENABLED="True" CATEGORY="LC:SIP - 02 - Protocol" PRIMARYDATASOURCE="\LC:SIP - 02 - Protocol\SIP - 009 - Incoming Responses Dropped/sec" ID="{9db4782a-07f6-41a8-ae1e-d6f8b77c2ea8}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\LC:SIP - 02 - Protocol\SIP - 009 - Incoming Responses Dropped/sec" COLLECTIONVARNAME="LCSIP02ProtocolSIP009IncomingResponsesDroppedsec" EXPRESSIONPATH="\LC:SIP - 02 - Protocol\SIP - 009 - Incoming Responses Dropped/sec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LC:SIP - 02 - Protocol\SIP - 009 - Incoming Responses Dropped/sec" ISTHRESHOLDSADDED="True" DATASOURCE="\LC:SIP - 02 - Protocol\SIP - 009 - Incoming Responses Dropped/sec" CHARTLABELS="instance">
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $LCSIP02ProtocolSIP009IncomingResponsesDroppedsec -MinThreshold 0 -MaxThreshold 0.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Greater than 0" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $LCSIP02ProtocolSIP009IncomingResponsesDroppedsec -Operator 'gt' -Threshold 0]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The per-second rate of incoming responses dropped because they could not be processed (due to bad headers, insufficient routing information, server resource allocation failure).]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="LC:SIP - 02 - Protocol SIP - 011 - Messages/sec Dropped Due To Certificate Mismatch" ENABLED="True" CATEGORY="LC:SIP - 02 - Protocol" PRIMARYDATASOURCE="\LC:SIP - 02 - Protocol\SIP - 011 - Messages/sec Dropped Due To Certificate Mismatch" ID="{1efe3f21-94b6-435c-b61f-031b93dd8db4}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\LC:SIP - 02 - Protocol\SIP - 011 - Messages/sec Dropped Due To Certificate Mismatch" COLLECTIONVARNAME="LCSIP02ProtocolSIP011MessagessecDroppedDueToCertificateMismatch" EXPRESSIONPATH="\LC:SIP - 02 - Protocol\SIP - 011 - Messages/sec Dropped Due To Certificate Mismatch" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LC:SIP - 02 - Protocol\SIP - 011 - Messages/sec Dropped Due To Certificate Mismatch" ISTHRESHOLDSADDED="True" DATASOURCE="\LC:SIP - 02 - Protocol\SIP - 011 - Messages/sec Dropped Due To Certificate Mismatch" CHARTLABELS="instance">
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $LCSIP02ProtocolSIP011MessagessecDroppedDueToCertificateMismatch -MinThreshold 100 -MaxThreshold 109.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Greater than or equal to 100" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $LCSIP02ProtocolSIP011MessagessecDroppedDueToCertificateMismatch -Operator 'ge' -Threshold 100]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The per-second rate of messages dropped because the remote peer's certificate did not contain a matching FQDN.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="LC:SIP - 02 - Protocol SIP - 012 - Messages In Server" ENABLED="True" CATEGORY="LC:SIP - 02 - Protocol" PRIMARYDATASOURCE="\LC:SIP - 02 - Protocol\SIP - 012 - Messages In Server" ID="{7170dcff-b1d2-4cdb-b929-784daf1e60b3}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\LC:SIP - 02 - Protocol\SIP - 012 - Messages In Server" COLLECTIONVARNAME="LCSIP02ProtocolSIP012MessagesInServer" EXPRESSIONPATH="\LC:SIP - 02 - Protocol\SIP - 012 - Messages In Server" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LC:SIP - 02 - Protocol\SIP - 012 - Messages In Server" ISTHRESHOLDSADDED="True" DATASOURCE="\LC:SIP - 02 - Protocol\SIP - 012 - Messages In Server" CHARTLABELS="instance">
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $LCSIP02ProtocolSIP012MessagesInServer -MinThreshold 50000 -MaxThreshold 50009.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Greater than or equal to 50,000" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $LCSIP02ProtocolSIP012MessagesInServer -Operator 'ge' -Threshold 50000]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The number of messages currently being processed by the server.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="LC:SIP - 02 - Protocol SIP - 021 - Average Incoming Message Processing Time" ENABLED="True" CATEGORY="LC:SIP - 02 - Protocol" PRIMARYDATASOURCE="\LC:SIP - 02 - Protocol\SIP - 021 - Average Incoming Message Processing Time" ID="{158e3bbb-0972-4880-a2b5-f3948dc49ed0}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\LC:SIP - 02 - Protocol\SIP - 021 - Average Incoming Message Processing Time" COLLECTIONVARNAME="LCSIP02ProtocolSIP021AverageIncomingMessageProcessingTime" EXPRESSIONPATH="\LC:SIP - 02 - Protocol\SIP - 021 - Average Incoming Message Processing Time" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LC:SIP - 02 - Protocol\SIP - 021 - Average Incoming Message Processing Time" ISTHRESHOLDSADDED="True" DATASOURCE="\LC:SIP - 02 - Protocol\SIP - 021 - Average Incoming Message Processing Time" CHARTLABELS="instance">
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $LCSIP02ProtocolSIP021AverageIncomingMessageProcessingTime -MinThreshold 5 -MaxThreshold 5.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Greater than or equal to 5" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $LCSIP02ProtocolSIP021AverageIncomingMessageProcessingTime -Operator 'ge' -Threshold 5]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The average time (in seconds) it takes to process an incoming message.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="LC:SIP - 04 - Responses SIP - 052 - Local 500 Responses" ENABLED="True" CATEGORY="LC:SIP - 04 - Responses" PRIMARYDATASOURCE="\LC:SIP - 04 - Responses\SIP - 052 - Local 500 Responses" ID="{47f5bd08-549a-42c5-bc43-00bdcca7d23a}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\LC:SIP - 04 - Responses\SIP - 052 - Local 500 Responses" COLLECTIONVARNAME="LCSIP04ResponsesSIP052Local500Responses" EXPRESSIONPATH="\LC:SIP - 04 - Responses\SIP - 052 - Local 500 Responses" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LC:SIP - 04 - Responses\SIP - 052 - Local 500 Responses" ISTHRESHOLDSADDED="True" DATASOURCE="\LC:SIP - 04 - Responses\SIP - 052 - Local 500 Responses" CHARTLABELS="instance">
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $LCSIP04ResponsesSIP052Local500Responses -MinThreshold 50 -MaxThreshold 59.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Greater than or equal to 50" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $LCSIP04ResponsesSIP052Local500Responses -Operator 'ge' -Threshold 50]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The total number of 500 responses generated by the server.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="LC:SIP - 04 - Responses SIP - 054 - Local 503 Responses" ENABLED="True" CATEGORY="LC:SIP - 04 - Responses" PRIMARYDATASOURCE="\LC:SIP - 04 - Responses\SIP - 054 - Local 503 Responses" ID="{de47b92f-1f92-4dad-bc50-013b7b603018}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\LC:SIP - 04 - Responses\SIP - 054 - Local 503 Responses" COLLECTIONVARNAME="LCSIP04ResponsesSIP054Local503Responses" EXPRESSIONPATH="\LC:SIP - 04 - Responses\SIP - 054 - Local 503 Responses" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LC:SIP - 04 - Responses\SIP - 054 - Local 503 Responses" ISTHRESHOLDSADDED="True" DATASOURCE="\LC:SIP - 04 - Responses\SIP - 054 - Local 503 Responses" CHARTLABELS="instance">
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $LCSIP04ResponsesSIP054Local503Responses -MinThreshold 200 -MaxThreshold 209.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Greater than or equal to 200" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $LCSIP04ResponsesSIP054Local503Responses -Operator 'ge' -Threshold 200]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The total number of 503 responses generated by the server.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="LC:SIP - 06 - Authentication\SIP - 002 - Security Association  SIP - 002 - Security Association (SAs) Stored" ENABLED="True" CATEGORY="LC:SIP - 06 - Authentication" PRIMARYDATASOURCE="\LC:SIP - 06 - Authentication\SIP - 002 - Security Association (SAs) Stored" ID="{1615bde3-e6e5-40fe-b588-4dbc742c7a08}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\LC:SIP - 06 - Authentication\SIP - 002 - Security Association (SAs) Stored" COLLECTIONVARNAME="LCSIP06AuthenticationSIP002SecurityAssociationSAsStored" EXPRESSIONPATH="\LC:SIP - 06 - Authentication\SIP - 002 - Security Association (SAs) Stored" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LC:SIP - 06 - Authentication\SIP - 002 - Security Association (SAs) Stored" ISTHRESHOLDSADDED="True" DATASOURCE="\LC:SIP - 06 - Authentication\SIP - 002 - Security Association (SAs) Stored" CHARTLABELS="instance">
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $LCSIP06AuthenticationSIP002SecurityAssociationSAsStored -MinThreshold 40000 -MaxThreshold 40009.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Greater than or equal to 40,000" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $LCSIP06AuthenticationSIP002SecurityAssociationSAsStored -Operator 'ge' -Threshold 40000]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The number of security associations (SAs) currently stored in the server.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="LC:SIP - 06 - Authentication SIP - 013 - Incoming Messages Not Authenticated/sec" ENABLED="True" CATEGORY="LC:SIP - 06 - Authentication" PRIMARYDATASOURCE="\LC:SIP - 06 - Authentication\SIP - 013 - Incoming Messages Not Authenticated/sec" ID="{d5489306-6c76-4956-a167-f39075520bee}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\LC:SIP - 06 - Authentication\SIP - 013 - Incoming Messages Not Authenticated/sec" COLLECTIONVARNAME="LCSIP06AuthenticationSIP013IncomingMessagesNotAuthenticatedsec" EXPRESSIONPATH="\LC:SIP - 06 - Authentication\SIP - 013 - Incoming Messages Not Authenticated/sec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LC:SIP - 06 - Authentication\SIP - 013 - Incoming Messages Not Authenticated/sec" ISTHRESHOLDSADDED="True" DATASOURCE="\LC:SIP - 06 - Authentication\SIP - 013 - Incoming Messages Not Authenticated/sec" CHARTLABELS="instance">
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $LCSIP06AuthenticationSIP013IncomingMessagesNotAuthenticatedsec -MinThreshold 100 -MaxThreshold 109.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Greater than or equal to 100" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $LCSIP06AuthenticationSIP013IncomingMessagesNotAuthenticatedsec -Operator 'ge' -Threshold 100]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The per-second rate of incoming messages that could not be authenticated.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="LC:SIP - 06 - Authentication SIP - 015 - Incoming Messages Not Authorized/sec" ENABLED="True" CATEGORY="LC:SIP - 06 - Authentication" PRIMARYDATASOURCE="\LC:SIP - 06 - Authentication\SIP - 015 - Incoming Messages Not Authorized/sec" ID="{ca10b76f-e46e-4e75-b31d-03a17bb383f8}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\LC:SIP - 06 - Authentication\SIP - 015 - Incoming Messages Not Authorized/sec" COLLECTIONVARNAME="LCSIP06AuthenticationSIP015IncomingMessagesNotAuthorizedsec" EXPRESSIONPATH="\LC:SIP - 06 - Authentication\SIP - 015 - Incoming Messages Not Authorized/sec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LC:SIP - 06 - Authentication\SIP - 015 - Incoming Messages Not Authorized/sec" ISTHRESHOLDSADDED="True" DATASOURCE="\LC:SIP - 06 - Authentication\SIP - 015 - Incoming Messages Not Authorized/sec" CHARTLABELS="instance">
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $LCSIP06AuthenticationSIP015IncomingMessagesNotAuthorizedsec -MinThreshold 0 -MaxThreshold 0.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Greater than 0" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $LCSIP06AuthenticationSIP015IncomingMessagesNotAuthorizedsec -Operator 'gt' -Threshold 0]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The per-second rate of incoming messages that could not be authorized.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="LC:SIP - 06 - Authentication SIP - 027 - Authentication System Errors/sec" ENABLED="True" CATEGORY="LC:SIP - 06 - Authentication" PRIMARYDATASOURCE="\LC:SIP - 06 - Authentication\SIP - 027 - Authentication System Errors/sec" ID="{218abf64-64bf-4dcc-b4af-08c820f4f010}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\LC:SIP - 06 - Authentication\SIP - 027 - Authentication System Errors/sec" COLLECTIONVARNAME="LCSIP06AuthenticationSIP027AuthenticationSystemErrorssec" EXPRESSIONPATH="\LC:SIP - 06 - Authentication\SIP - 027 - Authentication System Errors/sec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LC:SIP - 06 - Authentication\SIP - 027 - Authentication System Errors/sec" ISTHRESHOLDSADDED="True" DATASOURCE="\LC:SIP - 06 - Authentication\SIP - 027 - Authentication System Errors/sec" CHARTLABELS="instance">
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $LCSIP06AuthenticationSIP027AuthenticationSystemErrorssec -MinThreshold 0 -MaxThreshold 0.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Greater than 0" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $LCSIP06AuthenticationSIP027AuthenticationSystemErrorssec -Operator 'gt' -Threshold 0]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The per-second rate of authentication failures caused by system errors (due to low memory conditions or otherwise).]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="LC:SIP - 07 - Load Management SIP - 000 - Average Holding Time For Incoming Messages" ENABLED="True" CATEGORY="LC:SIP - 07 - Load Management" PRIMARYDATASOURCE="\LC:SIP - 07 - Load Management\SIP - 000 - Average Holding Time For Incoming Messages" ID="{22e809ac-e544-4079-9918-61062c01bc9f}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\LC:SIP - 07 - Load Management\SIP - 000 - Average Holding Time For Incoming Messages" COLLECTIONVARNAME="LCSIP07LoadManagementSIP000AverageHoldingTimeForIncomingMessages" EXPRESSIONPATH="\LC:SIP - 07 - Load Management\SIP - 000 - Average Holding Time For Incoming Messages" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LC:SIP - 07 - Load Management\SIP - 000 - Average Holding Time For Incoming Messages" ISTHRESHOLDSADDED="True" DATASOURCE="\LC:SIP - 07 - Load Management\SIP - 000 - Average Holding Time For Incoming Messages" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $LCSIP07LoadManagementSIP000AverageHoldingTimeForIncomingMessages -MinThreshold 3 -MaxThreshold 6 -IsOperatorGreaterThan $True -UseMaxValue $False]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $LCSIP07LoadManagementSIP000AverageHoldingTimeForIncomingMessages -MinThreshold 6 -MaxThreshold 9.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Greater than or equal to 3" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $LCSIP07LoadManagementSIP000AverageHoldingTimeForIncomingMessages -Operator 'ge' -Threshold 3]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="Greater than or equal to 6" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $LCSIP07LoadManagementSIP000AverageHoldingTimeForIncomingMessages -Operator 'ge' -Threshold 6]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The average time that the server held the incoming messages currently being processed.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="LC:SIP - 07 - Load Management SIP - 006 - Incoming Messages Timed out" ENABLED="True" CATEGORY="LC:SIP - 07 - Load Management" PRIMARYDATASOURCE="\LC:SIP - 07 - Load Management\SIP - 006 - Incoming Messages Timed out" ID="{09263d38-d661-485b-af5f-ee52777c9272}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\LC:SIP - 07 - Load Management\SIP - 006 - Incoming Messages Timed out" COLLECTIONVARNAME="LCSIP07LoadManagementSIP006IncomingMessagesTimedout" EXPRESSIONPATH="\LC:SIP - 07 - Load Management\SIP - 006 - Incoming Messages Timed out" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LC:SIP - 07 - Load Management\SIP - 006 - Incoming Messages Timed out" ISTHRESHOLDSADDED="True" DATASOURCE="\LC:SIP - 07 - Load Management\SIP - 006 - Incoming Messages Timed out" CHARTLABELS="instance">
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $LCSIP07LoadManagementSIP006IncomingMessagesTimedout -MinThreshold 250 -MaxThreshold 259.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Greater than or equal to 250" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $LCSIP07LoadManagementSIP006IncomingMessagesTimedout -Operator 'ge' -Threshold 250]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The number of incoming messages currently being held by the server for processing for more than the maximum tracking interval.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="LC:SIP - 07 - Load Management SIP - 009 - Address space usage" ENABLED="True" CATEGORY="LC:SIP - 07 - Load Management" PRIMARYDATASOURCE="\LC:SIP - 07 - Load Management\SIP - 009 - Address space usage" ID="{71a3e159-4795-4bd3-8186-cf6334053330}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\LC:SIP - 07 - Load Management\SIP - 009 - Address space usage" COLLECTIONVARNAME="LCSIP07LoadManagementSIP009Addressspaceusage" EXPRESSIONPATH="\LC:SIP - 07 - Load Management\SIP - 009 - Address space usage" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LC:SIP - 07 - Load Management\SIP - 009 - Address space usage" ISTHRESHOLDSADDED="True" DATASOURCE="\LC:SIP - 07 - Load Management\SIP - 009 - Address space usage" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $LCSIP07LoadManagementSIP009Addressspaceusage -MinThreshold 70 -MaxThreshold 80 -IsOperatorGreaterThan $True -UseMaxValue $False]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $LCSIP07LoadManagementSIP009Addressspaceusage -MinThreshold 80 -MaxThreshold 99.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Greater than or equal to 70" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $LCSIP07LoadManagementSIP009Addressspaceusage -Operator 'ge' -Threshold 70]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="Greater than or equal to 80" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $LCSIP07LoadManagementSIP009Addressspaceusage -Operator 'ge' -Threshold 80]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The percentage of available address space currently in use by the server process.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="LC:USrv - 00 - DBStore USrv - 000 - Queue Depth" ENABLED="True" CATEGORY="LC:USrv - 00 - DBStore" PRIMARYDATASOURCE="\LC:USrv - 00 - DBStore\USrv - 000 - Queue Depth" ID="{e0ddd114-6d60-475a-936b-909bef01a16a}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\LC:USrv - 00 - DBStore\USrv - 000 - Queue Depth" COLLECTIONVARNAME="LCUSrv00DBStoreUSrv000QueueDepth" EXPRESSIONPATH="\LC:USrv - 00 - DBStore\USrv - 000 - Queue Depth" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LC:USrv - 00 - DBStore\USrv - 000 - Queue Depth" ISTHRESHOLDSADDED="True" DATASOURCE="\LC:USrv - 00 - DBStore\USrv - 000 - Queue Depth" CHARTLABELS="instance">
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $LCUSrv00DBStoreUSrv000QueueDepth -MinThreshold 1000 -MaxThreshold 1009.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Greater than or equal to 1000" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $LCUSrv00DBStoreUSrv000QueueDepth -Operator 'ge' -Threshold 1000]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The average number of database requests waiting to be executed.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="LC:USrv - 00 - DBStore\USrv - 002 - Queue Latency  USrv - 002 - Queue Latency (msec)" ENABLED="True" CATEGORY="LC:USrv - 00 - DBStore" PRIMARYDATASOURCE="\LC:USrv - 00 - DBStore\USrv - 002 - Queue Latency (msec)" ID="{fd36834c-86ad-42cc-8e5c-0072b41dbd5b}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\LC:USrv - 00 - DBStore\USrv - 002 - Queue Latency (msec)" COLLECTIONVARNAME="LCUSrv00DBStoreUSrv002QueueLatencymsec" EXPRESSIONPATH="\LC:USrv - 00 - DBStore\USrv - 002 - Queue Latency (msec)" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LC:USrv - 00 - DBStore\USrv - 002 - Queue Latency (msec)" ISTHRESHOLDSADDED="True" DATASOURCE="\LC:USrv - 00 - DBStore\USrv - 002 - Queue Latency (msec)" CHARTLABELS="instance">
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $LCUSrv00DBStoreUSrv002QueueLatencymsec -MinThreshold 10000 -MaxThreshold 10009.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Greater than or equal to 10,000" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $LCUSrv00DBStoreUSrv002QueueLatencymsec -Operator 'ge' -Threshold 10000]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The average time (in milliseconds) a request is held in the database queue.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="LC:USrv - 00 - DBStore\USrv - 004 - Sproc Latency  USrv - 004 - Sproc Latency (msec)" ENABLED="True" CATEGORY="LC:USrv - 00 - DBStore" PRIMARYDATASOURCE="\LC:USrv - 00 - DBStore\USrv - 004 - Sproc Latency (msec)" ID="{8cda7543-35a3-4705-b2ae-498b271b0dc0}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\LC:USrv - 00 - DBStore\USrv - 004 - Sproc Latency (msec)" COLLECTIONVARNAME="LCUSrv00DBStoreUSrv004SprocLatencymsec" EXPRESSIONPATH="\LC:USrv - 00 - DBStore\USrv - 004 - Sproc Latency (msec)" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LC:USrv - 00 - DBStore\USrv - 004 - Sproc Latency (msec)" ISTHRESHOLDSADDED="True" DATASOURCE="\LC:USrv - 00 - DBStore\USrv - 004 - Sproc Latency (msec)" CHARTLABELS="instance">
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $LCUSrv00DBStoreUSrv004SprocLatencymsec -MinThreshold 10000 -MaxThreshold 10009.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Greater than or equal to 10,000" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $LCUSrv00DBStoreUSrv004SprocLatencymsec -Operator 'ge' -Threshold 10000]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The average time (in milliseconds) it takes to execute a sproc call.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="LC:USrv - 00 - DBStore USrv - 014 - Total Dropped Requests" ENABLED="True" CATEGORY="LC:USrv - 00 - DBStore" PRIMARYDATASOURCE="\LC:USrv - 00 - DBStore\USrv - 014 - Total Dropped Requests" ID="{0829a147-b74c-42d3-8623-a8429d5210aa}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\LC:USrv - 00 - DBStore\USrv - 014 - Total Dropped Requests" COLLECTIONVARNAME="LCUSrv00DBStoreUSrv014TotalDroppedRequests" EXPRESSIONPATH="\LC:USrv - 00 - DBStore\USrv - 014 - Total Dropped Requests" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LC:USrv - 00 - DBStore\USrv - 014 - Total Dropped Requests" ISTHRESHOLDSADDED="True" DATASOURCE="\LC:USrv - 00 - DBStore\USrv - 014 - Total Dropped Requests" CHARTLABELS="instance">
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $LCUSrv00DBStoreUSrv014TotalDroppedRequests -MinThreshold 10 -MaxThreshold 11.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Greater than or equal to 10" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $LCUSrv00DBStoreUSrv014TotalDroppedRequests -Operator 'ge' -Threshold 10]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The number of requests that have been dropped by the database layer because they would time out.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="LC:USrv - 17 - RPC Client USrv - 000 - Outstanding Outbound RPC Calls" ENABLED="True" CATEGORY="LC:USrv - 17 - RPC Client" PRIMARYDATASOURCE="\LC:USrv - 17 - RPC Client(_Total)\USrv - 000 - Outstanding Outbound RPC Calls" ID="{411c44ea-32bb-46ea-b37a-859b08d4e061}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\LC:USrv - 17 - RPC Client(_Total)\USrv - 000 - Outstanding Outbound RPC Calls" COLLECTIONVARNAME="LCUSrv17RPCClientUSrv000OutstandingOutboundRPCCalls_Total" EXPRESSIONPATH="\LC:USrv - 17 - RPC Client(_Total)\USrv - 000 - Outstanding Outbound RPC Calls" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LC:USrv - 17 - RPC Client(_Total)\USrv - 000 - Outstanding Outbound RPC Calls" ISTHRESHOLDSADDED="True" DATASOURCE="\LC:USrv - 17 - RPC Client(_Total)\USrv - 000 - Outstanding Outbound RPC Calls" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $LCUSrv17RPCClientUSrv000OutstandingOutboundRPCCalls_Total -MinThreshold 255 -MaxThreshold 511 -IsOperatorGreaterThan $True -UseMaxValue $False]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $LCUSrv17RPCClientUSrv000OutstandingOutboundRPCCalls_Total -MinThreshold 511 -MaxThreshold 559.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Greater than or equal to 255" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $LCUSrv17RPCClientUSrv000OutstandingOutboundRPCCalls_Total -Operator 'ge' -Threshold 255]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="Greater than or equal to 511" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $LCUSrv17RPCClientUSrv000OutstandingOutboundRPCCalls_Total -Operator 'ge' -Threshold 511]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[Total number of outstanding outbound calls in the UserServices RPC Component of the Office Communications Server.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="LC:USrv - 20 - Https Transport\USrv - 013 - Average Outgoing Queue Delay  USrv - 013 - Average Outgoing Queue Delay (ms)" ENABLED="True" CATEGORY="LC:USrv - 20 - Https Transport" PRIMARYDATASOURCE="\LC:USrv - 20 - Https Transport\USrv - 013 - Average Outgoing Queue Delay (ms)" ID="{79551ff0-b6f1-4c33-969c-25c0f6a9901d}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\LC:USrv - 20 - Https Transport\USrv - 013 - Average Outgoing Queue Delay (ms)" COLLECTIONVARNAME="LCUSrv20HttpsTransportUSrv013AverageOutgoingQueueDelayms" EXPRESSIONPATH="\LC:USrv - 20 - Https Transport\USrv - 013 - Average Outgoing Queue Delay (ms)" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LC:USrv - 20 - Https Transport\USrv - 013 - Average Outgoing Queue Delay (ms)" ISTHRESHOLDSADDED="True" DATASOURCE="\LC:USrv - 20 - Https Transport\USrv - 013 - Average Outgoing Queue Delay (ms)" CHARTLABELS="instance">
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $LCUSrv20HttpsTransportUSrv013AverageOutgoingQueueDelayms -MinThreshold 1000 -MaxThreshold 1009.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Greater than or equal to 1000" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $LCUSrv20HttpsTransportUSrv013AverageOutgoingQueueDelayms -Operator 'ge' -Threshold 1000]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The average time a request spends in the queue before being sent out]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="LC:USrv - 23 - Conference Control USrv - 004 - Outstanding C3P transactions" ENABLED="True" CATEGORY="LC:USrv - 23 - Conference Control" PRIMARYDATASOURCE="\LC:USrv - 23 - Conference Control\USrv - 004 - Outstanding C3P transactions" ID="{523cc23a-fb66-4ba0-b546-ad228da631f6}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\LC:USrv - 23 - Conference Control\USrv - 004 - Outstanding C3P transactions" COLLECTIONVARNAME="LCUSrv23ConferenceControlUSrv004OutstandingC3Ptransactions" EXPRESSIONPATH="\LC:USrv - 23 - Conference Control\USrv - 004 - Outstanding C3P transactions" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LC:USrv - 23 - Conference Control\USrv - 004 - Outstanding C3P transactions" ISTHRESHOLDSADDED="True" DATASOURCE="\LC:USrv - 23 - Conference Control\USrv - 004 - Outstanding C3P transactions" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $LCUSrv23ConferenceControlUSrv004OutstandingC3Ptransactions -MinThreshold 1000 -MaxThreshold 1099.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Greater than or equal to 1000" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $LCUSrv23ConferenceControlUSrv004OutstandingC3Ptransactions -Operator 'ge' -Threshold 1000]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[Number of C3P transactions currently in processing]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="LC:USrv - 23 - Conference Control USrv - 023 - Transactions Timed-Out / sec" ENABLED="True" CATEGORY="LC:USrv - 23 - Conference Control" PRIMARYDATASOURCE="\LC:USrv - 23 - Conference Control\USrv - 023 - Transactions Timed-Out / sec" ID="{1473e93e-ee4f-4cda-8ff2-fe5f8c1375a8}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\LC:USrv - 23 - Conference Control\USrv - 023 - Transactions Timed-Out / sec" COLLECTIONVARNAME="LCUSrv23ConferenceControlUSrv023TransactionsTimedOutsec" EXPRESSIONPATH="\LC:USrv - 23 - Conference Control\USrv - 023 - Transactions Timed-Out / sec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LC:USrv - 23 - Conference Control\USrv - 023 - Transactions Timed-Out / sec" ISTHRESHOLDSADDED="True" DATASOURCE="\LC:USrv - 23 - Conference Control\USrv - 023 - Transactions Timed-Out / sec" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $LCUSrv23ConferenceControlUSrv023TransactionsTimedOutsec -MinThreshold 100 -MaxThreshold 109.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Greater than or equal to 100" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $LCUSrv23ConferenceControlUSrv023TransactionsTimedOutsec -Operator 'ge' -Threshold 100]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[Per-second rate of requests sent to MCU that timed out.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="LC:USrv - 24 - Conference Control Notification USrv - 004 - Notifications in processing" ENABLED="True" CATEGORY="LC:USrv - 24 - Conference Control Notification" PRIMARYDATASOURCE="\LC:USrv - 24 - Conference Control Notification\USrv - 004 - Notifications in processing" ID="{5f2bef7e-e3eb-4fab-85ce-f08ab477a1aa}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\LC:USrv - 24 - Conference Control Notification\USrv - 004 - Notifications in processing" COLLECTIONVARNAME="LCUSrv24ConferenceControlNotificationUSrv004Notificationsinprocessing" EXPRESSIONPATH="\LC:USrv - 24 - Conference Control Notification\USrv - 004 - Notifications in processing" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LC:USrv - 24 - Conference Control Notification\USrv - 004 - Notifications in processing" ISTHRESHOLDSADDED="True" DATASOURCE="\LC:USrv - 24 - Conference Control Notification\USrv - 004 - Notifications in processing" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $LCUSrv24ConferenceControlNotificationUSrv004Notificationsinprocessing -MinThreshold 1000 -MaxThreshold 1009.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Greater than or equal to 1000" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $LCUSrv24ConferenceControlNotificationUSrv004Notificationsinprocessing -Operator 'ge' -Threshold 1000]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[Number of Conference Notifications in processing]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="LC:USrv - 25 - Conference Mcu Allocator\USrv - 011 - Factory Call Latency  USrv - 011 - Factory Call Latency (msec)" ENABLED="True" CATEGORY="LC:USrv - 25 - Conference Mcu Allocator" PRIMARYDATASOURCE="\LC:USrv - 25 - Conference Mcu Allocator\USrv - 011 - Factory Call Latency (msec)" ID="{3443ef1e-fc32-43af-9614-20ec5f1d1827}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\LC:USrv - 25 - Conference Mcu Allocator\USrv - 011 - Factory Call Latency (msec)" COLLECTIONVARNAME="LCUSrv25ConferenceMcuAllocatorUSrv011FactoryCallLatencymsec" EXPRESSIONPATH="\LC:USrv - 25 - Conference Mcu Allocator\USrv - 011 - Factory Call Latency (msec)" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LC:USrv - 25 - Conference Mcu Allocator\USrv - 011 - Factory Call Latency (msec)" ISTHRESHOLDSADDED="True" DATASOURCE="\LC:USrv - 25 - Conference Mcu Allocator\USrv - 011 - Factory Call Latency (msec)" CHARTLABELS="instance">
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $LCUSrv25ConferenceMcuAllocatorUSrv011FactoryCallLatencymsec -MinThreshold 5000 -MaxThreshold 5019.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Greater than or equal to 5000" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $LCUSrv25ConferenceMcuAllocatorUSrv011FactoryCallLatencymsec -Operator 'ge' -Threshold 5000]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The average time (in milliseconds) taken to complete a MCU factory call.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="LC:USrv - 25 - Conference Mcu Allocator\USrv - 019 - Create Conference Latency  USrv - 019 - Create Conference Latency (msec)" ENABLED="True" CATEGORY="LC:USrv - 25 - Conference Mcu Allocator" PRIMARYDATASOURCE="\LC:USrv - 25 - Conference Mcu Allocator\USrv - 019 - Create Conference Latency (msec)" ID="{faa33805-5621-47ba-9b6c-cf2b8f75eab6}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\LC:USrv - 25 - Conference Mcu Allocator\USrv - 019 - Create Conference Latency (msec)" COLLECTIONVARNAME="LCUSrv25ConferenceMcuAllocatorUSrv019CreateConferenceLatencymsec" EXPRESSIONPATH="\LC:USrv - 25 - Conference Mcu Allocator\USrv - 019 - Create Conference Latency (msec)" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LC:USrv - 25 - Conference Mcu Allocator\USrv - 019 - Create Conference Latency (msec)" ISTHRESHOLDSADDED="True" DATASOURCE="\LC:USrv - 25 - Conference Mcu Allocator\USrv - 019 - Create Conference Latency (msec)" CHARTLABELS="instance">
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $LCUSrv25ConferenceMcuAllocatorUSrv019CreateConferenceLatencymsec -MinThreshold 5000 -MaxThreshold 5019.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Greater than or equal to 5000" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $LCUSrv25ConferenceMcuAllocatorUSrv019CreateConferenceLatencymsec -Operator 'ge' -Threshold 5000]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The average time (in milliseconds) taken to complete a create conference call.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="LC:USrv - 25 - Conference Mcu Allocator\USrv - 021 - Allocation Latency  USrv - 021 - Allocation Latency (msec)" ENABLED="True" CATEGORY="LC:USrv - 25 - Conference Mcu Allocator" PRIMARYDATASOURCE="\LC:USrv - 25 - Conference Mcu Allocator\USrv - 021 - Allocation Latency (msec)" ID="{84579cc7-3206-4f35-89d4-95a4eaeb6484}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\LC:USrv - 25 - Conference Mcu Allocator\USrv - 021 - Allocation Latency (msec)" COLLECTIONVARNAME="LCUSrv25ConferenceMcuAllocatorUSrv021AllocationLatencymsec" EXPRESSIONPATH="\LC:USrv - 25 - Conference Mcu Allocator\USrv - 021 - Allocation Latency (msec)" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LC:USrv - 25 - Conference Mcu Allocator\USrv - 021 - Allocation Latency (msec)" ISTHRESHOLDSADDED="True" DATASOURCE="\LC:USrv - 25 - Conference Mcu Allocator\USrv - 021 - Allocation Latency (msec)" CHARTLABELS="instance">
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $LCUSrv25ConferenceMcuAllocatorUSrv021AllocationLatencymsec -MinThreshold 10000 -MaxThreshold 10099.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Greater than or equal to 10,000" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $LCUSrv25ConferenceMcuAllocatorUSrv021AllocationLatencymsec -Operator 'ge' -Threshold 10000]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The average time (in milliseconds) taken to complete a full Mcu allocation request.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="CAA - 00 - Operations CAA - 000 - Incomplete calls per sec" ENABLED="True" CATEGORY="CAA - 00 - Operations" PRIMARYDATASOURCE="\CAA - 00 - Operations\CAA - 000 - Incomplete calls per sec" ID="{71466a96-91ed-4eb6-aa7f-7bb035c2d675}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\CAA - 00 - Operations\CAA - 000 - Incomplete calls per sec" COLLECTIONVARNAME="CAA00OperationsCAA000Incompletecallspersec" EXPRESSIONPATH="\CAA - 00 - Operations\CAA - 000 - Incomplete calls per sec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\CAA - 00 - Operations\CAA - 000 - Incomplete calls per sec" ISTHRESHOLDSADDED="True" DATASOURCE="\CAA - 00 - Operations\CAA - 000 - Incomplete calls per sec" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $CAA00OperationsCAA000Incompletecallspersec -MinThreshold 40 -MaxThreshold 50 -IsOperatorGreaterThan $True -UseMaxValue $False]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $CAA00OperationsCAA000Incompletecallspersec -MinThreshold 50 -MaxThreshold 59.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Greater than or equal to 40" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CAA00OperationsCAA000Incompletecallspersec -Operator 'ge' -Threshold 40]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="Greater than or equal to 50" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CAA00OperationsCAA000Incompletecallspersec -Operator 'ge' -Threshold 50]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The per second rate of incomplete calls to Conferencing Attendant. This includes calls disconnected by the user and by the system due to invalid conference id, passcode, etc.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="AVMCU - 00 - Operations AVMCU - 000 - Number of Conferences" ENABLED="True" CATEGORY="AVMCU - 00 - Operations" PRIMARYDATASOURCE="\AVMCU - 00 - Operations\AVMCU - 000 - Number of Conferences" ID="{db8e51aa-32d7-4a41-945e-7d3626b56e0a}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\AVMCU - 00 - Operations\AVMCU - 000 - Number of Conferences" COLLECTIONVARNAME="AVMCU00OperationsAVMCU000NumberofConferences" EXPRESSIONPATH="\AVMCU - 00 - Operations\AVMCU - 000 - Number of Conferences" DATATYPE="integer" />
+    <CHART CHARTTITLE="\AVMCU - 00 - Operations\AVMCU - 000 - Number of Conferences" ISTHRESHOLDSADDED="True" DATASOURCE="\AVMCU - 00 - Operations\AVMCU - 000 - Number of Conferences" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $AVMCU00OperationsAVMCU000NumberofConferences -MinThreshold 4000 -MaxThreshold 5001 -IsOperatorGreaterThan $True -UseMaxValue $False]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $AVMCU00OperationsAVMCU000NumberofConferences -MinThreshold 5001 -MaxThreshold 5039.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Greater than or equal to 4000" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $AVMCU00OperationsAVMCU000NumberofConferences -Operator 'ge' -Threshold 4000]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="Greater than or equal to 5001" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $AVMCU00OperationsAVMCU000NumberofConferences -Operator 'ge' -Threshold 5001]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The number of active conferences on the A/V Conferencing Server.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="AVMCU - 04 - MCU Health And Performance AVMCU - 005 - MCU Health State" ENABLED="True" CATEGORY="AVMCU - 04 - MCU Health And Performance" PRIMARYDATASOURCE="\AVMCU - 04 - MCU Health And Performance\AVMCU - 005 - MCU Health State" ID="{edd016a4-087a-403e-b32b-8282b76ffc37}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\AVMCU - 04 - MCU Health And Performance\AVMCU - 005 - MCU Health State" COLLECTIONVARNAME="AVMCU04MCUHealthAndPerformanceAVMCU005MCUHealthState" EXPRESSIONPATH="\AVMCU - 04 - MCU Health And Performance\AVMCU - 005 - MCU Health State" DATATYPE="integer" />
+    <CHART CHARTTITLE="\AVMCU - 04 - MCU Health And Performance\AVMCU - 005 - MCU Health State" ISTHRESHOLDSADDED="True" DATASOURCE="\AVMCU - 04 - MCU Health And Performance\AVMCU - 005 - MCU Health State" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $AVMCU04MCUHealthAndPerformanceAVMCU005MCUHealthState -MinThreshold 1 -MaxThreshold 2 -IsOperatorGreaterThan $True -UseMaxValue $False]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $AVMCU04MCUHealthAndPerformanceAVMCU005MCUHealthState -MinThreshold 2 -MaxThreshold 2.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Loaded" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $AVMCU04MCUHealthAndPerformanceAVMCU005MCUHealthState -Operator 'ge' -Threshold 1]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="Full" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $AVMCU04MCUHealthAndPerformanceAVMCU005MCUHealthState -Operator 'ge' -Threshold 2]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The current health of the MCU. 0 = Normal. 1 = Loaded. 2 = Full. 3 = Unavailable.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="LC:DLX - 00 - Address Book and Distribution List Expansion DLX - 016 - Invalid input requests/sec" ENABLED="True" CATEGORY="LC:DLX - 00 - Address Book and Distribution List Expansion" PRIMARYDATASOURCE="\LC:DLX - 00 - Address Book and Distribution List Expansion\DLX - 016 - Invalid input requests/sec" ID="{0c8ca405-9b86-4eae-997b-0f2ab50b1d13}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\LC:DLX - 00 - Address Book and Distribution List Expansion\DLX - 016 - Invalid input requests/sec" COLLECTIONVARNAME="LCDLX00AddressBookandDistributionListExpansionDLX016Invalidinputrequestssec" EXPRESSIONPATH="\LC:DLX - 00 - Address Book and Distribution List Expansion\DLX - 016 - Invalid input requests/sec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LC:DLX - 00 - Address Book and Distribution List Expansion\DLX - 016 - Invalid input requests/sec" ISTHRESHOLDSADDED="True" DATASOURCE="\LC:DLX - 00 - Address Book and Distribution List Expansion\DLX - 016 - Invalid input requests/sec" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $LCDLX00AddressBookandDistributionListExpansionDLX016Invalidinputrequestssec -MinThreshold 2 -MaxThreshold 5 -IsOperatorGreaterThan $True -UseMaxValue $False]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $LCDLX00AddressBookandDistributionListExpansionDLX016Invalidinputrequestssec -MinThreshold 5 -MaxThreshold 5.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Greater than or equal to 2" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $LCDLX00AddressBookandDistributionListExpansionDLX016Invalidinputrequestssec -Operator 'ge' -Threshold 2]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="Greater than or equal to 5" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $LCDLX00AddressBookandDistributionListExpansionDLX016Invalidinputrequestssec -Operator 'ge' -Threshold 5]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The per-second rate of invalid input requests]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="LC:DLX - 00 - Address Book and Distribution List Expansion DLX - 018 - Timed out Requests that fetch Security Descriptors/sec" ENABLED="True" CATEGORY="LC:DLX - 00 - Address Book and Distribution List Expansion" PRIMARYDATASOURCE="\LC:DLX - 00 - Address Book and Distribution List Expansion\DLX - 018 - Timed out Requests that fetch Security Descriptors/sec" ID="{e07c371e-9c25-44d2-9415-3056e0aa5dc6}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\LC:DLX - 00 - Address Book and Distribution List Expansion\DLX - 018 - Timed out Requests that fetch Security Descriptors/sec" COLLECTIONVARNAME="LCDLX00AddressBookandDistributionListExpansionDLX018TimedoutRequeststhatfetchSecurityDescriptorssec" EXPRESSIONPATH="\LC:DLX - 00 - Address Book and Distribution List Expansion\DLX - 018 - Timed out Requests that fetch Security Descriptors/sec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LC:DLX - 00 - Address Book and Distribution List Expansion\DLX - 018 - Timed out Requests that fetch Security Descriptors/sec" ISTHRESHOLDSADDED="True" DATASOURCE="\LC:DLX - 00 - Address Book and Distribution List Expansion\DLX - 018 - Timed out Requests that fetch Security Descriptors/sec" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $LCDLX00AddressBookandDistributionListExpansionDLX018TimedoutRequeststhatfetchSecurityDescriptorssec -MinThreshold 2 -MaxThreshold 5 -IsOperatorGreaterThan $True -UseMaxValue $False]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $LCDLX00AddressBookandDistributionListExpansionDLX018TimedoutRequeststhatfetchSecurityDescriptorssec -MinThreshold 5 -MaxThreshold 5.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Greater than or equal to 2" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $LCDLX00AddressBookandDistributionListExpansionDLX018TimedoutRequeststhatfetchSecurityDescriptorssec -Operator 'ge' -Threshold 2]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="Greater than or equal to 5" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $LCDLX00AddressBookandDistributionListExpansionDLX018TimedoutRequeststhatfetchSecurityDescriptorssec -Operator 'ge' -Threshold 5]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The per-second rate of timed out Security Descriptor fetch requests]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="LC:DLX - 00 - Address Book and Distribution List Expansion DLX - 024 - Soap exceptions/sec" ENABLED="True" CATEGORY="LC:DLX - 00 - Address Book and Distribution List Expansion" PRIMARYDATASOURCE="\LC:DLX - 00 - Address Book and Distribution List Expansion\DLX - 024 - Soap exceptions/sec" ID="{4318aaaf-08fe-42cd-bf94-e57d8ae5c619}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\LC:DLX - 00 - Address Book and Distribution List Expansion\DLX - 024 - Soap exceptions/sec" COLLECTIONVARNAME="LCDLX00AddressBookandDistributionListExpansionDLX024Soapexceptionssec" EXPRESSIONPATH="\LC:DLX - 00 - Address Book and Distribution List Expansion\DLX - 024 - Soap exceptions/sec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LC:DLX - 00 - Address Book and Distribution List Expansion\DLX - 024 - Soap exceptions/sec" ISTHRESHOLDSADDED="True" DATASOURCE="\LC:DLX - 00 - Address Book and Distribution List Expansion\DLX - 024 - Soap exceptions/sec" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $LCDLX00AddressBookandDistributionListExpansionDLX024Soapexceptionssec -MinThreshold 1 -MaxThreshold 2 -IsOperatorGreaterThan $True -UseMaxValue $False]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $LCDLX00AddressBookandDistributionListExpansionDLX024Soapexceptionssec -MinThreshold 2 -MaxThreshold 2.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Greater than or equal to 1" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $LCDLX00AddressBookandDistributionListExpansionDLX024Soapexceptionssec -Operator 'ge' -Threshold 1]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="Greater than or equal to 2" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $LCDLX00AddressBookandDistributionListExpansionDLX024Soapexceptionssec -Operator 'ge' -Threshold 2]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The per-second rate of Soap Exceptions]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="LC:DATAMCU - 00 - DataMCU Conferences DATAMCU - 026 - Compliance errors" ENABLED="True" CATEGORY="LC:DATAMCU - 00 - DataMCU Conferences" PRIMARYDATASOURCE="\LC:DATAMCU - 00 - DataMCU Conferences\DATAMCU - 026 - Compliance errors" ID="{271e82a0-fba7-4f1b-8758-76525e927027}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\LC:DATAMCU - 00 - DataMCU Conferences\DATAMCU - 026 - Compliance errors" COLLECTIONVARNAME="LCDATAMCU00DataMCUConferencesDATAMCU026Complianceerrors" EXPRESSIONPATH="\LC:DATAMCU - 00 - DataMCU Conferences\DATAMCU - 026 - Compliance errors" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LC:DATAMCU - 00 - DataMCU Conferences\DATAMCU - 026 - Compliance errors" ISTHRESHOLDSADDED="True" DATASOURCE="\LC:DATAMCU - 00 - DataMCU Conferences\DATAMCU - 026 - Compliance errors" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $LCDATAMCU00DataMCUConferencesDATAMCU026Complianceerrors -MinThreshold 5 -MaxThreshold 10 -IsOperatorGreaterThan $True -UseMaxValue $False]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $LCDATAMCU00DataMCUConferencesDATAMCU026Complianceerrors -MinThreshold 10 -MaxThreshold 11.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Greater than or equal to 5" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $LCDATAMCU00DataMCUConferencesDATAMCU026Complianceerrors -Operator 'ge' -Threshold 5]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="Greater than or equal to 10" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $LCDATAMCU00DataMCUConferencesDATAMCU026Complianceerrors -Operator 'ge' -Threshold 10]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The number of errors reported by the compliance module]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="LC:DATAMCU - 00 - DataMCU Conferences DATAMCU - 031 - Resources over conference space limit" ENABLED="True" CATEGORY="LC:DATAMCU - 00 - DataMCU Conferences" PRIMARYDATASOURCE="\LC:DATAMCU - 00 - DataMCU Conferences\DATAMCU - 031 - Resources over conference space limit" ID="{83b3ce24-fdb9-4458-b4c4-f5ef957c999e}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\LC:DATAMCU - 00 - DataMCU Conferences\DATAMCU - 031 - Resources over conference space limit" COLLECTIONVARNAME="LCDATAMCU00DataMCUConferencesDATAMCU031Resourcesoverconferencespacelimit" EXPRESSIONPATH="\LC:DATAMCU - 00 - DataMCU Conferences\DATAMCU - 031 - Resources over conference space limit" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LC:DATAMCU - 00 - DataMCU Conferences\DATAMCU - 031 - Resources over conference space limit" ISTHRESHOLDSADDED="True" DATASOURCE="\LC:DATAMCU - 00 - DataMCU Conferences\DATAMCU - 031 - Resources over conference space limit" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $LCDATAMCU00DataMCUConferencesDATAMCU031Resourcesoverconferencespacelimit -MinThreshold 1 -MaxThreshold 10 -IsOperatorGreaterThan $True -UseMaxValue $False]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $LCDATAMCU00DataMCUConferencesDATAMCU031Resourcesoverconferencespacelimit -MinThreshold 10 -MaxThreshold 11.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Greater than or equal to 1" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $LCDATAMCU00DataMCUConferencesDATAMCU031Resourcesoverconferencespacelimit -Operator 'ge' -Threshold 1]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="Greater than or equal to 10" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $LCDATAMCU00DataMCUConferencesDATAMCU031Resourcesoverconferencespacelimit -Operator 'ge' -Threshold 10]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The number of resource failed to be created because the Data MCU has reached the space limit for one or more conferences]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="LC:DATAMCU - 00 - DataMCU Conferences DATAMCU - 038 - Number of Unhandled Application Exception" ENABLED="True" CATEGORY="LC:DATAMCU - 00 - DataMCU Conferences" PRIMARYDATASOURCE="\LC:DATAMCU - 00 - DataMCU Conferences\DATAMCU - 038 - Number of Unhandled Application Exception" ID="{9ce37556-cc92-40f8-b887-0e3e2e06423a}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\LC:DATAMCU - 00 - DataMCU Conferences\DATAMCU - 038 - Number of Unhandled Application Exception" COLLECTIONVARNAME="LCDATAMCU00DataMCUConferencesDATAMCU038NumberofUnhandledApplicationException" EXPRESSIONPATH="\LC:DATAMCU - 00 - DataMCU Conferences\DATAMCU - 038 - Number of Unhandled Application Exception" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LC:DATAMCU - 00 - DataMCU Conferences\DATAMCU - 038 - Number of Unhandled Application Exception" ISTHRESHOLDSADDED="True" DATASOURCE="\LC:DATAMCU - 00 - DataMCU Conferences\DATAMCU - 038 - Number of Unhandled Application Exception" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $LCDATAMCU00DataMCUConferencesDATAMCU038NumberofUnhandledApplicationException -MinThreshold 1 -MaxThreshold 10 -IsOperatorGreaterThan $True -UseMaxValue $False]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $LCDATAMCU00DataMCUConferencesDATAMCU038NumberofUnhandledApplicationException -MinThreshold 10 -MaxThreshold 11.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Greater than or equal to 1" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $LCDATAMCU00DataMCUConferencesDATAMCU038NumberofUnhandledApplicationException -Operator 'ge' -Threshold 1]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="Greater than or equal to 10" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $LCDATAMCU00DataMCUConferencesDATAMCU038NumberofUnhandledApplicationException -Operator 'ge' -Threshold 10]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The number of unhandled application exceptions]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="LC:DATAMCU - 00 - DataMCU Conferences DATAMCU - 041 - Session queues state" ENABLED="True" CATEGORY="LC:DATAMCU - 00 - DataMCU Conferences" PRIMARYDATASOURCE="\LC:DATAMCU - 00 - DataMCU Conferences\DATAMCU - 041 - Session queues state" ID="{f5f7242a-4152-411b-a771-c34b513762c7}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\LC:DATAMCU - 00 - DataMCU Conferences\DATAMCU - 041 - Session queues state" COLLECTIONVARNAME="LCDATAMCU00DataMCUConferencesDATAMCU041Sessionqueuesstate" EXPRESSIONPATH="\LC:DATAMCU - 00 - DataMCU Conferences\DATAMCU - 041 - Session queues state" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LC:DATAMCU - 00 - DataMCU Conferences\DATAMCU - 041 - Session queues state" ISTHRESHOLDSADDED="True" DATASOURCE="\LC:DATAMCU - 00 - DataMCU Conferences\DATAMCU - 041 - Session queues state" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $LCDATAMCU00DataMCUConferencesDATAMCU041Sessionqueuesstate -MinThreshold 1 -MaxThreshold 2 -IsOperatorGreaterThan $True -UseMaxValue $False]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $LCDATAMCU00DataMCUConferencesDATAMCU041Sessionqueuesstate -MinThreshold 2 -MaxThreshold 2.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Greater than or equal to 1" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $LCDATAMCU00DataMCUConferencesDATAMCU041Sessionqueuesstate -Operator 'ge' -Threshold 1]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="Greater than or equal to 2" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $LCDATAMCU00DataMCUConferencesDATAMCU041Sessionqueuesstate -Operator 'ge' -Threshold 2]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The state of the session queues]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="LC:DATAMCU - 02 - MCU Health And Performance DATAMCU - 005 - MCU Health State" ENABLED="True" CATEGORY="LC:DATAMCU - 02 - MCU Health And Performance" PRIMARYDATASOURCE="\LC:DATAMCU - 02 - MCU Health And Performance\DATAMCU - 005 - MCU Health State" ID="{57823363-684b-427c-9ba3-dc067f926272}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\LC:DATAMCU - 02 - MCU Health And Performance\DATAMCU - 005 - MCU Health State" COLLECTIONVARNAME="LCDATAMCU02MCUHealthAndPerformanceDATAMCU005MCUHealthState" EXPRESSIONPATH="\LC:DATAMCU - 02 - MCU Health And Performance\DATAMCU - 005 - MCU Health State" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LC:DATAMCU - 02 - MCU Health And Performance\DATAMCU - 005 - MCU Health State" ISTHRESHOLDSADDED="True" DATASOURCE="\LC:DATAMCU - 02 - MCU Health And Performance\DATAMCU - 005 - MCU Health State" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $LCDATAMCU02MCUHealthAndPerformanceDATAMCU005MCUHealthState -MinThreshold 1 -MaxThreshold 2 -IsOperatorGreaterThan $True -UseMaxValue $False]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $LCDATAMCU02MCUHealthAndPerformanceDATAMCU005MCUHealthState -MinThreshold 2 -MaxThreshold 2.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Loaded" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $LCDATAMCU02MCUHealthAndPerformanceDATAMCU005MCUHealthState -Operator 'ge' -Threshold 1]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="Full" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $LCDATAMCU02MCUHealthAndPerformanceDATAMCU005MCUHealthState -Operator 'ge' -Threshold 2]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The current health of the MCU. 0 = Normal. 1 = Loaded. 2 = Full. 3 = Unavailable.]]></DESCRIPTION>
+  </ANALYSIS>
+</PAL>

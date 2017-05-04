@@ -1,0 +1,57 @@
+<PAL NAME="Microsoft Office SharePoint Server (MOSS) 2007" DESCRIPTION="Performance analysis of Microsoft Office SharePoint Server (MOSS) 2007." CONTENTOWNERS="Clint Huffman" FEEDBACKEMAILADDRESS="clinth@microsoft.com" VERSION="1.1.3" PALVERSION="2.0" LANGUAGE="English" LANGUAGECODE="en">
+  <ANALYSIS NAME="SharePoint Publishing Cache Flushes / Second" ENABLED="True" CATEGORY="SharePoint Publishing Cache" PRIMARYDATASOURCE="\SharePoint Publishing Cache(*)\Publishing cache flushes / second" ID="{1f8b10ac-8179-46e2-95f3-29f19a03fb95}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[SharePoint is reliant on cache for high performance. A high amount of cache flushes per second could indicate an approaching problem with lack of memory, a worker process restart, or poor cache hits.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\SharePoint Publishing Cache(*)\Publishing cache flushes / second" COLLECTIONVARNAME="CollectionOfSharePointPublishingCachePublishingcacheflushessecondALL" EXPRESSIONPATH="\SharePoint Publishing Cache(*)\Publishing cache flushes / second" DATATYPE="integer" />
+    <THRESHOLD NAME="Cache flushes greater than 1 per second" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfSharePointPublishingCachePublishingcacheflushessecondALL -Operator 'gt' -Threshold 1
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\SharePoint Publishing Cache(*)\Publishing cache flushes / second" ISTHRESHOLDSADDED="True" DATASOURCE="\SharePoint Publishing Cache(*)\Publishing cache flushes / second" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfSharePointPublishingCachePublishingcacheflushessecondALL -MinThreshold 1 -MaxThreshold 2.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+  </ANALYSIS>
+  <ANALYSIS NAME="SharePoint Publishing Cache Hit Ratio" ENABLED="True" CATEGORY="SharePoint Publishing Cache" PRIMARYDATASOURCE="\SharePoint Publishing Cache(*)\Publishing cache hit ratio" ID="{54f161bc-4ba7-4abe-a6be-435b8478dba1}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[SharePoint is reliant on cache for high performance. A low cache hit ratio could indicate an approaching problem with lack of memory, a worker process restart, or poor cache hits.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\SharePoint Publishing Cache(*)\Publishing cache hit ratio" COLLECTIONVARNAME="CollectionOfSharePointPublishingCachePublishingcachehitratioALL" EXPRESSIONPATH="\SharePoint Publishing Cache(*)\Publishing cache hit ratio" DATATYPE="integer" />
+    <THRESHOLD NAME="SharePoint's publishing cache hit ratio is less then 99 percent" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfSharePointPublishingCachePublishingcachehitratioALL -Operator 'lt' -Threshold 99
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\SharePoint Publishing Cache(*)\Publishing cache hit ratio" ISTHRESHOLDSADDED="True" DATASOURCE="\SharePoint Publishing Cache(*)\Publishing cache hit ratio" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfSharePointPublishingCachePublishingcachehitratioALL -MinThreshold 95 -MaxThreshold 99 -IsOperatorGreaterThan $False -UseMaxValue $False
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+  </ANALYSIS>
+  <ANALYSIS NAME="SharePoint Publishing Cache Misses / Second" ENABLED="True" CATEGORY="SharePoint Publishing Cache" PRIMARYDATASOURCE="\SharePoint Publishing Cache(*)\Publishing cache misses / sec" ID="{7f8ffa8b-fd68-4900-8f29-63cd66c83fed}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[SharePoint is reliant on cache for high performance. A high amount of cache misses could indicate an approaching problem with lack of memory, a worker process restart, or poor cache hits.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\SharePoint Publishing Cache(*)\Publishing cache misses / sec" COLLECTIONVARNAME="CollectionOfSharePointPublishingCachePublishingcachemissessecALL" EXPRESSIONPATH="\SharePoint Publishing Cache(*)\Publishing cache misses / sec" DATATYPE="integer" />
+    <THRESHOLD NAME="More than 1 SharePoint publishing cache miss per second" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfSharePointPublishingCachePublishingcachemissessecALL -Operator 'gt' -Threshold 1
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\SharePoint Publishing Cache(*)\Publishing cache misses / sec" ISTHRESHOLDSADDED="True" DATASOURCE="\SharePoint Publishing Cache(*)\Publishing cache misses / sec" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfSharePointPublishingCachePublishingcachemissessecALL -MinThreshold 1 -MaxThreshold 2.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+  </ANALYSIS>
+  <INHERITANCE FILEPATH="QuickSystemOverview.xml" />
+  <INHERITANCE FILEPATH="IIS.xml" />
+  <INHERITANCE FILEPATH="SQLServer.xml" />
+  <INHERITANCE FILEPATH="AspDotNet.xml" />
+</PAL>

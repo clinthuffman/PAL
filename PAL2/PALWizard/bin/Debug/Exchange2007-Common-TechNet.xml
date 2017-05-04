@@ -1,0 +1,762 @@
+<?xml version="1.0"?>
+<PAL NAME="Microsoft Exchange 2007 - Common (TechNet)" DESCRIPTION="Includes counters and thresholds common across all Exchange Server 2007 roles based on the following product documentation: http://technet.microsoft.com/en-us/library/cc671175%28v=exchg.80%29" VERSION="1.0" PALVERSION="2.0" CONTENTOWNERS="Kevan Brown" FEEDBACKEMAILADDRESS="kbrown@smartronix.com">
+  <ANALYSIS NAME="Processor % Processor Time" ENABLED="False" CATEGORY="Processor" PRIMARYDATASOURCE="\Processor(_Total)\% Processor Time" ID="7e4142dd-37a9-45ff-bd4e-4eeab19d0484" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\Processor(_Total)\% Processor Time" COLLECTIONVARNAME="CollectionOfProcessorPercentProcessorTime" EXPRESSIONPATH="\Processor(_Total)\% Processor Time" TRENDVARNAME="TrendProcessorPercentProcessorTime" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Processor(_Total)\% Processor Time" ISTHRESHOLDSADDED="False" DATASOURCE="\Processor(_Total)\% Processor Time" CHARTLABELS="instance" />
+    <THRESHOLD NAME="Total processor time average of 75% or more" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[
+For ($i=0;$i -lt $CollectionOfProcessorPercentProcessorTime.Count;$i++)
+{
+	$oCounterInstance = $CollectionOfProcessorPercentProcessorTime[$i]
+    
+	For ($t=0;$t -lt $alQuantizedTime.Count;$t++)
+	{
+		If ($oCounterInstance.QuantizedAvg[$t] -ge 75)
+		{
+			CreateAlert -TimeSliceIndex $t -CounterInstanceObject $oCounterInstance -IsMinThresholdBroken $False -IsAvgThresholdBroken $True -IsMaxThresholdBroken $False -IsTrendThresholdBroken $False -IsMinEvaluated $False -IsAvgEvaluated $True -IsMaxEvaluated $False -IsTrendEvaluated $False
+		}
+	}
+}
+	  ]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p>
+<p>% Processor Time is the percentage of elapsed time that the processor spends to execute a non-Idle thread. It is calculated by measuring the percentage of time that the processor spends executing the idle thread and then subtracting that value from 100%. (Each processor has an idle thread that consumes cycles when no other threads are ready to run). This counter is the primary indicator of processor activity, and displays the average percentage of busy time observed during the sample interval. It should be noted that the accounting calculation of whether the processor is idle is performed at an internal sampling interval of the system clock (10ms). On todays fast processors, % Processor Time can therefore underestimate the processor utilization as the processor may be spending a lot of time servicing threads between the system clock sampling interval. Workload based timer applications are one example  of applications  which are more likely to be measured inaccurately as timers are signaled just after the sample is taken.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the percentage of time that the processor is executing application or operating system processes. This is when the processor is not idle.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For all Exchange Server 2007 roles, this value should be less than 75% on average.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Processor % User Time" ENABLED="False" CATEGORY="Processor" PRIMARYDATASOURCE="\Processor(_Total)\% User Time" ID="cfc50d73-0c68-4f1f-9c5d-f9ec623b7c5b" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\Processor(_Total)\% User Time" COLLECTIONVARNAME="CollectionOfProcessorPercentUserTime" EXPRESSIONPATH="\Processor(_Total)\% User Time" TRENDVARNAME="TrendProcessorPercentUserTime" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Processor(_Total)\% User Time" ISTHRESHOLDSADDED="False" DATASOURCE="\Processor(_Total)\% User Time" CHARTLABELS="instance" />
+    <THRESHOLD NAME="Total processor user time 75% or greater" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfProcessorPercentUserTime -Operator 'ge' -Threshold 75]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p>
+<p>% User Time is the percentage of elapsed time the processor spends in the user mode. User mode is a restricted processing mode designed for applications, environment subsystems, and integral subsystems.  The alternative, privileged mode, is designed for operating system components and allows direct access to hardware and all memory.  The operating system switches application threads to privileged mode to access operating system services. This counter displays the average busy time as a percentage of the sample time.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the percentage of processor time that is spent in user mode.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For all Exchange Server 2007 roles, this value should remain below 75%.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Processor % Privileged Time" ENABLED="True" CATEGORY="Processor" PRIMARYDATASOURCE="\Processor(_Total)\% Privileged Time" ID="ecf1fcc9-090a-4d64-b6fb-2845c9229ad6" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\Processor(_Total)\% Privileged Time" COLLECTIONVARNAME="CollectionOfProcessorPercentPrivilegedTime" EXPRESSIONPATH="\Processor(_Total)\% Privileged Time" TRENDVARNAME="TrendProcessorPercentPrivilegedTime" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Processor(_Total)\% Privileged Time" ISTHRESHOLDSADDED="False" DATASOURCE="\Processor(_Total)\% Privileged Time" CHARTLABELS="instance" />
+    <THRESHOLD NAME="Total processor privileged time 75% or greater" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfProcessorPercentPrivilegedTime -Operator 'gt' -Threshold 75]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p>
+<p>% Privileged Time is the percentage of elapsed time that the process threads spent executing code in privileged mode.  When a Windows system service in called, the service will often run in privileged mode to gain access to system-private data. Such data is protected from access by threads executing in user mode. Calls to the system can be explicit or implicit, such as page faults or interrupts. Unlike some early operating systems, Windows uses process boundaries for subsystem protection in addition to the traditional protection of user and privileged modes. Some work done by Windows on behalf of the application might appear in other subsystem processes in addition to the privileged time in the process.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the percentage of processor time that is spent in privileged mode. Privileged mode is a processing mode designed for operating system components and hardware-manipulating drivers. It allows direct access to hardware and all memory.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For all Exchange Server 2007 roles, this value should remain below 75%.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Process % Processor Time" ENABLED="True" CATEGORY="Process" PRIMARYDATASOURCE="\Process(*)\% Processor Time" ID="8bc80b53-dc2a-4bf1-b17c-6b418b583de7" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\Process(*)\% Processor Time" COLLECTIONVARNAME="CollectionOfProcessPercentProcessorTime" EXPRESSIONPATH="\Process(*)\% Processor Time" TRENDVARNAME="TrendProcessPercentProcessorTime" DATATYPE="integer">
+      <EXCLUDE INSTANCE="_Total" />
+      <EXCLUDE INSTANCE="Idle" />
+    </DATASOURCE>
+    <CHART CHARTTITLE="\Process(*)\% Processor Time" ISTHRESHOLDSADDED="False" DATASOURCE="\Process(*)\% Processor Time" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p>
+<p>% Processor Time is the percentage of elapsed time that all of process threads used the processor to execution instructions. An instruction is the basic unit of execution in a computer, a thread is the object that executes instructions, and a process is the object created when a program is run. Code executed to handle some hardware interrupts and trap conditions are included in this count.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the percentage of elapsed processor time that all process threads used to execute instructions. An instruction is the basic unit of execution in a computer; a thread is the object that executes instructions; and a process is the object created when a program is run. Code executed to handle some hardware interruptions and trap conditions are included in this count.</p>
+<p>If total processor time is high, use this counter to determine which process is causing high CPU.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Not applicable.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Memory Available MBytes" ENABLED="True" CATEGORY="Memory" PRIMARYDATASOURCE="\Memory\Available MBytes" ID="bf972260-23d2-4d97-af65-244b3d6a653b" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\Memory\Available MBytes" COLLECTIONVARNAME="CollectionOfMemoryAvailableMBytes" EXPRESSIONPATH="\Memory\Available MBytes" TRENDVARNAME="TrendMemoryAvailableMBytes" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Memory\Available MBytes" ISTHRESHOLDSADDED="False" DATASOURCE="\Memory\Available MBytes" CHARTLABELS="instance" />
+    <THRESHOLD NAME="Available memory is 100MB or less" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfMemoryAvailableMBytes -Operator 'le' -Threshold 100]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>Available MBytes is the amount of physical memory, in Megabytes, immediately available for allocation to a process or for system use. It is equal to the sum of memory assigned to the standby (cached), free and zero page lists. For a full explanation of the memory manager, refer to MSDN and/or the System Performance and Troubleshooting Guide chapter in the Windows Server 2003 Resource Kit.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the amount of physical memory, in megabytes (MB), immediately available for allocation to a process or for system use. It is equal to the sum of memory assigned to the standby (cached), free, and zero page lists. For a full explanation of the memory manager, refer to Microsoft Developer Network (MSDN) or "System Performance and Troubleshooting Guide" in the Windows Server 2003 Resource Kit.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For all Exchange Server 2007 roles, this value should remain above 100 MB at all times.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Memory Pool Nonpaged Bytes" ENABLED="True" CATEGORY="Memory" PRIMARYDATASOURCE="\Memory\Pool Nonpaged Bytes" ID="4df03eb9-a97a-409f-847a-e633909f0842" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\Memory\Pool Nonpaged Bytes" COLLECTIONVARNAME="CollectionOfMemoryPoolNonpagedBytes" EXPRESSIONPATH="\Memory\Pool Nonpaged Bytes" TRENDVARNAME="TrendMemoryPoolNonpagedBytes" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Memory\Pool Nonpaged Bytes" ISTHRESHOLDSADDED="False" DATASOURCE="\Memory\Pool Nonpaged Bytes" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>Pool Nonpaged Bytes is the size, in bytes, of the nonpaged pool, an area of system memory (physical memory used by the operating system) for objects that cannot be written to disk, but must remain in physical memory as long as they are allocated.  Memory\\Pool Nonpaged Bytes is calculated differently than Process\\Pool Nonpaged Bytes, so it might not equal Process\\Pool Nonpaged Bytes\\_Total.  This counter displays the last observed value only; it is not an average.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Consists of system virtual addresses that are guaranteed to be resident in physical memory at all times and can thus be accessed from any address space without incurring paging input/output (I/O). Like paged pool, nonpaged pool is created during system initialization and is used by kernel-mode components to allocate system memory.</p>
+<p>Normally not looked at, unless connection counts are very high because each TCP connection consumes nonpaged pool memory.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Not applicable.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Memory Pool Paged Bytes" ENABLED="True" CATEGORY="Memory" PRIMARYDATASOURCE="\Memory\Pool Paged Bytes" ID="bdbc6466-8136-44d3-b2bf-6142cacc2657" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\Memory\Pool Paged Bytes" COLLECTIONVARNAME="CollectionOfMemoryPoolPagedBytes" EXPRESSIONPATH="\Memory\Pool Paged Bytes" TRENDVARNAME="TrendMemoryPoolPagedBytes" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Memory\Pool Paged Bytes" ISTHRESHOLDSADDED="False" DATASOURCE="\Memory\Pool Paged Bytes" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p>Pool Paged Bytes is the size, in bytes, of the paged pool, an area of system memory (physical memory used by the operating system) for objects that can be written to disk when they are not being used.  Memory\\Pool Paged Bytes is calculated differently than Process\\Pool Paged Bytes, so it might not equal Process\\Pool Paged Bytes\\_Total. This counter displays the last observed value only; it is not an average.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the portion of shared system memory that can be paged to the disk paging file. Paged pool is created during system initialization and is used by kernel-mode components to allocate system memory.</p>
+<p>Monitor for increases in pool paged bytes indicating a possible memory leak.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Not applicable.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Memory Cache Bytes" ENABLED="True" CATEGORY="Memory" PRIMARYDATASOURCE="\Memory\Cache Bytes" ID="1fb33cb0-ee28-42f9-ad1a-7656f8ef49fc" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\Memory\Cache Bytes" COLLECTIONVARNAME="CollectionOfMemoryCacheBytes" EXPRESSIONPATH="\Memory\Cache Bytes" TRENDVARNAME="TrendMemoryCacheBytes" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Memory\Cache Bytes" ISTHRESHOLDSADDED="False" DATASOURCE="\Memory\Cache Bytes" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>Cache Bytes is the sum of the Memory\\System Cache Resident Bytes, Memory\\System Driver Resident Bytes, Memory\\System Code Resident Bytes, and Memory\\Pool Paged Resident Bytes counters.  This counter displays the last observed value only; it is not an average.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the current size, in bytes, of the file system cache. By default, the cache uses up to 50 percent of available physical memory. The counter value is the sum of Memory\System Cache Resident Bytes, Memory\System Driver Resident Bytes, Memory\System Code Resident Bytes, and Memory\Pool Paged Resident Bytes.</p>
+<p>Should remain steady after applications cache their memory usage. Check for large dips in this counter, which could attribute to working set trimming and excessive paging.</p>
+<p>Used by the content index catalog and continuous replication log copying.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Not applicable.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Memory Committed Bytes" ENABLED="True" CATEGORY="Memory" PRIMARYDATASOURCE="\Memory\Committed Bytes" ID="acb87756-36c4-4aa8-9472-5af697f7f771" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\Memory\Committed Bytes" COLLECTIONVARNAME="CollectionOfMemoryCommittedBytes" EXPRESSIONPATH="\Memory\Committed Bytes" TRENDVARNAME="TrendMemoryCommittedBytes" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Memory\Committed Bytes" ISTHRESHOLDSADDED="False" DATASOURCE="\Memory\Committed Bytes" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>Committed Bytes is the amount of committed virtual memory, in bytes. Committed memory is the physical memory which has space reserved on the disk paging file(s). There can be one or more paging files on each physical drive. This counter displays the last observed value only; it is not an average.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the amount of committed virtual memory, in bytes. Committed memory is the physical memory that has space reserved on the disk paging files. There can be one or more paging files on each physical drive. This counter displays the last observed value only; it is not an average.</p>
+<p>Determines the amount of committed bytes in use.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Not applicable.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Memory % Committed Bytes In Use" ENABLED="True" CATEGORY="Memory" PRIMARYDATASOURCE="\Memory\% Committed Bytes In Use" ID="ad3c6751-fd29-4162-9264-2e78de12103e" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\Memory\% Committed Bytes In Use" COLLECTIONVARNAME="CollectionOfMemoryPercentCommittedBytesInUse" EXPRESSIONPATH="\Memory\% Committed Bytes In Use" TRENDVARNAME="TrendMemoryPercentCommittedBytesInUse" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Memory\% Committed Bytes In Use" ISTHRESHOLDSADDED="False" DATASOURCE="\Memory\% Committed Bytes In Use" CHARTLABELS="instance" />
+    <THRESHOLD NAME="Committed bytes percentage greater than 90%" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfMemoryPercentCommittedBytesInUse -Operator 'gt' -Threshold 90]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>% Committed Bytes In Use is the ratio of Memory\\Committed Bytes to the Memory\\Commit Limit. Committed memory is the physical memory in use for which space has been reserved in the paging file should it need to be written to disk. The commit limit is determined by the size of the paging file.  If the paging file is enlarged, the commit limit increases, and the ratio is reduced). This counter displays the current percentage value only; it is not an average.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the ratio of Memory\Committed Bytes to the Memory\Commit Limit. Committed memory is the physical memory in use for which space has been reserved in the paging file should it need to be written to disk. The commit limit is determined by the size of the paging file. If the paging file is enlarged, the commit limit increases, and the ratio is reduced. This counter displays the current percentage value only; it is not an average.</p>
+<p>If this value is very high (more than 90 percent), you may begin to see commit failures. This is a clear indication that the system is under memory pressure.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Not applicable.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Memory Transition Pages RePurposed/sec" ENABLED="True" CATEGORY="Memory" PRIMARYDATASOURCE="\Memory\Transition Pages RePurposed/sec" ID="38e23312-9a4f-49ad-a789-df7f1073f310" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\Memory\Transition Pages RePurposed/sec" COLLECTIONVARNAME="CollectionOfMemoryTransitionPagesRePurposedsec" EXPRESSIONPATH="\Memory\Transition Pages RePurposed/sec" TRENDVARNAME="TrendMemoryTransitionPagesRePurposedsec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Memory\Transition Pages RePurposed/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\Memory\Transition Pages RePurposed/sec" CHARTLABELS="instance" />
+    <THRESHOLD NAME="Transition pages repurposed per second average of 100 or more, or spikes of 1000 or greater" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[
+For ($i=0;$i -lt $CollectionOfMemoryTransitionPagesRePurposedsec.Count;$i++)
+{
+	$oCounterInstance = $CollectionOfMemoryTransitionPagesRePurposedsec[$i]
+    
+	For ($t=0;$t -lt $alQuantizedTime.Count;$t++)
+	{
+		$IsAvgThresholdBroken = $False
+		$IsMaxThresholdBroken = $False
+		
+		If ($oCounterInstance.QuantizedAvg[$t] -ge 100)
+		{
+			$IsAvgThresholdBroken = $True
+		}
+		
+		If ($oCounterInstance.QuantizedMax[$t] -ge 1000)
+		{
+			$IsMaxThresholdBroken = $True
+		}
+		
+		If (($IsAvgThresholdBroken -eq $True) -or ($IsMaxThresholdBroken -eq $True))
+		{
+			CreateAlert -TimeSliceIndex $t -CounterInstanceObject $oCounterInstance -IsMinThresholdBroken $False -IsAvgThresholdBroken $IsAvgThresholdBroken -IsMaxThresholdBroken $IsMaxThresholdBroken -IsTrendThresholdBroken $False -IsMinEvaluated $False -IsAvgEvaluated $True -IsMaxEvaluated $True -IsTrendEvaluated $False
+		}
+	}
+}
+	  ]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>Transition Pages RePurposed is the rate at which the number of transition cache pages were reused for a different purpose.  These pages would have otherwise remained in the page cache to provide a (fast) soft fault (instead of retrieving it from backing store) in the event the page was accessed in the future.  Note these pages can contain private or sharable memory.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Indicates system cache pressure.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For all Exchange Server 2007 roles, this value should be less than 100 on average with spikes less than 1,000.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Memory Page Reads/sec" ENABLED="True" CATEGORY="Memory" PRIMARYDATASOURCE="\Memory\Page Reads/sec" ID="c020bc45-8e22-4e80-9b7c-25ac9af6427f" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\Memory\Page Reads/sec" COLLECTIONVARNAME="CollectionOfMemoryPageReadssec" EXPRESSIONPATH="\Memory\Page Reads/sec" TRENDVARNAME="TrendMemoryPageReadssec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Memory\Page Reads/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\Memory\Page Reads/sec" CHARTLABELS="instance" />
+    <THRESHOLD NAME="Memory page reads per second average of 100 or more" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[
+For ($i=0;$i -lt $CollectionOfMemoryPageReadssec.Count;$i++)
+{
+	$oCounterInstance = $CollectionOfMemoryPageReadssec[$i]
+    
+	For ($t=0;$t -lt $alQuantizedTime.Count;$t++)
+	{
+		If ($oCounterInstance.QuantizedAvg[$t] -ge 100)
+		{
+			CreateAlert -TimeSliceIndex $t -CounterInstanceObject $oCounterInstance -IsMinThresholdBroken $False -IsAvgThresholdBroken $True -IsMaxThresholdBroken $False -IsTrendThresholdBroken $False -IsMinEvaluated $False -IsAvgEvaluated $True -IsMaxEvaluated $False -IsTrendEvaluated $False
+		}
+	}
+}
+	  ]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>Page Reads/sec is the rate at which the disk was read to resolve hard page faults. It shows the number of reads operations, without regard to the number of pages retrieved in each operation. Hard page faults occur when a process references a page in virtual memory that is not in working set or elsewhere in physical memory, and must be retrieved from disk. This counter is a primary indicator of the kinds of faults that cause system-wide delays. It includes read operations to satisfy faults in the file system cache (usually requested by applications) and in non-cached mapped memory files. Compare the value of Memory\\Pages Reads/sec to the value of Memory\\Pages Input/sec to determine the average number of pages read during each operation.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Indicates data must be read from the disk instead of memory. Indicates there is not enough memory and paging is beginning. A value of more than 30 per second means the server is no longer keeping up with the load.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For all Exchange Server 2007 roles, this value should be less than 100 on average.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Memory Pages/sec" ENABLED="True" CATEGORY="Memory" PRIMARYDATASOURCE="\Memory\Pages/sec" ID="bf7995fb-b4d7-49de-a4e0-988a53295065" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\Memory\Pages/sec" COLLECTIONVARNAME="CollectionOfMemoryPagessec" EXPRESSIONPATH="\Memory\Pages/sec" TRENDVARNAME="TrendMemoryPagessec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Memory\Pages/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\Memory\Pages/sec" CHARTLABELS="instance" />
+    <THRESHOLD NAME="Memory pages per second average of 1000 or more" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[
+For ($i=0;$i -lt $CollectionOfMemoryPagessec.Count;$i++)
+{
+	$oCounterInstance = $CollectionOfMemoryPagessec[$i]
+    
+	For ($t=0;$t -lt $alQuantizedTime.Count;$t++)
+	{
+		If ($oCounterInstance.QuantizedAvg[$t] -ge 1000)
+		{
+			CreateAlert -TimeSliceIndex $t -CounterInstanceObject $oCounterInstance -IsMinThresholdBroken $False -IsAvgThresholdBroken $True -IsMaxThresholdBroken $False -IsTrendThresholdBroken $False -IsMinEvaluated $False -IsAvgEvaluated $True -IsMaxEvaluated $False -IsTrendEvaluated $False
+		}
+	}
+}
+	  ]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>Pages/sec is the rate at which pages are read from or written to disk to resolve hard page faults. This counter is a primary indicator of the kinds of faults that cause system-wide delays.  It is the sum of Memory\\Pages Input/sec and Memory\\Pages Output/sec.  It is counted in numbers of pages, so it can be compared to other counts of pages, such as Memory\\Page Faults/sec, without conversion. It includes pages retrieved to satisfy faults in the file system cache (usually requested by applications) non-cached mapped memory files.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the rate at which pages are read from or written to disk to resolve hard page faults. This counter is a primary indicator of the kinds of faults that cause system-wide delays. It is the sum of Memory\Pages Input/sec and Memory\Pages Output/sec. It is counted in numbers of pages, so it can be compared to other counts of pages, such as Memory\Page Faults/sec, without conversion. It includes pages retrieved to satisfy faults in the file system cache (usually requested by applications) and non-cached mapped memory files.</p>
+<p>The values that are returned by the Pages/sec counter may be more than you expect. These values may not be related to either paging file activity or cache activity. Instead, these values may be caused by an application that is sequentially reading a memory-mapped file.</p>
+<p>Use Memory\Pages Input/sec and Memory\Pages Output/sec to determine page file I/O.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For all Exchange Server 2007 roles, this value should be below 1,000 on average.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Memory Pages Input/sec" ENABLED="True" CATEGORY="Memory" PRIMARYDATASOURCE="\Memory\Pages Input/sec" ID="21a9706f-2ec2-48eb-bece-7e70f40f1ddc" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\Memory\Pages Input/sec" COLLECTIONVARNAME="CollectionOfMemoryPagesInputsec" EXPRESSIONPATH="\Memory\Pages Input/sec" TRENDVARNAME="TrendMemoryPagesInputsec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Memory\Pages Input/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\Memory\Pages Input/sec" CHARTLABELS="instance" />
+    <THRESHOLD NAME="Memory pages input per second average of 1000 or more" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[
+For ($i=0;$i -lt $CollectionOfMemoryPagesInputsec.Count;$i++)
+{
+	$oCounterInstance = $CollectionOfMemoryPagesInputsec[$i]
+    
+	For ($t=0;$t -lt $alQuantizedTime.Count;$t++)
+	{
+		If ($oCounterInstance.QuantizedAvg[$t] -ge 1000)
+		{
+			CreateAlert -TimeSliceIndex $t -CounterInstanceObject $oCounterInstance -IsMinThresholdBroken $False -IsAvgThresholdBroken $True -IsMaxThresholdBroken $False -IsTrendThresholdBroken $False -IsMinEvaluated $False -IsAvgEvaluated $True -IsMaxEvaluated $False -IsTrendEvaluated $False
+		}
+	}
+}
+	  ]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>Pages Input/sec is the rate at which pages are read from disk to resolve hard page faults. Hard page faults occur when a process refers to a page in virtual memory that is not in its working set or elsewhere in physical memory, and must be retrieved from disk. When a page is faulted, the system tries to read multiple contiguous pages into memory to maximize the benefit of the read operation. Compare the value of Memory\\Pages Input/sec to the value of  Memory\\Page Reads/sec to determine the average number of pages read into memory during each read operation.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the rate at which pages are read from disk to resolve hard page faults. Hard page faults occur when a process refers to a page in virtual memory that is not in its working set or elsewhere in physical memory, and must be retrieved from disk. When a page is faulted, the system tries to read multiple contiguous pages into memory to maximize the benefit of the read operation. Compare the value of Memory\Pages Input/sec to the value of Memory\Page Reads/sec to determine the average number of pages read into memory during each read operation.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For all Exchange Server 2007 roles, this value should be below 1,000 on average.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Memory Pages Output/sec" ENABLED="True" CATEGORY="Memory" PRIMARYDATASOURCE="\Memory\Pages Output/sec" ID="e1e0f868-0867-4146-8b4b-c1b81308fda6" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\Memory\Pages Output/sec" COLLECTIONVARNAME="CollectionOfMemoryPagesOutputsec" EXPRESSIONPATH="\Memory\Pages Output/sec" TRENDVARNAME="TrendMemoryPagesOutputsec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Memory\Pages Output/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\Memory\Pages Output/sec" CHARTLABELS="instance" />
+    <THRESHOLD NAME="Memory pages output per second average of 1000 or more" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[
+For ($i=0;$i -lt $CollectionOfMemoryPagesOutputsec.Count;$i++)
+{
+	$oCounterInstance = $CollectionOfMemoryPagesOutputsec[$i]
+    
+	For ($t=0;$t -lt $alQuantizedTime.Count;$t++)
+	{
+		If ($oCounterInstance.QuantizedAvg[$t] -ge 1000)
+		{
+			CreateAlert -TimeSliceIndex $t -CounterInstanceObject $oCounterInstance -IsMinThresholdBroken $False -IsAvgThresholdBroken $True -IsMaxThresholdBroken $False -IsTrendThresholdBroken $False -IsMinEvaluated $False -IsAvgEvaluated $True -IsMaxEvaluated $False -IsTrendEvaluated $False
+		}
+	}
+}
+	  ]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>Pages Output/sec is the rate at which pages are written to disk to free up space in physical memory. Pages are written back to disk only if they are changed in physical memory, so they are likely to hold data, not code. A high rate of pages output might indicate a memory shortage. Windows writes more pages back to disk to free up space when physical memory is in short supply.  This counter shows the number of pages, and can be compared to other counts of pages, without conversion.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the rate at which pages are written to disk to free space in physical memory. Pages are written back to disk only if they are changed in physical memory, so they are likely to hold data, and not code. A high rate of pages output might indicate a memory shortage. Microsoft Windows writes more pages back to disk to free up space when physical memory is in short supply. This counter shows the number of pages, and can be compared to other counts of pages, without conversion.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For all Exchange Server 2007 roles, this value should be below 1,000 on average.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Process Private Bytes" ENABLED="True" CATEGORY="Process" PRIMARYDATASOURCE="\Process(*)\Private Bytes" ID="6e37cff2-837b-4f46-b622-a43bb78cd7ea" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\Process(*)\Private Bytes" COLLECTIONVARNAME="CollectionOfProcessPrivateBytes" EXPRESSIONPATH="\Process(*)\Private Bytes" TRENDVARNAME="TrendProcessPrivateBytes" DATATYPE="integer">
+      <EXCLUDE INSTANCE="_Total" />
+      <EXCLUDE INSTANCE="Idle" />
+    </DATASOURCE>
+    <CHART CHARTTITLE="\Process(*)\Private Bytes" ISTHRESHOLDSADDED="False" DATASOURCE="\Process(*)\Private Bytes" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>Private Bytes is the current size, in bytes, of memory that this process has allocated that cannot be shared with other processes.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the current number of bytes this process has allocated that cannot be shared with other processes.</p>
+<p>This counter can be used for determining any memory leaks against processes.</p>
+<p>For the information store process, compare this counter value with database cache size to determine if there is a memory leak in the information store process. An increase in information store private bytes, together with the same increase in database cache, equals correct behavior (no memory leak).</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Not applicable.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Process Virtual Bytes" ENABLED="True" CATEGORY="Process" PRIMARYDATASOURCE="\Process(*)\Virtual Bytes" ID="78a67554-3407-40cc-9f79-a0fdfbfc3c6c" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\Process(*)\Virtual Bytes" COLLECTIONVARNAME="CollectionOfProcessVirtualBytes" EXPRESSIONPATH="\Process(*)\Virtual Bytes" TRENDVARNAME="TrendProcessVirtualBytes" DATATYPE="integer">
+      <EXCLUDE INSTANCE="_Total" />
+      <EXCLUDE INSTANCE="Idle" />
+    </DATASOURCE>
+    <CHART CHARTTITLE="\Process(*)\Virtual Bytes" ISTHRESHOLDSADDED="False" DATASOURCE="\Process(*)\Virtual Bytes" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>Virtual Bytes is the current size, in bytes, of the virtual address space the process is using. Use of virtual address space does not necessarily imply corresponding use of either disk or main memory pages. Virtual space is finite, and the process can limit its ability to load libraries.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Represents (in bytes) how much virtual address space the process is currently consuming.</p>
+<p>Used to determine if processes are consuming a large amount of virtual memory.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Not applicable.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Process Working Set" ENABLED="True" CATEGORY="Process" PRIMARYDATASOURCE="\Process(_Total)\Working Set" ID="53e22da1-189f-464e-bf18-87254d143254" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\Process(_Total)\Working Set" COLLECTIONVARNAME="CollectionOfProcessWorkingSet" EXPRESSIONPATH="\Process(_Total)\Working Set" TRENDVARNAME="TrendProcessWorkingSet" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Process(_Total)\Working Set" ISTHRESHOLDSADDED="False" DATASOURCE="\Process(_Total)\Working Set" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>Working Set is the current size, in bytes, of the Working Set of this process. The Working Set is the set of memory pages touched recently by the threads in the process. If free memory in the computer is above a threshold, pages are left in the Working Set of a process even if they are not in use.  When free memory falls below a threshold, pages are trimmed from Working Sets. If they are needed they will then be soft-faulted back into the Working Set before leaving main memory.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the current size, in bytes, of the working set of this process. The working set is the set of memory pages touched recently by the threads in the process. If free memory in the computer is above a threshold, pages are left in the working set of a process event if they are not in use. When free memory falls below a threshold, pages are trimmed from working sets. If they are needed, they will be soft-faulted back to the working set before leaving main memory.</p>
+<p>Large increases or decreases in working sets causes paging.</p>
+<p>Ensure that the paging file is set to the recommended value of RAM+10. If working sets are being trimmed, add Process(*)\Working set to see what processes are affected. This counter could indicate either system-wide or process-wide issues. Cross-reference this counter with Memory\System Cache Resident Bytes to see if system-wide working set trimming is occurring</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Not applicable.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Process Handle Count" ENABLED="True" CATEGORY="Process" PRIMARYDATASOURCE="\Process(*)\Handle Count" ID="294863df-ef36-437c-a5b4-f216787f6634" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\Process(*)\Handle Count" COLLECTIONVARNAME="CollectionOfProcessHandleCount" EXPRESSIONPATH="\Process(*)\Handle Count" TRENDVARNAME="TrendProcessHandleCount" DATATYPE="integer">
+      <EXCLUDE INSTANCE="_Total" />
+      <EXCLUDE INSTANCE="Idle" />
+    </DATASOURCE>
+    <CHART CHARTTITLE="\Process(*)\Handle Count" ISTHRESHOLDSADDED="False" DATASOURCE="\Process(*)\Handle Count" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>The total number of handles currently open by this process. This number is equal to the sum of the handles currently open by each thread in this process.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the total number of handles currently open by this process. This number is the sum of the handles currently open by each thread in this process.</p>
+<p>An increase in handle counts for a particular process may be the symptom of a faulty process with handle leaks, which is causing performance issues on the server. This is not necessarily a problem, but is something to monitor over time to determine if a handle leak is occurring.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Not applicable.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME=".NET CLR Memory % Time in GC" ENABLED="True" CATEGORY=".NET CLR Memory" PRIMARYDATASOURCE="\.NET CLR Memory(*)\% Time in GC" ID="fc871d26-e32e-46ef-8ee0-de7c85825c09" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\.NET CLR Memory(*)\% Time in GC" COLLECTIONVARNAME="CollectionOfNETCLRMemoryPercentTimeinGC" EXPRESSIONPATH="\.NET CLR Memory(*)\% Time in GC" TRENDVARNAME="TrendNETCLRMemoryPercentTimeinGC" DATATYPE="integer">
+      <EXCLUDE INSTANCE="_Global_" />
+    </DATASOURCE>
+    <CHART CHARTTITLE="\.NET CLR Memory(*)\% Time in GC" ISTHRESHOLDSADDED="False" DATASOURCE="\.NET CLR Memory(*)\% Time in GC" CHARTLABELS="instance" />
+    <THRESHOLD NAME=".NET CLR memory time in garbage collection percentage average of 10% or more" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[
+For ($i=0;$i -lt $CollectionOfNETCLRMemoryPercentTimeinGC.Count;$i++)
+{
+	$oCounterInstance = $CollectionOfNETCLRMemoryPercentTimeinGC[$i]
+    
+	For ($t=0;$t -lt $alQuantizedTime.Count;$t++)
+	{
+		If ($oCounterInstance.QuantizedAvg[$t] -ge 10)
+		{
+			CreateAlert -TimeSliceIndex $t -CounterInstanceObject $oCounterInstance -IsMinThresholdBroken $False -IsAvgThresholdBroken $True -IsMaxThresholdBroken $False -IsTrendThresholdBroken $False -IsMinEvaluated $False -IsAvgEvaluated $True -IsMaxEvaluated $False -IsTrendEvaluated $False
+		}
+	}
+}
+	  ]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>% Time in GC is the percentage of elapsed time that was spent in performing a garbage collection (GC) since the last GC cycle. This counter is usually an indicator of the work done by the Garbage Collector on behalf of the application to collect and compact memory. This counter is updated only at the end of every GC and the counter value reflects the last observed value; its not an average.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows when garbage collection has occurred. When the counter exceeds the threshold, it indicates that CPU is cleaning up and is not being used efficiently for load. Adding memory to the server would improve this situation.</p>
+<p>If this counter increases to a high value, there might be some objects that are surviving Gen 1 garbage collections and being promoted to Gen 2. Gen 2 collections require a full global catalog for clean up. Add other .NET memory counters to determine if this is the case.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For all Exchange Server 2007 roles, this value should be below 10% on average.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME=".NET CLR Exceptions # of Exceps Thrown / sec" ENABLED="True" CATEGORY=".NET CLR Exceptions" PRIMARYDATASOURCE="\.NET CLR Exceptions(*)\# of Exceps Thrown / sec" ID="5d8a4ae8-3fff-4a94-85b9-12f40a8e38e9" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\.NET CLR Exceptions(*)\# of Exceps Thrown / sec" COLLECTIONVARNAME="CollectionOfNETCLRExceptions#ofExcepsThrownsec" EXPRESSIONPATH="\.NET CLR Exceptions(*)\# of Exceps Thrown / sec" TRENDVARNAME="TrendNETCLRExceptions#ofExcepsThrownsec" DATATYPE="integer">
+      <EXCLUDE INSTANCE="_Global_" />
+    </DATASOURCE>
+    <CHART CHARTTITLE="\.NET CLR Exceptions(*)\# of Exceps Thrown / sec" ISTHRESHOLDSADDED="False" DATASOURCE="\.NET CLR Exceptions(*)\# of Exceps Thrown / sec" CHARTLABELS="instance" />
+    <DATASOURCE TYPE="CounterLog" NAME="\Web Service(_Total)\Connection Attempts/sec" EXPRESSIONPATH="\Web Service(_Total)\Connection Attempts/sec" COLLECTIONVARNAME="CollectionOfWebServiceConnectionAttemptssecTotal" DATATYPE="integer" />
+    <THRESHOLD NAME=".NET CLR number of exceptions thrown per second greater than 5% of total RPS" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[
+For ($i=0;$i -lt $CollectionOfNETCLRExceptions#ofExcepsThrownsec.Count;$i++)
+{
+	$oCounterInstance = $CollectionOfNETCLRExceptions#ofExcepsThrownsec[$i]
+    
+	For ($t=0;$t -lt $alQuantizedTime.Count;$t++)
+	{
+		$RPSAvg = $CollectionOfWebServiceConnectionAttemptssecTotal[0].QuantizedAvg[$t]
+		If ($RPSAvg -gt 0)
+		{
+			If ($oCounterInstance.QuantizedAvg[$t] -gt ($RPSAvg * 0.05))
+			{
+				CreateAlert -TimeSliceIndex $t -CounterInstanceObject $oCounterInstance -IsMinThresholdBroken $False -IsAvgThresholdBroken $True -IsMaxThresholdBroken $False -IsTrendThresholdBroken $False -IsMinEvaluated $False -IsAvgEvaluated $True -IsMaxEvaluated $False -IsTrendEvaluated $False
+			}
+		}
+
+		$RPSMax = $CollectionOfWebServiceConnectionAttemptssecTotal[0].QuantizedMax[$t]
+		If ($RPSMax -gt 0)
+		{
+			If ($oCounterInstance.QuantizedMax[$t] -gt ($RPSMax * 0.05))
+			{
+				CreateAlert -TimeSliceIndex $t -CounterInstanceObject $oCounterInstance -IsMinThresholdBroken $False -IsAvgThresholdBroken $False -IsMaxThresholdBroken $True -IsTrendThresholdBroken $False -IsMinEvaluated $False -IsAvgEvaluated $False -IsMaxEvaluated $True -IsTrendEvaluated $False
+			}
+		}
+	}
+}
+	  ]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>This counter displays the number of exceptions thrown per second. These include both .NET exceptions and unmanaged exceptions that get converted into .NET exceptions e.g. null pointer reference exception in unmanaged code would get re-thrown in managed code as a .NET System.NullReferenceException; this counter includes both handled and unhandled exceptions. Exceptions should only occur in rare situations and not in the normal control flow of the program; this counter was designed as an indicator of potential performance problems due to large (>100s) rate of exceptions thrown. This counter is not an average over time; it displays the difference between the values observed in the last two samples divided by the duration of the sample interval.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Displays the number of exceptions thrown per second. These include both .NET exceptions and unmanaged exceptions that get converted into .NET exceptions. For example, the null pointer reference exception in unmanaged code would get thrown again in managed code as a .NET System.NullReferenceException; this counter includes both handled and unhandled exceptions. Exceptions should only occur in rare situations and not in the normal control flow of the program. This counter was designed as an indicator of potential performance problems due to a large (>100 sec) rate of exceptions thrown. This counter is not an average over time; it displays the difference between the values observed in the last two samples divided by the duration of the sample interval.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For all Exchange Server 2007 roles, this value should be less than 5% of total RPS (Web Service(_Total)\Connection Attempts/sec * .05).</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Web Service Connection Attempts/sec" ENABLED="True" CATEGORY="Web Service" PRIMARYDATASOURCE="\Web Service(_Total)\Connection Attempts/sec" ID="62be0289-d32f-494f-aa9e-7492aa57f668" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\Web Service(_Total)\Connection Attempts/sec" COLLECTIONVARNAME="CollectionOfWebServiceConnectionAttemptssec" EXPRESSIONPATH="\Web Service(_Total)\Connection Attempts/sec" TRENDVARNAME="TrendWebServiceConnectionAttemptssec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Web Service(_Total)\Connection Attempts/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\Web Service(_Total)\Connection Attempts/sec" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>The rate that connections to the Web service are being attempted.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the rate that connections to the Web service are being attempted.</p>
+<p>Determines current user load.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Not applicable.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME=".NET CLR Memory # Bytes in all Heaps" ENABLED="True" CATEGORY=".NET CLR Memory" PRIMARYDATASOURCE="\.NET CLR Memory(*)\# Bytes in all Heaps" ID="398915be-0557-45d7-b599-b46e260372bb" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\.NET CLR Memory(*)\# Bytes in all Heaps" COLLECTIONVARNAME="CollectionOfNETCLRMemory#BytesinallHeaps" EXPRESSIONPATH="\.NET CLR Memory(*)\# Bytes in all Heaps" TRENDVARNAME="TrendNETCLRMemory#BytesinallHeaps" DATATYPE="integer">
+      <EXCLUDE INSTANCE="_Global_" />
+    </DATASOURCE>
+    <CHART CHARTTITLE="\.NET CLR Memory(*)\# Bytes in all Heaps" ISTHRESHOLDSADDED="False" DATASOURCE="\.NET CLR Memory(*)\# Bytes in all Heaps" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>This counter is the sum of four other counters; Gen 0 Heap Size; Gen 1 Heap Size; Gen 2 Heap Size and the Large Object Heap Size. This counter indicates the current memory allocated in bytes on the GC Heaps.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the sum of four other counters: Gen 0 Heap Size, Gen 1 Heap Size, Gen 2 Heap Size, and the Large Object Heap Size. This counter indicates the current memory allocated in bytes on the GC Heaps.</p>
+<p>These regions of memory are of type MEM_COMMIT. (For details, see Platform SDK documentation for VirtualAlloc.) The value of this counter is always less than the value of Process\Private Bytes, which counts all MEM_COMMIT regions for the process. Private Bytes minus # Bytes in all Heaps is the number of bytes committed by unmanaged objects.</p>
+<p>Used to monitor possible memory leaks or excessive memory usage of managed or unmanaged objects.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Not applicable.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Network Interface Bytes Total/sec" ENABLED="True" CATEGORY="Network Interface" PRIMARYDATASOURCE="\Network Interface(*)\Bytes Total/sec" ID="97d5bed3-f170-49b2-b67d-7901f5d70b6e" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\Network Interface(*)\Bytes Total/sec" COLLECTIONVARNAME="CollectionOfNetworkInterfaceBytesTotalsec" EXPRESSIONPATH="\Network Interface(*)\Bytes Total/sec" TRENDVARNAME="TrendNetworkInterfaceBytesTotalsec" DATATYPE="integer" >
+      <EXCLUDE INSTANCE="_Total" />
+    </DATASOURCE>
+    <CHART CHARTTITLE="\Network Interface(*)\Bytes Total/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\Network Interface(*)\Bytes Total/sec" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>Bytes Total/sec is the rate at which bytes are sent and received over each network adapter, including framing characters. Network Interface\Bytes Total/sec is a sum of Network Interface\Bytes Received/sec and Network Interface\Bytes Sent/sec.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Indicates the rate at which the network adapter is processing data bytes.</p>
+<p>This counter includes all application and file data, in addition to protocol information such as packet headers.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For a 100-Mbps network adapter, should be below 6 to 7 Mbps.</p>
+<p>For a 1000-Mbps network adapter, should be below 60 to 70 Mbps.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Network Interface Packets Outbound Errors" ENABLED="True" CATEGORY="Network Interface" PRIMARYDATASOURCE="\Network Interface(*)\Packets Outbound Errors" ID="1a8028f9-ae9d-4779-a04a-7403f01c15f7" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\Network Interface(*)\Packets Outbound Errors" COLLECTIONVARNAME="CollectionOfNetworkInterfacePacketsOutboundErrors" EXPRESSIONPATH="\Network Interface(*)\Packets Outbound Errors" TRENDVARNAME="TrendNetworkInterfacePacketsOutboundErrors" DATATYPE="integer" >
+      <EXCLUDE INSTANCE="_Total" />
+    </DATASOURCE>
+    <CHART CHARTTITLE="\Network Interface(*)\Packets Outbound Errors" ISTHRESHOLDSADDED="False" DATASOURCE="\Network Interface(*)\Packets Outbound Errors" CHARTLABELS="instance" />
+    <THRESHOLD NAME="Network interface packet outbound errors greater than 0" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfNetworkInterfacePacketsOutboundErrors -Operator 'gt' -Threshold 0]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>Packets Outbound Errors is the number of outbound packets that could not be transmitted because of errors.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Indicates the number of outbound packets that could not be transmitted because of errors.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For all Exchange Server 2007 roles, this value should be 0 at all times.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="IPv4 Datagrams/sec" ENABLED="True" CATEGORY="IPv4" PRIMARYDATASOURCE="\IPv4\Datagrams/sec" ID="f4e50399-6890-49a5-b7b9-db619ae3e130" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\IPv4\Datagrams/sec" COLLECTIONVARNAME="CollectionOfIPv4Datagramssec" EXPRESSIONPATH="\IPv4\Datagrams/sec" TRENDVARNAME="TrendIPv4Datagramssec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\IPv4\Datagrams/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\IPv4\Datagrams/sec" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>Datagrams/sec is the rate, in incidents per second, at which IP datagrams were received from or sent to the interfaces, including those in error. Forwarded datagrams are not included in this rate.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the rate, in incidents per second, at which IP datagrams were received from or sent to the interfaces, including those in error. Forwarded datagrams are not included in this rate.</p>
+<p>Determines current user load.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Not applicable.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="IPv6 Datagrams/sec" ENABLED="True" CATEGORY="IPv6" PRIMARYDATASOURCE="\IPv6\Datagrams/sec" ID="ece80276-01ee-4fce-9034-5b098b5dd8fd" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\IPv6\Datagrams/sec" COLLECTIONVARNAME="CollectionOfIPv6Datagramssec" EXPRESSIONPATH="\IPv6\Datagrams/sec" TRENDVARNAME="TrendIPv6Datagramssec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\IPv6\Datagrams/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\IPv6\Datagrams/sec" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>Datagrams/sec is the rate, in incidents per second, at which IP datagrams were received from or sent to the interfaces, including those in error. Forwarded datagrams are not included in this rate.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the rate, in incidents per second, at which IP datagrams were received from or sent to the interfaces, including those in error. Forwarded datagrams are not included in this rate.</p>
+<p>Determines current user load.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Not applicable.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="TCPv4 Connections Established" ENABLED="True" CATEGORY="TCPv4" PRIMARYDATASOURCE="\TCPv4\Connections Established" ID="98394d33-777e-42b5-9b40-eb575300b5c9" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\TCPv4\Connections Established" COLLECTIONVARNAME="CollectionOfTCPv4ConnectionsEstablished" EXPRESSIONPATH="\TCPv4\Connections Established" TRENDVARNAME="TrendTCPv4ConnectionsEstablished" DATATYPE="integer" />
+    <CHART CHARTTITLE="\TCPv4\Connections Established" ISTHRESHOLDSADDED="False" DATASOURCE="\TCPv4\Connections Established" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>Connections Established is the number of TCP connections for which the current state is either ESTABLISHED or CLOSE-WAIT.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the number of TCP connections for which the current state is either ESTABLISHED or CLOSE-WAIT.</p>
+<p>The number of TCP connections that can be established is constrained by the size of the nonpaged pool. When the nonpaged pool is depleted, no new connections can be established.</p>
+<p>Determines current user load.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Not applicable.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="TCPv6 Connections Established" ENABLED="True" CATEGORY="TCPv6" PRIMARYDATASOURCE="\TCPv6\Connections Established" ID="e0008aae-8427-4f59-9d43-61eeeaea85e9" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\TCPv6\Connections Established" COLLECTIONVARNAME="CollectionOfTCPv6ConnectionsEstablished" EXPRESSIONPATH="\TCPv6\Connections Established" TRENDVARNAME="TrendTCPv6ConnectionsEstablished" DATATYPE="integer" />
+    <CHART CHARTTITLE="\TCPv6\Connections Established" ISTHRESHOLDSADDED="False" DATASOURCE="\TCPv6\Connections Established" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>Connections Established is the number of TCP connections for which the current state is either ESTABLISHED or CLOSE-WAIT.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the number of TCP connections for which the current state is either ESTABLISHED or CLOSE-WAIT.</p>
+<p>The number of TCP connections that can be established is constrained by the size of the nonpaged pool. When the nonpaged pool is depleted, no new connections can be established.</p>
+<p>Determines current user load.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Not applicable.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="TCPv4 Segments Received/sec" ENABLED="True" CATEGORY="TCPv4" PRIMARYDATASOURCE="\TCPv4\Segments Received/sec" ID="bb3748ee-ca7d-4f9a-a10e-29e7f6af0719" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\TCPv4\Segments Received/sec" COLLECTIONVARNAME="CollectionOfTCPv4SegmentsReceivedsec" EXPRESSIONPATH="\TCPv4\Segments Received/sec" TRENDVARNAME="TrendTCPv4SegmentsReceivedsec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\TCPv4\Segments Received/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\TCPv4\Segments Received/sec" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>Segments Received/sec is the rate at which segments are received, including those received in error.  This count includes segments received on currently established connections.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the rate at which segments are received, including those received in error. This count includes segments received on currently established connections.</p>
+<p>Determines current user load.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Not applicable.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="TCPv6 Segments Received/sec" ENABLED="True" CATEGORY="TCPv6" PRIMARYDATASOURCE="\TCPv6\Segments Received/sec" ID="ff20556c-033a-4ac0-91bc-43378c801d58" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\TCPv6\Segments Received/sec" COLLECTIONVARNAME="CollectionOfTCPv6SegmentsReceivedsec" EXPRESSIONPATH="\TCPv6\Segments Received/sec" TRENDVARNAME="TrendTCPv6SegmentsReceivedsec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\TCPv6\Segments Received/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\TCPv6\Segments Received/sec" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>Segments Received/sec is the rate at which segments are received, including those received in error.  This count includes segments received on currently established connections.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the rate at which segments are received, including those received in error. This count includes segments received on currently established connections.</p>
+<p>Determines current user load.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Not applicable.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="TCPv4 Connection Failures" ENABLED="True" CATEGORY="TCPv4" PRIMARYDATASOURCE="\TCPv4\Connection Failures" ID="73ca49fd-85e3-43b6-bdc6-c5186b5968a1" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\TCPv4\Connection Failures" COLLECTIONVARNAME="CollectionOfTCPv4ConnectionFailures" EXPRESSIONPATH="\TCPv4\Connection Failures" TRENDVARNAME="TrendTCPv4ConnectionFailures" DATATYPE="integer" />
+    <CHART CHARTTITLE="\TCPv4\Connection Failures" ISTHRESHOLDSADDED="False" DATASOURCE="\TCPv4\Connection Failures" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>Connection Failures is the number of times TCP connections have made a direct transition to the CLOSED state from the SYN-SENT state or the SYN-RCVD state, plus the number of times TCP connections have made a direct transition to the LISTEN state from the SYN-RCVD state.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the number of times TCP connections have made a direct transition to the CLOSED state from the SYN-SENT state or the SYN-RCVD state, plus the number of times TCP connections have made a direct transition to the LISTEN state from the SYN-RCVD state.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>An increasing number of failures, or a consistently increasing rate of failures, can indicate a bandwidth shortage.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="TCPv6 Connection Failures" ENABLED="True" CATEGORY="TCPv6" PRIMARYDATASOURCE="\TCPv6\Connection Failures" ID="ce2b3b8a-94e0-4d76-aa96-6b26b886a6a0" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\TCPv6\Connection Failures" COLLECTIONVARNAME="CollectionOfTCPv6ConnectionFailures" EXPRESSIONPATH="\TCPv6\Connection Failures" TRENDVARNAME="TrendTCPv6ConnectionFailures" DATATYPE="integer" />
+    <CHART CHARTTITLE="\TCPv6\Connection Failures" ISTHRESHOLDSADDED="False" DATASOURCE="\TCPv6\Connection Failures" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>Connection Failures is the number of times TCP connections have made a direct transition to the CLOSED state from the SYN-SENT state or the SYN-RCVD state, plus the number of times TCP connections have made a direct transition to the LISTEN state from the SYN-RCVD state.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the number of times TCP connections have made a direct transition to the CLOSED state from the SYN-SENT state or the SYN-RCVD state, plus the number of times TCP connections have made a direct transition to the LISTEN state from the SYN-RCVD state.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>An increasing number of failures, or a consistently increasing rate of failures, can indicate a bandwidth shortage.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="TCPv4 Connections Reset" ENABLED="True" CATEGORY="TCPv4" PRIMARYDATASOURCE="\TCPv4\Connections Reset" ID="7b4aaa11-1f96-4ac6-aec2-7a3bddb2a588" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\TCPv4\Connections Reset" COLLECTIONVARNAME="CollectionOfTCPv4ConnectionsReset" EXPRESSIONPATH="\TCPv4\Connections Reset" TRENDVARNAME="TrendTCPv4ConnectionsReset" DATATYPE="integer" />
+    <CHART CHARTTITLE="\TCPv4\Connections Reset" ISTHRESHOLDSADDED="False" DATASOURCE="\TCPv4\Connections Reset" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>Connections Reset is the number of times TCP connections have made a direct transition to the CLOSED state from either the ESTABLISHED state or the CLOSE-WAIT state.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the number of times TCP connections have made a direct transition to the CLOSED state from either the ESTABLISHED state or the CLOSE-WAIT state.</p>
+<p>Some browsers send TCP reset (RST) packets, so be cautious when using this counter to determine reset rate.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>An increasing number of resets or a consistently increasing rate of resets can indicate a bandwidth shortage.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="TCPv6 Connections Reset" ENABLED="True" CATEGORY="TCPv6" PRIMARYDATASOURCE="\TCPv6\Connections Reset" ID="309f358d-6762-46f2-bc78-9b618d039932" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\TCPv6\Connections Reset" COLLECTIONVARNAME="CollectionOfTCPv6ConnectionsReset" EXPRESSIONPATH="\TCPv6\Connections Reset" TRENDVARNAME="TrendTCPv6ConnectionsReset" DATATYPE="integer" />
+    <CHART CHARTTITLE="\TCPv6\Connections Reset" ISTHRESHOLDSADDED="False" DATASOURCE="\TCPv6\Connections Reset" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>Connections Reset is the number of times TCP connections have made a direct transition to the CLOSED state from either the ESTABLISHED state or the CLOSE-WAIT state.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the number of times TCP connections have made a direct transition to the CLOSED state from either the ESTABLISHED state or the CLOSE-WAIT state.</p>
+<p>Some browsers send TCP reset (RST) packets, so be cautious when using this counter to determine reset rate.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>An increasing number of resets or a consistently increasing rate of resets can indicate a bandwidth shortage.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange ADAccess Caches LDAP Searches/Sec" ENABLED="True" CATEGORY="MSExchange ADAccess Caches" PRIMARYDATASOURCE="\MSExchange ADAccess Caches(*)\LDAP Searches/Sec" ID="ba5c23f7-46a0-4b44-91d4-a9a24e9e78fa" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange ADAccess Caches(*)\LDAP Searches/Sec" COLLECTIONVARNAME="CollectionOfMSExchangeADAccessCachesLDAPSearchesSec" EXPRESSIONPATH="\MSExchange ADAccess Caches(*)\LDAP Searches/Sec" TRENDVARNAME="TrendMSExchangeADAccessCachesLDAPSearchesSec" DATATYPE="integer" >
+      <EXCLUDE INSTANCE="_Total" />
+    </DATASOURCE>
+    <CHART CHARTTITLE="\MSExchange ADAccess Caches(*)\LDAP Searches/Sec" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange ADAccess Caches(*)\LDAP Searches/Sec" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>LDAP Searches/Sec is the number of LDAP search requests issued per second.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the number of Lightweight Directory Access Protocol (LDAP) search requests issued per second.</p>
+<p>Used to determine current LDAP search rate.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Not applicable.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange ADAccess Domain Controllers LDAP Read Time" ENABLED="True" CATEGORY="MSExchange ADAccess Domain Controllers" PRIMARYDATASOURCE="\MSExchange ADAccess Domain Controllers(*)\LDAP Read Time" ID="6459a672-6426-400d-80ca-fcfaee274bbf" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange ADAccess Domain Controllers(*)\LDAP Read Time" COLLECTIONVARNAME="CollectionOfMSExchangeADAccessDomainControllersLDAPReadTime" EXPRESSIONPATH="\MSExchange ADAccess Domain Controllers(*)\LDAP Read Time" TRENDVARNAME="TrendMSExchangeADAccessDomainControllersLDAPReadTime" DATATYPE="integer" >
+      <EXCLUDE INSTANCE="_Total" />
+    </DATASOURCE>
+    <CHART CHARTTITLE="\MSExchange ADAccess Domain Controllers(*)\LDAP Read Time" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange ADAccess Domain Controllers(*)\LDAP Read Time" CHARTLABELS="instance" />
+    <THRESHOLD NAME="ADAccess domain controller LDAP read time average of 50ms or more, or spikes of 100ms or greater" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[
+For ($i=0;$i -lt $CollectionOfMSExchangeADAccessDomainControllersLDAPReadTime.Count;$i++)
+{
+	$oCounterInstance = $CollectionOfMSExchangeADAccessDomainControllersLDAPReadTime[$i]
+    
+	For ($t=0;$t -lt $alQuantizedTime.Count;$t++)
+	{
+		$IsAvgThresholdBroken = $False
+		$IsMaxThresholdBroken = $False
+		
+		If ($oCounterInstance.QuantizedAvg[$t] -ge 50)
+		{
+			$IsAvgThresholdBroken = $True
+		}
+		
+		If ($oCounterInstance.QuantizedMax[$t] -ge 100)
+		{
+			$IsMaxThresholdBroken = $True
+		}
+		
+		If (($IsAvgThresholdBroken -eq $True) -or ($IsMaxThresholdBroken -eq $True))
+		{
+			CreateAlert -TimeSliceIndex $t -CounterInstanceObject $oCounterInstance -IsMinThresholdBroken $False -IsAvgThresholdBroken $IsAvgThresholdBroken -IsMaxThresholdBroken $IsMaxThresholdBroken -IsTrendThresholdBroken $False -IsMinEvaluated $False -IsAvgEvaluated $True -IsMaxEvaluated $True -IsTrendEvaluated $False
+		}
+	}
+}
+	  ]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>LDAP Read Time for a given DC is the time (in ms) taken to send an LDAP read request to the specified DC and receive a response</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the time in milliseconds (ms) to send an LDAP read request to the specified domain controller and receive a response.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For all Exchange Server 2007 roles, this value should be below 50 ms on average with spikes (maximum values) of less than 100 ms.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange ADAccess Domain Controllers LDAP Search Time" ENABLED="True" CATEGORY="MSExchange ADAccess Domain Controllers" PRIMARYDATASOURCE="\MSExchange ADAccess Domain Controllers(*)\LDAP Search Time" ID="bf7938cd-8156-477e-9f93-51a6a49e7ab1" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange ADAccess Domain Controllers(*)\LDAP Search Time" COLLECTIONVARNAME="CollectionOfMSExchangeADAccessDomainControllersLDAPSearchTime" EXPRESSIONPATH="\MSExchange ADAccess Domain Controllers(*)\LDAP Search Time" TRENDVARNAME="TrendMSExchangeADAccessDomainControllersLDAPSearchTime" DATATYPE="integer" >
+      <EXCLUDE INSTANCE="_Total" />
+    </DATASOURCE>
+    <CHART CHARTTITLE="\MSExchange ADAccess Domain Controllers(*)\LDAP Search Time" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange ADAccess Domain Controllers(*)\LDAP Search Time" CHARTLABELS="instance" />
+    <THRESHOLD NAME="ADAccess domain controller LDAP search time average of 50ms or more, or spikes of 100ms or greater" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[
+For ($i=0;$i -lt $CollectionOfMSExchangeADAccessDomainControllersLDAPSearchTime.Count;$i++)
+{
+	$oCounterInstance = $CollectionOfMSExchangeADAccessDomainControllersLDAPSearchTime[$i]
+    
+	For ($t=0;$t -lt $alQuantizedTime.Count;$t++)
+	{
+		$IsAvgThresholdBroken = $False
+		$IsMaxThresholdBroken = $False
+		
+		If ($oCounterInstance.QuantizedAvg[$t] -ge 50)
+		{
+			$IsAvgThresholdBroken = $True
+		}
+		
+		If ($oCounterInstance.QuantizedMax[$t] -ge 100)
+		{
+			$IsMaxThresholdBroken = $True
+		}
+		
+		If (($IsAvgThresholdBroken -eq $True) -or ($IsMaxThresholdBroken -eq $True))
+		{
+			CreateAlert -TimeSliceIndex $t -CounterInstanceObject $oCounterInstance -IsMinThresholdBroken $False -IsAvgThresholdBroken $IsAvgThresholdBroken -IsMaxThresholdBroken $IsMaxThresholdBroken -IsTrendThresholdBroken $False -IsMinEvaluated $False -IsAvgEvaluated $True -IsMaxEvaluated $True -IsTrendEvaluated $False
+		}
+	}
+}
+	  ]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>LDAP Search Time is the time (in ms) taken to send an LDAP search request and receive a response</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the time (in ms) to send an LDAP search request and receive a response.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For all Exchange Server 2007 roles, this value should be below 50 ms on average with spikes (maximum values) of less than 100 ms.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange ADAccess Processes LDAP Read Time" ENABLED="True" CATEGORY="MSExchange ADAccess Processes" PRIMARYDATASOURCE="\MSExchange ADAccess Processes(*)\LDAP Read Time" ID="030454c6-65d9-4a74-bcf5-e1bb00f50f20" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange ADAccess Processes(*)\LDAP Read Time" COLLECTIONVARNAME="CollectionOfMSExchangeADAccessProcessesLDAPReadTime" EXPRESSIONPATH="\MSExchange ADAccess Processes(*)\LDAP Read Time" TRENDVARNAME="TrendMSExchangeADAccessProcessesLDAPReadTime" DATATYPE="integer" >
+      <EXCLUDE INSTANCE="_Total" />
+    </DATASOURCE>
+    <CHART CHARTTITLE="\MSExchange ADAccess Processes(*)\LDAP Read Time" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange ADAccess Processes(*)\LDAP Read Time" CHARTLABELS="instance" />
+    <THRESHOLD NAME="ADAccess process LDAP read time average of 50ms or more, or spikes of 100ms or greater" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[
+For ($i=0;$i -lt $CollectionOfMSExchangeADAccessProcessesLDAPReadTime.Count;$i++)
+{
+	$oCounterInstance = $CollectionOfMSExchangeADAccessProcessesLDAPReadTime[$i]
+    
+	For ($t=0;$t -lt $alQuantizedTime.Count;$t++)
+	{
+		$IsAvgThresholdBroken = $False
+		$IsMaxThresholdBroken = $False
+		
+		If ($oCounterInstance.QuantizedAvg[$t] -ge 50)
+		{
+			$IsAvgThresholdBroken = $True
+		}
+		
+		If ($oCounterInstance.QuantizedMax[$t] -ge 100)
+		{
+			$IsMaxThresholdBroken = $True
+		}
+		
+		If (($IsAvgThresholdBroken -eq $True) -or ($IsMaxThresholdBroken -eq $True))
+		{
+			CreateAlert -TimeSliceIndex $t -CounterInstanceObject $oCounterInstance -IsMinThresholdBroken $False -IsAvgThresholdBroken $IsAvgThresholdBroken -IsMaxThresholdBroken $IsMaxThresholdBroken -IsTrendThresholdBroken $False -IsMinEvaluated $False -IsAvgEvaluated $True -IsMaxEvaluated $True -IsTrendEvaluated $False
+		}
+	}
+}
+	  ]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>LDAP Read Time is the time (in ms) taken to send an LDAP read request and receive a response</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the time (in ms) to send an LDAP read request to the specified domain controller and receive a response.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For all Exchange Server 2007 roles, this value should be below 50 ms on average with spikes (maximum values) of less than 100 ms.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange ADAccess Processes LDAP Search Time" ENABLED="True" CATEGORY="MSExchange ADAccess Processes" PRIMARYDATASOURCE="\MSExchange ADAccess Processes(*)\LDAP Search Time" ID="249088f0-2032-4565-a6db-7485be1a56f7" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange ADAccess Processes(*)\LDAP Search Time" COLLECTIONVARNAME="CollectionOfMSExchangeADAccessProcessesLDAPSearchTime" EXPRESSIONPATH="\MSExchange ADAccess Processes(*)\LDAP Search Time" TRENDVARNAME="TrendMSExchangeADAccessProcessesLDAPSearchTime" DATATYPE="integer" >
+      <EXCLUDE INSTANCE="_Total" />
+    </DATASOURCE>
+    <CHART CHARTTITLE="\MSExchange ADAccess Processes(*)\LDAP Search Time" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange ADAccess Processes(*)\LDAP Search Time" CHARTLABELS="instance" />
+    <THRESHOLD NAME="ADAccess process LDAP search time average of 50ms or more, or spikes of 100ms or greater" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[
+For ($i=0;$i -lt $CollectionOfMSExchangeADAccessProcessesLDAPSearchTime.Count;$i++)
+{
+	$oCounterInstance = $CollectionOfMSExchangeADAccessProcessesLDAPSearchTime[$i]
+    
+	For ($t=0;$t -lt $alQuantizedTime.Count;$t++)
+	{
+		$IsAvgThresholdBroken = $False
+		$IsMaxThresholdBroken = $False
+		
+		If ($oCounterInstance.QuantizedAvg[$t] -ge 50)
+		{
+			$IsAvgThresholdBroken = $True
+		}
+		
+		If ($oCounterInstance.QuantizedMax[$t] -ge 100)
+		{
+			$IsMaxThresholdBroken = $True
+		}
+		
+		If (($IsAvgThresholdBroken -eq $True) -or ($IsMaxThresholdBroken -eq $True))
+		{
+			CreateAlert -TimeSliceIndex $t -CounterInstanceObject $oCounterInstance -IsMinThresholdBroken $False -IsAvgThresholdBroken $IsAvgThresholdBroken -IsMaxThresholdBroken $IsMaxThresholdBroken -IsTrendThresholdBroken $False -IsMinEvaluated $False -IsAvgEvaluated $True -IsMaxEvaluated $True -IsTrendEvaluated $False
+		}
+	}
+}
+	  ]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>LDAP Search Time is the time (in ms) taken to send an LDAP search request and receive a response</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the time (in ms) to send an LDAP search request and receive a response.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For all Exchange Server 2007 roles, this value should be below 50 ms on average with spikes (maximum values) of less than 100 ms.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange ADAccess Domain Controllers LDAP Searches timed out per minute" ENABLED="True" CATEGORY="MSExchange ADAccess Domain Controllers" PRIMARYDATASOURCE="\MSExchange ADAccess Domain Controllers(*)\LDAP Searches timed out per minute" ID="60bcf492-032a-4c64-bc25-aa26be6b471a" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange ADAccess Domain Controllers(*)\LDAP Searches timed out per minute" COLLECTIONVARNAME="CollectionOfMSExchangeADAccessDomainControllersLDAPSearchestimedoutperminute" EXPRESSIONPATH="\MSExchange ADAccess Domain Controllers(*)\LDAP Searches timed out per minute" TRENDVARNAME="TrendMSExchangeADAccessDomainControllersLDAPSearchestimedoutperminute" DATATYPE="integer" >
+      <EXCLUDE INSTANCE="_Total" />
+    </DATASOURCE>
+    <CHART CHARTTITLE="\MSExchange ADAccess Domain Controllers(*)\LDAP Searches timed out per minute" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange ADAccess Domain Controllers(*)\LDAP Searches timed out per minute" CHARTLABELS="instance" />
+    <THRESHOLD NAME="ADAccess domain controller LDAP search timeouts per minute of 10 or more" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeADAccessDomainControllersLDAPSearchestimedoutperminute -Operator 'ge' -Threshold 10]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>LDAP Searches timed out per minute is the number of LDAP searches returned LDAP_TIMEOUT during the last minute</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the number of LDAP searches that returned LDAP_Timeout during the last minute.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For all Exchange Server 2007 roles, this value should be below 10 at all times for all roles.</p>
+<p>Higher values may indicate issues with Active Directory resources.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange ADAccess Domain Controllers Long running LDAP operations/Min" ENABLED="True" CATEGORY="MSExchange ADAccess Domain Controllers" PRIMARYDATASOURCE="\MSExchange ADAccess Domain Controllers(*)\Long running LDAP operations/Min" ID="5e48909b-07d2-46fb-b727-e2568a723dc5" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange ADAccess Domain Controllers(*)\Long running LDAP operations/Min" COLLECTIONVARNAME="CollectionOfMSExchangeADAccessDomainControllersLongrunningLDAPoperationsMin" EXPRESSIONPATH="\MSExchange ADAccess Domain Controllers(*)\Long running LDAP operations/Min" TRENDVARNAME="TrendMSExchangeADAccessDomainControllersLongrunningLDAPoperationsMin" DATATYPE="integer" >
+      <EXCLUDE INSTANCE="_Total" />
+    </DATASOURCE>
+    <CHART CHARTTITLE="\MSExchange ADAccess Domain Controllers(*)\Long running LDAP operations/Min" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange ADAccess Domain Controllers(*)\Long running LDAP operations/Min" CHARTLABELS="instance" />
+    <THRESHOLD NAME="ADAccess domain controller long running LDAP operations of 50 or more" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeADAccessDomainControllersLongrunningLDAPoperationsMin -Operator 'ge' -Threshold 50]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>Long running LDAP operations/Min is the number of LDAP operations on this DC that took longer than the specified threshold per minute (default threshold is 15 seconds)</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the number of LDAP operations on this domain controller that took longer than the specified threshold per minute. (Default threshold is 15 seconds.)</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For all Exchange Server 2007 roles, this value should be less than 50 at all times.</p>
+<p>Higher values may indicate issues with Active Directory resources.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <INHERITANCE FILEPATH="SystemOverview.xml" />
+</PAL>

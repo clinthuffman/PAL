@@ -1,0 +1,652 @@
+<PAL NAME="Microsoft Project Server" DESCRIPTION="Performance analysis of Microsoft Project Server." CONTENTOWNERS="Michael Jordan" FEEDBACKEMAILADDRESS="michjor@microsoft.com" VERSION="1.0" PALVERSION="2.0" LANGUAGE="English" LANGUAGECODE="en">
+  <INHERITANCE FILEPATH="QuickSystemOverview.xml" />
+  <ANALYSIS NAME="Processor Utilization Analysis" ENABLED="True" CATEGORY="Processor" PRIMARYDATASOURCE="\Processor(*)\% Processor Time" ID="{296e1c6d-3751-486b-841e-8d20ecbd91dd}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[% Processor Time is the percentage of elapsed time that the processor spends to execute a non-Idle thread. It is calculated by measuring the duration of the idle thread is active in the sample interval, and subtracting that time from interval duration.  (Each processor has an idle thread that consumes cycles when no other threads are ready to run). This counter is the primary indicator of processor activity, and displays the average percentage of busy time observed during the sample interval. It is calculated by monitoring the time that the service is inactive, and subtracting that value from 100%.
+
+This analysis checks for utilization greater than 60% on each individual processor. If so, determine if it is high user mode CPU or high privileged mode. If high privileged mode CPU is suspected, then see the Privileged Mode CPU Analysis. If a user-mode processor bottleneck is suspected, then consider using a process profiler to analyze the functions causing the high CPU consumption. See Ã¢â‚¬Å“How To: Identify Functions causing a High User-mode CPU Bottleneck for Server Applications in a Production EnvironmentÃ¢â‚¬Â article in the references section for more information.<BR>
+<BR>
+If a user-mode processor bottleneck is suspected, then consider using a process profiler to analyze the functions causing the high CPU consumption. See Ã¢â‚¬Å“How To: Identify Functions causing a High User-mode CPU Bottleneck for Server Applications in a Production EnvironmentÃ¢â‚¬Â article in the references section for more information.<BR>
+<BR>
+<B>References:</B><BR>
+Measuring .NET Application Performance<BR>
+http://msdn2.microsoft.com/en-us/library/ms998579.aspx<BR>
+<BR>
+How To: Identify Functions causing a High User-mode CPU Bottleneck for Server Applications in a Production Environment http://www.codeplex.com/PerfTesting/Wiki/View.aspx?title=How%20To%3a%20Identify%20a%20Disk%20Performance%20Bottleneck%20Using%20SPA&referringTitle=How%20Tos ]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\Processor(*)\% Processor Time" COLLECTIONVARNAME="ProcessorPercentProcessorTimeALL" EXPRESSIONPATH="\Processor(*)\% Processor Time" DATATYPE="Integer" />
+    <CHART CHARTTITLE="\Processor(*)\% Processor Time" ISTHRESHOLDSADDED="False" DATASOURCE="\Processor(*)\% Processor Time" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Network Utilization Analysis" ENABLED="True" CATEGORY="Network Interface" PRIMARYDATASOURCE="\Network Interface(*)\Bytes Total/sec" ID="{f1d6fe6b-83b4-4f79-9420-e0b68ffefe63}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Bytes Total/sec is the rate at which bytes are sent and received over each network adapter, including framing characters. Network Interface\Bytes Received/sec is a sum of Network Interface\Bytes Received/sec and Network Interface\Bytes Sent/sec. This counter indicates the rate at which bytes are sent and received over each network adapter. This counter helps you know whether the traffic at your network adapter is saturated and if you need to add another network adapter. How quickly you can identify a problem depends on the type of network you have as well as whether you share bandwidth with other applications.<BR>
+<BR>
+This analysis converts Bytes Total/sec to bits and compares it to the current bandwidth of the network adapter to calculate network utilization. Next, it checks for utilization above 50%.
+<BR>
+<B>Reference:</B><BR>
+Measuring .NET Application Performance<BR>
+<A HREF="http://msdn2.microsoft.com/en-us/library/ms998579.aspx">http://msdn2.microsoft.com/en-us/library/ms998579.aspx</A><BR>
+<BR>]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\Network Interface(*)\Bytes Total/sec" COLLECTIONVARNAME="NetworkInterfaceBytesTotalsecALL" EXPRESSIONPATH="\Network Interface(*)\Bytes Total/sec" DATATYPE="Integer" />
+    <DATASOURCE TYPE="CounterLog" NAME="\Network Interface(*)\Current Bandwidth" COLLECTIONVARNAME="NetworkInterfaceCurrentBandwidthALL" EXPRESSIONPATH="\Network Interface(*)\Current Bandwidth" DATATYPE="Integer" />
+    <CHART CHARTTITLE="\Network Interface(*)\Bytes Total/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\Network Interface(*)\Bytes Total/sec" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Processor Queue Length" ENABLED="True" CATEGORY="System" PRIMARYDATASOURCE="\System\Processor Queue Length" ID="{f7ee8be5-d418-444d-8b07-2b96e85bfb17}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Processor Queue Length is the number of threads in the processor queue.  Unlike the disk counters, this counter counters, this counter shows ready threads only, not threads that are running.  There is a single queue for processor time even on computers with multiple processors. Therefore, if a computer has multiple processors, you need to divide this value by the number of processors servicing the workload. A sustained processor queue of less than 10 threads per processor is normally acceptable, dependent of the workload.<BR>
+<BR>
+This analysis determines if the average processor queue length exceeds the number of processors. If so, then this could indicate a processor bottleneck. Use this analysis in correlation with Privileged Mode CPU Analysis and Ã¢â‚¬Å“Excessive Processor Use by ProcessÃ¢â‚¬Â analysis.<BR>
+<BR>
+If there are more tasks ready to run than there are processors, threads queue up. The processor queue is the collection of threads that are ready but not able to be executed by the processor because another active thread is currently executing. A sustained or recurring queue of more threads than number of processors is a good indication of a processor bottleneck.<BR>
+<BR>
+You can use this counter in conjunction with the Processor\% Processor Time counter to determine if your application can benefit from more CPUs. There is a single queue for processor time, even on multiprocessor computers. Therefore, in a multiprocessor computer, divide the Processor Queue Length (PQL) value by the number of processors servicing the workload.<BR>
+<BR>
+If the CPU is very busy (90 percent and higher utilization) and the PQL average is consistently higher than the number of processors, then you may have a processor bottleneck that could benefit from additional CPUs. Or, you could reduce the number of threads and queue more at the application level. This will cause less context switching, and less context switching is good for reducing CPU load. The common reason for a high PQL with low CPU utilization is that requests for processor time arrive randomly and threads demand irregular amounts of time from the processor. This means that the processor is not a bottleneck but that it is your threading logic that needs to be improved.<BR>
+<BR>
+If a user-mode processor bottleneck is suspected, then consider using a process profiler to analyze the functions causing the high CPU consumption. See Ã¢â‚¬Å“How To: Identify Functions causing a High User-mode CPU Bottleneck for Server Applications in a Production EnvironmentÃ¢â‚¬Â article in the references section for more information.<BR>
+<BR>
+<B>Reference:</B><BR>
+Measuring .NET Application Performance<BR>
+<A HREF="http://msdn2.microsoft.com/en-us/library/ms998579.aspx">http://msdn2.microsoft.com/en-us/library/ms998579.aspx</A><BR>
+<BR>
+How To: Identify Functions causing a High User-mode CPU Bottleneck for Server Applications in a Production Environment http://www.codeplex.com/PerfTesting/Wiki/View.aspx?title=How%20To%3a%20Identify%20a%20Disk%20Performance%20Bottleneck%20Using%20SPA&referringTitle=How%20Tos ]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\System\Processor Queue Length" COLLECTIONVARNAME="SystemProcessorQueueLength" EXPRESSIONPATH="\System\Processor Queue Length" DATATYPE="Integer" />
+    <CHART CHARTTITLE="\System\Processor Queue Length" ISTHRESHOLDSADDED="False" DATASOURCE="\System\Processor Queue Length" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Privileged Mode CPU Analysis" ENABLED="True" CATEGORY="Processor" PRIMARYDATASOURCE="\Processor(*)\% Privileged Time" ID="{e823a1fc-ef00-44ff-87d5-1c41352d0dc9}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[This counter indicates the percentage of time a thread runs in privileged mode. When your application calls operating system functions (for example to perform file or network I/O or to allocate memory), these operating system functions are executed in privileged mode.<BR>
+<BR>
+High privileged mode CPU indicates that computer is spending too much time in system I/O versus real (user mode) work. % Privileged Time is the percentage of elapsed time that the process threads spent executing code in privileged mode.  When a Windows system service in called, the service will often run in privileged mode to gain access to system-private data. Such data is protected from access by threads executing in user mode. Calls to the system can be explicit or implicit, such as page faults or interrupts. Unlike some early operating systems, Windows uses process boundaries for subsystem protection in addition to the traditional protection of user and privileged modes. Some work done by Windows on behalf of the application might appear in other subsystem processes in addition to the privileged time in the process.<BR>
+<BR>
+This analysis checks to see if privileged mode CPU is consuming more than 30% of total CPU. If so, then the CPU consumption is likely caused by another bottleneck other than the processor such as network, memory, or disk I/O.<BR>
+<BR>
+<B>References:</B><BR>
+Measuring .NET Application Performance<BR>
+<A HREF="http://msdn2.microsoft.com/en-us/library/ms998579.aspx">http://msdn2.microsoft.com/en-us/library/ms998579.aspx</A>]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\Processor(*)\% Processor Time" COLLECTIONVARNAME="ProcessorPercentProcessorTimeALL" EXPRESSIONPATH="\Processor(*)\% Processor Time" DATATYPE="Integer" />
+    <DATASOURCE TYPE="CounterLog" NAME="\Processor(*)\% Privileged Time" COLLECTIONVARNAME="ProcessorPercentPrivilegedTimeALL" EXPRESSIONPATH="\Processor(*)\% Privileged Time" DATATYPE="Integer" />
+    <CHART CHARTTITLE="\Processor(*)\% Privileged Time" ISTHRESHOLDSADDED="False" DATASOURCE="\Processor(*)\% Privileged Time" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Physical Disk Read Latency Analysis" ENABLED="True" CATEGORY="PhysicalDisk" PRIMARYDATASOURCE="\PhysicalDisk(*)\Avg. Disk sec/Read" ID="{99eb26e5-b30c-46e4-93c2-55ed3885e8e9}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Avg. Disk sec/Read is the average time, in seconds, of a read of data to the disk. This analysis determines if any of the physical disks are responding slowly.<BR>
+<BR>
+If the response times are greater than <B>.015 (15 milliseconds)</B>, then the disk subsystem is keeping up with demand, but does not have much overhead left.<BR>
+<BR>
+If the response times are greater than <B>.025 (25 milliseconds)</B>, then noticeable slow downs and performance issues affecting users may be occurring.<BR>
+<BR>
+<B>Reference:</B><BR>
+Ruling Out Disk-Bound Problems<BR>
+<A HREF="http://technet.microsoft.com/en-us/library/5bcdd349-dcc6-43eb-9dc3-54175f7061ad.aspx">http://technet.microsoft.com/en-us/library/5bcdd349-dcc6-43eb-9dc3-54175f7061ad.aspx</A><BR>
+<BR>]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\PhysicalDisk(*)\Avg. Disk sec/Read" COLLECTIONVARNAME="PhysicalDiskAvgDisksecReadALL" EXPRESSIONPATH="\PhysicalDisk(*)\Avg. Disk sec/Read" DATATYPE="Round3" />
+    <CHART CHARTTITLE="\PhysicalDisk(*)\Avg. Disk sec/Read" ISTHRESHOLDSADDED="False" DATASOURCE="\PhysicalDisk(*)\Avg. Disk sec/Read" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Physical Disk Write Latency Analysis" ENABLED="True" CATEGORY="PhysicalDisk" PRIMARYDATASOURCE="\PhysicalDisk(*)\Avg. Disk sec/Write" ID="{440da389-2925-4994-ab3b-d0c69c0d0d5b}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Avg. Disk sec/Write is the average time, in seconds, of a write of data to the disk. This analysis determines if any of the physical disks are responding slowly.<BR>
+<BR>
+If the response times are greater than <B>.015 (15 milliseconds)</B>, then the disk subsystem is keeping up with demand, but does not have much overhead left.<BR>
+<BR>
+If the response times are greater than <B>.025 (25 milliseconds)</B>, then noticeable slow downs and performance issues affecting users may be occurring.<BR>
+<BR>
+<B>Reference:</B><BR>
+Ruling Out Disk-Bound Problems<BR>
+<A HREF="http://technet.microsoft.com/en-us/library/5bcdd349-dcc6-43eb-9dc3-54175f7061ad.aspx">http://technet.microsoft.com/en-us/library/5bcdd349-dcc6-43eb-9dc3-54175f7061ad.aspx</A><BR>
+<BR>]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\PhysicalDisk(*)\Avg. Disk sec/Write" COLLECTIONVARNAME="PhysicalDiskAvgDisksecWriteALL" EXPRESSIONPATH="\PhysicalDisk(*)\Avg. Disk sec/Write" DATATYPE="Round3" />
+    <CHART CHARTTITLE="\PhysicalDisk(*)\Avg. Disk sec/Write" ISTHRESHOLDSADDED="False" DATASOURCE="\PhysicalDisk(*)\Avg. Disk sec/Write" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Logical Disk Read Latency Analysis" ENABLED="True" CATEGORY="LogicalDisk" PRIMARYDATASOURCE="\LogicalDisk(*)\Avg. Disk sec/Read" ID="{0120caee-471e-46bd-bbfc-a139b05adeee}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Avg. Disk sec/Read is the average time, in seconds, of a read of data to the disk. This analysis determines if any of the physical disks are responding slowly.<BR>
+<BR>
+If the response times are greater than <B>.015 (15 milliseconds)</B>, then the disk subsystem is keeping up with demand, but does not have much overhead left.<BR>
+<BR>
+If the response times are greater than <B>.025 (25 milliseconds)</B>, then noticeable slow downs and performance issues affecting users may be occurring.<BR>
+<BR>
+<B>Reference:</B><BR>
+Ruling Out Disk-Bound Problems<BR>
+<A HREF="http://technet.microsoft.com/en-us/library/5bcdd349-dcc6-43eb-9dc3-54175f7061ad.aspx">http://technet.microsoft.com/en-us/library/5bcdd349-dcc6-43eb-9dc3-54175f7061ad.aspx</A><BR>
+<BR>]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\LogicalDisk(*)\Avg. Disk sec/Read" COLLECTIONVARNAME="LogicalDiskAvgDisksecReadALL" EXPRESSIONPATH="\LogicalDisk(*)\Avg. Disk sec/Read" DATATYPE="Round3" />
+    <CHART CHARTTITLE="\LogicalDisk(*)\Avg. Disk sec/Read" ISTHRESHOLDSADDED="False" DATASOURCE="\LogicalDisk(*)\Avg. Disk sec/Read" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Logical Disk Write Latency Analysis" ENABLED="True" CATEGORY="LogicalDisk" PRIMARYDATASOURCE="\LogicalDisk(*)\Avg. Disk sec/Write" ID="{f54a5270-99a2-4184-a117-e7be48b32f52}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Avg. Disk sec/Write is the average time, in seconds, of a write of data to the disk. This analysis determines if any of the physical disks are responding slowly.<BR>
+<BR>
+If the response times are greater than <B>.015 (15 milliseconds)</B>, then the disk subsystem is keeping up with demand, but does not have much overhead left.<BR>
+<BR>
+If the response times are greater than <B>.025 (25 milliseconds)</B>, then noticeable slow downs and performance issues affecting users may be occurring.<BR>
+<BR>
+<B>Reference:</B><BR>
+Ruling Out Disk-Bound Problems<BR>
+<A HREF="http://technet.microsoft.com/en-us/library/5bcdd349-dcc6-43eb-9dc3-54175f7061ad.aspx">http://technet.microsoft.com/en-us/library/5bcdd349-dcc6-43eb-9dc3-54175f7061ad.aspx</A><BR>
+<BR>]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\LogicalDisk(*)\Avg. Disk sec/Write" COLLECTIONVARNAME="LogicalDiskAvgDisksecWriteALL" EXPRESSIONPATH="\LogicalDisk(*)\Avg. Disk sec/Write" DATATYPE="Round3" />
+    <CHART CHARTTITLE="\LogicalDisk(*)\Avg. Disk sec/Write" ISTHRESHOLDSADDED="False" DATASOURCE="\LogicalDisk(*)\Avg. Disk sec/Write" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Free System Page Table Entries" ENABLED="True" CATEGORY="Memory" PRIMARYDATASOURCE="\Memory\Free System Page Table Entries" ID="{d3344fb7-b310-49ae-9b41-bf67607af6f5}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Free System Page Table Entries is the number of page table entries not currently in used by the system. This analysis determines if the system is running out of free system page table entries (PTEs) by checking if there is less than 5,000 free PTEÃ¢â‚¬â„¢s with a Warning if there is less than 10,000 free PTEÃ¢â‚¬â„¢s. Lack of enough PTEs can result in system wide hangs. Also note that the /3GB switch will lower the amount of free PTEs significantly. <BR>
+<BR>
+The Performance Monitor Ã¢â‚¬Å“Memory\Free System Page Table EntriesÃ¢â‚¬Â counter is inaccurate on installations of Windows Server 2003 without Service Pack 1. For more information about this counter, see Microsoft Knowledge Base article 894067 Ã¢â‚¬Å“The Performance tool does not accurately show the available Free System Page Table entries in Windows Server 2003Ã¢â‚¬Â <a href="http://go.microsoft.com/fwlink/?linkid=3052&kbid=894067">http://go.microsoft.com/fwlink/?linkid=3052&amp;kbid=894067</a><BR>
+<BR>
+<B>Fix for Win2003 SP1 systems with /3GB and low on PTEÃ¢â‚¬â„¢s:</B> If the system is low on PTEÃ¢â‚¬â„¢s, running Windows 2003, and using /3GB switch, then consider using the /USERVA switch to give back some of the memory to the kernel. Note, this only works for Free System PTE issues.<BR>
+<BR>
+For more information on the USERVA switch, go to:
+How to use the /userva switch with the /3GB switch to tune the User-mode space to a value between 2 GB and 3 GB
+<A HREF="http://support.microsoft.com/kb/316739">http://support.microsoft.com/kb/316739</A><BR>
+<BR>
+<B>Reference:</B><BR>
+Ruling Out Memory-Bound Problems<BR>
+<A HREF="http://technet.microsoft.com/en-us/library/7a44b064-8872-4edf-aac7-36b2a17f662a.aspx">http://technet.microsoft.com/en-us/library/7a44b064-8872-4edf-aac7-36b2a17f662a.aspx</A><BR>
+<BR>
+Microsoft Knowledge Base article 894067 Ã¢â‚¬Å“The Performance tool does not accurately show the available Free System Page Table entries in Windows Server 2003Ã¢â‚¬Â http://go.microsoft.com/fwlink/?linkid=3052&amp;kbid=894067<BR>
+<BR>
+Ã¢â‚¬Å“How to use the /userva switch with the /3GB switch to tune the User-mode space to a value between 2 GB and 3 GBÃ¢â‚¬Â  http://support.microsoft.com/kb/316739">http://support.microsoft.com/kb/316739<BR>
+<BR>
+How to determine the appropriate page file size for 64-bit versions of Windows Server 2003 or Windows XP<BR>
+<A HREF="http://support.microsoft.com/kb/889654">http://support.microsoft.com/kb/889654</A>
+]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\Memory\Free System Page Table Entries" COLLECTIONVARNAME="MemoryFreeSystemPageTableEntries" EXPRESSIONPATH="\Memory\Free System Page Table Entries" DATATYPE="Integer" />
+    <CHART CHARTTITLE="\Memory\Free System Page Table Entries" ISTHRESHOLDSADDED="False" DATASOURCE="\Memory\Free System Page Table Entries" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Pool Non Paged Bytes" ENABLED="True" CATEGORY="Memory" PRIMARYDATASOURCE="\Memory\Pool Nonpaged Bytes" ID="{0d67deb8-d81e-4c91-83ed-2d9e9e031c64}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Pool Nonpaged Bytes is the size, in bytes, of the nonpaged pool, an area of system memory (physical memory used by the operating system) for objects that cannot be written to disk, but must remain in physical memory as long as they are allocated.<BR>
+<BR>
+This analysis checks to see if the system is becoming close to the maximum Pool Nonpaged memory size. It does this by estimating the pool sizes taking into consideration /3GB, physical memory size, and 32-bit/64-bit, then determining if the value is higher than 60% of the estimated pool size. If the system becomes close to the maximum size, then the system could experience system wide hangs. Checks both 32-bit and 64-bit memory pools. Warning: The /3GB switch option in the boot.ini file significantly reduces the size of this memory pool.<BR>
+<BR>
+If the system is low on Paged Pool or non-Paged pool memory, then it is recommended to open a support case with Microsoft to address this. Alternatively, you can use a free and public tool called Poolmon.exe to see what DLLÃ¢â‚¬â„¢s are using kernel memory (see the article below). Most kernel memory leaks can be tracked back to a usermode process. To identify which user mode process is responsible, reboot the system (so you start off with a clean system), start a performance monitor log intending to run for a week or more capturing the Memory and Process objects, then analyze the perfmon log looking for memory leaks and/or handle leaks in one or more of the processes. In any case, migrating to a 64-bit version of Windows should alleviate this issue.
+<BR>
+<B>References:</B><BR>
+How to Use Memory Pool Monitor (Poolmon.exe) to Troubleshoot Kernel Mode Memory Leaks<BR>
+<A HREF="http://support.microsoft.com/kb/177415">http://support.microsoft.com/kb/177415</A><BR>
+<BR>
+Ruling Out Memory-Bound Problems<BR>
+<A HREF="http://technet.microsoft.com/en-us/library/7a44b064-8872-4edf-aac7-36b2a17f662a.aspx">http://technet.microsoft.com/en-us/library/7a44b064-8872-4edf-aac7-36b2a17f662a.aspx</A><BR>
+<BR>
+How to determine the appropriate page file size for 64-bit versions of Windows Server 2003 or Windows XP<BR>
+<A HREF="http://support.microsoft.com/kb/889654">http://support.microsoft.com/kb/889654</A>]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\Memory\Pool Nonpaged Bytes" COLLECTIONVARNAME="MemoryPoolNonpagedBytes" EXPRESSIONPATH="\Memory\Pool Nonpaged Bytes" DATATYPE="Integer" />
+    <CHART CHARTTITLE="\Memory\Pool Nonpaged Bytes" ISTHRESHOLDSADDED="False" DATASOURCE="\Memory\Pool Nonpaged Bytes" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Pool Paged Bytes" ENABLED="True" CATEGORY="Memory" PRIMARYDATASOURCE="\Memory\Pool Paged Bytes" ID="{29dc388f-6343-4ec6-9686-0ff0e7a0a86b}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[This analysis checks to see if the system is becoming close to the maximum Pool paged memory size. Pool Paged Bytes is the size, in bytes, of the paged pool, an area of system memory (physical memory used by the operating system) for objects that can be written to disk when they are not being used.<BR>
+<BR>
+This analysis checks to see if the system is becoming close to the maximum Pool Paged memory size. It does this by estimating the pool sizes taking into consideration /3GB, physical memory size, and 32-bit/64-bit, then determining if the value is higher than 60% of the estimated pool size. If the system becomes close to the maximum size, then the system could experience system wide hangs. Checks both 32-bit and 64-bit memory pools. Warning: The /3GB switch option in the boot.ini file significantly reduces the size of this memory pool.<BR>
+<BR>
+If the system is low on Paged Pool or non-Paged pool memory, then it is recommended to open a support case with Microsoft to address this. Alternatively, you can use a free and public tool called Poolmon.exe to see what DLLÃ¢â‚¬â„¢s are using kernel memory (see the article below). Most kernel memory leaks can be tracked back to a usermode process. To identify which user mode process is responsible, reboot the system (so you start off with a clean system), start a performance monitor log intending to run for a week or more capturing the Memory and Process objects, then analyze the perfmon log looking for memory leaks and/or handle leaks in one or more of the processes. In any case, migrating to a 64-bit version of Windows should alleviate this issue.<BR>
+<BR>
+<B>Reference:</B><BR>
+How to Use Memory Pool Monitor (Poolmon.exe) to Troubleshoot Kernel Mode Memory Leaks<BR>
+<A HREF="http://support.microsoft.com/kb/177415">http://support.microsoft.com/kb/177415</A><BR>
+<BR>
+Ruling Out Memory-Bound Problems<BR>
+<A HREF="http://technet.microsoft.com/en-us/library/7a44b064-8872-4edf-aac7-36b2a17f662a.aspx">http://technet.microsoft.com/en-us/library/7a44b064-8872-4edf-aac7-36b2a17f662a.aspx</A><BR>
+<BR>
+How to determine the appropriate page file size for 64-bit versions of Windows Server 2003 or Windows XP<BR>
+<A HREF="http://support.microsoft.com/kb/889654">http://support.microsoft.com/kb/889654</A>]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\Memory\Pool Paged Bytes" COLLECTIONVARNAME="MemoryPoolPagedBytes" EXPRESSIONPATH="\Memory\Pool Paged Bytes" DATATYPE="Integer" />
+    <CHART CHARTTITLE="\Memory\Pool Paged Bytes" ISTHRESHOLDSADDED="False" DATASOURCE="\Memory\Pool Paged Bytes" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Available Memory" ENABLED="True" CATEGORY="Memory" PRIMARYDATASOURCE="\Memory\Available MBytes" ID="{7488b9f9-8fbc-4cce-b683-f11baa0fcbbc}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Available MBytes is the amount of physical memory available to processes running on the computer, in Megabytes, rather than bytes as reported in Memory\Available Bytes. The Virtual Memory Manager continually adjusts the space used in physical memory and on disk to maintain a minimum number of available bytes for the operating system and processes. When available bytes are plentiful, the Virtual Memory Manager lets the working sets of processes grow, or keeps them stable by removing an old page for each new page added. When available bytes are few, the Virtual Memory Manager must trim the working sets of processes to maintain the minimum required.
+
+This analysis checks to see if the total available memory is low Ã¢â‚¬â€œ Warning at 10% available and Critical at 5% available. A Warning is also alerted when a decreasing trend of 10MBÃ¢â‚¬â„¢s per hour is detecting indicating a potential upcoming memory condition. Low physical memory can cause increased privileged mode CPU and system delays. <BR>
+<BR>
+<B>Reference:</B><BR>
+Ruling Out Memory-Bound Problems<BR>
+<A HREF="http://technet.microsoft.com/en-us/library/7a44b064-8872-4edf-aac7-36b2a17f662a.aspx">http://technet.microsoft.com/en-us/library/7a44b064-8872-4edf-aac7-36b2a17f662a.aspx</A><BR>
+<BR>
+Detecting Memory Bottlenecks <br>
+http://www.microsoft.com/resources/documentation/windowsnt/4/workstation/reskit/en-us/04memory.mspx?mfr=true ]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\Memory\Available MBytes" COLLECTIONVARNAME="MemoryAvailableMBytes" EXPRESSIONPATH="\Memory\Available MBytes" DATATYPE="Integer" />
+    <CHART CHARTTITLE="\Memory\Available MBytes" ISTHRESHOLDSADDED="False" DATASOURCE="\Memory\Available MBytes" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Memory Pages/sec" ENABLED="True" CATEGORY="Memory" PRIMARYDATASOURCE="\Memory\Pages/sec" ID="{2945cae2-991f-4d42-9558-e4a94ee02bb2}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[This analysis checks to see if the Pages/sec is high. If it is high, then the system is likely running out of memory by trying to page the memory to the disk. Pages/sec is the rate at which pages are read from or written to disk to resolve hard page faults. This counter is a primary indicator of the kinds of faults that cause system-wide delays.  It is the sum of Memory\Pages Input/sec and Memory\Pages Output/sec. It is counted in numbers of pages, so it can be compared to other counts of pages, such as Memory\Page Faults/sec, without conversion. It includes pages retrieved to satisfy faults in the file system cache (usually requested by applications) non-cached mapped memory files.<BR>
+<BR>
+This counter should always be below 1000, therefore this analysis checks for values above 1000. Use this analysis in correlation with Available Memory Analysis and Memory Leak Analysis. All are throwing alerts at the same time, then this may indicate the system is running out of memory and the suspected processes involved and follow analysis steps mentioned in the Memory Leak analysis.<BR>
+<BR>
+<B>Reference:</B><BR>
+Ruling Out Memory-Bound Problems<BR>
+<A HREF="http://technet.microsoft.com/en-us/library/7a44b064-8872-4edf-aac7-36b2a17f662a.aspx">http://technet.microsoft.com/en-us/library/7a44b064-8872-4edf-aac7-36b2a17f662a.aspx</A><BR>
+<BR>
+      ]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\Memory\Pages/sec" COLLECTIONVARNAME="MemoryPagessec" EXPRESSIONPATH="\Memory\Pages/sec" DATATYPE="Integer" />
+    <CHART CHARTTITLE="\Memory\Pages/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\Memory\Pages/sec" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Network Output Queue Length Analysis" ENABLED="True" CATEGORY="Network Interface" PRIMARYDATASOURCE="\Network Interface(*)\Output Queue Length" ID="{805344b8-25c1-4d2e-8d8f-2f0a6e01c4fc}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[This analysis checks to see how many threads are waiting on the network adapter. If there are a lot of threads waiting on the network adapter, then the system is most likely saturating the network I/O most likely due to network latency or network bandwidth.<BR>
+<BR>
+Output Queue Length is the length of the output packet queue (in packets). If this is longer than two, there are delays and the bottleneck should be found and eliminated, if possible. Since the requests are queued by the Network Driver Interface Specification (NDIS) in this implementation, this will always be 0.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\Network Interface(*)\Output Queue Length" COLLECTIONVARNAME="NetworkInterfaceOutputQueueLengthALL" EXPRESSIONPATH="\Network Interface(*)\Output Queue Length" DATATYPE="Integer" />
+    <CHART CHARTTITLE="\Network Interface(*)\Output Queue Length" ISTHRESHOLDSADDED="False" DATASOURCE="\Network Interface(*)\Output Queue Length" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="High Context Switching" ENABLED="True" CATEGORY="System" PRIMARYDATASOURCE="\System\Context Switches/sec" ID="{f017c9dd-b481-489e-92b5-5df97424b0da}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[High context switching is only a problem if privileged mode CPU and overall CPU is high as well. This analysis checks for high CPU, high privileged mode CPU, and high system context switches per sec.<BR>
+<BR>
+Threshold: As a general rule, context switching rates of less than 5,000 per second per processor are not worth worrying about. If context switching rates exceed 15,000 per second per processor, then there is a constraint.<BR>
+<BR>
+Significance: Context switching happens when a higher priority thread preempts a lower priority thread that is currently running or when a high priority thread blocks. High levels of context switching can occur when many threads share the same priority level. This often indicates that there are too many threads competing for the processors on the system. If you do not see much processor utilization and you see very low levels of context switching, it could indicate that threads are blocked.<BR>
+<BR>
+<B>Reference:</B><BR>
+Measuring .NET Application Performance<BR>
+<A HREF="http://msdn2.microsoft.com/en-us/library/ms998579.aspx">http://msdn2.microsoft.com/en-us/library/ms998579.aspx</A><BR>
+<BR>]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\Processor(_Total)\% Processor Time" COLLECTIONVARNAME="ProcessorPercentProcessorTime_Total" EXPRESSIONPATH="\Processor(_Total)\% Processor Time" DATATYPE="Integer" />
+    <DATASOURCE TYPE="CounterLog" NAME="\Processor(_Total)\% Privileged Time" COLLECTIONVARNAME="ProcessorPercentPrivilegedTime_Total" EXPRESSIONPATH="\Processor(_Total)\% Privileged Time" DATATYPE="Integer" />
+    <DATASOURCE TYPE="CounterLog" NAME="\System\Context Switches/sec" COLLECTIONVARNAME="SystemContextSwitchessec" EXPRESSIONPATH="\System\Context Switches/sec" DATATYPE="Integer" />
+    <CHART CHARTTITLE="\System\Context Switches/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\System\Context Switches/sec" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Memory Leak Detection" ENABLED="True" CATEGORY="Process" PRIMARYDATASOURCE="\Process(*)\Private Bytes" ID="{2168c654-5876-4b0b-a0c9-c2a3ce10a48d}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[This analysis determines if any of the processes are consuming a large size of the system's memory and if the process is increasing in memory consumption over time. A process consuming large portions of memory is okay as long as the process returns the memory back to the system. Look for increasing trends in the chart. An increasing trend over a long period of time could indicate a memory leak. Private Bytes is the current size, in bytes, of memory that this process has allocated that cannot be shared with other processes. This analysis checks for a 10MBÃ¢â‚¬â„¢s per hour and 5MBÃ¢â‚¬â„¢s per hour increasing trends. Use this analysis in correlation with the Available Memory analysis.<BR>
+<BR>
+Also, keep in mind that newly started processes will initially appear as a memory leak when it is simply normal start up behavior. A memory leak is when a process continues to consume memory and not releasing memory over a long period of time.<BR>
+<BR>
+Use this analysis in correlation with the Available Memory analysis. If you suspect a memory leak condition, then install and use the Debug Diag tool. For more information on the Debug Diag Tool, see the references section.<BR>
+<BR>
+<B>References:</B><BR>
+<BR>
+Debug Diagnostic Tool v1.1 http://www.microsoft.com/downloads/details.aspx?FamilyID=28bd5941-c458-46f1-b24d-f60151d875a3&displaylang=en]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\Process(*)\Private Bytes" COLLECTIONVARNAME="ProcessPrivateBytesALL" EXPRESSIONPATH="\Process(*)\Private Bytes" DATATYPE="Integer" />
+    <CHART CHARTTITLE="\Process(*)\Private Bytes" ISTHRESHOLDSADDED="False" DATASOURCE="\Process(*)\Private Bytes" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Handle Leak Detection" ENABLED="True" CATEGORY="Process" PRIMARYDATASOURCE="\Process(*)\Handle Count" ID="{5067f412-2b71-4e6e-a800-1f3dcd0bbb5f}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[This analysis checks all of the processes to determine how many handles each has open and determines if a handle leaks is suspected. A process with a large number of handles and/or an aggresive upward trend could indicate a handle leak which typically results in a memory leak. The total number of handles currently open by this process. This number is equal to the sum of the handles currently open by each thread in this process.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\Process(*)\Handle Count" COLLECTIONVARNAME="ProcessHandleCountALL" EXPRESSIONPATH="\Process(*)\Handle Count" DATATYPE="Integer" />
+    <CHART CHARTTITLE="\Process(*)\Handle Count" ISTHRESHOLDSADDED="False" DATASOURCE="\Process(*)\Handle Count" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Process Thread Count" ENABLED="True" CATEGORY="Process" PRIMARYDATASOURCE="\Process(*)\Thread Count" ID="{be4900b1-6542-4faf-91dd-23970120fc8c}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The number of threads currently active in this process. An instruction is the basic unit of execution in a processor, and a thread is the object that executes instructions. Every running process has at least one thread.<BR>
+<BR>
+This analysis checks all of the processes to determine if a process has more than 500 threads and if it is on an increasing trend of 50 threads per hour. A process with a large number of threads and/or an aggressive upward trend could indicate a thread leak which typically results in either a memory leak or high context switching. High context switching will result in high privileged mode CPU. ]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\Process(*)\Thread Count" COLLECTIONVARNAME="ProcessThreadCountALL" EXPRESSIONPATH="\Process(*)\Thread Count" DATATYPE="Integer" />
+    <CHART CHARTTITLE="\Process(*)\Thread Count" ISTHRESHOLDSADDED="False" DATASOURCE="\Process(*)\Thread Count" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Excessive Processor Use by Processes" ENABLED="True" CATEGORY="Process" PRIMARYDATASOURCE="\Process(*)\% Processor Time" ID="{7968e080-8bd8-4d63-ac14-b7755ccff780}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[This analysis checks all of the processes to determine if any of the processes are consuming a large amount of CPU.<BR>
+<BR>
+If a user-mode processor bottleneck is suspected, then consider using a process profiler to analyze the functions causing the high CPU consumption. See Ã¢â‚¬Å“How To: Identify Functions causing a High User-mode CPU Bottleneck for Server Applications in a Production EnvironmentÃ¢â‚¬Â article in the references section for more information.<BR>
+<BR>
+<B>References:</B><BR>
+Measuring .NET Application Performance<BR>
+http://msdn2.microsoft.com/en-us/library/ms998579.aspx<BR>
+<BR>
+How To: Identify Functions causing a High User-mode CPU Bottleneck for Server Applications in a Production Environment http://www.codeplex.com/PerfTesting/Wiki/View.aspx?title=How%20To%3a%20Identify%20a%20Disk%20Performance%20Bottleneck%20Using%20SPA&referringTitle=How%20Tos ]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\Process(*)\% Processor Time" COLLECTIONVARNAME="ProcessPercentProcessorTimeALL" EXPRESSIONPATH="\Process(*)\% Processor Time" DATATYPE="Integer" />
+    <CHART CHARTTITLE="\Process(*)\% Processor Time" ISTHRESHOLDSADDED="False" DATASOURCE="\Process(*)\% Processor Time" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="High Virtual Memory Usage" ENABLED="True" CATEGORY="Process" PRIMARYDATASOURCE="\Process(*)\Virtual Bytes" ID="{98eee49c-0e1b-40b4-aaba-6cdf637dfedb}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[This analysis determines if any of the processes are consuming a large of virtual memory. 32-bit processes by default are only allowed to access up to 2GB's of user mode memory. If the process becomes close to this maximum, then it could starve for memory. If a process is becoming close to it's maximum, then consider moving the process to a 64-bit system. The /3GB switch could be used to give the user mode process a total of 3GB's of addressable memory, but this takes away 1GB of memory from the kernel which could have worse affects on the entire system such as with Pool Paged Memory and Pool Non-Paged Memory.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\Process(*)\Virtual Bytes" COLLECTIONVARNAME="ProcessVirtualBytesALL" EXPRESSIONPATH="\Process(*)\Virtual Bytes" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Process(*)\Virtual Bytes" ISTHRESHOLDSADDED="False" DATASOURCE="\Process(*)\Virtual Bytes" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Disk Free Space for a Kernel Dump" ENABLED="True" CATEGORY="LogicalDisk" PRIMARYDATASOURCE="\LogicalDisk(C:)\Free Megabytes" ID="{81afc7d5-eebd-4054-aa0d-04d1c0e8f1ae}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\LogicalDisk(C:)\Free Megabytes" COLLECTIONVARNAME="LogicalDiskFreeMegabytesC" EXPRESSIONPATH="\LogicalDisk(C:)\Free Megabytes" DATATYPE="Integer" />
+    <CHART CHARTTITLE="\LogicalDisk(C:)\Free Megabytes" ISTHRESHOLDSADDED="False" DATASOURCE="\LogicalDisk(C:)\Free Megabytes" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Interrupt Time" ENABLED="True" CATEGORY="Processor" PRIMARYDATASOURCE="\Processor(*)\% Interrupt Time" ID="{9d9efe19-c889-4dde-88b9-1fba0d7fe43c}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[% Interrupt Time is the time the processor spends receiving and servicing hardware interrupts during sample intervals. This value is an indirect indicator of the activity of devices that generate interrupts, such as the system clock, the mouse, disk drivers, data communication lines, network interface cards and other peripheral devices. These devices normally interrupt the processor when they have completed a task or require attention. Normal thread execution is suspended during interrupts. Most system clocks interrupt the processor every 10 milliseconds, creating a background of interrupt activity. A dramatic increase in this counter indicates potential hardware problems.<BR>
+<BR>
+This analysis checks for % Interrupt Time greater than 30%. If this occurs, then consider updating devices drivers for hardware that correlates to this alert.<BR>
+<BR>
+<B>References:</B><BR>
+Measuring .NET Application Performance<BR>
+<A HREF="http://msdn2.microsoft.com/en-us/library/ms998579.aspx">http://msdn2.microsoft.com/en-us/library/ms998579.aspx</A>]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\Processor(*)\% Interrupt Time" COLLECTIONVARNAME="ProcessorPercentInterruptTimeALL" EXPRESSIONPATH="\Processor(*)\% Interrupt Time" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Processor(*)\% Interrupt Time" ISTHRESHOLDSADDED="False" DATASOURCE="\Processor(*)\% Interrupt Time" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Process Working Set" ENABLED="True" CATEGORY="Process" PRIMARYDATASOURCE="\Process(*)\Working Set" ID="{c4658d64-996e-4ea2-80af-95b719bd6726}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Working Set is the current size, in bytes, of the Working Set of this process. The Working Set is the set of memory pages touched recently by the threads in the process. If free memory in the computer is above a threshold, pages are left in the Working Set of a process even if they are not in use.  When free memory falls below a threshold, pages are trimmed from Working Sets. If they are needed they will then be soft-faulted back into the Working Set before leaving main memory.<BR>
+This analysis checks for an increasing trend of 10MBÃ¢â‚¬â„¢s or more in each of the processes. Use in correlation with Available Memory Analysis.<BR>
+<BR>
+<B>References:</B><BR>
+<BR>
+Detecting Memory Bottlenecks http://www.microsoft.com/resources/documentation/windowsnt/4/workstation/reskit/en-us/04memory.mspx?mfr=true ]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\Process(*)\Working Set" COLLECTIONVARNAME="ProcessWorkingSetALL" EXPRESSIONPATH="\Process(*)\Working Set" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Process(*)\Working Set" ISTHRESHOLDSADDED="False" DATASOURCE="\Process(*)\Working Set" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Memory System Cache Resident Bytes" ENABLED="True" CATEGORY="Memory" PRIMARYDATASOURCE="\Memory\System Cache Resident Bytes" ID="{e65003d7-d0ee-4878-8efb-9d3903def409}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[System Cache Resident Bytes is the size, in bytes, of the pageable operating system code in the file system cache. This value includes only current physical pages and does not include any virtual memory pages not currently resident. It does equal the System Cache value shown in Task Manager. As a result, this value may be smaller than the actual amount of virtual memory in use by the file system cache. This value is a component of Memory\\System Code Resident Bytes which represents all pageable operating system code that is currently in physical memory. This counter displays the last observed value only; it is not an average.<BR>
+<BR>
+This analysis checks for an increasing trend of 10MBÃ¢â‚¬â„¢s per hour. Under load, a server might use the System Cache in order to cache I/O activity such as disk. Use in correlation with Process IO Data Operations/sec and Process IO Other Operations/sec Analyses.<BR>
+<BR>
+<B>References:</B><BR>
+File Cache Performance and Tuning http://technet.microsoft.com/en-us/library/bb742613.aspx
+]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\Memory\System Cache Resident Bytes" COLLECTIONVARNAME="MemorySystemCacheResidentBytes" EXPRESSIONPATH="\Memory\System Cache Resident Bytes" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Memory\System Cache Resident Bytes" ISTHRESHOLDSADDED="False" DATASOURCE="\Memory\System Cache Resident Bytes" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Process IO Data Operations/sec" ENABLED="True" CATEGORY="Process" PRIMARYDATASOURCE="\Process(*)\IO Data Operations/sec" ID="{67b5213f-a083-4c53-a1f4-9c10c9c9237e}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The rate at which the process is issuing read and write I/O operations. This counter counts all I/O activity generated by the process to include file, network and device I/Os.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\Process(*)\IO Data Operations/sec" COLLECTIONVARNAME="ProcessIODataOperationssecALL" EXPRESSIONPATH="\Process(*)\IO Data Operations/sec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Process(*)\IO Data Operations/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\Process(*)\IO Data Operations/sec" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Process IO Other Operations/sec" ENABLED="True" CATEGORY="Process" PRIMARYDATASOURCE="\Process(*)\IO Other Operations/sec" ID="{2c4adbaa-7bb3-40ef-a0bd-2a01c54d0550}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The rate at which the process is issuing I/O operations that are neither read nor write operations (for example, a control function). This counter counts all I/O activity generated by the process to include file, network and device I/Os.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\Process(*)\IO Other Operations/sec" COLLECTIONVARNAME="ProcessIOOtherOperationssecALL" EXPRESSIONPATH="\Process(*)\IO Other Operations/sec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Process(*)\IO Other Operations/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\Process(*)\IO Other Operations/sec" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="LogicalDisk Disk Transfers/sec" ENABLED="True" CATEGORY="LogicalDisk" PRIMARYDATASOURCE="\LogicalDisk(*)\Disk Transfers/sec" ID="{56cb893e-2a4c-47c1-95db-7627022f2859}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Disk Transfers/sec is the rate of read and write operations on the disk.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\LogicalDisk(*)\Disk Transfers/sec" COLLECTIONVARNAME="LogicalDiskDiskTransferssecALL" EXPRESSIONPATH="\LogicalDisk(*)\Disk Transfers/sec" DATATYPE="integer" />
+    <DATASOURCE TYPE="CounterLog" NAME="\LogicalDisk(*)\Avg. Disk sec/Read" COLLECTIONVARNAME="LogicalDiskAvgDisksecReadALL" EXPRESSIONPATH="\LogicalDisk(*)\Avg. Disk sec/Read" DATATYPE="round3" />
+    <DATASOURCE TYPE="CounterLog" NAME="\LogicalDisk(*)\Avg. Disk sec/Write" COLLECTIONVARNAME="LogicalDiskAvgDisksecWriteALL" EXPRESSIONPATH="\LogicalDisk(*)\Avg. Disk sec/Write" DATATYPE="round3" />
+    <CHART CHARTTITLE="\LogicalDisk(*)\Disk Transfers/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\LogicalDisk(*)\Disk Transfers/sec" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Memory Pages Input/sec" ENABLED="True" CATEGORY="Memory" PRIMARYDATASOURCE="\Memory\Pages Input/sec" ID="{2127372e-00b5-4e17-ae7d-95150a5dfd0e}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Pages Input/sec is the rate at which pages are read from disk to resolve hard page faults. Hard page faults occur when a process refers to a page in virtual memory that is not in its working set or elsewhere in physical memory, and must be retrieved from disk. When a page is faulted, the system tries to read multiple contiguous pages into memory to maximize the benefit of the read operation. Compare the value of Memory\\Pages Input/sec to the value of  Memory\\Page Reads/sec to determine the average number of pages read into memory during each read operation.
+<BR><BR>
+<B>Reference:</B><BR>
+How to determine the appropriate page file size for 64-bit versions of Windows Server 2003 or Windows XP<BR>
+<A HREF="http://support.microsoft.com/kb/889654">http://support.microsoft.com/kb/889654</A><BR>
+<BR>]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\Memory\Pages Input/sec" COLLECTIONVARNAME="MemoryPagesInputsec" EXPRESSIONPATH="\Memory\Pages Input/sec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Memory\Pages Input/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\Memory\Pages Input/sec" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Paging File % Usage" ENABLED="True" CATEGORY="Paging File" PRIMARYDATASOURCE="\Paging File(*)\% Usage" ID="{76084007-c75b-40dd-9a07-2bde609ad8cf}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The amount of the Page File instance in use in percent.  See also Process\\Page File Bytes.<BR>
+<BR>
+This analysis checks if the percentage of usage is greater than 70%.<BR>
+<BR>
+<B>Reference:</B><BR>
+How to determine the appropriate page file size for 64-bit versions of Windows Server 2003 or Windows XP<BR>
+<A HREF="http://support.microsoft.com/kb/889654">http://support.microsoft.com/kb/889654</A><BR>
+<BR>]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\Paging File(*)\% Usage" COLLECTIONVARNAME="PagingFilePercentUsageALL" EXPRESSIONPATH="\Paging File(*)\% Usage" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Paging File(*)\% Usage" ISTHRESHOLDSADDED="False" DATASOURCE="\Paging File(*)\% Usage" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Paging File % Usage Peak" ENABLED="True" CATEGORY="Paging File" PRIMARYDATASOURCE="\Paging File(*)\% Usage Peak" ID="{9aadf8b5-f008-4e6c-8bbb-9e8b586f0e6c}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The peak usage of the Page File instance in percent.  See also Process\\Page File Bytes Peak.<BR>
+<BR>
+<B>Reference:</B><BR>
+How to determine the appropriate page file size for 64-bit versions of Windows Server 2003 or Windows XP<BR>
+<A HREF="http://support.microsoft.com/kb/889654">http://support.microsoft.com/kb/889654</A><BR>
+<BR>]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\Paging File(*)\% Usage Peak" COLLECTIONVARNAME="PagingFilePercentUsagePeakALL" EXPRESSIONPATH="\Paging File(*)\% Usage Peak" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Paging File(*)\% Usage Peak" ISTHRESHOLDSADDED="False" DATASOURCE="\Paging File(*)\% Usage Peak" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="ASP.NET Apps v2.0.50727 Request Execution Time" ENABLED="True" CATEGORY="ASP.NET Apps v2.0.50727" PRIMARYDATASOURCE="\ASP.NET Apps v2.0.50727(*)\Request Execution Time" ID="{f384569d-14b8-4e8f-b58f-73e01f55fa76}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The number of milliseconds that it took to execute the most recent request.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\ASP.NET Apps v2.0.50727(*)\Request Execution Time" COLLECTIONVARNAME="ASPNETAppsv2050727RequestExecutionTimeALL" EXPRESSIONPATH="\ASP.NET Apps v2.0.50727(*)\Request Execution Time" DATATYPE="integer" />
+    <CHART CHARTTITLE="\ASP.NET Apps v2.0.50727(*)\Request Execution Time" ISTHRESHOLDSADDED="False" DATASOURCE="\ASP.NET Apps v2.0.50727(*)\Request Execution Time" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="ASP.NET Apps v2.0.50727 Requests/Sec" ENABLED="True" CATEGORY="ASP.NET Apps v2.0.50727" PRIMARYDATASOURCE="\ASP.NET Apps v2.0.50727(*)\Requests/Sec" ID="{a197387e-16fd-49d9-96e4-779ff94b7d1b}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The number of requests executed per second.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\ASP.NET Apps v2.0.50727(*)\Requests/Sec" COLLECTIONVARNAME="ASPNETAppsv2050727RequestsSecALL" EXPRESSIONPATH="\ASP.NET Apps v2.0.50727(*)\Requests/Sec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\ASP.NET Apps v2.0.50727(*)\Requests/Sec" ISTHRESHOLDSADDED="False" DATASOURCE="\ASP.NET Apps v2.0.50727(*)\Requests/Sec" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="ASP.NET Apps v2.0.50727 Requests In Application Queue" ENABLED="True" CATEGORY="ASP.NET Apps v2.0.50727" PRIMARYDATASOURCE="\ASP.NET Apps v2.0.50727(*)\Requests In Application Queue" ID="{119fea1d-1f0b-46d4-ae4b-b071f9ad25de}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The number of requests in the application request queue.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\ASP.NET Apps v2.0.50727(*)\Requests In Application Queue" COLLECTIONVARNAME="ASPNETAppsv2050727RequestsInApplicationQueueALL" EXPRESSIONPATH="\ASP.NET Apps v2.0.50727(*)\Requests In Application Queue" DATATYPE="integer" />
+    <CHART CHARTTITLE="\ASP.NET Apps v2.0.50727(*)\Requests In Application Queue" ISTHRESHOLDSADDED="False" DATASOURCE="\ASP.NET Apps v2.0.50727(*)\Requests In Application Queue" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="ASP.NET Worker Process Restarts" ENABLED="True" CATEGORY="ASP.NET" PRIMARYDATASOURCE="\ASP.NET(*)\Worker Process Restarts" ID="{0c89a865-2f50-4eba-88cc-eef1eea5dbb1}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Number of times a worker process has restarted on the machine. Worker process restarts should be scheduled during times of low activity to minimize it's performance impact due to the cache loss. If worker processes are crashing unexpectantly, then consider using the DebugDiag tool to investigate the cause of the crash.<BR>
+<BR>
+Debug Diagnostic Tool v1.1 Download<BR>
+<A SRC="http://www.microsoft.com/downloads/details.aspx?FamilyID=28bd5941-c458-46f1-b24d-f60151d875a3&DisplayLang=en">http://www.microsoft.com/downloads/details.aspx?FamilyID=28bd5941-c458-46f1-b24d-f60151d875a3&DisplayLang=en</A>]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\ASP.NET(*)\Worker Process Restarts" COLLECTIONVARNAME="ASPNETWorkerProcessRestartsALL" EXPRESSIONPATH="\ASP.NET(*)\Worker Process Restarts" DATATYPE="integer" />
+    <CHART CHARTTITLE="\ASP.NET(*)\Worker Process Restarts" ISTHRESHOLDSADDED="False" DATASOURCE="\ASP.NET(*)\Worker Process Restarts" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="SQLServer:Locks Average Wait Time (ms)" ENABLED="True" CATEGORY="SQLServer:Locks" PRIMARYDATASOURCE="\SQLServer:Locks(*)\Average Wait Time (ms)" ID="{85c50f33-205b-4100-bf74-ad67ad51a68b}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The average amount of wait time (milliseconds) for each lock request that resulted in a wait.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\SQLServer:Locks(*)\Average Wait Time (ms)" COLLECTIONVARNAME="SQLServerLocksAverageWaitTimemsALL" EXPRESSIONPATH="\SQLServer:Locks(*)\Average Wait Time (ms)" ISCOUNTEROBJECTREGULAREXPRESSION="True" ISCOUNTERNAMEREGULAREXPRESSION="False" ISCOUNTERINSTANCEREGULAREXPRESSION="False" REGULAREXPRESSIONCOUNTERPATH="\(MSSQL|SQLServer).*:Locks(*)\Average Wait Time (ms)" DATATYPE="integer" />
+    <CHART CHARTTITLE="\SQLServer:Locks(*)\Average Wait Time (ms)" ISTHRESHOLDSADDED="False" DATASOURCE="\SQLServer:Locks(*)\Average Wait Time (ms)" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="SQLServer:Locks Number of Deadlocks/sec" ENABLED="True" CATEGORY="SQLServer:Locks" PRIMARYDATASOURCE="\SQLServer:Locks(*)\Number of Deadlocks/sec" ID="{bd30b0d6-1a64-481c-adec-23d39b0c996b}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Number of lock requests that resulted in a deadlock.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\SQLServer:Locks(*)\Number of Deadlocks/sec" COLLECTIONVARNAME="SQLServerLocksNumberofDeadlockssecALL" EXPRESSIONPATH="\SQLServer:Locks(*)\Number of Deadlocks/sec" ISCOUNTEROBJECTREGULAREXPRESSION="True" ISCOUNTERNAMEREGULAREXPRESSION="False" ISCOUNTERINSTANCEREGULAREXPRESSION="False" REGULAREXPRESSIONCOUNTERPATH="\(MSSQL|SQLServer).*:Locks(*)\Number of Deadlocks/sec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\SQLServer:Locks(*)\Number of Deadlocks/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\SQLServer:Locks(*)\Number of Deadlocks/sec" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="SQLServer:Access Methods Full Scans/sec" ENABLED="True" CATEGORY="SQLServer:Access Methods" PRIMARYDATASOURCE="\SQLServer:Access Methods(*)\Full Scans/sec" ID="{f4f76059-a80c-49f8-99f7-c56ffe47b724}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Number of unrestricted full scans. These can either be base table or full index scans.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\SQLServer:Access Methods(*)\Full Scans/sec" COLLECTIONVARNAME="SQLServerAccessMethodsFullScanssecALL" EXPRESSIONPATH="\SQLServer:Access Methods(*)\Full Scans/sec" ISCOUNTEROBJECTREGULAREXPRESSION="True" ISCOUNTERNAMEREGULAREXPRESSION="False" ISCOUNTERINSTANCEREGULAREXPRESSION="False" REGULAREXPRESSIONCOUNTERPATH="\(MSSQL|SQLServer).*:Access Methods(*)\Full Scans/sec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\SQLServer:Access Methods(*)\Full Scans/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\SQLServer:Access Methods(*)\Full Scans/sec" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="SQLServer:General Statistics User Connections" ENABLED="True" CATEGORY="SQLServer:General Statistics" PRIMARYDATASOURCE="\SQLServer:General Statistics(*)\User Connections" ID="{35eca575-7283-4fbc-bc48-b3e7aea133ef}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Number of users connected to the system.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\SQLServer:General Statistics(*)\User Connections" COLLECTIONVARNAME="SQLServerGeneralStatisticsUserConnectionsALL" EXPRESSIONPATH="\SQLServer:General Statistics(*)\User Connections" ISCOUNTEROBJECTREGULAREXPRESSION="True" ISCOUNTERNAMEREGULAREXPRESSION="False" ISCOUNTERINSTANCEREGULAREXPRESSION="False" REGULAREXPRESSIONCOUNTERPATH="\(MSSQL|SQLServer).*:General Statistics(*)\User Connections" DATATYPE="integer" />
+    <CHART CHARTTITLE="\SQLServer:General Statistics(*)\User Connections" ISTHRESHOLDSADDED="False" DATASOURCE="\SQLServer:General Statistics(*)\User Connections" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="SQLServer:Cache Manager Cache Hit Ratio" ENABLED="True" CATEGORY="SQLServer:Cache Manager" PRIMARYDATASOURCE="\SQLServer:Cache Manager(*)\Cache Hit Ratio" ID="{30d71015-fc3f-4c2c-be46-c7ed501127cc}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Ratio between cache hits and lookups]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\SQLServer:Cache Manager(*)\Cache Hit Ratio" COLLECTIONVARNAME="SQLServerCacheManagerCacheHitRatioALL" EXPRESSIONPATH="\SQLServer:Cache Manager(*)\Cache Hit Ratio" ISCOUNTEROBJECTREGULAREXPRESSION="True" ISCOUNTERNAMEREGULAREXPRESSION="False" ISCOUNTERINSTANCEREGULAREXPRESSION="False" REGULAREXPRESSIONCOUNTERPATH="\(MSSQL|SQLServer).*:Cache Manager(*)\Cache Hit Ratio" DATATYPE="integer" />
+    <CHART CHARTTITLE="\SQLServer:Cache Manager(*)\Cache Hit Ratio" ISTHRESHOLDSADDED="False" DATASOURCE="\SQLServer:Cache Manager(*)\Cache Hit Ratio" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="SharePoint Publishing Cache Flushes / Second" ENABLED="True" CATEGORY="SharePoint Publishing Cache" PRIMARYDATASOURCE="\SharePoint Publishing Cache(*)\Publishing cache flushes / second" ID="{74f68908-0a96-4b42-b627-f02d4a3fa6c4}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[SharePoint is reliant on cache for high performance. A high amount of cache flushes per second could indicate an approaching problem with lack of memory, a worker process restart, or poor cache hits.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\SharePoint Publishing Cache(*)\Publishing cache flushes / second" COLLECTIONVARNAME="SharePointPublishingCachePublishingcacheflushessecondALL" EXPRESSIONPATH="\SharePoint Publishing Cache(*)\Publishing cache flushes / second" DATATYPE="integer" />
+    <CHART CHARTTITLE="\SharePoint Publishing Cache(*)\Publishing cache flushes / second" ISTHRESHOLDSADDED="False" DATASOURCE="\SharePoint Publishing Cache(*)\Publishing cache flushes / second" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="SharePoint Publishing Cache Hit Ratio" ENABLED="True" CATEGORY="SharePoint Publishing Cache" PRIMARYDATASOURCE="\SharePoint Publishing Cache(*)\Publishing cache hit ratio" ID="{885e7f41-ce08-43b9-aad6-eea8fad68195}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[SharePoint is reliant on cache for high performance. A low cache hit ratio could indicate an approaching problem with lack of memory, a worker process restart, or poor cache hits.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\SharePoint Publishing Cache(*)\Publishing cache hit ratio" COLLECTIONVARNAME="SharePointPublishingCachePublishingcachehitratioALL" EXPRESSIONPATH="\SharePoint Publishing Cache(*)\Publishing cache hit ratio" DATATYPE="integer" />
+    <CHART CHARTTITLE="\SharePoint Publishing Cache(*)\Publishing cache hit ratio" ISTHRESHOLDSADDED="False" DATASOURCE="\SharePoint Publishing Cache(*)\Publishing cache hit ratio" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="SharePoint Publishing Cache Misses / Second" ENABLED="True" CATEGORY="SharePoint Publishing Cache" PRIMARYDATASOURCE="\SharePoint Publishing Cache(*)\Publishing cache misses / sec" ID="{995707e1-3ea9-4d49-bf24-e7021714af90}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[SharePoint is reliant on cache for high performance. A high amount of cache misses could indicate an approaching problem with lack of memory, a worker process restart, or poor cache hits.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\SharePoint Publishing Cache(*)\Publishing cache misses / sec" COLLECTIONVARNAME="SharePointPublishingCachePublishingcachemissessecALL" EXPRESSIONPATH="\SharePoint Publishing Cache(*)\Publishing cache misses / sec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\SharePoint Publishing Cache(*)\Publishing cache misses / sec" ISTHRESHOLDSADDED="False" DATASOURCE="\SharePoint Publishing Cache(*)\Publishing cache misses / sec" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME=".NET CLR Exceptions / Second" ENABLED="True" CATEGORY=".NET CLR Exceptions" PRIMARYDATASOURCE="\.NET CLR Exceptions(*)\# of Exceps Thrown / sec" ID="{9cafa82a-62e2-4ad7-a21c-8c8af76b3076}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The total number of managed exceptions thrown per second. As this number increases, performance degrades. Exceptions should not be thrown as part of normal processing. Note, however, that Response.Redirect, Server.Transfer, and Response.End all cause a ThreadAbortException to be thrown multiple times, and a site that relies heavily upon these methods will incur a performance penalty. If you must use Response.Redirect, call Response.Redirect(url, false), which does not call Response.End, and hence does not throw. The downside is that the user code that follows the call to Response.Redirect(url, false) will execute. It is also possible to use a static HTML page to redirect. Microsoft Knowledge Base Article 312629 provides further detail. In addition to monitoring this very useful performance counter, the Application_Error event should be used in order to alert administrators to problems.
+<BR>
+Reference:<BR>
+<A HREF="http://msdn2.microsoft.com/en-us/library/ms972959.aspx">ASP.NET Performance</A>      ]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\.NET CLR Exceptions(*)\# of Exceps Thrown / sec" COLLECTIONVARNAME="NETCLRExceptions#ofExcepsThrownsecALL" EXPRESSIONPATH="\.NET CLR Exceptions(*)\# of Exceps Thrown / sec" DATATYPE="Integer" />
+    <DATASOURCE TYPE="CounterLog" NAME="\Web Service(_Total)\Connection Attempts/sec" COLLECTIONVARNAME="WebServiceConnectionAttemptssec_Total" EXPRESSIONPATH="\Web Service(_Total)\Connection Attempts/sec" DATATYPE="Integer" />
+    <CHART CHARTTITLE="\.NET CLR Exceptions(*)\# of Exceps Thrown / sec" ISTHRESHOLDSADDED="False" DATASOURCE="\.NET CLR Exceptions(*)\# of Exceps Thrown / sec" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME=".NET CLR Loading Current appdomains" ENABLED="True" CATEGORY=".NET CLR Loading" PRIMARYDATASOURCE="\.NET CLR Loading(*)\Current appdomains" ID="{219ef3a3-9b24-43ee-bb6f-31dd622ec6b6}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[
+      The current number of AppDomains loaded in the process. The value of this counter should be the same as the number of Web applications plus 1. The additional AppDomain is the default domain.
+      ]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\.NET CLR Loading(*)\Current appdomains" COLLECTIONVARNAME="NETCLRLoadingCurrentappdomainsALL" EXPRESSIONPATH="\.NET CLR Loading(*)\Current appdomains" DATATYPE="Integer" />
+    <CHART CHARTTITLE="\.NET CLR Loading(*)\Current appdomains" ISTHRESHOLDSADDED="False" DATASOURCE="\.NET CLR Loading(*)\Current appdomains" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="ASP.NET Request Execution Time" ENABLED="True" CATEGORY="ASP.NET Applications" PRIMARYDATASOURCE="\ASP.NET Applications(*)\Request Execution Time" ID="{be9720cd-e8b1-4c78-ac0e-45215e64cbea}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[
+      The number of milliseconds taken to execute the last request. In version 1.0 of the Framework, the execution time begins when the worker process receives the request, and stops when the ASP.NET ISAPI sends HSE_REQ_DONE_WITH_SESSION to IIS. For IIS version 5, this includes the time taken to write the response to the client, but for IIS version 6, the response buffers are sent asynchronously, and so the time taken to write the response to the client is not included. Thus on IIS version 5, a client with a slow network connection will increase the value of this counter considerably. In version 1.1 of the Framework, execution time begins when the HttpContext for the request is created, and stops before the response is sent to IIS. Assuming that user code does not call HttpResponse.Flush, this implies that execution time stops before sending any bytes to IIS, or to the client for that matter. ASP.NET\Request Execution Time is an instance counter, and very volatile. On the other hand, time to last byte (TTLB) can be easily averaged and used to calculate a better estimate of performance over a period of time. TTLB can be calculated through a simple HTTP client written in managed code, or you can use one of the many HTTP clients available that calculate TTLB, such as Application Center Test (ACT). Note that if <compilation debug=/> is set to TRUE, then batch compilation will be disabled and the <httpRuntime executionTimeout=/> configuration setting as well as calls to Server.ScriptTimeout will be ignored. This can cause problems if the <processModel responseDeadlockInterval=/> setting is not set to Infinite, since requests for debug pages can theoretically run forever. Threshold: N.A. The value of this counter should be stable. Experience will help set a threshold for a particular site. When the process model is enabled, the request execution time includes the time required to write the response to the client, and therefore depends upon the bandwidth of the client's connection.
+      <BR>
+      Reference:<BR>
+      <A HREF="http://msdn2.microsoft.com/en-us/library/ms972959.aspx">ASP.NET Performance</A>      
+      ]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\ASP.NET Applications(*)\Request Execution Time" COLLECTIONVARNAME="ASPNETApplicationsRequestExecutionTimeALL" EXPRESSIONPATH="\ASP.NET Applications(*)\Request Execution Time" DATATYPE="Integer" />
+    <CHART CHARTTITLE="\ASP.NET Applications(*)\Request Execution Time" ISTHRESHOLDSADDED="False" DATASOURCE="\ASP.NET Applications(*)\Request Execution Time" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="ASP.NET Requests Queued" ENABLED="True" CATEGORY="ASP.NET Applications" PRIMARYDATASOURCE="\ASP.NET Applications(*)\Requests Queued" ID="{9cf93790-1e72-449c-ae7f-9f52033e18ab}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[
+      The number of requests currently queued. When running on IIS 5.0, there is a queue between inetinfo and aspnet_wp, and there is one queue for each virtual directory. When running on IIS 6.0, there is a queue where requests are posted to the managed ThreadPool from native code, and a queue for each virtual directory. This counter includes requests in all queues. The queue between inetinfo and aspnet_wp is a named pipe through which the request is sent from one process to the other. The number of requests in this queue increases if there is a shortage of available I/O threads in the aspnet_wp process. On IIS 6.0 it increases when there are incoming requests and a shortage of worker threads. Note that requests are rejected when the Requests Current counter exceeds the <processModel requestQueueLimit=/>. Many people think this occurs when the Requests Queued counter exceeds requestQueueLimit, but this is not the case. When this limit is exceeded, requests will be rejected with a 503 status code and the message "Server is too busy." If a request is rejected for this reason, it will never reach managed code, and error handlers will not be notified. Normally this is only an issue when the server is under a very heavy load, although a "burst" load every hour might also cause this. For the unusual burst load scenario, you might be interested in the hotfix described in Knowledge Base Article 810259, which will allow you to increase the minimum number of I/O threads from the default of 1 per CPU. Each virtual directory has a queue that it uses to maintain the availability of worker and I/O threads. The number of requests in this queue increases if the number of available worker threads or available I/O threads falls below the limit specified by <httpRuntime minFreeThreads=/>. When the limit specified by <httpRuntime appRequestQueueLimit=/> is exceeded, the request is rejected with a 503 status code and the client receives an HttpException with the message "Server too busy." By itself, this counter is not a clear indicator of performance issues, nor can it be used to determine when requests will be rejected. In Knowledge Base Article 329959, two new performance counters were introduced to address this problem: Requests Current and Requests In Application Queue. Please see the descriptions for these two counters, as well as for Requests Rejected.
+      <BR>
+      Reference:<BR><BR>
+      <A HREF="http://msdn2.microsoft.com/en-us/library/ms972959.aspx">ASP.NET Performance</A>
+      ]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\ASP.NET Applications(*)\Requests Queued" COLLECTIONVARNAME="ASPNETApplicationsRequestsQueuedALL" EXPRESSIONPATH="\ASP.NET Applications(*)\Requests Queued" DATATYPE="Integer" />
+    <CHART CHARTTITLE="\ASP.NET Applications(*)\Requests Queued" ISTHRESHOLDSADDED="False" DATASOURCE="\ASP.NET Applications(*)\Requests Queued" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Memory Leak Detection in .NET " ENABLED="True" CATEGORY=".NET CLR Memory" PRIMARYDATASOURCE="\.NET CLR Memory(*)\# Bytes in all Heaps" ID="{92397eec-62b4-4bc4-a49a-f71c19391721}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[
+      The number of bytes committed by managed objects. This is the sum of the large object heap and the generation 0, 1, and 2 heaps. These regions of memory are of type MEM_COMMIT (see Platform SDK documentation for VirtualAlloc). The value of this counter will always be less than the value of Process\Private Bytes, which counts all MEM_COMMIT regions for the process. Private Bytes minus # Bytes in all Heaps is the number of bytes committed by unmanaged objects. The first step in the investigation of excessive memory usage is to determine whether it is being used by managed or unmanaged objects. To investigate excessive managed memory usage, I recommend WINDBG.EXE and SOS.DLL, which you can read about in Production Debugging for .NET Framework Applications. SOS.DLL has a "!dumpheap Ã¢â‚¬â€œstat" command that lists the count, size, and type of objects in the managed heap. You can use "!dumpheap Ã¢â‚¬â€œmt" to obtain the address of an object, and "!gcroot" to see its roots. The command "!eeheap" presents memory usage statistics for the managed heaps. 
+      <P>
+      Another useful tool for diagnosing memory usage is the CLR Profiler, discussed in more detail below. 
+      <P>
+      Excessive managed memory usage is commonly caused by: 
+      <OL type="a">
+        <LI>Reading large data sets into memory.</LI>
+        <LI>Creating excessive cache entries.</LI>
+        <LI>Uploading or downloading large files.</LI>
+        <LI>Excessive use of regular expressions or strings while parsing files. </LI>
+        <LI>Excessive ViewState.</LI>
+        <LI>Too much data in session state or too many sessions.</LI>
+      </OL>
+      <BR><BR>
+      Reference:<BR>
+      <A HREF="http://msdn2.microsoft.com/en-us/library/ms972959.aspx">ASP.NET Performance</A>
+      ]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\.NET CLR Memory(*)\# Bytes in all Heaps" COLLECTIONVARNAME="NETCLRMemory#BytesinallHeapsALL" EXPRESSIONPATH="\.NET CLR Memory(*)\# Bytes in all Heaps" DATATYPE="Integer" />
+    <CHART CHARTTITLE="\.NET CLR Memory(*)\# Bytes in all Heaps" ISTHRESHOLDSADDED="False" DATASOURCE="\.NET CLR Memory(*)\# Bytes in all Heaps" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="ASP.NET Application Restarts" ENABLED="True" CATEGORY="ASP.NET Applications" PRIMARYDATASOURCE="\ASP.NET Applications(*)\Application Restarts" ID="{0c6bd5e8-e990-4707-adde-667ea13285fb}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[
+      The number of application restarts. Recreating the application domain and recompiling pages takes time, therefore unforeseen application restarts should be investigated. The application domain is unloaded when one of the following occurs:
+      <ul type="disc"> <li>Modification of <b>machine.config</b>, <b>web.config</b>, or <b>global.asax</b>.</li> <li>Modification of the application's bin directory or its contents.</li> <li>When the number of compilations (ASPX, ASCX, or ASAX) exceeds the limit specified by &lt;compilation numRecompilesBeforeAppRestart=/&gt;.</li> <li>Modification of the physical path of a virtual directory.</li> <li>Modification of the code-access security policy. </li> <li>The Web service is restarted.</li> </ul> <p>For Web farms in production, it is recommended that a server be removed from rotation prior to updating content for best performance and reliability. For a single Web server in production, content can be updated while the server is under load. The hotfix described in <a href="http://support.microsoft.com/default.aspx?scid=kb;[ln];810281">Knowledge Base Article 810281</a> is of interest to anyone experiencing errors after an application restarts, such as sharing violations with an error similar to "Cannot access file &lt;FileName&gt; because it is being used by another process."
+
+</p><p>An issue involving anti-virus software and applications restarts is fixed in Knowledge Base Article 820746: <a href="http://support.microsoft.com/?id=820746">FIX: Some Antivirus Programs May Cause Web Applications to Restart Unexpectedly</a> for v1.0, and in <a href="http://support.microsoft.com/?id=821438">Knowledge Base Article 821438</a> for v1.1.
+
+</p><p><b>Threshold: 0</b>. In a perfect world, the application domain will survive for the life of the process. Excessive values should be investigated, and a new threshold should be set as necessary.
+      <BR><BR>
+      Reference:<BR>
+      <A HREF="http://msdn2.microsoft.com/en-us/library/ms972959.aspx">ASP.NET Performance</A>      
+      ]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\ASP.NET Applications(*)\Application Restarts" COLLECTIONVARNAME="ASPNETApplicationsApplicationRestartsALL" EXPRESSIONPATH="\ASP.NET Applications(*)\Application Restarts" DATATYPE="Integer" />
+    <CHART CHARTTITLE="\ASP.NET Applications(*)\Application Restarts" ISTHRESHOLDSADDED="False" DATASOURCE="\ASP.NET Applications(*)\Application Restarts" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="ProjectServer:QueueGeneral % Sql Retries / Day" ENABLED="True" CATEGORY="ProjectServer:QueueGeneral" PRIMARYDATASOURCE="\ProjectServer:QueueGeneral(*)\% Sql Retries / Day" ID="{8319cbb9-37f9-4227-98ff-7135794e355a}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Percentage of Sql calls the Queueing system had to retry per day]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\ProjectServer:QueueGeneral(*)\% Sql Retries / Day" COLLECTIONVARNAME="ProjectServerQueueGeneralPercentSqlRetriesDayALL" EXPRESSIONPATH="\ProjectServer:QueueGeneral(*)\% Sql Retries / Day" DATATYPE="integer" />
+    <CHART CHARTTITLE="\ProjectServer:QueueGeneral(*)\% Sql Retries / Day" ISTHRESHOLDSADDED="False" DATASOURCE="\ProjectServer:QueueGeneral(*)\% Sql Retries / Day" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="ProjectServer:QueueGeneral % Sql Retries / Hour" ENABLED="True" CATEGORY="ProjectServer:QueueGeneral" PRIMARYDATASOURCE="\ProjectServer:QueueGeneral(*)\% Sql Retries / Hour" ID="{5bc85194-f911-4910-b72d-388fee9c9850}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Percentage of Sql calls the Queuing system had to retry per hour]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\ProjectServer:QueueGeneral(*)\% Sql Retries / Hour" COLLECTIONVARNAME="ProjectServerQueueGeneralPercentSqlRetriesHourALL" EXPRESSIONPATH="\ProjectServer:QueueGeneral(*)\% Sql Retries / Hour" DATATYPE="integer" />
+    <CHART CHARTTITLE="\ProjectServer:QueueGeneral(*)\% Sql Retries / Hour" ISTHRESHOLDSADDED="False" DATASOURCE="\ProjectServer:QueueGeneral(*)\% Sql Retries / Hour" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="ProjectServer:QueueGeneral Active Job Processing Threads" ENABLED="True" CATEGORY="ProjectServer:QueueGeneral" PRIMARYDATASOURCE="\ProjectServer:QueueGeneral(*)\Active Job Processing Threads" ID="{6c8101ab-3c7e-426a-a3b1-ba2f0265c503}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Number of job processing threads currently processing jobs in the queue]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\ProjectServer:QueueGeneral(*)\Active Job Processing Threads" COLLECTIONVARNAME="ProjectServerQueueGeneralActiveJobProcessingThreadsALL" EXPRESSIONPATH="\ProjectServer:QueueGeneral(*)\Active Job Processing Threads" DATATYPE="integer" />
+    <CHART CHARTTITLE="\ProjectServer:QueueGeneral(*)\Active Job Processing Threads" ISTHRESHOLDSADDED="False" DATASOURCE="\ProjectServer:QueueGeneral(*)\Active Job Processing Threads" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="ProjectServer:QueueGeneral Average Unprocessed Jobs / Day" ENABLED="True" CATEGORY="ProjectServer:QueueGeneral" PRIMARYDATASOURCE="\ProjectServer:QueueGeneral(*)\Average Unprocessed Jobs / Day" ID="{9b8c7dbd-a779-461e-b58f-084810f79f69}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Average number of unprocessed jobs in the queue per day]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\ProjectServer:QueueGeneral(*)\Average Unprocessed Jobs / Day" COLLECTIONVARNAME="ProjectServerQueueGeneralAverageUnprocessedJobsDayALL" EXPRESSIONPATH="\ProjectServer:QueueGeneral(*)\Average Unprocessed Jobs / Day" DATATYPE="integer" />
+    <CHART CHARTTITLE="\ProjectServer:QueueGeneral(*)\Average Unprocessed Jobs / Day" ISTHRESHOLDSADDED="False" DATASOURCE="\ProjectServer:QueueGeneral(*)\Average Unprocessed Jobs / Day" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="ProjectServer:QueueGeneral Current Unprocessed Jobs" ENABLED="True" CATEGORY="ProjectServer:QueueGeneral" PRIMARYDATASOURCE="\ProjectServer:QueueGeneral(*)\Current Unprocessed Jobs" ID="{32b6267b-078a-4531-bc23-955906a31be2}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Current number of unprocessed jobs in the queue]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\ProjectServer:QueueGeneral(*)\Current Unprocessed Jobs" COLLECTIONVARNAME="ProjectServerQueueGeneralCurrentUnprocessedJobsALL" EXPRESSIONPATH="\ProjectServer:QueueGeneral(*)\Current Unprocessed Jobs" DATATYPE="integer" />
+    <CHART CHARTTITLE="\ProjectServer:QueueGeneral(*)\Current Unprocessed Jobs" ISTHRESHOLDSADDED="False" DATASOURCE="\ProjectServer:QueueGeneral(*)\Current Unprocessed Jobs" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="ProjectServer:QueueGeneral New Jobs / Minute" ENABLED="True" CATEGORY="ProjectServer:QueueGeneral" PRIMARYDATASOURCE="\ProjectServer:QueueGeneral(*)\New Jobs / Minute" ID="{13626057-88b7-4b7e-9460-564a9ce6c987}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Number of new jobs that got into the queue per minute]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\ProjectServer:QueueGeneral(*)\New Jobs / Minute" COLLECTIONVARNAME="ProjectServerQueueGeneralNewJobsMinuteALL" EXPRESSIONPATH="\ProjectServer:QueueGeneral(*)\New Jobs / Minute" DATATYPE="integer" />
+    <CHART CHARTTITLE="\ProjectServer:QueueGeneral(*)\New Jobs / Minute" ISTHRESHOLDSADDED="False" DATASOURCE="\ProjectServer:QueueGeneral(*)\New Jobs / Minute" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="ProjectServer:QueueGeneral Sql Calls / Hour/Day" ENABLED="True" CATEGORY="ProjectServer:QueueGeneral" PRIMARYDATASOURCE="\ProjectServer:QueueGeneral(*)\Sql Calls / Hour/Day" ID="{c5763037-9095-43ff-a15c-1c2b63eef4ac}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Number of Sql calls the Queueing system makes per hour within the last 24 hours]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\ProjectServer:QueueGeneral(*)\Sql Calls / Hour/Day" COLLECTIONVARNAME="ProjectServerQueueGeneralSqlCallsHourDayALL" EXPRESSIONPATH="\ProjectServer:QueueGeneral(*)\Sql Calls / Hour/Day" DATATYPE="integer" />
+    <CHART CHARTTITLE="\ProjectServer:QueueGeneral(*)\Sql Calls / Hour/Day" ISTHRESHOLDSADDED="False" DATASOURCE="\ProjectServer:QueueGeneral(*)\Sql Calls / Hour/Day" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="ProjectServer:QueueGeneral Sql Calls / Minute" ENABLED="True" CATEGORY="ProjectServer:QueueGeneral" PRIMARYDATASOURCE="\ProjectServer:QueueGeneral(*)\Sql Calls / Minute" ID="{c1c12699-5aec-45c6-83af-7ce26539966b}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Number of Sql calls the Queueing system made per minute]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\ProjectServer:QueueGeneral(*)\Sql Calls / Minute" COLLECTIONVARNAME="ProjectServerQueueGeneralSqlCallsMinuteALL" EXPRESSIONPATH="\ProjectServer:QueueGeneral(*)\Sql Calls / Minute" DATATYPE="integer" />
+    <CHART CHARTTITLE="\ProjectServer:QueueGeneral(*)\Sql Calls / Minute" ISTHRESHOLDSADDED="False" DATASOURCE="\ProjectServer:QueueGeneral(*)\Sql Calls / Minute" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="ProjectServer:QueueGeneral Sql Retries / Minute" ENABLED="True" CATEGORY="ProjectServer:QueueGeneral" PRIMARYDATASOURCE="\ProjectServer:QueueGeneral(*)\Sql Retries / Minute" ID="{d24bf1aa-1aa6-4f0f-9977-0ac803618ce9}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Number of Sql calls the Queueing system had to retry per minute]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\ProjectServer:QueueGeneral(*)\Sql Retries / Minute" COLLECTIONVARNAME="ProjectServerQueueGeneralSqlRetriesMinuteALL" EXPRESSIONPATH="\ProjectServer:QueueGeneral(*)\Sql Retries / Minute" DATATYPE="integer" />
+    <CHART CHARTTITLE="\ProjectServer:QueueGeneral(*)\Sql Retries / Minute" ISTHRESHOLDSADDED="False" DATASOURCE="\ProjectServer:QueueGeneral(*)\Sql Retries / Minute" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="ProjectServer:QueueJobs % Jobs Failed / Day" ENABLED="True" CATEGORY="ProjectServer:QueueJobs" PRIMARYDATASOURCE="\ProjectServer:QueueJobs(*)\% Jobs Failed / Day" ID="{b8b0591e-dc9a-4407-bcd1-fa068d54b388}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Percentage of jobs that failed per day]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\ProjectServer:QueueJobs(*)\% Jobs Failed / Day" COLLECTIONVARNAME="ProjectServerQueueJobsPercentJobsFailedDayALL" EXPRESSIONPATH="\ProjectServer:QueueJobs(*)\% Jobs Failed / Day" DATATYPE="integer" />
+    <CHART CHARTTITLE="\ProjectServer:QueueJobs(*)\% Jobs Failed / Day" ISTHRESHOLDSADDED="False" DATASOURCE="\ProjectServer:QueueJobs(*)\% Jobs Failed / Day" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="ProjectServer:QueueJobs % Jobs Failed / Hour" ENABLED="True" CATEGORY="ProjectServer:QueueJobs" PRIMARYDATASOURCE="\ProjectServer:QueueJobs(*)\% Jobs Failed / Hour" ID="{876cdd15-7dde-4e0a-9847-f3bb02a4f258}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Percentage of jobs that failed per hour]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\ProjectServer:QueueJobs(*)\% Jobs Failed / Hour" COLLECTIONVARNAME="ProjectServerQueueJobsPercentJobsFailedHourALL" EXPRESSIONPATH="\ProjectServer:QueueJobs(*)\% Jobs Failed / Hour" DATATYPE="integer" />
+    <CHART CHARTTITLE="\ProjectServer:QueueJobs(*)\% Jobs Failed / Hour" ISTHRESHOLDSADDED="False" DATASOURCE="\ProjectServer:QueueJobs(*)\% Jobs Failed / Hour" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="ProjectServer:QueueJobs % Jobs Retried / Day" ENABLED="True" CATEGORY="ProjectServer:QueueJobs" PRIMARYDATASOURCE="\ProjectServer:QueueJobs(*)\% Jobs Retried / Day" ID="{dc1cbd87-c5ce-45b8-a68f-6d10f534eccf}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Percentage of jobs that were retried per day]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\ProjectServer:QueueJobs(*)\% Jobs Retried / Day" COLLECTIONVARNAME="ProjectServerQueueJobsPercentJobsRetriedDayALL" EXPRESSIONPATH="\ProjectServer:QueueJobs(*)\% Jobs Retried / Day" DATATYPE="integer" />
+    <CHART CHARTTITLE="\ProjectServer:QueueJobs(*)\% Jobs Retried / Day" ISTHRESHOLDSADDED="False" DATASOURCE="\ProjectServer:QueueJobs(*)\% Jobs Retried / Day" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="ProjectServer:QueueJobs % Jobs Retried / Hour" ENABLED="True" CATEGORY="ProjectServer:QueueJobs" PRIMARYDATASOURCE="\ProjectServer:QueueJobs(*)\% Jobs Retried / Hour" ID="{1252c754-b79f-43ee-8b2d-cdc5113305e0}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Percentage of jobs that were retried per hour]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\ProjectServer:QueueJobs(*)\% Jobs Retried / Hour" COLLECTIONVARNAME="ProjectServerQueueJobsPercentJobsRetriedHourALL" EXPRESSIONPATH="\ProjectServer:QueueJobs(*)\% Jobs Retried / Hour" DATATYPE="integer" />
+    <CHART CHARTTITLE="\ProjectServer:QueueJobs(*)\% Jobs Retried / Hour" ISTHRESHOLDSADDED="False" DATASOURCE="\ProjectServer:QueueJobs(*)\% Jobs Retried / Hour" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="ProjectServer:QueueJobs Average Processing Time / Day" ENABLED="True" CATEGORY="ProjectServer:QueueJobs" PRIMARYDATASOURCE="\ProjectServer:QueueJobs(*)\Average Processing Time / Day" ID="{4a37378e-4fc2-4b2d-872b-78a1239d32c7}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Average time it took to process a job in the queue within the last 24 hours]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\ProjectServer:QueueJobs(*)\Average Processing Time / Day" COLLECTIONVARNAME="ProjectServerQueueJobsAverageProcessingTimeDayALL" EXPRESSIONPATH="\ProjectServer:QueueJobs(*)\Average Processing Time / Day" DATATYPE="integer" />
+    <CHART CHARTTITLE="\ProjectServer:QueueJobs(*)\Average Processing Time / Day" ISTHRESHOLDSADDED="False" DATASOURCE="\ProjectServer:QueueJobs(*)\Average Processing Time / Day" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="ProjectServer:QueueJobs Average Processing Time / Minute" ENABLED="True" CATEGORY="ProjectServer:QueueJobs" PRIMARYDATASOURCE="\ProjectServer:QueueJobs(*)\Average Processing Time / Minute" ID="{09f3674d-38ee-44b5-8265-f30818480373}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Average time it took to process a job per minute]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\ProjectServer:QueueJobs(*)\Average Processing Time / Minute" COLLECTIONVARNAME="ProjectServerQueueJobsAverageProcessingTimeMinuteALL" EXPRESSIONPATH="\ProjectServer:QueueJobs(*)\Average Processing Time / Minute" DATATYPE="integer" />
+    <CHART CHARTTITLE="\ProjectServer:QueueJobs(*)\Average Processing Time / Minute" ISTHRESHOLDSADDED="False" DATASOURCE="\ProjectServer:QueueJobs(*)\Average Processing Time / Minute" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="ProjectServer:QueueJobs Average Wait Time / Day" ENABLED="True" CATEGORY="ProjectServer:QueueJobs" PRIMARYDATASOURCE="\ProjectServer:QueueJobs(*)\Average Wait Time / Day" ID="{754d6f39-887c-46fa-b86a-7bf344ee7099}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Average time  a job had to wait in the queue before being processed within the last 24 hours]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\ProjectServer:QueueJobs(*)\Average Wait Time / Day" COLLECTIONVARNAME="ProjectServerQueueJobsAverageWaitTimeDayALL" EXPRESSIONPATH="\ProjectServer:QueueJobs(*)\Average Wait Time / Day" DATATYPE="integer" />
+    <CHART CHARTTITLE="\ProjectServer:QueueJobs(*)\Average Wait Time / Day" ISTHRESHOLDSADDED="False" DATASOURCE="\ProjectServer:QueueJobs(*)\Average Wait Time / Day" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="ProjectServer:QueueJobs Average Wait Time / Minute" ENABLED="True" CATEGORY="ProjectServer:QueueJobs" PRIMARYDATASOURCE="\ProjectServer:QueueJobs(*)\Average Wait Time / Minute" ID="{30d204b8-c4b4-4547-9844-398c776a30e0}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Average time  a job had to wait in the queue per minute]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\ProjectServer:QueueJobs(*)\Average Wait Time / Minute" COLLECTIONVARNAME="ProjectServerQueueJobsAverageWaitTimeMinuteALL" EXPRESSIONPATH="\ProjectServer:QueueJobs(*)\Average Wait Time / Minute" DATATYPE="integer" />
+    <CHART CHARTTITLE="\ProjectServer:QueueJobs(*)\Average Wait Time / Minute" ISTHRESHOLDSADDED="False" DATASOURCE="\ProjectServer:QueueJobs(*)\Average Wait Time / Minute" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="ProjectServer:QueueJobs Jobs Failed / Minute" ENABLED="True" CATEGORY="ProjectServer:QueueJobs" PRIMARYDATASOURCE="\ProjectServer:QueueJobs(*)\Jobs Failed / Minute" ID="{0fdf66c6-ea34-454a-8a06-879c3eaa7e4e}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Number of jobs that failed per minute]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\ProjectServer:QueueJobs(*)\Jobs Failed / Minute" COLLECTIONVARNAME="ProjectServerQueueJobsJobsFailedMinuteALL" EXPRESSIONPATH="\ProjectServer:QueueJobs(*)\Jobs Failed / Minute" DATATYPE="integer" />
+    <CHART CHARTTITLE="\ProjectServer:QueueJobs(*)\Jobs Failed / Minute" ISTHRESHOLDSADDED="False" DATASOURCE="\ProjectServer:QueueJobs(*)\Jobs Failed / Minute" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="ProjectServer:QueueJobs Jobs Processed / Hour/Day" ENABLED="True" CATEGORY="ProjectServer:QueueJobs" PRIMARYDATASOURCE="\ProjectServer:QueueJobs(*)\Jobs Processed / Hour/Day" ID="{eec96ae6-40b8-487a-8a0c-835bcf8fd5c6}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Number of jobs processed per hour within the last 24 hours]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\ProjectServer:QueueJobs(*)\Jobs Processed / Hour/Day" COLLECTIONVARNAME="ProjectServerQueueJobsJobsProcessedHourDayALL" EXPRESSIONPATH="\ProjectServer:QueueJobs(*)\Jobs Processed / Hour/Day" DATATYPE="integer" />
+    <CHART CHARTTITLE="\ProjectServer:QueueJobs(*)\Jobs Processed / Hour/Day" ISTHRESHOLDSADDED="False" DATASOURCE="\ProjectServer:QueueJobs(*)\Jobs Processed / Hour/Day" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="ProjectServer:QueueJobs Jobs Processed / Minute" ENABLED="True" CATEGORY="ProjectServer:QueueJobs" PRIMARYDATASOURCE="\ProjectServer:QueueJobs(*)\Jobs Processed / Minute" ID="{48a0029f-b6bd-4606-a114-7337727fea35}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Number of jobs processed per minute]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\ProjectServer:QueueJobs(*)\Jobs Processed / Minute" COLLECTIONVARNAME="ProjectServerQueueJobsJobsProcessedMinuteALL" EXPRESSIONPATH="\ProjectServer:QueueJobs(*)\Jobs Processed / Minute" DATATYPE="integer" />
+    <CHART CHARTTITLE="\ProjectServer:QueueJobs(*)\Jobs Processed / Minute" ISTHRESHOLDSADDED="False" DATASOURCE="\ProjectServer:QueueJobs(*)\Jobs Processed / Minute" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="ProjectServer:QueueJobs Jobs Retried / Minute" ENABLED="True" CATEGORY="ProjectServer:QueueJobs" PRIMARYDATASOURCE="\ProjectServer:QueueJobs(*)\Jobs Retried / Minute" ID="{22bd1b38-ccbd-4a21-af88-0719db9daf5c}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Number of jobs that were retried per minute]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\ProjectServer:QueueJobs(*)\Jobs Retried / Minute" COLLECTIONVARNAME="ProjectServerQueueJobsJobsRetriedMinuteALL" EXPRESSIONPATH="\ProjectServer:QueueJobs(*)\Jobs Retried / Minute" DATATYPE="integer" />
+    <CHART CHARTTITLE="\ProjectServer:QueueJobs(*)\Jobs Retried / Minute" ISTHRESHOLDSADDED="False" DATASOURCE="\ProjectServer:QueueJobs(*)\Jobs Retried / Minute" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="ProjectServer:User Activity PSI Calls per Second" ENABLED="True" CATEGORY="ProjectServer:User Activity" PRIMARYDATASOURCE="\ProjectServer:User Activity\PSI Calls per Second" ID="{675223b1-39f4-45a9-9ab6-51a2210cf94e}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Rate at with ProjectServer PSI APIs are being called]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\ProjectServer:User Activity\PSI Calls per Second" COLLECTIONVARNAME="ProjectServerUserActivityPSICallsperSecond" EXPRESSIONPATH="\ProjectServer:User Activity\PSI Calls per Second" DATATYPE="integer" />
+    <CHART CHARTTITLE="\ProjectServer:User Activity\PSI Calls per Second" ISTHRESHOLDSADDED="False" DATASOURCE="\ProjectServer:User Activity\PSI Calls per Second" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="ProjectServer:Winproj Average time taken for Project Open" ENABLED="True" CATEGORY="ProjectServer:Winproj" PRIMARYDATASOURCE="\ProjectServer:Winproj\Average time taken for Project Open" ID="{d22c466d-79b0-4f2c-9bdf-8c38915537f2}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Average time taken for Project Open]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\ProjectServer:Winproj\Average time taken for Project Open" COLLECTIONVARNAME="ProjectServerWinprojAveragetimetakenforProjectOpen" EXPRESSIONPATH="\ProjectServer:Winproj\Average time taken for Project Open" DATATYPE="integer" />
+    <CHART CHARTTITLE="\ProjectServer:Winproj\Average time taken for Project Open" ISTHRESHOLDSADDED="False" DATASOURCE="\ProjectServer:Winproj\Average time taken for Project Open" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="ProjectServer:Winproj Percentage of incremental save to full save" ENABLED="True" CATEGORY="ProjectServer:Winproj" PRIMARYDATASOURCE="\ProjectServer:Winproj\Percentage of incremental save to full save" ID="{a7dbd74e-98e0-4b0c-bec1-f8b276eea895}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Percentage of incremental save to full save.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\ProjectServer:Winproj\Percentage of incremental save to full save" COLLECTIONVARNAME="ProjectServerWinprojPercentageofincrementalsavetofullsave" EXPRESSIONPATH="\ProjectServer:Winproj\Percentage of incremental save to full save" DATATYPE="integer" />
+    <CHART CHARTTITLE="\ProjectServer:Winproj\Percentage of incremental save to full save" ISTHRESHOLDSADDED="False" DATASOURCE="\ProjectServer:Winproj\Percentage of incremental save to full save" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="ProjectServer:Winproj Winproj full open count in the last hour" ENABLED="True" CATEGORY="ProjectServer:Winproj" PRIMARYDATASOURCE="\ProjectServer:Winproj\Winproj full open count in the last hour" ID="{a747b040-fa95-4ccc-a784-3769e786430a}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Number of Winproj full project opens in the past hour (rolling window)]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\ProjectServer:Winproj\Winproj full open count in the last hour" COLLECTIONVARNAME="ProjectServerWinprojWinprojfullopencountinthelasthour" EXPRESSIONPATH="\ProjectServer:Winproj\Winproj full open count in the last hour" DATATYPE="integer" />
+    <CHART CHARTTITLE="\ProjectServer:Winproj\Winproj full open count in the last hour" ISTHRESHOLDSADDED="False" DATASOURCE="\ProjectServer:Winproj\Winproj full open count in the last hour" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="ProjectServer:Winproj Winproj full save count in the last hour" ENABLED="True" CATEGORY="ProjectServer:Winproj" PRIMARYDATASOURCE="\ProjectServer:Winproj\Winproj full save count in the last hour" ID="{a0122234-2730-4fbc-99a9-c809971ec27c}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Number of Winproj full project saves in the past hour (rolling window)]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\ProjectServer:Winproj\Winproj full save count in the last hour" COLLECTIONVARNAME="ProjectServerWinprojWinprojfullsavecountinthelasthour" EXPRESSIONPATH="\ProjectServer:Winproj\Winproj full save count in the last hour" DATATYPE="integer" />
+    <CHART CHARTTITLE="\ProjectServer:Winproj\Winproj full save count in the last hour" ISTHRESHOLDSADDED="False" DATASOURCE="\ProjectServer:Winproj\Winproj full save count in the last hour" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="ProjectServer:Winproj Winproj incremental open count in the last hour" ENABLED="True" CATEGORY="ProjectServer:Winproj" PRIMARYDATASOURCE="\ProjectServer:Winproj\Winproj incremental open count in the last hour" ID="{74f5397d-d4ba-4e72-8a65-f427664e4dc9}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Number of Winproj incremental project opens in the past hour (rolling window)]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\ProjectServer:Winproj\Winproj incremental open count in the last hour" COLLECTIONVARNAME="ProjectServerWinprojWinprojincrementalopencountinthelasthour" EXPRESSIONPATH="\ProjectServer:Winproj\Winproj incremental open count in the last hour" DATATYPE="integer" />
+    <CHART CHARTTITLE="\ProjectServer:Winproj\Winproj incremental open count in the last hour" ISTHRESHOLDSADDED="False" DATASOURCE="\ProjectServer:Winproj\Winproj incremental open count in the last hour" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="ProjectServer:Winproj Winproj incremental save count in the last hour" ENABLED="True" CATEGORY="ProjectServer:Winproj" PRIMARYDATASOURCE="\ProjectServer:Winproj\Winproj incremental save count in the last hour" ID="{366af55e-54cb-45c3-87d7-7bb580a01682}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Number of Winproj incremental saves in the past hour (rolling window)]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\ProjectServer:Winproj\Winproj incremental save count in the last hour" COLLECTIONVARNAME="ProjectServerWinprojWinprojincrementalsavecountinthelasthour" EXPRESSIONPATH="\ProjectServer:Winproj\Winproj incremental save count in the last hour" DATATYPE="integer" />
+    <CHART CHARTTITLE="\ProjectServer:Winproj\Winproj incremental save count in the last hour" ISTHRESHOLDSADDED="False" DATASOURCE="\ProjectServer:Winproj\Winproj incremental save count in the last hour" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Memory Committed Bytes" ENABLED="True" CATEGORY="Memory" PRIMARYDATASOURCE="\Memory\Committed Bytes" ID="{c3b7cff8-7e7e-44e0-a8ca-5669eb01996a}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Committed Bytes is the amount of committed virtual memory, in bytes. Committed memory is the physical memory which has space reserved on the disk paging file(s). There can be one or more paging files on each physical drive. This counter displays the last observed value only; it is not an average.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\Memory\Committed Bytes" COLLECTIONVARNAME="MemoryCommittedBytes" EXPRESSIONPATH="\Memory\Committed Bytes" DATATYPE="integer" />
+    <DATASOURCE TYPE="CounterLog" NAME="\Memory\Commit Limit" COLLECTIONVARNAME="MemoryCommitLimit" EXPRESSIONPATH="\Memory\Commit Limit" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Memory\Committed Bytes" ISTHRESHOLDSADDED="False" DATASOURCE="\Memory\Committed Bytes" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Memory Percent Committed Bytes In Use" ENABLED="True" CATEGORY="Memory" PRIMARYDATASOURCE="\Memory\% Committed Bytes In Use" ID="{2229c45c-9f4e-4a9a-b430-d56f62a19d5e}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[% Committed Bytes In Use is the ratio of Memory\\Committed Bytes to the Memory\\Commit Limit. Committed memory is the physical memory in use for which space has been reserved in the paging file should it need to be written to disk. The commit limit is determined by the size of the paging file.  If the paging file is enlarged, the commit limit increases, and the ratio is reduced). This counter displays the current percentage value only; it is not an average.<BR>
+<BR>
+This analysis checks if the amount of Commited memory is becoming close to the Commit Limit (RAM plus total page file sizes), If so, then identify if you have a memory leak. If no memory leak is identified, then consider adding more physical RAM or increase the size of your page files.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\Memory\% Committed Bytes In Use" COLLECTIONVARNAME="MemoryPercentCommittedBytesInUse" EXPRESSIONPATH="\Memory\% Committed Bytes In Use" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Memory\% Committed Bytes In Use" ISTHRESHOLDSADDED="False" DATASOURCE="\Memory\% Committed Bytes In Use" CHARTLABELS="instance" />
+  </ANALYSIS>
+</PAL>

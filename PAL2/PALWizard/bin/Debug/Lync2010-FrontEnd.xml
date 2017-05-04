@@ -1,0 +1,353 @@
+<?xml version="1.0"?>
+<PAL PALVERSION="2.0" NAME="Microsoft Lync Server 2010 - Front End" DESCRIPTION="Performance counter thresholds for Microsoft Lync Server 2010 Front End Server." VERSION="1.0" CONTENTOWNERS="Doug Deitterick" FEEDBACKEMAILADDRESS="dodeitte@microsoft.com">
+  <ANALYSIS NAME="LS:USrv - 01 - DBStore\USrv - 002 - Queue Latency  USrv - 002 - Queue Latency (msec)" ENABLED="True" CATEGORY="LS:USrv - 01 - DBStore" PRIMARYDATASOURCE="\LS:USrv - 01 - DBStore\USrv - 002 - Queue Latency (msec)" ID="30b80109-6046-4298-a98e-01a9f56f673f" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\LS:USrv - 01 - DBStore\USrv - 002 - Queue Latency (msec)" COLLECTIONVARNAME="CollectionOfLSUSrv01DBStoreUSrv002QueueLatencyUSrv002QueueLatencymsec" EXPRESSIONPATH="\LS:USrv - 01 - DBStore\USrv - 002 - Queue Latency (msec)" TRENDVARNAME="TrendLSUSrv01DBStoreUSrv002QueueLatencyUSrv002QueueLatencymsec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LS:USrv - 01 - DBStore\USrv - 002 - Queue Latency (msec)" ISTHRESHOLDSADDED="False" DATASOURCE="\LS:USrv - 01 - DBStore\USrv - 002 - Queue Latency (msec)" CHARTLABELS="instance" />
+    <THRESHOLD NAME="Queue Latency (msec) &gt;= 100" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfLSUSrv01DBStoreUSrv002QueueLatencyUSrv002QueueLatencymsec -Operator 'ge' -Threshold 100]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[Queue latency is the amount of time (in milliseconds) that it takes for a request to leave the Front End Server's queue toward the back-end database. 
+
+If this value by itself is high, you may have be encountering a network problem between FE->SQL.
+
+If this value is high and Sproc Latency is high, it is most commonly a bottom-neck with the SQL backend.
+
+Spikes are to be expected during peak hours.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="LS:USrv - 01 - DBStore\USrv - 004 - Sproc Latency  USrv - 004 - Sproc Latency (msec)" ENABLED="True" CATEGORY="LS:USrv - 01 - DBStore" PRIMARYDATASOURCE="\LS:USrv - 01 - DBStore\USrv - 004 - Sproc Latency (msec)" ID="9007d3c1-674b-4e4a-a5e1-cd2a446c7a33" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\LS:USrv - 01 - DBStore\USrv - 004 - Sproc Latency (msec)" COLLECTIONVARNAME="CollectionOfLSUSrv01DBStoreUSrv004SprocLatencyUSrv004SprocLatencymsec" EXPRESSIONPATH="\LS:USrv - 01 - DBStore\USrv - 004 - Sproc Latency (msec)" TRENDVARNAME="TrendLSUSrv01DBStoreUSrv004SprocLatencyUSrv004SprocLatencymsec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LS:USrv - 01 - DBStore\USrv - 004 - Sproc Latency (msec)" ISTHRESHOLDSADDED="False" DATASOURCE="\LS:USrv - 01 - DBStore\USrv - 004 - Sproc Latency (msec)" CHARTLABELS="instance" />
+    <THRESHOLD NAME="Sproc Latency (msec) &gt;= 100" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfLSUSrv01DBStoreUSrv004SprocLatencyUSrv004SprocLatencymsec -Operator 'ge' -Threshold 100]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[Sproc latency is the amount of time (in milliseconds) that it takes for the database to process the request. This performance value is collected from the time the request leaves the Front End Server queue until that the request returns. 
+
+If this value by itself is high, it is likely a bottleneck with the SQL backend.
+
+Spikes are to be expected during peak hours.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="LS:USrv - 01 - DBStore USrv - 020 - Throttled requests/sec" ENABLED="True" CATEGORY="LS:USrv - 01 - DBStore" PRIMARYDATASOURCE="\LS:USrv - 01 - DBStore\USrv - 020 - Throttled requests/sec" ID="1da154e3-8c39-4f4e-8a02-9d398ea0a844" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\LS:USrv - 01 - DBStore\USrv - 020 - Throttled requests/sec" COLLECTIONVARNAME="CollectionOfLSUSrv01DBStoreUSrv020Throttledrequestssec" EXPRESSIONPATH="\LS:USrv - 01 - DBStore\USrv - 020 - Throttled requests/sec" TRENDVARNAME="TrendLSUSrv01DBStoreUSrv020Throttledrequestssec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LS:USrv - 01 - DBStore\USrv - 020 - Throttled requests/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\LS:USrv - 01 - DBStore\USrv - 020 - Throttled requests/sec" CHARTLABELS="instance" />
+    <THRESHOLD NAME="Throttled requests/sec &gt; 0" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfLSUSrv01DBStoreUSrv020Throttledrequestssec -Operator 'gt' -Threshold 0]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The number of requests that were rejected/sec with a retry-after since the database queue latency was high.
+
+A healthy environment should never throttle requests, this value must not exceed 0.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="LS:SIP - 01 - Peers SIP - 019 - Sends Timed-Out/sec" ENABLED="True" CATEGORY="LS:SIP - 01 - Peers" PRIMARYDATASOURCE="\LS:SIP - 01 - Peers(_Total)\SIP - 019 - Sends Timed-Out/sec" ID="e41ec964-f68b-4081-8965-6ee8878f902e" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\LS:SIP - 01 - Peers(_Total)\SIP - 019 - Sends Timed-Out/sec" COLLECTIONVARNAME="CollectionOfLSSIP01PeersSIP019SendsTimedOutsec" EXPRESSIONPATH="\LS:SIP - 01 - Peers(_Total)\SIP - 019 - Sends Timed-Out/sec" TRENDVARNAME="TrendLSSIP01PeersSIP019SendsTimedOutsec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LS:SIP - 01 - Peers(_Total)\SIP - 019 - Sends Timed-Out/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\LS:SIP - 01 - Peers(_Total)\SIP - 019 - Sends Timed-Out/sec" CHARTLABELS="instance" />
+    <THRESHOLD NAME="Sends Timed-Out/sec &gt; 0" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfLSSIP01PeersSIP019SendsTimedOutsec -Operator 'gt' -Threshold 0]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The per-second rate of sends dropped because they stayed in outgoing (send) queue for too long.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="LS:SIP - 01 - Peers SIP - 020 - Average Outgoing Queue Delay" ENABLED="True" CATEGORY="LS:SIP - 01 - Peers" PRIMARYDATASOURCE="\LS:SIP - 01 - Peers(_Total)\SIP - 020 - Average Outgoing Queue Delay" ID="9e959b2f-d47d-4c1b-99cf-867f40b6d3ae" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\LS:SIP - 01 - Peers(_Total)\SIP - 020 - Average Outgoing Queue Delay" COLLECTIONVARNAME="CollectionOfLSSIP01PeersSIP020AverageOutgoingQueueDelay" EXPRESSIONPATH="\LS:SIP - 01 - Peers(_Total)\SIP - 020 - Average Outgoing Queue Delay" TRENDVARNAME="TrendLSSIP01PeersSIP020AverageOutgoingQueueDelay" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LS:SIP - 01 - Peers(_Total)\SIP - 020 - Average Outgoing Queue Delay" ISTHRESHOLDSADDED="False" DATASOURCE="\LS:SIP - 01 - Peers(_Total)\SIP - 020 - Average Outgoing Queue Delay" CHARTLABELS="instance" />
+    <THRESHOLD NAME="Average Outgoing Queue Delay &gt;= 2" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfLSSIP01PeersSIP020AverageOutgoingQueueDelay -Operator 'ge' -Threshold 2]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The average time (in seconds) the messages delayed in outgoing (send) queues.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="LS:SIP - 01 - Peers SIP - 023 - Flow-controlled Connections" ENABLED="True" CATEGORY="LS:SIP - 01 - Peers" PRIMARYDATASOURCE="\LS:SIP - 01 - Peers(_Total)\SIP - 023 - Flow-controlled Connections" ID="6dcdb1b5-a2f7-44e5-a167-fc6ffa7a0c58" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The number of connections that are currently being flow-controlled (no socket receives are posted).]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\LS:SIP - 01 - Peers(_Total)\SIP - 023 - Flow-controlled Connections" COLLECTIONVARNAME="CollectionOfLSSIP01PeersSIP023FlowcontrolledConnections" EXPRESSIONPATH="\LS:SIP - 01 - Peers(_Total)\SIP - 023 - Flow-controlled Connections" TRENDVARNAME="TrendLSSIP01PeersSIP023FlowcontrolledConnections" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LS:SIP - 01 - Peers(_Total)\SIP - 023 - Flow-controlled Connections" ISTHRESHOLDSADDED="False" DATASOURCE="\LS:SIP - 01 - Peers(_Total)\SIP - 023 - Flow-controlled Connections" CHARTLABELS="instance" />
+    <THRESHOLD NAME="Flow-controlled Connections &gt;= 2" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfLSSIP01PeersSIP023FlowcontrolledConnections -Operator 'ge' -Threshold 2]]></CODE>
+    </THRESHOLD>
+  </ANALYSIS>
+  <ANALYSIS NAME="LS:SIP - 02 - Protocol SIP - 005 - Incoming Requests Dropped/sec" ENABLED="True" CATEGORY="LS:SIP - 02 - Protocol" PRIMARYDATASOURCE="\LS:SIP - 02 - Protocol\SIP - 005 - Incoming Requests Dropped/sec" ID="54a6f141-3e13-4015-8441-b6adc10b1b26" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\LS:SIP - 02 - Protocol\SIP - 005 - Incoming Requests Dropped/sec" COLLECTIONVARNAME="CollectionOfLSSIP02ProtocolSIP005IncomingRequestsDroppedsec" EXPRESSIONPATH="\LS:SIP - 02 - Protocol\SIP - 005 - Incoming Requests Dropped/sec" TRENDVARNAME="TrendLSSIP02ProtocolSIP005IncomingRequestsDroppedsec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LS:SIP - 02 - Protocol\SIP - 005 - Incoming Requests Dropped/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\LS:SIP - 02 - Protocol\SIP - 005 - Incoming Requests Dropped/sec" CHARTLABELS="instance" />
+    <THRESHOLD NAME="Incoming Requests Dropped/sec &gt;= 1" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfLSSIP02ProtocolSIP005IncomingRequestsDroppedsec -Operator 'ge' -Threshold 1]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The per-second rate of incoming requests dropped because they could not be processed (due to bad headers, insufficient routing information, server resource allocation failure).]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="LS:SIP - 02 - Protocol SIP - 009 - Incoming Responses Dropped/sec" ENABLED="True" CATEGORY="LS:SIP - 02 - Protocol" PRIMARYDATASOURCE="\LS:SIP - 02 - Protocol\SIP - 009 - Incoming Responses Dropped/sec" ID="2a0e70c0-13e8-4458-b1f8-abdb2e97bc0d" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The per-second rate of incoming responses dropped because they could not be processed (due to bad headers, insufficient routing information, server resource allocation failure).]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\LS:SIP - 02 - Protocol\SIP - 009 - Incoming Responses Dropped/sec" COLLECTIONVARNAME="CollectionOfLSSIP02ProtocolSIP009IncomingResponsesDroppedsec" EXPRESSIONPATH="\LS:SIP - 02 - Protocol\SIP - 009 - Incoming Responses Dropped/sec" TRENDVARNAME="TrendLSSIP02ProtocolSIP009IncomingResponsesDroppedsec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LS:SIP - 02 - Protocol\SIP - 009 - Incoming Responses Dropped/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\LS:SIP - 02 - Protocol\SIP - 009 - Incoming Responses Dropped/sec" CHARTLABELS="instance" />
+    <THRESHOLD NAME="Incoming Responses Dropped/sec &gt;= 1" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfLSSIP02ProtocolSIP009IncomingResponsesDroppedsec -Operator 'ge' -Threshold 1]]></CODE>
+    </THRESHOLD>
+  </ANALYSIS>
+  <ANALYSIS NAME="LS:SIP - 02 - Protocol SIP - 021 - Average Incoming Message Processing Time" ENABLED="True" CATEGORY="LS:SIP - 02 - Protocol" PRIMARYDATASOURCE="\LS:SIP - 02 - Protocol\SIP - 021 - Average Incoming Message Processing Time" ID="c7d07c93-d337-43d2-b4bf-2ebdfcef5e55" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The average time (in seconds) it takes to process an incoming message.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\LS:SIP - 02 - Protocol\SIP - 021 - Average Incoming Message Processing Time" COLLECTIONVARNAME="CollectionOfLSSIP02ProtocolSIP021AverageIncomingMessageProcessingTime" EXPRESSIONPATH="\LS:SIP - 02 - Protocol\SIP - 021 - Average Incoming Message Processing Time" TRENDVARNAME="TrendLSSIP02ProtocolSIP021AverageIncomingMessageProcessingTime" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LS:SIP - 02 - Protocol\SIP - 021 - Average Incoming Message Processing Time" ISTHRESHOLDSADDED="False" DATASOURCE="\LS:SIP - 02 - Protocol\SIP - 021 - Average Incoming Message Processing Time" CHARTLABELS="instance" />
+    <THRESHOLD NAME="Average Incoming Message Processing Time &gt;= 1" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfLSSIP02ProtocolSIP021AverageIncomingMessageProcessingTime -Operator 'ge' -Threshold 1]]></CODE>
+    </THRESHOLD>
+  </ANALYSIS>
+  <ANALYSIS NAME="LS:SIP - 04 - Responses SIP - 055 - Local 503 Responses/sec" ENABLED="True" CATEGORY="LS:SIP - 04 - Responses" PRIMARYDATASOURCE="\LS:SIP - 04 - Responses\SIP - 055 - Local 503 Responses/sec" ID="092d364c-55a1-4abd-8bb9-2312bc2caf18" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\LS:SIP - 04 - Responses\SIP - 055 - Local 503 Responses/sec" COLLECTIONVARNAME="CollectionOfLSSIP04ResponsesSIP055Local503Responsessec" EXPRESSIONPATH="\LS:SIP - 04 - Responses\SIP - 055 - Local 503 Responses/sec" TRENDVARNAME="TrendLSSIP04ResponsesSIP055Local503Responsessec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LS:SIP - 04 - Responses\SIP - 055 - Local 503 Responses/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\LS:SIP - 04 - Responses\SIP - 055 - Local 503 Responses/sec" CHARTLABELS="instance" />
+    <THRESHOLD NAME="Local 503 Responses/sec &gt; 0" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfLSSIP04ResponsesSIP055Local503Responsessec -Operator 'gt' -Threshold 0]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The per-second rate of 503 responses generated by the server.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="LS:SIP - 06 - Authentication SIP - 031 - Authentication System Errors/sec" ENABLED="True" CATEGORY="LS:SIP - 06 - Authentication" PRIMARYDATASOURCE="\LS:SIP - 06 - Authentication\SIP - 031 - Authentication System Errors/sec" ID="f40c306f-1a9a-4f59-b21c-efc6f944aa51" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The per-second rate of authentication failures caused by system errors (due to low memory conditions or otherwise).]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\LS:SIP - 06 - Authentication\SIP - 031 - Authentication System Errors/sec" COLLECTIONVARNAME="CollectionOfLSSIP06AuthenticationSIP031AuthenticationSystemErrorssec" EXPRESSIONPATH="\LS:SIP - 06 - Authentication\SIP - 031 - Authentication System Errors/sec" TRENDVARNAME="TrendLSSIP06AuthenticationSIP031AuthenticationSystemErrorssec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LS:SIP - 06 - Authentication\SIP - 031 - Authentication System Errors/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\LS:SIP - 06 - Authentication\SIP - 031 - Authentication System Errors/sec" CHARTLABELS="instance" />
+    <THRESHOLD NAME="Authentication System Errors/sec &gt;= 1" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfLSSIP06AuthenticationSIP031AuthenticationSystemErrorssec -Operator 'ge' -Threshold 1]]></CODE>
+    </THRESHOLD>
+  </ANALYSIS>
+  <ANALYSIS NAME="LS:SIP - 07 - Load Management SIP - 000 - Average Holding Time For Incoming Messages" ENABLED="True" CATEGORY="LS:SIP - 07 - Load Management" PRIMARYDATASOURCE="\LS:SIP - 07 - Load Management\SIP - 000 - Average Holding Time For Incoming Messages" ID="163cf31e-6235-469a-84de-a6faa85fe624" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The average time that the server held the incoming messages currently being processed.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\LS:SIP - 07 - Load Management\SIP - 000 - Average Holding Time For Incoming Messages" COLLECTIONVARNAME="CollectionOfLSSIP07LoadManagementSIP000AverageHoldingTimeForIncomingMessages" EXPRESSIONPATH="\LS:SIP - 07 - Load Management\SIP - 000 - Average Holding Time For Incoming Messages" TRENDVARNAME="TrendLSSIP07LoadManagementSIP000AverageHoldingTimeForIncomingMessages" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LS:SIP - 07 - Load Management\SIP - 000 - Average Holding Time For Incoming Messages" ISTHRESHOLDSADDED="False" DATASOURCE="\LS:SIP - 07 - Load Management\SIP - 000 - Average Holding Time For Incoming Messages" CHARTLABELS="instance" />
+    <THRESHOLD NAME="Average Holding Time For Incoming Messages &gt;= 1" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfLSSIP07LoadManagementSIP000AverageHoldingTimeForIncomingMessages -Operator 'ge' -Threshold 1]]></CODE>
+    </THRESHOLD>
+  </ANALYSIS>
+  <ANALYSIS NAME="LS:SIP - 07 - Load Management SIP - 006 - Incoming Messages Timed out" ENABLED="True" CATEGORY="LS:SIP - 07 - Load Management" PRIMARYDATASOURCE="\LS:SIP - 07 - Load Management\SIP - 006 - Incoming Messages Timed out" ID="473691c6-5621-4c22-b599-90eb74d5f5ec" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\LS:SIP - 07 - Load Management\SIP - 006 - Incoming Messages Timed out" COLLECTIONVARNAME="CollectionOfLSSIP07LoadManagementSIP006IncomingMessagesTimedout" EXPRESSIONPATH="\LS:SIP - 07 - Load Management\SIP - 006 - Incoming Messages Timed out" TRENDVARNAME="TrendLSSIP07LoadManagementSIP006IncomingMessagesTimedout" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LS:SIP - 07 - Load Management\SIP - 006 - Incoming Messages Timed out" ISTHRESHOLDSADDED="False" DATASOURCE="\LS:SIP - 07 - Load Management\SIP - 006 - Incoming Messages Timed out" CHARTLABELS="instance" />
+    <THRESHOLD NAME="Incoming Messages Timed out &gt;= 2" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfLSSIP07LoadManagementSIP006IncomingMessagesTimedout -Operator 'ge' -Threshold 2]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The number of incoming messages currently being held by the server for processing for more than the maximum tracking interval.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="LS:ImMcu - 02 - MCU Health And Performance IMMCU - 005 - MCU Health State" ENABLED="True" CATEGORY="LS:ImMcu - 02 - MCU Health And Performance" PRIMARYDATASOURCE="\LS:ImMcu - 02 - MCU Health And Performance\IMMCU - 005 - MCU Health State" ID="51ad0b0b-a4bb-4507-b39e-40242667ab16" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The current health of the MCU. 0 = Normal. 1 = Loaded. 2 = Full. 3 = Unavailable.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\LS:ImMcu - 02 - MCU Health And Performance\IMMCU - 005 - MCU Health State" COLLECTIONVARNAME="CollectionOfLSImMcu02MCUHealthAndPerformanceIMMCU005MCUHealthState" EXPRESSIONPATH="\LS:ImMcu - 02 - MCU Health And Performance\IMMCU - 005 - MCU Health State" TRENDVARNAME="TrendLSImMcu02MCUHealthAndPerformanceIMMCU005MCUHealthState" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LS:ImMcu - 02 - MCU Health And Performance\IMMCU - 005 - MCU Health State" ISTHRESHOLDSADDED="False" DATASOURCE="\LS:ImMcu - 02 - MCU Health And Performance\IMMCU - 005 - MCU Health State" CHARTLABELS="instance" />
+    <THRESHOLD NAME="MCU Health State &gt; 1" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfLSImMcu02MCUHealthAndPerformanceIMMCU005MCUHealthState -Operator 'gt' -Threshold 1]]></CODE>
+    </THRESHOLD>
+  </ANALYSIS>
+  <ANALYSIS NAME="LS:ImMcu - 00 - IMMcu Conferences IMMCU - 020 - Throttled Sip Connections" ENABLED="True" CATEGORY="LS:ImMcu - 00 - IMMcu Conferences" PRIMARYDATASOURCE="\LS:ImMcu - 00 - IMMcu Conferences\IMMCU - 020 - Throttled Sip Connections" ID="d222943f-ee9d-4bf0-a27b-1ca32dda60a6" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\LS:ImMcu - 00 - IMMcu Conferences\IMMCU - 020 - Throttled Sip Connections" COLLECTIONVARNAME="CollectionOfLSImMcu00IMMcuConferencesIMMCU020ThrottledSipConnections" EXPRESSIONPATH="\LS:ImMcu - 00 - IMMcu Conferences\IMMCU - 020 - Throttled Sip Connections" TRENDVARNAME="TrendLSImMcu00IMMcuConferencesIMMCU020ThrottledSipConnections" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LS:ImMcu - 00 - IMMcu Conferences\IMMCU - 020 - Throttled Sip Connections" ISTHRESHOLDSADDED="False" DATASOURCE="\LS:ImMcu - 00 - IMMcu Conferences\IMMCU - 020 - Throttled Sip Connections" CHARTLABELS="instance" />
+    <THRESHOLD NAME="Throttled SIP Connections &gt; 0" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfLSImMcu00IMMcuConferencesIMMCU020ThrottledSipConnections -Operator 'gt' -Threshold 0]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The number of throttled SIP connections.
+
+This can be an early indicator of IMMCU health.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="LS:DATAMCU - 04 - MCU Health And Performance DATAMCU - 005 - MCU Health State" ENABLED="True" CATEGORY="LS:DATAMCU - 04 - MCU Health And Performance" PRIMARYDATASOURCE="\LS:DATAMCU - 04 - MCU Health And Performance\DATAMCU - 005 - MCU Health State" ID="6912bbbb-92e3-4b2e-946b-be34975b1fa0" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The current health of the MCU. 0 = Normal. 1 = Loaded. 2 = Full. 3 = Unavailable.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\LS:DATAMCU - 04 - MCU Health And Performance\DATAMCU - 005 - MCU Health State" COLLECTIONVARNAME="CollectionOfLSDATAMCU04MCUHealthAndPerformanceDATAMCU005MCUHealthState" EXPRESSIONPATH="\LS:DATAMCU - 04 - MCU Health And Performance\DATAMCU - 005 - MCU Health State" TRENDVARNAME="TrendLSDATAMCU04MCUHealthAndPerformanceDATAMCU005MCUHealthState" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LS:DATAMCU - 04 - MCU Health And Performance\DATAMCU - 005 - MCU Health State" ISTHRESHOLDSADDED="False" DATASOURCE="\LS:DATAMCU - 04 - MCU Health And Performance\DATAMCU - 005 - MCU Health State" CHARTLABELS="instance" />
+    <THRESHOLD NAME="MCU Health State &gt; 1" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfLSDATAMCU04MCUHealthAndPerformanceDATAMCU005MCUHealthState -Operator 'gt' -Threshold 1]]></CODE>
+    </THRESHOLD>
+  </ANALYSIS>
+  <ANALYSIS NAME="LS:AVMCU - 04 - MCU Health And Performance AVMCU - 005 - MCU Health State" ENABLED="True" CATEGORY="LS:AVMCU - 04 - MCU Health And Performance" PRIMARYDATASOURCE="\LS:AVMCU - 04 - MCU Health And Performance\AVMCU - 005 - MCU Health State" ID="7fe86c2c-3ca8-4f23-949e-3f6dfc6f2d91" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\LS:AVMCU - 04 - MCU Health And Performance\AVMCU - 005 - MCU Health State" COLLECTIONVARNAME="CollectionOfLSAVMCU04MCUHealthAndPerformanceAVMCU005MCUHealthState" EXPRESSIONPATH="\LS:AVMCU - 04 - MCU Health And Performance\AVMCU - 005 - MCU Health State" TRENDVARNAME="TrendLSAVMCU04MCUHealthAndPerformanceAVMCU005MCUHealthState" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LS:AVMCU - 04 - MCU Health And Performance\AVMCU - 005 - MCU Health State" ISTHRESHOLDSADDED="False" DATASOURCE="\LS:AVMCU - 04 - MCU Health And Performance\AVMCU - 005 - MCU Health State" CHARTLABELS="instance" />
+    <THRESHOLD NAME="MCU Health State &gt; 1" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfLSAVMCU04MCUHealthAndPerformanceAVMCU005MCUHealthState -Operator 'gt' -Threshold 1]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The current health of the MCU. 0 = Normal. 1 = Loaded. 2 = Full. 3 = Unavailable.
+
+May be not applicable if the AVMCU is on a dedicated AV Server.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="LS:AsMcu - 01 - MCU Health And Performance ASMCU - 005 - MCU Health State" ENABLED="True" CATEGORY="LS:AsMcu - 01 - MCU Health And Performance" PRIMARYDATASOURCE="\LS:AsMcu - 01 - MCU Health And Performance\ASMCU - 005 - MCU Health State" ID="601089a2-2178-4138-a25d-45e630a6a6af" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The current health of the MCU. 0 = Normal. 1 = Loaded. 2 = Full. 3 = Unavailable.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\LS:AsMcu - 01 - MCU Health And Performance\ASMCU - 005 - MCU Health State" COLLECTIONVARNAME="CollectionOfLSAsMcu01MCUHealthAndPerformanceASMCU005MCUHealthState" EXPRESSIONPATH="\LS:AsMcu - 01 - MCU Health And Performance\ASMCU - 005 - MCU Health State" TRENDVARNAME="TrendLSAsMcu01MCUHealthAndPerformanceASMCU005MCUHealthState" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LS:AsMcu - 01 - MCU Health And Performance\ASMCU - 005 - MCU Health State" ISTHRESHOLDSADDED="False" DATASOURCE="\LS:AsMcu - 01 - MCU Health And Performance\ASMCU - 005 - MCU Health State" CHARTLABELS="instance" />
+    <THRESHOLD NAME="MCU Health State &gt; 1" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfLSAsMcu01MCUHealthAndPerformanceASMCU005MCUHealthState -Operator 'gt' -Threshold 1]]></CODE>
+    </THRESHOLD>
+  </ANALYSIS>
+  <ANALYSIS NAME="ASP.NET Apps v2.0.50727 Requests Rejected" ENABLED="False" CATEGORY="ASP.NET Apps v2.0.50727" PRIMARYDATASOURCE="\ASP.NET Apps v2.0.50727(*)\Requests Rejected" ID="fd0728ff-ea9b-4674-a197-7da446f8b471" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\ASP.NET Apps v2.0.50727(*)\Requests Rejected" COLLECTIONVARNAME="CollectionOfASPNETAppsv2050727RequestsRejected" EXPRESSIONPATH="\ASP.NET Apps v2.0.50727(*)\Requests Rejected" TRENDVARNAME="TrendASPNETAppsv2050727RequestsRejected" DATATYPE="integer" />
+    <CHART CHARTTITLE="\ASP.NET Apps v2.0.50727(*)\Requests Rejected" ISTHRESHOLDSADDED="False" DATASOURCE="\ASP.NET Apps v2.0.50727(*)\Requests Rejected" CHARTLABELS="instance" />
+    <DATASOURCE TYPE="CounterLog" NAME="\ASP.NET Apps v2.0.50727(*)\Requests Total" EXPRESSIONPATH="\ASP.NET Apps v2.0.50727(*)\Requests Total" COLLECTIONVARNAME="CollectionOfASPNETAppsv2050727RequestsTotalAll" DATATYPE="integer" />
+    <DESCRIPTION><![CDATA[The number of requests rejected because the application request queue was full.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="LS:WEB - 00 - Distribution List Expansion WEB - 011 - Timed out Active Directory Requests/sec" ENABLED="True" CATEGORY="LS:WEB - 00 - Distribution List Expansion" PRIMARYDATASOURCE="\LS:WEB - 00 - Distribution List Expansion\WEB - 011 - Timed out Active Directory Requests/sec" ID="a3100ccc-6124-4d87-8947-72082293d097" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The per-second rate of timed out Active Directory requests]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\LS:WEB - 00 - Distribution List Expansion\WEB - 011 - Timed out Active Directory Requests/sec" COLLECTIONVARNAME="CollectionOfLSWEB00DistributionListExpansionWEB011TimedoutActiveDirectoryRequestssec" EXPRESSIONPATH="\LS:WEB - 00 - Distribution List Expansion\WEB - 011 - Timed out Active Directory Requests/sec" TRENDVARNAME="TrendLSWEB00DistributionListExpansionWEB011TimedoutActiveDirectoryRequestssec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LS:WEB - 00 - Distribution List Expansion\WEB - 011 - Timed out Active Directory Requests/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\LS:WEB - 00 - Distribution List Expansion\WEB - 011 - Timed out Active Directory Requests/sec" CHARTLABELS="instance" />
+    <THRESHOLD NAME="Timed out Active Directory Requests/sec &gt;= 5" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfLSWEB00DistributionListExpansionWEB011TimedoutActiveDirectoryRequestssec -Operator 'ge' -Threshold 5]]></CODE>
+    </THRESHOLD>
+  </ANALYSIS>
+  <ANALYSIS NAME="LS:WEB - 01 - Address Book File Download WEB - 005 - Failed File Requests/Second" ENABLED="True" CATEGORY="LS:WEB - 01 - Address Book File Download" PRIMARYDATASOURCE="\LS:WEB - 01 - Address Book File Download\WEB - 005 - Failed File Requests/Second" ID="6f75ceb0-53af-431a-9d46-0b44edacf78b" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\LS:WEB - 01 - Address Book File Download\WEB - 005 - Failed File Requests/Second" COLLECTIONVARNAME="CollectionOfLSWEB01AddressBookFileDownloadWEB005FailedFileRequestsSecond" EXPRESSIONPATH="\LS:WEB - 01 - Address Book File Download\WEB - 005 - Failed File Requests/Second" TRENDVARNAME="TrendLSWEB01AddressBookFileDownloadWEB005FailedFileRequestsSecond" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LS:WEB - 01 - Address Book File Download\WEB - 005 - Failed File Requests/Second" ISTHRESHOLDSADDED="False" DATASOURCE="\LS:WEB - 01 - Address Book File Download\WEB - 005 - Failed File Requests/Second" CHARTLABELS="instance" />
+    <THRESHOLD NAME="Failed File Requests/Second &gt;= 5" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfLSWEB01AddressBookFileDownloadWEB005FailedFileRequestsSecond -Operator 'ge' -Threshold 5]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The per-second rate of failed Address Book file requests.
+
+This may be not applicable if you are using the Address Book Web Query only.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="LS:WEB - 02 - Address Book Web Query WEB - 005 - Failed search requests/sec" ENABLED="True" CATEGORY="LS:WEB - 02 - Address Book Web Query" PRIMARYDATASOURCE="\LS:WEB - 02 - Address Book Web Query\WEB - 005 - Failed search requests/sec" ID="32ed44ec-392e-43b6-813b-f66d6b20278f" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\LS:WEB - 02 - Address Book Web Query\WEB - 005 - Failed search requests/sec" COLLECTIONVARNAME="CollectionOfLSWEB02AddressBookWebQueryWEB005Failedsearchrequestssec" EXPRESSIONPATH="\LS:WEB - 02 - Address Book Web Query\WEB - 005 - Failed search requests/sec" TRENDVARNAME="TrendLSWEB02AddressBookWebQueryWEB005Failedsearchrequestssec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LS:WEB - 02 - Address Book Web Query\WEB - 005 - Failed search requests/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\LS:WEB - 02 - Address Book Web Query\WEB - 005 - Failed search requests/sec" CHARTLABELS="instance" />
+    <THRESHOLD NAME="Failed search requests/sec &gt;= 5" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfLSWEB02AddressBookWebQueryWEB005Failedsearchrequestssec -Operator 'ge' -Threshold 5]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The per-second rate of failed address book search requests]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="LS:CAA - 00 - Operations CAA - 000 - Incomplete calls per sec" ENABLED="True" CATEGORY="LS:CAA - 00 - Operations" PRIMARYDATASOURCE="\LS:CAA - 00 - Operations\CAA - 000 - Incomplete calls per sec" ID="a7eb59e3-bb2b-4e06-aca4-e37e953cbb0c" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The per second rate of incomplete calls to Conferencing Attendant. This includes calls disconnected by the user and by the system due to invalid conference id, passcode, etc.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\LS:CAA - 00 - Operations\CAA - 000 - Incomplete calls per sec" COLLECTIONVARNAME="CollectionOfLSCAA00OperationsCAA000Incompletecallspersec" EXPRESSIONPATH="\LS:CAA - 00 - Operations\CAA - 000 - Incomplete calls per sec" TRENDVARNAME="TrendLSCAA00OperationsCAA000Incompletecallspersec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LS:CAA - 00 - Operations\CAA - 000 - Incomplete calls per sec" ISTHRESHOLDSADDED="False" DATASOURCE="\LS:CAA - 00 - Operations\CAA - 000 - Incomplete calls per sec" CHARTLABELS="instance" />
+    <THRESHOLD NAME="Incomplete calls per sec &gt;= 20" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfLSCAA00OperationsCAA000Incompletecallspersec -Operator 'ge' -Threshold 20]]></CODE>
+    </THRESHOLD>
+  </ANALYSIS>
+  <ANALYSIS NAME="LS:USrv - 25 - Conference Control Notification USrv - 004 - Notifications in processing" ENABLED="True" CATEGORY="LS:USrv - 25 - Conference Control Notification" PRIMARYDATASOURCE="\LS:USrv - 25 - Conference Control Notification\USrv - 004 - Notifications in processing" ID="0825b4c2-12f5-449e-aa0f-1a6731273a7a" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Number of Conference Notifications in processing]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\LS:USrv - 25 - Conference Control Notification\USrv - 004 - Notifications in processing" COLLECTIONVARNAME="CollectionOfLSUSrv25ConferenceControlNotificationUSrv004Notificationsinprocessing" EXPRESSIONPATH="\LS:USrv - 25 - Conference Control Notification\USrv - 004 - Notifications in processing" TRENDVARNAME="TrendLSUSrv25ConferenceControlNotificationUSrv004Notificationsinprocessing" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LS:USrv - 25 - Conference Control Notification\USrv - 004 - Notifications in processing" ISTHRESHOLDSADDED="False" DATASOURCE="\LS:USrv - 25 - Conference Control Notification\USrv - 004 - Notifications in processing" CHARTLABELS="instance" />
+    <THRESHOLD NAME="Notifications in processing &gt;= 5000" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfLSUSrv25ConferenceControlNotificationUSrv004Notificationsinprocessing -Operator 'ge' -Threshold 5000]]></CODE>
+    </THRESHOLD>
+  </ANALYSIS>
+  <ANALYSIS NAME="LS:USrv - 26 - Conference Mcu Allocator\USrv - 011 - Factory Call Latency  USrv - 011 - Factory Call Latency (msec)" ENABLED="True" CATEGORY="LS:USrv - 26 - Conference Mcu Allocator" PRIMARYDATASOURCE="\LS:USrv - 26 - Conference Mcu Allocator\USrv - 011 - Factory Call Latency (msec)" ID="4c360a2e-f574-42e0-a138-d6a6c67550a1" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\LS:USrv - 26 - Conference Mcu Allocator\USrv - 011 - Factory Call Latency (msec)" COLLECTIONVARNAME="CollectionOfLSUSrv26ConferenceMcuAllocatorUSrv011FactoryCallLatencyUSrv011FactoryCallLatencymsec" EXPRESSIONPATH="\LS:USrv - 26 - Conference Mcu Allocator\USrv - 011 - Factory Call Latency (msec)" TRENDVARNAME="TrendLSUSrv26ConferenceMcuAllocatorUSrv011FactoryCallLatencyUSrv011FactoryCallLatencymsec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LS:USrv - 26 - Conference Mcu Allocator\USrv - 011 - Factory Call Latency (msec)" ISTHRESHOLDSADDED="False" DATASOURCE="\LS:USrv - 26 - Conference Mcu Allocator\USrv - 011 - Factory Call Latency (msec)" CHARTLABELS="instance" />
+    <THRESHOLD NAME="Factory Call Latency (msec) &gt;= 1000" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfLSUSrv26ConferenceMcuAllocatorUSrv011FactoryCallLatencyUSrv011FactoryCallLatencymsec -Operator 'ge' -Threshold 1000]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The average time (in milliseconds) taken to complete a MCU factory call.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="LS:USrv - 26 - Conference Mcu Allocator\USrv - 019 - Create Conference Latency  USrv - 019 - Create Conference Latency (msec)" ENABLED="True" CATEGORY="LS:USrv - 26 - Conference Mcu Allocator" PRIMARYDATASOURCE="\LS:USrv - 26 - Conference Mcu Allocator\USrv - 019 - Create Conference Latency (msec)" ID="aa6438ca-8786-4f14-adb0-fa5ec3e8110c" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\LS:USrv - 26 - Conference Mcu Allocator\USrv - 019 - Create Conference Latency (msec)" COLLECTIONVARNAME="CollectionOfLSUSrv26ConferenceMcuAllocatorUSrv019CreateConferenceLatencyUSrv019CreateConferenceLatencymsec" EXPRESSIONPATH="\LS:USrv - 26 - Conference Mcu Allocator\USrv - 019 - Create Conference Latency (msec)" TRENDVARNAME="TrendLSUSrv26ConferenceMcuAllocatorUSrv019CreateConferenceLatencyUSrv019CreateConferenceLatencymsec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LS:USrv - 26 - Conference Mcu Allocator\USrv - 019 - Create Conference Latency (msec)" ISTHRESHOLDSADDED="False" DATASOURCE="\LS:USrv - 26 - Conference Mcu Allocator\USrv - 019 - Create Conference Latency (msec)" CHARTLABELS="instance" />
+    <THRESHOLD NAME="Create Conference Latency (msec) &gt;= 1000" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfLSUSrv26ConferenceMcuAllocatorUSrv019CreateConferenceLatencyUSrv019CreateConferenceLatencymsec -Operator 'ge' -Threshold 1000]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The average time (in milliseconds) taken to complete a create conference call.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="LS:USrv - 26 - Conference Mcu Allocator\USrv - 021 - Allocation Latency  USrv - 021 - Allocation Latency (msec)" ENABLED="True" CATEGORY="LS:USrv - 26 - Conference Mcu Allocator" PRIMARYDATASOURCE="\LS:USrv - 26 - Conference Mcu Allocator\USrv - 021 - Allocation Latency (msec)" ID="16a86d48-b7ef-44be-b624-edce8f2109a1" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\LS:USrv - 26 - Conference Mcu Allocator\USrv - 021 - Allocation Latency (msec)" COLLECTIONVARNAME="CollectionOfLSUSrv26ConferenceMcuAllocatorUSrv021AllocationLatencyUSrv021AllocationLatencymsec" EXPRESSIONPATH="\LS:USrv - 26 - Conference Mcu Allocator\USrv - 021 - Allocation Latency (msec)" TRENDVARNAME="TrendLSUSrv26ConferenceMcuAllocatorUSrv021AllocationLatencyUSrv021AllocationLatencymsec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LS:USrv - 26 - Conference Mcu Allocator\USrv - 021 - Allocation Latency (msec)" ISTHRESHOLDSADDED="False" DATASOURCE="\LS:USrv - 26 - Conference Mcu Allocator\USrv - 021 - Allocation Latency (msec)" CHARTLABELS="instance" />
+    <THRESHOLD NAME="Allocation Latency (msec) &gt;= 1000" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfLSUSrv26ConferenceMcuAllocatorUSrv021AllocationLatencyUSrv021AllocationLatencymsec -Operator 'ge' -Threshold 1000]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The average time (in milliseconds) taken to complete a full Mcu allocation request.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="LS:Mcx - 00 - Mobile Communication Service MCX - 031 - Push Notification Requests Failed/Second" ENABLED="True" CATEGORY="LS:Mcx - 00 - Mobile Communication Service" PRIMARYDATASOURCE="\LS:Mcx - 00 - Mobile Communication Service\MCX - 031 - Push Notification Requests Failed/Second" ID="834763ad-3449-4e0b-be07-0bea09814ea0" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\LS:Mcx - 00 - Mobile Communication Service\MCX - 031 - Push Notification Requests Failed/Second" COLLECTIONVARNAME="CollectionOfLSMcx00MobileCommunicationServiceMCX031PushNotificationRequestsFailedSecond" EXPRESSIONPATH="\LS:Mcx - 00 - Mobile Communication Service\MCX - 031 - Push Notification Requests Failed/Second" TRENDVARNAME="TrendLSMcx00MobileCommunicationServiceMCX031PushNotificationRequestsFailedSecond" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LS:Mcx - 00 - Mobile Communication Service\MCX - 031 - Push Notification Requests Failed/Second" ISTHRESHOLDSADDED="False" DATASOURCE="\LS:Mcx - 00 - Mobile Communication Service\MCX - 031 - Push Notification Requests Failed/Second" CHARTLABELS="instance" />
+    <THRESHOLD NAME="Push Notification Requests Failed/Second &gt; 0" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfLSMcx00MobileCommunicationServiceMCX031PushNotificationRequestsFailedSecond -Operator 'gt' -Threshold 0]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The per-second rate of push notifications failure.
+
+This is an indicator of the Push Service health, not Front End Server health.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="LS:Mcx - 00 - Mobile Communication Service MCX - 029 - Push Notification Requests Throttled/Second" ENABLED="True" CATEGORY="LS:Mcx - 00 - Mobile Communication Service" PRIMARYDATASOURCE="\LS:Mcx - 00 - Mobile Communication Service\MCX - 029 - Push Notification Requests Throttled/Second" ID="87d6ff5a-6a9f-4c12-b146-ad3151ccd9ff" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\LS:Mcx - 00 - Mobile Communication Service\MCX - 029 - Push Notification Requests Throttled/Second" COLLECTIONVARNAME="CollectionOfLSMcx00MobileCommunicationServiceMCX029PushNotificationRequestsThrottledSecond" EXPRESSIONPATH="\LS:Mcx - 00 - Mobile Communication Service\MCX - 029 - Push Notification Requests Throttled/Second" TRENDVARNAME="TrendLSMcx00MobileCommunicationServiceMCX029PushNotificationRequestsThrottledSecond" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LS:Mcx - 00 - Mobile Communication Service\MCX - 029 - Push Notification Requests Throttled/Second" ISTHRESHOLDSADDED="False" DATASOURCE="\LS:Mcx - 00 - Mobile Communication Service\MCX - 029 - Push Notification Requests Throttled/Second" CHARTLABELS="instance" />
+    <THRESHOLD NAME="Push Notification Requests Throttled/Second &gt; 0" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfLSMcx00MobileCommunicationServiceMCX029PushNotificationRequestsThrottledSecond -Operator 'gt' -Threshold 0]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The per-second rate of push notifications throttling]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="LS:Mcx - 00 - Mobile Communication Service MCX - 011 - Requests Rejected/Second" ENABLED="True" CATEGORY="LS:Mcx - 00 - Mobile Communication Service" PRIMARYDATASOURCE="\LS:Mcx - 00 - Mobile Communication Service\MCX - 011 - Requests Rejected/Second" ID="0f1c5fd4-e2c7-433d-b65a-fe2982268a35" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The per-second rate of requests rejected]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\LS:Mcx - 00 - Mobile Communication Service\MCX - 011 - Requests Rejected/Second" COLLECTIONVARNAME="CollectionOfLSMcx00MobileCommunicationServiceMCX011RequestsRejectedSecond" EXPRESSIONPATH="\LS:Mcx - 00 - Mobile Communication Service\MCX - 011 - Requests Rejected/Second" TRENDVARNAME="TrendLSMcx00MobileCommunicationServiceMCX011RequestsRejectedSecond" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LS:Mcx - 00 - Mobile Communication Service\MCX - 011 - Requests Rejected/Second" ISTHRESHOLDSADDED="False" DATASOURCE="\LS:Mcx - 00 - Mobile Communication Service\MCX - 011 - Requests Rejected/Second" CHARTLABELS="instance" />
+    <THRESHOLD NAME="Requests Rejected/Second &gt; 0" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfLSMcx00MobileCommunicationServiceMCX011RequestsRejectedSecond -Operator 'gt' -Threshold 0]]></CODE>
+    </THRESHOLD>
+  </ANALYSIS>
+  <ANALYSIS NAME="LS:Mcx - 00 - Mobile Communication Service MCX - 015 - Requests Failed/Second" ENABLED="True" CATEGORY="LS:Mcx - 00 - Mobile Communication Service" PRIMARYDATASOURCE="\LS:Mcx - 00 - Mobile Communication Service\MCX - 015 - Requests Failed/Second" ID="2f785642-dbe8-4109-a557-4730a3d1552e" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\LS:Mcx - 00 - Mobile Communication Service\MCX - 015 - Requests Failed/Second" COLLECTIONVARNAME="CollectionOfLSMcx00MobileCommunicationServiceMCX015RequestsFailedSecond" EXPRESSIONPATH="\LS:Mcx - 00 - Mobile Communication Service\MCX - 015 - Requests Failed/Second" TRENDVARNAME="TrendLSMcx00MobileCommunicationServiceMCX015RequestsFailedSecond" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LS:Mcx - 00 - Mobile Communication Service\MCX - 015 - Requests Failed/Second" ISTHRESHOLDSADDED="False" DATASOURCE="\LS:Mcx - 00 - Mobile Communication Service\MCX - 015 - Requests Failed/Second" CHARTLABELS="instance" />
+    <THRESHOLD NAME="Requests Failed/Second &gt; 0" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfLSMcx00MobileCommunicationServiceMCX015RequestsFailedSecond -Operator 'gt' -Threshold 0]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The per-second rate of requests failed.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSSQL$RTC:Buffer Manager Page life expectancy" ENABLED="True" CATEGORY="MSSQL$RTC:Buffer Manager" PRIMARYDATASOURCE="\MSSQL$RTC:Buffer Manager\Page life expectancy" ID="15ea1ae5-80fa-4bd9-9720-56ef9f3317d4" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSSQL$RTC:Buffer Manager\Page life expectancy" COLLECTIONVARNAME="CollectionOfMSSQLRTCBufferManagerPagelifeexpectancy" EXPRESSIONPATH="\MSSQL$RTC:Buffer Manager\Page life expectancy" TRENDVARNAME="TrendMSSQL$RTCBufferManagerPagelifeexpectancy" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSSQL$RTC:Buffer Manager\Page life expectancy" ISTHRESHOLDSADDED="False" DATASOURCE="\MSSQL$RTC:Buffer Manager\Page life expectancy" CHARTLABELS="instance" />
+    <THRESHOLD NAME="Page life expectancy &lt;= 300" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfMSSQLRTCBufferManagerPagelifeexpectancy -Operator 'le' -Threshold 300]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[Avg. in seconds how long SQL Server expects a data page to stay in cache. The target is at least 300 (5 min). When under 300, this may indicate a potential  shortage of memory.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSSQL$RTC:Memory Manager\Total Server Memory  Total Server Memory (KB)" ENABLED="False" CATEGORY="MSSQL$RTC:Memory Manager" PRIMARYDATASOURCE="\MSSQL$RTC:Memory Manager\Total Server Memory (KB)" ID="efcbd8bb-5775-4f93-8248-d4cfda47e597" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSSQL$RTC:Memory Manager\Total Server Memory (KB)" COLLECTIONVARNAME="CollectionOfMSSQLRTCMemoryManagerTotalServerMemoryTotalServerMemoryKB" EXPRESSIONPATH="\MSSQL$RTC:Memory Manager\Total Server Memory (KB)" TRENDVARNAME="TrendMSSQL$RTCMemoryManagerTotalServerMemoryTotalServerMemoryKB" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSSQL$RTC:Memory Manager\Total Server Memory (KB)" ISTHRESHOLDSADDED="False" DATASOURCE="\MSSQL$RTC:Memory Manager\Total Server Memory (KB)" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[Shows the amount of memory that SQL Server is currently using.  This value should grow until its equal to Target Server Memory, as it populates its caches and loads pages into memory.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSSQL$RTC:Memory Manager\Target Server Memory  Target Server Memory (KB)" ENABLED="False" CATEGORY="MSSQL$RTC:Memory Manager" PRIMARYDATASOURCE="\MSSQL$RTC:Memory Manager\Target Server Memory (KB)" ID="57d2c85c-b256-4fd4-9948-3ee9c1703b8b" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSSQL$RTC:Memory Manager\Target Server Memory (KB)" COLLECTIONVARNAME="CollectionOfMSSQLRTCMemoryManagerTargetServerMemoryTargetServerMemoryKB" EXPRESSIONPATH="\MSSQL$RTC:Memory Manager\Target Server Memory (KB)" TRENDVARNAME="TrendMSSQL$RTCMemoryManagerTargetServerMemoryTargetServerMemoryKB" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSSQL$RTC:Memory Manager\Target Server Memory (KB)" ISTHRESHOLDSADDED="False" DATASOURCE="\MSSQL$RTC:Memory Manager\Target Server Memory (KB)" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[Shows the amount of memory that SQL Server wants to use based on the configured  Max Server Memory. It represents the ideal number of pages in the buffer pool. It is the amount of memory that can be committed without causing paging.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSSQL$RTC:Memory Manager Memory Grants Pending" ENABLED="True" CATEGORY="MSSQL$RTC:Memory Manager" PRIMARYDATASOURCE="\MSSQL$RTC:Memory Manager\Memory Grants Pending" ID="e6f26346-a679-4e8b-bdcf-c4a2c781cf19" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSSQL$RTC:Memory Manager\Memory Grants Pending" COLLECTIONVARNAME="CollectionOfMSSQLRTCMemoryManagerMemoryGrantsPending" EXPRESSIONPATH="\MSSQL$RTC:Memory Manager\Memory Grants Pending" TRENDVARNAME="TrendMSSQL$RTCMemoryManagerMemoryGrantsPending" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSSQL$RTC:Memory Manager\Memory Grants Pending" ISTHRESHOLDSADDED="False" DATASOURCE="\MSSQL$RTC:Memory Manager\Memory Grants Pending" CHARTLABELS="instance" />
+    <THRESHOLD NAME="Memory Grants Pending &gt; 0" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfMSSQLRTCMemoryManagerMemoryGrantsPending -Operator 'gt' -Threshold 0]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[Total number of processes per second waiting for a workspace memory grant. Numbers higher than 0 indicate a lack of memory.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSSQL$RTC:SQL Statistics Batch Requests/sec" ENABLED="True" CATEGORY="MSSQL$RTC:SQL Statistics" PRIMARYDATASOURCE="\MSSQL$RTC:SQL Statistics\Batch Requests/sec" ID="1a9223a8-f82d-49a5-a447-66f358052fb3" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSSQL$RTC:SQL Statistics\Batch Requests/sec" COLLECTIONVARNAME="CollectionOfMSSQLRTCSQLStatisticsBatchRequestssec" EXPRESSIONPATH="\MSSQL$RTC:SQL Statistics\Batch Requests/sec" TRENDVARNAME="TrendMSSQL$RTCSQLStatisticsBatchRequestssec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSSQL$RTC:SQL Statistics\Batch Requests/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\MSSQL$RTC:SQL Statistics\Batch Requests/sec" CHARTLABELS="instance" />
+    <THRESHOLD NAME="Batch Requests/sec &lt;= 2500" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfMSSQLRTCSQLStatisticsBatchRequestssec -Operator 'le' -Threshold 2500]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[Number  of batch requests received per second, and is a good general indicator for the activity level of the SQL Server.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSSQL$RTCLOCAL:Buffer Manager Page life expectancy" ENABLED="True" CATEGORY="MSSQL$RTCLOCAL:Buffer Manager" PRIMARYDATASOURCE="\MSSQL$RTCLOCAL:Buffer Manager\Page life expectancy" ID="ac151b04-27d3-45cf-8216-b9287643b24a" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSSQL$RTCLOCAL:Buffer Manager\Page life expectancy" COLLECTIONVARNAME="CollectionOfMSSQLRTCLOCALBufferManagerPagelifeexpectancy" EXPRESSIONPATH="\MSSQL$RTCLOCAL:Buffer Manager\Page life expectancy" TRENDVARNAME="TrendMSSQL$RTCLOCALBufferManagerPagelifeexpectancy" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSSQL$RTCLOCAL:Buffer Manager\Page life expectancy" ISTHRESHOLDSADDED="False" DATASOURCE="\MSSQL$RTCLOCAL:Buffer Manager\Page life expectancy" CHARTLABELS="instance" />
+    <THRESHOLD NAME="Page life expectancy &lt;= 300" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfMSSQLRTCLOCALBufferManagerPagelifeexpectancy -Operator 'le' -Threshold 300]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[Avg. in seconds how long SQL Server expects a data page to stay in cache. The target is at least 300 (5 min). When under 300, this may indicate a potential  shortage of memory.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSSQL$RTCLOCAL:Memory Manager\Total Server Memory  Total Server Memory (KB)" ENABLED="False" CATEGORY="MSSQL$RTCLOCAL:Memory Manager" PRIMARYDATASOURCE="\MSSQL$RTCLOCAL:Memory Manager\Total Server Memory (KB)" ID="7c0cbdcd-98d6-42be-b095-738a8d068ce7" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSSQL$RTCLOCAL:Memory Manager\Total Server Memory (KB)" COLLECTIONVARNAME="CollectionOfMSSQLRTCLOCALMemoryManagerTotalServerMemoryTotalServerMemoryKB" EXPRESSIONPATH="\MSSQL$RTCLOCAL:Memory Manager\Total Server Memory (KB)" TRENDVARNAME="TrendMSSQL$RTCLOCALMemoryManagerTotalServerMemoryTotalServerMemoryKB" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSSQL$RTCLOCAL:Memory Manager\Total Server Memory (KB)" ISTHRESHOLDSADDED="False" DATASOURCE="\MSSQL$RTCLOCAL:Memory Manager\Total Server Memory (KB)" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[Shows the amount of memory that SQL Server is currently using.  This value should grow until its equal to Target Server Memory, as it populates its caches and loads pages into memory.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSSQL$RTCLOCAL:Memory Manager\Target Server Memory  Target Server Memory (KB)" ENABLED="False" CATEGORY="MSSQL$RTCLOCAL:Memory Manager" PRIMARYDATASOURCE="\MSSQL$RTCLOCAL:Memory Manager\Target Server Memory (KB)" ID="8ec2b8fc-c04f-4313-bfd8-511993dd5a66" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSSQL$RTCLOCAL:Memory Manager\Target Server Memory (KB)" COLLECTIONVARNAME="CollectionOfMSSQLRTCLOCALMemoryManagerTargetServerMemoryTargetServerMemoryKB" EXPRESSIONPATH="\MSSQL$RTCLOCAL:Memory Manager\Target Server Memory (KB)" TRENDVARNAME="TrendMSSQL$RTCLOCALMemoryManagerTargetServerMemoryTargetServerMemoryKB" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSSQL$RTCLOCAL:Memory Manager\Target Server Memory (KB)" ISTHRESHOLDSADDED="False" DATASOURCE="\MSSQL$RTCLOCAL:Memory Manager\Target Server Memory (KB)" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[Shows the amount of memory that SQL Server wants to use based on the configured  Max Server Memory. It represents the ideal number of pages in the buffer pool. It is the amount of memory that can be committed without causing paging.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSSQL$RTCLOCAL:Memory Manager Memory Grants Pending" ENABLED="True" CATEGORY="MSSQL$RTCLOCAL:Memory Manager" PRIMARYDATASOURCE="\MSSQL$RTCLOCAL:Memory Manager\Memory Grants Pending" ID="cdf351f6-eede-4f3b-976e-f4d51df69520" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSSQL$RTCLOCAL:Memory Manager\Memory Grants Pending" COLLECTIONVARNAME="CollectionOfMSSQLRTCLOCALMemoryManagerMemoryGrantsPending" EXPRESSIONPATH="\MSSQL$RTCLOCAL:Memory Manager\Memory Grants Pending" TRENDVARNAME="TrendMSSQL$RTCLOCALMemoryManagerMemoryGrantsPending" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSSQL$RTCLOCAL:Memory Manager\Memory Grants Pending" ISTHRESHOLDSADDED="False" DATASOURCE="\MSSQL$RTCLOCAL:Memory Manager\Memory Grants Pending" CHARTLABELS="instance" />
+    <THRESHOLD NAME="Memory Grants Pending &gt; 0" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfMSSQLRTCLOCALMemoryManagerMemoryGrantsPending -Operator 'gt' -Threshold 0]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[Total number of processes per second waiting for a workspace memory grant. Numbers higher than 0 indicate a lack of memory.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSSQL$RTCLOCAL:SQL Statistics Batch Requests/sec" ENABLED="True" CATEGORY="MSSQL$RTCLOCAL:SQL Statistics" PRIMARYDATASOURCE="\MSSQL$RTCLOCAL:SQL Statistics\Batch Requests/sec" ID="ae4d7ade-f0ff-418f-8f66-a23dd75990ac" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSSQL$RTCLOCAL:SQL Statistics\Batch Requests/sec" COLLECTIONVARNAME="CollectionOfMSSQLRTCLOCALSQLStatisticsBatchRequestssec" EXPRESSIONPATH="\MSSQL$RTCLOCAL:SQL Statistics\Batch Requests/sec" TRENDVARNAME="TrendMSSQL$RTCLOCALSQLStatisticsBatchRequestssec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSSQL$RTCLOCAL:SQL Statistics\Batch Requests/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\MSSQL$RTCLOCAL:SQL Statistics\Batch Requests/sec" CHARTLABELS="instance" />
+    <THRESHOLD NAME="Batch Requests/sec &lt;= 2500" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfMSSQLRTCLOCALSQLStatisticsBatchRequestssec -Operator 'le' -Threshold 2500]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[Number  of batch requests received per second, and is a good general indicator for the activity level of the SQL Server.]]></DESCRIPTION>
+  </ANALYSIS>
+  <INHERITANCE FILEPATH="" />
+  <INHERITANCE FILEPATH="QuickSystemOverview.xml" />
+</PAL>

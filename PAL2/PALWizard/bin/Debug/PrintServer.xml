@@ -1,0 +1,184 @@
+<?xml version="1.0"?>
+<PAL NAME="Windows® Print Server" DESCRIPTION="Print server counters and analysis." VERSION="1.0" CONTENTOWNERS="Chad Schultz" FEEDBACKEMAILADDRESS="chad.a@microsoft.com" LANGUAGE="English" LANGUAGECODE="en" PALVERSION="2.0">
+  <ANALYSIS NAME="Print Queue Out of Paper Errors" ENABLED="True" CATEGORY="Print Queue" PRIMARYDATASOURCE="\Print Queue(_Total)\Out of Paper Errors" ID="7aa9fe90-b84c-4e2c-9809-fabdb47d2d01" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\Print Queue(_Total)\Out of Paper Errors" COLLECTIONVARNAME="CollectionOfPrintQueueOutofPaperErrors" EXPRESSIONPATH="\Print Queue(_Total)\Out of Paper Errors" TRENDVARNAME="TrendPrintQueueOutofPaperErrors" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Print Queue(_Total)\Out of Paper Errors" ISTHRESHOLDSADDED="False" DATASOURCE="\Print Queue(_Total)\Out of Paper Errors" CHARTLABELS="instance" />
+    <THRESHOLD NAME="Print Queue Out of Paper Errors Warning Threshold &gt;1" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[#// Use PowerShell code to create alerts when the conditions for this threshold are met.
+#// Optionally use the variables listed above in the Variables list box.
+#// If the condition for this threshold is a static value, then use the StaticThreshold() function.
+#// Otherwise, you will need to manually loop through the counter instance collection object.
+#// The counter instance collection object has a unique name for each counter data source in this analysis.
+#// See the variables in the Variables list box above for more information on the counter instance collection object.
+
+#// Here is a ready to use example on how to use the StaticThreshold() function to define a threshold:
+StaticThreshold -CollectionOfCounterInstances $CollectionOfPrintQueueOutofPaperErrors -Operator 'gt' -Threshold 1
+
+#// The -Operator parameter accepts gt for greater than, ge for greater than or equal to, lt for less than,
+#//  and le for less than or equal to. -Threshold is the static value for the threshold.]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="Print Queue Out of Paper Errors Critical Threshold &gt;100" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[#// Use PowerShell code to create alerts when the conditions for this threshold are met.
+#// Optionally use the variables listed above in the Variables list box.
+#// If the condition for this threshold is a static value, then use the StaticThreshold() function.
+#// Otherwise, you will need to manually loop through the counter instance collection object.
+#// The counter instance collection object has a unique name for each counter data source in this analysis.
+#// See the variables in the Variables list box above for more information on the counter instance collection object.
+
+#// Here is a ready to use example on how to use the StaticThreshold() function to define a threshold:
+StaticThreshold -CollectionOfCounterInstances $CollectionOfPrintQueueOutofPaperErrors -Operator 'gt' -Threshold 100
+
+#// The -Operator parameter accepts gt for greater than, ge for greater than or equal to, lt for less than,
+#//  and le for less than or equal to. -Threshold is the static value for the threshold.]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[Total number of out of paper errors in a print queue since the last restart.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Print Queue Jobs" ENABLED="True" CATEGORY="Print Queue" PRIMARYDATASOURCE="\Print Queue(_Total)\Jobs" ID="bcdd51c4-6b78-4dac-8ece-d2f6dab04c46" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Current number of jobs in a print queue.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\Print Queue(_Total)\Jobs" COLLECTIONVARNAME="CollectionOfPrintQueueJobs" EXPRESSIONPATH="\Print Queue(_Total)\Jobs" TRENDVARNAME="TrendPrintQueueJobs" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Print Queue(_Total)\Jobs" ISTHRESHOLDSADDED="False" DATASOURCE="\Print Queue(_Total)\Jobs" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Print Queue Max Jobs Spooling" ENABLED="True" CATEGORY="Print Queue" PRIMARYDATASOURCE="\Print Queue(_Total)\Max Jobs Spooling" ID="a1096dda-f076-4b1f-a4e9-2f973aa78085" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Maximum number of spooling jobs in a print queue since last restart.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\Print Queue(_Total)\Max Jobs Spooling" COLLECTIONVARNAME="CollectionOfPrintQueueMaxJobsSpooling" EXPRESSIONPATH="\Print Queue(_Total)\Max Jobs Spooling" TRENDVARNAME="TrendPrintQueueMaxJobsSpooling" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Print Queue(_Total)\Max Jobs Spooling" ISTHRESHOLDSADDED="False" DATASOURCE="\Print Queue(_Total)\Max Jobs Spooling" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Print Queue Bytes Printed/sec" ENABLED="True" CATEGORY="Print Queue" PRIMARYDATASOURCE="\Print Queue(_Total)\Bytes Printed/sec" ID="06c2bb45-852c-416e-a043-c90176afcd24" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\Print Queue(_Total)\Bytes Printed/sec" COLLECTIONVARNAME="CollectionOfPrintQueueBytesPrintedsec" EXPRESSIONPATH="\Print Queue(_Total)\Bytes Printed/sec" TRENDVARNAME="TrendPrintQueueBytesPrintedsec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Print Queue(_Total)\Bytes Printed/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\Print Queue(_Total)\Bytes Printed/sec" CHARTLABELS="instance" />
+    <THRESHOLD NAME="Print Queue Bytes Printed per Second Warning Threshold &gt;100MB" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[#// Use PowerShell code to create alerts when the conditions for this threshold are met.
+#// Optionally use the variables listed above in the Variables list box.
+#// If the condition for this threshold is a static value, then use the StaticThreshold() function.
+#// Otherwise, you will need to manually loop through the counter instance collection object.
+#// The counter instance collection object has a unique name for each counter data source in this analysis.
+#// See the variables in the Variables list box above for more information on the counter instance collection object.
+
+#// Here is a ready to use example on how to use the StaticThreshold() function to define a threshold:
+StaticThreshold -CollectionOfCounterInstances $CollectionOfPrintQueueBytesPrintedsec -Operator 'gt' -Threshold 100000000
+
+#// The -Operator parameter accepts gt for greater than, ge for greater than or equal to, lt for less than,
+#//  and le for less than or equal to. -Threshold is the static value for the threshold.]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[Number of bytes per second printed on a print queue.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Print Queue Job Errors" ENABLED="True" CATEGORY="Print Queue" PRIMARYDATASOURCE="\Print Queue(_Total)\Job Errors" ID="f4b29876-5525-4b92-8b1f-fd0667d26056" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Total number of job errors in a print queue since last restart.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\Print Queue(_Total)\Job Errors" COLLECTIONVARNAME="CollectionOfPrintQueueJobErrors" EXPRESSIONPATH="\Print Queue(_Total)\Job Errors" TRENDVARNAME="TrendPrintQueueJobErrors" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Print Queue(_Total)\Job Errors" ISTHRESHOLDSADDED="False" DATASOURCE="\Print Queue(_Total)\Job Errors" CHARTLABELS="instance" />
+    <THRESHOLD NAME="Print Queue Job Errors Warning Threshold &gt;1" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[#// Use PowerShell code to create alerts when the conditions for this threshold are met.
+#// Optionally use the variables listed above in the Variables list box.
+#// If the condition for this threshold is a static value, then use the StaticThreshold() function.
+#// Otherwise, you will need to manually loop through the counter instance collection object.
+#// The counter instance collection object has a unique name for each counter data source in this analysis.
+#// See the variables in the Variables list box above for more information on the counter instance collection object.
+
+#// Here is a ready to use example on how to use the StaticThreshold() function to define a threshold:
+StaticThreshold -CollectionOfCounterInstances $CollectionOfPrintQueueJobErrors -Operator 'gt' -Threshold 1
+
+#// The -Operator parameter accepts gt for greater than, ge for greater than or equal to, lt for less than,
+#//  and le for less than or equal to. -Threshold is the static value for the threshold.]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="Print Queue Job Errors Critical Threshold &gt;100" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[#// Use PowerShell code to create alerts when the conditions for this threshold are met.
+#// Optionally use the variables listed above in the Variables list box.
+#// If the condition for this threshold is a static value, then use the StaticThreshold() function.
+#// Otherwise, you will need to manually loop through the counter instance collection object.
+#// The counter instance collection object has a unique name for each counter data source in this analysis.
+#// See the variables in the Variables list box above for more information on the counter instance collection object.
+
+#// Here is a ready to use example on how to use the StaticThreshold() function to define a threshold:
+StaticThreshold -CollectionOfCounterInstances $CollectionOfPrintQueueJobErrors -Operator 'gt' -Threshold 100
+
+#// The -Operator parameter accepts gt for greater than, ge for greater than or equal to, lt for less than,
+#//  and le for less than or equal to. -Threshold is the static value for the threshold.]]></CODE>
+    </THRESHOLD>
+  </ANALYSIS>
+  <ANALYSIS NAME="Print Queue Jobs Spooling" ENABLED="True" CATEGORY="Print Queue" PRIMARYDATASOURCE="\Print Queue(_Total)\Jobs Spooling" ID="3094fb6f-1b13-4e84-a530-5a5679b25066" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Current number of spooling jobs in a print queue.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\Print Queue(_Total)\Jobs Spooling" COLLECTIONVARNAME="CollectionOfPrintQueueJobsSpooling" EXPRESSIONPATH="\Print Queue(_Total)\Jobs Spooling" TRENDVARNAME="TrendPrintQueueJobsSpooling" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Print Queue(_Total)\Jobs Spooling" ISTHRESHOLDSADDED="False" DATASOURCE="\Print Queue(_Total)\Jobs Spooling" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Print Queue Not Ready Errors" ENABLED="True" CATEGORY="Print Queue" PRIMARYDATASOURCE="\Print Queue(_Total)\Not Ready Errors" ID="86f70bb8-99d3-434c-8398-7490ce0200f2" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\Print Queue(_Total)\Not Ready Errors" COLLECTIONVARNAME="CollectionOfPrintQueueNotReadyErrors" EXPRESSIONPATH="\Print Queue(_Total)\Not Ready Errors" TRENDVARNAME="TrendPrintQueueNotReadyErrors" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Print Queue(_Total)\Not Ready Errors" ISTHRESHOLDSADDED="False" DATASOURCE="\Print Queue(_Total)\Not Ready Errors" CHARTLABELS="instance" />
+    <THRESHOLD NAME="Print Queue Not Ready Errors Warning Threshold &gt;1" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[#// Use PowerShell code to create alerts when the conditions for this threshold are met.
+#// Optionally use the variables listed above in the Variables list box.
+#// If the condition for this threshold is a static value, then use the StaticThreshold() function.
+#// Otherwise, you will need to manually loop through the counter instance collection object.
+#// The counter instance collection object has a unique name for each counter data source in this analysis.
+#// See the variables in the Variables list box above for more information on the counter instance collection object.
+
+#// Here is a ready to use example on how to use the StaticThreshold() function to define a threshold:
+StaticThreshold -CollectionOfCounterInstances $CollectionOfPrintQueueNotReadyErrors -Operator 'gt' -Threshold 1
+
+#// The -Operator parameter accepts gt for greater than, ge for greater than or equal to, lt for less than,
+#//  and le for less than or equal to. -Threshold is the static value for the threshold.]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="Print Queue Not Ready Errors Critical Threshold &gt;100" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[#// Use PowerShell code to create alerts when the conditions for this threshold are met.
+#// Optionally use the variables listed above in the Variables list box.
+#// If the condition for this threshold is a static value, then use the StaticThreshold() function.
+#// Otherwise, you will need to manually loop through the counter instance collection object.
+#// The counter instance collection object has a unique name for each counter data source in this analysis.
+#// See the variables in the Variables list box above for more information on the counter instance collection object.
+
+#// Here is a ready to use example on how to use the StaticThreshold() function to define a threshold:
+StaticThreshold -CollectionOfCounterInstances $CollectionOfPrintQueueNotReadyErrors -Operator 'gt' -Threshold 100
+
+#// The -Operator parameter accepts gt for greater than, ge for greater than or equal to, lt for less than,
+#//  and le for less than or equal to. -Threshold is the static value for the threshold.]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[Total number of printer not ready errors in a print queue since the last restart.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Process % Processor Time" ENABLED="True" CATEGORY="Process" PRIMARYDATASOURCE="\Process(spoolsv)\% Processor Time" ID="2847af24-3668-461c-8387-63d30d306623" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[% Processor Time is the percentage of elapsed time that all of process threads used the processor to execution instructions. An instruction is the basic unit of execution in a computer, a thread is the object that executes instructions, and a process is the object created when a program is run. Code executed to handle some hardware interrupts and trap conditions are included in this count.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\Process(spoolsv)\% Processor Time" COLLECTIONVARNAME="CollectionOfProcessPercentProcessorTime" EXPRESSIONPATH="\Process(spoolsv)\% Processor Time" TRENDVARNAME="TrendProcessPercentProcessorTime" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Process(spoolsv)\% Processor Time" ISTHRESHOLDSADDED="False" DATASOURCE="\Process(spoolsv)\% Processor Time" CHARTLABELS="instance" />
+    <THRESHOLD NAME="Spoolsv Processor Time Warning Threshold &gt;50%" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[#// Use PowerShell code to create alerts when the conditions for this threshold are met.
+#// Optionally use the variables listed above in the Variables list box.
+#// If the condition for this threshold is a static value, then use the StaticThreshold() function.
+#// Otherwise, you will need to manually loop through the counter instance collection object.
+#// The counter instance collection object has a unique name for each counter data source in this analysis.
+#// See the variables in the Variables list box above for more information on the counter instance collection object.
+
+#// Here is a ready to use example on how to use the StaticThreshold() function to define a threshold:
+StaticThreshold -CollectionOfCounterInstances $CollectionOfProcessPercentProcessorTime -Operator 'gt' -Threshold 50
+
+#// The -Operator parameter accepts gt for greater than, ge for greater than or equal to, lt for less than,
+#//  and le for less than or equal to. -Threshold is the static value for the threshold.]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="Spoolsv Processor Time Warning Threshold &gt;75%" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[#// Use PowerShell code to create alerts when the conditions for this threshold are met.
+#// Optionally use the variables listed above in the Variables list box.
+#// If the condition for this threshold is a static value, then use the StaticThreshold() function.
+#// Otherwise, you will need to manually loop through the counter instance collection object.
+#// The counter instance collection object has a unique name for each counter data source in this analysis.
+#// See the variables in the Variables list box above for more information on the counter instance collection object.
+
+#// Here is a ready to use example on how to use the StaticThreshold() function to define a threshold:
+StaticThreshold -CollectionOfCounterInstances $CollectionOfProcessPercentProcessorTime -Operator 'gt' -Threshold 75
+
+#// The -Operator parameter accepts gt for greater than, ge for greater than or equal to, lt for less than,
+#//  and le for less than or equal to. -Threshold is the static value for the threshold.]]></CODE>
+    </THRESHOLD>
+  </ANALYSIS>
+  <ANALYSIS NAME="Process Private Bytes" ENABLED="True" CATEGORY="Process" PRIMARYDATASOURCE="\Process(spoolsv)\Private Bytes" ID="48417c5c-abd0-4111-9861-194c8193547c" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\Process(spoolsv)\Private Bytes" COLLECTIONVARNAME="CollectionOfProcessPrivateBytes" EXPRESSIONPATH="\Process(spoolsv)\Private Bytes" TRENDVARNAME="TrendProcessPrivateBytes" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Process(spoolsv)\Private Bytes" ISTHRESHOLDSADDED="False" DATASOURCE="\Process(spoolsv)\Private Bytes" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[Private Bytes is the current size, in bytes, of memory that this process has allocated that cannot be shared with other processes.]]></DESCRIPTION>
+  </ANALYSIS>
+  <INHERITANCE FILEPATH="" />
+</PAL>

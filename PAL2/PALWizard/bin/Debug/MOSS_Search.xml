@@ -1,0 +1,209 @@
+<PAL NAME="Microsoft Office SharePoint Server (MOSS) 2007 and Search" DESCRIPTION="MOSS Search(Crawling) and quick general operating system performance analysis. Use this for analysis of MOSS Search and high level OS analysis. This threshold file does not contain the Process object to help reduce overhead." CONTENTOWNERS="Ron Grzywacz" FEEDBACKEMAILADDRESS="ronalg@microsoft.com" VERSION="1.1" PALVERSION="2.0" LANGUAGE="English" LANGUAGECODE="en">
+  <ANALYSIS NAME="Total Docs in First Queue (Portal_Content)" ENABLED="True" CATEGORY="Office Server Search Archival Plugin" PRIMARYDATASOURCE="\Office Server Search Archival Plugin(Portal_Content)\Total docs in first queue" ID="{8d864ca0-6e83-411b-b93d-5bd7e11e427d}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[This counter shows how many entries the crawler has queued waiting to write to the SSP search database. This analysis checks to see if the number of documents in the first and second queues are too high. 
+        If the value here stays at 500 for Portal Content, or 50 for ProfileImport, for any period of time, the crawler is being starved by 
+        time spent in the archival plugin, which likely indicates SQL I/O issues. Peaks to this number are allowable under brief times of heavy load. 
+        Sustained periods at the maximum values are a cause for concern. Improving SQL I/O latency on this database with help fix this issue. 
+        Consider splitting the SSP search database into two file groups, via the supported method provided by Microsoft. <a href="http://blogs.msdn.com/enterprisesearch/archive/2008/09/16/sql-file-groups-and-search.aspx">SQL File groups and Search</a>
+        <BR><BR>
+        For more on understanding the crawler counters and performance, please read the following: <a href="http://blogs.msdn.com/enterprisesearch/archive/2008/05/09/creating-crawl-schedules-and-starvation-how-to-detect-it-and-minimize-it.aspx">Creating crawl schedules and starvation - How to detect it and minimize it</a> ]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\Office Server Search Archival Plugin(Portal_Content)\Total docs in first queue" COLLECTIONVARNAME="CollectionOfOfficeServerSearchArchivalPluginTotaldocsinfirstqueuePortal_Content" EXPRESSIONPATH="\Office Server Search Archival Plugin(Portal_Content)\Total docs in first queue" DATATYPE="Integer" />
+    <THRESHOLD NAME="High total docs in first queue (Portal_Content)" CONDITION="Critical" COLOR="Red" PRIORITY="100" ID="">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfOfficeServerSearchArchivalPluginTotaldocsinfirstqueuePortal_Content -Operator 'eq' -Threshold 500
+        ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\Office Server Search Archival Plugin(Portal_Content)\Total docs in first queue" ISTHRESHOLDSADDED="False" DATASOURCE="\Office Server Search Archival Plugin(Portal_Content)\Total docs in first queue" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Total Docs in Second Queue (Portal_Content)" ENABLED="True" CATEGORY="Office Server Search Archival Plugin" PRIMARYDATASOURCE="\Office Server Search Archival Plugin(Portal_Content)\Total docs in first queue" ID="{490fa74c-1c36-4c58-8a06-0817f47ebd4b}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[This counter shows how many entries the crawler has queued waiting to write to the SSP search database. This analysis checks to see if the number of documents in the first and second queues are too high. 
+        If the value here stays at 500 for Portal Content, or 50 for ProfileImport, for any period of time, the crawler is being starved by 
+        time spent in the archival plugin, which likely indicates SQL I/O issues. Peaks to this number are allowable under brief times of heavy load. 
+        Sustained periods at the maximum values are a cause for concern. Improving SQL I/O latency on this database with help fix this issue. 
+        Consider splitting the SSP search database into two file groups, via the supported method provided by Microsoft. <a href="http://blogs.msdn.com/enterprisesearch/archive/2008/09/16/sql-file-groups-and-search.aspx">SQL File groups and Search</a>
+        <BR><BR>
+        For more on understanding the crawler counters and performance, please read the following: <a href="http://blogs.msdn.com/enterprisesearch/archive/2008/05/09/creating-crawl-schedules-and-starvation-how-to-detect-it-and-minimize-it.aspx">Creating crawl schedules and starvation - How to detect it and minimize it</a> ]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\Office Server Search Archival Plugin(Portal_Content)\Total docs in Second queue" COLLECTIONVARNAME="CollectionOfOfficeServerSearchArchivalPluginTotaldocsinSecondqueuePortal_Content" EXPRESSIONPATH="\Office Server Search Archival Plugin(Portal_Content)\Total docs in Second queue" DATATYPE="Integer" />
+    <THRESHOLD NAME="High total docs in second queue (Portal_Content)" CONDITION="Critical" COLOR="Red" PRIORITY="100" ID="">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfOfficeServerSearchArchivalPluginTotaldocsinSecondqueuePortal_Content -Operator 'eq' -Threshold 500
+        ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\Office Server Search Archival Plugin(Portal_Content)\Total docs in Second queue" ISTHRESHOLDSADDED="False" DATASOURCE="\Office Server Search Archival Plugin(Portal_Content)\Total docs in Second queue" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Total Docs in First Queue (ProfileImport)" ENABLED="True" CATEGORY="Office Server Search Archival Plugin" PRIMARYDATASOURCE="\Office Server Search Archival Plugin(ProfileImport)\Total docs in first queue" ID="{6cda35a2-3b10-4f82-a5d0-458561dcfcab}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[This counter shows how many entries the crawler has queued waiting to write to the SSP search database. This analysis checks to see if the number of documents in the first and second queues are too high. 
+        If the value here stays at 500 for Portal Content, or 50 for ProfileImport, for any period of time, the crawler is being starved by 
+        time spent in the archival plugin, which likely indicates SQL I/O issues. Peaks to this number are allowable under brief times of heavy load. 
+        Sustained periods at the maximum values are a cause for concern. Improving SQL I/O latency on this database with help fix this issue. 
+        Consider splitting the SSP search database into two file groups, via the supported method provided by Microsoft. <a href="http://blogs.msdn.com/enterprisesearch/archive/2008/09/16/sql-file-groups-and-search.aspx">SQL File groups and Search</a>
+        <BR><BR>
+        For more on understanding the crawler counters and performance, please read the following: <a href="http://blogs.msdn.com/enterprisesearch/archive/2008/05/09/creating-crawl-schedules-and-starvation-how-to-detect-it-and-minimize-it.aspx">Creating crawl schedules and starvation - How to detect it and minimize it</a> ]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\Office Server Search Archival Plugin(ProfileImport)\Total docs in first queue" COLLECTIONVARNAME="CollectionOfOfficeServerSearchArchivalPluginTotaldocsinfirstqueueProfileImport" EXPRESSIONPATH="\Office Server Search Archival Plugin(ProfileImport)\Total docs in first queue" DATATYPE="Integer" />
+    <THRESHOLD NAME="High total docs in first queue (ProfileImport)" CONDITION="Critical" COLOR="Red" PRIORITY="100" ID="">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfOfficeServerSearchArchivalPluginTotaldocsinfirstqueueProfileImport -Operator 'eq' -Threshold 50
+        ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\Office Server Search Archival Plugin(ProfileImport)\Total docs in first queue" ISTHRESHOLDSADDED="False" DATASOURCE="\Office Server Search Archival Plugin(Portal_Content)\Total docs in first queue" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Total Docs in Second Queue (ProfileImport)" ENABLED="True" CATEGORY="Office Server Search Archival Plugin" PRIMARYDATASOURCE="\Office Server Search Archival Plugin(ProfileImport)\Total docs in first queue" ID="{de8f4584-bde7-4435-9f1e-a6213410f5fa}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[This counter shows how many entries the crawler has queued waiting to write to the SSP search database. This analysis checks to see if the number of documents in the first and second queues are too high. 
+        If the value here stays at 500 for Portal Content, or 50 for ProfileImport, for any period of time, the crawler is being starved by 
+        time spent in the archival plugin, which likely indicates SQL I/O issues. Peaks to this number are allowable under brief times of heavy load. 
+        Sustained periods at the maximum values are a cause for concern. Improving SQL I/O latency on this database with help fix this issue. 
+        Consider splitting the SSP search database into two file groups, via the supported method provided by Microsoft. <a href="http://blogs.msdn.com/enterprisesearch/archive/2008/09/16/sql-file-groups-and-search.aspx">SQL File groups and Search</a>
+        <BR><BR>
+        For more on understanding the crawler counters and performance, please read the following: <a href="http://blogs.msdn.com/enterprisesearch/archive/2008/05/09/creating-crawl-schedules-and-starvation-how-to-detect-it-and-minimize-it.aspx">Creating crawl schedules and starvation - How to detect it and minimize it</a> ]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\Office Server Search Archival Plugin(ProfileImport)\Total docs in Second queue" COLLECTIONVARNAME="CollectionOfOfficeServerSearchArchivalPluginTotaldocsinSecondqueueProfileImport" EXPRESSIONPATH="\Office Server Search Archival Plugin(ProfileImport)\Total docs in Second queue" DATATYPE="Integer" />
+    <THRESHOLD NAME="High total docs in second queue (ProfileImport)" CONDITION="Critical" COLOR="Red" PRIORITY="100" ID="">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfOfficeServerSearchArchivalPluginTotaldocsinSecondqueueProfileImport -Operator 'eq' -Threshold 50
+        ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\Office Server Search Archival Plugin(ProfileImport)\Total docs in Second queue" ISTHRESHOLDSADDED="False" DATASOURCE="\Office Server Search Archival Plugin(Portal_Content)\Total docs in Second queue" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Idle Crawler Threads" ENABLED="True" CATEGORY="Office Server Search Gatherer" PRIMARYDATASOURCE="\Office Server Search Gatherer\Idle Threads" ID="{c119ce9b-3f20-4615-abe6-d4db190c058b}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[This counter monitors the number of threads the crawler is using. This analysis looks at the number of idle crawling threads. If the number of idle threads is too low,  it's likely that too many content sources are being crawled at once. 
+      <BR>
+      For more on understanding the crawler counters and performance, please read the following:
+      <a href="http://blogs.msdn.com/enterprisesearch/archive/2008/05/09/creating-crawl-schedules-and-starvation-how-to-detect-it-and-minimize-it.aspx">Creating crawl schedules and starvation - How to detect it and minimize it</a> ]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\Office Server Search Gatherer\Idle Threads" COLLECTIONVARNAME="CollectionOfOfficeServerSearchGathererIdleThreads" EXPRESSIONPATH="\Office Server Search Gatherer\Idle Threads" DATATYPE="Integer" />
+    <THRESHOLD NAME="No idle crawling threads" CONDITION="Critical" COLOR="Red" PRIORITY="100" ID="">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfOfficeServerSearchGathererIdleThreads -Operator 'eq' -Threshold 0
+        ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\Office Server Search Gatherer\Idle Threads" ISTHRESHOLDSADDED="True" DATASOURCE="\Office Server Search Gatherer\Idle Threads" CHARTLABELS="instance">
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfOfficeServerSearchGathererIdleThreads -MinThreshold 0.001 -MaxThreshold 1 -UseMaxValue $True -IsOperatorGreaterThan $False
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+  </ANALYSIS>
+  <ANALYSIS NAME="Threads Accessing Network" ENABLED="True" CATEGORY="Office Server Search Gatherer" PRIMARYDATASOURCE="\Office Server Search Gatherer\Threads Accessing Network" ID="{2daa9033-af3e-41fd-8750-8da4161b737f}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[This counter examines the number of crawler threads accessing the network. The analysis checks to see if the percentage of crawling threads accessing the network is too high. 
+      If the number is too high, then the crawler is network bound, or a "hungry host" is being crawled. This potentially means that your crawl is being slowed down. There are several types
+      of content sources that can cause slow downs. For more specific information on host types, read the article linked below. You can distinguish the difference between actually waiting 
+      on the network versus filtering the document by looking at a combination of CPU usage and Network usage counters. If this number is consistently high then you are either network bound 
+      or you are bound by a "hungry" host. If you are not meeting your crawl freshness goals, you can either change your crawl schedules to minimize overlapping crawls or 
+      look the remote repositories you are crawling to optimize them for more throughput. 
+      <BR><BR>
+      For more on understanding the crawler counters and performance, please read the following: <a href="http://blogs.msdn.com/enterprisesearch/archive/2008/05/09/creating-crawl-schedules-and-starvation-how-to-detect-it-and-minimize-it.aspx">Creating crawl schedules and starvation - How to detect it and minimize it</a> ]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\Office Server Search Gatherer\Threads Accessing Network" COLLECTIONVARNAME="CollectionOfOfficeServerSearchGathererThreadsAccessingNetwork" EXPRESSIONPATH="\Office Server Search Gatherer\Threads Accessing Network" DATATYPE="Integer" />
+    <DATASOURCE TYPE="CounterLog" NAME="\Office Server Search Gatherer\Filtering Threads" COLLECTIONVARNAME="CollectionOfOfficeServerSearchGathererFilteringThreads" EXPRESSIONPATH="\Office Server Search Gatherer\Filtering Threads" DATATYPE="Integer" />
+    <DATASOURCE TYPE="Generated" NAME="\Office Server Search Gatherer\Filtering Threads to Network Threads Ratio Percentage" EXPRESSIONPATH="\Office Server Search Gatherer\Filtering Threads to Network Threads Ratio Percentage" COLLECTIONVARNAME="CollectionOfOfficeServerSearchThreadsToNetworkThreadsRatioPercentage" DATATYPE="Integer">
+      <CODE><![CDATA[
+          $CollectionOfOfficeServerSearchThreadsToNetworkThreadsRatioPercentage = @{}
+          For ($a=0;$a -lt $CollectionOfOfficeServerSearchGathererThreadsAccessingNetwork.Count;$a++)
+          {
+            $InstanceOfOfficeServerSearchGathererThreadsAccessingNetwork = $CollectionOfOfficeServerSearchGathererThreadsAccessingNetwork[$a]
+            #// Match up the same named instance.
+            For ($b=0;$b -lt $CollectionOfOfficeServerSearchGathererFilteringThreads.Count;$b++)
+            {
+              If ($InstanceOfOfficeServerSearchGathererThreadsAccessingNetwork.CounterInstance -eq $CollectionOfOfficeServerSearchGathererFilteringThreads[$b].CounterInstance)
+              {
+                $m = $b
+              }
+            }
+            $blValues = New-Object System.Collections.ArrayList
+            For ($v=0;$v -lt $CollectionOfOfficeServerSearchGathererThreadsAccessingNetwork[$a].Value.Count;$v++)
+            {
+              If ((IsGreaterThanZero $CollectionOfOfficeServerSearchGathererThreadsAccessingNetwork[$a].Value[$v]) -and (IsGreaterThanZero $CollectionOfOfficeServerSearchGathererFilteringThreads[$m].Value[$v]))
+              {
+                If (($CollectionOfOfficeServerSearchGathererThreadsAccessingNetwork[$a].Value[$v] -gt 1) -and ($CollectionOfOfficeServerSearchGathererFilteringThreads[$m].Value[$v] -gt 1))
+                {
+                  [int]$iRatio = $([double]$CollectionOfOfficeServerSearchGathererThreadsAccessingNetwork[$a].Value[$v] / [double]$CollectionOfOfficeServerSearchGathererFilteringThreads[$m].Value[$v]) * 100
+                }
+                Else
+                {
+                  $iRatio = 0
+                }
+                [void] $blValues.Add($iRatio)
+              }
+              Else
+              {
+                [void] $blValues.Add(0)
+              }
+            }
+            $sGeneratedInstanceName = "\\$($CollectionOfOfficeServerSearchGathererThreadsAccessingNetwork[$a].CounterComputer)\Office Server Search Gatherer\Filtering Threads to Network Threads Ratio Percentage"
+            $CollectionOfOfficeServerSearchThreadsToNetworkThreadsRatioPercentage.Add($sGeneratedInstanceName,$blValues)
+          }
+        ]]></CODE>
+    </DATASOURCE>
+    <THRESHOLD NAME="The percentage of crawling threads accessing the network is over 75 percent" CONDITION="Critical" COLOR="Red" PRIORITY="100" ID="">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfOfficeServerSearchThreadsToNetworkThreadsRatioPercentage -Operator 'gt' -Threshold 75
+        ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\Office Server Search Gatherer\Filtering Threads to Network Threads Ratio Percentage" ISTHRESHOLDSADDED="True" DATASOURCE="\Office Server Search Gatherer\Filtering Threads to Network Threads Ratio Percentage" CHARTLABELS="instance">
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfOfficeServerSearchThreadsToNetworkThreadsRatioPercentage -MinThreshold 75 -MaxThreshold 99.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+    <CHART CHARTTITLE="\Office Server Search Gatherer\Threads Accessing Network" ISTHRESHOLDSADDED="False" DATASOURCE="\Office Server Search Gatherer\Threads Accessing Network" CHARTLABELS="instance" />
+    <CHART CHARTTITLE="\Office Server Search Gatherer\Filtering Threads" ISTHRESHOLDSADDED="False" DATASOURCE="\Office Server Search Gatherer\Filtering Threads" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Threads in Plug-ins" ENABLED="True" CATEGORY="Office Server Search Gatherer" PRIMARYDATASOURCE="\Office Server Search Gatherer\Threads In Plug-ins" ID="{b8a06f33-a4bf-4878-a97c-45aa7010ad8f}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[This counter examines the number of crawler threads inside of plug ins. When threads are in plug-ins, they're creating the index and property store. This analysis 
+      checks to see if the percentage of crawling threads in plug-ins is too high. If the percentage is high, then the crawler is likely SQL bound. Check the archival plug in 
+      values again.
+      <BR><BR>
+      For more on understanding the crawler counters and performance, please read the following: <a href="http://blogs.msdn.com/enterprisesearch/archive/2008/05/09/creating-crawl-schedules-and-starvation-how-to-detect-it-and-minimize-it.aspx">Creating crawl schedules and starvation - How to detect it and minimize it</a> ]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\Office Server Search Gatherer\Threads In Plug-ins" COLLECTIONVARNAME="CollectionOfOfficeServerSearchGathererThreadsInPlugins" EXPRESSIONPATH="\Office Server Search Gatherer\Threads In Plug-ins" DATATYPE="Integer" />
+    <DATASOURCE TYPE="CounterLog" NAME="\Office Server Search Gatherer\Filtering Threads" COLLECTIONVARNAME="CollectionOfOfficeServerSearchGathererFilteringThreads" EXPRESSIONPATH="\Office Server Search Gatherer\Filtering Threads" DATATYPE="Integer" />
+    <DATASOURCE TYPE="Generated" NAME="\Office Server Search Gatherer\Plugin Threads to Filtering Threads Ratio Percentage" EXPRESSIONPATH="\Office Server Search Gatherer\Plugin Threads to Filtering Threads Ratio Percentage" COLLECTIONVARNAME="CollectionOfOfficeServerSearchGathererPluginThreadsToFilteringThreadsRatioPercentage" DATATYPE="Integer">
+      <CODE><![CDATA[
+          $CollectionOfOfficeServerSearchGathererPluginThreadsToFilteringThreadsRatioPercentage = @{}
+          For ($a=0;$a -lt $CollectionOfOfficeServerSearchGathererThreadsInPlugins.Count;$a++)
+          {
+            #// Match up the same named instance.
+            For ($b=0;$b -lt $CollectionOfOfficeServerSearchGathererFilteringThreads.Count;$b++)
+            {
+              If ($CollectionOfOfficeServerSearchGathererThreadsInPlugins[$a].CounterInstance -eq $CollectionOfOfficeServerSearchGathererFilteringThreads[$b].CounterInstance)
+              {
+                $m = $b
+              }
+            }
+            $blValues = New-Object System.Collections.ArrayList
+            For ($v=0;$v -lt $CollectionOfOfficeServerSearchGathererThreadsInPlugins[$a].Value.Count;$v++)
+            {
+              If ((IsGreaterThanZero $CollectionOfOfficeServerSearchGathererThreadsInPlugins[$a].Value[$v]) -and (IsGreaterThanZero $CollectionOfOfficeServerSearchGathererFilteringThreads[$m].Value[$v]))
+              {
+                If (($CollectionOfOfficeServerSearchGathererThreadsInPlugins[$a].Value[$v] -gt 1) -and ($CollectionOfOfficeServerSearchGathererFilteringThreads[$m].Value[$v] -gt 1))
+                {
+                  [int]$iRatio = $([double]$CollectionOfOfficeServerSearchGathererThreadsInPlugins[$a].Value[$v] / [double]$CollectionOfOfficeServerSearchGathererFilteringThreads[$m].Value[$v]) * 100
+                }
+                Else
+                {
+                  $iRatio = 0
+                }
+                [void] $blValues.Add($iRatio)
+              }
+              Else
+              {
+                [void] $blValues.Add(0)
+              }
+            }
+            $sGeneratedInstanceName = "\\$($CollectionOfOfficeServerSearchGathererThreadsInPlugins[$a].CounterComputer)\Office Server Search Gatherer\Plugin Threads to Filtering Threads Ratio Percentage"
+            $CollectionOfOfficeServerSearchGathererPluginThreadsToFilteringThreadsRatioPercentage.Add($sGeneratedInstanceName,$blValues)
+          }
+        ]]></CODE>
+    </DATASOURCE>
+    <CHART CHARTTITLE="\Office Server Search Gatherer\Threads In Plug-ins" ISTHRESHOLDSADDED="False" DATASOURCE="\Office Server Search Gatherer\Threads In Plug-ins" CHARTLABELS="instance" />
+    <CHART CHARTTITLE="\Office Server Search Gatherer\Filtering Threads" ISTHRESHOLDSADDED="False" DATASOURCE="\Office Server Search Gatherer\Filtering Threads" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <!--<INHERITANCE FILEPATH="SharePoint.xml" />
+  <INHERITANCE FILEPATH="SystemOverview.xml" />
+  <INHERITANCE FILEPATH="SQLServer.xml" />-->
+  <INHERITANCE FILEPATH="QuickSystemOverview.xml" />
+</PAL>

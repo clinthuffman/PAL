@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+<PAL PALVERSION="2.0" NAME="Calculated Disk IOPS" DESCRIPTION="A quick overview of the system with calculated disk IOPS." CONTENTOWNERS="Clint Huffman" FEEDBACKEMAILADDRESS="clinth@microsoft.com" VERSION="1.8" LANGUAGE="English" LANGUAGECODE="en">
+  <QUESTION QUESTIONVARNAME="RAID5Drives" DATATYPE="string" DEFAULTVALUE="NULL">List the physical disks that are using RAID5 separated by commas (,). Example: D,E,F. If you don't know, then use the default of NULL.</QUESTION>
+  <QUESTION QUESTIONVARNAME="RAID1Drives" DATATYPE="string" DEFAULTVALUE="NULL">List the physical disks that are using RAID1, RAID0+1, or RAID10 separated by commas (,). Example: D,E,F. If you don't know, then use the default of NULL.</QUESTION>
+
+  <ANALYSIS NAME="PhysicalDisk Calculated IOPS" ENABLED="True" CATEGORY="PhysicalDisk" PRIMARYDATASOURCE="\PhysicalDisk(*)\Disk Reads/sec" ID="55cf8ed2-887c-4c36-a768-6b313928692c" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\PhysicalDisk(*)\Disk Reads/sec" COLLECTIONVARNAME="CollectionOfPhysicalDiskDiskReadssec" EXPRESSIONPATH="\PhysicalDisk(*)\Disk Reads/sec" TRENDVARNAME="TrendPhysicalDiskDiskReadssec" DATATYPE="integer">
+      <EXCLUDE INSTANCE="_Total" />
+    </DATASOURCE>
+    <CHART CHARTTITLE="\PhysicalDisk(*)\Disk Reads/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\PhysicalDisk(*)\Disk Reads/sec" CHARTLABELS="instance" />
+    <CHART CHARTTITLE="\PhysicalDisk(*)\Disk Writes/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\PhysicalDisk(*)\Disk Writes/sec" CHARTLABELS="instance" />
+    <CHART CHARTTITLE="\PhysicalDisk(*)\Calculated IOPS" ISTHRESHOLDSADDED="False" DATASOURCE="\PhysicalDisk(*)\Calculated IOPS" CHARTLABELS="instance" />
+    <DATASOURCE TYPE="CounterLog" NAME="\PhysicalDisk(*)\Disk Writes/sec" EXPRESSIONPATH="\PhysicalDisk(*)\Disk Writes/sec" COLLECTIONVARNAME="CollectionOfPhysicalDiskDiskWritessecAll" DATATYPE="integer">
+      <EXCLUDE INSTANCE="_Total" />
+    </DATASOURCE>
+    <DATASOURCE TYPE="Generated" NAME="\PhysicalDisk(*)\Calculated IOPS" EXPRESSIONPATH="\PhysicalDisk(*)\Calculated IOPS" COLLECTIONVARNAME="CollectionOfPhysicalDiskCalculatedIOPSAll" DATATYPE="integer">
+      <EXCLUDE INSTANCE="_Total" />
+      <CODE>
+        <![CDATA[
+$CollectionOfPhysicalDiskCalculatedIOPSAll = @{}
+For ($i=0;$i -lt $CollectionOfPhysicalDiskDiskReadssec.Count;$i++)
+{
+	$alValues = New-Object System.Collections.ArrayList
+	For ($v=0;$v -lt $CollectionOfPhysicalDiskDiskReadssec[$i].Value.Count;$v++)
+	{
+        $iWriteMultiplier = 1
+        $aRAID1Drives = $RAID1Drives.Split(',')
+        For ($i1=0;$i1 -lt $aRAID1Drives.Count;$i1++)
+        {
+            If ($CollectionOfPhysicalDiskDiskWritessecAll[$i].CounterInstance.Contains($aRAID1Drives[$i1]))
+            {
+                $iWriteMultiplier = 2
+            }
+        }
+        $aRAID5Drives = $RAID5Drives.Split(',')
+        For ($i5=0;$i5 -lt $aRAID5Drives.Count;$i5++)
+        {
+            If ($CollectionOfPhysicalDiskDiskWritessecAll[$i].CounterInstance.Contains($aRAID5Drives[$i5]))
+            {
+                $iWriteMultiplier = 4
+            }
+        }
+        If (($CollectionOfPhysicalDiskDiskReadssec[$i].Value[$v] -gt 0) -and ($CollectionOfPhysicalDiskDiskWritessecAll[$i].Value[$v] -gt 0))
+        {
+          [System.Int64] $iIOPS = [math]::Round($([double]$CollectionOfPhysicalDiskDiskReadssec[$i].Value[$v] + ([double]$CollectionOfPhysicalDiskDiskWritessecAll[$i].Value[$v] * [System.Int32]$iWriteMultiplier)),0)
+        }
+        Else
+        {
+          [System.Int64] $iIOPS = 0
+        }
+        
+		If ($iIOPS -gt 0)
+		{            
+			[void] $alValues.Add($iIOPS)
+		}
+		Else
+		{
+			[void] $alValues.Add(0)
+		}
+
+	}
+	$sGeneratedInstanceName = "\\$($CollectionOfPhysicalDiskDiskReadssec[$i].CounterComputer)\$($CollectionOfPhysicalDiskDiskReadssec[$i].CounterObject)($($CollectionOfPhysicalDiskDiskReadssec[$i].CounterInstance))\Calculated IOPS"
+	$CollectionOfPhysicalDiskCalculatedIOPSAll.Add($sGeneratedInstanceName,$alValues)
+}
+        ]]>
+      </CODE>
+    </DATASOURCE>
+    <DESCRIPTION><![CDATA[This analysis creates a generated counter that estimates the rate of IOs per second (IOPS) that the hardware might be processing given the RAID type. This analysis uses the drives of RAID type user arguments. RAID0 is assumed unless otherwise specified.]]></DESCRIPTION>
+  </ANALYSIS>
+  <INHERITANCE FILEPATH="QuickSystemOverview.xml" />
+</PAL>

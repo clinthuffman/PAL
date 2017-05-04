@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<PAL NAME="Microsoft Exchange 2007 - HUB/MBX (TechNet)" DESCRIPTION="Includes counters and thresholds for the Exchange Server 2007 Hub Transport and Mailbox roles based on the following product documentation: http://technet.microsoft.com/en-us/library/bb201704%28v=exchg.80%29 and http://technet.microsoft.com/en-us/library/bb201689%28v=exchg.80%29" VERSION="1.0" PALVERSION="2.0" CONTENTOWNERS="Kevan Brown" FEEDBACKEMAILADDRESS="kbrown@smartronix.com">
+  <INHERITANCE FILEPATH="Exchange2007-MBX-TechNet.xml" />  
+  <INHERITANCE FILEPATH="Exchange2007-HUB-TechNet.xml" />
+</PAL>

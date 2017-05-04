@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<PAL PALVERSION="2.0" NAME="Microsoft Lync Server 2010 - Monitoring/Archiving" DESCRIPTION="Performance counter thresholds for Microsoft Lync Server 2010 Monitor/Archiving Server." VERSION="1.0" CONTENTOWNERS="Doug Deitterick" FEEDBACKEMAILADDRESS="dodeitte@microsoft.com">
+  <ANALYSIS NAME="LS:CDR Service - 00 - DBCdr\CDR Service - 002 - Queue Latency  CDR Service - 002 - Queue Latency (msec)" ENABLED="True" CATEGORY="LS:CDR Service - 00 - DBCdr" PRIMARYDATASOURCE="\LS:CDR Service - 00 - DBCdr\CDR Service - 002 - Queue Latency (msec)" ID="44f7fde4-9115-4467-9abd-e9401fbd43c1" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The average time (in milliseconds) a request is held in the database queue.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\LS:CDR Service - 00 - DBCdr\CDR Service - 002 - Queue Latency (msec)" COLLECTIONVARNAME="CollectionOfLSCDRService00DBCdrCDRService002QueueLatencyCDRService002QueueLatencymsec" EXPRESSIONPATH="\LS:CDR Service - 00 - DBCdr\CDR Service - 002 - Queue Latency (msec)" TRENDVARNAME="TrendLSCDRService00DBCdrCDRService002QueueLatencyCDRService002QueueLatencymsec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LS:CDR Service - 00 - DBCdr\CDR Service - 002 - Queue Latency (msec)" ISTHRESHOLDSADDED="False" DATASOURCE="\LS:CDR Service - 00 - DBCdr\CDR Service - 002 - Queue Latency (msec)" CHARTLABELS="instance" />
+    <THRESHOLD NAME="Queue Latency (msec) &gt;= 250" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfLSCDRService00DBCdrCDRService002QueueLatencyCDRService002QueueLatencymsec -Operator 'ge' -Threshold 250]]></CODE>
+    </THRESHOLD>
+  </ANALYSIS>
+  <ANALYSIS NAME="LS:CDR Service - 00 - DBCdr\CDR Service - 004 - Sproc Latency  CDR Service - 004 - Sproc Latency (msec)" ENABLED="True" CATEGORY="LS:CDR Service - 00 - DBCdr" PRIMARYDATASOURCE="\LS:CDR Service - 00 - DBCdr\CDR Service - 004 - Sproc Latency (msec)" ID="5f84e2b3-86dc-4fc4-88e3-ba235547c4c1" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The average time (in milliseconds) it takes to execute a sproc call.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\LS:CDR Service - 00 - DBCdr\CDR Service - 004 - Sproc Latency (msec)" COLLECTIONVARNAME="CollectionOfLSCDRService00DBCdrCDRService004SprocLatencyCDRService004SprocLatencymsec" EXPRESSIONPATH="\LS:CDR Service - 00 - DBCdr\CDR Service - 004 - Sproc Latency (msec)" TRENDVARNAME="TrendLSCDRService00DBCdrCDRService004SprocLatencyCDRService004SprocLatencymsec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LS:CDR Service - 00 - DBCdr\CDR Service - 004 - Sproc Latency (msec)" ISTHRESHOLDSADDED="False" DATASOURCE="\LS:CDR Service - 00 - DBCdr\CDR Service - 004 - Sproc Latency (msec)" CHARTLABELS="instance" />
+    <THRESHOLD NAME="Sproc Latency (msec) &gt;= 250" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfLSCDRService00DBCdrCDRService004SprocLatencyCDRService004SprocLatencymsec -Operator 'ge' -Threshold 250]]></CODE>
+    </THRESHOLD>
+  </ANALYSIS>
+  <ANALYSIS NAME="LS:CDR Service - 01 - READ CDR Service - 006 - Dropped messages from MQ" ENABLED="True" CATEGORY="LS:CDR Service - 01 - READ" PRIMARYDATASOURCE="\LS:CDR Service - 01 - READ\CDR Service - 006 - Dropped messages from MQ" ID="32e1cfaa-1eab-4631-ba76-a7c085ec7b2f" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\LS:CDR Service - 01 - READ\CDR Service - 006 - Dropped messages from MQ" COLLECTIONVARNAME="CollectionOfLSCDRService01READCDRService006DroppedmessagesfromMQ" EXPRESSIONPATH="\LS:CDR Service - 01 - READ\CDR Service - 006 - Dropped messages from MQ" TRENDVARNAME="TrendLSCDRService01READCDRService006DroppedmessagesfromMQ" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LS:CDR Service - 01 - READ\CDR Service - 006 - Dropped messages from MQ" ISTHRESHOLDSADDED="False" DATASOURCE="\LS:CDR Service - 01 - READ\CDR Service - 006 - Dropped messages from MQ" CHARTLABELS="instance" />
+    <THRESHOLD NAME="Dropped messages from MQ &gt; 0" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfLSCDRService01READCDRService006DroppedmessagesfromMQ -Operator 'gt' -Threshold 0]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[Number of messages dropped from MSMQ queue.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="LS:Arch Service - 01 - READ Arch Service - 002 - Messages that failed validation" ENABLED="True" CATEGORY="LS:Arch Service - 01 - READ" PRIMARYDATASOURCE="\LS:Arch Service - 01 - READ\Arch Service - 002 - Messages that failed validation" ID="22ffe132-f6a6-4570-bf58-906a1171c6dc" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Number of messages that validation failed for.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\LS:Arch Service - 01 - READ\Arch Service - 002 - Messages that failed validation" COLLECTIONVARNAME="CollectionOfLSArchService01READArchService002Messagesthatfailedvalidation" EXPRESSIONPATH="\LS:Arch Service - 01 - READ\Arch Service - 002 - Messages that failed validation" TRENDVARNAME="TrendLSArchService01READArchService002Messagesthatfailedvalidation" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LS:Arch Service - 01 - READ\Arch Service - 002 - Messages that failed validation" ISTHRESHOLDSADDED="False" DATASOURCE="\LS:Arch Service - 01 - READ\Arch Service - 002 - Messages that failed validation" CHARTLABELS="instance" />
+    <THRESHOLD NAME="Messages that failed validation &gt;= 10" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfLSArchService01READArchService002Messagesthatfailedvalidation -Operator 'ge' -Threshold 10]]></CODE>
+    </THRESHOLD>
+  </ANALYSIS>
+  <ANALYSIS NAME="LS:Arch Service - 01 - READ Arch Service - 006 - Dropped messages from MQ" ENABLED="True" CATEGORY="LS:Arch Service - 01 - READ" PRIMARYDATASOURCE="\LS:Arch Service - 01 - READ\Arch Service - 006 - Dropped messages from MQ" ID="d8d43215-fb5f-4463-8cc5-edd59bf5293a" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Number of messages dropped from MSMQ queue.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\LS:Arch Service - 01 - READ\Arch Service - 006 - Dropped messages from MQ" COLLECTIONVARNAME="CollectionOfLSArchService01READArchService006DroppedmessagesfromMQ" EXPRESSIONPATH="\LS:Arch Service - 01 - READ\Arch Service - 006 - Dropped messages from MQ" TRENDVARNAME="TrendLSArchService01READArchService006DroppedmessagesfromMQ" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LS:Arch Service - 01 - READ\Arch Service - 006 - Dropped messages from MQ" ISTHRESHOLDSADDED="False" DATASOURCE="\LS:Arch Service - 01 - READ\Arch Service - 006 - Dropped messages from MQ" CHARTLABELS="instance" />
+    <THRESHOLD NAME="Dropped messages from MQ &gt;= 10" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfLSArchService01READArchService006DroppedmessagesfromMQ -Operator 'ge' -Threshold 10]]></CODE>
+    </THRESHOLD>
+  </ANALYSIS>
+  <ANALYSIS NAME="LS:Arch Service - 02 - WRITE Arch Service - 002 - Messages failed to be written to DB" ENABLED="True" CATEGORY="LS:Arch Service - 02 - WRITE" PRIMARYDATASOURCE="\LS:Arch Service - 02 - WRITE\Arch Service - 002 - Messages failed to be written to DB" ID="9d0f696b-d7e5-4e41-8c01-736ea532df49" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\LS:Arch Service - 02 - WRITE\Arch Service - 002 - Messages failed to be written to DB" COLLECTIONVARNAME="CollectionOfLSArchService02WRITEArchService002MessagesfailedtobewrittentoDB" EXPRESSIONPATH="\LS:Arch Service - 02 - WRITE\Arch Service - 002 - Messages failed to be written to DB" TRENDVARNAME="TrendLSArchService02WRITEArchService002MessagesfailedtobewrittentoDB" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LS:Arch Service - 02 - WRITE\Arch Service - 002 - Messages failed to be written to DB" ISTHRESHOLDSADDED="False" DATASOURCE="\LS:Arch Service - 02 - WRITE\Arch Service - 002 - Messages failed to be written to DB" CHARTLABELS="instance" />
+    <THRESHOLD NAME="Messages failed to be written to DB &gt;= 500" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfLSArchService02WRITEArchService002MessagesfailedtobewrittentoDB -Operator 'ge' -Threshold 500]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[Number of messages failed to be written to SQL database.]]></DESCRIPTION>
+  </ANALYSIS>
+  <INHERITANCE FILEPATH="QuickSystemOverview.xml" />
+</PAL>

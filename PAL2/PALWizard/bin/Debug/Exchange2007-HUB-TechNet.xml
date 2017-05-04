@@ -1,0 +1,659 @@
+<?xml version="1.0"?>
+<PAL NAME="Microsoft Exchange 2007 - HUB (TechNet)" DESCRIPTION="Includes counters and thresholds for the Exchange Server 2007 Hub Transport server role based on the following product documentation: http://technet.microsoft.com/en-us/library/bb201704%28v=exchg.80%29" VERSION="1.0" PALVERSION="2.0" CONTENTOWNERS="Kevan Brown" FEEDBACKEMAILADDRESS="kbrown@smartronix.com">
+  <ANALYSIS NAME="Hub Transport - LogicalDisk Avg. Disk sec/Read" ENABLED="True" CATEGORY="LogicalDisk" PRIMARYDATASOURCE="\LogicalDisk(*)\Avg. Disk sec/Read" ID="92ea0162-16d2-4060-8585-67f7c9ae57f0" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\LogicalDisk(*)\Avg. Disk sec/Read" COLLECTIONVARNAME="CollectionOfLogicalDiskAvgDisksecRead" EXPRESSIONPATH="\LogicalDisk(*)\Avg. Disk sec/Read" TRENDVARNAME="TrendLogicalDiskAvgDisksecRead" DATATYPE="round3">
+      <EXCLUDE INSTANCE="_Total" />
+    </DATASOURCE>
+    <CHART CHARTTITLE="\LogicalDisk(*)\Avg. Disk sec/Read" ISTHRESHOLDSADDED="False" DATASOURCE="\LogicalDisk(*)\Avg. Disk sec/Read" CHARTLABELS="instance" />
+    <THRESHOLD NAME="Logical disk average disk read seconds average of 20ms or more, or spikes of 50ms or greater" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[
+For ($i=0;$i -lt $CollectionOfLogicalDiskAvgDisksecRead.Count;$i++)
+{
+	$oCounterInstance = $CollectionOfLogicalDiskAvgDisksecRead[$i]
+    
+	For ($t=0;$t -lt $alQuantizedTime.Count;$t++)
+	{
+		$IsAvgThresholdBroken = $False
+		$IsMaxThresholdBroken = $False
+		
+		If ($oCounterInstance.QuantizedAvg[$t] -ge 0.02)
+		{
+			$IsAvgThresholdBroken = $True
+		}
+		
+		If ($oCounterInstance.QuantizedMax[$t] -ge 0.05)
+		{
+			$IsMaxThresholdBroken = $True
+		}
+		
+		If (($IsAvgThresholdBroken -eq $True) -or ($IsMaxThresholdBroken -eq $True))
+		{
+			CreateAlert -TimeSliceIndex $t -CounterInstanceObject $oCounterInstance -IsMinThresholdBroken $False -IsAvgThresholdBroken $IsAvgThresholdBroken -IsMaxThresholdBroken $IsMaxThresholdBroken -IsTrendThresholdBroken $False -IsMinEvaluated $False -IsAvgEvaluated $True -IsMaxEvaluated $True -IsTrendEvaluated $False
+		}
+	}
+}
+	  ]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>Avg. Disk sec/Read is the average time, in seconds, of a read of data from the disk.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the average time, in seconds, of a read of data from the disk.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For Exchange Server 2007 Hub Transport servers, this value should be less than 20 milliseconds (ms) on average with spikes (maximum values) of less than 50 ms.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Hub Transport - LogicalDisk Avg. Disk sec/Write" ENABLED="True" CATEGORY="LogicalDisk" PRIMARYDATASOURCE="\LogicalDisk(*)\Avg. Disk sec/Write" ID="84edefae-695b-4220-b88a-93c1a4c6ae5c" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\LogicalDisk(*)\Avg. Disk sec/Write" COLLECTIONVARNAME="CollectionOfLogicalDiskAvgDisksecWrite" EXPRESSIONPATH="\LogicalDisk(*)\Avg. Disk sec/Write" TRENDVARNAME="TrendLogicalDiskAvgDisksecWrite" DATATYPE="round3">
+      <EXCLUDE INSTANCE="_Total" />
+    </DATASOURCE>
+    <CHART CHARTTITLE="\LogicalDisk(*)\Avg. Disk sec/Write" ISTHRESHOLDSADDED="False" DATASOURCE="\LogicalDisk(*)\Avg. Disk sec/Write" CHARTLABELS="instance" />
+    <THRESHOLD NAME="Logical disk average disk write seconds average of 20ms or more, or spikes of 50ms or greater" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[
+For ($i=0;$i -lt $CollectionOfLogicalDiskAvgDisksecWrite.Count;$i++)
+{
+	$oCounterInstance = $CollectionOfLogicalDiskAvgDisksecWrite[$i]
+    
+	For ($t=0;$t -lt $alQuantizedTime.Count;$t++)
+	{
+		$IsAvgThresholdBroken = $False
+		$IsMaxThresholdBroken = $False
+		
+		If ($oCounterInstance.QuantizedAvg[$t] -ge 0.02)
+		{
+			$IsAvgThresholdBroken = $True
+		}
+		
+		If ($oCounterInstance.QuantizedMax[$t] -ge 0.05)
+		{
+			$IsMaxThresholdBroken = $True
+		}
+		
+		If (($IsAvgThresholdBroken -eq $True) -or ($IsMaxThresholdBroken -eq $True))
+		{
+			CreateAlert -TimeSliceIndex $t -CounterInstanceObject $oCounterInstance -IsMinThresholdBroken $False -IsAvgThresholdBroken $IsAvgThresholdBroken -IsMaxThresholdBroken $IsMaxThresholdBroken -IsTrendThresholdBroken $False -IsMinEvaluated $False -IsAvgEvaluated $True -IsMaxEvaluated $True -IsTrendEvaluated $False
+		}
+	}
+}
+	  ]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>Avg. Disk sec/Write is the average time, in seconds, of a write of data to the disk.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the average time, in seconds, of a write of data to the disk.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For Exchange Server 2007 Hub Transport servers, this value should be less than 20 ms on average with spikes (maximum values) of less than 50 ms.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Hub Transport - PhysicalDisk Avg. Disk sec/Read" ENABLED="True" CATEGORY="PhysicalDisk" PRIMARYDATASOURCE="\PhysicalDisk(*)\Avg. Disk sec/Read" ID="b93d581c-9fad-4f5a-88cf-b8616c484ea2" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\PhysicalDisk(*)\Avg. Disk sec/Read" COLLECTIONVARNAME="CollectionOfPhysicalDiskAvgDisksecRead" EXPRESSIONPATH="\PhysicalDisk(*)\Avg. Disk sec/Read" TRENDVARNAME="TrendPhysicalDiskAvgDisksecRead" DATATYPE="round3">
+      <EXCLUDE INSTANCE="_Total" />
+    </DATASOURCE>
+    <CHART CHARTTITLE="\PhysicalDisk(*)\Avg. Disk sec/Read" ISTHRESHOLDSADDED="False" DATASOURCE="\PhysicalDisk(*)\Avg. Disk sec/Read" CHARTLABELS="instance" />
+    <THRESHOLD NAME="Physical disk average disk read seconds average of 20ms or more, or spikes of 50ms or greater" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[
+For ($i=0;$i -lt $CollectionOfPhysicalDiskAvgDisksecRead.Count;$i++)
+{
+	$oCounterInstance = $CollectionOfPhysicalDiskAvgDisksecRead[$i]
+    
+	For ($t=0;$t -lt $alQuantizedTime.Count;$t++)
+	{
+		$IsAvgThresholdBroken = $False
+		$IsMaxThresholdBroken = $False
+		
+		If ($oCounterInstance.QuantizedAvg[$t] -ge 0.02)
+		{
+			$IsAvgThresholdBroken = $True
+		}
+		
+		If ($oCounterInstance.QuantizedMax[$t] -ge 0.05)
+		{
+			$IsMaxThresholdBroken = $True
+		}
+		
+		If (($IsAvgThresholdBroken -eq $True) -or ($IsMaxThresholdBroken -eq $True))
+		{
+			CreateAlert -TimeSliceIndex $t -CounterInstanceObject $oCounterInstance -IsMinThresholdBroken $False -IsAvgThresholdBroken $IsAvgThresholdBroken -IsMaxThresholdBroken $IsMaxThresholdBroken -IsTrendThresholdBroken $False -IsMinEvaluated $False -IsAvgEvaluated $True -IsMaxEvaluated $True -IsTrendEvaluated $False
+		}
+	}
+}
+	  ]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>Avg. Disk sec/Read is the average time, in seconds, of a read of data from the disk.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the average time, in seconds, of a read of data from the disk.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For Exchange Server 2007 Hub Transport servers, this value should be less than 20 milliseconds (ms) on average with spikes (maximum values) of less than 50 ms.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Hub Transport - PhysicalDisk Avg. Disk sec/Write" ENABLED="True" CATEGORY="PhysicalDisk" PRIMARYDATASOURCE="\PhysicalDisk(*)\Avg. Disk sec/Write" ID="160e36a4-4c10-4220-a93c-98341b946319" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\PhysicalDisk(*)\Avg. Disk sec/Write" COLLECTIONVARNAME="CollectionOfPhysicalDiskAvgDisksecWrite" EXPRESSIONPATH="\PhysicalDisk(*)\Avg. Disk sec/Write" TRENDVARNAME="TrendPhysicalDiskAvgDisksecWrite" DATATYPE="round3">
+      <EXCLUDE INSTANCE="_Total" />
+    </DATASOURCE>
+    <CHART CHARTTITLE="\PhysicalDisk(*)\Avg. Disk sec/Write" ISTHRESHOLDSADDED="False" DATASOURCE="\PhysicalDisk(*)\Avg. Disk sec/Write" CHARTLABELS="instance" />
+    <THRESHOLD NAME="Physical disk average disk write seconds average of 20ms or more, or spikes of 50ms or greater" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[
+For ($i=0;$i -lt $CollectionOfPhysicalDiskAvgDisksecWrite.Count;$i++)
+{
+	$oCounterInstance = $CollectionOfPhysicalDiskAvgDisksecWrite[$i]
+    
+	For ($t=0;$t -lt $alQuantizedTime.Count;$t++)
+	{
+		$IsAvgThresholdBroken = $False
+		$IsMaxThresholdBroken = $False
+		
+		If ($oCounterInstance.QuantizedAvg[$t] -ge 0.02)
+		{
+			$IsAvgThresholdBroken = $True
+		}
+		
+		If ($oCounterInstance.QuantizedMax[$t] -ge 0.05)
+		{
+			$IsMaxThresholdBroken = $True
+		}
+		
+		If (($IsAvgThresholdBroken -eq $True) -or ($IsMaxThresholdBroken -eq $True))
+		{
+			CreateAlert -TimeSliceIndex $t -CounterInstanceObject $oCounterInstance -IsMinThresholdBroken $False -IsAvgThresholdBroken $IsAvgThresholdBroken -IsMaxThresholdBroken $IsMaxThresholdBroken -IsTrendThresholdBroken $False -IsMinEvaluated $False -IsAvgEvaluated $True -IsMaxEvaluated $True -IsTrendEvaluated $False
+		}
+	}
+}
+	  ]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>Avg. Disk sec/Write is the average time, in seconds, of a write of data to the disk.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the average time, in seconds, of a write of data to the disk.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For Exchange Server 2007 Hub Transport servers, this value should be less than 20 ms on average with spikes (maximum values) of less than 50 ms.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeTransport Queues Aggregate Delivery Queue Length (All Queues)" ENABLED="True" CATEGORY="MSExchangeTransport Queues" PRIMARYDATASOURCE="\MSExchangeTransport Queues(_total)\Aggregate Delivery Queue Length (All Queues)" ID="7383b7e6-bfc3-4518-8cea-67064d9d14cb" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeTransport Queues(_total)\Aggregate Delivery Queue Length (All Queues)" COLLECTIONVARNAME="CollectionOfMSExchangeTransportQueuesAggregateDeliveryQueueLengthAllQueues" EXPRESSIONPATH="\MSExchangeTransport Queues(_total)\Aggregate Delivery Queue Length (All Queues)" TRENDVARNAME="TrendMSExchangeTransportQueuesAggregateDeliveryQueueLengthAllQueues" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeTransport Queues(_total)\Aggregate Delivery Queue Length (All Queues)" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeTransport Queues(_total)\Aggregate Delivery Queue Length (All Queues)" CHARTLABELS="instance" />
+    <THRESHOLD NAME="MSExchangeTransport aggregate delivery queue length at 3000 or greater" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeTransportQueuesAggregateDeliveryQueueLengthAllQueues -Operator 'ge' -Threshold 3000]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="MSExchangeTransport aggregate delivery queue length at 5000 or greater" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeTransportQueuesAggregateDeliveryQueueLengthAllQueues -Operator 'ge' -Threshold 5000]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>Aggregate Delivery Queue Length (All Queues) is the number of messages queued for delivery in all queues.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the number of messages queued for delivery in all queues.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For Exchange Server 2007 Hub Transport servers, this value should be less than 3,000 and not more than 5,000.</p>
+<p>NOTE:</p>
+<p>When determining thresholds for queue lengths, you should consider server throughput as well as acceptable delivery delays before you need to be informed. The recommended maximum of 5,000 for the \MSExchangeTransport Queues(_total)\Aggregate Delivery Queue Length (All Queues) counter is for typical medium-size servers and typical maximum delays. You can consider customizing both the aggregate and other limits to optimize performance for your environment.</p>
+<p>For example, if the server normally processes 25 messages per second and you want the average message delay to be no more than 5 minutes before you are alerted, you would set the threshold to be 25 messages/second x 5 minutes x 60 seconds/minute = 7,500 messages. However, if your server only processes an average of 5 messages/second, you would set the alert to be only 1,500 messages.</p>
+<p>Keep in mind that this calculation does not mean that messages will always be delivered in under 5 minutes. Instead, the average delivery time for one particular server should be under 5 minutes. (Consider how many hops your messages may need to determine actual delivery time.) Also, consider the server hardware in your calculations because having large message queues can be a drain on server resources.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeTransport Queues Active Remote Delivery Queue Length" ENABLED="True" CATEGORY="MSExchangeTransport Queues" PRIMARYDATASOURCE="\MSExchangeTransport Queues(_total)\Active Remote Delivery Queue Length" ID="0877f65f-83d4-408b-8370-9227db1d04ae" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeTransport Queues(_total)\Active Remote Delivery Queue Length" COLLECTIONVARNAME="CollectionOfMSExchangeTransportQueuesActiveRemoteDeliveryQueueLength" EXPRESSIONPATH="\MSExchangeTransport Queues(_total)\Active Remote Delivery Queue Length" TRENDVARNAME="TrendMSExchangeTransportQueuesActiveRemoteDeliveryQueueLength" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeTransport Queues(_total)\Active Remote Delivery Queue Length" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeTransport Queues(_total)\Active Remote Delivery Queue Length" CHARTLABELS="instance" />
+    <THRESHOLD NAME="MSExchangeTransport active remote delivery queue length at 250 or greater" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeTransportQueuesActiveRemoteDeliveryQueueLength -Operator 'ge' -Threshold 250]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>Active Remote Delivery Queue Length is the number of messages in the active remote delivery queues.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the number of messages in the active remote delivery queues.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For Exchange Server 2007 Hub Transport servers, this value should be less than 250 at all times.</p>
+<p>NOTE:</p>
+<p>When determining thresholds for queue lengths, you should consider server throughput as well as acceptable delivery delays before you need to be informed. The recommended maximum of 5,000 for the \MSExchangeTransport Queues(_total)\Aggregate Delivery Queue Length (All Queues) counter is for typical medium-size servers and typical maximum delays. You can consider customizing both the aggregate and other limits to optimize performance for your environment.</p>
+<p>For example, if the server normally processes 25 messages per second and you want the average message delay to be no more than 5 minutes before you are alerted, you would set the threshold to be 25 messages/second x 5 minutes x 60 seconds/minute = 7,500 messages. However, if your server only processes an average of 5 messages/second, you would set the alert to be only 1,500 messages.</p>
+<p>Keep in mind that this calculation does not mean that messages will always be delivered in under 5 minutes. Instead, the average delivery time for one particular server should be under 5 minutes. (Consider how many hops your messages may need to determine actual delivery time.) Also, consider the server hardware in your calculations because having large message queues can be a drain on server resources.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeTransport Queues Active Mailbox Delivery Queue Length" ENABLED="True" CATEGORY="MSExchangeTransport Queues" PRIMARYDATASOURCE="\MSExchangeTransport Queues(_total)\Active Mailbox Delivery Queue Length" ID="77ae355c-6731-4ffb-b3a5-aa1b80433837" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeTransport Queues(_total)\Active Mailbox Delivery Queue Length" COLLECTIONVARNAME="CollectionOfMSExchangeTransportQueuesActiveMailboxDeliveryQueueLength" EXPRESSIONPATH="\MSExchangeTransport Queues(_total)\Active Mailbox Delivery Queue Length" TRENDVARNAME="TrendMSExchangeTransportQueuesActiveMailboxDeliveryQueueLength" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeTransport Queues(_total)\Active Mailbox Delivery Queue Length" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeTransport Queues(_total)\Active Mailbox Delivery Queue Length" CHARTLABELS="instance" />
+    <THRESHOLD NAME="MSExchangeTransport active mailbox delivery queue length at 250 or greater" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeTransportQueuesActiveMailboxDeliveryQueueLength -Operator 'ge' -Threshold 250]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>Active Mailbox Delivery Queue Length is the number of messages in the active mailbox queues.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the number of messages in the active mailbox queues.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For Exchange Server 2007 Hub Transport servers, this value should be less than 250 at all times.</p>
+<p>NOTE:</p>
+<p>When determining thresholds for queue lengths, you should consider server throughput as well as acceptable delivery delays before you need to be informed. The recommended maximum of 5,000 for the \MSExchangeTransport Queues(_total)\Aggregate Delivery Queue Length (All Queues) counter is for typical medium-size servers and typical maximum delays. You can consider customizing both the aggregate and other limits to optimize performance for your environment.</p>
+<p>For example, if the server normally processes 25 messages per second and you want the average message delay to be no more than 5 minutes before you are alerted, you would set the threshold to be 25 messages/second x 5 minutes x 60 seconds/minute = 7,500 messages. However, if your server only processes an average of 5 messages/second, you would set the alert to be only 1,500 messages.</p>
+<p>Keep in mind that this calculation does not mean that messages will always be delivered in under 5 minutes. Instead, the average delivery time for one particular server should be under 5 minutes. (Consider how many hops your messages may need to determine actual delivery time.) Also, consider the server hardware in your calculations because having large message queues can be a drain on server resources.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeTransport Queues Submission Queue Length" ENABLED="True" CATEGORY="MSExchangeTransport Queues" PRIMARYDATASOURCE="\MSExchangeTransport Queues(_total)\Submission Queue Length" ID="4ba53286-9777-4384-988a-0d74ef6add70" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeTransport Queues(_total)\Submission Queue Length" COLLECTIONVARNAME="CollectionOfMSExchangeTransportQueuesSubmissionQueueLength" EXPRESSIONPATH="\MSExchangeTransport Queues(_total)\Submission Queue Length" TRENDVARNAME="TrendMSExchangeTransportQueuesSubmissionQueueLength" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeTransport Queues(_total)\Submission Queue Length" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeTransport Queues(_total)\Submission Queue Length" CHARTLABELS="instance" />
+    <THRESHOLD NAME="MSExchangeTransport submission queue length at 100 or greater" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeTransportQueuesSubmissionQueueLength -Operator 'ge' -Threshold 100]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>Submission Queue Length is the number of messages in the Submission queue.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the number of messages in the submission queue.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For Exchange Server 2007 Hub Transport servers, this value should not exceed 100.</p>
+<p>If sustained high values are occurring, investigate Active Directory and Mailbox servers for bottlenecks or performance-related issues.</p>
+<p>NOTE:</p>
+<p>When determining thresholds for queue lengths, you should consider server throughput as well as acceptable delivery delays before you need to be informed. The recommended maximum of 5,000 for the \MSExchangeTransport Queues(_total)\Aggregate Delivery Queue Length (All Queues) counter is for typical medium-size servers and typical maximum delays. You can consider customizing both the aggregate and other limits to optimize performance for your environment.</p>
+<p>For example, if the server normally processes 25 messages per second and you want the average message delay to be no more than 5 minutes before you are alerted, you would set the threshold to be 25 messages/second x 5 minutes x 60 seconds/minute = 7,500 messages. However, if your server only processes an average of 5 messages/second, you would set the alert to be only 1,500 messages.</p>
+<p>Keep in mind that this calculation does not mean that messages will always be delivered in under 5 minutes. Instead, the average delivery time for one particular server should be under 5 minutes. (Consider how many hops your messages may need to determine actual delivery time.) Also, consider the server hardware in your calculations because having large message queues can be a drain on server resources.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeTransport Queues Active Non-Smtp Delivery Queue Length" ENABLED="True" CATEGORY="MSExchangeTransport Queues" PRIMARYDATASOURCE="\MSExchangeTransport Queues(_total)\Active Non-Smtp Delivery Queue Length" ID="30da13cf-f5e6-4953-8e9d-fd37fd4a44bf" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeTransport Queues(_total)\Active Non-Smtp Delivery Queue Length" COLLECTIONVARNAME="CollectionOfMSExchangeTransportQueuesActiveNonSmtpDeliveryQueueLength" EXPRESSIONPATH="\MSExchangeTransport Queues(_total)\Active Non-Smtp Delivery Queue Length" TRENDVARNAME="TrendMSExchangeTransportQueuesActiveNonSmtpDeliveryQueueLength" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeTransport Queues(_total)\Active Non-Smtp Delivery Queue Length" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeTransport Queues(_total)\Active Non-Smtp Delivery Queue Length" CHARTLABELS="instance" />
+    <THRESHOLD NAME="MSExchangeTransport active non-smtp delivery queue length at 250 or greater" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeTransportQueuesActiveNonSmtpDeliveryQueueLength -Operator 'ge' -Threshold 250]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>Active Non-SMTP Delivery Queue Length is the number of messages in the Drop directory that is used by a Foreign connector.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the number of messages in the Drop directory that is used by a Foreign connector.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For Exchange Server 2007 Hub Transport servers, this value should be less than 250 at all times.</p>
+<p>NOTE:</p>
+<p>When determining thresholds for queue lengths, you should consider server throughput as well as acceptable delivery delays before you need to be informed. The recommended maximum of 5,000 for the \MSExchangeTransport Queues(_total)\Aggregate Delivery Queue Length (All Queues) counter is for typical medium-size servers and typical maximum delays. You can consider customizing both the aggregate and other limits to optimize performance for your environment.</p>
+<p>For example, if the server normally processes 25 messages per second and you want the average message delay to be no more than 5 minutes before you are alerted, you would set the threshold to be 25 messages/second x 5 minutes x 60 seconds/minute = 7,500 messages. However, if your server only processes an average of 5 messages/second, you would set the alert to be only 1,500 messages.</p>
+<p>Keep in mind that this calculation does not mean that messages will always be delivered in under 5 minutes. Instead, the average delivery time for one particular server should be under 5 minutes. (Consider how many hops your messages may need to determine actual delivery time.) Also, consider the server hardware in your calculations because having large message queues can be a drain on server resources.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeTransport Queues Retry Mailbox Delivery Queue Length" ENABLED="True" CATEGORY="MSExchangeTransport Queues" PRIMARYDATASOURCE="\MSExchangeTransport Queues(_total)\Retry Mailbox Delivery Queue Length" ID="6f6c4c81-33b1-4077-b01d-90b9fb5bf59d" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeTransport Queues(_total)\Retry Mailbox Delivery Queue Length" COLLECTIONVARNAME="CollectionOfMSExchangeTransportQueuesRetryMailboxDeliveryQueueLength" EXPRESSIONPATH="\MSExchangeTransport Queues(_total)\Retry Mailbox Delivery Queue Length" TRENDVARNAME="TrendMSExchangeTransportQueuesRetryMailboxDeliveryQueueLength" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeTransport Queues(_total)\Retry Mailbox Delivery Queue Length" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeTransport Queues(_total)\Retry Mailbox Delivery Queue Length" CHARTLABELS="instance" />
+    <THRESHOLD NAME="MSExchangeTransport retry mailbox delivery queue length at 100 or greater" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeTransportQueuesRetryMailboxDeliveryQueueLength -Operator 'ge' -Threshold 100]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>Retry Mailbox Delivery Queue Length is the number of messages in retry.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the number of messages in a retry state attempting to deliver a message to a remote mailbox.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For Exchange Server 2007 Hub Transport servers, this value should be less than 100 at all times.</p>
+<p>NOTE:</p>
+<p>When determining thresholds for queue lengths, you should consider server throughput as well as acceptable delivery delays before you need to be informed. The recommended maximum of 5,000 for the \MSExchangeTransport Queues(_total)\Aggregate Delivery Queue Length (All Queues) counter is for typical medium-size servers and typical maximum delays. You can consider customizing both the aggregate and other limits to optimize performance for your environment.</p>
+<p>For example, if the server normally processes 25 messages per second and you want the average message delay to be no more than 5 minutes before you are alerted, you would set the threshold to be 25 messages/second x 5 minutes x 60 seconds/minute = 7,500 messages. However, if your server only processes an average of 5 messages/second, you would set the alert to be only 1,500 messages.</p>
+<p>Keep in mind that this calculation does not mean that messages will always be delivered in under 5 minutes. Instead, the average delivery time for one particular server should be under 5 minutes. (Consider how many hops your messages may need to determine actual delivery time.) Also, consider the server hardware in your calculations because having large message queues can be a drain on server resources.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeTransport Queues Retry Non-Smtp Delivery Queue Length" ENABLED="True" CATEGORY="MSExchangeTransport Queues" PRIMARYDATASOURCE="\MSExchangeTransport Queues(_total)\Retry Non-Smtp Delivery Queue Length" ID="3971b1f2-67bf-4435-bbf7-718005ea402f" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeTransport Queues(_total)\Retry Non-Smtp Delivery Queue Length" COLLECTIONVARNAME="CollectionOfMSExchangeTransportQueuesRetryNonSmtpDeliveryQueueLength" EXPRESSIONPATH="\MSExchangeTransport Queues(_total)\Retry Non-Smtp Delivery Queue Length" TRENDVARNAME="TrendMSExchangeTransportQueuesRetryNonSmtpDeliveryQueueLength" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeTransport Queues(_total)\Retry Non-Smtp Delivery Queue Length" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeTransport Queues(_total)\Retry Non-Smtp Delivery Queue Length" CHARTLABELS="instance" />
+    <THRESHOLD NAME="MSExchangeTransport retry non-smtp delivery queue length at 100 or greater" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeTransportQueuesRetryNonSmtpDeliveryQueueLength -Operator 'ge' -Threshold 100]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>Retry Non-SMTP Delivery Queue Length is the number of messages in retry in the non-SMTP gateway delivery queues.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the number of messages in a retry state in the non-Simple Mail Transfer Protocol (SMTP) gateway delivery queues.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For Exchange Server 2007 Hub Transport servers, this value should not exceed 100.</p>
+<p>NOTE:</p>
+<p>When determining thresholds for queue lengths, you should consider server throughput as well as acceptable delivery delays before you need to be informed. The recommended maximum of 5,000 for the \MSExchangeTransport Queues(_total)\Aggregate Delivery Queue Length (All Queues) counter is for typical medium-size servers and typical maximum delays. You can consider customizing both the aggregate and other limits to optimize performance for your environment.</p>
+<p>For example, if the server normally processes 25 messages per second and you want the average message delay to be no more than 5 minutes before you are alerted, you would set the threshold to be 25 messages/second x 5 minutes x 60 seconds/minute = 7,500 messages. However, if your server only processes an average of 5 messages/second, you would set the alert to be only 1,500 messages.</p>
+<p>Keep in mind that this calculation does not mean that messages will always be delivered in under 5 minutes. Instead, the average delivery time for one particular server should be under 5 minutes. (Consider how many hops your messages may need to determine actual delivery time.) Also, consider the server hardware in your calculations because having large message queues can be a drain on server resources.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeTransport Queues Retry Remote Delivery Queue Length" ENABLED="True" CATEGORY="MSExchangeTransport Queues" PRIMARYDATASOURCE="\MSExchangeTransport Queues(_total)\Retry Remote Delivery Queue Length" ID="51c79f3d-6551-4d01-92ee-635a7b8f4913" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeTransport Queues(_total)\Retry Remote Delivery Queue Length" COLLECTIONVARNAME="CollectionOfMSExchangeTransportQueuesRetryRemoteDeliveryQueueLength" EXPRESSIONPATH="\MSExchangeTransport Queues(_total)\Retry Remote Delivery Queue Length" TRENDVARNAME="TrendMSExchangeTransportQueuesRetryRemoteDeliveryQueueLength" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeTransport Queues(_total)\Retry Remote Delivery Queue Length" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeTransport Queues(_total)\Retry Remote Delivery Queue Length" CHARTLABELS="instance" />
+    <THRESHOLD NAME="MSExchangeTransport retry remote delivery queue length at 100 or greater" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeTransportQueuesRetryRemoteDeliveryQueueLength -Operator 'ge' -Threshold 100]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>Retry Remote Delivery Queue Length is the number of messages in retry in the remote delivery queues.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the number of messages in a retry state in the remote delivery queues.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For Exchange Server 2007 Hub Transport servers, this value should not exceed 100.</p>
+<p>We recommend that you check the next hop to determine the causes for queuing.</p>
+<p>NOTE:</p>
+<p>When determining thresholds for queue lengths, you should consider server throughput as well as acceptable delivery delays before you need to be informed. The recommended maximum of 5,000 for the \MSExchangeTransport Queues(_total)\Aggregate Delivery Queue Length (All Queues) counter is for typical medium-size servers and typical maximum delays. You can consider customizing both the aggregate and other limits to optimize performance for your environment.</p>
+<p>For example, if the server normally processes 25 messages per second and you want the average message delay to be no more than 5 minutes before you are alerted, you would set the threshold to be 25 messages/second x 5 minutes x 60 seconds/minute = 7,500 messages. However, if your server only processes an average of 5 messages/second, you would set the alert to be only 1,500 messages.</p>
+<p>Keep in mind that this calculation does not mean that messages will always be delivered in under 5 minutes. Instead, the average delivery time for one particular server should be under 5 minutes. (Consider how many hops your messages may need to determine actual delivery time.) Also, consider the server hardware in your calculations because having large message queues can be a drain on server resources.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeTransport Queues Unreachable Queue Length" ENABLED="True" CATEGORY="MSExchangeTransport Queues" PRIMARYDATASOURCE="\MSExchangeTransport Queues(_total)\Unreachable Queue Length" ID="0686cc6d-6a96-4856-bc23-bd54c2cb43e5" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeTransport Queues(_total)\Unreachable Queue Length" COLLECTIONVARNAME="CollectionOfMSExchangeTransportQueuesUnreachableQueueLength" EXPRESSIONPATH="\MSExchangeTransport Queues(_total)\Unreachable Queue Length" TRENDVARNAME="TrendMSExchangeTransportQueuesUnreachableQueueLength" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeTransport Queues(_total)\Unreachable Queue Length" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeTransport Queues(_total)\Unreachable Queue Length" CHARTLABELS="instance" />
+    <THRESHOLD NAME="MSExchangeTransport unreachable queue length at 100 or greater" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeTransportQueuesUnreachableQueueLength -Operator 'ge' -Threshold 100]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>Unreachable Queue Length is the number of messages in the Unreachable queue.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the number of messages in the Unreachable queue.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For Exchange Server 2007 Hub Transport servers, this value should not exceed 100.</p>
+<p>NOTE:</p>
+<p>When determining thresholds for queue lengths, you should consider server throughput as well as acceptable delivery delays before you need to be informed. The recommended maximum of 5,000 for the \MSExchangeTransport Queues(_total)\Aggregate Delivery Queue Length (All Queues) counter is for typical medium-size servers and typical maximum delays. You can consider customizing both the aggregate and other limits to optimize performance for your environment.</p>
+<p>For example, if the server normally processes 25 messages per second and you want the average message delay to be no more than 5 minutes before you are alerted, you would set the threshold to be 25 messages/second x 5 minutes x 60 seconds/minute = 7,500 messages. However, if your server only processes an average of 5 messages/second, you would set the alert to be only 1,500 messages.</p>
+<p>Keep in mind that this calculation does not mean that messages will always be delivered in under 5 minutes. Instead, the average delivery time for one particular server should be under 5 minutes. (Consider how many hops your messages may need to determine actual delivery time.) Also, consider the server hardware in your calculations because having large message queues can be a drain on server resources.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeTransport Queues Largest Delivery Queue Length" ENABLED="True" CATEGORY="MSExchangeTransport Queues" PRIMARYDATASOURCE="\MSExchangeTransport Queues(_total)\Largest Delivery Queue Length" ID="ca8edcbc-4ac7-4db5-bc07-7b2dc62d5380" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeTransport Queues(_total)\Largest Delivery Queue Length" COLLECTIONVARNAME="CollectionOfMSExchangeTransportQueuesLargestDeliveryQueueLength" EXPRESSIONPATH="\MSExchangeTransport Queues(_total)\Largest Delivery Queue Length" TRENDVARNAME="TrendMSExchangeTransportQueuesLargestDeliveryQueueLength" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeTransport Queues(_total)\Largest Delivery Queue Length" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeTransport Queues(_total)\Largest Delivery Queue Length" CHARTLABELS="instance" />
+    <THRESHOLD NAME="MSExchangeTransport largest delivery queue length at 200 or greater" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeTransportQueuesLargestDeliveryQueueLength -Operator 'ge' -Threshold 200]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>Largest Delivery Queue Length is the number of messages in the largest delivery queue.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the number of messages in the largest delivery queues.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Tthis value should be less than 200 for the Edge Transport and Hub Transport server roles.</p>
+<p>NOTE:</p>
+<p>When determining thresholds for queue lengths, you should consider server throughput as well as acceptable delivery delays before you need to be informed. The recommended maximum of 5,000 for the \MSExchangeTransport Queues(_total)\Aggregate Delivery Queue Length (All Queues) counter is for typical medium-size servers and typical maximum delays. You can consider customizing both the aggregate and other limits to optimize performance for your environment.</p>
+<p>For example, if the server normally processes 25 messages per second and you want the average message delay to be no more than 5 minutes before you are alerted, you would set the threshold to be 25 messages/second x 5 minutes x 60 seconds/minute = 7,500 messages. However, if your server only processes an average of 5 messages/second, you would set the alert to be only 1,500 messages.</p>
+<p>Keep in mind that this calculation does not mean that messages will always be delivered in under 5 minutes. Instead, the average delivery time for one particular server should be under 5 minutes. (Consider how many hops your messages may need to determine actual delivery time.) Also, consider the server hardware in your calculations because having large message queues can be a drain on server resources.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeTransport Queues Poison Queue Length" ENABLED="True" CATEGORY="MSExchangeTransport Queues" PRIMARYDATASOURCE="\MSExchangeTransport Queues(_total)\Poison Queue Length" ID="fdd453a6-9006-4f61-898e-993aeb46750e" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeTransport Queues(_total)\Poison Queue Length" COLLECTIONVARNAME="CollectionOfMSExchangeTransportQueuesPoisonQueueLength" EXPRESSIONPATH="\MSExchangeTransport Queues(_total)\Poison Queue Length" TRENDVARNAME="TrendMSExchangeTransportQueuesPoisonQueueLength" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeTransport Queues(_total)\Poison Queue Length" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeTransport Queues(_total)\Poison Queue Length" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>Poison Message Queue Length is the number of messages in the poison message queue.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the number of messages in the poison message queue.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For Exchange Server 2007 Hub Transport servers, this value should be 0 at all times.</p>
+<p>NOTE:</p>
+<p>When determining thresholds for queue lengths, you should consider server throughput as well as acceptable delivery delays before you need to be informed. The recommended maximum of 5,000 for the \MSExchangeTransport Queues(_total)\Aggregate Delivery Queue Length (All Queues) counter is for typical medium-size servers and typical maximum delays. You can consider customizing both the aggregate and other limits to optimize performance for your environment.</p>
+<p>For example, if the server normally processes 25 messages per second and you want the average message delay to be no more than 5 minutes before you are alerted, you would set the threshold to be 25 messages/second x 5 minutes x 60 seconds/minute = 7,500 messages. However, if your server only processes an average of 5 messages/second, you would set the alert to be only 1,500 messages.</p>
+<p>Keep in mind that this calculation does not mean that messages will always be delivered in under 5 minutes. Instead, the average delivery time for one particular server should be under 5 minutes. (Consider how many hops your messages may need to determine actual delivery time.) Also, consider the server hardware in your calculations because having large message queues can be a drain on server resources.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeTransport Queues Messages Submitted Per Second" ENABLED="True" CATEGORY="MSExchangeTransport Queues" PRIMARYDATASOURCE="\MSExchangeTransport Queues(_total)\Messages Submitted Per Second" ID="40f935ae-f558-492a-b1a4-cbc0812acc8a" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeTransport Queues(_total)\Messages Submitted Per Second" COLLECTIONVARNAME="CollectionOfMSExchangeTransportQueuesMessagesSubmittedPerSecond" EXPRESSIONPATH="\MSExchangeTransport Queues(_total)\Messages Submitted Per Second" TRENDVARNAME="TrendMSExchangeTransportQueuesMessagesSubmittedPerSecond" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeTransport Queues(_total)\Messages Submitted Per Second" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeTransport Queues(_total)\Messages Submitted Per Second" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>Messages Submitted Per Second is the number of messages that have been queued in the Submission queue per second.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the number of messages that have been queued in the Submission queue per second.</p>
+<p>Determines current load. Compare values to historical baselines.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Not Applicable.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeTransport Queues Messages Completed Delivery Per Second" ENABLED="True" CATEGORY="MSExchangeTransport Queues" PRIMARYDATASOURCE="\MSExchangeTransport Queues(_total)\Messages Completed Delivery Per Second" ID="d7fb8f82-02ce-4699-a7e4-5e5bd686caf1" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeTransport Queues(_total)\Messages Completed Delivery Per Second" COLLECTIONVARNAME="CollectionOfMSExchangeTransportQueuesMessagesCompletedDeliveryPerSecond" EXPRESSIONPATH="\MSExchangeTransport Queues(_total)\Messages Completed Delivery Per Second" TRENDVARNAME="TrendMSExchangeTransportQueuesMessagesCompletedDeliveryPerSecond" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeTransport Queues(_total)\Messages Completed Delivery Per Second" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeTransport Queues(_total)\Messages Completed Delivery Per Second" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>Messages Completed Delivery Per Second is the number of messages that are delivered per second.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the number of messages that are delivered per second.</p>
+<p>Determines current load. Compare values to historical baselines.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Not Applicable.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Store Driver Inbound: LocalDeliveryCallsPerSecond" ENABLED="True" CATEGORY="MSExchange Store Driver" PRIMARYDATASOURCE="\MSExchange Store Driver(_total)\Inbound: LocalDeliveryCallsPerSecond" ID="6cd4dd84-541e-4031-bc29-70472bc0ab05" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Store Driver(_total)\Inbound: LocalDeliveryCallsPerSecond" COLLECTIONVARNAME="CollectionOfMSExchangeStoreDriverInboundLocalDeliveryCallsPerSecond" EXPRESSIONPATH="\MSExchange Store Driver(_total)\Inbound: LocalDeliveryCallsPerSecond" TRENDVARNAME="TrendMSExchangeStoreDriverInboundLocalDeliveryCallsPerSecond" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Store Driver(_total)\Inbound: LocalDeliveryCallsPerSecond" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Store Driver(_total)\Inbound: LocalDeliveryCallsPerSecond" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>Inbound: Local Delivery Calls Per Second is the number of local delivery attempts per second.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the number of local delivery attempts per second.</p>
+<p>Determines current load. Compare values to historical baselines.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Not Applicable.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Store Driver Outbound: Submitted Mail Items Per Second" ENABLED="True" CATEGORY="MSExchange Store Driver" PRIMARYDATASOURCE="\MSExchange Store Driver(_total)\Outbound: Submitted Mail Items Per Second" ID="85816ab9-92a7-41cf-b7db-4210a973cd71" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Store Driver(_total)\Outbound: Submitted Mail Items Per Second" COLLECTIONVARNAME="CollectionOfMSExchangeStoreDriverOutboundSubmittedMailItemsPerSecond" EXPRESSIONPATH="\MSExchange Store Driver(_total)\Outbound: Submitted Mail Items Per Second" TRENDVARNAME="TrendMSExchangeStoreDriverOutboundSubmittedMailItemsPerSecond" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Store Driver(_total)\Outbound: Submitted Mail Items Per Second" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Store Driver(_total)\Outbound: Submitted Mail Items Per Second" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>Outbound: Submitted Mail Items Per Second is the number of mail items per second being submitted.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the number of mail items per second being submitted.</p>
+<p>Determines current load. Compare values to historical baselines.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Not Applicable.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeTransport SmtpReceive Average bytes/message" ENABLED="True" CATEGORY="MSExchangeTransport SmtpReceive" PRIMARYDATASOURCE="\MSExchangeTransport SmtpReceive(_total)\Average bytes/message" ID="016e6751-5988-467b-9a3b-276f24813d20" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeTransport SmtpReceive(_total)\Average bytes/message" COLLECTIONVARNAME="CollectionOfMSExchangeTransportSmtpReceiveAveragebytesmessage" EXPRESSIONPATH="\MSExchangeTransport SmtpReceive(_total)\Average bytes/message" TRENDVARNAME="TrendMSExchangeTransportSmtpReceiveAveragebytesmessage" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeTransport SmtpReceive(_total)\Average bytes/message" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeTransport SmtpReceive(_total)\Average bytes/message" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>Average Bytes/Message is the average number of message bytes per inbound message received.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the average number of message bytes per inbound message received.</p>
+<p>Determines sizes of messages being received for an SMTP receive connector.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Not Applicable.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeTransport SmtpReceive Messages Received/sec" ENABLED="True" CATEGORY="MSExchangeTransport SmtpReceive" PRIMARYDATASOURCE="\MSExchangeTransport SmtpReceive(_total)\Messages Received/sec" ID="7482a4fc-01a7-451f-8701-f1ead00788a6" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeTransport SmtpReceive(_total)\Messages Received/sec" COLLECTIONVARNAME="CollectionOfMSExchangeTransportSmtpReceiveMessagesReceivedsec" EXPRESSIONPATH="\MSExchangeTransport SmtpReceive(_total)\Messages Received/sec" TRENDVARNAME="TrendMSExchangeTransportSmtpReceiveMessagesReceivedsec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeTransport SmtpReceive(_total)\Messages Received/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeTransport SmtpReceive(_total)\Messages Received/sec" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>Messages Received/sec is the number of messages received by the SMTP server each second.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the number of messages received by the SMTP server each second.</p>
+<p>Determines current load. Compare values to historical baselines.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Not Applicable.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeTransport SmtpSend Messages Sent/sec" ENABLED="True" CATEGORY="MSExchangeTransport SmtpSend" PRIMARYDATASOURCE="\MSExchangeTransport SmtpSend(_total)\Messages Sent/sec" ID="9b45ddf7-a995-446a-b4cf-bfcb89d1c8b4" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeTransport SmtpSend(_total)\Messages Sent/sec" COLLECTIONVARNAME="CollectionOfMSExchangeTransportSmtpSendMessagesSentsec" EXPRESSIONPATH="\MSExchangeTransport SmtpSend(_total)\Messages Sent/sec" TRENDVARNAME="TrendMSExchangeTransportSmtpSendMessagesSentsec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeTransport SmtpSend(_total)\Messages Sent/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeTransport SmtpSend(_total)\Messages Sent/sec" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>Messages Sent/sec is the number of messages sent by the SMTP Send connector each second.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the number of messages sent by the SMTP send connector each second.</p>
+<p>Determines current load. Compare values to historical baselines.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Not Applicable.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Store Driver Inbound: MessageDeliveryAttemptsPerSecond" ENABLED="True" CATEGORY="MSExchange Store Driver" PRIMARYDATASOURCE="\MSExchange Store Driver(_total)\Inbound: MessageDeliveryAttemptsPerSecond" ID="418f7b93-57d9-4851-bee5-16de1e130ff5" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Store Driver(_total)\Inbound: MessageDeliveryAttemptsPerSecond" COLLECTIONVARNAME="CollectionOfMSExchangeStoreDriverInboundMessageDeliveryAttemptsPerSecond" EXPRESSIONPATH="\MSExchange Store Driver(_total)\Inbound: MessageDeliveryAttemptsPerSecond" TRENDVARNAME="TrendMSExchangeStoreDriverInboundMessageDeliveryAttemptsPerSecond" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Store Driver(_total)\Inbound: MessageDeliveryAttemptsPerSecond" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Store Driver(_total)\Inbound: MessageDeliveryAttemptsPerSecond" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>Inbound: Message Delivery Attempts Per Second is the number of attempts for delivering transport mailitem per second.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the number of attempts for delivering transport mail items per second.</p>
+<p>Determines current load. Compare values to historical baselines.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Not Applicable.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Store Driver Inbound: Recipients Delivered Per Second" ENABLED="True" CATEGORY="MSExchange Store Driver" PRIMARYDATASOURCE="\MSExchange Store Driver(_total)\Inbound: Recipients Delivered Per Second" ID="3379e2b2-cd9a-46fc-863f-be9c2c589091" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Store Driver(_total)\Inbound: Recipients Delivered Per Second" COLLECTIONVARNAME="CollectionOfMSExchangeStoreDriverInboundRecipientsDeliveredPerSecond" EXPRESSIONPATH="\MSExchange Store Driver(_total)\Inbound: Recipients Delivered Per Second" TRENDVARNAME="TrendMSExchangeStoreDriverInboundRecipientsDeliveredPerSecond" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Store Driver(_total)\Inbound: Recipients Delivered Per Second" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Store Driver(_total)\Inbound: Recipients Delivered Per Second" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>Recipients delivered per second</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the number of inbound recipients delivered per second.</p>
+<p>Determines current load. Compare values to historical baselines.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Not Applicable.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeTransport Queues Messages Queued for Delivery Per Second" ENABLED="True" CATEGORY="MSExchangeTransport Queues" PRIMARYDATASOURCE="\MSExchangeTransport Queues(_total)\Messages Queued for Delivery Per Second" ID="38a991a8-3e2e-4a62-a17d-b44add92968d" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeTransport Queues(_total)\Messages Queued for Delivery Per Second" COLLECTIONVARNAME="CollectionOfMSExchangeTransportQueuesMessagesQueuedforDeliveryPerSecond" EXPRESSIONPATH="\MSExchangeTransport Queues(_total)\Messages Queued for Delivery Per Second" TRENDVARNAME="TrendMSExchangeTransportQueuesMessagesQueuedforDeliveryPerSecond" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeTransport Queues(_total)\Messages Queued for Delivery Per Second" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeTransport Queues(_total)\Messages Queued for Delivery Per Second" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>Messages Queued for Delivery Per Second is the number of messages that have been queued for delivery per second.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the number of messages that have been queued for delivery per second.</p>
+<p>Determines current load. Compare values to historical baselines.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Not Applicable.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeTransport Dumpster Dumpster Size" ENABLED="True" CATEGORY="MSExchangeTransport Dumpster" PRIMARYDATASOURCE="\MSExchangeTransport Dumpster\Dumpster Size" ID="f65a369f-ca24-4091-9355-e0406e44276f" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeTransport Dumpster\Dumpster Size" COLLECTIONVARNAME="CollectionOfMSExchangeTransportDumpsterDumpsterSize" EXPRESSIONPATH="\MSExchangeTransport Dumpster\Dumpster Size" TRENDVARNAME="TrendMSExchangeTransportDumpsterDumpsterSize" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeTransport Dumpster\Dumpster Size" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeTransport Dumpster\Dumpster Size" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>Item Size is the total size  (in bytes) of mail items that are currently in the Transport Dumpster on this server.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the total size (in bytes) of mail items that are currently in the transport dumpster on this server.</p>
+<p>Shows overall size of the transport dumpster.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Not Applicable.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeTransport Dumpster Dumpster Inserts/sec" ENABLED="True" CATEGORY="MSExchangeTransport Dumpster" PRIMARYDATASOURCE="\MSExchangeTransport Dumpster\Dumpster Inserts/sec" ID="cb3385eb-d8b1-4f07-aab9-7d85aa2f448a" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeTransport Dumpster\Dumpster Inserts/sec" COLLECTIONVARNAME="CollectionOfMSExchangeTransportDumpsterDumpsterInsertssec" EXPRESSIONPATH="\MSExchangeTransport Dumpster\Dumpster Inserts/sec" TRENDVARNAME="TrendMSExchangeTransportDumpsterDumpsterInsertssec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeTransport Dumpster\Dumpster Inserts/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeTransport Dumpster\Dumpster Inserts/sec" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>Insert Rate is the rate at which items are inserted into the Transport Dumpster on this server.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the rate at which items are inserted into the transport dumpster on this server.</p>
+<p>Determines the current rate of transport dumpster inserts.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Not Applicable.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeTransport Dumpster Dumpster Item Count" ENABLED="True" CATEGORY="MSExchangeTransport Dumpster" PRIMARYDATASOURCE="\MSExchangeTransport Dumpster\Dumpster Item Count" ID="aac02d35-fdd6-4681-a689-5b364caca408" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeTransport Dumpster\Dumpster Item Count" COLLECTIONVARNAME="CollectionOfMSExchangeTransportDumpsterDumpsterItemCount" EXPRESSIONPATH="\MSExchangeTransport Dumpster\Dumpster Item Count" TRENDVARNAME="TrendMSExchangeTransportDumpsterDumpsterItemCount" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeTransport Dumpster\Dumpster Item Count" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeTransport Dumpster\Dumpster Item Count" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>Item Count is the total number of mail  items that are currently in the Transport Dumpster on this server.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the total number of mail items that are currently in the transport dumpster on this server.</p>
+<p>Shows the current amount of items that are being held in the transport dumpster.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Not Applicable.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeTransport Dumpster Dumpster Deletes/sec" ENABLED="True" CATEGORY="MSExchangeTransport Dumpster" PRIMARYDATASOURCE="\MSExchangeTransport Dumpster\Dumpster Deletes/sec" ID="b1711e8a-d660-4902-86c8-bcb788f7ef5c" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeTransport Dumpster\Dumpster Deletes/sec" COLLECTIONVARNAME="CollectionOfMSExchangeTransportDumpsterDumpsterDeletessec" EXPRESSIONPATH="\MSExchangeTransport Dumpster\Dumpster Deletes/sec" TRENDVARNAME="TrendMSExchangeTransportDumpsterDumpsterDeletessec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeTransport Dumpster\Dumpster Deletes/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeTransport Dumpster\Dumpster Deletes/sec" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>Delete Rate is the rate at which items are deleted from the Transport Dumpster on this server.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the rate at which items are deleted from the transport dumpster on this server.</p>
+<p>Determines the current rate of transport dumpster deletions.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Not Applicable.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Transport Database - MSExchange Database ==&gt; Instances I/O Log Writes/sec" ENABLED="True" CATEGORY="MSExchange Database ==&gt; Instances" PRIMARYDATASOURCE="\MSExchange Database ==&gt; Instances(edgetransport/Transport Mail Database)\I/O Log Writes/sec" ID="d8be7670-75eb-42a9-aa82-f9273c8069b9" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Database ==&gt; Instances(edgetransport/Transport Mail Database)\I/O Log Writes/sec" COLLECTIONVARNAME="CollectionOfMSExchangeDatabase==&gt;InstancesIOLogWritessec" EXPRESSIONPATH="\MSExchange Database ==&gt; Instances(edgetransport/Transport Mail Database)\I/O Log Writes/sec" TRENDVARNAME="TrendMSExchangeDatabase==&gt;InstancesIOLogWritessec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Database ==&gt; Instances(edgetransport/Transport Mail Database)\I/O Log Writes/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Database ==&gt; Instances(edgetransport/Transport Mail Database)\I/O Log Writes/sec" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>I/O Log Writes/sec is the rate of logfile write operations completed.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the rate of log file write operations completed.</p>
+<p>Determines the current load. Compare values to historical baselines.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Not Applicable.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Transport Database - MSExchange Database ==&gt; Instances I/O Log Reads/sec" ENABLED="True" CATEGORY="MSExchange Database ==&gt; Instances" PRIMARYDATASOURCE="\MSExchange Database ==&gt; Instances(edgetransport/Transport Mail Database)\I/O Log Reads/sec" ID="98c61528-3c8e-40d3-8499-b21e49ce3ead" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Database ==&gt; Instances(edgetransport/Transport Mail Database)\I/O Log Reads/sec" COLLECTIONVARNAME="CollectionOfMSExchangeDatabase==&gt;InstancesIOLogReadssec" EXPRESSIONPATH="\MSExchange Database ==&gt; Instances(edgetransport/Transport Mail Database)\I/O Log Reads/sec" TRENDVARNAME="TrendMSExchangeDatabase==&gt;InstancesIOLogReadssec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Database ==&gt; Instances(edgetransport/Transport Mail Database)\I/O Log Reads/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Database ==&gt; Instances(edgetransport/Transport Mail Database)\I/O Log Reads/sec" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>I/O Log Reads/sec is the rate of logfile read operations completed.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the rate of log file read operations completed.</p>
+<p>Determines the current load. Compare values to historical baselines.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Not Applicable.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Transport Database - MSExchange Database ==&gt; Instances Log Generation Checkpoint Depth" ENABLED="True" CATEGORY="MSExchange Database ==&gt; Instances" PRIMARYDATASOURCE="\MSExchange Database ==&gt; Instances(edgetransport/Transport Mail Database)\Log Generation Checkpoint Depth" ID="3e7f5a4c-8847-416e-ac96-572057e39fec" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Database ==&gt; Instances(edgetransport/Transport Mail Database)\Log Generation Checkpoint Depth" COLLECTIONVARNAME="CollectionOfMSExchangeDatabase==&gt;InstancesLogGenerationCheckpointDepth" EXPRESSIONPATH="\MSExchange Database ==&gt; Instances(edgetransport/Transport Mail Database)\Log Generation Checkpoint Depth" TRENDVARNAME="TrendMSExchangeDatabase==&gt;InstancesLogGenerationCheckpointDepth" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Database ==&gt; Instances(edgetransport/Transport Mail Database)\Log Generation Checkpoint Depth" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Database ==&gt; Instances(edgetransport/Transport Mail Database)\Log Generation Checkpoint Depth" CHARTLABELS="instance" />
+    <THRESHOLD NAME="MSExchange transport mail database log generation checkpoint depth at 1000 or greater" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeDatabase==>InstancesLogGenerationCheckpointDepth -Operator 'ge' -Threshold 1000]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>Log Generation Checkpoint Depth represents the amount of work, in count of log files, that will need to be redone or undone to the database file(s) if the process crashes.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Represents the amount of work, in count of log files, that need to be redone or undone to the database files if the process fails.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For Exchange Server 2007 Hub Transport servers, this value should be less than 1,000 at all times.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Transport Database - MSExchange Database ==&gt; Instances Version buckets allocated" ENABLED="True" CATEGORY="MSExchange Database ==&gt; Instances" PRIMARYDATASOURCE="\MSExchange Database ==&gt; Instances(edgetransport/Transport Mail Database)\Version buckets allocated" ID="d135201a-6b25-4e54-854b-724c7dccf892" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Database ==&gt; Instances(edgetransport/Transport Mail Database)\Version buckets allocated" COLLECTIONVARNAME="CollectionOfMSExchangeDatabase==&gt;InstancesVersionbucketsallocated" EXPRESSIONPATH="\MSExchange Database ==&gt; Instances(edgetransport/Transport Mail Database)\Version buckets allocated" TRENDVARNAME="TrendMSExchangeDatabase==&gt;InstancesVersionbucketsallocated" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Database ==&gt; Instances(edgetransport/Transport Mail Database)\Version buckets allocated" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Database ==&gt; Instances(edgetransport/Transport Mail Database)\Version buckets allocated" CHARTLABELS="instance" />
+    <THRESHOLD NAME="MSExchange transport mail database version buckets allocated at 200 or greater" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeDatabase==>InstancesVersionbucketsallocated -Operator 'ge' -Threshold 200]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>Total number of version buckets allocated</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Total number of version buckets allocated</p>
+<p>Shows the default backpressure values as listed in the edgetransport.exe.config file.</p>
+<p>Exchange 2007 release to manufacturing (RTM) version - Medium=60, High=100</p>
+<p>Exchange 2007 SP1 version – Medium=120, High=200</p>
+<p>For more database cache size guidance, see <a href="http://go.microsoft.com/fwlink/?LinkId=121590" target="_new">New maximum database cache size guidance for Exchange 2007 Hub Transport server role</a>.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For Exchange Server 2007 Hub Transport servers, this value should be less than 200 at all times.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Transport Database - MSExchange Database ==&gt; Instances I/O Database Reads/sec" ENABLED="True" CATEGORY="MSExchange Database ==&gt; Instances" PRIMARYDATASOURCE="\MSExchange Database ==&gt; Instances(edgetransport/Transport Mail Database)\I/O Database Reads/sec" ID="ff856a78-0cb9-4fc9-b15c-41bb481eaa4d" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Database ==&gt; Instances(edgetransport/Transport Mail Database)\I/O Database Reads/sec" COLLECTIONVARNAME="CollectionOfMSExchangeDatabase==&gt;InstancesIODatabaseReadssec" EXPRESSIONPATH="\MSExchange Database ==&gt; Instances(edgetransport/Transport Mail Database)\I/O Database Reads/sec" TRENDVARNAME="TrendMSExchangeDatabase==&gt;InstancesIODatabaseReadssec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Database ==&gt; Instances(edgetransport/Transport Mail Database)\I/O Database Reads/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Database ==&gt; Instances(edgetransport/Transport Mail Database)\I/O Database Reads/sec" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>I/O Database Reads/sec is the rate of database read operations completed.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the rate of database read operations completed.</p>
+<p>Determines the current load. Compare values to historical baselines.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Not Applicable.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Transport Database - MSExchange Database ==&gt; Instances I/O Database Writes/sec" ENABLED="True" CATEGORY="MSExchange Database ==&gt; Instances" PRIMARYDATASOURCE="\MSExchange Database ==&gt; Instances(edgetransport/Transport Mail Database)\I/O Database Writes/sec" ID="c1896707-07af-4446-8234-3e223d91d702" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Database ==&gt; Instances(edgetransport/Transport Mail Database)\I/O Database Writes/sec" COLLECTIONVARNAME="CollectionOfMSExchangeDatabase==&gt;InstancesIODatabaseWritessec" EXPRESSIONPATH="\MSExchange Database ==&gt; Instances(edgetransport/Transport Mail Database)\I/O Database Writes/sec" TRENDVARNAME="TrendMSExchangeDatabase==&gt;InstancesIODatabaseWritessec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Database ==&gt; Instances(edgetransport/Transport Mail Database)\I/O Database Writes/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Database ==&gt; Instances(edgetransport/Transport Mail Database)\I/O Database Writes/sec" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>I/O Database Writes/sec is the rate of database write operations completed.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the rate of database write operations completed.</p>
+<p>Determines the current load. Compare values to historical baselines.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Not Applicable.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Transport Database - MSExchange Database ==&gt; Instances Log Record Stalls/sec" ENABLED="True" CATEGORY="MSExchange Database ==&gt; Instances" PRIMARYDATASOURCE="\MSExchange Database ==&gt; Instances(edgetransport/Transport Mail Database)\Log Record Stalls/sec" ID="21ab3f8f-173a-4657-8948-8b5591d592a8" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Database ==&gt; Instances(edgetransport/Transport Mail Database)\Log Record Stalls/sec" COLLECTIONVARNAME="CollectionOfMSExchangeDatabaseInstancesLogRecordStallssec" EXPRESSIONPATH="\MSExchange Database ==&gt; Instances(edgetransport/Transport Mail Database)\Log Record Stalls/sec" TRENDVARNAME="TrendMSExchangeDatabase==&gt;InstancesLogRecordStallssec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Database ==&gt; Instances(edgetransport/Transport Mail Database)\Log Record Stalls/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Database ==&gt; Instances(edgetransport/Transport Mail Database)\Log Record Stalls/sec" CHARTLABELS="instance" />
+    <THRESHOLD NAME="MSExchange transport database log record stalls per second average of 10 or more, or spikes of 100 or greater" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[
+For ($i=0;$i -lt $CollectionOfMSExchangeDatabaseInstancesLogRecordStallssec.Count;$i++)
+{
+	$oCounterInstance = $CollectionOfMSExchangeDatabaseInstancesLogRecordStallssec[$i]
+    
+	For ($t=0;$t -lt $alQuantizedTime.Count;$t++)
+	{
+		$IsAvgThresholdBroken = $False
+		$IsMaxThresholdBroken = $False
+		
+		If ($oCounterInstance.QuantizedAvg[$t] -ge 10)
+		{
+			$IsAvgThresholdBroken = $True
+		}
+		
+		If ($oCounterInstance.QuantizedMax[$t] -ge 100)
+		{
+			$IsMaxThresholdBroken = $True
+		}
+		
+		If (($IsAvgThresholdBroken -eq $True) -or ($IsMaxThresholdBroken -eq $True))
+		{
+			CreateAlert -TimeSliceIndex $t -CounterInstanceObject $oCounterInstance -IsMinThresholdBroken $False -IsAvgThresholdBroken $IsAvgThresholdBroken -IsMaxThresholdBroken $IsMaxThresholdBroken -IsTrendThresholdBroken $False -IsMinEvaluated $False -IsAvgEvaluated $True -IsMaxEvaluated $True -IsTrendEvaluated $False
+		}
+	}
+}
+	  ]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>Log Record Stalls/sec is the number of log records that cannot be added to the log buffers per second because they are full.  If this counter is non-zero most of the time, the log buffer size may be a bottleneck.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the number of log records that cannot be added to the log buffers per second because they are full. If this counter is non-zero most of the time, the log buffer size may be a bottleneck.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For Exchange Server 2007 Hub Transport servers, this value should be less than 10 per second on average with spikes (maximum values) of less than 100 per second.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Transport Database - MSExchange Database ==&gt; Instances Log Threads Waiting" ENABLED="True" CATEGORY="MSExchange Database ==&gt; Instances" PRIMARYDATASOURCE="\MSExchange Database ==&gt; Instances(edgetransport/Transport Mail Database)\Log Threads Waiting" ID="226773f0-fcec-469c-b21d-9f23e036724c" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Database ==&gt; Instances(edgetransport/Transport Mail Database)\Log Threads Waiting" COLLECTIONVARNAME="CollectionOfMSExchangeDatabaseInstancesLogThreadsWaiting" EXPRESSIONPATH="\MSExchange Database ==&gt; Instances(edgetransport/Transport Mail Database)\Log Threads Waiting" TRENDVARNAME="TrendMSExchangeDatabase==&gt;InstancesLogThreadsWaiting" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Database ==&gt; Instances(edgetransport/Transport Mail Database)\Log Threads Waiting" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Database ==&gt; Instances(edgetransport/Transport Mail Database)\Log Threads Waiting" CHARTLABELS="instance" />
+    <THRESHOLD NAME="MSExchange transport mail database log threads waiting average of 10 or more" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[
+For ($i=0;$i -lt $CollectionOfMSExchangeDatabaseInstancesLogThreadsWaiting.Count;$i++)
+{
+	$oCounterInstance = $CollectionOfMSExchangeDatabaseInstancesLogThreadsWaiting[$i]
+    
+	For ($t=0;$t -lt $alQuantizedTime.Count;$t++)
+	{
+		If ($oCounterInstance.QuantizedAvg[$t] -ge 10)
+		{
+			CreateAlert -TimeSliceIndex $t -CounterInstanceObject $oCounterInstance -IsMinThresholdBroken $False -IsAvgThresholdBroken $True -IsMaxThresholdBroken $False -IsTrendThresholdBroken $False -IsMinEvaluated $False -IsAvgEvaluated $True -IsMaxEvaluated $False -IsTrendEvaluated $False
+		}
+	}
+}
+	  ]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>Log Threads Waiting is the number of threads waiting for their data to be written to the log in order to complete an update of the database.  If this number is too high, the log may be a bottleneck.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the number of threads waiting for their data to be written to the log to complete an update of the database. If this number is too high, the log may be a bottleneck.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For Exchange Server 2007 Hub Transport servers, this value should be less than 10 threads waiting on average.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Extensibility Agents Average Agent Processing Time (sec)" ENABLED="True" CATEGORY="MSExchange Extensibility Agents" PRIMARYDATASOURCE="\MSExchange Extensibility Agents(*)\Average Agent Processing Time (sec)" ID="a7078a57-834b-49c8-a095-46c13b28b244" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Extensibility Agents(*)\Average Agent Processing Time (sec)" COLLECTIONVARNAME="CollectionOfMSExchangeExtensibilityAgentsAverageAgentProcessingTimesec" EXPRESSIONPATH="\MSExchange Extensibility Agents(*)\Average Agent Processing Time (sec)" TRENDVARNAME="TrendMSExchangeExtensibilityAgentsAverageAgentProcessingTimesec" DATATYPE="integer" >
+      <EXCLUDE INSTANCE="_Total" />
+    </DATASOURCE>
+    <CHART CHARTTITLE="\MSExchange Extensibility Agents(*)\Average Agent Processing Time (sec)" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Extensibility Agents(*)\Average Agent Processing Time (sec)" CHARTLABELS="instance" />
+    <THRESHOLD NAME="MSExchange extensibility agents average agent processing time of 20 seconds or greater" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeExtensibilityAgentsAverageAgentProcessingTimesec -Operator 'ge' -Threshold 20]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>Average agent processing time in seconds per event.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the average agent processing time in seconds per event.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For Exchange Server 2007 Hub Transport servers, this value should be less than 20 at all times.</p>
+<p>Sustained higher latencies may indicate a hung agent.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Extensibility Agents Total Agent Invocations" ENABLED="True" CATEGORY="MSExchange Extensibility Agents" PRIMARYDATASOURCE="\MSExchange Extensibility Agents(*)\Total Agent Invocations" ID="17e7fa2a-8066-4eca-b7eb-e06e1544358b" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Extensibility Agents(*)\Total Agent Invocations" COLLECTIONVARNAME="CollectionOfMSExchangeExtensibilityAgentsTotalAgentInvocations" EXPRESSIONPATH="\MSExchange Extensibility Agents(*)\Total Agent Invocations" TRENDVARNAME="TrendMSExchangeExtensibilityAgentsTotalAgentInvocations" DATATYPE="integer" >
+      <EXCLUDE INSTANCE="_Total" />
+    </DATASOURCE>
+    <CHART CHARTTITLE="\MSExchange Extensibility Agents(*)\Total Agent Invocations" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Extensibility Agents(*)\Total Agent Invocations" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>Total number of agent invocations since the last restart.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the total number of invocations since the last restart.</p>
+<p>Shows the current invocation rate.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Not Applicable.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <INHERITANCE FILEPATH="Exchange2007-Common-TechNet.xml" />
+</PAL>

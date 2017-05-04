@@ -1,0 +1,291 @@
+<PAL NAME="Microsoft Hyper-V R2 SP1" DESCRIPTION="General operating system performance analysis for Microsoft Windows Server 2008 and Windows 2008 R2 SP1 with Hyper-V. Use this for a general analysis of the operating system performance counters." CONTENTOWNERS="Thomas Roettinger" FEEDBACKEMAILADDRESS="thoroet@microsoft.com" VERSION="1.1" PALVERSION="2.0" LANGUAGE="English" LANGUAGECODE="en">
+  <INHERITANCE FILEPATH="SystemOverview.xml" />
+  <ANALYSIS NAME="Hyper-V Virtual Guest Computer Processor Analysis" ENABLED="True" CATEGORY="Hyper-V Hypervisor Virtual Processor" PRIMARYDATASOURCE="\Hyper-V Hypervisor Virtual Processor(*)\% Guest Run Time" ID="{7a3bd70e-1548-4651-8af7-f9f16a2432b7}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[This analysis checks the processor utilization of guest, virtual computer processors. The "\Hyper-V Hypervisor Virtual Processor(*)\% Guest Run Time" performance counter is more accurate than using the "% Processor Time" counter within the virtual computer due to clock calculation drift.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\Hyper-V Hypervisor Virtual Processor(*)\% Guest Run Time" COLLECTIONVARNAME="CollectionOfHyperVHypervisorVirtualProcessorPercentGuestRunTimeALL" EXPRESSIONPATH="\Hyper-V Hypervisor Virtual Processor(*)\% Guest Run Time" DATATYPE="integer" />
+    <THRESHOLD NAME="Hyper-V: High processor utilization of more than 75% on a virtual processor" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfHyperVHypervisorVirtualProcessorPercentGuestRunTimeALL -Operator 'gt' -Threshold 75        
+         ]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="Hyper-V: Very high processor utilization of more than 90% on a virtual processor" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfHyperVHypervisorVirtualProcessorPercentGuestRunTimeALL -Operator 'gt' -Threshold 90        
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\Hyper-V Hypervisor Virtual Processor(*)\% Guest Run Time" ISTHRESHOLDSADDED="True" DATASOURCE="\Hyper-V Hypervisor Virtual Processor(*)\% Guest Run Time" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfHyperVHypervisorVirtualProcessorPercentGuestRunTimeALL -MinThreshold 75 -MaxThreshold 90 -UseMaxValue $False
+        ]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfHyperVHypervisorVirtualProcessorPercentGuestRunTimeALL -MinThreshold 90 -MaxThreshold 99.999 -UseMaxValue $False
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+  </ANALYSIS>
+  <ANALYSIS NAME="Hyper-V Physical Server Processor Analysis" ENABLED="True" CATEGORY="Hyper-V Hypervisor Logical Processor" PRIMARYDATASOURCE="\Hyper-V Hypervisor Logical Processor(*)\% Total Run Time" ID="{c86eea9f-b86d-49eb-a75b-8aa3cc8184b4}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[This analysis checks the processor utilization of <B>physical processors</B> of the host computer. The "\Hyper-V Hypervisor Logical Processor(*)\% Total Run Time" performance counter is more accurate than using the "% Processor Time" counter on the host, root partition computer because the "% Processor Time" counter only measures the processor time of the host, root partition computer only. The "\Hyper-V Hypervisor Logical Processor(*)\% Total Run Time" performance counter is the best counter to use to analyze overall processor utilization of the Hyper-V server.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\Hyper-V Hypervisor Logical Processor(*)\% Total Run Time" COLLECTIONVARNAME="CollectionOfHyperVHypervisorLogicalProcessorPercentTotalRunTimeALL" EXPRESSIONPATH="\Hyper-V Hypervisor Logical Processor(*)\% Total Run Time" DATATYPE="integer" />
+    <THRESHOLD NAME="Hyper-V: High processor utilization of more than 75% on a physical processor" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfHyperVHypervisorLogicalProcessorPercentTotalRunTimeALL -Operator 'gt' -Threshold 75        
+         ]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="Hyper-V: Very high processor utilization of more than 90% on a physical processor" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfHyperVHypervisorLogicalProcessorPercentTotalRunTimeALL -Operator 'gt' -Threshold 90        
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\Hyper-V Hypervisor Logical Processor(*)\% Total Run Time" ISTHRESHOLDSADDED="True" DATASOURCE="\Hyper-V Hypervisor Logical Processor(*)\% Total Run Time" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfHyperVHypervisorLogicalProcessorPercentTotalRunTimeALL -MinThreshold 75 -MaxThreshold 90 -UseMaxValue $False
+        ]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfHyperVHypervisorLogicalProcessorPercentTotalRunTimeALL -MinThreshold 90 -MaxThreshold 99.999 -UseMaxValue $False
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+  </ANALYSIS>
+  <ANALYSIS NAME="Hyper-V Physical Server Network Analysis" ENABLED="True" CATEGORY="Hyper-V Virtual Network Adapter" PRIMARYDATASOURCE="\Hyper-V Virtual Network Adapter(*)\Bytes/sec" ID="{905e7024-ef17-4968-bce3-8634b40dd921}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[This counter represents the total number of bytes that have traversed the network adapter. Bytes/sec is the rate at which bytes are sent and received over each network adapter both physical and virtual. How quickly you can identify a problem depends on the type of network you have as well as whether you share bandwidth with other applications, services, or virtual computers.<BR>
+<BR>
+Unlike the Network Interface performance counter object, the connection speed of the virtual network adapters is not exposed as a performance counter, therefore statistics only are provided for this counter. See the Network Interface\Bytes Total/sec alerts to determine if network saturation is occurring on the physical network adapters.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\Hyper-V Virtual Network Adapter(*)\Bytes/sec" COLLECTIONVARNAME="HyperVVirtualNetworkAdapterBytessecALL" EXPRESSIONPATH="\Hyper-V Virtual Network Adapter(*)\Bytes/sec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Hyper-V Virtual Network Adapter(*)\Bytes/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\Hyper-V Virtual Network Adapter(*)\Bytes/sec" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Hyper-V Virtual Switch Bytes/Sec" ENABLED="True" CATEGORY="Hyper-V Virtual Switch" PRIMARYDATASOURCE="\Hyper-V Virtual Switch(*)\Bytes/sec" ID="{b1bc9b24-b8de-4c18-a9e3-82d2f9782254}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[This counter represents the total number of bytes per second traversing the virtual switch.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\Hyper-V Virtual Switch(*)\Bytes/sec" COLLECTIONVARNAME="HyperVVirtualSwitchBytessecALL" EXPRESSIONPATH="\Hyper-V Virtual Switch(*)\Bytes/sec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Hyper-V Virtual Switch(*)\Bytes/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\Hyper-V Virtual Switch(*)\Bytes/sec" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Hyper-V Virtual Storage Device Read Bytes/second" ENABLED="True" CATEGORY="Hyper-V Virtual Storage Device" PRIMARYDATASOURCE="\Hyper-V Virtual Storage Device(*)\Read Bytes/sec" ID="{646c80bc-0380-4529-a45a-dd3ff2bec122}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[This counter represents the total number of bytes that have been read per second on this virtual device.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\Hyper-V Virtual Storage Device(*)\Read Bytes/sec" COLLECTIONVARNAME="HyperVVirtualStorageDeviceReadBytessecALL" EXPRESSIONPATH="\Hyper-V Virtual Storage Device(*)\Read Bytes/sec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Hyper-V Virtual Storage Device(*)\Read Bytes/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\Hyper-V Virtual Storage Device(*)\Read Bytes/sec" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Hyper-V Virtual Storage Device Write Bytes/Second" ENABLED="True" CATEGORY="Hyper-V Virtual Storage Device" PRIMARYDATASOURCE="\Hyper-V Virtual Storage Device(*)\Write Bytes/sec" ID="{086a7f84-f711-40eb-b0be-db49c3a93e02}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[This counter represents the total number of bytes that have been written per second on this virtual device.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\Hyper-V Virtual Storage Device(*)\Write Bytes/sec" COLLECTIONVARNAME="HyperVVirtualStorageDeviceWriteBytessecALL" EXPRESSIONPATH="\Hyper-V Virtual Storage Device(*)\Write Bytes/sec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Hyper-V Virtual Storage Device(*)\Write Bytes/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\Hyper-V Virtual Storage Device(*)\Write Bytes/sec" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Hyper-V Virtual Storage Device Error Count" ENABLED="True" CATEGORY="Hyper-V Virtual Storage Device" PRIMARYDATASOURCE="\Hyper-V Virtual Storage Device(*)\Error Count" ID="{c7b4a6ea-eac6-41b6-a8f7-aded2d5b9fdc}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[This counter represents the total number of errors that have occured on this virtual device.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\Hyper-V Virtual Storage Device(*)\Error Count" COLLECTIONVARNAME="HyperVVirtualStorageDeviceErrorCountALL" EXPRESSIONPATH="\Hyper-V Virtual Storage Device(*)\Error Count" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Hyper-V Virtual Storage Device(*)\Error Count" ISTHRESHOLDSADDED="False" DATASOURCE="\Hyper-V Virtual Storage Device(*)\Error Count" CHARTLABELS="instance" />
+    <THRESHOLD NAME="Greater than 1 error per second on this virtual storage device" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $HyperVVirtualStorageDeviceErrorCountALL -Operator 'gt' -Threshold 1]]></CODE>
+    </THRESHOLD>
+  </ANALYSIS>
+  <ANALYSIS NAME="Hyper-V Virtual Machine Health Summary Health Critical" ENABLED="True" CATEGORY="Hyper-V Virtual Machine Health Summary" PRIMARYDATASOURCE="\Hyper-V Virtual Machine Health Summary\Health Critical" ID="acb22c43-ea11-4f83-8406-366fb5260692" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\Hyper-V Virtual Machine Health Summary\Health Critical" COLLECTIONVARNAME="CollectionOfHyperVVirtualMachineHealthSummaryHealthCritical" EXPRESSIONPATH="\Hyper-V Virtual Machine Health Summary\Health Critical" TRENDVARNAME="TrendHyperVVirtualMachineHealthSummaryHealthCritical" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Hyper-V Virtual Machine Health Summary\Health Critical" ISTHRESHOLDSADDED="False" DATASOURCE="\Hyper-V Virtual Machine Health Summary\Health Critical" CHARTLABELS="instance" />
+    <THRESHOLD NAME="Equal to or greater than 1 virtual machine is critical" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfHyperVVirtualMachineHealthSummaryHealthCritical -Operator 'ge' -Threshold 1]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[This counter represents the number of virtual machines that with critical health.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Hyper-V Hypervisor Logical Processors" ENABLED="True" CATEGORY="Hyper-V Hypervisor" PRIMARYDATASOURCE="\Hyper-V Hypervisor\Logical Processors" ID="4244e358-ce11-4617-ac81-95fb5ca30f3c" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\Hyper-V Hypervisor\Logical Processors" COLLECTIONVARNAME="CollectionOfHyperVHypervisorLogicalProcessors" EXPRESSIONPATH="\Hyper-V Hypervisor\Logical Processors" TRENDVARNAME="TrendHyperVHypervisorLogicalProcessors" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Hyper-V Hypervisor\Logical Processors" ISTHRESHOLDSADDED="False" DATASOURCE="\Hyper-V Hypervisor\Logical Processors" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[The number of logical processors present in the system.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Hyper-V Hypervisor Virtual Processors" ENABLED="True" CATEGORY="Hyper-V Hypervisor" PRIMARYDATASOURCE="\Hyper-V Hypervisor\Virtual Processors" ID="476d76bf-ad1d-4a06-8dcb-28c93638fee5" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\Hyper-V Hypervisor\Virtual Processors" COLLECTIONVARNAME="CollectionOfHyperVHypervisorVirtualProcessors" EXPRESSIONPATH="\Hyper-V Hypervisor\Virtual Processors" TRENDVARNAME="TrendHyperVHypervisorVirtualProcessors" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Hyper-V Hypervisor\Virtual Processors" ISTHRESHOLDSADDED="False" DATASOURCE="\Hyper-V Hypervisor\Virtual Processors" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[The number of virtual processors present in the system.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Hyper-V Hypervisor Root Partition Deposited Pages" ENABLED="True" CATEGORY="Hyper-V Hypervisor Root Partition" PRIMARYDATASOURCE="\Hyper-V Hypervisor Root Partition(*)\Deposited Pages" ID="878fcfe5-ec52-4205-a5d7-8b8f96e54b14" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\Hyper-V Hypervisor Root Partition(*)\Deposited Pages" COLLECTIONVARNAME="CollectionOfHyperVHypervisorRootPartitionDepositedPages" EXPRESSIONPATH="\Hyper-V Hypervisor Root Partition(*)\Deposited Pages" TRENDVARNAME="TrendHyperVHypervisorRootPartitionDepositedPages" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Hyper-V Hypervisor Root Partition(*)\Deposited Pages" ISTHRESHOLDSADDED="False" DATASOURCE="\Hyper-V Hypervisor Root Partition(*)\Deposited Pages" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[The number of pages deposited into the partition.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Hyper-V VM Vid Partition Remote Physical Pages" ENABLED="True" CATEGORY="Hyper-V VM Vid Partition" PRIMARYDATASOURCE="\Hyper-V VM Vid Partition(*)\Remote Physical Pages" ID="d875913c-5a39-4add-80a6-01b0214a6173" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\Hyper-V VM Vid Partition(*)\Remote Physical Pages" COLLECTIONVARNAME="CollectionOfHyperVVMVidPartitionRemotePhysicalPages" EXPRESSIONPATH="\Hyper-V VM Vid Partition(*)\Remote Physical Pages" TRENDVARNAME="TrendHyperVVMVidPartitionRemotePhysicalPages" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Hyper-V VM Vid Partition(*)\Remote Physical Pages" ISTHRESHOLDSADDED="False" DATASOURCE="\Hyper-V VM Vid Partition(*)\Remote Physical Pages" CHARTLABELS="instance" />
+    <THRESHOLD NAME="Greater than 100 pages/second to remote NUMA nodes" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfHyperVVMVidPartitionRemotePhysicalPages -Operator 'gt' -Threshold 100]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The number of physical pages not allocated from the preferred NUMA node.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Hyper-V Virtual Storage Device Error Count" ENABLED="True" CATEGORY="Hyper-V Virtual Storage Device" PRIMARYDATASOURCE="\Hyper-V Virtual Storage Device(*)\Error Count" ID="a37ecd6a-25fc-42bf-9c4c-b34527ef6652" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[This counter represents the total number of errors that have occured on this virtual device.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\Hyper-V Virtual Storage Device(*)\Error Count" COLLECTIONVARNAME="CollectionOfHyperVVirtualStorageDeviceErrorCount" EXPRESSIONPATH="\Hyper-V Virtual Storage Device(*)\Error Count" TRENDVARNAME="TrendHyperVVirtualStorageDeviceErrorCount" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Hyper-V Virtual Storage Device(*)\Error Count" ISTHRESHOLDSADDED="False" DATASOURCE="\Hyper-V Virtual Storage Device(*)\Error Count" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Hyper-V Virtual Storage Device Read Bytes/sec" ENABLED="True" CATEGORY="Hyper-V Virtual Storage Device" PRIMARYDATASOURCE="\Hyper-V Virtual Storage Device(*)\Read Bytes/sec" ID="4bed3124-9fec-41e8-b1c0-c23c9b3b5341" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[This counter represents the total number of bytes that have been read per second on this virtual device.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\Hyper-V Virtual Storage Device(*)\Read Bytes/sec" COLLECTIONVARNAME="CollectionOfHyperVVirtualStorageDeviceReadBytessec" EXPRESSIONPATH="\Hyper-V Virtual Storage Device(*)\Read Bytes/sec" TRENDVARNAME="TrendHyperVVirtualStorageDeviceReadBytessec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Hyper-V Virtual Storage Device(*)\Read Bytes/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\Hyper-V Virtual Storage Device(*)\Read Bytes/sec" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Hyper-V Virtual Storage Device Write Bytes/sec" ENABLED="True" CATEGORY="Hyper-V Virtual Storage Device" PRIMARYDATASOURCE="\Hyper-V Virtual Storage Device(*)\Write Bytes/sec" ID="feefef43-21ea-46c1-86c1-d15f9cffc4e8" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[This counter represents the total number of bytes that have been written per second on this virtual device.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\Hyper-V Virtual Storage Device(*)\Write Bytes/sec" COLLECTIONVARNAME="CollectionOfHyperVVirtualStorageDeviceWriteBytessec" EXPRESSIONPATH="\Hyper-V Virtual Storage Device(*)\Write Bytes/sec" TRENDVARNAME="TrendHyperVVirtualStorageDeviceWriteBytessec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Hyper-V Virtual Storage Device(*)\Write Bytes/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\Hyper-V Virtual Storage Device(*)\Write Bytes/sec" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Hyper-V VM Vid Numa Node ProcessorCount" ENABLED="True" CATEGORY="Hyper-V VM Vid Numa Node" PRIMARYDATASOURCE="\Hyper-V VM Vid Numa Node(*)\ProcessorCount" ID="bc5b10b1-e383-41e3-a558-b575c7032ef6" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\Hyper-V VM Vid Numa Node(*)\ProcessorCount" COLLECTIONVARNAME="CollectionOfHyperVVMVidNumaNodeProcessorCount" EXPRESSIONPATH="\Hyper-V VM Vid Numa Node(*)\ProcessorCount" TRENDVARNAME="TrendHyperVVMVidNumaNodeProcessorCount" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Hyper-V VM Vid Numa Node(*)\ProcessorCount" ISTHRESHOLDSADDED="False" DATASOURCE="\Hyper-V VM Vid Numa Node(*)\ProcessorCount" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[The number of logical processors detected on this NUMA node.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Hyper-V VM Vid Partition Preferred NUMA Node Index" ENABLED="True" CATEGORY="Hyper-V VM Vid Partition" PRIMARYDATASOURCE="\Hyper-V VM Vid Partition(*)\Preferred NUMA Node Index" ID="cdeb61e7-e1ac-4188-8697-6f165c8704e8" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\Hyper-V VM Vid Partition(*)\Preferred NUMA Node Index" COLLECTIONVARNAME="CollectionOfHyperVVMVidPartitionPreferredNUMANodeIndex" EXPRESSIONPATH="\Hyper-V VM Vid Partition(*)\Preferred NUMA Node Index" TRENDVARNAME="TrendHyperVVMVidPartitionPreferredNUMANodeIndex" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Hyper-V VM Vid Partition(*)\Preferred NUMA Node Index" ISTHRESHOLDSADDED="False" DATASOURCE="\Hyper-V VM Vid Partition(*)\Preferred NUMA Node Index" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[The preferred NUMA node index associated with this partition.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Hyper-V Hypervisor Root Virtual Processor Hypercalls Cost" ENABLED="True" CATEGORY="Hyper-V Hypervisor Root Virtual Processor" PRIMARYDATASOURCE="\Hyper-V Hypervisor Root Virtual Processor(*)\Hypercalls Cost" ID="be8357bc-6d03-42f1-8adf-8c61d2559a21" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\Hyper-V Hypervisor Root Virtual Processor(*)\Hypercalls Cost" COLLECTIONVARNAME="CollectionOfHyperVHypervisorRootVirtualProcessorHypercallsCost" EXPRESSIONPATH="\Hyper-V Hypervisor Root Virtual Processor(*)\Hypercalls Cost" TRENDVARNAME="TrendHyperVHypervisorRootVirtualProcessorHypercallsCost" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Hyper-V Hypervisor Root Virtual Processor(*)\Hypercalls Cost" ISTHRESHOLDSADDED="False" DATASOURCE="\Hyper-V Hypervisor Root Virtual Processor(*)\Hypercalls Cost" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[The average time (in nanoseconds) spent processing a hypercall.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Hyper-V Hypervisor Root Virtual Processor IO Instructions Cost" ENABLED="True" CATEGORY="Hyper-V Hypervisor Root Virtual Processor" PRIMARYDATASOURCE="\Hyper-V Hypervisor Root Virtual Processor(_Total)\IO Instructions Cost" ID="8b1c0182-c56c-4869-a627-606cd0c12c96" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\Hyper-V Hypervisor Root Virtual Processor(*)\IO Instructions Cost" COLLECTIONVARNAME="CollectionOfHyperVHypervisorRootVirtualProcessorIOInstructionsCost" EXPRESSIONPATH="\Hyper-V Hypervisor Root Virtual Processor(*)\IO Instructions Cost" TRENDVARNAME="TrendHyperVHypervisorRootVirtualProcessorIOInstructionsCost" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Hyper-V Hypervisor Root Virtual Processor(*)\IO Instructions Cost" ISTHRESHOLDSADDED="False" DATASOURCE="\Hyper-V Hypervisor Root Virtual Processor(*)\IO Instructions Cost" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[The average time (in nanoseconds) spent processing an IO instruction.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Hyper-V Hypervisor Partition Virtual TLB Flush Entires/sec" ENABLED="True" CATEGORY="Hyper-V Hypervisor Partition" PRIMARYDATASOURCE="\Hyper-V Hypervisor Partition(*)\Virtual TLB Flush Entires/sec" ID="0cdc6512-e3a7-4d12-bafc-32cb8dc6de43" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\Hyper-V Hypervisor Partition(*)\Virtual TLB Flush Entires/sec" COLLECTIONVARNAME="CollectionOfHyperVHypervisorPartitionVirtualTLBFlushEntiressec" EXPRESSIONPATH="\Hyper-V Hypervisor Partition(*)\Virtual TLB Flush Entires/sec" TRENDVARNAME="TrendHyperVHypervisorPartitionVirtualTLBFlushEntiressec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Hyper-V Hypervisor Partition(*)\Virtual TLB Flush Entires/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\Hyper-V Hypervisor Partition(*)\Virtual TLB Flush Entires/sec" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[The rate of flushes of the entire virtual TLB.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Hyper-V Dynamic Memory VM Added Memory" ENABLED="True" CATEGORY="Hyper-V Dynamic Memory VM" PRIMARYDATASOURCE="\Hyper-V Dynamic Memory VM(*)\Added Memory" ID="915d255c-af23-43f5-9c05-9bcd63a1cd27" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[This counter represents the cummulative amount of memory added to the VM.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\Hyper-V Dynamic Memory VM(*)\Added Memory" COLLECTIONVARNAME="CollectionOfHyperVDynamicMemoryVMAddedMemory" EXPRESSIONPATH="\Hyper-V Dynamic Memory VM(*)\Added Memory" TRENDVARNAME="TrendHyperVDynamicMemoryVMAddedMemory" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Hyper-V Dynamic Memory VM(*)\Added Memory" ISTHRESHOLDSADDED="False" DATASOURCE="\Hyper-V Dynamic Memory VM(*)\Added Memory" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Hyper-V Dynamic Memory VM Average Pressure" ENABLED="True" CATEGORY="Hyper-V Dynamic Memory VM" PRIMARYDATASOURCE="\Hyper-V Dynamic Memory VM(*)\Average Pressure" ID="d387842b-b49c-4d2e-83c7-901b6fbf1e0c" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\Hyper-V Dynamic Memory VM(*)\Average Pressure" COLLECTIONVARNAME="CollectionOfHyperVDynamicMemoryVMAveragePressure" EXPRESSIONPATH="\Hyper-V Dynamic Memory VM(*)\Average Pressure" TRENDVARNAME="TrendHyperVDynamicMemoryVMAveragePressure" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Hyper-V Dynamic Memory VM(*)\Average Pressure" ISTHRESHOLDSADDED="False" DATASOURCE="\Hyper-V Dynamic Memory VM(*)\Average Pressure" CHARTLABELS="instance" />
+    <THRESHOLD NAME="Maximum assigned memory is not enough" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[
+StaticThreshold -CollectionOfCounterInstances $CollectionOfHyperVDynamicMemoryVMAveragePressure -Operator 'gt' -Threshold 80
+      
+         
+
+]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[This counter represents the average pressure in the VM.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Hyper-V Dynamic Memory VM Removed Memory" ENABLED="True" CATEGORY="Hyper-V Dynamic Memory VM" PRIMARYDATASOURCE="\Hyper-V Dynamic Memory VM(*)\Removed Memory" ID="c71891f2-6f7c-47dd-b286-91b7dca20e2e" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[This counter represents the cummulative amount of memory removed from the VM.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\Hyper-V Dynamic Memory VM(*)\Removed Memory" COLLECTIONVARNAME="CollectionOfHyperVDynamicMemoryVMRemovedMemory" EXPRESSIONPATH="\Hyper-V Dynamic Memory VM(*)\Removed Memory" TRENDVARNAME="TrendHyperVDynamicMemoryVMRemovedMemory" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Hyper-V Dynamic Memory VM(*)\Removed Memory" ISTHRESHOLDSADDED="False" DATASOURCE="\Hyper-V Dynamic Memory VM(*)\Removed Memory" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Hyper-V Dynamic Memory Balancer Average Pressure" ENABLED="True" CATEGORY="Hyper-V Dynamic Memory Balancer" PRIMARYDATASOURCE="\Hyper-V Dynamic Memory Balancer(*)\Average Pressure" ID="ca7c6a6b-37d3-404e-98fc-4cef531c067c" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[This counter represents the average pressure on the balancer node.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\Hyper-V Dynamic Memory Balancer(*)\Average Pressure" COLLECTIONVARNAME="CollectionOfHyperVDynamicMemoryBalancerAveragePressure" EXPRESSIONPATH="\Hyper-V Dynamic Memory Balancer(*)\Average Pressure" TRENDVARNAME="TrendHyperVDynamicMemoryBalancerAveragePressure" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Hyper-V Dynamic Memory Balancer(*)\Average Pressure" ISTHRESHOLDSADDED="False" DATASOURCE="\Hyper-V Dynamic Memory Balancer(*)\Average Pressure" CHARTLABELS="instance" />
+    <THRESHOLD NAME="Virtual Machines are doing paging" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfHyperVDynamicMemoryBalancerAveragePressure -Operator 'gt' -Threshold 80]]></CODE>
+    </THRESHOLD>
+  </ANALYSIS>
+  <ANALYSIS NAME="RemoteFX Root GPU Management Resources: VMs running RemoteFX" ENABLED="True" CATEGORY="RemoteFX Root GPU Management" PRIMARYDATASOURCE="\RemoteFX Root GPU Management(*)\Resources: VMs running RemoteFX" ID="382387be-0146-4efa-9533-027e194d875e" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Count of virtual machines that have the RemoteFX 3D adapter installed.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\RemoteFX Root GPU Management(*)\Resources: VMs running RemoteFX" COLLECTIONVARNAME="CollectionOfRemoteFXRootGPUManagementResourcesVMsrunningRemoteFX" EXPRESSIONPATH="\RemoteFX Root GPU Management(*)\Resources: VMs running RemoteFX" TRENDVARNAME="TrendRemoteFXRootGPUManagementResourcesVMsrunningRemoteFX" DATATYPE="integer" />
+    <CHART CHARTTITLE="\RemoteFX Root GPU Management(*)\Resources: VMs running RemoteFX" ISTHRESHOLDSADDED="False" DATASOURCE="\RemoteFX Root GPU Management(*)\Resources: VMs running RemoteFX" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="RemoteFX Root GPU Management VRAM: Available MB per GPU" ENABLED="True" CATEGORY="RemoteFX Root GPU Management" PRIMARYDATASOURCE="\RemoteFX Root GPU Management(*)\VRAM: Available MB per GPU" ID="0f3da5c1-c201-4df0-b78c-83eb41ee254e" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Amount of dedicated VRAM that is unused.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\RemoteFX Root GPU Management(*)\VRAM: Available MB per GPU" COLLECTIONVARNAME="CollectionOfRemoteFXRootGPUManagementVRAMAvailableMBperGPU" EXPRESSIONPATH="\RemoteFX Root GPU Management(*)\VRAM: Available MB per GPU" TRENDVARNAME="TrendRemoteFXRootGPUManagementVRAMAvailableMBperGPU" DATATYPE="integer" />
+    <CHART CHARTTITLE="\RemoteFX Root GPU Management(*)\VRAM: Available MB per GPU" ISTHRESHOLDSADDED="False" DATASOURCE="\RemoteFX Root GPU Management(*)\VRAM: Available MB per GPU" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Hyper-V Hypervisor Root Partition Address Spaces" ENABLED="True" CATEGORY="Hyper-V Hypervisor Root Partition" PRIMARYDATASOURCE="\Hyper-V Hypervisor Root Partition(*)\Address Spaces" ID="8d431021-ff1d-4470-8cd3-ccb4df1333e3" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\Hyper-V Hypervisor Root Partition(*)\Address Spaces" COLLECTIONVARNAME="CollectionOfHyperVHypervisorRootPartitionAddressSpaces" EXPRESSIONPATH="\Hyper-V Hypervisor Root Partition(*)\Address Spaces" TRENDVARNAME="TrendHyperVHypervisorRootPartitionAddressSpaces" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Hyper-V Hypervisor Root Partition(*)\Address Spaces" ISTHRESHOLDSADDED="False" DATASOURCE="\Hyper-V Hypervisor Root Partition(*)\Address Spaces" CHARTLABELS="instance" />
+    <THRESHOLD NAME="CPU SLAT compatiblity" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[
+StaticThreshold -CollectionOfCounterInstances $CollectionOfHyperVHypervisorRootPartitionAddressSpaces -Operator 'gt' -Threshold 0
+
+]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The number of address spaces in the virtual TLB of the partition. If this counter is 0 than your CPU is SLAT compatible]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Hyper-V Hypervisor Logical Processor Context Switches/sec" ENABLED="True" CATEGORY="Hyper-V Hypervisor Logical Processor" PRIMARYDATASOURCE="\Hyper-V Hypervisor Logical Processor(*)\Context Switches/sec" ID="1fdf0791-5eba-4b35-936a-d7938388820f" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\Hyper-V Hypervisor Logical Processor(*)\Context Switches/sec" COLLECTIONVARNAME="CollectionOfHyperVHypervisorLogicalProcessorContextSwitchessec" EXPRESSIONPATH="\Hyper-V Hypervisor Logical Processor(*)\Context Switches/sec" TRENDVARNAME="TrendHyperVHypervisorLogicalProcessorContextSwitchessec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Hyper-V Hypervisor Logical Processor(*)\Context Switches/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\Hyper-V Hypervisor Logical Processor(*)\Context Switches/sec" CHARTLABELS="instance" />
+    <THRESHOLD NAME="Value should be below 20.000 per logical processor" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[#// Use PowerShell code to create alerts when the conditions for this threshold are met.
+#// Optionally use the variables listed above in the Variables list box.
+#// If the condition for this threshold is a static value, then use the StaticThreshold() function.
+#// Otherwise, you will need to manually loop through the counter instance collection object.
+#// The counter instance collection object has a unique name for each counter data source in this analysis.
+#// See the variables in the Variables list box above for more information on the counter instance collection object.
+
+#// Here is a ready to use example on how to use the StaticThreshold() function to define a threshold:
+StaticThreshold -CollectionOfCounterInstances $CollectionOfHyperVHypervisorLogicalProcessorContextSwitchessec -Operator 'gt' -Threshold 20000
+
+#// The -Operator parameter accepts gt for greater than, ge for greater than or equal to, lt for less than,
+#//  and le for less than or equal to. -Threshold is the static value for the threshold.]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The rate of virtual processor context switches on the processor.The collected value should be below 20.000 per logical processor.These are the number of times a new Virtual Processor (VP) had been scheduled to a particular Logical Processor (LP).   ]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="LogicalDisk Disk Transfers/sec" ENABLED="True" CATEGORY="LogicalDisk" PRIMARYDATASOURCE="\LogicalDisk(*)\Disk Transfers/sec" ID="aec8e6ed-5087-4028-a327-a6d16eefe422" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Disk Transfers/sec is the rate of read and write operations on the disk. This counter is to messure the IOPs your logical disk have done.
+
+A typical 7.200 rpm SATA disk can do ~75-100 IOPs.
+A typical 10.000 rpm SATA disk can do ~125-150 IOPs.
+A typical 15.000 rpm SAS disk can do ~175-210 IOPs.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\LogicalDisk(*)\Disk Transfers/sec" COLLECTIONVARNAME="CollectionOfLogicalDiskDiskTransferssec" EXPRESSIONPATH="\LogicalDisk(*)\Disk Transfers/sec" TRENDVARNAME="TrendLogicalDiskDiskTransferssec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LogicalDisk(*)\Disk Transfers/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\LogicalDisk(*)\Disk Transfers/sec" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="PhysicalDisk Disk Transfers/sec" ENABLED="True" CATEGORY="PhysicalDisk" PRIMARYDATASOURCE="\PhysicalDisk(*)\Disk Transfers/sec" ID="25c98b2b-7e15-437a-b845-99d5b91a5214" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Disk Transfers/sec is the rate of read and write operations on the disk. This counter is to messure the IOPs your logical disk have done.
+
+A typical 7.200 rpm SATA disk can do ~75-100 IOPs.
+A typical 10.000 rpm SATA disk can do ~125-150 IOPs.
+A typical 15.000 rpm SAS disk can do ~175-210 IOPs.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\PhysicalDisk(*)\Disk Transfers/sec" COLLECTIONVARNAME="CollectionOfPhysicalDiskDiskTransferssec" EXPRESSIONPATH="\PhysicalDisk(*)\Disk Transfers/sec" TRENDVARNAME="TrendPhysicalDiskDiskTransferssec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\PhysicalDisk(*)\Disk Transfers/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\PhysicalDisk(*)\Disk Transfers/sec" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Cluster Shared Volumes IO Write Bytes" ENABLED="True" CATEGORY="Cluster Shared Volumes" PRIMARYDATASOURCE="\Cluster Shared Volumes(*)\IO Write Bytes" ID="8d21c2b2-3f01-4312-8422-dc1be47285cd" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\Cluster Shared Volumes(*)\IO Write Bytes" COLLECTIONVARNAME="CollectionOfClusterSharedVolumesIOWriteBytes" EXPRESSIONPATH="\Cluster Shared Volumes(*)\IO Write Bytes" TRENDVARNAME="TrendClusterSharedVolumesIOWriteBytes" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Cluster Shared Volumes(*)\IO Write Bytes" ISTHRESHOLDSADDED="False" DATASOURCE="\Cluster Shared Volumes(*)\IO Write Bytes" CHARTLABELS="instance" />
+    <THRESHOLD NAME="If the counter has a value higher then 0,5MB then make sure your CSV disks are not in redirected mode. Or you are using a lot of dynamic expanding VHD." CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[#// Use PowerShell code to create alerts when the conditions for this threshold are met.
+#// Optionally use the variables listed above in the Variables list box.
+#// If the condition for this threshold is a static value, then use the StaticThreshold() function.
+#// Otherwise, you will need to manually loop through the counter instance collection object.
+#// The counter instance collection object has a unique name for each counter data source in this analysis.
+#// See the variables in the Variables list box above for more information on the counter instance collection object.
+
+#// Here is a ready to use example on how to use the StaticThreshold() function to define a threshold:
+StaticThreshold -CollectionOfCounterInstances $CollectionOfClusterSharedVolumesIOWriteBytes -Operator 'gt' -Threshold 512000
+
+#// The -Operator parameter accepts gt for greater than, ge for greater than or equal to, lt for less than,
+#//  and le for less than or equal to. -Threshold is the static value for the threshold.]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The IO Write Bytes performance counter shows the number of bytes written directly to the volume. This counter should not be higher then 0,5MB/s . If it is higher the volumes is in redirected access or a lot of dynamic expanding disk are used by virtual machines.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Cluster Shared Volumes IO Read Bytes" ENABLED="True" CATEGORY="Cluster Shared Volumes" PRIMARYDATASOURCE="\Cluster Shared Volumes(*)\IO Read Bytes" ID="93f20510-37d2-463b-bce8-60ae9ed148c8" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The IO Read Bytes performance counter shows the number of bytes written directly to the volume. This counter should not be higher then 0,5MB/s . If it is higher the volumes is in redirected access or a lot of dynamic expanding disk are used by virtual machines.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\Cluster Shared Volumes(*)\IO Read Bytes" COLLECTIONVARNAME="CollectionOfClusterSharedVolumesIOReadBytes" EXPRESSIONPATH="\Cluster Shared Volumes(*)\IO Read Bytes" TRENDVARNAME="TrendClusterSharedVolumesIOReadBytes" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Cluster Shared Volumes(*)\IO Read Bytes" ISTHRESHOLDSADDED="False" DATASOURCE="\Cluster Shared Volumes(*)\IO Read Bytes" CHARTLABELS="instance" />
+    <THRESHOLD NAME="If the counter has a value higher then 0,5MB then make sure your CSV disks are not in redirected mode. Or you are using a lot of dynamic expanding VHD." CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[#// Use PowerShell code to create alerts when the conditions for this threshold are met.
+#// Optionally use the variables listed above in the Variables list box.
+#// If the condition for this threshold is a static value, then use the StaticThreshold() function.
+#// Otherwise, you will need to manually loop through the counter instance collection object.
+#// The counter instance collection object has a unique name for each counter data source in this analysis.
+#// See the variables in the Variables list box above for more information on the counter instance collection object.
+
+#// Here is a ready to use example on how to use the StaticThreshold() function to define a threshold:
+StaticThreshold -CollectionOfCounterInstances $CollectionOfClusterSharedVolumesIOReadBytes -Operator 'gt' -Threshold 512000
+
+#// The -Operator parameter accepts gt for greater than, ge for greater than or equal to, lt for less than,
+#//  and le for less than or equal to. -Threshold is the static value for the threshold.]]></CODE>
+    </THRESHOLD>
+  </ANALYSIS>
+</PAL>

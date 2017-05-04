@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<PAL PALVERSION="2.0" NAME="Philips Intellivue Clinical Informatics Portfolio" DESCRIPTION="General threshold for Philips Intellivue Clinical Informatics Portfolio" CONTENTOWNERS="Dean Rose" FEEDBACKEMAILADDRESS="Dean.rose@philips.com" VERSION="1.0" LANGUAGE="English" LANGUAGECODE="en">
+  <ANALYSIS NAME="PhysicalDisk Calculated IOPS/sec" ENABLED="True" CATEGORY="PhysicalDisk" PRIMARYDATASOURCE="\PhysicalDisk(*)\Disk Reads/sec" ID="55cf8ed2-887c-4c36-a768-6b313928692c" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\PhysicalDisk(*)\Disk Reads/sec" COLLECTIONVARNAME="CollectionOfPhysicalDiskDiskReadssec" EXPRESSIONPATH="\PhysicalDisk(*)\Disk Reads/sec" TRENDVARNAME="TrendPhysicalDiskDiskReadssec" DATATYPE="integer">
+      <EXCLUDE INSTANCE="_Total" />
+    </DATASOURCE>
+    <CHART CHARTTITLE="\PhysicalDisk(*)\Disk Reads/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\PhysicalDisk(*)\Disk Reads/sec" CHARTLABELS="instance" />
+    <CHART CHARTTITLE="\PhysicalDisk(*)\Disk Writes/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\PhysicalDisk(*)\Disk Writes/sec" CHARTLABELS="instance" />
+    <CHART CHARTTITLE="\PhysicalDisk(*)\Calculated IOPS/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\PhysicalDisk(*)\Calculated IOPS/sec" CHARTLABELS="instance" />
+    <DATASOURCE TYPE="CounterLog" NAME="\PhysicalDisk(*)\Disk Writes/sec" EXPRESSIONPATH="\PhysicalDisk(*)\Disk Writes/sec" COLLECTIONVARNAME="CollectionOfPhysicalDiskDiskWritessecAll" DATATYPE="integer">
+      <EXCLUDE INSTANCE="_Total" />
+    </DATASOURCE>
+    <DATASOURCE TYPE="Generated" NAME="\PhysicalDisk(*)\Calculated IOPS/sec" EXPRESSIONPATH="\PhysicalDisk(*)\Calculated IOPS/sec" COLLECTIONVARNAME="CollectionOfPhysicalDiskCalculatedIOPSAll" DATATYPE="integer">
+      <EXCLUDE INSTANCE="_Total" />
+      <CODE><![CDATA[
+$CollectionOfPhysicalDiskCalculatedIOPSAll = @{}
+For ($i=0;$i -lt $CollectionOfPhysicalDiskDiskReadssec.Count;$i++)
+{
+	$alValues = New-Object System.Collections.ArrayList
+	For ($v=0;$v -lt $CollectionOfPhysicalDiskDiskReadssec[$i].Value.Count;$v++)
+	{
+        $iWriteMultiplier = 1
+        $aRAID1Drives = $RAID1Drives.Split(',')
+        For ($i1=0;$i1 -lt $aRAID1Drives.Count;$i1++)
+        {
+            If ($CollectionOfPhysicalDiskDiskWritessecAll[$i].CounterInstance.Contains($aRAID1Drives[$i1]))
+            {
+                $iWriteMultiplier = 2
+            }
+        }
+        $aRAID5Drives = $RAID5Drives.Split(',')
+        For ($i5=0;$i5 -lt $aRAID5Drives.Count;$i5++)
+        {
+            If ($CollectionOfPhysicalDiskDiskWritessecAll[$i].CounterInstance.Contains($aRAID5Drives[$i5]))
+            {
+                $iWriteMultiplier = 4
+            }
+        }
+        $iIOPS = $CollectionOfPhysicalDiskDiskReadssec[$i].QuantizedAvg[$v] + $($CollectionOfPhysicalDiskDiskWritessecAll[$i].QuantizedAvg[$v] * $iWriteMultiplier)
+        #// $CollectionOfPhysicalDiskDiskReadssec[$i].QuantizedAvg[$v] >> .\debugoutput.txt
+        #// $CollectionOfPhysicalDiskDiskWritessecAll[$i].QuantizedAvg[$v] >> .\debugoutput.txt
+        #// $iIOPS >> .\debugoutput.txt
+        #// $iWriteMultiplier >> .\debugoutput.txt        
+        #// '=========================' >> .\debugoutput.txt
+        
+		If ($iIOPS -gt 0)
+		{            
+			[void] $alValues.Add($iIOPS)
+		}
+		Else
+		{
+			[void] $alValues.Add(0)
+		}
+
+	}
+	$sGeneratedInstanceName = "\\$($CollectionOfPhysicalDiskDiskReadssec[$i].CounterComputer)\$($CollectionOfPhysicalDiskDiskReadssec[$i].CounterObject)($($CollectionOfPhysicalDiskDiskReadssec[$i].CounterInstance))\Calculated IOPS"
+	$CollectionOfPhysicalDiskCalculatedIOPSAll.Add($sGeneratedInstanceName,$alValues)
+}
+        ]]></CODE>
+    </DATASOURCE>
+    <DESCRIPTION><![CDATA[Disk Reads/sec is the rate of read operations on the disk.]]></DESCRIPTION>
+  </ANALYSIS>
+  <QUESTION QUESTIONVARNAME="RAID5Drives" DATATYPE="string" DEFAULTVALUE="NULL">List the physical disks that are using RAID5 separated by commas (,). Example: D,E,F</QUESTION>
+  <QUESTION QUESTIONVARNAME="RAID1Drives" DATATYPE="string" DEFAULTVALUE="NULL">List the physical disks that are using RAID1, RAID0+1, or RAID10 separated by commas (,). Example: D,E,F</QUESTION>
+  <INHERITANCE FILEPATH="SystemOverview.xml" />
+</PAL>

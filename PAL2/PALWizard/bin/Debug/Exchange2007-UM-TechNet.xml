@@ -1,0 +1,110 @@
+<?xml version="1.0"?>
+<PAL NAME="Microsoft Exchange 2007 - UM (TechNet)" DESCRIPTION="Includes counters and thresholds for the Exchange Server 2007 Unified Messaging role based on the following product documentation: http://technet.microsoft.com/en-us/library/bb201671%28v=exchg.80%29" VERSION="1.0" PALVERSION="2.0" CONTENTOWNERS="Kevan Brown" FEEDBACKEMAILADDRESS="kbrown@smartronix.com">
+  <ANALYSIS NAME="MSExchangeUMAvailability Call Answer Queued Messages" ENABLED="True" CATEGORY="MSExchangeUMAvailability" PRIMARYDATASOURCE="\MSExchangeUMAvailability\Call Answer Queued Messages" ID="88d684db-1ef2-45de-854c-8cba252484a7" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeUMAvailability\Call Answer Queued Messages" COLLECTIONVARNAME="CollectionOfMSExchangeUMAvailabilityCallAnswerQueuedMessages" EXPRESSIONPATH="\MSExchangeUMAvailability\Call Answer Queued Messages" TRENDVARNAME="TrendMSExchangeUMAvailabilityCallAnswerQueuedMessages" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeUMAvailability\Call Answer Queued Messages" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeUMAvailability\Call Answer Queued Messages" CHARTLABELS="instance" />
+    <THRESHOLD NAME="MSExchangeUMAvailability call answer queued messages of 50 or more" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeUMAvailabilityCallAnswerQueuedMessages -Operator 'ge' -Threshold 50]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>Call Answer Queued Messages is the number of messages created and not yet submitted for delivery.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the number of messages created and not yet submitted for delivery.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For Exchange Server 2007 Unified Messaging servers, this value should be less than 50 at all times.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeUMAvailability Directory Access Failures" ENABLED="True" CATEGORY="MSExchangeUMAvailability" PRIMARYDATASOURCE="\MSExchangeUMAvailability\Directory Access Failures" ID="6fb86271-c936-4724-8b1c-25bd566799fb" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeUMAvailability\Directory Access Failures" COLLECTIONVARNAME="CollectionOfMSExchangeUMAvailabilityDirectoryAccessFailures" EXPRESSIONPATH="\MSExchangeUMAvailability\Directory Access Failures" TRENDVARNAME="TrendMSExchangeUMAvailabilityDirectoryAccessFailures" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeUMAvailability\Directory Access Failures" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeUMAvailability\Directory Access Failures" CHARTLABELS="instance" />
+    <THRESHOLD NAME="MSExchangeUMAvailability directory access failures greater than 0" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeUMAvailabilityDirectoryAccessFailures -Operator 'gt' -Threshold 0]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>Directory Access Failures is the number of times that attempts to access Active Directory failed.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the number of times that attempts to access Active Directory failed.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For Exchange Server 2007 Unified Messaging servers, this value should be 0 at all times.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeUMAvailability Hub Transport Access Failures" ENABLED="True" CATEGORY="MSExchangeUMAvailability" PRIMARYDATASOURCE="\MSExchangeUMAvailability\Hub Transport Access Failures" ID="8c153a3f-3cd4-4ded-a0c6-51e3dd0a568e" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeUMAvailability\Hub Transport Access Failures" COLLECTIONVARNAME="CollectionOfMSExchangeUMAvailabilityHubTransportAccessFailures" EXPRESSIONPATH="\MSExchangeUMAvailability\Hub Transport Access Failures" TRENDVARNAME="TrendMSExchangeUMAvailabilityHubTransportAccessFailures" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeUMAvailability\Hub Transport Access Failures" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeUMAvailability\Hub Transport Access Failures" CHARTLABELS="instance" />
+    <THRESHOLD NAME="MSExchangeUMAvailability hub transport access failures greater than 0" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeUMAvailabilityHubTransportAccessFailures -Operator 'gt' -Threshold 0]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>Hub Transport Access Failures is the number of times that attempts to access a Hub Transport server failed. This number is only incremented if all Hub Transport servers were unavailable.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the number of times that attempts to access a Hub Transport server failed. This number is only incremented if all Hub Transport servers were unavailable.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For Exchange Server 2007 Unified Messaging servers, this value should be 0 at all times.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeUMAvailability Unhandled Exceptions/sec" ENABLED="True" CATEGORY="MSExchangeUMAvailability" PRIMARYDATASOURCE="\MSExchangeUMAvailability\Unhandled Exceptions/sec" ID="9878be4e-668e-44f3-b85b-e5b05f86d2c6" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeUMAvailability\Unhandled Exceptions/sec" COLLECTIONVARNAME="CollectionOfMSExchangeUMAvailabilityUnhandledExceptionssec" EXPRESSIONPATH="\MSExchangeUMAvailability\Unhandled Exceptions/sec" TRENDVARNAME="TrendMSExchangeUMAvailabilityUnhandledExceptionssec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeUMAvailability\Unhandled Exceptions/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeUMAvailability\Unhandled Exceptions/sec" CHARTLABELS="instance" />
+    <THRESHOLD NAME="MSExchangeUMAvailability unhandled exceptions per second greater than 0" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeUMAvailabilityUnhandledExceptionssec -Operator 'gt' -Threshold 0]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>Calls Disconnected on Irrecoverable Internal Error Per Second is the number of calls that were disconnected after an internal system error occurred in the last second.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the number of calls that were disconnected after an internal system error occurred in the last second.</p>
+<p>NOTE: The name of this performance counter (Calls Disconnected on Irrecoverable Internal Error Per Second) does not match the name listed in its description.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For Exchange Server 2007 Unified Messaging servers, this value should be 0 at all times.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeUMAvailability Queued OCS User Event Notifications" ENABLED="True" CATEGORY="MSExchangeUMAvailability" PRIMARYDATASOURCE="\MSExchangeUMAvailability\Queued OCS User Event Notifications" ID="428ae9af-f423-4ebd-9f7d-eaabdd105e9b" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeUMAvailability\Queued OCS User Event Notifications" COLLECTIONVARNAME="CollectionOfMSExchangeUMAvailabilityQueuedOCSUserEventNotifications" EXPRESSIONPATH="\MSExchangeUMAvailability\Queued OCS User Event Notifications" TRENDVARNAME="TrendMSExchangeUMAvailabilityQueuedOCSUserEventNotifications" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeUMAvailability\Queued OCS User Event Notifications" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeUMAvailability\Queued OCS User Event Notifications" CHARTLABELS="instance" />
+    <THRESHOLD NAME="MSExchangeUMAvailability queued OCS user event notifications greater than 0" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeUMAvailabilityQueuedOCSUserEventNotifications -Operator 'gt' -Threshold 0]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>Queued OCS User Event Notifications is the number of notifications that have been created and not yet submitted for delivery.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the number of notifications that have been created and not yet submitted for delivery.</p>
+<p>Represents the number of missed call notifications that have been generated in the Office Communications Server environment and have not been submitted for delivery.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For Exchange Server 2007 Unified Messaging servers, this value should be 0 at all times.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeUMPerformance Operations over Six Seconds" ENABLED="True" CATEGORY="MSExchangeUMPerformance" PRIMARYDATASOURCE="\MSExchangeUMPerformance\Operations over Six Seconds" ID="fcf1264d-5d47-4f58-bcb5-89292e7a1882" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeUMPerformance\Operations over Six Seconds" COLLECTIONVARNAME="CollectionOfMSExchangeUMPerformanceOperationsoverSixSeconds" EXPRESSIONPATH="\MSExchangeUMPerformance\Operations over Six Seconds" TRENDVARNAME="TrendMSExchangeUMPerformanceOperationsoverSixSeconds" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeUMPerformance\Operations over Six Seconds" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeUMPerformance\Operations over Six Seconds" CHARTLABELS="instance" />
+    <THRESHOLD NAME="MSExchangeUMPerformance operations over six seconds greater than 0" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeUMPerformanceOperationsoverSixSeconds -Operator 'gt' -Threshold 0]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>Operations over Six Seconds is the number of all UM operations that took more than 6 seconds to complete. This is the time during which a caller was waiting for UM to respond.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the number of all Unified Messaging operations that took more than six seconds to complete. This is the time during which a caller was waiting for Unified Messaging to respond.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For Exchange Server 2007 Unified Messaging servers, this value should be 0 at all times.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeUMAvailability Mailbox Server Access Failures" ENABLED="True" CATEGORY="MSExchangeUMAvailability" PRIMARYDATASOURCE="\MSExchangeUMAvailability\Mailbox Server Access Failures" ID="226fb0f5-d077-4a43-9f3f-400aa7d2c6ba" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeUMAvailability\Mailbox Server Access Failures" COLLECTIONVARNAME="CollectionOfMSExchangeUMAvailabilityMailboxServerAccessFailures" EXPRESSIONPATH="\MSExchangeUMAvailability\Mailbox Server Access Failures" TRENDVARNAME="TrendMSExchangeUMAvailabilityMailboxServerAccessFailures" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeUMAvailability\Mailbox Server Access Failures" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeUMAvailability\Mailbox Server Access Failures" CHARTLABELS="instance" />
+    <THRESHOLD NAME="MSExchangeUMAvailability mailbox server access failures greater than 0" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeUMAvailabilityMailboxServerAccessFailures -Operator 'gt' -Threshold 0]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>Mailbox Server Access Failures is the number of times the system did not access a Mailbox server.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the number of times the system did not access a Mailbox server.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For Exchange Server 2007 Unified Messaging servers, this value should be 0 at all times.</p>
+<p>A non-zero value indicates that Unified Messaging is having problems with MAPI connectivity to mbx servers.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeUMCallAnswer Calls Disconnected by Callers During UM Audio Hourglass" ENABLED="True" CATEGORY="MSExchangeUMCallAnswer" PRIMARYDATASOURCE="\MSExchangeUMCallAnswer\Calls Disconnected by Callers During UM Audio Hourglass" ID="049ba79c-7c29-4531-9dff-60e2fd34fe0d" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeUMCallAnswer\Calls Disconnected by Callers During UM Audio Hourglass" COLLECTIONVARNAME="CollectionOfMSExchangeUMCallAnswerCallsDisconnectedbyCallersDuringUMAudioHourglass" EXPRESSIONPATH="\MSExchangeUMCallAnswer\Calls Disconnected by Callers During UM Audio Hourglass" TRENDVARNAME="TrendMSExchangeUMCallAnswerCallsDisconnectedbyCallersDuringUMAudioHourglass" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeUMCallAnswer\Calls Disconnected by Callers During UM Audio Hourglass" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeUMCallAnswer\Calls Disconnected by Callers During UM Audio Hourglass" CHARTLABELS="instance" />
+    <THRESHOLD NAME="MSExchangeUMCallAnswer calls disconnected by callers during UM audio hourglass greater than 0" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeUMCallAnswerCallsDisconnectedbyCallersDuringUMAudioHourglass -Operator 'gt' -Threshold 0]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>Calls Disconnected by Callers During UM Audio Hourglass is the number of calls during which the caller disconnected while Unified Messaging was playing the audio hourglass tones.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the number of calls during which the caller disconnected while Unified Messaging was playing the audio hourglass tones.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For Exchange Server 2007 Unified Messaging servers, this value should be 0 at all times.</p>
+<p>A non-zero value suggests excessive latency between a Unified Messaging server and targeted domain controller.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <INHERITANCE FILEPATH="Exchange2007-Common-TechNet.xml" />
+</PAL>

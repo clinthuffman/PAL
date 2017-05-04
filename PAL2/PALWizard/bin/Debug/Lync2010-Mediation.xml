@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<PAL PALVERSION="2.0" NAME="Microsoft Lync Server 2010 - Mediation" DESCRIPTION="Performance counter thresholds for Microsoft Lync Server 2010 Mediation Server." VERSION="1.0" CONTENTOWNERS="Doug Deitterick" FEEDBACKEMAILADDRESS="dodeitte@microsoft.com">
+  <ANALYSIS NAME="LS:MediationServer - 02 - Media Relay - 000 - Candidates Missing" ENABLED="True" CATEGORY="LS:MediationServer - 02 - Media Relay" PRIMARYDATASOURCE="\LS:MediationServer - 02 - Media Relay\- 000 - Candidates Missing" ID="fefed49b-06be-4cfd-a431-bf2b3c70df25" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\LS:MediationServer - 02 - Media Relay\- 000 - Candidates Missing" COLLECTIONVARNAME="CollectionOfLSMediationServer02MediaRelay000CandidatesMissing" EXPRESSIONPATH="\LS:MediationServer - 02 - Media Relay\- 000 - Candidates Missing" TRENDVARNAME="TrendLSMediationServer02MediaRelay000CandidatesMissing" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LS:MediationServer - 02 - Media Relay\- 000 - Candidates Missing" ISTHRESHOLDSADDED="False" DATASOURCE="\LS:MediationServer - 02 - Media Relay\- 000 - Candidates Missing" CHARTLABELS="instance" />
+    <THRESHOLD NAME="Candidates Missing &gt; 0" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfLSMediationServer02MediaRelay000CandidatesMissing -Operator 'gt' -Threshold 0]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[Number of times Media stack does not have Media relay candidates.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="LS:MediationServer - 02 - Media Relay - 001 - Media Connectivity Check Failure" ENABLED="True" CATEGORY="LS:MediationServer - 02 - Media Relay" PRIMARYDATASOURCE="\LS:MediationServer - 02 - Media Relay\- 001 - Media Connectivity Check Failure" ID="bef8c3f4-56e5-4589-bd86-e628e7eb1ee7" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\LS:MediationServer - 02 - Media Relay\- 001 - Media Connectivity Check Failure" COLLECTIONVARNAME="CollectionOfLSMediationServer02MediaRelay001MediaConnectivityCheckFailure" EXPRESSIONPATH="\LS:MediationServer - 02 - Media Relay\- 001 - Media Connectivity Check Failure" TRENDVARNAME="TrendLSMediationServer02MediaRelay001MediaConnectivityCheckFailure" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LS:MediationServer - 02 - Media Relay\- 001 - Media Connectivity Check Failure" ISTHRESHOLDSADDED="False" DATASOURCE="\LS:MediationServer - 02 - Media Relay\- 001 - Media Connectivity Check Failure" CHARTLABELS="instance" />
+    <THRESHOLD NAME="Media Connectivity Check Failure &gt; 0" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfLSMediationServer02MediaRelay001MediaConnectivityCheckFailure -Operator 'gt' -Threshold 0]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[Number of media connectivity check failures.
+
+This counter is total-based. The # of failed calls in the performance data will be from the start of the Mediation Server service and not the start of the data collection. The key here is that this number is as close to zero as possible.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="LS:MediationServer - 03 - Health Indices - 000 - Load Call Failure Index" ENABLED="True" CATEGORY="LS:MediationServer - 03 - Health Indices" PRIMARYDATASOURCE="\LS:MediationServer - 03 - Health Indices\- 000 - Load Call Failure Index" ID="71328b55-3ad9-4a74-b36b-457e12da04c2" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Scaled index between zero and 100 that is related to all call failures due to heavy load]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\LS:MediationServer - 03 - Health Indices\- 000 - Load Call Failure Index" COLLECTIONVARNAME="CollectionOfLSMediationServer03HealthIndices000LoadCallFailureIndex" EXPRESSIONPATH="\LS:MediationServer - 03 - Health Indices\- 000 - Load Call Failure Index" TRENDVARNAME="TrendLSMediationServer03HealthIndices000LoadCallFailureIndex" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LS:MediationServer - 03 - Health Indices\- 000 - Load Call Failure Index" ISTHRESHOLDSADDED="False" DATASOURCE="\LS:MediationServer - 03 - Health Indices\- 000 - Load Call Failure Index" CHARTLABELS="instance" />
+    <THRESHOLD NAME="Load Call Failure Index &gt;= 10" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfLSMediationServer03HealthIndices000LoadCallFailureIndex -Operator 'ge' -Threshold 10]]></CODE>
+    </THRESHOLD>
+  </ANALYSIS>
+  <ANALYSIS NAME="LS:MediationServer - 04 - Global Counters - 001 - Total failed calls caused by unexpected interaction from the Proxy" ENABLED="True" CATEGORY="LS:MediationServer - 04 - Global Counters" PRIMARYDATASOURCE="\LS:MediationServer - 04 - Global Counters\- 001 - Total failed calls caused by unexpected interaction from the Proxy" ID="867f13e2-1e50-45c0-85dc-d7f78583ae7b" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The number of calls that failed because of unexpected interaction from the Proxy]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\LS:MediationServer - 04 - Global Counters\- 001 - Total failed calls caused by unexpected interaction from the Proxy" COLLECTIONVARNAME="CollectionOfLSMediationServer04GlobalCounters001TotalfailedcallscausedbyunexpectedinteractionfromtheProxy" EXPRESSIONPATH="\LS:MediationServer - 04 - Global Counters\- 001 - Total failed calls caused by unexpected interaction from the Proxy" TRENDVARNAME="TrendLSMediationServer04GlobalCounters001TotalfailedcallscausedbyunexpectedinteractionfromtheProxy" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LS:MediationServer - 04 - Global Counters\- 001 - Total failed calls caused by unexpected interaction from the Proxy" ISTHRESHOLDSADDED="False" DATASOURCE="\LS:MediationServer - 04 - Global Counters\- 001 - Total failed calls caused by unexpected interaction from the Proxy" CHARTLABELS="instance" />
+    <THRESHOLD NAME="Total failed calls caused by unexpected interaction from the Proxy &gt;= 10" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfLSMediationServer04GlobalCounters001TotalfailedcallscausedbyunexpectedinteractionfromtheProxy -Operator 'ge' -Threshold 10]]></CODE>
+    </THRESHOLD>
+  </ANALYSIS>
+  <ANALYSIS NAME="LS:MediationServer - 05 - Global Per Gateway Counters - 000 - Total failed calls caused by unexpected interaction from a gateway" ENABLED="True" CATEGORY="LS:MediationServer - 05 - Global Per Gateway Counters" PRIMARYDATASOURCE="\LS:MediationServer - 05 - Global Per Gateway Counters(*)\- 000 - Total failed calls caused by unexpected interaction from a gateway" ID="2d2a94a3-8622-4277-80de-4fe9989f2c29" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\LS:MediationServer - 05 - Global Per Gateway Counters(*)\- 000 - Total failed calls caused by unexpected interaction from a gateway" COLLECTIONVARNAME="CollectionOfLSMediationServer05GlobalPerGatewayCounters000Totalfailedcallscausedbyunexpectedinteractionfromagateway" EXPRESSIONPATH="\LS:MediationServer - 05 - Global Per Gateway Counters(*)\- 000 - Total failed calls caused by unexpected interaction from a gateway" TRENDVARNAME="TrendLSMediationServer05GlobalPerGatewayCounters000Totalfailedcallscausedbyunexpectedinteractionfromagateway" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LS:MediationServer - 05 - Global Per Gateway Counters(*)\- 000 - Total failed calls caused by unexpected interaction from a gateway" ISTHRESHOLDSADDED="False" DATASOURCE="\LS:MediationServer - 05 - Global Per Gateway Counters(*)\- 000 - Total failed calls caused by unexpected interaction from a gateway" CHARTLABELS="instance" />
+    <THRESHOLD NAME="Total failed calls caused by unexpected interaction from a gateway &gt;= 10" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfLSMediationServer05GlobalPerGatewayCounters000Totalfailedcallscausedbyunexpectedinteractionfromagateway -Operator 'ge' -Threshold 10]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The number of calls that failed because of unexpected interaction from a gateway.
+
+This counter is total-based. The # of failed calls in the performance data will be from the start of the Mediation Server service and not the start of the data collection. The key here is that this number is as close to zero as possible.]]></DESCRIPTION>
+  </ANALYSIS>
+  <INHERITANCE FILEPATH="QuickSystemOverview.xml" />
+</PAL>

@@ -1,0 +1,294 @@
+<?xml version="1.0"?>
+<PAL NAME="Microsoft Exchange 2007 - CAS (TechNet)" DESCRIPTION="Includes counters and thresholds for the Exchange Server 2007 Client Acccess Server role based on the following product documentation: http://technet.microsoft.com/en-us/library/bb201674%28v=exchg.80%29" VERSION="1.0" PALVERSION="2.0" CONTENTOWNERS="Kevan Brown" FEEDBACKEMAILADDRESS="kbrown@smartronix.com">
+  <ANALYSIS NAME="MSExchange Availability Service\Availability Requests  Availability Requests (sec)" ENABLED="True" CATEGORY="MSExchange Availability Service" PRIMARYDATASOURCE="\MSExchange Availability Service\Availability Requests (sec)" ID="79d0e7d3-8d63-41f1-9ef8-a3aa866774ae" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Availability Service\Availability Requests (sec)" COLLECTIONVARNAME="CollectionOfMSExchangeAvailabilityServiceAvailabilityRequestsAvailabilityRequestssec" EXPRESSIONPATH="\MSExchange Availability Service\Availability Requests (sec)" TRENDVARNAME="TrendMSExchangeAvailabilityServiceAvailabilityRequestsAvailabilityRequestssec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Availability Service\Availability Requests (sec)" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Availability Service\Availability Requests (sec)" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>Availability Requests per second is the number  of requests serviced per second. The request can be only for free busy or include suggestions. One request may contain multiple mailboxes.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the number of requests serviced per second. The request can be only for free/busy or include suggestions. One request may contain multiple mailboxes.</p>
+<p>Determines the rate at which Availability service requests are occurring.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Not applicable.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Availability Service Average Time to Process a Free Busy Request" ENABLED="True" CATEGORY="MSExchange Availability Service" PRIMARYDATASOURCE="\MSExchange Availability Service\Average Time to Process a Free Busy Request" ID="480cc3a4-8574-4285-b73b-3f1e32f3e786" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Availability Service\Average Time to Process a Free Busy Request" COLLECTIONVARNAME="CollectionOfMSExchangeAvailabilityServiceAverageTimetoProcessaFreeBusyRequest" EXPRESSIONPATH="\MSExchange Availability Service\Average Time to Process a Free Busy Request" TRENDVARNAME="TrendMSExchangeAvailabilityServiceAverageTimetoProcessaFreeBusyRequest" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Availability Service\Average Time to Process a Free Busy Request" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Availability Service\Average Time to Process a Free Busy Request" CHARTLABELS="instance" />
+    <THRESHOLD NAME="MSExchange availability service average time to process a free/busy request of 5 seconds or more" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeAvailabilityServiceAverageTimetoProcessaFreeBusyRequest -Operator 'ge' -Threshold 5]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>Average Time to Process a Free Busy Request is the average time to process a free busy request in seconds. One request may contain multiple mailboxes. Free busy responses do not have meeting suggestions.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the average time to process a free/busy request in seconds. One request may contain multiple mailboxes. Free/busy responses do not have meeting suggestions.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For Exchange Server 2007 Client Access Servers, this value should always be less than 5.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Client Access - LogicalDisk Disk Reads/sec" ENABLED="True" CATEGORY="LogicalDisk" PRIMARYDATASOURCE="\LogicalDisk(_Total)\Disk Reads/sec" ID="80255f09-4a58-4d63-af48-6a609d7286a9" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\LogicalDisk(_Total)\Disk Reads/sec" COLLECTIONVARNAME="CollectionOfLogicalDiskDiskReadssec" EXPRESSIONPATH="\LogicalDisk(_Total)\Disk Reads/sec" TRENDVARNAME="TrendLogicalDiskDiskReadssec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LogicalDisk(_Total)\Disk Reads/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\LogicalDisk(_Total)\Disk Reads/sec" CHARTLABELS="instance" />
+    <DATASOURCE TYPE="CounterLog" NAME="\LogicalDisk(_Total)\Disk Writes/sec" EXPRESSIONPATH="\LogicalDisk(_Total)\Disk Writes/sec" COLLECTIONVARNAME="CollectionOfLogicalDiskDiskWritessecTotal" DATATYPE="integer" />
+    <THRESHOLD NAME="Total combined logical disk reads and disk writes per second of 50 or more" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[
+For ($i=0;$i -lt $CollectionOfLogicalDiskDiskReadssec.Count;$i++)
+{
+	$oCounterInstanceReads = $CollectionOfLogicalDiskDiskReadssec[$i]
+	$oCounterInstanceWrites = $CollectionOfLogicalDiskDiskWritessecTotal[$i]
+    
+	For ($t=0;$t -lt $alQuantizedTime.Count;$t++)
+	{
+		$IsAvgThresholdBroken = $False
+		$IsMaxThresholdBroken = $False
+
+		If (($oCounterInstanceReads.QuantizedAvg[$t] + $oCounterInstanceWrites.QuantizedAvg[$t]) -ge 50)
+		{
+			$IsAvgThresholdBroken = $True
+		}
+
+		If (($oCounterInstanceReads.QuantizedMax[$t] + $oCounterInstanceWrites.QuantizedMax[$t]) -ge 50)
+		{
+			$IsMaxThresholdBroken = $True
+		}
+
+		If (($IsAvgThresholdBroken -eq $True) -or ($IsMaxThresholdBroken -eq $True))
+		{
+			CreateAlert -TimeSliceIndex $t -CounterInstanceObject $oCounterInstanceReads -IsMinThresholdBroken $False -IsAvgThresholdBroken $IsAvgThresholdBroken -IsMaxThresholdBroken $IsMaxThresholdBroken -IsTrendThresholdBroken $False -IsMinEvaluated $False -IsAvgEvaluated $True -IsMaxEvaluated $True -IsTrendEvaluated $False
+		}
+	}
+}
+	  ]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>Disk Reads/sec is the rate of read operations on the disk.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Indicates that a paging situation may exist because data was read from disk instead of memory.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For Exchange Server 2007 Client Access Servers, this value should be less than 50 at all times.</p>
+<p>Disk Writes/sec + Disk Reads/sec = < 50</p>
+<p>NOTE: These counters assume that the server is performing only the Client Access server role. These counters are inappropriate for servers performing multiple role functions, because their profile is markedly different.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Client Access - LogicalDisk Disk Writes/sec" ENABLED="True" CATEGORY="LogicalDisk" PRIMARYDATASOURCE="\LogicalDisk(_Total)\Disk Writes/sec" ID="34938274-f2b1-4976-bf24-8cdbf4c8395a" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\LogicalDisk(_Total)\Disk Writes/sec" COLLECTIONVARNAME="CollectionOfLogicalDiskDiskWritessec" EXPRESSIONPATH="\LogicalDisk(_Total)\Disk Writes/sec" TRENDVARNAME="TrendLogicalDiskDiskWritessec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LogicalDisk(_Total)\Disk Writes/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\LogicalDisk(_Total)\Disk Writes/sec" CHARTLABELS="instance" />
+    <DATASOURCE TYPE="CounterLog" NAME="\LogicalDisk(_Total)\Disk Reads/sec" EXPRESSIONPATH="\LogicalDisk(_Total)\Disk Reads/sec" COLLECTIONVARNAME="CollectionOfLogicalDiskDiskReadssecTotal" DATATYPE="integer" />
+    <THRESHOLD NAME="Total combined logical disk writes and reads per second of 50 or more" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[
+For ($i=0;$i -lt $CollectionOfLogicalDiskDiskWritessec.Count;$i++)
+{
+	$oCounterInstanceWrites = $CollectionOfLogicalDiskDiskWritessec[$i]
+	$oCounterInstanceReads = $CollectionOfLogicalDiskDiskReadssecTotal[$i]
+    
+	For ($t=0;$t -lt $alQuantizedTime.Count;$t++)
+	{
+		$IsAvgThresholdBroken = $False
+		$IsMaxThresholdBroken = $False
+
+		If (($oCounterInstanceReads.QuantizedAvg[$t] + $oCounterInstanceWrites.QuantizedAvg[$t]) -ge 50)
+		{
+			$IsAvgThresholdBroken = $True
+		}
+
+		If (($oCounterInstanceReads.QuantizedMax[$t] + $oCounterInstanceWrites.QuantizedMax[$t]) -ge 50)
+		{
+			$IsMaxThresholdBroken = $True
+		}
+
+		If (($IsAvgThresholdBroken -eq $True) -or ($IsMaxThresholdBroken -eq $True))
+		{
+			CreateAlert -TimeSliceIndex $t -CounterInstanceObject $oCounterInstanceWrites -IsMinThresholdBroken $False -IsAvgThresholdBroken $IsAvgThresholdBroken -IsMaxThresholdBroken $IsMaxThresholdBroken -IsTrendThresholdBroken $False -IsMinEvaluated $False -IsAvgEvaluated $True -IsMaxEvaluated $True -IsTrendEvaluated $False
+		}
+	}
+}
+	  ]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>Disk Writes/sec is the rate of write operations on the disk.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Indicates that a paging situation may exist because data was written to disk instead of being stored in memory.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For Exchange Server 2007 Client Access Servers, this value should be less than 50 at all times.</p>
+<p>Disk Writes/sec + Disk Reads/sec = < 50</p>
+<p>NOTE: These counters assume that the server is performing only the Client Access server role. These counters are inappropriate for servers performing multiple role functions, because their profile is markedly different.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange OWA Average Response Time" ENABLED="True" CATEGORY="MSExchange OWA" PRIMARYDATASOURCE="\MSExchange OWA\Average Response Time" ID="2a9501da-fa9b-4db0-9780-2241af72bbaa" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange OWA\Average Response Time" COLLECTIONVARNAME="CollectionOfMSExchangeOWAAverageResponseTime" EXPRESSIONPATH="\MSExchange OWA\Average Response Time" TRENDVARNAME="TrendMSExchangeOWAAverageResponseTime" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange OWA\Average Response Time" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange OWA\Average Response Time" CHARTLABELS="instance" />
+    <THRESHOLD NAME="MSExchange OWA average response time of 100ms or more" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeOWAAverageResponseTime -Operator 'ge' -Threshold 100]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>Average Response Time is the average time (in milliseconds) that elapsed between the beginning and end of an OEH or ASPX request.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the average time (in milliseconds) that elapsed between the beginning and end of an OEH or ASPX request.</p>
+<p>Used to determine the latency that a client is experiencing. </p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For Exchange Server 2007 Client Access Servers, this value should be less than 100 ms at all times.</p>
+<p>Higher values may indicate high user load or higher than normal CPU time.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange OWA Average Search Time" ENABLED="True" CATEGORY="MSExchange OWA" PRIMARYDATASOURCE="\MSExchange OWA\Average Search Time" ID="481b691f-0625-41af-b456-47f4abf8c364" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange OWA\Average Search Time" COLLECTIONVARNAME="CollectionOfMSExchangeOWAAverageSearchTime" EXPRESSIONPATH="\MSExchange OWA\Average Search Time" TRENDVARNAME="TrendMSExchangeOWAAverageSearchTime" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange OWA\Average Search Time" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange OWA\Average Search Time" CHARTLABELS="instance" />
+    <THRESHOLD NAME="MSExchange OWA average search time of 31000ms or more" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeOWAAverageSearchTime -Operator 'ge' -Threshold 31000]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>Average Search Time is the average time that elapsed while waiting for a search to complete.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the average time that elapsed while waiting for a search to complete.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For Exchange Server 2007 Client Access Servers, this value should be less than 31,000 ms at all times.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange ActiveSync Average Request Time" ENABLED="True" CATEGORY="MSExchange ActiveSync" PRIMARYDATASOURCE="\MSExchange ActiveSync\Average Request Time" ID="fafa85aa-7f0c-4e66-8805-abf21d2b7dde" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange ActiveSync\Average Request Time" COLLECTIONVARNAME="CollectionOfMSExchangeActiveSyncAverageRequestTime" EXPRESSIONPATH="\MSExchange ActiveSync\Average Request Time" TRENDVARNAME="TrendMSExchangeActiveSyncAverageRequestTime" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange ActiveSync\Average Request Time" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange ActiveSync\Average Request Time" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>Average Request Time is the average time, in milliseconds, that elapsed while waiting for a request to complete. The transaction is tracked from the time Exchange ActiveSync receives the request and sends the response. The network latency between the device or client and Exchange ActiveSync on the Client Access server is not factored into this calculation.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the average time that elapsed while waiting for a request to complete.</p>
+<p>Includes Ping Request Time, which can increase the general response time of this counter. Adding ping counters helps clarify where performance is being impacted.</p>
+<p>Determines the rate at which Availability service requests are occurring.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Not applicable.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange ActiveSync Requests/sec" ENABLED="True" CATEGORY="MSExchange ActiveSync" PRIMARYDATASOURCE="\MSExchange ActiveSync\Requests/sec" ID="fc617127-3fc7-4626-ad15-4c0cb3b47e7b" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange ActiveSync\Requests/sec" COLLECTIONVARNAME="CollectionOfMSExchangeActiveSyncRequestssec" EXPRESSIONPATH="\MSExchange ActiveSync\Requests/sec" TRENDVARNAME="TrendMSExchangeActiveSyncRequestssec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange ActiveSync\Requests/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange ActiveSync\Requests/sec" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>Requests/sec is the number of HTTP requests that are received from the client via ASP.NET per second.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the number of HTTP requests that are received from the client via ASP.NET per second.</p>
+<p>Determines the current Exchange ActiveSync request rate.</p>
+<p>Stats Only to determine current user load.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Not applicable.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange ActiveSync Ping Commands Pending" ENABLED="True" CATEGORY="MSExchange ActiveSync" PRIMARYDATASOURCE="\MSExchange ActiveSync\Ping Commands Pending" ID="4a96ed4a-af9b-46e7-b16b-d80f98d918fb" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange ActiveSync\Ping Commands Pending" COLLECTIONVARNAME="CollectionOfMSExchangeActiveSyncPingCommandsPending" EXPRESSIONPATH="\MSExchange ActiveSync\Ping Commands Pending" TRENDVARNAME="TrendMSExchangeActiveSyncPingCommandsPending" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange ActiveSync\Ping Commands Pending" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange ActiveSync\Ping Commands Pending" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>Ping Commands Pending is the number of Ping commands that are currently pending on the server.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the number of ping commands that are currently pending in the queue.</p>
+<p>Determines current ping commands pending in the queue.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Not applicable.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange ActiveSync Sync Commands/sec" ENABLED="True" CATEGORY="MSExchange ActiveSync" PRIMARYDATASOURCE="\MSExchange ActiveSync\Sync Commands/sec" ID="3996e709-0ddf-4a6f-a69c-0b96f3f67cc8" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange ActiveSync\Sync Commands/sec" COLLECTIONVARNAME="CollectionOfMSExchangeActiveSyncSyncCommandssec" EXPRESSIONPATH="\MSExchange ActiveSync\Sync Commands/sec" TRENDVARNAME="TrendMSExchangeActiveSyncSyncCommandssec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange ActiveSync\Sync Commands/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange ActiveSync\Sync Commands/sec" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>Sync Commands/sec is the number of Sync commands that are processed per second. Clients use this command to synchronize items within a folder.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the number of Sync commands that are processed per second. Clients use this command to synchronize items within a folder.</p>
+<p>Stats Only to determine current user load.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Not applicable.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange OWA Current Unique Users" ENABLED="True" CATEGORY="MSExchange OWA" PRIMARYDATASOURCE="\MSExchange OWA\Current Unique Users" ID="c7374905-3f81-449c-9896-92dc395b07a6" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange OWA\Current Unique Users" COLLECTIONVARNAME="CollectionOfMSExchangeOWACurrentUniqueUsers" EXPRESSIONPATH="\MSExchange OWA\Current Unique Users" TRENDVARNAME="TrendMSExchangeOWACurrentUniqueUsers" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange OWA\Current Unique Users" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange OWA\Current Unique Users" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>Current Unique Users is the number of unique users currently logged on to Outlook Web Access. This value monitors the number of unique active user sessions, so that users are only removed from this count after they log off or their session times out.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the number of unique users currently logged on to Outlook Web Access. This value monitors the number of unique active user sessions, so that users are only removed from this counter after they log off or their session times out.</p>
+<p>Determines current user load.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Not applicable.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange OWA Requests/sec" ENABLED="True" CATEGORY="MSExchange OWA" PRIMARYDATASOURCE="\MSExchange OWA\Requests/sec" ID="1f794c2f-57c8-4c69-9f2a-ab6b41c4c71f" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange OWA\Requests/sec" COLLECTIONVARNAME="CollectionOfMSExchangeOWARequestssec" EXPRESSIONPATH="\MSExchange OWA\Requests/sec" TRENDVARNAME="TrendMSExchangeOWARequestssec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange OWA\Requests/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange OWA\Requests/sec" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>Requests/sec is the number of requests handled by Outlook Web Access per second.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the number of requests handled by Outlook Web Access per second.</p>
+<p>Determines current user load.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Not applicable.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeAutodiscover Requests/sec" ENABLED="True" CATEGORY="MSExchangeAutodiscover" PRIMARYDATASOURCE="\MSExchangeAutodiscover\Requests/sec" ID="ef980116-2054-488b-a30f-e13b444ef606" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeAutodiscover\Requests/sec" COLLECTIONVARNAME="CollectionOfMSExchangeAutodiscoverRequestssec" EXPRESSIONPATH="\MSExchangeAutodiscover\Requests/sec" TRENDVARNAME="TrendMSExchangeAutodiscoverRequestssec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeAutodiscover\Requests/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeAutodiscover\Requests/sec" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>Requests/sec is the number of Autodiscover requests that have been processed each second.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the number of Autodiscover service requests that have been processed each second.</p>
+<p>Determines current user load.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Not applicable.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeWS Requests/sec" ENABLED="True" CATEGORY="MSExchangeWS" PRIMARYDATASOURCE="\MSExchangeWS\Requests/sec" ID="871b2fbd-94ca-40f8-a7ef-2d24d2c42009" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeWS\Requests/sec" COLLECTIONVARNAME="CollectionOfMSExchangeWSRequestssec" EXPRESSIONPATH="\MSExchangeWS\Requests/sec" TRENDVARNAME="TrendMSExchangeWSRequestssec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeWS\Requests/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeWS\Requests/sec" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>Requests per second is the number of requests processed each second.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the number of requests processed each second.</p>
+<p>Determines current user load.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Not applicable.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="RPC/HTTP Proxy Current Number of Incoming RPC over HTTP Connections" ENABLED="True" CATEGORY="RPC/HTTP Proxy" PRIMARYDATASOURCE="\RPC/HTTP Proxy\Current Number of Incoming RPC over HTTP Connections" ID="2fc1e80b-3aaf-47e9-9a0f-55e786d99ee0" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\RPC/HTTP Proxy\Current Number of Incoming RPC over HTTP Connections" COLLECTIONVARNAME="CollectionOfRPCHTTPProxyCurrentNumberofIncomingRPCoverHTTPConnections" EXPRESSIONPATH="\RPC/HTTP Proxy\Current Number of Incoming RPC over HTTP Connections" TRENDVARNAME="TrendRPCHTTPProxyCurrentNumberofIncomingRPCoverHTTPConnections" DATATYPE="integer" />
+    <CHART CHARTTITLE="\RPC/HTTP Proxy\Current Number of Incoming RPC over HTTP Connections" ISTHRESHOLDSADDED="False" DATASOURCE="\RPC/HTTP Proxy\Current Number of Incoming RPC over HTTP Connections" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>Current number of front-end HTTP connections.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the current number of front-end HTTP connections.</p>
+<p>Determines current user load.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Not applicable.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="RPC/HTTP Proxy Current Number of Unique Users" ENABLED="True" CATEGORY="RPC/HTTP Proxy" PRIMARYDATASOURCE="\RPC/HTTP Proxy\Current Number of Unique Users" ID="30de58f9-b5b2-4353-a9c8-5ab1af7ad9f2" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\RPC/HTTP Proxy\Current Number of Unique Users" COLLECTIONVARNAME="CollectionOfRPCHTTPProxyCurrentNumberofUniqueUsers" EXPRESSIONPATH="\RPC/HTTP Proxy\Current Number of Unique Users" TRENDVARNAME="TrendRPCHTTPProxyCurrentNumberofUniqueUsers" DATATYPE="integer" />
+    <CHART CHARTTITLE="\RPC/HTTP Proxy\Current Number of Unique Users" ISTHRESHOLDSADDED="False" DATASOURCE="\RPC/HTTP Proxy\Current Number of Unique Users" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>Number of unique users currently connected to a back-end server via RPC/HTTP.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the number of unique users currently connected to a back-end server via RPC/HTTP.</p>
+<p>Determines current user load.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Not applicable.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="RPC/HTTP Proxy RPC/HTTP Requests per Second" ENABLED="True" CATEGORY="RPC/HTTP Proxy" PRIMARYDATASOURCE="\RPC/HTTP Proxy\RPC/HTTP Requests per Second" ID="a78fa41b-d580-4ae1-ac16-6a19ca7560f5" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\RPC/HTTP Proxy\RPC/HTTP Requests per Second" COLLECTIONVARNAME="CollectionOfRPCHTTPProxyRPCHTTPRequestsperSecond" EXPRESSIONPATH="\RPC/HTTP Proxy\RPC/HTTP Requests per Second" TRENDVARNAME="TrendRPCHTTPProxyRPCHTTPRequestsperSecond" DATATYPE="integer" />
+    <CHART CHARTTITLE="\RPC/HTTP Proxy\RPC/HTTP Requests per Second" ISTHRESHOLDSADDED="False" DATASOURCE="\RPC/HTTP Proxy\RPC/HTTP Requests per Second" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>Rate of RPC/HTTP requests sent to the back-end servers.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the rate of RPC/HTTP requests sent to the back-end servers.</p>
+<p>Determines current Outlook Anywhere load.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Not applicable.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="RPC/HTTP Proxy Number of Failed Back-End Connection attempts per Second" ENABLED="True" CATEGORY="RPC/HTTP Proxy" PRIMARYDATASOURCE="\RPC/HTTP Proxy\Number of Failed Back-End Connection attempts per Second" ID="15fe684b-87ad-42ea-852c-44d4af1fd390" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\RPC/HTTP Proxy\Number of Failed Back-End Connection attempts per Second" COLLECTIONVARNAME="CollectionOfRPCHTTPProxyNumberofFailedBackEndConnectionattemptsperSecond" EXPRESSIONPATH="\RPC/HTTP Proxy\Number of Failed Back-End Connection attempts per Second" TRENDVARNAME="TrendRPCHTTPProxyNumberofFailedBackEndConnectionattemptsperSecond" DATATYPE="integer" />
+    <CHART CHARTTITLE="\RPC/HTTP Proxy\Number of Failed Back-End Connection attempts per Second" ISTHRESHOLDSADDED="False" DATASOURCE="\RPC/HTTP Proxy\Number of Failed Back-End Connection attempts per Second" CHARTLABELS="instance" />
+    <THRESHOLD NAME="RPC/HTTP proxy number of failed back-end connection attempts per second greater than 0" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfRPCHTTPProxyNumberofFailedBackEndConnectionattemptsperSecond -Operator 'gt' -Threshold 0]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>Rate at which the RPC Proxy attemts but fails to establish a connection to a back-end.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the rate at which the RPC proxy attempts are occurring but fail to establish a connection to a back-end server.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For Exchange Server 2007 Client Access Servers, this value should be 0 at all times.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeFDS:OAB Download Task Queued" ENABLED="True" CATEGORY="MSExchangeFDS:OAB" PRIMARYDATASOURCE="\MSExchangeFDS:OAB(*)\Download Task Queued" ID="f0cde2de-3a96-45e8-b50a-37b17c14fbfe" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeFDS:OAB(*)\Download Task Queued" COLLECTIONVARNAME="CollectionOfMSExchangeFDSOABDownloadTaskQueued" EXPRESSIONPATH="\MSExchangeFDS:OAB(*)\Download Task Queued" TRENDVARNAME="TrendMSExchangeFDSOABDownloadTaskQueued" DATATYPE="integer">
+      <EXCLUDE INSTANCE="_Total" />
+    </DATASOURCE>
+    <CHART CHARTTITLE="\MSExchangeFDS:OAB(*)\Download Task Queued" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeFDS:OAB(*)\Download Task Queued" CHARTLABELS="instance" />
+    <THRESHOLD NAME="MSExchangeFDS offline address book download task queued greater than 0" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeFDSOABDownloadTaskQueued -Operator 'gt' -Threshold 0]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>Download Task Queued is '1' if task is queued for execution, otherwise '0.'</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows a value of 1 if the task is queued for execution, otherwise shows 0.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For Exchange Server 2007 Client Access Servers, this value should be 0 at all times.</p>
+<p>Values greater than 0 indicate a failure to copy OAB data files from Mailbox servers.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeFDS:OAB Download Tasks Completed" ENABLED="True" CATEGORY="MSExchangeFDS:OAB" PRIMARYDATASOURCE="\MSExchangeFDS:OAB(*)\Download Tasks Completed" ID="6642f1d1-7263-412d-8155-b7c358c45126" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeFDS:OAB(*)\Download Tasks Completed" COLLECTIONVARNAME="CollectionOfMSExchangeFDSOABDownloadTasksCompleted" EXPRESSIONPATH="\MSExchangeFDS:OAB(*)\Download Tasks Completed" TRENDVARNAME="TrendMSExchangeFDSOABDownloadTasksCompleted" DATATYPE="integer">
+      <EXCLUDE INSTANCE="_Total" />
+    </DATASOURCE>
+    <CHART CHARTTITLE="\MSExchangeFDS:OAB(*)\Download Tasks Completed" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeFDS:OAB(*)\Download Tasks Completed" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>Download Tasks Completed is the number of OAB download tasks completed.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the number of OAB download tasks completed since the File Distribution service started. The default value is every 480 minutes or 8 hours.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For Exchange Server 2007 Client Access Servers, this value should be less than or equal to 3 per day. Values greater than 3 per day indicate the schedule for the Client Access server to download updated OAB files is not a default schedule.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <INHERITANCE FILEPATH="AspDotNet.xml" />
+  <INHERITANCE FILEPATH="IIS.xml" />
+  <INHERITANCE FILEPATH="SystemOverview.xml" />
+</PAL>

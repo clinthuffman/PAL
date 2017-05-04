@@ -1,0 +1,1203 @@
+<PAL NAME="Microsoft SQL Server 2005/2008" DESCRIPTION="Performance counter thresholds for Microsoft SQL Server 2005/2008." CONTENTOWNERS="David Pless" FEEDBACKEMAILADDRESS="dpless@microsoft.com" VERSION="1.1.4.1" PALVERSION="2.0" LANGUAGE="English" LANGUAGECODE="en">
+  <ANALYSIS NAME="Process % Privileged Time" ENABLED="True" CATEGORY="Process" PRIMARYDATASOURCE="\Process(sqlservr)\% Privileged Time" ID="{827ecf3b-78aa-4611-8262-438e85213ae8}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\Process(sqlservr)\% Privileged Time" COLLECTIONVARNAME="CollectionOfProcessPercentPrivilegedTimesqlservr" EXPRESSIONPATH="\Process(sqlservr)\% Privileged Time" DATATYPE="integer" />
+    <THRESHOLD NAME="SQL Server is using more than 20% privileged (kernel) mode CPU usage" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfProcessPercentPrivilegedTimesqlservr -Operator 'gt' -Threshold 20        
+         ]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="SQL Server is using more than 30% privileged (kernel) mode CPU usage" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfProcessPercentPrivilegedTimesqlservr -Operator 'gt' -Threshold 30
+        ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\Process(sqlservr)\% Privileged Time" ISTHRESHOLDSADDED="True" DATASOURCE="\Process(sqlservr)\% Privileged Time" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfProcessPercentPrivilegedTimesqlservr -MinThreshold 20 -MaxThreshold 30 -UseMaxValue $False
+        ]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfProcessPercentPrivilegedTimesqlservr -MinThreshold 30 -MaxThreshold 99.999 -UseMaxValue $False
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+    <DESCRIPTION><![CDATA[<B>\Process % Privileged Time / Process(sqlservr)\% Privileged Time</B>
+<BR>
+<BR>
+<B>Description:</B> % Privileged Time is the percentage of elapsed time that the process threads spent executing code in privileged mode. When a Windows system service is called, the service will often run in privileged mode to gain access to system-private data. Such data is protected from access by threads executing in user mode. Calls to the system can be explicit or implicit, such as page faults or interrupts. Unlike some early operating systems, Windows uses process boundaries for subsystem protection in addition to the traditional protection of user and privileged modes. Some work done by Windows on behalf of the application might appear in other subsystem processes in addition to the privileged time in the process.
+<BR><BR>
+Privileged or kernel mode is the processing mode that allows code to have direct access to all hardware and memory in the system. I/O operations and other system services run in privileged (kernel) mode; user applications run in user mode. Unless the processes are graphics-intensive or I/O-intensive such as file and print services, most applications should not be processing much work in kernel mode.
+Privileged mode corresponds to the percentage of time the processor spends on execution of Microsoft Windows kernel commands, such as processing of SQL Server I/O requests. If this counter is consistently high when the Physical Disk counters are high, consider installing a faster or more efficient disk subsystem.
+<BR>
+<BR>
+<B>Note:</B> Different disk controllers and drivers use different amounts of kernel processing time. Efficient controllers and drivers use less privileged time, leaving more processing time available for user applications, increasing overall throughput.
+<BR>
+<BR>
+<B>Threshold:</B>
+<BR>
+<B>Yellow:</B> SQL Server is using more than 20% Privileged (kernel) mode CPU usage
+<BR><B>Red:</B> SQL Server is using more than 30% Privileged (kernel) mode CPU usage
+<BR><BR><B>Next Steps:</B>
+The key piece to diagnosing high processor conditions is to determine the ratio of privileged mode to user mode CPU.
+The counter '\Processor\% Processor Time' is the sum of '\Processor\% Privileged Time' and '\Processor\% User Time'. If Privileged Time is pushing the %Processor Time higher then it is due to processes executing in kernel mode. If '% User Time' is causing the % Processor Time to be higher then it is likely a user mode process that is causing the pressure.
+If %Privileged Time is consistently high or shows high under load, it could be several issues. The most common reason for high %Privileged Time is disk pressure which can be measured by correlating this counter with Physical Disk reads / sec and Physical Disk writes / sec. If these are also high you may also see a high number of Page Latch Waits for SQL Server which can be measured by examining the sys.dm_os_wait_stats dynamic management view and the perfmon SQL Server:Wait Statistics perfmon counters. 
+If SQL Server Memory Manager: Page Life Expectancy is also low try to address by reducing the number of queries that  are performing a high number of logical reads by adding indexes, ensuring that statistics are up to date, and potentially rewriting the query. 
+You could add more physical RAM to help raise Page Life Expectancy if it is low (lower than your baseline, or critical when under 300) although we only recommend adding memory as an absolute last resort.  We first recommended addressing design and addressing poor indexing first.  Adding physical RAM only masks the real issue.
+The other potential reasons for high privileged mode are related to out of date drivers, BIOS being out of date, failing components, processes that run in kernel mode such as anti-virus, and other potential issues.
+<BR>
+<B>Reference:</B>
+<BR>
+<B>Monitoring CPU Usage</B><BR>
+http://msdn.microsoft.com/en-us/library/ms178072.aspx 
+<BR><B>Ask the Performance Team</B>
+http://blogs.technet.com/askperf/archive/2008/01/18/do-you-know-where-your-processor-spends-its-time.aspx 
+<BR><B>Clint Huffman's Windows Troubleshooting in the Field Blog</B>
+http://blogs.technet.com/clinth/archive/2009/10/28/the-case-of-the-2-million-context-switches.aspx 
+]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="SQLServer:Access Methods Forwarded Records/sec" ENABLED="True" CATEGORY="SQLServer:Access Methods" PRIMARYDATASOURCE="\PAL Generated(*)\Forwarded Records to Batch Requests Ratio Percentage" ID="{065d536d-89a5-4efd-a56b-302166cfeffe}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\SQLServer:Access Methods\Forwarded Records/sec" COLLECTIONVARNAME="CollectionOfSQLServerAccessMethodsForwardedRecordssec" EXPRESSIONPATH="\SQLServer:Access Methods\Forwarded Records/sec" ISCOUNTEROBJECTREGULAREXPRESSION="True" ISCOUNTERNAMEREGULAREXPRESSION="False" ISCOUNTERINSTANCEREGULAREXPRESSION="False" REGULAREXPRESSIONCOUNTERPATH="\(MSSQL|SQLServer).*:Access Methods\Forwarded Records/sec" DATATYPE="integer" />
+    <DATASOURCE TYPE="CounterLog" NAME="\SQLServer:SQL Statistics\Batch Requests/sec" COLLECTIONVARNAME="CollectionOfSQLServerSQLStatisticsBatchRequestssec" EXPRESSIONPATH="\SQLServer:SQL Statistics\Batch Requests/sec" ISCOUNTEROBJECTREGULAREXPRESSION="True" ISCOUNTERNAMEREGULAREXPRESSION="False" ISCOUNTERINSTANCEREGULAREXPRESSION="False" REGULAREXPRESSIONCOUNTERPATH="\(MSSQL|SQLServer).*:SQL Statistics\Batch Requests/sec" DATATYPE="integer" />
+    <DATASOURCE TYPE="Generated" NAME="\PAL Generated(*)\Forwarded Records to Batch Requests Ratio Percentage" EXPRESSIONPATH="\PAL Generated(*)\Forwarded Records to Batch Requests Ratio Percentage" COLLECTIONVARNAME="CollectionOfPalGeneratedForwardedRecordsToBatchRequestsRatioPercentage" DATATYPE="Round3">
+      <CODE><![CDATA[
+          $CollectionOfPalGeneratedForwardedRecordsToBatchRequestsRatioPercentage = @{}
+          For ($a=0;$a -lt $CollectionOfSQLServerAccessMethodsForwardedRecordssec.Count;$a++)
+          {
+            $sSqlInstanceNameForSQLServerAccessMethodsForwardedRecordssec = ExtractSqlNamedInstanceFromCounterObjectPath -sCounterObjectPath $CollectionOfSQLServerAccessMethodsForwardedRecordssec[$a].CounterObject
+            $sSqlInstanceNameForSQLServerAccessMethodsForwardedRecordssecWithComputer = "$($CollectionOfSQLServerAccessMethodsForwardedRecordssec[$a].CounterComputer)" + '/' + "$sSqlInstanceNameForSQLServerAccessMethodsForwardedRecordssec"          
+            #// Match up the same named instance.
+            $m = -1
+            For ($b=0;$b -lt $CollectionOfSQLServerSQLStatisticsBatchRequestssec.Count;$b++)
+            {               
+              $sSqlInstanceNameForSQLServerSQLStatisticsBatchRequestssec = ExtractSqlNamedInstanceFromCounterObjectPath -sCounterObjectPath $CollectionOfSQLServerSQLStatisticsBatchRequestssec[$b].CounterObject
+              $sSqlInstanceNameForSQLServerSQLStatisticsBatchRequestssecWithComputer = "$($CollectionOfSQLServerSQLStatisticsBatchRequestssec[$b].CounterComputer)" + '/' + "$sSqlInstanceNameForSQLServerSQLStatisticsBatchRequestssec"
+              If ($sSqlInstanceNameForSQLServerAccessMethodsForwardedRecordssecWithComputer -eq $sSqlInstanceNameForSQLServerSQLStatisticsBatchRequestssecWithComputer)
+              {
+                $m = $b
+              }
+            }
+            If ($m -ge 0)
+            {
+              $blValues = New-Object System.Collections.ArrayList
+              For ($v=0;$v -lt $CollectionOfSQLServerAccessMethodsForwardedRecordssec[$a].Value.Count;$v++)
+              {
+                If ((IsGreaterThanZero $CollectionOfSQLServerAccessMethodsForwardedRecordssec[$a].Value[$v]) -and (IsGreaterThanZero $CollectionOfSQLServerSQLStatisticsBatchRequestssec[$m].Value[$v]))
+                {
+                  If (($CollectionOfSQLServerAccessMethodsForwardedRecordssec[$a].Value[$v] -gt 1) -and ($CollectionOfSQLServerSQLStatisticsBatchRequestssec[$m].Value[$v] -gt 1))
+                  {
+                    [int]$iRatio = $([double]$CollectionOfSQLServerAccessMethodsForwardedRecordssec[$a].Value[$v] / [double]$CollectionOfSQLServerSQLStatisticsBatchRequestssec[$m].Value[$v]) * 100
+                  }
+                  Else
+                  {
+                    $iRatio = 0
+                  }
+                  [void] $blValues.Add($iRatio)
+                }
+                Else
+                {
+                  [void] $blValues.Add(0)
+                }
+              }
+              $sGeneratedInstanceName = "\\$($CollectionOfSQLServerAccessMethodsForwardedRecordssec[$a].CounterComputer)\PAL Generated($($sSqlInstanceNameForSQLServerAccessMethodsForwardedRecordssec))\Forwarded Records to Batch Requests Ratio Percentage"
+              $CollectionOfPalGeneratedForwardedRecordsToBatchRequestsRatioPercentage.Add($sGeneratedInstanceName,$blValues)
+            }
+          }
+        ]]></CODE>
+    </DATASOURCE>
+    <THRESHOLD NAME="A ratio of more than 1 forwarded record for every 10 batch requests" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfPalGeneratedForwardedRecordsToBatchRequestsRatioPercentage -Operator 'gt' -Threshold 10
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\SQLServer:Access Methods\Forwarded Records/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\SQLServer:Access Methods\Forwarded Records/sec" CHARTLABELS="computer" />
+    <CHART CHARTTITLE="\SQLServer:SQL Statistics\Batch Requests/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\SQLServer:SQL Statistics\Batch Requests/sec" CHARTLABELS="computer" />
+    <CHART CHARTTITLE="\PAL Generated(*)\Forwarded Records to Batch Requests Ratio Percentage" ISTHRESHOLDSADDED="True" DATASOURCE="\PAL Generated(*)\Forwarded Records to Batch Requests Ratio Percentage" CHARTLABELS="computer">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfPalGeneratedForwardedRecordsToBatchRequestsRatioPercentage -MinThreshold 10 -MaxThreshold 29.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+    <DESCRIPTION><![CDATA[<B>SQLServer:Access Methods Forwarded Records/sec</B>
+<BR>
+<BR><B>Description:</B> Rows with varchar columns on tables without a clustered index can experience expansion when varchar values are updated with a longer string.  In the case where the row cannot fit in the existing page, the row migrates and access to the row will traverse a pointer.  
+Forwarded records occur when a data record in a heap increases in size and the records current page does not have the space to store the size increase. The record is moved to a new location, becoming a forwarded record, and the forwarding record is left in the original location to point to the real location of the record. The forwarded record points back to the forwarding record in case its location ever needs to change again.
+Access Methods Forwarded Records/sec measures the number of records fetched through forwarded record pointers which are due to tables without a clustered index. A forwarded record is basically a pointer. For instance, if you start with a short row, and update the row creating a wider row, the row might not fit on the data page. A pointer is put in its location and the row is forwarded to another page. This is done as a performance optimization so that all the non-clustered indexes on the heap do not have to be altered with the new location of the heap record.
+If a table has lots of forwarded records, scanning the table can be very inefficient.
+Also, rows with varchar columns can experience expansion when varchar values are updated with a longer string. In the case where the row cannot fit in the existing page, the row migrates and access to the row will traverse a pointer. 
+Forwarded Records only occurs on heaps which are tables without clustered indexes. 
+Threshold: (Yellow) - This value should not be greater than 10% of the number of Batch Requests/Sec
+<BR><BR><B>Next Steps:</B>
+<BR>Look at code to determine where the short row is inserted followed by an update. Forwarded records can be avoided by:
+<BR><LI>Using default values so that an update does not result in a longer row that is the root cause of forwarded records.
+<LI>Using Char instead of Varchar. Using Char creates a fixed length so that an update does not result in a longer row. 
+<LI>Evaluate clustered indexes for heap tables.
+<LI>In cases where clustered indexes cannot be used, drop non-clustered indexes, build a clustered index to reorganize pages and rows, drop the clustered index, and then recreate non-clustered indexes. 
+<LI>Learn to use the sys.dm_db_index_physical_stats dynamic management view (DMV) to find forwarded records. In the sys.dm_db_index_physical_stats DMV there is a column used called the forwarded_record_count which counts the number of records in a heap that have forward pointers to another data location. (This state occurs during an update, when there is not enough room to store the new row in the original location.)
+<BR><B>Reference:</B>
+<BR><B>SQL Server Storage Engine</B>
+http://blogs.msdn.com/sqlserverstorageengine/archive/2006/09/19/761437.aspx 
+<BR><B>Forwarding and forwarded records, and the back-pointer size</B>
+http://www.sqlskills.com/BLOGS/PAUL/post/Forwarding-and-forwarded-records-and-the-back-pointer-size.aspx 
+<BR><B>sys.dm_db_index_physical_stats (Transact-SQL)</B>
+<BR>http://msdn.microsoft.com/en-us/library/ms188917.aspx 
+<BR><B>SQL Server, Access Methods Object</B>
+<BR>http://msdn.microsoft.com/en-us/library/ms177426.aspx
+]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="SQLServer:Access Methods FreeSpace Scans/sec" ENABLED="True" CATEGORY="SQLServer:Access Methods" PRIMARYDATASOURCE="\PAL Generated(*)\FreeSpace Scans to Batch Requests Ratio Percentage" ID="{58bdd0bf-21d1-4c5a-8ff7-31f05782ab0c}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\SQLServer:Access Methods\FreeSpace Scans/sec" COLLECTIONVARNAME="CollectionOfSQLServerAccessMethodsFreeSpaceScanssec" EXPRESSIONPATH="\SQLServer:Access Methods\FreeSpace Scans/sec" ISCOUNTEROBJECTREGULAREXPRESSION="True" ISCOUNTERNAMEREGULAREXPRESSION="False" ISCOUNTERINSTANCEREGULAREXPRESSION="False" REGULAREXPRESSIONCOUNTERPATH="\(MSSQL|SQLServer).*:Access Methods\FreeSpace Scans/sec" DATATYPE="integer" />
+    <DATASOURCE TYPE="CounterLog" NAME="\SQLServer:SQL Statistics\Batch Requests/sec" COLLECTIONVARNAME="CollectionOfSQLServerSQLStatisticsBatchRequestssec" EXPRESSIONPATH="\SQLServer:SQL Statistics\Batch Requests/sec" ISCOUNTEROBJECTREGULAREXPRESSION="True" ISCOUNTERNAMEREGULAREXPRESSION="False" ISCOUNTERINSTANCEREGULAREXPRESSION="False" REGULAREXPRESSIONCOUNTERPATH="\(MSSQL|SQLServer).*:SQL Statistics\Batch Requests/sec" DATATYPE="integer" />
+    <DATASOURCE TYPE="Generated" NAME="\PAL Generated(*)\FreeSpace Scans to Batch Requests Ratio Percentage" EXPRESSIONPATH="\PAL Generated(*)\FreeSpace Scans to Batch Requests Ratio Percentage" COLLECTIONVARNAME="CollectionOfPalGeneratedFreeSpaceScansToBatchRequestsRatioPercentage" DATATYPE="Round3">
+      <CODE><![CDATA[
+          $CollectionOfPalGeneratedFreeSpaceScansToBatchRequestsRatioPercentage = @{}
+          For ($a=0;$a -lt $CollectionOfSQLServerAccessMethodsFreeSpaceScanssec.Count;$a++)
+          {
+            $sSqlInstanceNameForSQLServerAccessMethodsFreeSpaceScanssec = ExtractSqlNamedInstanceFromCounterObjectPath -sCounterObjectPath $CollectionOfSQLServerAccessMethodsFreeSpaceScanssec[$a].CounterObject
+            $sSqlInstanceNameForSQLServerAccessMethodsFreeSpaceScanssecWithComputer = "$($CollectionOfSQLServerAccessMethodsFreeSpaceScanssec[$a].CounterComputer)" + '/' + "$sSqlInstanceNameForSQLServerAccessMethodsFreeSpaceScanssec"          
+            #// Match up the same named instance.
+            $m = -1
+            For ($b=0;$b -lt $CollectionOfSQLServerSQLStatisticsBatchRequestssec.Count;$b++)
+            {
+              $sSqlInstanceNameForSQLServerSQLStatisticsBatchRequestssec = ExtractSqlNamedInstanceFromCounterObjectPath -sCounterObjectPath $CollectionOfSQLServerSQLStatisticsBatchRequestssec[$b].CounterObject
+              $sSqlInstanceNameForSQLServerSQLStatisticsBatchRequestssecWithComputer = "$($CollectionOfSQLServerSQLStatisticsBatchRequestssec[$b].CounterComputer)" + '/' + "$sSqlInstanceNameForSQLServerSQLStatisticsBatchRequestssec"
+              If ($sSqlInstanceNameForSQLServerAccessMethodsFreeSpaceScanssecWithComputer -eq $sSqlInstanceNameForSQLServerSQLStatisticsBatchRequestssecWithComputer)
+              {
+                $m = $b
+              }
+            }
+            If ($m -ge 0)
+            {
+              $blValues = New-Object System.Collections.ArrayList
+              For ($v=0;$v -lt $CollectionOfSQLServerAccessMethodsFreeSpaceScanssec[$a].Value.Count;$v++)
+              {
+                If ((IsGreaterThanZero $CollectionOfSQLServerAccessMethodsFreeSpaceScanssec[$a].Value[$v]) -and (IsGreaterThanZero $CollectionOfSQLServerSQLStatisticsBatchRequestssec[$m].Value[$v]))
+                {
+                  If (($CollectionOfSQLServerAccessMethodsFreeSpaceScanssec[$a].Value[$v] -gt 1) -and ($CollectionOfSQLServerSQLStatisticsBatchRequestssec[$m].Value[$v] -gt 1))
+                  {
+                    [int]$iRatio = $([double]$CollectionOfSQLServerAccessMethodsFreeSpaceScanssec[$a].Value[$v] / [double]$CollectionOfSQLServerSQLStatisticsBatchRequestssec[$m].Value[$v]) * 100
+                  }
+                  Else
+                  {
+                    $iRatio = 0
+                  }
+                  [void] $blValues.Add($iRatio)
+                }
+                Else
+                {
+                  [void] $blValues.Add(0)
+                }
+              }
+              $sGeneratedInstanceName = "\\$($CollectionOfSQLServerAccessMethodsFreeSpaceScanssec[$a].CounterComputer)\PAL Generated($($sSqlInstanceNameForSQLServerAccessMethodsFreeSpaceScanssec))\FreeSpace Scans to Batch Requests Ratio Percentage"
+              $CollectionOfPalGeneratedFreeSpaceScansToBatchRequestsRatioPercentage.Add($sGeneratedInstanceName,$blValues)
+            }
+          }
+        ]]></CODE>
+    </DATASOURCE>
+    <THRESHOLD NAME="A ratio of more than 1 freespace scan for every 10 batch requests" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfPalGeneratedFreeSpaceScansToBatchRequestsRatioPercentage -Operator 'gt' -Threshold 10
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\PAL Generated(*)\FreeSpace Scans to Batch Requests Ratio Percentage" ISTHRESHOLDSADDED="True" DATASOURCE="\PAL Generated(*)\FreeSpace Scans to Batch Requests Ratio Percentage" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfPalGeneratedFreeSpaceScansToBatchRequestsRatioPercentage -MinThreshold 10 -MaxThreshold 29.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+    <CHART CHARTTITLE="\SQLServer:Access Methods\FreeSpace Scans/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\SQLServer:Access Methods\FreeSpace Scans/sec" CHARTLABELS="computer" />
+    <CHART CHARTTITLE="\SQLServer:SQL Statistics\Batch Requests/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\SQLServer:SQL Statistics\Batch Requests/sec" CHARTLABELS="computer" />
+    <DESCRIPTION><![CDATA[<B>SQLServer:Access Methods FreeSpace Scans/sec</B>
+
+<BR><B>Description:</B>
+<BR>This counter represents inserts into a table with no physical ordering of the rows. A table with no ordering, without a clustered index, is known as a heap table. Inserts into heaps will require SQL Server to perform freespace scans to identify pages with free space to insert rows. A heap table also requires an additional, internal column called an uniquifier to be generated for each row inserted. 
+Extra processing is required to define and store a heap table since SQL Server normally uses the clustered index as a storage mechanism for the table data. Freespace scans have an additional I/O expense for inserts and can possibly cause contention on the GAM, SGAM, and PFS pages when there are many connections inserting. 
+It is usually recommended that you physically order the table rows by using a clustered index on the table.
+FreeSpace Scans/sec represents inserts into a table with no physical ordering of its rows which is called a heap. A heap table requires an additional column called an uniquifier to be generated for each row inserted. It is recommended that you physically order the table rows by using a clustered on the table for most tables.
+FreeSpace Scans /sec measures the number of scans per second that were initiated to search for free space within pages already allocated to an allocation unit to insert or modify record fragments. Each scan may find multiple pages. FreeSpace Scans are due to inserts into heaps that require SQL Server to perform freespace scans to identify pages with free space to insert rows. Freespace scans are an additional I/O expense for inserts and can possibly cause contention on the GAM, SGAM, and PFS pages when many spids are inserting. The solution is often to evaluate clustered index for base tables.
+One or more of the following symptoms may accompany poor performance during inserts to a large table on SQL Server: 
+<BR>
+<LI>Unexplained high CPU usage by SQL Server, sometimes up to 100%.
+<LI>SQL Profiler or SHOWPLAN indicates that singleton inserts have wide variations in performance.
+<LI>The number of reads is out of proportion to the number or size of the indexes and triggers on the table.
+<LI>Sporadic timeouts.
+<LI>The FreeSpace Scans/Sec counter from the SQL Server:Access Methods object in Performance Monitor is excessively high given all the factors involved in your specific environment. 
+A common cause for these symptoms is that inserts to a heap (a table without a clustered index) are often slower than inserts to a table with a clustered index (a clustered table).
+<BR><B>Threshold: </B>
+<BR><B>Yellow:</B> A ratio (10%) of more than 1 freespace scan for every 10 Batch Requests/Sec
+<BR><B>Next Steps:</B>
+Microsoft recommends that you add a clustered index to the table and test the effect of the clustered index on performance.
+<B>Reference:</B>
+<BR><B>PRB: Poor Performance on a Heap</B>
+<BR>http://support.microsoft.com/kb/297861 
+<BR><B>SQL Server, Access Methods Object</B>
+<BR>http://msdn.microsoft.com/en-us/library/ms177426.aspx  
+]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="SQLServer:Access Methods Full Scans/sec" ENABLED="True" CATEGORY="SQLServer:Access Methods" PRIMARYDATASOURCE="\PAL Generated(*)\Full Scans to Index Searches Ratio" ID="{0e57536e-d2c6-4460-9906-d7ba31803964}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\SQLServer:Access Methods\Full Scans/sec" COLLECTIONVARNAME="CollectionOfSQLServerAccessMethodsFullScanssec" EXPRESSIONPATH="\SQLServer:Access Methods\Full Scans/sec" ISCOUNTEROBJECTREGULAREXPRESSION="True" ISCOUNTERNAMEREGULAREXPRESSION="False" ISCOUNTERINSTANCEREGULAREXPRESSION="False" REGULAREXPRESSIONCOUNTERPATH="\(MSSQL|SQLServer).*:Access Methods\Full Scans/sec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\SQLServer:Access Methods\Full Scans/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\SQLServer:Access Methods\Full Scans/sec" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<B>SQLServer:Access Methods Full Scans/sec</B>
+<BR><B>Description:</B> This counter monitors the number of full scans on base tables or indexes. High values indicate that we may be having performance issues due to table / index page scans. If we see high CPU and / or low Page Life Expectancy (PLE) then we need to investigate this counter; however, if full scans are on small tables we can ignore this counter.  
+A few of the main causes of high Full Scans/sec are missing indexes, too many rows requested, queries with missing indexes, or too many rows requested will have a large number of logical reads and an increased CPU time.
+This analysis throws a Warning alert if the ratio of Index Searches/sec to Full Scans/sec is less than 1000 to 1 and if there are more than 1000 Index Searches/sec.
+<BR><BR><B>Threshold: </B>
+<BR>Yellow: A ratio of more than 1 full scan for every 1000 index searches. The value of Index Searches/sec and Full Scans/sec should be greater than 1000.
+<BR><BR>Formula: 
+(AvgSQLServerAccessMethodsIndexSearchessecAll / AvgSQLServerAccessMethods_FullScanssec) < 1000
+<BR><BR><B>Next Steps:</B>
+The main causes of high Full Scans/sec are:
+<LI>Missing indexes
+<LI>Too many rows requested
+Queries with missing indexes or too many rows requested will have a large number of logical reads and an increased CPU time. As mentioned, if there is a high level of Full Scans to Index Searches, then it is important to also check the following:
+See PERFMON SQLServer:Buffer Manager performance counters for memory pressure:
+<LI>Page Life Expectancy
+<LI>Checkpoint pages/sec
+<LI>Lazy writes/sec
+A high number of scans can cause buffer pool pressure (as indicated with low PLE and a higher Lazy Writes / sec count).
+Memory pressure will quickly manifest into disk pressure, so also check:
+See PERFMON Physical Disk performance counters: 
+<LI>Disk sec/read
+<LI>Disk sec/write
+Note: Identify disk bottlenecks by using Performance Counters, Profiler, sys.dm_io_virtual_file_stats and SHOWPLAN output.
+Also refer to the sys.dm_io_virtual_file_stats dynamic management view (DMV) to track io_stalls to help identify IO bottlenecks. 
+To back up and support this information, compare the counters to sys.dm_os_wait_stats output. If you see high values in perfmon, you may also see high waits for the following:
+<LI>ASYNC_IO_COMPLETION
+<LI>IO_COMPLETION
+<LI>PAGEIOLATCH_* (Data page I/O completion waits appear as PAGEIOLATCH_* waits)
+Reactively, SQL Profiler can be used to identify which SQL statements are causing scans. Use the scans event class and events scan:started and scan:completed. Include the object ID data column. Save the profiler trace to a file and then convert it to trace table. You can then search for the scans event. 
+The scan:completed event provides the associated IO so that you can also search for high reads, writes, and duration.
+<BR><B>Reference:</B>
+<BR><B>SQL Server, Access Methods Object</B>
+http://msdn.microsoft.com/en-us/library/ms177426.aspx 
+<BR><B>SQL Server 2005 Waits and Queues</B>
+http://download.microsoft.com/download/4/7/a/47a548b9-249e-484c-abd7-29f31282b04d/Performance_Tuning_Waits_Queues.doc 
+<BR><B>Wait Types and Correlation to Other Performance Info</B>
+http://www.sqlmag.com/Files/09/40925/Webtable_01.doc 
+ 
+
+]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="SQLServer:Access Methods Page Splits/sec" ENABLED="True" CATEGORY="SQLServer:Access Methods" PRIMARYDATASOURCE="\PAL Generated(*)\Page Splits to Batch Requests Ratio Percentage" ID="{8b560238-c23b-4dcb-8c48-87ebcd29067b}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\SQLServer:Access Methods\Page Splits/sec" COLLECTIONVARNAME="CollectionOfSQLServerAccessMethodsPageSplitssec" EXPRESSIONPATH="\SQLServer:Access Methods\Page Splits/sec" ISCOUNTEROBJECTREGULAREXPRESSION="True" ISCOUNTERNAMEREGULAREXPRESSION="False" ISCOUNTERINSTANCEREGULAREXPRESSION="False" REGULAREXPRESSIONCOUNTERPATH="\(MSSQL|SQLServer).*:Access Methods\Page Splits/sec" DATATYPE="integer" />
+    <DATASOURCE TYPE="CounterLog" NAME="\SQLServer:SQL Statistics\Batch Requests/sec" COLLECTIONVARNAME="CollectionOfSQLServerSQLStatisticsBatchRequestssec" EXPRESSIONPATH="\SQLServer:SQL Statistics\Batch Requests/sec" ISCOUNTEROBJECTREGULAREXPRESSION="True" ISCOUNTERNAMEREGULAREXPRESSION="False" ISCOUNTERINSTANCEREGULAREXPRESSION="False" REGULAREXPRESSIONCOUNTERPATH="\(MSSQL|SQLServer).*:SQL Statistics\Batch Requests/sec" DATATYPE="integer" />
+    <DATASOURCE TYPE="Generated" NAME="\PAL Generated(*)\Page Splits to Batch Requests Ratio Percentage" EXPRESSIONPATH="\PAL Generated(*)\Page Splits to Batch Requests Ratio Percentage" COLLECTIONVARNAME="CollectionOfPalGeneratedPageSplitsToBatchRequestsRatioPercentage" DATATYPE="Round3">
+      <CODE><![CDATA[
+          $CollectionOfPalGeneratedPageSplitsToBatchRequestsRatioPercentage = @{}
+          For ($a=0;$a -lt $CollectionOfSQLServerAccessMethodsPageSplitssec.Count;$a++)
+          {
+            $sSqlInstanceNameForSQLServerAccessMethodsPageSplitssec = ExtractSqlNamedInstanceFromCounterObjectPath -sCounterObjectPath $CollectionOfSQLServerAccessMethodsPageSplitssec[$a].CounterObject
+            $sSqlInstanceNameForSQLServerAccessMethodsPageSplitssecWithComputer = "$($CollectionOfSQLServerAccessMethodsPageSplitssec[$a].CounterComputer)" + '/' + "$sSqlInstanceNameForSQLServerAccessMethodsPageSplitssec"          
+            #// Match up the same named instance.
+            $m = -1
+            For ($b=0;$b -lt $CollectionOfSQLServerSQLStatisticsBatchRequestssec.Count;$b++)
+            {
+              $sSqlInstanceNameForSQLServerSQLStatisticsBatchRequestssec = ExtractSqlNamedInstanceFromCounterObjectPath -sCounterObjectPath $CollectionOfSQLServerSQLStatisticsBatchRequestssec[$b].CounterObject
+              $sSqlInstanceNameForSQLServerSQLStatisticsBatchRequestssecWithComputer = "$($CollectionOfSQLServerSQLStatisticsBatchRequestssec[$b].CounterComputer)" + '/' + "$sSqlInstanceNameForSQLServerSQLStatisticsBatchRequestssec"
+              If ($sSqlInstanceNameForSQLServerAccessMethodsPageSplitssecWithComputer -eq $sSqlInstanceNameForSQLServerSQLStatisticsBatchRequestssecWithComputer)
+              {
+                $m = $b
+              }
+            }
+            If ($m -ge 0)
+            {
+              $blValues = New-Object System.Collections.ArrayList
+              For ($v=0;$v -lt $CollectionOfSQLServerAccessMethodsPageSplitssec[$a].Value.Count;$v++)
+              {
+                If ((IsGreaterThanZero $CollectionOfSQLServerAccessMethodsPageSplitssec[$a].Value[$v]) -and (IsGreaterThanZero $CollectionOfSQLServerSQLStatisticsBatchRequestssec[$m].Value[$v]))
+                {
+                  If (($CollectionOfSQLServerAccessMethodsPageSplitssec[$a].Value[$v] -gt 1) -and ($CollectionOfSQLServerSQLStatisticsBatchRequestssec[$m].Value[$v] -gt 1))
+                  {
+                    [int]$iRatio = $([double]$CollectionOfSQLServerAccessMethodsPageSplitssec[$a].Value[$v] / [double]$CollectionOfSQLServerSQLStatisticsBatchRequestssec[$m].Value[$v]) * 100
+                  }
+                  Else
+                  {
+                    $iRatio = 0
+                  }
+                  [void] $blValues.Add($iRatio)
+                }
+                Else
+                {
+                  [void] $blValues.Add(0)
+                }
+              }
+              $sGeneratedInstanceName = "\\$($CollectionOfSQLServerAccessMethodsPageSplitssec[$a].CounterComputer)\PAL Generated($($sSqlInstanceNameForSQLServerAccessMethodsPageSplitssec))\Page Splits to Batch Requests Ratio Percentage"
+              $CollectionOfPalGeneratedPageSplitsToBatchRequestsRatioPercentage.Add($sGeneratedInstanceName,$blValues)
+            }
+          }
+        ]]></CODE>
+    </DATASOURCE>
+    <THRESHOLD NAME="A ratio of more than 1 page split for every 20 batch requests" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfPalGeneratedPageSplitsToBatchRequestsRatioPercentage -Operator 'gt' -Threshold 20
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\SQLServer:Access Methods\Page Splits/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\SQLServer:Access Methods\Page Splits/sec" CHARTLABELS="instance" />
+    <CHART CHARTTITLE="\SQLServer:SQL Statistics\Batch Requests/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\SQLServer:SQL Statistics\Batch Requests/sec" CHARTLABELS="computer" />
+    <CHART CHARTTITLE="\PAL Generated(*)\Page Splits to Batch Requests Ratio Percentage" ISTHRESHOLDSADDED="True" DATASOURCE="\PAL Generated(*)\Page Splits to Batch Requests Ratio Percentage" CHARTLABELS="computer">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfPalGeneratedPageSplitsToBatchRequestsRatioPercentage -MinThreshold 20 -MaxThreshold 29.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+    <DESCRIPTION><![CDATA[<B>SQLServer:Access Methods Page Splits/sec</B>
+<BR>
+<B>Description:</B> The number of page splits per second that occurs as the result of overflowing index pages. When a record is inserted into an index, it must be inserted in order. If the data page is full, the page splits in order to maintain the appropriate order. A high value for this counter may warrant the consideration of a lower fill factor.
+This value should be as low as possible. Heavily fragmented indexes may be the result of high page splits/sec.
+<BR><B>Threshold:</B>
+<BR>Yellow: A ratio of more than 1 page split for every 20 batch requests
+Next Steps:
+If the number of page splits is high, consider increasing the fillfactor of your indexes. An increased fillfactor helps to reduce page splits by increasing the amount of free space on each page. 
+Note: This counter also includes new page allocations, and does not mean there is an issue.
+<BR><B>Reference:</B>
+<BR><B>SQL Server, Access Methods Object</B>
+<BR>http://msdn.microsoft.com/en-us/library/ms177426(v=SQL.105).aspx 
+]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="SQLServer:Access Methods Scan Point Revalidations/sec" ENABLED="True" CATEGORY="SQLServer:Access Methods" PRIMARYDATASOURCE="\SQLServer:Access Methods\Scan Point Revalidations/sec" ID="{11783979-b247-48b8-994c-f50d171b4106}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\SQLServer:Access Methods\Scan Point Revalidations/sec" COLLECTIONVARNAME="SQLServerAccessMethodsScanPointRevalidationssec" EXPRESSIONPATH="\SQLServer:Access Methods\Scan Point Revalidations/sec" ISCOUNTEROBJECTREGULAREXPRESSION="True" ISCOUNTERNAMEREGULAREXPRESSION="False" ISCOUNTERINSTANCEREGULAREXPRESSION="False" REGULAREXPRESSIONCOUNTERPATH="\(MSSQL|SQLServer).*:Access Methods\Scan Point Revalidations/sec" DATATYPE="integer" />
+    <THRESHOLD NAME="Greater than 10 per second" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $SQLServerAccessMethodsScanPointRevalidationssec -Operator 'gt' -Threshold 10
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\SQLServer:Access Methods\Scan Point Revalidations/sec" ISTHRESHOLDSADDED="True" DATASOURCE="\SQLServer:Access Methods\Scan Point Revalidations/sec" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $SQLServerAccessMethodsScanPointRevalidationssec -MinThreshold 10 -MaxThreshold 29.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+    <DESCRIPTION><![CDATA[<B>\SQLServer:Access Methods\Scan Point Revalidations/sec</B>
+<BR><BR>
+<B>Description:</B> Scan Point Revalidations occurs during range scans. When a range scan occurs there is an optimization process that occurs where the pages are marked as satisfied with the WHERE predicate that does the range scan. 
+Instead of scanning through each and every row in the page, it does not keep an exclusive lock on those pages; instead it just keeps a mark on it and continues with rest of the scan. If one or more rows in the page are modified by update or a delete operation, the update or delete process will notify the scan to recheck the page to see if the page is still valid for the range scan. This recheck is called a Scan Point Revalidation.
+Scan Point Revalidations shows the contention between range scans and modifications to the same pages. This counter also pinpoints hotspots within the cluster table competing between reads and writes.
+Scan Point Revalidations are the number of times per second that the scan point had to be revalidated before the scan could be continued. If a page latch has to be released due to contention, the scan point must be revalidated when the scan resumes. 
+<BR><BR><B>Threshold:</B>
+Yellow: Greater than 10 per second
+Next Steps: It is important to correlate the Scan Count Revalidations/sec with the Range Scans/sec counter and Page Latch related counters. The higher the number of range scans on the same pages, the higher the number of scan point revalidations.
+High number of Scan Point Revalidations/sec indicates hot spots in the data, probably due to a poor choice of clustered index putting the most active rows on the same page.
+Consider reducing the number of range scans, isolating reporting and application use, and most importantly ensuring that the clustered index choice is the right one. Clustered indexes should be on columns that are sorted on, grouped on, used in joins, used in between queries, and in other operations where the order of the returned data is critical.
+<BR><B>Reference:</B>
+<BR><B>SQL Server, Access Methods Object</B>
+<BR>http://msdn.microsoft.com/en-us/library/ms177426.aspx 
+]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="SQLServer:Access Methods Workfiles Created/sec" ENABLED="True" CATEGORY="SQLServer:Access Methods" PRIMARYDATASOURCE="\SQLServer:Access Methods\Workfiles Created/sec" ID="{9967dc1f-ee36-4052-ba68-4a8ad8af9a97}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\SQLServer:Access Methods\Workfiles Created/sec" COLLECTIONVARNAME="CollectionOfSQLServerAccessMethodsWorkfilesCreatedsec" EXPRESSIONPATH="\SQLServer:Access Methods\Workfiles Created/sec" ISCOUNTEROBJECTREGULAREXPRESSION="True" ISCOUNTERNAMEREGULAREXPRESSION="False" ISCOUNTERINSTANCEREGULAREXPRESSION="False" REGULAREXPRESSIONCOUNTERPATH="\(MSSQL|SQLServer).*:Access Methods\Workfiles Created/sec" DATATYPE="integer" />
+    <DATASOURCE TYPE="CounterLog" NAME="\SQLServer:SQL Statistics\Batch Requests/sec" COLLECTIONVARNAME="CollectionOfSQLServerSQLStatisticsBatchRequestssec" EXPRESSIONPATH="\SQLServer:SQL Statistics\Batch Requests/sec" ISCOUNTEROBJECTREGULAREXPRESSION="True" ISCOUNTERNAMEREGULAREXPRESSION="False" ISCOUNTERINSTANCEREGULAREXPRESSION="False" REGULAREXPRESSIONCOUNTERPATH="\(MSSQL|SQLServer).*:SQL Statistics\Batch Requests/sec" DATATYPE="integer" />
+    <DATASOURCE TYPE="Generated" NAME="\PAL Generated(*)\Workfiles Created to Batch Requests Ratio Percentage" EXPRESSIONPATH="\PAL Generated(*)\Workfiles Created to Batch Requests Ratio Percentage" COLLECTIONVARNAME="CollectionOfPalGeneratedWorkfilesCreatedToBatchRequestsRatioPercentage" DATATYPE="Round3">
+      <CODE><![CDATA[
+          $CollectionOfPalGeneratedWorkfilesCreatedToBatchRequestsRatioPercentage = @{}
+          For ($a=0;$a -lt $CollectionOfSQLServerAccessMethodsWorkfilesCreatedsec.Count;$a++)
+          {
+            $sSqlInstanceNameForSQLServerAccessMethodsWorkfilesCreatedsec = ExtractSqlNamedInstanceFromCounterObjectPath -sCounterObjectPath $CollectionOfSQLServerAccessMethodsWorkfilesCreatedsec[$a].CounterObject
+            $sSqlInstanceNameForSQLServerAccessMethodsWorkfilesCreatedsecWithComputer = "$($CollectionOfSQLServerAccessMethodsWorkfilesCreatedsec[$a].CounterComputer)" + '/' + "$sSqlInstanceNameForSQLServerAccessMethodsWorkfilesCreatedsec"          
+            #// Match up the same named instance.
+            $m = -1
+            For ($b=0;$b -lt $CollectionOfSQLServerSQLStatisticsBatchRequestssec.Count;$b++)
+            {
+              $sSqlInstanceNameForSQLServerSQLStatisticsBatchRequestssec = ExtractSqlNamedInstanceFromCounterObjectPath -sCounterObjectPath $CollectionOfSQLServerSQLStatisticsBatchRequestssec[$b].CounterObject
+              $sSqlInstanceNameForSQLServerSQLStatisticsBatchRequestssecWithComputer = "$($CollectionOfSQLServerSQLStatisticsBatchRequestssec[$b].CounterComputer)" + '/' + "$sSqlInstanceNameForSQLServerSQLStatisticsBatchRequestssec"
+              If ($sSqlInstanceNameForSQLServerAccessMethodsWorkfilesCreatedsecWithComputer -eq $sSqlInstanceNameForSQLServerSQLStatisticsBatchRequestssecWithComputer)
+              {
+                $m = $b
+              }
+            }
+            If ($m -ge 0)
+            {
+              $blValues = New-Object System.Collections.ArrayList
+              For ($v=0;$v -lt $CollectionOfSQLServerAccessMethodsWorkfilesCreatedsec[$a].Value.Count;$v++)
+              {
+                If ((IsGreaterThanZero $CollectionOfSQLServerAccessMethodsWorkfilesCreatedsec[$a].Value[$v]) -and (IsGreaterThanZero $CollectionOfSQLServerSQLStatisticsBatchRequestssec[$m].Value[$v]))
+                {
+                  If (($CollectionOfSQLServerAccessMethodsWorkfilesCreatedsec[$a].Value[$v] -gt 1) -and ($CollectionOfSQLServerSQLStatisticsBatchRequestssec[$m].Value[$v] -gt 1))
+                  {
+                    [int]$iRatio = $([double]$CollectionOfSQLServerAccessMethodsWorkfilesCreatedsec[$a].Value[$v] / [double]$CollectionOfSQLServerSQLStatisticsBatchRequestssec[$m].Value[$v]) * 100
+                  }
+                  Else
+                  {
+                    $iRatio = 0
+                  }
+                  [void] $blValues.Add($iRatio)
+                }
+                Else
+                {
+                  [void] $blValues.Add(0)
+                }
+              }
+              $sGeneratedInstanceName = "\\$($CollectionOfSQLServerAccessMethodsWorkfilesCreatedsec[$a].CounterComputer)\PAL Generated($($sSqlInstanceNameForSQLServerAccessMethodsWorkfilesCreatedsec))\Workfiles Created to Batch Requests Ratio Percentage"
+              $CollectionOfPalGeneratedWorkfilesCreatedToBatchRequestsRatioPercentage.Add($sGeneratedInstanceName,$blValues)
+            }
+          }
+        ]]></CODE>
+    </DATASOURCE>
+    <THRESHOLD NAME="A ratio of more than 1 workfile created for every 20 batch requests" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfPalGeneratedWorkfilesCreatedToBatchRequestsRatioPercentage -Operator 'gt' -Threshold 20
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\SQLServer:Access Methods\Workfiles Created/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\SQLServer:Access Methods\Workfiles Created/sec" CHARTLABELS="instance" />
+    <CHART CHARTTITLE="\SQLServer:SQL Statistics\Batch Requests/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\SQLServer:SQL Statistics\Batch Requests/sec" CHARTLABELS="computer" />
+    <CHART CHARTTITLE="\PAL Generated(*)\Workfiles Created to Batch Requests Ratio Percentage" ISTHRESHOLDSADDED="True" DATASOURCE="\PAL Generated(*)\Workfiles Created to Batch Requests Ratio Percentage" CHARTLABELS="computer">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfPalGeneratedWorkfilesCreatedToBatchRequestsRatioPercentage -MinThreshold 20 -MaxThreshold 39.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+    <DESCRIPTION><![CDATA[<B>\SQLServer:Access Methods\Workfiles Created/sec</B>
+<BR><BR><B>Description: </B>
+
+Number of Workfiles created in the last second. Workfiles in TempDB are used in processing hash operations when the amount of data being processed is too big to fit into the available memory. 
+ 
+Workfiles Created/Sec the number of work files created per second. Work files are similar to work tables but are created strictly by hashing operations. Work files are used to store temporary results for hash joins and hash aggregated when the amount of data being processed is too big to fit into the available SQL Server memory.
+<BR><B>Threshold: </B>
+<BR>Yellow: A ratio of more than 1 workfile created for every 20 batch requests
+<BR><B>Next Steps:</B> Make queries more efficient by adding/changing indexes, adding additional memory, etc. Run expensive queries through the Database Tuning Advisor (DTA), add additional memory, and look for expensive queries and consider rewriting them.
+
+<BR><B>Reference:</B>
+<BR><B>SQL Server, Access Methods Object</B>
+<BR>http://technet.microsoft.com/en-us/library/ms177426.aspx 
+<BR><B>Working with tempdb in SQL Server 2005 </B>
+<BR>http://msdn.microsoft.com/en-us/library/cc966545.aspx 
+<BR><B>Troubleshooting Performance Problems in SQL Server 2008</B>
+<BR>http://download.microsoft.com/download/D/B/D/DBDE7972-1EB9-470A-BA18-58849DB3EB3B/TShootPerfProbs2008.docx 
+]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="SQLServer:Access Methods Worktables Created/sec" ENABLED="True" CATEGORY="SQLServer:Access Methods" PRIMARYDATASOURCE="\SQLServer:Access Methods\Worktables Created/sec" ID="{289fe43d-3e27-4bde-bc1c-486b3cf7e8d1}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\SQLServer:Access Methods\Worktables Created/sec" COLLECTIONVARNAME="CollectionOfSQLServerAccessMethodsWorktablesCreatedsec" EXPRESSIONPATH="\SQLServer:Access Methods\Worktables Created/sec" ISCOUNTEROBJECTREGULAREXPRESSION="True" ISCOUNTERNAMEREGULAREXPRESSION="False" ISCOUNTERINSTANCEREGULAREXPRESSION="False" REGULAREXPRESSIONCOUNTERPATH="\(MSSQL|SQLServer).*:Access Methods\Worktables Created/sec" DATATYPE="integer" />
+    <THRESHOLD NAME="Greater than 200 Worktables created per second" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfSQLServerAccessMethodsWorktablesCreatedsec -Operator 'gt' -Threshold 200
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\SQLServer:Access Methods\Worktables Created/sec" ISTHRESHOLDSADDED="True" DATASOURCE="\SQLServer:Access Methods\Worktables Created/sec" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfSQLServerAccessMethodsWorktablesCreatedsec -MinThreshold 200 -MaxThreshold 249 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+    <DESCRIPTION><![CDATA[<B>\SQLServer:Access Methods\Worktables Created/sec</B>
+<BR>
+<BR><B>Description:</B> Number of worktables created in the last second. The number of work tables created per second. Work tables are temporary objects and are used to store results for query spool, LOB variables, and cursors. Typically, this number is less than 200.
+
+<BR><B>Threshold:</B>
+<BR>Yellow: This number should be less than 200. This will need to be baselined for accuracy.
+<BR><B>Next Steps:</B><BR> Look for expensive statements with high CPU, duration, and statements that run in parallel and tune them by adding indexes, reducing the volume of data being returned, and adding indexes where appropriate.
+Ensure that TempDB is not a bottleneck and is following best practices.
+If you determine that the throughput of your application has degraded because of contention in allocation structures, you can use the following techniques to minimize it.
+Evaluate your application and the query plans to see if you can minimize the creation of work tables and temporary tables. Monitor the perfmon counters as described in Monitoring contention caused by DML operations. Then, use SQL Profiler to correlate the values of these counters with the currently running queries. This helps you identify the queries that are causing the contention in allocation structures. 
+Divide tempdb into multiple data files of equal size. These multiple files donâ€™t necessarily be on different disks/spindles unless you are also encountering I/O bottlenecks as well. The general recommendation is to have one file per CPU because only one thread is active per CPU at one time. SQL Server allocates pages for tempdb objects in a round-robin fashion (also referred to as proportional fill) so that the latches on PFS and SGAM pages are distributed among multiple files. This is supported both in SQL Server 2000 and SQL Server 2005. There are improvements to the proportional fill algorithm in SQL Server 2005.
+Use TF-1118. Under this trace flag SQL Server allocates full extents to each tempdb object, thereby eliminating the contention on SGAM page. This is done at the expense of some waste of disk space in tempdb. This trace flag has been available since SQL Server 2000. With improvements in tempdb object caching in SQL Server 2005, there should be significantly less contention in allocation structures. If you see contention in SGAM pages, you may want to use this trace flag. Cached tempdb objects may not always be available. For example, cached tempdb objects are destroyed when the query plan with which they are associated is recompiled or removed from the procedure cache.
+
+<BR><B>Reference:</B>
+<BR><B>SQL Server, Access Methods Object</B>
+<BR>http://technet.microsoft.com/en-us/library/ms177426.aspx 
+<BR><B>Working with tempdb in SQL Server 2005</B>
+<BR>http://msdn.microsoft.com/en-us/library/cc966545.aspx 
+<BR><B>Troubleshooting Performance Problems in SQL Server 2008</B>
+<BR>http://download.microsoft.com/download/D/B/D/DBDE7972-1EB9-470A-BA18-58849DB3EB3B/TShootPerfProbs2008.docx 
+]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="SQLServer:Buffer Manager Buffer cache hit ratio" ENABLED="True" CATEGORY="SQLServer:Buffer Manager" PRIMARYDATASOURCE="\SQLServer:Buffer Manager\Buffer cache hit ratio" ID="{973c124a-ac03-4b31-abe4-d7bdc2a9f8bc}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\SQLServer:Buffer Manager\Buffer cache hit ratio" COLLECTIONVARNAME="CollectionOfSQLServerBufferManagerBuffercachehitratio" EXPRESSIONPATH="\SQLServer:Buffer Manager\Buffer cache hit ratio" ISCOUNTEROBJECTREGULAREXPRESSION="True" ISCOUNTERNAMEREGULAREXPRESSION="False" ISCOUNTERINSTANCEREGULAREXPRESSION="False" REGULAREXPRESSIONCOUNTERPATH="\(MSSQL|SQLServer).*:Buffer Manager\Buffer cache hit ratio" DATATYPE="integer" />
+    <DATASOURCE TYPE="CounterLog" NAME="\SQLServer:Buffer Manager\Checkpoint pages/sec" COLLECTIONVARNAME="CollectionOfSQLServerBufferManagerCheckpointpagessec" EXPRESSIONPATH="\SQLServer:Buffer Manager\Checkpoint pages/sec" ISCOUNTEROBJECTREGULAREXPRESSION="True" ISCOUNTERNAMEREGULAREXPRESSION="False" ISCOUNTERINSTANCEREGULAREXPRESSION="False" REGULAREXPRESSIONCOUNTERPATH="\(MSSQL|SQLServer).*:Buffer Manager\Checkpoint pages/sec" DATATYPE="integer" />
+    <THRESHOLD NAME="Less than 97 percent buffer cache hit ratio" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfSQLServerBufferManagerBuffercachehitratio -Operator 'lt' -Threshold 97
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\SQLServer:Buffer Manager\Checkpoint pages/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\SQLServer:Buffer Manager\Checkpoint pages/sec" CHARTLABELS="computer" />
+    <CHART CHARTTITLE="\SQLServer:Buffer Manager\Buffer cache hit ratio" ISTHRESHOLDSADDED="True" DATASOURCE="\SQLServer:Buffer Manager\Buffer cache hit ratio" CHARTLABELS="computer" BACKGRADIENTSTYLE="BottomTop">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfSQLServerBufferManagerBuffercachehitratio -MinThreshold 0.001 -MaxThreshold 97 -UseMaxValue $True -IsOperatorGreaterThan $False
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+    <DESCRIPTION><![CDATA[<B>\SQLServer:Buffer Manager\Buffer cache hit ratio</B>
+
+<BR><BR><B>Description:</B> The Buffer Cache Hit Ratio measures the percentage of pages that were found in the buffer pool without having to incur a read from disk. This counter indicates how often SQL Server goes to the buffer, not the hard disk, to get data. The higher this ratio, the better. A high ratio, close to 100% indicates that SQL Server did not have to go to the hard disk often to fetch data, and performance overall is boosted. If the Buffer Cache Hit Ratio was 100% that would suggest that all of the pages are being accessed from cache and does not require trips to disk, because of the optimistic read ahead mechanism, this is not exactly the case.
+When a user session wants to read data from the database, it will read directly from the SQL Server buffer cache (a logical read), or, if the buffer cache does not have the data that is requested, the data will be read into the buffer cache from disk (a physical read) and then from the buffer cache. If the requested data is in the buffer cache, then it is called a 'buffer hit'. If the data is not in the buffer cache it is called a 'buffer miss'. The ratio of buffer hits to total buffer requests is called the buffer cache hit ratio as can be seen from the following:
+<BR><BR><B>Cache Hit Ratio = (Logical Reads - Physical Reads)/Logical Reads</B><BR>
+<BR>A read from memory takes approximately 100 nanoseconds, while a read from disk takes about 8 milliseconds or more.
+1 millisecond = 1,000,000 nanoseconds
+The important point about SQL Server read operations is that when selecting data from the database, the user will wait on the complete read operation including all of the physical reads. The time is takes to select from the database depends on how much data will be read and how long it takes for those reads to occur. Even with cache reads, the time it takes to read a large amount of data can be significant. With physical reads, the time will be even longer.
+There are a few considerations to be aware of regarding the Buffer Cache Hit Ratio counter. First, unlike many of the other counters available for monitoring SQL Server, this counter averages the Buffer Cache Hit Ratio from the time the instance of SQL Server was started. In other words, this counter is not a real-time measurement, but an average. Secondly, the buffer cache hit ratio may be skewed by the read ahead mechanism. Read Ahead Reads are pages that were read into cache while the query was processed. Because of the read ahead mechanism, you should not infer from a high buffer cache hit ratio that SQL Server is not suffering from memory pressure or at least could not benefit from additional memory.
+ 
+<BR><B>Threshold: </B>
+<BR><B>Yellow: </B>Less than 97 percent buffer cache hit ratio
+<BR><B>Next Steps:</B>
+<BR>Run expensive queries through the Database Tuning Advisor (DTA), add additional memory, and look for queries with a high number of logical reads and consider tuning and potentially rewriting them.
+<BR><B>Reference:</B>
+<BR><B>SQL Server, Access Methods Object</B>
+<BR>http://msdn.microsoft.com/en-us/library/ms177426.aspx
+]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="SQLServer:Buffer Manager Free pages" ENABLED="True" CATEGORY="SQLServer:Buffer Manager" PRIMARYDATASOURCE="\SQLServer:Buffer Manager\Free pages" ID="{4637f97e-3033-4165-82e8-8560662e7caf}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\SQLServer:Buffer Manager\Free pages" COLLECTIONVARNAME="CollectionOfSQLServerBufferManagerFreepages" EXPRESSIONPATH="\SQLServer:Buffer Manager\Free pages" ISCOUNTEROBJECTREGULAREXPRESSION="True" ISCOUNTERNAMEREGULAREXPRESSION="False" ISCOUNTERINSTANCEREGULAREXPRESSION="False" REGULAREXPRESSIONCOUNTERPATH="\(MSSQL|SQLServer).*:Buffer Manager\Free pages" DATATYPE="integer" />
+    <THRESHOLD NAME="Less than 640 Free Pages" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfSQLServerBufferManagerFreepages -Operator 'lt' -Threshold 640
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\SQLServer:Buffer Manager\Free pages" ISTHRESHOLDSADDED="True" DATASOURCE="\SQLServer:Buffer Manager\Free pages" CHARTLABELS="instance" BACKGRADIENTSTYLE="BottomTop">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfSQLServerBufferManagerFreepages -MinThreshold 0.001 -MaxThreshold 640 -UseMaxValue $True -IsOperatorGreaterThan $False
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+    <DESCRIPTION><![CDATA[<B>\SQLServer:Buffer Manager\Free pages</B>
+<BR><BR>
+<B>Description:</B> Total number of pages on all free lists. The more free pages that are available then the less often the lazy writer will have to fire keeping pages in the buffer pool longer.
+<BR><BR><B>Threshold: </B>
+<BR><B>Yellow:</B> Less than 640 Free Pages<BR>
+<BR><B>Next Steps:</B>
+Compare the Buffer Manager\Free pages counter to the following:<BR>
+<LI>Buffer Manager\Lazy Writes /sec
+<LI>Buffer Manager\Page Life Expectancy
+<BR><BR>The higher the Buffer Manager\Free pages then the higher the Buffer Manager\Page Life Expectancy should be. If Buffer Manager\Free pages is low then the Buffer Manager\Lazy Writes /sec will be higher as the Lazy Writer will become active attempting to free the buffer cache as SQL Server will be under memory pressure.
+<BR><B>Reference:</B>
+<BR><B>SQL Server, Access Methods Object</B>
+
+<BR>http://msdn.microsoft.com/en-us/library/ms177426.aspx]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="SQLServer:Buffer Manager Lazy writes/sec" ENABLED="True" CATEGORY="SQLServer:Buffer Manager" PRIMARYDATASOURCE="\SQLServer:Buffer Manager\Lazy writes/sec" ID="{9c5005f4-b76d-49ef-854b-4384df2d4cbe}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\SQLServer:Buffer Manager\Lazy writes/sec" COLLECTIONVARNAME="CollectionOfSQLServerBufferManagerLazywritessec" EXPRESSIONPATH="\SQLServer:Buffer Manager\Lazy writes/sec" ISCOUNTEROBJECTREGULAREXPRESSION="True" ISCOUNTERNAMEREGULAREXPRESSION="False" ISCOUNTERINSTANCEREGULAREXPRESSION="False" REGULAREXPRESSIONCOUNTERPATH="\(MSSQL|SQLServer).*:Buffer Manager\Lazy writes/sec" DATATYPE="integer" />
+    <DATASOURCE TYPE="CounterLog" NAME="\SQLServer:Buffer Manager\Checkpoint pages/sec" COLLECTIONVARNAME="CollectionOfSQLServerBufferManagerCheckpointpagessec" EXPRESSIONPATH="\SQLServer:Buffer Manager\Checkpoint pages/sec" ISCOUNTEROBJECTREGULAREXPRESSION="True" ISCOUNTERNAMEREGULAREXPRESSION="False" ISCOUNTERINSTANCEREGULAREXPRESSION="False" REGULAREXPRESSIONCOUNTERPATH="\(MSSQL|SQLServer).*:Buffer Manager\Checkpoint pages/sec" DATATYPE="integer" />
+    <THRESHOLD NAME="Greater than 20 lazy writes per second" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfSQLServerBufferManagerLazywritessec -Operator 'gt' -Threshold 20
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\SQLServer:Buffer Manager\Checkpoint pages/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\SQLServer:Buffer Manager\Checkpoint pages/sec" CHARTLABELS="computer" />
+    <CHART CHARTTITLE="\SQLServer:Buffer Manager\Lazy writes/sec" ISTHRESHOLDSADDED="True" DATASOURCE="\SQLServer:Buffer Manager\Lazy writes/sec" CHARTLABELS="computer">
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfSQLServerBufferManagerLazywritessec -MinThreshold 20 -MaxThreshold 39.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+    <DESCRIPTION><![CDATA[<B>\SQLServer:Buffer Manager\Lazy writes/sec</B>
+<BR><BR><B>Description:</B>
+The Lazy Writes/sec counter records the number of buffers written each second by the buffer manager's lazy write process. This counter tracks how many times a second that the Lazy Writer process is moving dirty pages from the buffer to disk in order to free up buffer space. This process is where the dirty, aged buffers are removed from the buffer by a system process that frees the memory up for other uses. A dirty, aged buffer is one that has changes and needs to be written to the disk. High value on this counter possibly indicates I/O issues or even SQL Server memory problems. The Lazy writes / sec values should consistently be less than 20 for the average system.
+Generally speaking, this should not be a high value, say more than 20 per second or so.  Ideally, it should be close to zero. If it is zero, this indicates that your SQL Server's buffer cache is plenty big and SQL Server doesn't have to free up dirty pages, instead waiting for this to occur during regular checkpoints. If this value is high, then a need for more memory is indicated.
+<BR><B>Threshold: </B>
+<BR><B>Red:</B> Greater than 20 Lazy Writes per second
+<BR><B>Next Steps:</B>
+Look for an increase in SQL Server: Buffer Manager: Checkpoint Pages/sec and SQL Server:Buffer Manager: Lazy Writes/sec performance object counters because SQL Server 2005 starts to flush pages out of the buffer pool cache under memory pressure.
+<BR><B>Reference:</B>
+<BR><B>SQL Server, Access Methods Object</B>
+<BR>http://msdn.microsoft.com/en-us/library/ms177426.aspx
+]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="SQLServer:Buffer Manager Page life expectancy" ENABLED="True" CATEGORY="SQLServer:Buffer Manager" PRIMARYDATASOURCE="\SQLServer:Buffer Manager\Page life expectancy" ID="{0370e574-f56b-403e-b91a-59202f0e0509}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\SQLServer:Buffer Manager\Page life expectancy" COLLECTIONVARNAME="CollectionOfSQLServerBufferManagerPagelifeexpectancy" EXPRESSIONPATH="\SQLServer:Buffer Manager\Page life expectancy" ISCOUNTEROBJECTREGULAREXPRESSION="True" ISCOUNTERNAMEREGULAREXPRESSION="False" ISCOUNTERINSTANCEREGULAREXPRESSION="False" REGULAREXPRESSIONCOUNTERPATH="\(MSSQL|SQLServer).*:Buffer Manager\Page life expectancy" DATATYPE="integer" />
+    <THRESHOLD NAME="Page life expectancy is less then 5 minutes" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfSQLServerBufferManagerPagelifeexpectancy -Operator 'lt' -Threshold 300
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\SQLServer:Buffer Manager\Page life expectancy" ISTHRESHOLDSADDED="True" DATASOURCE="\SQLServer:Buffer Manager\Page life expectancy" CHARTLABELS="instance" BACKGRADIENTSTYLE="BottomTop">
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfSQLServerBufferManagerPagelifeexpectancy -MinThreshold 0.001 -MaxThreshold 300 -UseMaxValue $True -IsOperatorGreaterThan $False
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+    <DESCRIPTION><![CDATA[<B>SQLServer_Buffer Manager Page Life Expectancy</B>
+<BR><BR><B>Description:</B>
+Number of seconds a page will stay in the buffer pool without references. This performance monitor counter tells you, on average, how long data pages are staying in the buffer. If this value gets below 300 seconds, this is a indication that SQL Server is doing too many logical reads putting pressure on the buffer pool or potentially that your SQL Server could use more memory in order to boost performance. Anything below 300 is a critical level.
+The Page life expectancy counter is considered one of the most critical counters for SQL Server. If Page life expectancy becomes low SQL Server will attempt physical reads from disk into the buffer pool to honor requests. Requests from physical disk will take considerably longer causing higher disk costs. 
+<BR><B>Threshold: </B>
+<BR><B>Red:</B> Page life expectancy is less than 5 minutes (300 seconds)
+<BR><B>Next Steps:</B>
+If Buffer Manager\Page life expectancy is low then the Buffer Manager\Lazy Writes /sec will be higher as the Lazy Writer will become active attempting to free the buffer cache as SQL Server will be under memory pressure.
+Due to the disk impact of the physical reads incurred, the \Physical Disk \Avg. Disk sec/Read counter may also become a bottleneck as SQL Server is reading from disk instead of the buffer pull to honor requests.
+Look for an increase in SQL Server: Buffer Manager: Checkpoint Pages/sec and SQL Server:Buffer Manager: Lazy Writes/sec performance object counters because SQL Server 2005 / 2008 starts to flush pages out of the buffer pool cache under memory pressure.
+Run expensive queries through the Database Tuning Advisor (DTA), look for queries with a high number of logical reads and consider tuning and potentially rewriting them, and potentiall add additional memory if non-hardware options to not address the issue.
+<BR><B>Reference:</B>
+<BR><B>SQL Server, Access Methods Object</B>
+http://msdn.microsoft.com/en-us/library/ms177426.aspx
+]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="SQLServer:Buffer Manager Page lookups/sec" ENABLED="True" CATEGORY="SQLServer:Buffer Manager" PRIMARYDATASOURCE="\SQLServer:Buffer Manager\Page lookups/sec" ID="{8e78050f-b5b0-460d-83cc-d58cb25902d7}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\SQLServer:Buffer Manager\Page lookups/sec" COLLECTIONVARNAME="CollectionOfSQLServerBufferManagerPagelookupssec" EXPRESSIONPATH="\SQLServer:Buffer Manager\Page lookups/sec" ISCOUNTEROBJECTREGULAREXPRESSION="True" ISCOUNTERNAMEREGULAREXPRESSION="False" ISCOUNTERINSTANCEREGULAREXPRESSION="False" REGULAREXPRESSIONCOUNTERPATH="\(MSSQL|SQLServer).*:Buffer Manager\Page lookups/sec" DATATYPE="integer" />
+    <DATASOURCE TYPE="CounterLog" NAME="\SQLServer:SQL Statistics\Batch Requests/sec" COLLECTIONVARNAME="CollectionOfSQLServerSQLStatisticsBatchRequestssec" EXPRESSIONPATH="\SQLServer:SQL Statistics\Batch Requests/sec" ISCOUNTEROBJECTREGULAREXPRESSION="True" ISCOUNTERNAMEREGULAREXPRESSION="False" ISCOUNTERINSTANCEREGULAREXPRESSION="False" REGULAREXPRESSIONCOUNTERPATH="\(MSSQL|SQLServer).*:SQL Statistics\Batch Requests/sec" DATATYPE="integer" />
+    <DATASOURCE TYPE="Generated" NAME="\PAL Generated(*)\Page lookups to Batch Requests Ratio Percentage" EXPRESSIONPATH="\PAL Generated(*)\Page lookups to Batch Requests Ratio Percentage" COLLECTIONVARNAME="CollectionOfPalGeneratedPageLookupsToBatchRequestsRatioPercentage" DATATYPE="Round3">
+      <CODE><![CDATA[
+          $CollectionOfPalGeneratedPageLookupsToBatchRequestsRatioPercentage = @{}
+          For ($a=0;$a -lt $CollectionOfSQLServerBufferManagerPagelookupssec.Count;$a++)
+          {
+            $sSqlInstanceNameForSQLServerBufferManagerPagelookupssec = ExtractSqlNamedInstanceFromCounterObjectPath -sCounterObjectPath $CollectionOfSQLServerBufferManagerPagelookupssec[$a].CounterObject
+            $sSqlInstanceNameForSQLServerBufferManagerPagelookupssecWithComputer = "$($CollectionOfSQLServerBufferManagerPagelookupssec[$a].CounterComputer)" + '/' + "$sSqlInstanceNameForSQLServerBufferManagerPagelookupssec"          
+            #// Match up the same named instance.
+            $m = -1
+            For ($b=0;$b -lt $CollectionOfSQLServerSQLStatisticsBatchRequestssec.Count;$b++)
+            {
+              $sSqlInstanceNameForSQLServerSQLStatisticsBatchRequestssec = ExtractSqlNamedInstanceFromCounterObjectPath -sCounterObjectPath $CollectionOfSQLServerSQLStatisticsBatchRequestssec[$b].CounterObject
+              $sSqlInstanceNameForSQLServerSQLStatisticsBatchRequestssecWithComputer = "$($CollectionOfSQLServerSQLStatisticsBatchRequestssec[$b].CounterComputer)" + '/' + "$sSqlInstanceNameForSQLServerSQLStatisticsBatchRequestssec"
+              If ($sSqlInstanceNameForSQLServerBufferManagerPagelookupssecWithComputer -eq $sSqlInstanceNameForSQLServerSQLStatisticsBatchRequestssecWithComputer)
+              {
+                $m = $b
+              }
+            }
+            If ($m -ge 0)
+            {
+              $blValues = New-Object System.Collections.ArrayList
+              For ($v=0;$v -lt $CollectionOfSQLServerBufferManagerPagelookupssec[$a].Value.Count;$v++)
+              {
+                If ((IsGreaterThanZero $CollectionOfSQLServerBufferManagerPagelookupssec[$a].Value[$v]) -and (IsGreaterThanZero $CollectionOfSQLServerSQLStatisticsBatchRequestssec[$m].Value[$v]))
+                {
+                  If (($CollectionOfSQLServerBufferManagerPagelookupssec[$a].Value[$v] -gt 1) -and ($CollectionOfSQLServerSQLStatisticsBatchRequestssec[$m].Value[$v] -gt 1))
+                  {
+                    [int]$iRatio = $([double]$CollectionOfSQLServerBufferManagerPagelookupssec[$a].Value[$v] / [double]$CollectionOfSQLServerSQLStatisticsBatchRequestssec[$m].Value[$v]) * 100
+                  }
+                  Else
+                  {
+                    $iRatio = 0
+                  }
+                  [void] $blValues.Add($iRatio)
+                }
+                Else
+                {
+                  [void] $blValues.Add(0)
+                }
+              }
+              $sGeneratedInstanceName = "\\$($CollectionOfSQLServerBufferManagerPagelookupssec[$a].CounterComputer)\PAL Generated($($sSqlInstanceNameForSQLServerBufferManagerPagelookupssec))\Page lookups to Batch Requests Ratio Percentage"
+              $CollectionOfPalGeneratedPageLookupsToBatchRequestsRatioPercentage.Add($sGeneratedInstanceName,$blValues)
+            }
+          }
+        ]]></CODE>
+    </DATASOURCE>
+    <THRESHOLD NAME="A ratio of more than 1 page lookup for every 1 batch request" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfPalGeneratedPageLookupsToBatchRequestsRatioPercentage -Operator 'gt' -Threshold 100
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\SQLServer:Buffer Manager\Page lookups/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\SQLServer:Buffer Manager\Page lookups/sec" CHARTLABELS="computer" />
+    <CHART CHARTTITLE="\SQLServer:SQL Statistics\Batch Requests/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\SQLServer:SQL Statistics\Batch Requests/sec" CHARTLABELS="computer" />
+    <CHART CHARTTITLE="\PAL Generated(*)\Page lookups to Batch Requests Ratio Percentage" ISTHRESHOLDSADDED="True" DATASOURCE="\PAL Generated(*)\Page lookups to Batch Requests Ratio Percentage" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfPalGeneratedPageLookupsToBatchRequestsRatioPercentage -MinThreshold 100 -MaxThreshold 119.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+    <DESCRIPTION><![CDATA[<B>SQLServer:Buffer Manager Page Lookups/sec</B>
+<BR><B>Description:</B><BR>
+Number of requests to find a page in the buffer pool. When the ratio of page lookups to batch requests is greater than 100, this is an indication that while query plans are looking up data in the buffer pool, these plans are inefficient. 
+<BR><B>Threshold:</B> 
+Ratio of Page Lookups/sec to Batch Requests/sec < 100 to 1.
+<BR><B>Warning:</B> Page life expectancy is less than 5 minutes (300 seconds)
+<BR><B>Next Steps:</B>
+Page Lookups/sec is the number of requests to find a page in the buffer pool made per second. If this number is high as compared to the number of batch requests, this indicates a degree of inefficiency and a potential opportunity for tuning.
+Identify queries with the highest amount of logical I/O's and tune them. 
+<BR><B>Note:</B> You can track the Page Lookups/sec and other counters through the sys.dm_os_performance_counters DMV which contains all the SQL Server instance object-related counters that you can find in perfmon.
+<BR><B>Reference:</B>
+<BR><B>SQL Server, Buffer Manager Object</B>
+http://msdn.microsoft.com/en-us/library/ms189628.aspx 
+]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="SQLServer:Buffer Manager Page reads/sec" ENABLED="True" CATEGORY="SQLServer:Buffer Manager" PRIMARYDATASOURCE="\SQLServer:Buffer Manager\Page reads/sec" ID="{c27443ca-be58-415d-9830-8b2ace39a234}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\SQLServer:Buffer Manager\Page reads/sec" COLLECTIONVARNAME="CollectionOfSQLServerBufferManagerPagereadssec" EXPRESSIONPATH="\SQLServer:Buffer Manager\Page reads/sec" ISCOUNTEROBJECTREGULAREXPRESSION="True" ISCOUNTERNAMEREGULAREXPRESSION="False" ISCOUNTERINSTANCEREGULAREXPRESSION="False" REGULAREXPRESSIONCOUNTERPATH="\(MSSQL|SQLServer).*:Buffer Manager\Page reads/sec" DATATYPE="integer" />
+    <THRESHOLD NAME="Greater than 90 page reads per second" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfSQLServerBufferManagerPagereadssec -Operator 'gt' -Threshold 90
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\SQLServer:Buffer Manager\Page reads/sec" ISTHRESHOLDSADDED="True" DATASOURCE="\SQLServer:Buffer Manager\Page reads/sec" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfSQLServerBufferManagerPagereadssec -MinThreshold 90 -MaxThreshold 99.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+    <DESCRIPTION><![CDATA[<B>SQLServer_Buffer Manager Page Reads_sec</B>
+<BR><BR><B>Description:</B> Number of physical database page reads issued per second. Number of physical database page reads issued. 80 â€“ 90 per second is normal, anything that is above indicates indexing or memory constraint.
+<BR><B>Threshold: </B>
+<BR><B>Informational:</B> Page Reads/sec > 90
+<BR><B>Next Steps:</B>
+Attempt to tune the application so that fewer I/O operations are required. For example, perhaps I/O would be reduced if there were appropriate indexes or if the database design were denormalized.
+If the applications cannot be tuned, you will need to acquire disk devices with more capacity.
+Compare to the Memory: Pages/sec counter to see if there is paging while the SQL Server:Buffer Manager\Page reads/sec is high.
+Note: Before adjusting the fill factor, at a database level compare the SQL Server:Buffer Manager\Page reads/sec counter to the SQL Server:Buffer Manager\Page writes/sec counter, and use the fill factor option only if writes are a substantial fraction of reads (greater than 30 percent).
+<BR><B>Reference:</B>
+<BR><B>SQL Server, Buffer Manager Object</B>
+<BR>http://msdn.microsoft.com/en-us/library/ms189628.aspx
+]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="SQLServer:Buffer Manager Page writes/sec" ENABLED="True" CATEGORY="SQLServer:Buffer Manager" PRIMARYDATASOURCE="\SQLServer:Buffer Manager\Page writes/sec" ID="{89c3972b-4fd6-432f-892b-313274439b0b}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\SQLServer:Buffer Manager\Page writes/sec" COLLECTIONVARNAME="CollectionOfSQLServerBufferManagerPagewritessec" EXPRESSIONPATH="\SQLServer:Buffer Manager\Page writes/sec" ISCOUNTEROBJECTREGULAREXPRESSION="True" ISCOUNTERNAMEREGULAREXPRESSION="False" ISCOUNTERINSTANCEREGULAREXPRESSION="False" REGULAREXPRESSIONCOUNTERPATH="\(MSSQL|SQLServer).*:Buffer Manager\Page writes/sec" DATATYPE="integer" />
+    <THRESHOLD NAME="Greater than 90 page writes per second" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfSQLServerBufferManagerPagewritessec -Operator 'gt' -Threshold 90
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\SQLServer:Buffer Manager\Page writes/sec" ISTHRESHOLDSADDED="True" DATASOURCE="\SQLServer:Buffer Manager\Page writes/sec" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfSQLServerBufferManagerPagewritessec -MinThreshold 90 -MaxThreshold 99.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+    <DESCRIPTION><![CDATA[<B>SQLServer_Buffer Manager Page Writes_sec</B>
+<BR><BR><B>Description:</B> Number of physical database page writes issued per second.  80 â€“ 90 per second is normal, anything above, check the lazy writer/sec and Checkpoint pages/sec counter, if these counters are relatively high then, this indicates a memory constraint.
+<BR><B>Threshold:</B>
+<BR><B>Informational:</B> Page Writes/sec > 90
+<BR><B>Next Steps:</B>
+Attempt to tune the application so that fewer I/O operations are required. For example, perhaps I/O would be reduced if there were appropriate indexes or if the database design were denormalized.
+If the applications cannot be tuned, you will need to acquire disk devices with more capacity.
+Compare to the Memory: Pages/sec counter to see if there is paging while the SQL Server:Buffer Manager\Page reads/sec is high.
+Note: Before adjusting the fill factor, at a database level compare the SQL Server:Buffer Manager\Page reads/sec counter to the SQL Server:Buffer Manager\Page writes/sec counter, and use the fill factor option only if writes are a substantial fraction of reads (greater than 30 percent).
+<BR><B>Reference:</B>
+<BR><B>SQL Server, Buffer Manager Object</B>
+<BR>http://msdn.microsoft.com/en-us/library/ms189628.aspx
+]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="SQLServer:General Statistics Logins/sec" ENABLED="True" CATEGORY="SQLServer:General Statistics" PRIMARYDATASOURCE="\SQLServer:General Statistics\Logins/sec" ID="{ccd92dc1-a7b4-4a15-a9cd-11fa77d5b6f9}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\SQLServer:General Statistics\Logins/sec" COLLECTIONVARNAME="CollectionOfSQLServerGeneralStatisticsLoginssec" EXPRESSIONPATH="\SQLServer:General Statistics\Logins/sec" ISCOUNTEROBJECTREGULAREXPRESSION="True" ISCOUNTERNAMEREGULAREXPRESSION="False" ISCOUNTERINSTANCEREGULAREXPRESSION="False" REGULAREXPRESSIONCOUNTERPATH="\(MSSQL|SQLServer).*:General Statistics\Logins/sec" DATATYPE="integer" />
+    <THRESHOLD NAME="Greater than 2 logins per second - this may indicate that applications are not correctly using connection pooling" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfSQLServerGeneralStatisticsLoginssec -Operator 'gt' -Threshold 2
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\SQLServer:General Statistics\Logins/sec" ISTHRESHOLDSADDED="True" DATASOURCE="\SQLServer:General Statistics\Logins/sec" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfSQLServerGeneralStatisticsLoginssec -MinThreshold 2 -MaxThreshold 3.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+    <DESCRIPTION><![CDATA[Total number of logins started per second. Greater than 2 per second may indicate that applications are not correctly using connection pooling.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="SQLServer:General Statistics Logouts/sec" ENABLED="True" CATEGORY="SQLServer:General Statistics" PRIMARYDATASOURCE="\SQLServer:General Statistics\Logouts/sec" ID="{214aa35c-d80b-4e7a-a922-a9a948e89cbb}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\SQLServer:General Statistics\Logouts/sec" COLLECTIONVARNAME="CollectionOfSQLServerGeneralStatisticsLogoutssec" EXPRESSIONPATH="\SQLServer:General Statistics\Logouts/sec" ISCOUNTEROBJECTREGULAREXPRESSION="True" ISCOUNTERNAMEREGULAREXPRESSION="False" ISCOUNTERINSTANCEREGULAREXPRESSION="False" REGULAREXPRESSIONCOUNTERPATH="\(MSSQL|SQLServer).*:General Statistics\Logouts/sec" DATATYPE="integer" />
+    <THRESHOLD NAME="Greater than 2 logouts per second - this may indicate that applications are not correctly using connection pooling" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfSQLServerGeneralStatisticsLogoutssec -Operator 'gt' -Threshold 2
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\SQLServer:General Statistics\Logouts/sec" ISTHRESHOLDSADDED="True" DATASOURCE="\SQLServer:General Statistics\Logouts/sec" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfSQLServerGeneralStatisticsLogoutssec -MinThreshold 2 -MaxThreshold 3.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+    <DESCRIPTION><![CDATA[Total number of logouts started per second. Greater than 2 per second indicates that the application is not correctly using connection pooling.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="SQLServer:General Statistics User Connections" ENABLED="True" CATEGORY="SQLServer:General Statistics" PRIMARYDATASOURCE="\SQLServer:General Statistics\User Connections" ID="{606ff65d-cc57-418b-b3ee-53658b1debfa}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Number of users connected to the system. The number of users currently connected to the SQL Server.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\SQLServer:General Statistics\User Connections" COLLECTIONVARNAME="CollectionOfSQLServerGeneralStatisticsUserConnections" EXPRESSIONPATH="\SQLServer:General Statistics\User Connections" ISCOUNTEROBJECTREGULAREXPRESSION="True" ISCOUNTERNAMEREGULAREXPRESSION="False" ISCOUNTERINSTANCEREGULAREXPRESSION="False" REGULAREXPRESSIONCOUNTERPATH="\(MSSQL|SQLServer).*:General Statistics\User Connections" DATATYPE="integer" />
+    <THRESHOLD NAME="An increasing trend of greater than 10 user connections per hour" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfSQLServerGeneralStatisticsUserConnections -Operator 'gt' -Threshold 10 -IsTrendOnly $True
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\SQLServer:General Statistics\User Connections" ISTHRESHOLDSADDED="False" DATASOURCE="\SQLServer:General Statistics\User Connections" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="SQLServer:Latches Latch Waits/sec" ENABLED="True" CATEGORY="SQLServer:Latches" PRIMARYDATASOURCE="\SQLServer:Latches\Latch Waits/sec" ID="{fd5914a7-bb6f-4a96-9133-afc58accf9cf}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Number of latch requests that could not be granted immediately and had to wait before being granted. In other words, these are the amount of latches, in a one second period that had to wait.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\SQLServer:Latches\Latch Waits/sec" COLLECTIONVARNAME="CollectionOfSQLServerLatchesLatchWaitssec" EXPRESSIONPATH="\SQLServer:Latches\Latch Waits/sec" ISCOUNTEROBJECTREGULAREXPRESSION="True" ISCOUNTERNAMEREGULAREXPRESSION="False" ISCOUNTERINSTANCEREGULAREXPRESSION="False" REGULAREXPRESSIONCOUNTERPATH="\(MSSQL|SQLServer).*:Latches\Latch Waits/sec" DATATYPE="round3" />
+    <CHART CHARTTITLE="\SQLServer:Latches\Latch Waits/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\SQLServer:Latches\Latch Waits/sec" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="SQLServer:Memory Manager Memory Grants Pending" ENABLED="True" CATEGORY="SQLServer:Memory Manager" PRIMARYDATASOURCE="\SQLServer:Memory Manager\Memory Grants Pending" ID="{fa457be5-ebb9-46a6-81d5-706fba8093c0}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Current number of processes waiting for a workspace memory grant. Memory Grants Pending records the number of connections that are waiting for memory before they can begin processing a memory intensive query such as a sort or hash operation.  Connections that wait in this state for a long enough time will eventually get an 8645 error (A time out occurred while waiting for memory resources to execute the query. Rerun the query).  A spid waiting in this state will have a waittype of 0x0040 (RESOURCE_SEMAPHORE) in sysprocesses.  If this counter remains above zero for any significant amount of time then you will need to track down what queries are doing sorts/hashes and run them through Index Tuning Wizard to see if they can get a more efficient plan.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\SQLServer:Memory Manager\Memory Grants Pending" COLLECTIONVARNAME="CollectionOfSQLServerMemoryManagerMemoryGrantsPending" EXPRESSIONPATH="\SQLServer:Memory Manager\Memory Grants Pending" ISCOUNTEROBJECTREGULAREXPRESSION="True" ISCOUNTERNAMEREGULAREXPRESSION="False" ISCOUNTERINSTANCEREGULAREXPRESSION="False" REGULAREXPRESSIONCOUNTERPATH="\(MSSQL|SQLServer).*:Memory Manager\Memory Grants Pending" DATATYPE="integer" />
+    <THRESHOLD NAME="Greater than 0 memory grants pending" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfSQLServerMemoryManagerMemoryGrantsPending -Operator 'gt' -Threshold 0
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\SQLServer:Memory Manager\Memory Grants Pending" ISTHRESHOLDSADDED="True" DATASOURCE="\SQLServer:Memory Manager\Memory Grants Pending" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfSQLServerMemoryManagerMemoryGrantsPending -MinThreshold 1 -MaxThreshold 2.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+  </ANALYSIS>
+  <ANALYSIS NAME="SQLServer:Memory Manager Target Server Memory(KB)" ENABLED="True" CATEGORY="SQLServer:Memory Manager" PRIMARYDATASOURCE="\SQLServer:Memory Manager\Target Server Memory (KB)" ID="{38744400-aa4e-4466-89e1-e7e51d3ff37b}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Total amount of dynamic memory the server is willing to consume]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\SQLServer:Memory Manager\Target Server Memory(KB)" COLLECTIONVARNAME="CollectionOfSQLServerMemoryManagerTargetServerMemoryKB" EXPRESSIONPATH="\SQLServer:Memory Manager\Target Server Memory(KB)" ISCOUNTEROBJECTREGULAREXPRESSION="True" ISCOUNTERNAMEREGULAREXPRESSION="False" ISCOUNTERINSTANCEREGULAREXPRESSION="False" REGULAREXPRESSIONCOUNTERPATH="\(MSSQL|SQLServer).*:Memory Manager\Target Server Memory(KB)" DATATYPE="integer" />
+    <DATASOURCE TYPE="CounterLog" NAME="\SQLServer:Memory Manager\Total Server Memory (KB)" COLLECTIONVARNAME="CollectionOfSQLServerMemoryManagerTotalServerMemoryKB" EXPRESSIONPATH="\SQLServer:Memory Manager\Total Server Memory (KB)" ISCOUNTEROBJECTREGULAREXPRESSION="True" ISCOUNTERNAMEREGULAREXPRESSION="False" ISCOUNTERINSTANCEREGULAREXPRESSION="False" REGULAREXPRESSIONCOUNTERPATH="\(MSSQL|SQLServer).*:Memory Manager\Total Server Memory (KB)" DATATYPE="integer" />
+    <DATASOURCE TYPE="Generated" NAME="\PAL Generated(*)\Difference of Target and Total Server Memory In Megabytes" EXPRESSIONPATH="\PAL Generated(*)\Difference of Target and Total Server Memory In Megabytes" COLLECTIONVARNAME="CollectionOfPalGeneratedDifferenceOfTargetAndTotalServerMemoryInMegabytes" DATATYPE="Integer">
+      <CODE><![CDATA[
+          $CollectionOfPalGeneratedDifferenceOfTargetAndTotalServerMemoryInMegabytes = @{}
+          For ($a=0;$a -lt $CollectionOfSQLServerMemoryManagerTargetServerMemoryKB.Count;$a++)
+          {
+            $sSqlInstanceNameForSQLServerMemoryManagerTargetServerMemoryKB = ExtractSqlNamedInstanceFromCounterObjectPath -sCounterObjectPath $CollectionOfSQLServerMemoryManagerTargetServerMemoryKB[$a].CounterObject
+            $sSqlInstanceNameForSQLServerMemoryManagerTargetServerMemoryKBWithComputer = "$($CollectionOfSQLServerMemoryManagerTargetServerMemoryKB[$a].CounterComputer)" + '/' + "$sSqlInstanceNameForSQLServerMemoryManagerTargetServerMemoryKB"          
+            #// Match up the same named instance.
+            $m = -1
+            For ($b=0;$b -lt $CollectionOfSQLServerMemoryManagerTotalServerMemoryKB.Count;$b++)
+            {
+              $sSqlInstanceNameForSQLServerMemoryManagerTotalServerMemoryKB = ExtractSqlNamedInstanceFromCounterObjectPath -sCounterObjectPath $CollectionOfSQLServerMemoryManagerTotalServerMemoryKB[$b].CounterObject
+              $sSqlInstanceNameForSQLServerMemoryManagerTotalServerMemoryKBWithComputer = "$($CollectionOfSQLServerMemoryManagerTotalServerMemoryKB[$b].CounterComputer)" + '/' + "$sSqlInstanceNameForSQLServerMemoryManagerTotalServerMemoryKB"
+              If ($sSqlInstanceNameForSQLServerMemoryManagerTargetServerMemoryKBWithComputer -eq $sSqlInstanceNameForSQLServerMemoryManagerTotalServerMemoryKBWithComputer)
+              {
+                $m = $b
+              }
+            }
+            If ($m -ge 0)
+            {
+              $blValues = New-Object System.Collections.ArrayList
+              For ($v=0;$v -lt $CollectionOfSQLServerMemoryManagerTargetServerMemoryKB[$a].Value.Count;$v++)
+              {
+                If ((IsGreaterThanZero $CollectionOfSQLServerMemoryManagerTargetServerMemoryKB[$a].Value[$v]) -and (IsGreaterThanZero $CollectionOfSQLServerMemoryManagerTotalServerMemoryKB[$m].Value[$v]))
+                {
+                  If (($CollectionOfSQLServerMemoryManagerTargetServerMemoryKB[$a].Value[$v] -gt 1) -and ($CollectionOfSQLServerMemoryManagerTotalServerMemoryKB[$m].Value[$v] -gt 1))
+                  {
+                    [int]$iDiff = $([double]$CollectionOfSQLServerMemoryManagerTargetServerMemoryKB[$a].Value[$v] - [double]$CollectionOfSQLServerMemoryManagerTotalServerMemoryKB[$m].Value[$v])
+                    #// Convert from KB to MB
+                    $iDiff = $iDiff / 1024
+                    $iDiff = [math]::abs($iDiff)
+                  }
+                  Else
+                  {
+                    $iDiff = 0
+                  }
+                  [void] $blValues.Add($iDiff)
+                }
+                Else
+                {
+                  [void] $blValues.Add(0)
+                }
+              }
+              $sGeneratedInstanceName = "\\$($CollectionOfSQLServerMemoryManagerTargetServerMemoryKB[$a].CounterComputer)\PAL Generated($($sSqlInstanceNameForSQLServerMemoryManagerTargetServerMemoryKB))\Forwarded Records to Batch Requests Ratio Percentage"
+              $CollectionOfPalGeneratedDifferenceOfTargetAndTotalServerMemoryInMegabytes.Add($sGeneratedInstanceName,$blValues)
+            }
+          }
+        ]]></CODE>
+    </DATASOURCE>
+    <THRESHOLD NAME="Target Server memory is more than 500MBs than Total Server Memory" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfPalGeneratedDifferenceOfTargetAndTotalServerMemoryInMegabytes -Operator 'gt' -Threshold 500
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\SQLServer:Memory Manager\Total Server Memory (KB)" ISTHRESHOLDSADDED="False" DATASOURCE="\SQLServer:Memory Manager\Total Server Memory (KB)" CHARTLABELS="instance" />
+    <CHART CHARTTITLE="\SQLServer:Memory Manager\Target Server Memory (KB)" ISTHRESHOLDSADDED="False" DATASOURCE="\SQLServer:Memory Manager\Target Server Memory(KB)" CHARTLABELS="instance" />
+    <CHART CHARTTITLE="\PAL Generated(*)\Difference of Target and Total Server Memory In Megabytes" ISTHRESHOLDSADDED="True" DATASOURCE="\PAL Generated(*)\Difference of Target and Total Server Memory In Megabytes" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfPalGeneratedDifferenceOfTargetAndTotalServerMemoryInMegabytes -MinThreshold 500 -MaxThreshold 999.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+  </ANALYSIS>
+  <ANALYSIS NAME="SQLServer:SQL Statistics Batch Requests/sec" ENABLED="True" CATEGORY="SQLServer:SQL Statistics" PRIMARYDATASOURCE="\SQLServer:SQL Statistics\Batch Requests/sec" ID="{efc7db17-f021-45aa-b31c-7832afe25cf5}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Number of SQL batch requests received by server. This counter measures the number of batch requests that SQL Server receives per second, and generally follows in step to how busy your server's CPUs are. Generally speaking, over 1000 batch requests per second indicates a very busy SQL Server, and could mean that if you are not already experiencing a CPU bottleneck, that you may very well soon. Of course, this is a relative number, and the bigger your hardware, the more batch requests per second SQL Server can handle. From a network bottleneck approach, a typical 100Mbs network card is only able to handle about 3000 batch requests per second. If you have a server that is this busy, you may need to have two or more network cards, or go to a 1Gbs network card. 
+
+Note: Sometimes low batch requests/sec can be misleading.  If there were a SQL statements/sec counter, this would be a more accurate measure of the amount of SQL Server activity.  For example, an application may call only a few stored procedures yet each stored procedure does lot of work.  In that case, we will see a low number for batch requests/sec but each stored procedure (one batch) will execute many SQL statements that drive CPU and other resources.  As a result, many counter thresholds based on the number of batch requests/sec will seem to identify issues because the batch requests on such a server are unusually low for the level of activity on the server.  
+
+We cannot conclude that a SQL Server is not active simply by looking at only batch requests/sec.  Rather, you have to do more investigation before deciding there is no load on the server.  If the average number of batch requests/sec is below 5 and other counters (such as SQL Server processor utilization) confirm the absence of significant activity, then there is not enough of a load to make any recommendations or identify issues regarding scalability.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\SQLServer:SQL Statistics\Batch Requests/sec" COLLECTIONVARNAME="CollectionOfSQLServerSQLStatisticsBatchRequestssec" EXPRESSIONPATH="\SQLServer:SQL Statistics\Batch Requests/sec" ISCOUNTEROBJECTREGULAREXPRESSION="True" ISCOUNTERNAMEREGULAREXPRESSION="False" ISCOUNTERINSTANCEREGULAREXPRESSION="False" REGULAREXPRESSIONCOUNTERPATH="\(MSSQL|SQLServer).*:SQL Statistics\Batch Requests/sec" DATATYPE="integer" />
+    <THRESHOLD NAME="Greater than 1000 batch requests per second" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfSQLServerSQLStatisticsBatchRequestssec -Operator 'gt' -Threshold 1000
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\SQLServer:SQL Statistics\Batch Requests/sec" ISTHRESHOLDSADDED="True" DATASOURCE="\SQLServer:SQL Statistics\Batch Requests/sec" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfSQLServerSQLStatisticsBatchRequestssec -MinThreshold 1000 -MaxThreshold 1199.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+  </ANALYSIS>
+  <ANALYSIS NAME="SQLServer:SQL Statistics SQL Compilations/sec" ENABLED="True" CATEGORY="SQLServer:SQL Statistics" PRIMARYDATASOURCE="\SQLServer:SQL Statistics\SQL Compilations/sec" ID="{d551ab9c-4fb3-4a42-b384-ae8622c5fcc4}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Number of SQL compilations.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\SQLServer:SQL Statistics\SQL Compilations/sec" COLLECTIONVARNAME="CollectionOfSQLServerSQLStatisticsSQLCompilationssec" EXPRESSIONPATH="\SQLServer:SQL Statistics\SQL Compilations/sec" ISCOUNTEROBJECTREGULAREXPRESSION="True" ISCOUNTERNAMEREGULAREXPRESSION="False" ISCOUNTERINSTANCEREGULAREXPRESSION="False" REGULAREXPRESSIONCOUNTERPATH="\(MSSQL|SQLServer).*:SQL Statistics\SQL Compilations/sec" DATATYPE="integer" />
+    <DATASOURCE TYPE="CounterLog" NAME="\SQLServer:SQL Statistics\Batch Requests/sec" COLLECTIONVARNAME="CollectionOfSQLServerSQLStatisticsBatchRequestssec" EXPRESSIONPATH="\SQLServer:SQL Statistics\Batch Requests/sec" ISCOUNTEROBJECTREGULAREXPRESSION="True" ISCOUNTERNAMEREGULAREXPRESSION="False" ISCOUNTERINSTANCEREGULAREXPRESSION="False" REGULAREXPRESSIONCOUNTERPATH="\(MSSQL|SQLServer).*:SQL Statistics\Batch Requests/sec" DATATYPE="integer" />
+    <DATASOURCE TYPE="Generated" NAME="\PAL Generated(*)\SQL Compilations to Batch Requests Ratio Percentage" EXPRESSIONPATH="\PAL Generated(*)\SQL Compilations to Batch Requests Ratio Percentage" COLLECTIONVARNAME="CollectionOfPalGeneratedSqlCompilationsToBatchRequestsRatioPercentage" DATATYPE="Round3">
+      <CODE><![CDATA[
+          $CollectionOfPalGeneratedSqlCompilationsToBatchRequestsRatioPercentage = @{}
+          For ($a=0;$a -lt $CollectionOfSQLServerSQLStatisticsSQLCompilationssec.Count;$a++)
+          {
+            $sSqlInstanceNameForSQLServerSQLStatisticsSQLCompilationssec = ExtractSqlNamedInstanceFromCounterObjectPath -sCounterObjectPath $CollectionOfSQLServerSQLStatisticsSQLCompilationssec[$a].CounterObject
+            $sSqlInstanceNameForSQLServerSQLStatisticsSQLCompilationssecWithComputer = "$($CollectionOfSQLServerSQLStatisticsSQLCompilationssec[$a].CounterComputer)" + '/' + "$sSqlInstanceNameForSQLServerSQLStatisticsSQLCompilationssec"          
+            #// Match up the same named instance.
+            $m = -1
+            For ($b=0;$b -lt $CollectionOfSQLServerSQLStatisticsBatchRequestssec.Count;$b++)
+            {
+              $sSqlInstanceNameForSQLServerSQLStatisticsBatchRequestssec = ExtractSqlNamedInstanceFromCounterObjectPath -sCounterObjectPath $CollectionOfSQLServerSQLStatisticsBatchRequestssec[$b].CounterObject
+              $sSqlInstanceNameForSQLServerSQLStatisticsBatchRequestssecWithComputer = "$($CollectionOfSQLServerSQLStatisticsBatchRequestssec[$b].CounterComputer)" + '/' + "$sSqlInstanceNameForSQLServerSQLStatisticsBatchRequestssec"
+              If ($sSqlInstanceNameForSQLServerSQLStatisticsSQLCompilationssecWithComputer -eq $sSqlInstanceNameForSQLServerSQLStatisticsBatchRequestssecWithComputer)
+              {
+                $m = $b
+              }
+            }
+            If ($m -ge 0)
+            {
+              $blValues = New-Object System.Collections.ArrayList
+              For ($v=0;$v -lt $CollectionOfSQLServerSQLStatisticsSQLCompilationssec[$a].Value.Count;$v++)
+              {
+                If ((IsGreaterThanZero $CollectionOfSQLServerSQLStatisticsSQLCompilationssec[$a].Value[$v]) -and (IsGreaterThanZero $CollectionOfSQLServerSQLStatisticsBatchRequestssec[$m].Value[$v]))
+                {
+                  If (($CollectionOfSQLServerSQLStatisticsSQLCompilationssec[$a].Value[$v] -gt 1) -and ($CollectionOfSQLServerSQLStatisticsBatchRequestssec[$m].Value[$v] -gt 1))
+                  {
+                    [int]$iRatio = $([double]$CollectionOfSQLServerSQLStatisticsSQLCompilationssec[$a].Value[$v] / [double]$CollectionOfSQLServerSQLStatisticsBatchRequestssec[$m].Value[$v]) * 100
+                  }
+                  Else
+                  {
+                    $iRatio = 0
+                  }
+                  [void] $blValues.Add($iRatio)
+                }
+                Else
+                {
+                  [void] $blValues.Add(0)
+                }
+              }
+              $sGeneratedInstanceName = "\\$($CollectionOfSQLServerSQLStatisticsSQLCompilationssec[$a].CounterComputer)\PAL Generated($($sSqlInstanceNameForSQLServerSQLStatisticsSQLCompilationssec))\SQL Compilations to Batch Requests Ratio Percentage"
+              $CollectionOfPalGeneratedSqlCompilationsToBatchRequestsRatioPercentage.Add($sGeneratedInstanceName,$blValues)
+            }
+          }          
+        ]]></CODE>
+    </DATASOURCE>
+    <THRESHOLD NAME="A ratio of more than 1 SQL Compilation for every 100 Batch Requests per second" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfPalGeneratedSqlCompilationsToBatchRequestsRatioPercentage -Operator 'gt' -Threshold 1
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\SQLServer:SQL Statistics\SQL Compilations/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\SQLServer:SQL Statistics\SQL Compilations/sec" CHARTLABELS="computer" />
+    <CHART CHARTTITLE="\SQLServer:SQL Statistics\Batch Requests/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\SQLServer:SQL Statistics\Batch Requests/sec" CHARTLABELS="computer" />
+    <CHART CHARTTITLE="\PAL Generated(*)\SQL Compilations to Batch Requests Ratio Percentage" ISTHRESHOLDSADDED="True" DATASOURCE="\PAL Generated(*)\SQL Compilations to Batch Requests Ratio Percentage" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfPalGeneratedSqlCompilationsToBatchRequestsRatioPercentage -MinThreshold 1 -MaxThreshold 1.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+  </ANALYSIS>
+  <ANALYSIS NAME="SQLServer:SQL Statistics SQL Re-Compilations/sec" ENABLED="True" CATEGORY="SQLServer:SQL Statistics" PRIMARYDATASOURCE="\SQLServer:SQL Statistics\SQL Re-Compilations/sec" ID="{fdae1cbc-6929-416f-8a6f-a1bf7ef04db9}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Number of SQL re-compiles. This needs to be 0 as much as possible. A recompile can cause deadlocks and compile locks that are not compatible with any locking type. ]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\SQLServer:SQL Statistics\SQL Re-Compilations/sec" COLLECTIONVARNAME="CollectionOfSQLServerSQLStatisticsSQLReCompilationssec" EXPRESSIONPATH="\SQLServer:SQL Statistics\SQL Re-Compilations/sec" ISCOUNTEROBJECTREGULAREXPRESSION="True" ISCOUNTERNAMEREGULAREXPRESSION="False" ISCOUNTERINSTANCEREGULAREXPRESSION="False" REGULAREXPRESSIONCOUNTERPATH="\(MSSQL|SQLServer).*:SQL Statistics\SQL Re-Compilations/sec" DATATYPE="integer" />
+    <DATASOURCE TYPE="CounterLog" NAME="\SQLServer:SQL Statistics\SQL Compilations/sec" COLLECTIONVARNAME="CollectionOfSQLServerSQLStatisticsSQLCompilationssec" EXPRESSIONPATH="\SQLServer:SQL Statistics\SQL Compilations/sec" ISCOUNTEROBJECTREGULAREXPRESSION="True" ISCOUNTERNAMEREGULAREXPRESSION="False" ISCOUNTERINSTANCEREGULAREXPRESSION="False" REGULAREXPRESSIONCOUNTERPATH="\(MSSQL|SQLServer).*:SQL Statistics\SQL Compilations/sec" DATATYPE="integer" />
+    <DATASOURCE TYPE="Generated" NAME="\PAL Generated(*)\SQL Re-Compilations To SQL Compilations Ratio Percentage" EXPRESSIONPATH="\PAL Generated(*)\SQL Re-Compilations To SQL Compilations Ratio Percentage" COLLECTIONVARNAME="CollectionOfPalGeneratedSqlReCompilationsToSqlCompilationsRatioPercentage" DATATYPE="Round3">
+      <CODE><![CDATA[
+          $CollectionOfPalGeneratedSqlReCompilationsToSqlCompilationsRatioPercentage = @{}
+          For ($a=0;$a -lt $CollectionOfSQLServerSQLStatisticsSQLReCompilationssec.Count;$a++)
+          {
+            $sSqlInstanceNameForSQLServerSQLStatisticsSQLReCompilationssec = ExtractSqlNamedInstanceFromCounterObjectPath -sCounterObjectPath $CollectionOfSQLServerSQLStatisticsSQLReCompilationssec[$a].CounterObject
+            $sSqlInstanceNameForSQLServerSQLStatisticsSQLReCompilationssecWithComputer = "$($CollectionOfSQLServerSQLStatisticsSQLReCompilationssec[$a].CounterComputer)" + '/' + "$sSqlInstanceNameForSQLServerSQLStatisticsSQLReCompilationssec"          
+            #// Match up the same named instance.
+            $m = -1
+            For ($b=0;$b -lt $CollectionOfSQLServerSQLStatisticsSQLCompilationssec.Count;$b++)
+            {
+              $sSqlInstanceNameForSQLServerSQLStatisticsSQLCompilationssec = ExtractSqlNamedInstanceFromCounterObjectPath -sCounterObjectPath $CollectionOfSQLServerSQLStatisticsSQLCompilationssec[$b].CounterObject
+              $sSqlInstanceNameForSQLServerSQLStatisticsSQLCompilationssecWithComputer = "$($CollectionOfSQLServerSQLStatisticsSQLCompilationssec[$b].CounterComputer)" + '/' + "$sSqlInstanceNameForSQLServerSQLStatisticsSQLCompilationssec"
+              If ($sSqlInstanceNameForSQLServerSQLStatisticsSQLReCompilationssecWithComputer -eq $sSqlInstanceNameForSQLServerSQLStatisticsSQLCompilationssecWithComputer)
+              {
+                $m = $b
+              }
+            }
+            If ($m -ge 0)
+            {
+              $blValues = New-Object System.Collections.ArrayList
+              For ($v=0;$v -lt $CollectionOfSQLServerSQLStatisticsSQLReCompilationssec[$a].Value.Count;$v++)
+              {
+                If ((IsGreaterThanZero $CollectionOfSQLServerSQLStatisticsSQLReCompilationssec[$a].Value[$v]) -and (IsGreaterThanZero $CollectionOfSQLServerSQLStatisticsSQLCompilationssec[$m].Value[$v]))
+                {
+                  If (($CollectionOfSQLServerSQLStatisticsSQLReCompilationssec[$a].Value[$v] -gt 1) -and ($CollectionOfSQLServerSQLStatisticsSQLCompilationssec[$m].Value[$v] -gt 1))
+                  {
+                    [int]$iRatio = $([double]$CollectionOfSQLServerSQLStatisticsSQLReCompilationssec[$a].Value[$v] / [double]$CollectionOfSQLServerSQLStatisticsSQLCompilationssec[$m].Value[$v]) * 100
+                  }
+                  Else
+                  {
+                    $iRatio = 0
+                  }
+                  [void] $blValues.Add($iRatio)
+                }
+                Else
+                {
+                  [void] $blValues.Add(0)
+                }
+              }
+              $sGeneratedInstanceName = "\\$($CollectionOfSQLServerSQLStatisticsSQLReCompilationssec[$a].CounterComputer)\PAL Generated($($sSqlInstanceNameForSQLServerSQLStatisticsSQLReCompilationssec))\SQL Re-Compilations To SQL Compilations Ratio Percentage"
+              $CollectionOfPalGeneratedSqlReCompilationsToSqlCompilationsRatioPercentage.Add($sGeneratedInstanceName,$blValues)
+            }
+          }
+        ]]></CODE>
+    </DATASOURCE>
+    <THRESHOLD NAME="A ratio of more than 1 SQL Re-Compilation for every 10 SQL Compilations" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfPalGeneratedSqlReCompilationsToSqlCompilationsRatioPercentage -Operator 'gt' -Threshold 10
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\SQLServer:SQL Statistics\SQL Re-Compilations/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\SQLServer:SQL Statistics\SQL Re-Compilations/sec" CHARTLABELS="instance" />
+    <CHART CHARTTITLE="\SQLServer:SQL Statistics\SQL Compilations/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\SQLServer:SQL Statistics\SQL Compilations/sec" CHARTLABELS="instance" />
+    <CHART CHARTTITLE="\PAL Generated(*)\SQL Re-Compilations To SQL Compilations Ratio Percentage" ISTHRESHOLDSADDED="True" DATASOURCE="\PAL Generated(*)\SQL Re-Compilations To SQL Compilations Ratio Percentage" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfPalGeneratedSqlReCompilationsToSqlCompilationsRatioPercentage -MinThreshold 10 -MaxThreshold 29.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+  </ANALYSIS>
+  <ANALYSIS NAME="SQLServer:Access Methods Index Searches/sec" ENABLED="True" CATEGORY="SQLServer:Access Methods" PRIMARYDATASOURCE="\SQLServer:Access Methods\Index Searches/sec" ID="{c2176a5a-9c52-4805-8775-ffaed10e6571}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\SQLServer:Access Methods\Index Searches/sec" COLLECTIONVARNAME="CollectionOfSQLServerAccessMethodsIndexSearchessec" EXPRESSIONPATH="\SQLServer:Access Methods\Index Searches/sec" ISCOUNTEROBJECTREGULAREXPRESSION="True" ISCOUNTERNAMEREGULAREXPRESSION="False" ISCOUNTERINSTANCEREGULAREXPRESSION="False" REGULAREXPRESSIONCOUNTERPATH="\(MSSQL|SQLServer).*:Access Methods\Index Searches/sec" DATATYPE="integer" />
+    <DATASOURCE TYPE="CounterLog" NAME="\SQLServer:Access Methods\Full Scans/sec" COLLECTIONVARNAME="CollectionOfSQLServerAccessMethodsFullScanssec" EXPRESSIONPATH="\SQLServer:Access Methods\Full Scans/sec" ISCOUNTEROBJECTREGULAREXPRESSION="True" ISCOUNTERNAMEREGULAREXPRESSION="False" ISCOUNTERINSTANCEREGULAREXPRESSION="False" REGULAREXPRESSIONCOUNTERPATH="\(MSSQL|SQLServer).*:Access Methods\Full Scans/sec" DATATYPE="integer" />
+    <DATASOURCE TYPE="Generated" NAME="\PAL Generated(*)\Index Searches To Full Scans Ratio Percentage" EXPRESSIONPATH="\PAL Generated(*)\Index Searches To Full Scans Ratio Percentage" COLLECTIONVARNAME="CollectionOfPalGeneratedIndexSearchesToFullScansRatioPercentage" DATATYPE="Round3">
+      <CODE><![CDATA[
+          $CollectionOfPalGeneratedIndexSearchesToFullScansRatioPercentage = @{}
+          For ($a=0;$a -lt $CollectionOfSQLServerAccessMethodsIndexSearchessec.Count;$a++)
+          {
+            $sSqlInstanceNameForSQLServerAccessMethodsIndexSearchessec = ExtractSqlNamedInstanceFromCounterObjectPath -sCounterObjectPath $CollectionOfSQLServerAccessMethodsIndexSearchessec[$a].CounterObject
+            $sSqlInstanceNameForSQLServerAccessMethodsIndexSearchessecWithComputer = "$($CollectionOfSQLServerAccessMethodsIndexSearchessec[$a].CounterComputer)" + '/' + "$sSqlInstanceNameForSQLServerAccessMethodsIndexSearchessec"          
+            #// Match up the same named instance.
+            $m = -1
+            For ($b=0;$b -lt $CollectionOfSQLServerAccessMethodsFullScanssec.Count;$b++)
+            {
+              $sSqlInstanceNameForSQLServerAccessMethodsFullScanssec = ExtractSqlNamedInstanceFromCounterObjectPath -sCounterObjectPath $CollectionOfSQLServerAccessMethodsFullScanssec[$b].CounterObject
+              $sSqlInstanceNameForSQLServerAccessMethodsFullScanssecWithComputer = "$($CollectionOfSQLServerAccessMethodsFullScanssec[$b].CounterComputer)" + '/' + "$sSqlInstanceNameForSQLServerAccessMethodsFullScanssec"
+              If ($sSqlInstanceNameForSQLServerAccessMethodsIndexSearchessecWithComputer -eq $sSqlInstanceNameForSQLServerAccessMethodsFullScanssecWithComputer)
+              {
+                $m = $b
+              }
+            }
+            If ($m -ge 0)
+            {
+              $blValues = New-Object System.Collections.ArrayList
+              For ($v=0;$v -lt $CollectionOfSQLServerAccessMethodsIndexSearchessec[$a].Value.Count;$v++)
+              {
+                If ((IsGreaterThanZero $CollectionOfSQLServerAccessMethodsIndexSearchessec[$a].Value[$v]) -and (IsGreaterThanZero $CollectionOfSQLServerAccessMethodsFullScanssec[$m].Value[$v]))
+                {
+                  If (($CollectionOfSQLServerAccessMethodsIndexSearchessec[$a].Value[$v] -gt 1) -and ($CollectionOfSQLServerAccessMethodsFullScanssec[$m].Value[$v] -gt 1))
+                  {
+                    [int]$iRatio = $([double]$CollectionOfSQLServerAccessMethodsFullScanssec[$m].Value[$v] / [double]$CollectionOfSQLServerAccessMethodsIndexSearchessec[$a].Value[$v]) * 100
+                  }
+                  Else
+                  {
+                    $iRatio = 0
+                  }
+                  [void] $blValues.Add($iRatio)
+                }
+                Else
+                {
+                  [void] $blValues.Add(0)
+                }
+              }
+              $sGeneratedInstanceName = "\\$($CollectionOfSQLServerAccessMethodsIndexSearchessec[$a].CounterComputer)\PAL Generated($($sSqlInstanceNameForSQLServerAccessMethodsIndexSearchessec))\Index Searches To Full Scans Ratio Percentage"
+              $CollectionOfPalGeneratedIndexSearchesToFullScansRatioPercentage.Add($sGeneratedInstanceName,$blValues)
+            }
+          }
+        ]]></CODE>
+    </DATASOURCE>
+    <THRESHOLD NAME="A ratio of more than 1 SQL Full Scan for every 1000 Index Searches" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfPalGeneratedIndexSearchesToFullScansRatioPercentage -Operator 'gt' -Threshold 0.1
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\SQLServer:Access Methods\Full Scans/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\SQLServer:Access Methods\Full Scans/sec" CHARTLABELS="instance" />
+    <CHART CHARTTITLE="\SQLServer:Access Methods\Index Searches/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\SQLServer:Access Methods\Index Searches/sec" CHARTLABELS="instance" />
+    <CHART CHARTTITLE="\PAL Generated(*)\Index Searches To Full Scans Ratio Percentage" ISTHRESHOLDSADDED="True" DATASOURCE="\PAL Generated(*)\Index Searches To Full Scans Ratio Percentage" CHARTLABELS="computer">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfPalGeneratedIndexSearchesToFullScansRatioPercentage -MinThreshold 0.1 -MaxThreshold 0.1999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+    <DESCRIPTION><![CDATA[<B>SQLServer:Access Methods Index Searches/sec</B>
+<BR>
+<B>Description:</B> This counter measures the number of index searches per second. Index searches are used to start range scans, single index record fetches, and to reposition within an index. Index searches are preferable to index and table scans. For OLTP applications, optimize for more index searches and less scans preferably, 1 full scan for every 1000 index searches. Index and table scans are expensive I/O operations.
+The Access Methods Index Searches/sec is captured to compare to the Access Methods Full Scans/sec. Full Scans will lead to high logical reads which will deplete the Buffer Pool. A depleted Buffer Pool will lead to disk impact as SQL Server will not have memory available for queries.
+Additionally sudden decreases in Index Searches/Sec value may indicate an index is no longer being used.
+<BR><BR><B>Threshold: </B>
+<BR>Yellow: A ratio of more than 1 full scan for every 1000 index searches. The value of Index Searches/sec and Full Scans/sec should be greater than 1000.
+Formula: 
+(AvgSQLServerAccessMethodsIndexSearchessecAll / AvgSQLServerAccessMethods_FullScanssec) < 1000
+Next Steps:
+The main causes of high Full Scans/sec compare to Index Searches are:
+<LI>Missing indexes
+<LI>Too many rows requested
+Queries with missing indexes or too many rows requested will have a large number of logical reads and an increased CPU time. As mentioned, if there is a high level of Full Scans to Index Searches, then it is important to also check the following:
+See PERFMON SQLServer:Buffer Manager performance counters for memory pressure:
+<LI>Page Life Expectancy
+<LI>Checkpoint pages/sec
+<LI>Lazy writes/sec
+A high number of scans can cause buffer pool pressure (as indicated with low PLE and a higher Lazy Writes / sec count).
+Memory pressure will quickly manifest into disk pressure, so also check:
+See PERFMON Physical Disk performance counters: 
+<LI>Disk sec/read
+<LI>Disk sec/write
+Note: Identify disk bottlenecks by using Performance Counters, Profiler, sys.dm_io_virtual_file_stats and SHOWPLAN output.
+Also refer to the sys.dm_io_virtual_file_stats dynamic management view (DMV) to track io_stalls to help identify IO bottlenecks. 
+To back up and support this information, compare the counters to sys.dm_os_wait_stats output. If you see high values in perfmon, you may also see high waits for the following:
+<LI>ASYNC_IO_COMPLETION
+<LI>IO_COMPLETION
+<LI>PAGEIOLATCH_* (Data page I/O completion waits appear as PAGEIOLATCH_* waits)
+SQL Profiler can be used to identify which SQL statements are causing scans. Use the scans event class and events scan:started and scan:completed. Include the object ID data column. Save the profiler trace to a file and then convert it to trace table. You can then search for the scans event. 
+The scan:completed event provides the associated IO so that you can also search for high reads, writes, and duration.
+<BR><BR><B>Reference:</B>
+<BR><B>SQL Server, Access Methods Object</B>
+<BR>http://msdn.microsoft.com/en-us/library/ms177426.aspx 
+<BR><B>SQL Server 2005 Waits and Queues</B>
+<BR>http://download.microsoft.com/download/4/7/a/47a548b9-249e-484c-abd7-29f31282b04d/Performance_Tuning_Waits_Queues.doc 
+<BR><B>Wait Types and Correlation to Other Performance Info</B>
+http://www.sqlmag.com/Files/09/40925/Webtable_01.doc 
+]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="SQLServer:Locks Lock Requests/sec" ENABLED="True" CATEGORY="SQLServer:Locks" PRIMARYDATASOURCE="\SQLServer:Locks(*)\Lock Requests/sec" ID="{fc1381df-3e10-4cbd-abaa-be3db8d8ba11}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Number of new locks and lock conversions requested from the lock manager.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\SQLServer:Locks(*)\Lock Requests/sec" COLLECTIONVARNAME="CollectionOfSQLServerLocksLockRequestssec" EXPRESSIONPATH="\SQLServer:Locks(*)\Lock Requests/sec" ISCOUNTEROBJECTREGULAREXPRESSION="True" ISCOUNTERNAMEREGULAREXPRESSION="False" ISCOUNTERINSTANCEREGULAREXPRESSION="False" REGULAREXPRESSIONCOUNTERPATH="\(MSSQL|SQLServer).*:Locks(*)\Lock Requests/sec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\SQLServer:Locks(*)\Lock Requests/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\SQLServer:Locks(*)\Lock Requests/sec" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="SQLServer:Locks Lock Waits/sec" ENABLED="True" CATEGORY="SQLServer:Locks" PRIMARYDATASOURCE="\SQLServer:Locks(*)\Lock Waits/sec" ID="{13d7299f-661c-4c31-a08f-be1031a22bd1}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Number of lock requests that could not be satisfied immediately and required the caller to wait before being granted the lock.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\SQLServer:Locks(*)\Lock Waits/sec" COLLECTIONVARNAME="CollectionOfSQLServerLocksLockWaitssec" EXPRESSIONPATH="\SQLServer:Locks(*)\Lock Waits/sec" ISCOUNTEROBJECTREGULAREXPRESSION="True" ISCOUNTERNAMEREGULAREXPRESSION="False" ISCOUNTERINSTANCEREGULAREXPRESSION="False" REGULAREXPRESSIONCOUNTERPATH="\(MSSQL|SQLServer).*:Locks(*)\Lock Waits/sec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\SQLServer:Locks(*)\Lock Waits/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\SQLServer:Locks(*)\Lock Waits/sec" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="SQLServer:Locks Lock Wait Time (ms)" ENABLED="True" CATEGORY="SQLServer:Locks" PRIMARYDATASOURCE="\SQLServer:Locks(*)\Lock Wait Time (ms)" ID="{d7f36b5a-ff47-4d56-b3af-81160b3f22e0}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Total wait time (milliseconds) for locks in the last second.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\SQLServer:Locks(*)\Lock Wait Time (ms)" COLLECTIONVARNAME="CollectionOfSQLServerLocksLockWaitTimems" EXPRESSIONPATH="\SQLServer:Locks(*)\Lock Wait Time (ms)" ISCOUNTEROBJECTREGULAREXPRESSION="True" ISCOUNTERNAMEREGULAREXPRESSION="False" ISCOUNTERINSTANCEREGULAREXPRESSION="False" REGULAREXPRESSIONCOUNTERPATH="\(MSSQL|SQLServer).*:Locks(*)\Lock Wait Time (ms)" DATATYPE="Round3" />
+    <CHART CHARTTITLE="\SQLServer:Locks(*)\Lock Wait Time (ms)" ISTHRESHOLDSADDED="False" DATASOURCE="\SQLServer:Locks(*)\Lock Wait Time (ms)" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="SQLServer:Locks Lock Timeouts/sec" ENABLED="True" CATEGORY="SQLServer:Locks" PRIMARYDATASOURCE="\SQLServer:Locks(*)\Lock Timeouts/sec" ID="{78a24ae5-3480-4582-b314-bb0e77b13342}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Number of lock requests that timed out. This does not include requests for NOWAIT locks.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\SQLServer:Locks(*)\Lock Timeouts/sec" COLLECTIONVARNAME="CollectionOfSQLServerLocksLockTimeoutstimeoutsec" EXPRESSIONPATH="\SQLServer:Locks(*)\Lock Timeouts/sec" ISCOUNTEROBJECTREGULAREXPRESSION="True" ISCOUNTERNAMEREGULAREXPRESSION="False" ISCOUNTERINSTANCEREGULAREXPRESSION="False" REGULAREXPRESSIONCOUNTERPATH="\(MSSQL|SQLServer).*:Locks(*)\Lock Timeouts/sec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\SQLServer:Locks(*)\Lock Timeouts/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\SQLServer:Locks(*)\Lock Timeouts/sec" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="SQLServer:Locks Number of Deadlocks/sec" ENABLED="True" CATEGORY="SQLServer:Locks" PRIMARYDATASOURCE="\SQLServer:Locks(*)\Number of Deadlocks/sec" ID="{45d8c053-69d7-4257-9092-65adb682b628}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Number of lock requests that resulted in a deadlock.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\SQLServer:Locks(*)\Number of Deadlocks/sec" COLLECTIONVARNAME="CollectionOfSQLServerLocksNumberofDeadlockssec" EXPRESSIONPATH="\SQLServer:Locks(*)\Number of Deadlocks/sec" ISCOUNTEROBJECTREGULAREXPRESSION="True" ISCOUNTERNAMEREGULAREXPRESSION="False" ISCOUNTERINSTANCEREGULAREXPRESSION="False" REGULAREXPRESSIONCOUNTERPATH="\(MSSQL|SQLServer).*:Locks(*)\Number of Deadlocks/sec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\SQLServer:Locks(*)\Number of Deadlocks/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\SQLServer:Locks(*)\Number of Deadlocks/sec" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="SQLServer:Latches\Total Latch Wait Time (ms)" ENABLED="True" CATEGORY="SQLServer:Latches" PRIMARYDATASOURCE="\SQLServer:Latches\Total Latch Wait Time (ms)" ID="{e02e1ef5-8982-49da-bb72-932bc966235f}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Total latch wait time (milliseconds) for latch requests that had to wait in the last second.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\SQLServer:Latches\Total Latch Wait Time (ms)" COLLECTIONVARNAME="SQLServerLatchesTotalLatchWaitTimems" EXPRESSIONPATH="\SQLServer:Latches\Total Latch Wait Time (ms)" ISCOUNTEROBJECTREGULAREXPRESSION="True" ISCOUNTERNAMEREGULAREXPRESSION="False" ISCOUNTERINSTANCEREGULAREXPRESSION="False" REGULAREXPRESSIONCOUNTERPATH="\(MSSQL|SQLServer).*:Latches\Total Latch Wait Time (ms)" DATATYPE="integer" />
+    <CHART CHARTTITLE="\SQLServer:Latches\Total Latch Wait Time (ms)" ISTHRESHOLDSADDED="False" DATASOURCE="\SQLServer:Latches\Total Latch Wait Time (ms)" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <INHERITANCE FILEPATH="SystemOverview.xml" />
+</PAL>

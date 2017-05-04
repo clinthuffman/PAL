@@ -1,0 +1,93 @@
+<?xml version="1.0"?>
+<PAL NAME="VMWare" DESCRIPTION="Display of VMWare guest VM Processor and VM Memory counters" VERSION="1.0" CONTENTOWNERS="Jeff Stokes" FEEDBACKEMAILADDRESS="jeff.stokes@microsoft.com" LANGUAGE="English" LANGUAGECODE="en" PALVERSION="2.0">
+  <ANALYSIS NAME="Memory Active in MB" ENABLED="True" CATEGORY="VM Memory" PRIMARYDATASOURCE="\VM Memory\Memory Active in MB" ID="158d7c0d-4864-4523-9474-34af2edcfbbf" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The estimated amount of memory the virtual machine is actively using.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\VM Memory\Memory Active in MB" COLLECTIONVARNAME="CollectionOfVMMemoryMemoryActiveinMB" EXPRESSIONPATH="\VM Memory\Memory Active in MB" TRENDVARNAME="TrendVMMemoryMemoryActiveinMB" DATATYPE="integer" />
+    <CHART CHARTTITLE="\VM Memory\Memory Active in MB" ISTHRESHOLDSADDED="False" DATASOURCE="\VM Memory\Memory Active in MB" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Memory Ballooned in MB" ENABLED="True" CATEGORY="VM Memory" PRIMARYDATASOURCE="\VM Memory\Memory Ballooned in MB" ID="5246f008-8834-4eca-a0c4-0111c1bc7df1" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The amount of memory that has been reclaimed from this virtual machine via the VMware Memory Balloon mechanism.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\VM Memory\Memory Ballooned in MB" COLLECTIONVARNAME="CollectionOfVMMemoryMemoryBalloonedinMB" EXPRESSIONPATH="\VM Memory\Memory Ballooned in MB" TRENDVARNAME="TrendVMMemoryMemoryBalloonedinMB" DATATYPE="integer" />
+    <CHART CHARTTITLE="\VM Memory\Memory Ballooned in MB" ISTHRESHOLDSADDED="False" DATASOURCE="\VM Memory\Memory Ballooned in MB" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Memory Limit in MB" ENABLED="True" CATEGORY="VM Memory" PRIMARYDATASOURCE="\VM Memory\Memory Limit in MB" ID="91c2dd27-3e46-4ea2-9427-5428020eb736" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The maximum amount of memory that is allowed to the virtual machine. Assigning a Memory Limit ensures that this virtual machine never consumes more than a certain amount of the allowed memory. By limiting the amount of memory consumed, a portion of this shared resource is allowed to other virtual machines.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\VM Memory\Memory Limit in MB" COLLECTIONVARNAME="CollectionOfVMMemoryMemoryLimitinMB" EXPRESSIONPATH="\VM Memory\Memory Limit in MB" TRENDVARNAME="TrendVMMemoryMemoryLimitinMB" DATATYPE="integer" />
+    <CHART CHARTTITLE="\VM Memory\Memory Limit in MB" ISTHRESHOLDSADDED="False" DATASOURCE="\VM Memory\Memory Limit in MB" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Memory Mapped in MB" ENABLED="True" CATEGORY="VM Memory" PRIMARYDATASOURCE="\VM Memory\Memory Mapped in MB" ID="77ce0fb3-ad4a-48ea-8303-5ba6549dfe0e" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The mapped memory size of this virtual machine. This is the current total amount of guest memory that is backed by physical memory. Note that this number may include pages of memory shared between multiple virtual machines and thus may be an overestimate of the amount of physical host memory *consumed* by this virtual machine.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\VM Memory\Memory Mapped in MB" COLLECTIONVARNAME="CollectionOfVMMemoryMemoryMappedinMB" EXPRESSIONPATH="\VM Memory\Memory Mapped in MB" TRENDVARNAME="TrendVMMemoryMemoryMappedinMB" DATATYPE="integer" />
+    <CHART CHARTTITLE="\VM Memory\Memory Mapped in MB" ISTHRESHOLDSADDED="False" DATASOURCE="\VM Memory\Memory Mapped in MB" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Memory Overhead in MB" ENABLED="True" CATEGORY="VM Memory" PRIMARYDATASOURCE="\VM Memory\Memory Overhead in MB" ID="02d1b2c8-634f-4239-a7b8-24cce4c47371" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The amount of overhead memory associated with this virtual machine consumed on the host system.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\VM Memory\Memory Overhead in MB" COLLECTIONVARNAME="CollectionOfVMMemoryMemoryOverheadinMB" EXPRESSIONPATH="\VM Memory\Memory Overhead in MB" TRENDVARNAME="TrendVMMemoryMemoryOverheadinMB" DATATYPE="integer" />
+    <CHART CHARTTITLE="\VM Memory\Memory Overhead in MB" ISTHRESHOLDSADDED="False" DATASOURCE="\VM Memory\Memory Overhead in MB" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Memory Reservation in MB" ENABLED="True" CATEGORY="VM Memory" PRIMARYDATASOURCE="\VM Memory\Memory Reservation in MB" ID="4e31259a-061c-40b4-895c-3708d710d6dc" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The minimum amount of memory that is guaranteed to the virtual machine. Assigning a Memory Reservation ensures that even as other virtual machines on the same host consume memory, there is still a certain minimum amount for this virtual machine.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\VM Memory\Memory Reservation in MB" COLLECTIONVARNAME="CollectionOfVMMemoryMemoryReservationinMB" EXPRESSIONPATH="\VM Memory\Memory Reservation in MB" TRENDVARNAME="TrendVMMemoryMemoryReservationinMB" DATATYPE="integer" />
+    <CHART CHARTTITLE="\VM Memory\Memory Reservation in MB" ISTHRESHOLDSADDED="False" DATASOURCE="\VM Memory\Memory Reservation in MB" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Memory Shared in MB" ENABLED="True" CATEGORY="VM Memory" PRIMARYDATASOURCE="\VM Memory\Memory Shared in MB" ID="4159522c-4cd1-4002-b0e3-e3cb37906189" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The amount of physical memory associated with this virtual machine that is copy-on-write (COW) shared on the host.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\VM Memory\Memory Shared in MB" COLLECTIONVARNAME="CollectionOfVMMemoryMemorySharedinMB" EXPRESSIONPATH="\VM Memory\Memory Shared in MB" TRENDVARNAME="TrendVMMemoryMemorySharedinMB" DATATYPE="integer" />
+    <CHART CHARTTITLE="\VM Memory\Memory Shared in MB" ISTHRESHOLDSADDED="False" DATASOURCE="\VM Memory\Memory Shared in MB" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Memory Shared Saved in MB" ENABLED="True" CATEGORY="VM Memory" PRIMARYDATASOURCE="\VM Memory\Memory Shared Saved in MB" ID="a3922f04-43ea-42aa-92ca-8e9abf42d575" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The estimated amount of physical memory on the host saved from copy-on-write (COW) shared guest physical memory.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\VM Memory\Memory Shared Saved in MB" COLLECTIONVARNAME="CollectionOfVMMemoryMemorySharedSavedinMB" EXPRESSIONPATH="\VM Memory\Memory Shared Saved in MB" TRENDVARNAME="TrendVMMemoryMemorySharedSavedinMB" DATATYPE="integer" />
+    <CHART CHARTTITLE="\VM Memory\Memory Shared Saved in MB" ISTHRESHOLDSADDED="False" DATASOURCE="\VM Memory\Memory Shared Saved in MB" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Memory Shares" ENABLED="True" CATEGORY="VM Memory" PRIMARYDATASOURCE="\VM Memory\Memory Shares" ID="2658f565-d7d7-4bb9-837a-a1366c69154b" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The number of memory shares allocated to the virtual machine.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\VM Memory\Memory Shares" COLLECTIONVARNAME="CollectionOfVMMemoryMemoryShares" EXPRESSIONPATH="\VM Memory\Memory Shares" TRENDVARNAME="TrendVMMemoryMemoryShares" DATATYPE="integer" />
+    <CHART CHARTTITLE="\VM Memory\Memory Shares" ISTHRESHOLDSADDED="False" DATASOURCE="\VM Memory\Memory Shares" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Memory Swapped in MB" ENABLED="True" CATEGORY="VM Memory" PRIMARYDATASOURCE="\VM Memory\Memory Swapped in MB" ID="55f3ce8c-2f3a-4e2b-bff2-f8ea5bed2510" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The amount of memory associated with this virtual machine that has been swapped by ESX.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\VM Memory\Memory Swapped in MB" COLLECTIONVARNAME="CollectionOfVMMemoryMemorySwappedinMB" EXPRESSIONPATH="\VM Memory\Memory Swapped in MB" TRENDVARNAME="TrendVMMemoryMemorySwappedinMB" DATATYPE="integer" />
+    <CHART CHARTTITLE="\VM Memory\Memory Swapped in MB" ISTHRESHOLDSADDED="False" DATASOURCE="\VM Memory\Memory Swapped in MB" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Memory Used in MB" ENABLED="True" CATEGORY="VM Memory" PRIMARYDATASOURCE="\VM Memory\Memory Used in MB" ID="e0f7c940-c1c6-453e-a76c-d6dada4eecbf" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The estimated amount of physical host memory currently consumed for this virtual machine's physical memory. This is the same as (Memory Mapped in MB) - (Memory Shared Saved in MB).]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\VM Memory\Memory Used in MB" COLLECTIONVARNAME="CollectionOfVMMemoryMemoryUsedinMB" EXPRESSIONPATH="\VM Memory\Memory Used in MB" TRENDVARNAME="TrendVMMemoryMemoryUsedinMB" DATATYPE="integer" />
+    <CHART CHARTTITLE="\VM Memory\Memory Used in MB" ISTHRESHOLDSADDED="False" DATASOURCE="\VM Memory\Memory Used in MB" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Limit in MHz" ENABLED="True" CATEGORY="VM Processor" PRIMARYDATASOURCE="\VM Processor\Limit in MHz" ID="77aeb197-4a8e-4665-80aa-5e0b83eb4a77" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The maximum processing power in MHz allowed to the virtual machine. Assigning a CPU Limit ensures that this virtual machine never consumes more than a certain amount of the available processor power. By limiting the amount of processing power consumed, a portion of the processing power becomes available to other virtual machines.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\VM Processor\Limit in MHz" COLLECTIONVARNAME="CollectionOfVMProcessorLimitinMHz" EXPRESSIONPATH="\VM Processor\Limit in MHz" TRENDVARNAME="TrendVMProcessorLimitinMHz" DATATYPE="integer" />
+    <CHART CHARTTITLE="\VM Processor\Limit in MHz" ISTHRESHOLDSADDED="False" DATASOURCE="\VM Processor\Limit in MHz" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Reservation in MHz" ENABLED="True" CATEGORY="VM Processor" PRIMARYDATASOURCE="\VM Processor\Reservation in MHz" ID="0cf3e46f-6363-4a38-8626-4225498a1019" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The minimum processing power in MHz available to the virtual machine. Assigning a CPU Reservation ensures that even as other virtual machines on the same host consume shared processing power, there is still a certain minimum amount for this virtual machine.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\VM Processor\Reservation in MHz" COLLECTIONVARNAME="CollectionOfVMProcessorReservationinMHz" EXPRESSIONPATH="\VM Processor\Reservation in MHz" TRENDVARNAME="TrendVMProcessorReservationinMHz" DATATYPE="integer" />
+    <CHART CHARTTITLE="\VM Processor\Reservation in MHz" ISTHRESHOLDSADDED="False" DATASOURCE="\VM Processor\Reservation in MHz" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Shares" ENABLED="True" CATEGORY="VM Processor" PRIMARYDATASOURCE="\VM Processor\Shares" ID="7a7c0dd4-336c-4cd7-8242-526865b9eb8a" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The number of CPU shares allocated to the virtual machine.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\VM Processor\Shares" COLLECTIONVARNAME="CollectionOfVMProcessorShares" EXPRESSIONPATH="\VM Processor\Shares" TRENDVARNAME="TrendVMProcessorShares" DATATYPE="integer" />
+    <CHART CHARTTITLE="\VM Processor\Shares" ISTHRESHOLDSADDED="False" DATASOURCE="\VM Processor\Shares" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="CPU stolen time" ENABLED="True" CATEGORY="VM Processor" PRIMARYDATASOURCE="\VM Processor\CPU stolen time" ID="6d617f9b-e835-46c3-b0fa-0913df362126" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\VM Processor\CPU stolen time" COLLECTIONVARNAME="CollectionOfVMProcessorCPUstolentime" EXPRESSIONPATH="\VM Processor\CPU stolen time" TRENDVARNAME="TrendVMProcessorCPUstolentime" DATATYPE="integer" />
+    <CHART CHARTTITLE="\VM Processor\CPU stolen time" ISTHRESHOLDSADDED="False" DATASOURCE="\VM Processor\CPU stolen time" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[The time (in ms) that the VM was runnable but not scheduled to run.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="% Processor Time" ENABLED="True" CATEGORY="VM Processor" PRIMARYDATASOURCE="\VM Processor\% Processor Time" ID="39bcdfc3-5968-46ee-b46f-a8f318c04d99" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Current load of the VM's virtual processor.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\VM Processor\% Processor Time" COLLECTIONVARNAME="CollectionOfVMProcessorPercentProcessorTime" EXPRESSIONPATH="\VM Processor\% Processor Time" TRENDVARNAME="TrendVMProcessorPercentProcessorTime" DATATYPE="integer" />
+    <CHART CHARTTITLE="\VM Processor\% Processor Time" ISTHRESHOLDSADDED="False" DATASOURCE="\VM Processor\% Processor Time" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Effective VM Speed in MHz" ENABLED="True" CATEGORY="VM Processor" PRIMARYDATASOURCE="\VM Processor\Effective VM Speed in MHz" ID="6920591c-02da-4228-ad66-a9a5877d78e1" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The approximate average effective speed of the VM's virtual CPU over the time period between the two samples.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\VM Processor\Effective VM Speed in MHz" COLLECTIONVARNAME="CollectionOfVMProcessorEffectiveVMSpeedinMHz" EXPRESSIONPATH="\VM Processor\Effective VM Speed in MHz" TRENDVARNAME="TrendVMProcessorEffectiveVMSpeedinMHz" DATATYPE="integer" />
+    <CHART CHARTTITLE="\VM Processor\Effective VM Speed in MHz" ISTHRESHOLDSADDED="False" DATASOURCE="\VM Processor\Effective VM Speed in MHz" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Host processor speed in MHz" ENABLED="True" CATEGORY="VM Processor" PRIMARYDATASOURCE="\VM Processor\Host processor speed in MHz" ID="a2f95da7-2894-45a0-ac95-87f334a34ac3" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Host Processor speed.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\VM Processor\Host processor speed in MHz" COLLECTIONVARNAME="CollectionOfVMProcessorHostprocessorspeedinMHz" EXPRESSIONPATH="\VM Processor\Host processor speed in MHz" TRENDVARNAME="TrendVMProcessorHostprocessorspeedinMHz" DATATYPE="integer" />
+    <CHART CHARTTITLE="\VM Processor\Host processor speed in MHz" ISTHRESHOLDSADDED="False" DATASOURCE="\VM Processor\Host processor speed in MHz" CHARTLABELS="instance" />
+  </ANALYSIS>
+</PAL>

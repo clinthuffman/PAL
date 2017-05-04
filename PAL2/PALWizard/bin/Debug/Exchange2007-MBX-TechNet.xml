@@ -1,0 +1,1564 @@
+<?xml version="1.0"?>
+<PAL NAME="Microsoft Exchange 2007 - Mailbox (TechNet)" DESCRIPTION="Includes counters and thresholds for the Exchange Server 2007 Mailbox role based on the following product documentation: http://technet.microsoft.com/en-us/library/bb201689%28v=exchg.80%29" VERSION="1.0" PALVERSION="2.0" CONTENTOWNERS="Kevan Brown" FEEDBACKEMAILADDRESS="kbrown@smartronix.com">
+  <QUESTION QUESTIONVARNAME="DatabaseDisks" DATATYPE="string" DEFAULTVALUE="">Which volumes contain Exchange database files (*.edb files)? Seperate each volume with a semi-colon (;) e.g. E:;F:;G:</QUESTION>
+  <QUESTION QUESTIONVARNAME="LogDisks" DATATYPE="string" DEFAULTVALUE="">Which volumes contain Exchange transaction log files (*.log files)? Seperate each volume with a semi-colon (;) e.g. E:;F:;G:</QUESTION>
+  <QUESTION QUESTIONVARNAME="PagingDisks" DATATYPE="string" DEFAULTVALUE="C:">Which volumes contain paging files (pagefile.sys)? Seperate each volume with a semi-colon (;) e.g. C:;D:;E:</QUESTION>
+  <QUESTION QUESTIONVARNAME="TempDisk" DATATYPE="string" DEFAULTVALUE="C:">Which volume contains the TEMP/TMP path? e.g. C:</QUESTION>
+  <QUESTION QUESTIONVARNAME="MajorityClientsCached" DATATYPE="boolean" DEFAULTVALUE="True">Majority of clients are configured in cached mode</QUESTION>
+  <QUESTION QUESTIONVARNAME="CCR" DATATYPE="boolean" DEFAULTVALUE="False">Is this a CCR cluster?</QUESTION>  
+  <ANALYSIS NAME="Database Disks - LogicalDisk Avg. Disk sec/Read" ENABLED="True" CATEGORY="LogicalDisk" PRIMARYDATASOURCE="\LogicalDisk(*)\Avg. Disk sec/Read" ID="82556112-f524-4f22-b0e1-933b76eaa0de" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\LogicalDisk(*)\Avg. Disk sec/Read" COLLECTIONVARNAME="CollectionOfLogicalDiskAvgDisksecRead" EXPRESSIONPATH="\LogicalDisk(*)\Avg. Disk sec/Read" TRENDVARNAME="TrendLogicalDiskAvgDisksecRead" DATATYPE="round3">
+      <EXCLUDE INSTANCE="_Total" />
+    </DATASOURCE>
+    <CHART CHARTTITLE="\LogicalDisk(*)\Avg. Disk sec/Read" ISTHRESHOLDSADDED="False" DATASOURCE="\LogicalDisk(*)\Avg. Disk sec/Read" CHARTLABELS="instance" />
+    <THRESHOLD NAME="Database disk logical disk average disk read seconds average of 20ms or more" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[
+If ($DatabaseDisks.Length -gt 0)
+{
+	$DatabaseDiskVolumes = $DatabaseDisks.Split(";")
+
+	For ($i=0;$i -lt $CollectionOfLogicalDiskAvgDisksecRead.Count;$i++)
+	{
+		$oCounterInstance = $CollectionOfLogicalDiskAvgDisksecRead[$i]
+		
+		If ($DatabaseDiskVolumes -notcontains $oCounterInstance.CounterInstance)
+		{
+			continue
+		}
+		
+		For ($t=0;$t -lt $alQuantizedTime.Count;$t++)
+		{
+			If ($oCounterInstance.QuantizedAvg[$t] -ge 0.02)
+			{
+				CreateAlert -TimeSliceIndex $t -CounterInstanceObject $oCounterInstance -IsMinThresholdBroken $False -IsAvgThresholdBroken $True -IsMaxThresholdBroken $False -IsTrendThresholdBroken $False -IsMinEvaluated $False -IsAvgEvaluated $True -IsMaxEvaluated $False -IsTrendEvaluated $False
+			}
+		}
+	}
+}
+	  ]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>Avg. Disk sec/Read is the average time, in seconds, of a read of data from the disk.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the average time, in seconds, of a read of data from the disk.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For Exchange Server 2007 Mailbox servers, this value should be below 20 milliseconds (ms) at all times on average.</p>
+<p>For servers with more than 1,000 users, 20-ms disk times may not be fast enough to return responses to the client to accommodate user load. Check remote procedure call (RPC) averaged latencies to ensure these are within recommended values and adjust the disk subsystem for increased I/Os.</p>
+<p>NOTE: When looking at disks using Perfmon.exe, an understanding of the underlying disk subsystem is key to determining which counters (physical disk or logical disk) to look at. Windows Clustering can use volume mount points to overcome the 26-drive limitation of the operating system, so drives may show up as numbers indicating physical disks rather than having drive letters. For more information about volume mount points, see <a href="http://go.microsoft.com/fwlink/?LinkId=121591" target="_new">Volume Mount Points</a> and <a href="http://go.microsoft.com/fwlink/?LinkId=121592" target="_new">File Systems</a>.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Transaction Log Disks - LogicalDisk Avg. Disk sec/Read" ENABLED="True" CATEGORY="LogicalDisk" PRIMARYDATASOURCE="\LogicalDisk(*)\Avg. Disk sec/Read" ID="41eac0dc-d20e-46d4-975c-4322d71a98c5" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\LogicalDisk(*)\Avg. Disk sec/Read" COLLECTIONVARNAME="CollectionOfLogicalDiskAvgDisksecRead" EXPRESSIONPATH="\LogicalDisk(*)\Avg. Disk sec/Read" TRENDVARNAME="TrendLogicalDiskAvgDisksecRead" DATATYPE="round3">
+      <EXCLUDE INSTANCE="_Total" />
+    </DATASOURCE>
+    <CHART CHARTTITLE="\LogicalDisk(*)\Avg. Disk sec/Read" ISTHRESHOLDSADDED="False" DATASOURCE="\LogicalDisk(*)\Avg. Disk sec/Read" CHARTLABELS="instance" />
+    <THRESHOLD NAME="Transaction log disk logical disk average disk read seconds average of 20ms or more" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[
+If ($LogDisks.Length -gt 0)
+{
+	$LogDiskVolumes = $LogDisks.Split(";")
+
+	For ($i=0;$i -lt $CollectionOfLogicalDiskAvgDisksecRead.Count;$i++)
+	{
+		$oCounterInstance = $CollectionOfLogicalDiskAvgDisksecRead[$i]
+		
+		If ($LogDiskVolumes -notcontains $oCounterInstance.CounterInstance)
+		{
+			continue
+		}
+		
+		For ($t=0;$t -lt $alQuantizedTime.Count;$t++)
+		{
+			If ($oCounterInstance.QuantizedAvg[$t] -ge 0.02)
+			{
+				CreateAlert -TimeSliceIndex $t -CounterInstanceObject $oCounterInstance -IsMinThresholdBroken $False -IsAvgThresholdBroken $True -IsMaxThresholdBroken $False -IsTrendThresholdBroken $False -IsMinEvaluated $False -IsAvgEvaluated $True -IsMaxEvaluated $False -IsTrendEvaluated $False
+			}
+		}
+	}
+}
+	  ]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>Avg. Disk sec/Read is the average time, in seconds, of a read of data from the disk.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the average time, in seconds, of a read of data from the disk.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For Exchange Server 2007 Mailbox servers, this value should be below 20 ms on average.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Database Disks - LogicalDisk Avg. Disk sec/Write" ENABLED="True" CATEGORY="LogicalDisk" PRIMARYDATASOURCE="\LogicalDisk(*)\Avg. Disk sec/Write" ID="c16215b4-607c-462e-98ca-e16741c29d32" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\LogicalDisk(*)\Avg. Disk sec/Write" COLLECTIONVARNAME="CollectionOfLogicalDiskAvgDisksecWrite" EXPRESSIONPATH="\LogicalDisk(*)\Avg. Disk sec/Write" TRENDVARNAME="TrendLogicalDiskAvgDisksecWrite" DATATYPE="round3">
+      <EXCLUDE INSTANCE="_Total" />
+    </DATASOURCE>
+    <CHART CHARTTITLE="\LogicalDisk(*)\Avg. Disk sec/Write" ISTHRESHOLDSADDED="False" DATASOURCE="\LogicalDisk(*)\Avg. Disk sec/Write" CHARTLABELS="instance" />
+    <THRESHOLD NAME="Database disk logical disk average disk write seconds average of 100ms or more" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[
+If ($DatabaseDisks.Length -gt 0)
+{
+	$DatabaseDiskVolumes = $DatabaseDisks.Split(";")
+
+	For ($i=0;$i -lt $CollectionOfLogicalDiskAvgDisksecWrite.Count;$i++)
+	{
+		$oCounterInstance = $CollectionOfLogicalDiskAvgDisksecWrite[$i]
+		
+		If ($DatabaseDiskVolumes -notcontains $oCounterInstance.CounterInstance)
+		{
+			continue
+		}
+		
+		For ($t=0;$t -lt $alQuantizedTime.Count;$t++)
+		{
+			If ($oCounterInstance.QuantizedAvg[$t] -ge 0.1)
+			{
+				CreateAlert -TimeSliceIndex $t -CounterInstanceObject $oCounterInstance -IsMinThresholdBroken $False -IsAvgThresholdBroken $True -IsMaxThresholdBroken $False -IsTrendThresholdBroken $False -IsMinEvaluated $False -IsAvgEvaluated $True -IsMaxEvaluated $False -IsTrendEvaluated $False
+			}
+		}
+	}
+}
+	  ]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>Avg. Disk sec/Write is the average time, in seconds, of a write of data to the disk.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the average time, in seconds, of a write of data to the disk.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For Exchange Server 2007 Mailbox servers, this value should be below 100 ms at all times on average.</p>
+<p>If disk writes are high, it is possible that read latencies are also affected as a direct correlation with high write times.</p>
+<p>NOTE: When looking at disks using Perfmon.exe, an understanding of the underlying disk subsystem is key to determining which counters (physical disk or logical disk) to look at. Windows Clustering can use volume mount points to overcome the 26-drive limitation of the operating system, so drives may show up as numbers indicating physical disks rather than having drive letters. For more information about volume mount points, see <a href="http://go.microsoft.com/fwlink/?LinkId=121591" target="_new">Volume Mount Points</a> and <a href="http://go.microsoft.com/fwlink/?LinkId=121592" target="_new">File Systems</a>.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Transaction Log Disks - LogicalDisk Avg. Disk sec/Write" ENABLED="True" CATEGORY="LogicalDisk" PRIMARYDATASOURCE="\LogicalDisk(*)\Avg. Disk sec/Write" ID="4e6081d8-6491-485b-a56b-f6ded1e8e71e" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\LogicalDisk(*)\Avg. Disk sec/Write" COLLECTIONVARNAME="CollectionOfLogicalDiskAvgDisksecWrite" EXPRESSIONPATH="\LogicalDisk(*)\Avg. Disk sec/Write" TRENDVARNAME="TrendLogicalDiskAvgDisksecWrite" DATATYPE="round3">
+      <EXCLUDE INSTANCE="_Total" />
+    </DATASOURCE>
+    <CHART CHARTTITLE="\LogicalDisk(*)\Avg. Disk sec/Write" ISTHRESHOLDSADDED="False" DATASOURCE="\LogicalDisk(*)\Avg. Disk sec/Write" CHARTLABELS="instance" />
+    <THRESHOLD NAME="Transaction log disk logical disk average disk write seconds average of 10ms or more" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[
+If ($LogDisks.Length -gt 0)
+{
+	$LogDiskVolumes = $LogDisks.Split(";")
+
+	For ($i=0;$i -lt $CollectionOfLogicalDiskAvgDisksecWrite.Count;$i++)
+	{
+		$oCounterInstance = $CollectionOfLogicalDiskAvgDisksecWrite[$i]
+		
+		If ($LogDiskVolumes -notcontains $oCounterInstance.CounterInstance)
+		{
+			continue
+		}
+		
+		For ($t=0;$t -lt $alQuantizedTime.Count;$t++)
+		{
+			If ($oCounterInstance.QuantizedAvg[$t] -ge 0.01)
+			{
+				CreateAlert -TimeSliceIndex $t -CounterInstanceObject $oCounterInstance -IsMinThresholdBroken $False -IsAvgThresholdBroken $True -IsMaxThresholdBroken $False -IsTrendThresholdBroken $False -IsMinEvaluated $False -IsAvgEvaluated $True -IsMaxEvaluated $False -IsTrendEvaluated $False
+			}
+		}
+	}
+}
+	  ]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>Avg. Disk sec/Write is the average time, in seconds, of a write of data to the disk.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the average time, in seconds, of a write of data to the disk.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For Exchange Server 2007 Mailbox servers, this value should be below 10 ms on average.</p>
+<p>NOTE: Processes such as sync replication can increase latencies for this counter. </p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Database Disks - PhysicalDisk Avg. Disk sec/Read" ENABLED="True" CATEGORY="PhysicalDisk" PRIMARYDATASOURCE="\PhysicalDisk(*)\Avg. Disk sec/Read" ID="c1ff3f96-5704-4551-bbea-32b8b70d3fab" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\PhysicalDisk(*)\Avg. Disk sec/Read" COLLECTIONVARNAME="CollectionOfPhysicalDiskAvgDisksecRead" EXPRESSIONPATH="\PhysicalDisk(*)\Avg. Disk sec/Read" TRENDVARNAME="TrendPhysicalDiskAvgDisksecRead" DATATYPE="round3">
+      <EXCLUDE INSTANCE="_Total" />
+    </DATASOURCE>
+    <CHART CHARTTITLE="\PhysicalDisk(*)\Avg. Disk sec/Read" ISTHRESHOLDSADDED="False" DATASOURCE="\PhysicalDisk(*)\Avg. Disk sec/Read" CHARTLABELS="instance" />
+    <THRESHOLD NAME="Database disk physical disk average disk read seconds average of 20ms or more" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[
+If ($DatabaseDisks.Length -gt 0)
+{
+	$DatabaseDiskVolumes = $DatabaseDisks.Split(";")
+
+	For ($i=0;$i -lt $CollectionOfPhysicalDiskAvgDisksecRead.Count;$i++)
+	{
+		$oCounterInstance = $CollectionOfPhysicalDiskAvgDisksecRead[$i]
+		
+		$IsDatabaseDisk = $False
+		
+		ForEach ($DatabaseDiskVolume in $DatabaseDiskVolumes)
+		{
+			If (($oCounterInstance.CounterInstance -match $DatabaseDiskVolume) -eq $True)
+			{
+				$IsDatabaseDisk = $True
+				break
+			}
+		}
+		
+		If ($IsDatabaseDisk -eq $False)
+		{
+			continue
+		}
+		
+		For ($t=0;$t -lt $alQuantizedTime.Count;$t++)
+		{
+			If ($oCounterInstance.QuantizedAvg[$t] -ge 0.02)
+			{
+				CreateAlert -TimeSliceIndex $t -CounterInstanceObject $oCounterInstance -IsMinThresholdBroken $False -IsAvgThresholdBroken $True -IsMaxThresholdBroken $False -IsTrendThresholdBroken $False -IsMinEvaluated $False -IsAvgEvaluated $True -IsMaxEvaluated $False -IsTrendEvaluated $False
+			}
+		}
+	}
+}
+	  ]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>Avg. Disk sec/Read is the average time, in seconds, of a read of data from the disk.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the average time, in seconds, of a read of data from the disk.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For Exchange Server 2007 Mailbox servers, this value should be below 20 milliseconds (ms) at all times on average.</p>
+<p>For servers with more than 1,000 users, 20-ms disk times may not be fast enough to return responses to the client to accommodate user load. Check remote procedure call (RPC) averaged latencies to ensure these are within recommended values and adjust the disk subsystem for increased I/Os.</p>
+<p>NOTE: When looking at disks using Perfmon.exe, an understanding of the underlying disk subsystem is key to determining which counters (physical disk or logical disk) to look at. Windows Clustering can use volume mount points to overcome the 26-drive limitation of the operating system, so drives may show up as numbers indicating physical disks rather than having drive letters. For more information about volume mount points, see <a href="http://go.microsoft.com/fwlink/?LinkId=121591" target="_new">Volume Mount Points</a> and <a href="http://go.microsoft.com/fwlink/?LinkId=121592" target="_new">File Systems</a>.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Database Disks - PhysicalDisk Avg. Disk sec/Write" ENABLED="True" CATEGORY="PhysicalDisk" PRIMARYDATASOURCE="\PhysicalDisk(*)\Avg. Disk sec/Write" ID="99abf3b2-422d-4e1f-bb43-150e3ee380af" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\PhysicalDisk(*)\Avg. Disk sec/Write" COLLECTIONVARNAME="CollectionOfPhysicalDiskAvgDisksecWrite" EXPRESSIONPATH="\PhysicalDisk(*)\Avg. Disk sec/Write" TRENDVARNAME="TrendPhysicalDiskAvgDisksecWrite" DATATYPE="round3">
+      <EXCLUDE INSTANCE="_Total" />
+    </DATASOURCE>
+    <CHART CHARTTITLE="\PhysicalDisk(*)\Avg. Disk sec/Write" ISTHRESHOLDSADDED="False" DATASOURCE="\PhysicalDisk(*)\Avg. Disk sec/Write" CHARTLABELS="instance" />
+    <THRESHOLD NAME="Database disk physical disk average disk write seconds average of 100ms or more" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[
+If ($DatabaseDisks.Length -gt 0)
+{
+	$DatabaseDiskVolumes = $DatabaseDisks.Split(";")
+
+	For ($i=0;$i -lt $CollectionOfPhysicalDiskAvgDisksecWrite.Count;$i++)
+	{
+		$oCounterInstance = $CollectionOfPhysicalDiskAvgDisksecWrite[$i]
+		
+		$IsDatabaseDisk = $False
+		
+		ForEach ($DatabaseDiskVolume in $DatabaseDiskVolumes)
+		{
+			If (($oCounterInstance.CounterInstance -match $DatabaseDiskVolume) -eq $True)
+			{
+				$IsDatabaseDisk = $True
+				break
+			}
+		}
+		
+		If ($IsDatabaseDisk -eq $False)
+		{
+			continue
+		}
+		
+		For ($t=0;$t -lt $alQuantizedTime.Count;$t++)
+		{
+			If ($oCounterInstance.QuantizedAvg[$t] -ge 0.1)
+			{
+				CreateAlert -TimeSliceIndex $t -CounterInstanceObject $oCounterInstance -IsMinThresholdBroken $False -IsAvgThresholdBroken $True -IsMaxThresholdBroken $False -IsTrendThresholdBroken $False -IsMinEvaluated $False -IsAvgEvaluated $True -IsMaxEvaluated $False -IsTrendEvaluated $False
+			}
+		}
+	}
+}
+	  ]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>Avg. Disk sec/Write is the average time, in seconds, of a write of data to the disk.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the average time, in seconds, of a write of data to the disk.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For Exchange Server 2007 Mailbox servers, this value should be below 100 ms at all times on average.</p>
+<p>If disk writes are high, it is possible that read latencies are also affected as a direct correlation with high write times.</p>
+<p>NOTE: When looking at disks using Perfmon.exe, an understanding of the underlying disk subsystem is key to determining which counters (physical disk or logical disk) to look at. Windows Clustering can use volume mount points to overcome the 26-drive limitation of the operating system, so drives may show up as numbers indicating physical disks rather than having drive letters. For more information about volume mount points, see <a href="http://go.microsoft.com/fwlink/?LinkId=121591" target="_new">Volume Mount Points</a> and <a href="http://go.microsoft.com/fwlink/?LinkId=121592" target="_new">File Systems</a>.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Paging Disks - LogicalDisk Avg. Disk sec/Read" ENABLED="True" CATEGORY="LogicalDisk" PRIMARYDATASOURCE="\LogicalDisk(*)\Avg. Disk sec/Read" ID="6aba5ec8-7604-43e0-8b21-54311ecb84e8" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\LogicalDisk(*)\Avg. Disk sec/Read" COLLECTIONVARNAME="CollectionOfLogicalDiskAvgDisksecRead" EXPRESSIONPATH="\LogicalDisk(*)\Avg. Disk sec/Read" TRENDVARNAME="TrendLogicalDiskAvgDisksecRead" DATATYPE="round3">
+      <EXCLUDE INSTANCE="_Total" />
+    </DATASOURCE>
+    <CHART CHARTTITLE="\LogicalDisk(*)\Avg. Disk sec/Read" ISTHRESHOLDSADDED="False" DATASOURCE="\LogicalDisk(*)\Avg. Disk sec/Read" CHARTLABELS="instance" />
+    <THRESHOLD NAME="Paging disk logical disk average disk read seconds average of 10ms or more, or spikes of 50ms or greater" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[
+If ($PagingDisks.Length -gt 0)
+{
+	$PagingDiskVolumes = $PagingDisks.Split(";")
+
+	For ($i=0;$i -lt $CollectionOfLogicalDiskAvgDisksecRead.Count;$i++)
+	{
+		$oCounterInstance = $CollectionOfLogicalDiskAvgDisksecRead[$i]
+		
+		If ($PagingDiskVolumes -notcontains $oCounterInstance.CounterInstance)
+		{
+			continue
+		}
+		
+		For ($t=0;$t -lt $alQuantizedTime.Count;$t++)
+		{
+			$IsAvgThresholdBroken = $False
+			$IsMaxThresholdBroken = $False
+			
+			If ($oCounterInstance.QuantizedAvg[$t] -ge 0.01)
+			{
+				$IsAvgThresholdBroken = $True
+			}
+			
+			If ($oCounterInstance.QuantizedMax[$t] -ge 0.05)
+			{
+				$IsMaxThresholdBroken = $True
+			}
+			
+			If (($IsAvgThresholdBroken -eq $True) -or ($IsMaxThresholdBroken -eq $True))
+			{
+				CreateAlert -TimeSliceIndex $t -CounterInstanceObject $oCounterInstance -IsMinThresholdBroken $False -IsAvgThresholdBroken $IsAvgThresholdBroken -IsMaxThresholdBroken $IsMaxThresholdBroken -IsTrendThresholdBroken $False -IsMinEvaluated $False -IsAvgEvaluated $True -IsMaxEvaluated $True -IsTrendEvaluated $False
+			}		
+		}
+	}
+}
+	  ]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>Avg. Disk sec/Read is the average time, in seconds, of a read of data from the disk.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the average time, in seconds, of a read of data from the disk.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For Exchange Server 2007 Mailbox servers, this value should be below 10 ms on average with spikes (maximum values) of less than 50 ms.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Paging Disks - LogicalDisk Avg. Disk sec/Write" ENABLED="True" CATEGORY="LogicalDisk" PRIMARYDATASOURCE="\LogicalDisk(*)\Avg. Disk sec/Write" ID="74f723d0-3bb7-4576-a18a-8fbaa8ed3f45" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\LogicalDisk(*)\Avg. Disk sec/Write" COLLECTIONVARNAME="CollectionOfLogicalDiskAvgDisksecWrite" EXPRESSIONPATH="\LogicalDisk(*)\Avg. Disk sec/Write" TRENDVARNAME="TrendLogicalDiskAvgDisksecWrite" DATATYPE="round3">
+      <EXCLUDE INSTANCE="_Total" />
+    </DATASOURCE>
+    <CHART CHARTTITLE="\LogicalDisk(*)\Avg. Disk sec/Write" ISTHRESHOLDSADDED="False" DATASOURCE="\LogicalDisk(*)\Avg. Disk sec/Write" CHARTLABELS="instance" />
+    <THRESHOLD NAME="Paging disk logical disk average disk write seconds average of 10ms or more, or spikes of 50ms or greater" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[
+If ($PagingDisks.Length -gt 0)
+{
+	$PagingDiskVolumes = $PagingDisks.Split(";")
+
+	For ($i=0;$i -lt $CollectionOfLogicalDiskAvgDisksecWrite.Count;$i++)
+	{
+		$oCounterInstance = $CollectionOfLogicalDiskAvgDisksecWrite[$i]
+		
+		If ($PagingDiskVolumes -notcontains $oCounterInstance.CounterInstance)
+		{
+			continue
+		}
+		
+		For ($t=0;$t -lt $alQuantizedTime.Count;$t++)
+		{
+			$IsAvgThresholdBroken = $False
+			$IsMaxThresholdBroken = $False
+			
+			If ($oCounterInstance.QuantizedAvg[$t] -ge 0.01)
+			{
+				$IsAvgThresholdBroken = $True
+			}
+			
+			If ($oCounterInstance.QuantizedMax[$t] -ge 0.05)
+			{
+				$IsMaxThresholdBroken = $True
+			}
+			
+			If (($IsAvgThresholdBroken -eq $True) -or ($IsMaxThresholdBroken -eq $True))
+			{
+				CreateAlert -TimeSliceIndex $t -CounterInstanceObject $oCounterInstance -IsMinThresholdBroken $False -IsAvgThresholdBroken $IsAvgThresholdBroken -IsMaxThresholdBroken $IsMaxThresholdBroken -IsTrendThresholdBroken $False -IsMinEvaluated $False -IsAvgEvaluated $True -IsMaxEvaluated $True -IsTrendEvaluated $False
+			}		
+		}
+	}
+}
+	  ]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>Avg. Disk sec/Write is the average time, in seconds, of a write of data to the disk.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the average time, in seconds, of a write of data to the disk.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For Exchange Server 2007 Mailbox servers, this value should be below 10 ms on average with spikes (maximum values) of less than 50 ms.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Temp Path Disk - LogicalDisk Avg. Disk sec/Read" ENABLED="True" CATEGORY="LogicalDisk" PRIMARYDATASOURCE="\LogicalDisk(*)\Avg. Disk sec/Read" ID="15d7d69d-a620-4f27-a47a-367f4e0e1791" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\LogicalDisk(*)\Avg. Disk sec/Read" COLLECTIONVARNAME="CollectionOfLogicalDiskAvgDisksecRead" EXPRESSIONPATH="\LogicalDisk(*)\Avg. Disk sec/Read" TRENDVARNAME="TrendLogicalDiskAvgDisksecRead" DATATYPE="round3">
+      <EXCLUDE INSTANCE="_Total" />
+    </DATASOURCE>
+    <CHART CHARTTITLE="\LogicalDisk(*)\Avg. Disk sec/Read" ISTHRESHOLDSADDED="False" DATASOURCE="\LogicalDisk(*)\Avg. Disk sec/Read" CHARTLABELS="instance" />
+    <THRESHOLD NAME="Temp path disk logical disk average disk read seconds average of 10ms or more, or spikes of 50ms or greater" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[
+If ($TempDisk.Length -gt 0)
+{
+	For ($i=0;$i -lt $CollectionOfLogicalDiskAvgDisksecRead.Count;$i++)
+	{
+		$oCounterInstance = $CollectionOfLogicalDiskAvgDisksecRead[$i]
+		
+		If ($TempDisk -ne $oCounterInstance.CounterInstance)
+		{
+			continue
+		}
+		
+		For ($t=0;$t -lt $alQuantizedTime.Count;$t++)
+		{
+			$IsAvgThresholdBroken = $False
+			$IsMaxThresholdBroken = $False
+			
+			If ($oCounterInstance.QuantizedAvg[$t] -ge 0.01)
+			{
+				$IsAvgThresholdBroken = $True
+			}
+			
+			If ($oCounterInstance.QuantizedMax[$t] -ge 0.05)
+			{
+				$IsMaxThresholdBroken = $True
+			}
+			
+			If (($IsAvgThresholdBroken -eq $True) -or ($IsMaxThresholdBroken -eq $True))
+			{
+				CreateAlert -TimeSliceIndex $t -CounterInstanceObject $oCounterInstance -IsMinThresholdBroken $False -IsAvgThresholdBroken $IsAvgThresholdBroken -IsMaxThresholdBroken $IsMaxThresholdBroken -IsTrendThresholdBroken $False -IsMinEvaluated $False -IsAvgEvaluated $True -IsMaxEvaluated $True -IsTrendEvaluated $False
+			}		
+		}
+	}
+}
+	  ]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>Avg. Disk sec/Read is the average time, in seconds, of a read of data from the disk.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the average time, in seconds, of a read of data from the disk.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For Exchange Server 2007 Mailbox servers, this value should be below 10 ms on average with spikes (maximum values) of less than 50 ms.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Temp Path Disk - LogicalDisk Avg. Disk sec/Write" ENABLED="True" CATEGORY="LogicalDisk" PRIMARYDATASOURCE="\LogicalDisk(*)\Avg. Disk sec/Write" ID="38c49bca-d5c3-4554-9fc4-b7d049a488c7" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\LogicalDisk(*)\Avg. Disk sec/Write" COLLECTIONVARNAME="CollectionOfLogicalDiskAvgDisksecWrite" EXPRESSIONPATH="\LogicalDisk(*)\Avg. Disk sec/Write" TRENDVARNAME="TrendLogicalDiskAvgDisksecWrite" DATATYPE="round3">
+      <EXCLUDE INSTANCE="_Total" />
+    </DATASOURCE>
+    <CHART CHARTTITLE="\LogicalDisk(*)\Avg. Disk sec/Write" ISTHRESHOLDSADDED="False" DATASOURCE="\LogicalDisk(*)\Avg. Disk sec/Write" CHARTLABELS="instance" />
+    <THRESHOLD NAME="Temp path disk logical disk average disk write seconds average of 10ms or more, or spikes of 50ms or greater" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[
+If ($TempDisk.Length -gt 0)
+{
+	For ($i=0;$i -lt $CollectionOfLogicalDiskAvgDisksecWrite.Count;$i++)
+	{
+		$oCounterInstance = $CollectionOfLogicalDiskAvgDisksecWrite[$i]
+		
+		If ($TempDisk -ne $oCounterInstance.CounterInstance)
+		{
+			continue
+		}
+		
+		For ($t=0;$t -lt $alQuantizedTime.Count;$t++)
+		{
+			$IsAvgThresholdBroken = $False
+			$IsMaxThresholdBroken = $False
+			
+			If ($oCounterInstance.QuantizedAvg[$t] -ge 0.01)
+			{
+				$IsAvgThresholdBroken = $True
+			}
+			
+			If ($oCounterInstance.QuantizedMax[$t] -ge 0.05)
+			{
+				$IsMaxThresholdBroken = $True
+			}
+			
+			If (($IsAvgThresholdBroken -eq $True) -or ($IsMaxThresholdBroken -eq $True))
+			{
+				CreateAlert -TimeSliceIndex $t -CounterInstanceObject $oCounterInstance -IsMinThresholdBroken $False -IsAvgThresholdBroken $IsAvgThresholdBroken -IsMaxThresholdBroken $IsMaxThresholdBroken -IsTrendThresholdBroken $False -IsMinEvaluated $False -IsAvgEvaluated $True -IsMaxEvaluated $True -IsTrendEvaluated $False
+			}		
+		}
+	}
+}
+	  ]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>Avg. Disk sec/Write is the average time, in seconds, of a write of data to the disk.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the average time, in seconds, of a write of data to the disk.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For Exchange Server 2007 Mailbox servers, this value should be below 10 ms on average with spikes (maximum values) of less than 50 ms.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="LogicalDisk Avg. Disk sec/Transfer" ENABLED="True" CATEGORY="LogicalDisk" PRIMARYDATASOURCE="\LogicalDisk(*)\Avg. Disk sec/Transfer" ID="c4ab5f94-a80d-4c58-82a7-9b6b7a59d9a7" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\LogicalDisk(*)\Avg. Disk sec/Transfer" COLLECTIONVARNAME="CollectionOfLogicalDiskAvgDisksecTransfer" EXPRESSIONPATH="\LogicalDisk(*)\Avg. Disk sec/Transfer" TRENDVARNAME="TrendLogicalDiskAvgDisksecTransfer" DATATYPE="round3">
+      <EXCLUDE INSTANCE="_Total" />
+    </DATASOURCE>
+    <CHART CHARTTITLE="\LogicalDisk(*)\Avg. Disk sec/Transfer" ISTHRESHOLDSADDED="False" DATASOURCE="\LogicalDisk(*)\Avg. Disk sec/Transfer" CHARTLABELS="instance" />
+    <THRESHOLD NAME="Logical disk average disk transfer seconds average of 20ms or more, or spikes of 50ms or greater" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[
+For ($i=0;$i -lt $CollectionOfLogicalDiskAvgDisksecTransfer.Count;$i++)
+{
+	$oCounterInstance = $CollectionOfLogicalDiskAvgDisksecTransfer[$i]
+    
+	For ($t=0;$t -lt $alQuantizedTime.Count;$t++)
+	{
+		$IsAvgThresholdBroken = $False
+		$IsMaxThresholdBroken = $False
+		
+		If ($oCounterInstance.QuantizedAvg[$t] -ge 0.02)
+		{
+			$IsAvgThresholdBroken = $True
+		}
+		
+		If ($oCounterInstance.QuantizedMax[$t] -ge 0.05)
+		{
+			$IsMaxThresholdBroken = $True
+		}
+		
+		If (($IsAvgThresholdBroken -eq $True) -or ($IsMaxThresholdBroken -eq $True))
+		{
+			CreateAlert -TimeSliceIndex $t -CounterInstanceObject $oCounterInstance -IsMinThresholdBroken $False -IsAvgThresholdBroken $IsAvgThresholdBroken -IsMaxThresholdBroken $IsMaxThresholdBroken -IsTrendThresholdBroken $False -IsMinEvaluated $False -IsAvgEvaluated $True -IsMaxEvaluated $True -IsTrendEvaluated $False
+		}
+	}
+}
+	]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>Avg. Disk sec/Transfer is the time, in seconds, of the average disk transfer.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>For healthy disks, this counter shows approximately 20 ms. Counter values larger than 20 ms, or with large spikes, indicate a possible disk issue (for example, failure or slow speed).</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For Exchange Server 2007 Mailbox servers, this value should be below 20 ms on average with spikes (maximum values) of less than 50 ms.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeIS RPC Requests" ENABLED="True" CATEGORY="MSExchangeIS" PRIMARYDATASOURCE="\MSExchangeIS\RPC Requests" ID="51039c22-f278-4885-b660-fe0df00e96ab" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeIS\RPC Requests" COLLECTIONVARNAME="CollectionOfMSExchangeISRPCRequests" EXPRESSIONPATH="\MSExchangeIS\RPC Requests" TRENDVARNAME="TrendMSExchangeISRPCRequests" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeIS\RPC Requests" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeIS\RPC Requests" CHARTLABELS="instance" />
+    <THRESHOLD NAME="MSExchangeIS RPC requests at 70 or greater" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeISRPCRequests -Operator 'ge' -Threshold 70]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>RPC Requests is the number of client requests that are currently being processed by the information store.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Indicates the overall RPC requests that are currently executing within the information store process.</p>
+<p>The maximum value in Exchange 2007 is 500 RPC requests that can execute at any designated time before the information store starts rejecting any new connections from clients.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For Exchange Server 2007 Mailbox servers, this value should be below 70 at all times.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeIS RPC Averaged Latency" ENABLED="True" CATEGORY="MSExchangeIS" PRIMARYDATASOURCE="\MSExchangeIS\RPC Averaged Latency" ID="c3169e80-4f49-4aa4-9152-90130e17434e" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeIS\RPC Averaged Latency" COLLECTIONVARNAME="CollectionOfMSExchangeISRPCAveragedLatency" EXPRESSIONPATH="\MSExchangeIS\RPC Averaged Latency" TRENDVARNAME="TrendMSExchangeISRPCAveragedLatency" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeIS\RPC Averaged Latency" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeIS\RPC Averaged Latency" CHARTLABELS="instance" />
+    <THRESHOLD NAME="MSExchangeIS RPC averaged latency average of 25ms or more" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[
+For ($i=0;$i -lt $CollectionOfMSExchangeISRPCAveragedLatency.Count;$i++)
+{
+	$oCounterInstance = $CollectionOfMSExchangeISRPCAveragedLatency[$i]
+    
+	For ($t=0;$t -lt $alQuantizedTime.Count;$t++)
+	{
+		If ($oCounterInstance.QuantizedAvg[$t] -ge 25)
+		{
+			CreateAlert -TimeSliceIndex $t -CounterInstanceObject $oCounterInstance -IsMinThresholdBroken $False -IsAvgThresholdBroken $True -IsMaxThresholdBroken $False -IsTrendThresholdBroken $False -IsMinEvaluated $False -IsAvgEvaluated $True -IsMaxEvaluated $False -IsTrendEvaluated $False
+		}
+	}
+}
+	]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>RPC latency in milliseconds averaged for the past 1024 packets.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Indicates the RPC latency, in milliseconds, averaged for all operations in the last 1,024 packets.</p>
+<p>For information about how clients are affected when overall server RPC averaged latencies increase, see <a href="http://go.microsoft.com/fwlink/?LinkId=116695" target="_new">RPC Client Throttling</a>.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For Exchange Server 2007 Mailbox servers, this value should not be higher than 25 ms on average.</p>
+<p>To determine if certain protocols are causing overall RPC latencies, monitor MSExchangeIS Client (*)\RPC Average Latency to separate latencies based on client protocol.</p>
+<p>Cross-reference MSExchangeIS\RPC Client Backoff/sec to ensure higher latencies are not causing client throttling.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeIS RPC Operations/sec" ENABLED="True" CATEGORY="MSExchangeIS" PRIMARYDATASOURCE="\MSExchangeIS\RPC Operations/sec" ID="a54e03d0-648e-4fd2-beb4-56a604e2346f" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeIS\RPC Operations/sec" COLLECTIONVARNAME="CollectionOfMSExchangeISRPCOperationssec" EXPRESSIONPATH="\MSExchangeIS\RPC Operations/sec" TRENDVARNAME="TrendMSExchangeISRPCOperationssec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeIS\RPC Operations/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeIS\RPC Operations/sec" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>RPC Operations/sec is the rate that RPC operations occur.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Indicates the current number of RPC operations that are occurring per second.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For Exchange Server 2007 Mailbox servers, this value should closely correspond to historical baselines. Values much higher than expected indicate that the workload has changed, while values much lower than expected indicate a bottleneck preventing client requests from reaching the server.</p>
+<p>For online mode clients, between .75 and 1 IOPS/Mailbox would be considered a moderate user. For more information about how to calculate this value, see the Mailbox Server Storage Design information in the "Understanding IOPS" section of the <a href="http://go.microsoft.com/fwlink/?LinkID=148208&clcid=0x409" target="_new">How to Measure IOPS per Mailbox</a> topic. </p>
+<p>NOTE: Cached Exchange Mode clients have a slightly higher rate due to other sync-related functions. </p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeIS RPC Num. of Slow Packets" ENABLED="True" CATEGORY="MSExchangeIS" PRIMARYDATASOURCE="\MSExchangeIS\RPC Num. of Slow Packets" ID="8a0d96b4-c163-4f05-88cf-65f66fd16f6e" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeIS\RPC Num. of Slow Packets" COLLECTIONVARNAME="CollectionOfMSExchangeISRPCNumofSlowPackets" EXPRESSIONPATH="\MSExchangeIS\RPC Num. of Slow Packets" TRENDVARNAME="TrendMSExchangeISRPCNumofSlowPackets" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeIS\RPC Num. of Slow Packets" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeIS\RPC Num. of Slow Packets" CHARTLABELS="instance" />
+    <THRESHOLD NAME="MSExchangeIS RPC number of slow packets average of more than 1, or spikes of 3 or greater" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[
+For ($i=0;$i -lt $CollectionOfMSExchangeISRPCNumofSlowPackets.Count;$i++)
+{
+	$oCounterInstance = $CollectionOfMSExchangeISRPCNumofSlowPackets[$i]
+    
+	For ($t=0;$t -lt $alQuantizedTime.Count;$t++)
+	{
+		$IsAvgThresholdBroken = $False
+		$IsMaxThresholdBroken = $False
+		
+		If ($oCounterInstance.QuantizedAvg[$t] -gt 1)
+		{
+			$IsAvgThresholdBroken = $True
+		}
+		
+		If ($oCounterInstance.QuantizedMax[$t] -ge 3)
+		{
+			$IsMaxThresholdBroken = $True
+		}
+		
+		If (($IsAvgThresholdBroken -eq $True) -or ($IsMaxThresholdBroken -eq $True))
+		{
+			CreateAlert -TimeSliceIndex $t -CounterInstanceObject $oCounterInstance -IsMinThresholdBroken $False -IsAvgThresholdBroken $IsAvgThresholdBroken -IsMaxThresholdBroken $IsMaxThresholdBroken -IsTrendThresholdBroken $False -IsMinEvaluated $False -IsAvgEvaluated $True -IsMaxEvaluated $True -IsTrendEvaluated $False
+		}
+	}
+}
+	]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>Number of RPC packets in the past 1024 that have latencies longer than 2 seconds.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the number of RPC packets in the past 1,024 packets that have latencies longer than 2 seconds.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For Exchange Server 2007 Mailbox servers, this value should be less than 1 on average, and should be less than 3 at all times.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeIS Client RPC Average Latency" ENABLED="True" CATEGORY="MSExchangeIS Client" PRIMARYDATASOURCE="\MSExchangeIS Client(*)\RPC Average Latency" ID="6efa577f-cb90-4518-8f78-50166fcc42fa" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeIS Client(*)\RPC Average Latency" COLLECTIONVARNAME="CollectionOfMSExchangeISClientRPCAverageLatency" EXPRESSIONPATH="\MSExchangeIS Client(*)\RPC Average Latency" TRENDVARNAME="TrendMSExchangeISClientRPCAverageLatency" DATATYPE="integer">
+      <EXCLUDE INSTANCE="_Total" />
+    </DATASOURCE>
+    <CHART CHARTTITLE="\MSExchangeIS Client(*)\RPC Average Latency" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeIS Client(*)\RPC Average Latency" CHARTLABELS="instance" />
+    <THRESHOLD NAME="MSExchangeIS client RPC average latency of 50ms or more" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[
+For ($i=0;$i -lt $CollectionOfMSExchangeISClientRPCAverageLatency.Count;$i++)
+{
+	$oCounterInstance = $CollectionOfMSExchangeISClientRPCAverageLatency[$i]
+    
+	For ($t=0;$t -lt $alQuantizedTime.Count;$t++)
+	{
+		If ($oCounterInstance.QuantizedAvg[$t] -ge 50)
+		{
+			CreateAlert -TimeSliceIndex $t -CounterInstanceObject $oCounterInstance -IsMinThresholdBroken $False -IsAvgThresholdBroken $True -IsMaxThresholdBroken $False -IsTrendThresholdBroken $False -IsMinEvaluated $False -IsAvgEvaluated $True -IsMaxEvaluated $False -IsTrendEvaluated $False
+		}
+	}
+}
+	]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>RPC Average Latency is a server RPC latency in milliseconds averaged for the past 1024 packets.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows a server RPC latency, in milliseconds, averaged for the past 1,024 packets for a particular client protocol.</p>
+<p>The following is a list of client protocols that can be gathered:</p>
+<ul>
+<li>Exchange Administrator</li>
+<li>Exchange ActiveSync</li>
+<li>Exchange Mailbox Assistants</li>
+<li>Exchange Outlook Web Access</li>
+<li>Exchange POP-IMAP</li>
+<li>Exchange Transport</li>
+<li>Exchange Other Clients</li>
+<li>Exchange Outlook Anywhere</li>
+<li>Exchange Content Indexing</li>
+<li>Exchange Availability Service</li>
+<li>Exchange Managed Custom Folder Creation</li>
+<li>Exchange Management Task</li>
+<li>Exchange Monitoring Task</li>
+<li>Exchange Unified Messaging</li>
+</ul></p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For Exchange Server 2007 Mailbox servers, this value should be less than 50 ms on average.</p>
+<p>Wide disparities between different client types, such as IMAP4, Outlook Anywhere, or Other Clients (MAPI), can help direct troubleshooting to appropriate subcomponents.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeIS Client RPC Operations/sec" ENABLED="True" CATEGORY="MSExchangeIS Client" PRIMARYDATASOURCE="\MSExchangeIS Client(*)\RPC Operations/sec" ID="6ef3a798-39ed-497f-99e6-5d12ae1dee2f" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeIS Client(*)\RPC Operations/sec" COLLECTIONVARNAME="CollectionOfMSExchangeISClientRPCOperationssec" EXPRESSIONPATH="\MSExchangeIS Client(*)\RPC Operations/sec" TRENDVARNAME="TrendMSExchangeISClientRPCOperationssec" DATATYPE="integer">
+      <EXCLUDE INSTANCE="_Total" />
+    </DATASOURCE>
+    <CHART CHARTTITLE="\MSExchangeIS Client(*)\RPC Operations/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeIS Client(*)\RPC Operations/sec" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>RPC Operations/sec is the rate that RPC operations occur.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows which client protocol is performing an excessive amount of RPC Operations/sec.</p>
+<p>High IMAP4, POP3, or Outlook Anywhere latency can indicate problems with Client Access servers rather than Mailbox servers. This is especially true when Other Clients (which includes MAPI) latency is lower in comparison.</p>
+<p>In some instances, high IMAP latencies could indicate a bottleneck on the Mailbox server in addition to the latencies that the Client Access server is experiencing.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Not Applicable.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeIS Mailbox Messages Delivered/sec" ENABLED="True" CATEGORY="MSExchangeIS Mailbox" PRIMARYDATASOURCE="\MSExchangeIS Mailbox(_Total)\Messages Delivered/sec" ID="7b509b6f-0962-4b0b-8a91-276df2e769ce" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeIS Mailbox(_Total)\Messages Delivered/sec" COLLECTIONVARNAME="CollectionOfMSExchangeISMailboxMessagesDeliveredsec" EXPRESSIONPATH="\MSExchangeIS Mailbox(_Total)\Messages Delivered/sec" TRENDVARNAME="TrendMSExchangeISMailboxMessagesDeliveredsec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeIS Mailbox(_Total)\Messages Delivered/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeIS Mailbox(_Total)\Messages Delivered/sec" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>Messages Delivered/sec is the rate that messages are delivered to all recipients.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the rate that messages are delivered to all recipients.</p>
+<p>Indicates current message delivery rate to the store.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Not Applicable.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeIS Mailbox Messages Sent/sec" ENABLED="True" CATEGORY="MSExchangeIS Mailbox" PRIMARYDATASOURCE="\MSExchangeIS Mailbox(_Total)\Messages Sent/sec" ID="33082281-9495-4f07-94b1-27a00a6099b8" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeIS Mailbox(_Total)\Messages Sent/sec" COLLECTIONVARNAME="CollectionOfMSExchangeISMailboxMessagesSentsec" EXPRESSIONPATH="\MSExchangeIS Mailbox(_Total)\Messages Sent/sec" TRENDVARNAME="TrendMSExchangeISMailboxMessagesSentsec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeIS Mailbox(_Total)\Messages Sent/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeIS Mailbox(_Total)\Messages Sent/sec" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>Messages Sent/sec is the rate that messages are sent to the transport.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the rate that messages are sent to transport.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Used to determine current messages sent to transport.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeIS Mailbox Messages Submitted/sec" ENABLED="True" CATEGORY="MSExchangeIS Mailbox" PRIMARYDATASOURCE="\MSExchangeIS Mailbox(_Total)\Messages Submitted/sec" ID="bb89da27-ebce-40eb-8d9c-3e196a88b5b3" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeIS Mailbox(_Total)\Messages Submitted/sec" COLLECTIONVARNAME="CollectionOfMSExchangeISMailboxMessagesSubmittedsec" EXPRESSIONPATH="\MSExchangeIS Mailbox(_Total)\Messages Submitted/sec" TRENDVARNAME="TrendMSExchangeISMailboxMessagesSubmittedsec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeIS Mailbox(_Total)\Messages Submitted/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeIS Mailbox(_Total)\Messages Submitted/sec" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>Messages Submitted/sec is the rate that messages are submitted by clients.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the rate that messages are submitted by clients.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Used to determine current rate that messages are being submitted by clients.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeIS Client JET Log Records/sec" ENABLED="True" CATEGORY="MSExchangeIS Client" PRIMARYDATASOURCE="\MSExchangeIS Client(*)\JET Log Records/sec" ID="55390105-a992-4fe1-bc11-74de9198e2ad" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeIS Client(*)\JET Log Records/sec" COLLECTIONVARNAME="CollectionOfMSExchangeISClientJETLogRecordssec" EXPRESSIONPATH="\MSExchangeIS Client(*)\JET Log Records/sec" TRENDVARNAME="TrendMSExchangeISClientJETLogRecordssec" DATATYPE="integer">
+      <EXCLUDE INSTANCE="_Total" />
+    </DATASOURCE>
+    <CHART CHARTTITLE="\MSExchangeIS Client(*)\JET Log Records/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeIS Client(*)\JET Log Records/sec" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>JET Log Records/sec is the rate that database log records are generated while processing requests for the client.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the rate that database log records are generated while processing requests for the client.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Used to determine current load.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeIS Client JET Pages Read/sec" ENABLED="True" CATEGORY="MSExchangeIS Client" PRIMARYDATASOURCE="\MSExchangeIS Client(*)\JET Pages Read/sec" ID="75ed39ff-547a-44b2-80e2-8fb582d3ac37" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeIS Client(*)\JET Pages Read/sec" COLLECTIONVARNAME="CollectionOfMSExchangeISClientJETPagesReadsec" EXPRESSIONPATH="\MSExchangeIS Client(*)\JET Pages Read/sec" TRENDVARNAME="TrendMSExchangeISClientJETPagesReadsec" DATATYPE="integer">
+      <EXCLUDE INSTANCE="_Total" />
+    </DATASOURCE>
+    <CHART CHARTTITLE="\MSExchangeIS Client(*)\JET Pages Read/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeIS Client(*)\JET Pages Read/sec" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>JET Pages Read/sec is the rate that database pages are read from disk while processing requests for the client.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the rate that database pages are read from disk while processing requests for the client.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Used to determine current load.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeIS Client Directory Access: LDAP Reads/sec" ENABLED="True" CATEGORY="MSExchangeIS Client" PRIMARYDATASOURCE="\MSExchangeIS Client(*)\Directory Access: LDAP Reads/sec" ID="c41592ca-ea90-4c9e-9305-c93159cc2cc3" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeIS Client(*)\Directory Access: LDAP Reads/sec" COLLECTIONVARNAME="CollectionOfMSExchangeISClientDirectoryAccessLDAPReadssec" EXPRESSIONPATH="\MSExchangeIS Client(*)\Directory Access: LDAP Reads/sec" TRENDVARNAME="TrendMSExchangeISClientDirectoryAccessLDAPReadssec" DATATYPE="integer">
+      <EXCLUDE INSTANCE="_Total" />
+    </DATASOURCE>
+    <CHART CHARTTITLE="\MSExchangeIS Client(*)\Directory Access: LDAP Reads/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeIS Client(*)\Directory Access: LDAP Reads/sec" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>Directory Access: LDAP Reads/sec is the rate LDAP reads occur while processing requests for the client.<p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the current rate that the Lightweight Directory Access Protocol (LDAP) reads occur while processing requests for the client.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Used to determine the current LDAP read rate per protocol.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeIS Client Directory Access: LDAP Searches/sec" ENABLED="True" CATEGORY="MSExchangeIS Client" PRIMARYDATASOURCE="\MSExchangeIS Client(*)\Directory Access: LDAP Searches/sec" ID="87549999-9432-4f54-8dd2-588ce4b4d9c2" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeIS Client(*)\Directory Access: LDAP Searches/sec" COLLECTIONVARNAME="CollectionOfMSExchangeISClientDirectoryAccessLDAPSearchessec" EXPRESSIONPATH="\MSExchangeIS Client(*)\Directory Access: LDAP Searches/sec" TRENDVARNAME="TrendMSExchangeISClientDirectoryAccessLDAPSearchessec" DATATYPE="integer">
+      <EXCLUDE INSTANCE="_Total" />
+    </DATASOURCE>
+    <CHART CHARTTITLE="\MSExchangeIS Client(*)\Directory Access: LDAP Searches/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeIS Client(*)\Directory Access: LDAP Searches/sec" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>Directory Access: LDAP Searches/sec is the rate LDAP searches occur while processing requests for the client.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the current rate that the LDAP searches occur while processing requests for the client.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Used to determine the current LDAP search rate per protocol.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeIS RPC Client Backoff/sec" ENABLED="True" CATEGORY="MSExchangeIS" PRIMARYDATASOURCE="\MSExchangeIS\RPC Client Backoff/sec" ID="3c4f80b8-940b-4d5b-b1f9-338b0cfad3c9" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeIS\RPC Client Backoff/sec" COLLECTIONVARNAME="CollectionOfMSExchangeISRPCClientBackoffsec" EXPRESSIONPATH="\MSExchangeIS\RPC Client Backoff/sec" TRENDVARNAME="TrendMSExchangeISRPCClientBackoffsec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeIS\RPC Client Backoff/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeIS\RPC Client Backoff/sec" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>RPC Client Backoff/sec is the rate that server notifies a client to back off.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the rate that the server notifies the client to back off.</p>
+<p>Indicates the rate at which client backoffs are occurring.</p>
+<p>Higher values may indicate that the server may be incurring a higher load resulting in an increase in overall averaged RPC latencies, causing client throttling to occur.</p>
+<p>This can also occur when certain client user actions are being performed. Depending on what the client is doing and the rate at which RPC operations are occurring, it may be normal to see backoffs occurring.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Not Applicable.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeIS Client: RPCs Failed: Server Too Busy / sec" ENABLED="True" CATEGORY="MSExchangeIS" PRIMARYDATASOURCE="\MSExchangeIS\Client: RPCs Failed: Server Too Busy / sec" ID="3ea8b45b-bc98-4213-aa43-04c49253bf38" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeIS\Client: RPCs Failed: Server Too Busy / sec" COLLECTIONVARNAME="CollectionOfMSExchangeISClientRPCsFailedServerTooBusysec" EXPRESSIONPATH="\MSExchangeIS\Client: RPCs Failed: Server Too Busy / sec" TRENDVARNAME="TrendMSExchangeISClientRPCsFailedServerTooBusysec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeIS\Client: RPCs Failed: Server Too Busy / sec" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeIS\Client: RPCs Failed: Server Too Busy / sec" CHARTLABELS="instance" />
+    <THRESHOLD NAME="MSExchangeIS client RPCs failed server too busy per second of greater than 0" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeISClientRPCsFailedServerTooBusysec -Operator 'gt' -Threshold 0]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>The client-reported rate of failed RPCs (since the store was started) due to the Server Too Busy RPC error.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the client-reported rate of failed RPCs (since the store was started) due to the Server Too Busy ROC error.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For Exchange Server 2007 Mailbox servers, this value should be 0 at all times.</p>
+<p>Higher values may indicate RPC threads are exhausted or client throttling is occurring for clients running versions of Outlook earlier than Microsoft Office Outlook 2007.</p>
+]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeIS Client: RPCs Failed: Server Too Busy" ENABLED="True" CATEGORY="MSExchangeIS" PRIMARYDATASOURCE="\MSExchangeIS\Client: RPCs Failed: Server Too Busy" ID="99249d32-a1c4-4453-be75-30af4d8a5419" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeIS\Client: RPCs Failed: Server Too Busy" COLLECTIONVARNAME="CollectionOfMSExchangeISClientRPCsFailedServerTooBusy" EXPRESSIONPATH="\MSExchangeIS\Client: RPCs Failed: Server Too Busy" TRENDVARNAME="TrendMSExchangeISClientRPCsFailedServerTooBusy" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeIS\Client: RPCs Failed: Server Too Busy" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeIS\Client: RPCs Failed: Server Too Busy" CHARTLABELS="instance" />
+    <THRESHOLD NAME="MSExchangeIS client RPCs failed server too busy greater than 0" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeISClientRPCsFailedServerTooBusy -Operator 'gt' -Threshold 0]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>The client-reported number of failed RPCs (since the store was started) due to the Server Too Busy RPC error.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>The client-reported number of failed RPCs (since the store was started) due to the Server Too Busy ROC error.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For Exchange Server 2007 Mailbox servers, this value should be 0 at all times.</p>
+]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeIS Mailbox Messages Queued For Submission" ENABLED="True" CATEGORY="MSExchangeIS Mailbox" PRIMARYDATASOURCE="\MSExchangeIS Mailbox(_Total)\Messages Queued For Submission" ID="6ecd2727-164b-418a-a22a-75b83a198a57" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeIS Mailbox(_Total)\Messages Queued For Submission" COLLECTIONVARNAME="CollectionOfMSExchangeISMailboxMessagesQueuedForSubmission" EXPRESSIONPATH="\MSExchangeIS Mailbox(_Total)\Messages Queued For Submission" TRENDVARNAME="TrendMSExchangeISMailboxMessagesQueuedForSubmission" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeIS Mailbox(_Total)\Messages Queued For Submission" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeIS Mailbox(_Total)\Messages Queued For Submission" CHARTLABELS="instance" />
+    <THRESHOLD NAME="MSExchangeIS mailbox total messages queued for submission at 50 or more" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeISMailboxMessagesQueuedForSubmission -Operator 'ge' -Threshold 50]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>Messages Queued For Submission is the current number of submitted messages which are not yet processed by transport.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the current number of submitted messages that are not yet processed by the transport layer.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For Exchange Server 2007 Mailbox servers, this value should be below 50 at all times and should not be sustained for more than 15 minutes.</p>
+<p>This may indicate that there are connectivity issues to the transport servers or that backpressure is occurring.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeIS Public Messages Queued For Submission" ENABLED="True" CATEGORY="MSExchangeIS Public" PRIMARYDATASOURCE="\MSExchangeIS Public(_Total)\Messages Queued For Submission" ID="27c2a69f-bf5a-4af2-9dd9-4bd879c7dd41" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeIS Public(_Total)\Messages Queued For Submission" COLLECTIONVARNAME="CollectionOfMSExchangeISPublicMessagesQueuedForSubmission" EXPRESSIONPATH="\MSExchangeIS Public(_Total)\Messages Queued For Submission" TRENDVARNAME="TrendMSExchangeISPublicMessagesQueuedForSubmission" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeIS Public(_Total)\Messages Queued For Submission" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeIS Public(_Total)\Messages Queued For Submission" CHARTLABELS="instance" />
+    <THRESHOLD NAME="MSExchangeIS public total messages queued for submission at 20 or more" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeISPublicMessagesQueuedForSubmission -Operator 'ge' -Threshold 20]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>Messages Queued For Submission is the current number of submitted messages which are not yet processed by transport.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the current number of submitted messages that are not yet processed by the transport layer.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For Exchange Server 2007 Mailbox servers, this value should be less than 20 at all times.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Database ==&gt; Instances Log Generation Checkpoint Depth" ENABLED="True" CATEGORY="MSExchange Database ==&gt; Instances" PRIMARYDATASOURCE="\MSExchange Database ==&gt; Instances(*)\Log Generation Checkpoint Depth" ID="4cae23f0-8180-4883-ab63-2d591203a4c7" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Database ==&gt; Instances(*)\Log Generation Checkpoint Depth" COLLECTIONVARNAME="CollectionOfMSExchangeDatabaseInstancesLogGenerationCheckpointDepth" EXPRESSIONPATH="\MSExchange Database ==&gt; Instances(*)\Log Generation Checkpoint Depth" TRENDVARNAME="TrendMSExchangeDatabase==&gt;InstancesLogGenerationCheckpointDepth" DATATYPE="integer">
+      <EXCLUDE INSTANCE="_Total" />
+    </DATASOURCE>
+    <CHART CHARTTITLE="\MSExchange Database ==&gt; Instances(*)\Log Generation Checkpoint Depth" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Database ==&gt; Instances(*)\Log Generation Checkpoint Depth" CHARTLABELS="instance" />
+    <THRESHOLD NAME="MSExchange database instance log generation checkpoint depth at 30 or greater" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeDatabaseInstancesLogGenerationCheckpointDepth -Operator 'ge' -Threshold 30]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="MSExchange database instance log generation checkpoint depth at 500 or greater" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeDatabaseInstancesLogGenerationCheckpointDepth -Operator 'ge' -Threshold 500]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>Log Generation Checkpoint Depth represents the amount of work, in count of log files, that will need to be redone or undone to the database file(s) if the process crashes.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Represents the amount of work in the log file count that will need to be redone or undone to the database files if the process fails.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Should be below 500 at all times for the Mailbox server role. A healthy server should indicate between 20 and 30 for each storage group instance.</p>
+<p>If checkpoint depth increases continually for a sustained period, this is an indicator of either a long-running transaction (which will impact the version store) or of a bottleneck involving the database disks.</p>
+<p>Should be below 1,000 at all times for the Edge Transport server role.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Information Store - MSExchange Database Database Page Fault Stalls/sec" ENABLED="True" CATEGORY="MSExchange Database" PRIMARYDATASOURCE="\MSExchange Database(Information Store)\Database Page Fault Stalls/sec" ID="deb7f874-cd0d-43ae-a769-609e2bf157c7" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Database(Information Store)\Database Page Fault Stalls/sec" COLLECTIONVARNAME="CollectionOfMSExchangeDatabaseDatabasePageFaultStallssec" EXPRESSIONPATH="\MSExchange Database(Information Store)\Database Page Fault Stalls/sec" TRENDVARNAME="TrendMSExchangeDatabaseDatabasePageFaultStallssec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Database(Information Store)\Database Page Fault Stalls/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Database(Information Store)\Database Page Fault Stalls/sec" CHARTLABELS="instance" />
+    <THRESHOLD NAME="MSExchange database information store database page fault stalls per second greater than 0" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeDatabaseDatabasePageFaultStallssec -Operator 'gt' -Threshold 0]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>Database Page Fault Stalls/sec is the rate of page faults that cannot be serviced because there are no pages available for allocation from the database cache.  If this counter is non-zero most of the time, the clean threshold may be too low.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the rate that database file page requests require of the database cache manager to allocate a new page from the database cache.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For Exchange Server 2007 Mailbox servers, this value should be 0 at all times.</p>
+<p>If this value is non-zero, this indicates that the database is not able to flush dirty pages to the database file fast enough to make pages free for new page allocations.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Information Store - MSExchange Database Log Record Stalls/sec" ENABLED="True" CATEGORY="MSExchange Database" PRIMARYDATASOURCE="\MSExchange Database(Information Store)\Log Record Stalls/sec" ID="b3ace472-a947-4ce9-80db-d9d2987880f9" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Database(Information Store)\Log Record Stalls/sec" COLLECTIONVARNAME="CollectionOfMSExchangeDatabaseLogRecordStallssec" EXPRESSIONPATH="\MSExchange Database(Information Store)\Log Record Stalls/sec" TRENDVARNAME="TrendMSExchangeDatabaseLogRecordStallssec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Database(Information Store)\Log Record Stalls/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Database(Information Store)\Log Record Stalls/sec" CHARTLABELS="instance" />
+    <THRESHOLD NAME="MSExchange database information store log record stalls per second average of 10 or more, or spikes of 100 or greater" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[
+For ($i=0;$i -lt $CollectionOfMSExchangeDatabaseLogRecordStallssec.Count;$i++)
+{
+	$oCounterInstance = $CollectionOfMSExchangeDatabaseLogRecordStallssec[$i]
+    
+	For ($t=0;$t -lt $alQuantizedTime.Count;$t++)
+	{
+		$IsAvgThresholdBroken = $False
+		$IsMaxThresholdBroken = $False
+		
+		If ($oCounterInstance.QuantizedAvg[$t] -ge 10)
+		{
+			$IsAvgThresholdBroken = $True
+		}
+		
+		If ($oCounterInstance.QuantizedMax[$t] -ge 100)
+		{
+			$IsMaxThresholdBroken = $True
+		}
+		
+		If (($IsAvgThresholdBroken -eq $True) -or ($IsMaxThresholdBroken -eq $True))
+		{
+			CreateAlert -TimeSliceIndex $t -CounterInstanceObject $oCounterInstance -IsMinThresholdBroken $False -IsAvgThresholdBroken $IsAvgThresholdBroken -IsMaxThresholdBroken $IsMaxThresholdBroken -IsTrendThresholdBroken $False -IsMinEvaluated $False -IsAvgEvaluated $True -IsMaxEvaluated $True -IsTrendEvaluated $False
+		}
+	}
+}
+	]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>Log Record Stalls/sec is the number of log records that cannot be added to the log buffers per second because they are full.  If this counter is non-zero most of the time, the log buffer size may be a bottleneck.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the number of log records that cannot be added to the log buffers per second because the log buffers are full. If this counter is non-zero most of the time, the log buffer size may be a bottleneck.</p>
+<p>If I/O log write latencies are high, check for RAID5 or sync replication on log devices.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For Exchange Server 2007 Mailbox servers, this value average should be below 10 per second with spikes (maximum values) of less than 100 per second.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Information Store - MSExchange Database Log Threads Waiting" ENABLED="True" CATEGORY="MSExchange Database" PRIMARYDATASOURCE="\MSExchange Database(Information Store)\Log Threads Waiting" ID="4ed863cc-b2a6-4318-9d2e-f5a3eaa236f7" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Database(Information Store)\Log Threads Waiting" COLLECTIONVARNAME="CollectionOfMSExchangeDatabaseLogThreadsWaiting" EXPRESSIONPATH="\MSExchange Database(Information Store)\Log Threads Waiting" TRENDVARNAME="TrendMSExchangeDatabaseLogThreadsWaiting" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Database(Information Store)\Log Threads Waiting" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Database(Information Store)\Log Threads Waiting" CHARTLABELS="instance" />
+    <THRESHOLD NAME="MSExchange database information store log threads waiting average of 10 or more" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[
+For ($i=0;$i -lt $CollectionOfMSExchangeDatabaseLogThreadsWaiting.Count;$i++)
+{
+	$oCounterInstance = $CollectionOfMSExchangeDatabaseLogThreadsWaiting[$i]
+    
+	For ($t=0;$t -lt $alQuantizedTime.Count;$t++)
+	{
+		If ($oCounterInstance.QuantizedAvg[$t] -ge 10)
+		{
+			CreateAlert -TimeSliceIndex $t -CounterInstanceObject $oCounterInstance -IsMinThresholdBroken $False -IsAvgThresholdBroken $True -IsMaxThresholdBroken $False -IsTrendThresholdBroken $False -IsMinEvaluated $False -IsAvgEvaluated $True -IsMaxEvaluated $False -IsTrendEvaluated $False
+		}
+	}
+}
+	]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>Log Threads Waiting is the number of threads waiting for their data to be written to the log in order to complete an update of the database.  If this number is too high, the log may be a bottleneck.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the number of threads waiting for their data to be written to the log to complete an update of the database. If this number is too high, the log may be a bottleneck.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For Exchange Server 2007 Mailbox servers, this value should be less than 10 on average.</p>
+<p>Regular spikes concurrent with log record stall spikes indicate that the transaction log disks are a bottleneck.</p>
+<p>If the value for log threads waiting is more than the spindles available for the logs, there is a bottleneck on the log disks.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Information Store - MSExchange Database Version buckets allocated" ENABLED="True" CATEGORY="MSExchange Database" PRIMARYDATASOURCE="\MSExchange Database(Information Store)\Version buckets allocated" ID="39741686-9d05-4a24-9c14-239bc6a41f1f" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Database(Information Store)\Version buckets allocated" COLLECTIONVARNAME="CollectionOfMSExchangeDatabaseVersionbucketsallocated" EXPRESSIONPATH="\MSExchange Database(Information Store)\Version buckets allocated" TRENDVARNAME="TrendMSExchangeDatabaseVersionbucketsallocated" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Database(Information Store)\Version buckets allocated" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Database(Information Store)\Version buckets allocated" CHARTLABELS="instance" />
+    <THRESHOLD NAME="MSExchange database information store version buckets allocated at 12000 or more" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeDatabaseVersionbucketsallocated -Operator 'ge' -Threshold 12000]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>Total number of version buckets allocated</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the total number of version buckets allocated.</p>
+<p>The maximum default version is 16,384. If version buckets reach 70 percent of maximum, the server is at risk of running out of the version store.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For Exchange Server 2007 Mailbox servers, this value should be less than 12,000 at all times.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Database ==&gt; Instances I/O Database Reads Average Latency" ENABLED="True" CATEGORY="MSExchange Database ==&gt; Instances" PRIMARYDATASOURCE="\MSExchange Database ==&gt; Instances(*)\I/O Database Reads Average Latency" ID="51b99ff6-79cf-46e8-97d3-e96e4c9690c0" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Database ==&gt; Instances(*)\I/O Database Reads Average Latency" COLLECTIONVARNAME="CollectionOfMSExchangeDatabaseInstancesIODatabaseReadsAverageLatency" EXPRESSIONPATH="\MSExchange Database ==&gt; Instances(*)\I/O Database Reads Average Latency" TRENDVARNAME="TrendMSExchangeDatabase==&gt;InstancesIODatabaseReadsAverageLatency" DATATYPE="integer">
+      <EXCLUDE INSTANCE="_Total" />
+    </DATASOURCE>
+    <CHART CHARTTITLE="\MSExchange Database ==&gt; Instances(*)\I/O Database Reads Average Latency" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Database ==&gt; Instances(*)\I/O Database Reads Average Latency" CHARTLABELS="instance" />
+    <THRESHOLD NAME="MSExchange database I/O database reads average latency average of 20ms or more, or spikes of 50ms or greater" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[
+For ($i=0;$i -lt $CollectionOfMSExchangeDatabaseInstancesIODatabaseReadsAverageLatency.Count;$i++)
+{
+	$oCounterInstance = $CollectionOfMSExchangeDatabaseInstancesIODatabaseReadsAverageLatency[$i]
+    
+	For ($t=0;$t -lt $alQuantizedTime.Count;$t++)
+	{
+		$IsAvgThresholdBroken = $False
+		$IsMaxThresholdBroken = $False
+		
+		If ($oCounterInstance.QuantizedAvg[$t] -ge 20)
+		{
+			$IsAvgThresholdBroken = $True
+		}
+		
+		If ($oCounterInstance.QuantizedMax[$t] -ge 50)
+		{
+			$IsMaxThresholdBroken = $True
+		}
+		
+		If (($IsAvgThresholdBroken -eq $True) -or ($IsMaxThresholdBroken -eq $True))
+		{
+			CreateAlert -TimeSliceIndex $t -CounterInstanceObject $oCounterInstance -IsMinThresholdBroken $False -IsAvgThresholdBroken $IsAvgThresholdBroken -IsMaxThresholdBroken $IsMaxThresholdBroken -IsTrendThresholdBroken $False -IsMinEvaluated $False -IsAvgEvaluated $True -IsMaxEvaluated $True -IsTrendEvaluated $False
+		}
+	}
+}
+	]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>I/O Database Reads Average Latency is the average length of time,  in milliseconds, per database read operation.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the average length of time, in milliseconds, per database read operation.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For Exchange Server 2007 Mailbox servers, this value should be 20 ms on average with spikes of less than 50 ms.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Database ==&gt; Instances I/O Database Writes Average Latency" ENABLED="True" CATEGORY="MSExchange Database ==&gt; Instances" PRIMARYDATASOURCE="\MSExchange Database ==&gt; Instances(*)\I/O Database Writes Average Latency" ID="efb47182-a8ad-4d63-856d-d8fe4c7c3b6b" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Database ==&gt; Instances(*)\I/O Database Writes Average Latency" COLLECTIONVARNAME="CollectionOfMSExchangeDatabaseInstancesIODatabaseWritesAverageLatency" EXPRESSIONPATH="\MSExchange Database ==&gt; Instances(*)\I/O Database Writes Average Latency" TRENDVARNAME="TrendMSExchangeDatabase==&gt;InstancesIODatabaseWritesAverageLatency" DATATYPE="integer">
+      <EXCLUDE INSTANCE="_Total" />
+    </DATASOURCE>
+    <CHART CHARTTITLE="\MSExchange Database ==&gt; Instances(*)\I/O Database Writes Average Latency" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Database ==&gt; Instances(*)\I/O Database Writes Average Latency" CHARTLABELS="instance" />
+    <THRESHOLD NAME="MSExchange database instance I/O database writes average latency average of 50ms or more, or spikes of 100ms or greater" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[
+For ($i=0;$i -lt $CollectionOfMSExchangeDatabaseInstancesIODatabaseWritesAverageLatency.Count;$i++)
+{
+	$oCounterInstance = $CollectionOfMSExchangeDatabaseInstancesIODatabaseWritesAverageLatency[$i]
+    
+	For ($t=0;$t -lt $alQuantizedTime.Count;$t++)
+	{
+		$IsAvgThresholdBroken = $False
+		$IsMaxThresholdBroken = $False
+		
+		If ($oCounterInstance.QuantizedAvg[$t] -ge 50)
+		{
+			$IsAvgThresholdBroken = $True
+		}
+		
+		If ($oCounterInstance.QuantizedMax[$t] -ge 100)
+		{
+			$IsMaxThresholdBroken = $True
+		}
+		
+		If (($IsAvgThresholdBroken -eq $True) -or ($IsMaxThresholdBroken -eq $True))
+		{
+			CreateAlert -TimeSliceIndex $t -CounterInstanceObject $oCounterInstance -IsMinThresholdBroken $False -IsAvgThresholdBroken $IsAvgThresholdBroken -IsMaxThresholdBroken $IsMaxThresholdBroken -IsTrendThresholdBroken $False -IsMinEvaluated $False -IsAvgEvaluated $True -IsMaxEvaluated $True -IsTrendEvaluated $False
+		}
+	}
+}
+	]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>I/O Database Writes Average Latency is the average length of time,  in milliseconds, per database write operation.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the average length of time, in milliseconds, per database write operation.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For Exchange Server 2007 Mailbox servers, this value should be 50 ms on average.  Spikes of up to 100 ms are acceptable if not accompanied by database page fault stalls.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Database Database Cache Size (MB)" ENABLED="True" CATEGORY="MSExchange Database" PRIMARYDATASOURCE="\MSExchange Database(Information Store)\Database Cache Size (MB)" ID="47fcc56b-7c6e-45ef-b496-ca825499ae04" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Database(Information Store)\Database Cache Size (MB)" COLLECTIONVARNAME="CollectionOfMSExchangeDatabaseDatabaseCacheSizeMB" EXPRESSIONPATH="\MSExchange Database(Information Store)\Database Cache Size (MB)" TRENDVARNAME="TrendMSExchangeDatabaseDatabaseCacheSizeMB" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Database(Information Store)\Database Cache Size (MB)" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Database(Information Store)\Database Cache Size (MB)" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>Database Cache Size (MB) is the amount of system memory (in MegaBytes) used by the database cache manager to hold commonly used information from the database file(s) to prevent file operations.  If the database cache size seems to be too small for optimal performance and there is very little available memory on the system (see Memory/Available Bytes), adding more memory to the system may increase performance.  If there is a lot of available memory on the system and the database cache size is not growing beyond a certain point, the database cache size may be capped at an artificially low limit.  Increasing this limit may increase performance.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the amount of system memory, in megabytes, used by the database cache manager to hold commonly used information from the database files to prevent file operations. If the database cache size seems too small for optimal performance and there is little available memory on the system (check the value of Memory/Available Bytes), adding more memory to the system may increase performance. If there is ample memory on the system and the database cache size is not growing beyond a certain point, the database cache size may be capped at an artificially low limit. Increasing this limit may increase performance.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Maximum value is RAM-2GB (RAM-3GB for servers with sync replication enabled). This and Database Cache Hit % are extremely useful counters for gauging whether a server's performance problems might be resolved by adding more physical memory.</p>
+<p>Use this counter along with store private bytes to determine if there are store memory leaks.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Database Database Cache % Hit" ENABLED="True" CATEGORY="MSExchange Database" PRIMARYDATASOURCE="\MSExchange Database(Information Store)\Database Cache % Hit" ID="aee9ae01-c230-4ab2-b579-49709fd3b34c" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Database(Information Store)\Database Cache % Hit" COLLECTIONVARNAME="CollectionOfMSExchangeDatabaseDatabaseCachePercentHit" EXPRESSIONPATH="\MSExchange Database(Information Store)\Database Cache % Hit" TRENDVARNAME="TrendMSExchangeDatabaseDatabaseCachePercentHit" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Database(Information Store)\Database Cache % Hit" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Database(Information Store)\Database Cache % Hit" CHARTLABELS="instance" />
+    <THRESHOLD NAME="MSExchange database information store database cache hit percentage less than 99% with majority of clients in cached mode" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[
+If ($MajorityClientsCached -eq $True)
+{
+	StaticThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeDatabaseDatabaseCachePercentHit -Operator 'lt' -Threshold 99
+}
+	]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="MSExchange database information store database cache hit percentage less than 90% with majority of clients in online mode" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[
+If ($MajorityClientsCached -eq $False)
+{
+	StaticThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeDatabaseDatabaseCachePercentHit -Operator 'lt' -Threshold 90
+}
+	]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>Database Cache % Hit is the percentage of database file page requests that were fulfilled by the database cache without causing a file operation.  If this percentage is too low, the database cache size may be too small.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the percentage of database file page requests that were fulfilled by the database cache without causing a file operation. If this percentage is too low, the database cache size may be too small.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For Exchange Server 2007 Mailbox servers, this value should be over 90% for companies with majority online mode clients, and should be over 99% for companies with majority cached mode clients.</p>
+<p>If the hit ratio is less than these numbers, the database cache may be insufficient.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Database Log Bytes Write/sec" ENABLED="True" CATEGORY="MSExchange Database" PRIMARYDATASOURCE="\MSExchange Database(Information Store)\Log Bytes Write/sec" ID="722edafb-4576-4137-addf-6b3f05bdab75" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Database(Information Store)\Log Bytes Write/sec" COLLECTIONVARNAME="CollectionOfMSExchangeDatabaseLogBytesWritesec" EXPRESSIONPATH="\MSExchange Database(Information Store)\Log Bytes Write/sec" TRENDVARNAME="TrendMSExchangeDatabaseLogBytesWritesec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Database(Information Store)\Log Bytes Write/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Database(Information Store)\Log Bytes Write/sec" CHARTLABELS="instance" />
+    <THRESHOLD NAME="MSExchange database information store log bytes written per second of 10000000 or more" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeDatabaseLogBytesWritesec -Operator 'ge' -Threshold 10000000]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>Log Bytes Write per second is the rate bytes are written to the log.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the rate bytes are written to the log.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For Exchange Server 2007 Mailbox servers, this value should be less than 10,000,000 at all times.</p>
+<p>With each log file being 1,000,000 bytes in size, 10,000,000 bytes/sec would yield 10 logs/sec. This may indicate a large message being sent or a looping message.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeIS User Count" ENABLED="True" CATEGORY="MSExchangeIS" PRIMARYDATASOURCE="\MSExchangeIS\User Count" ID="b93621ae-9946-45bb-9677-4d689ae35028" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeIS\User Count" COLLECTIONVARNAME="CollectionOfMSExchangeISUserCount" EXPRESSIONPATH="\MSExchangeIS\User Count" TRENDVARNAME="TrendMSExchangeISUserCount" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeIS\User Count" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeIS\User Count" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>User Count is the number of users connected to the information store.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the number of users connected to the information store.</p>
+<p>Used to determine current user load.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Not Applicable.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeIS Public Replication Receive Queue Size" ENABLED="True" CATEGORY="MSExchangeIS Public" PRIMARYDATASOURCE="\MSExchangeIS Public(_Total)\Replication Receive Queue Size" ID="156c150b-a679-44bb-94c3-dfaa1af5b31c" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeIS Public(_Total)\Replication Receive Queue Size" COLLECTIONVARNAME="CollectionOfMSExchangeISPublicReplicationReceiveQueueSize" EXPRESSIONPATH="\MSExchangeIS Public(_Total)\Replication Receive Queue Size" TRENDVARNAME="TrendMSExchangeISPublicReplicationReceiveQueueSize" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeIS Public(_Total)\Replication Receive Queue Size" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeIS Public(_Total)\Replication Receive Queue Size" CHARTLABELS="instance" />
+    <THRESHOLD NAME="MSExchangeIS public replication receive queue size of 100 or greater" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeISPublicReplicationReceiveQueueSize -Operator 'ge' -Threshold 100]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>Replication Receive Queue Size is the number of replication messages waiting to be processed.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the number of replication messages waiting to be processed.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For Exchange Server 2007 Mailbox servers, this value should be less than 100 at all times.</p>
+<p>This value should return to a minimum value between replication intervals.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeIS Mailbox Slow FindRow Rate" ENABLED="True" CATEGORY="MSExchangeIS Mailbox" PRIMARYDATASOURCE="\MSExchangeIS Mailbox(*)\Slow FindRow Rate" ID="a606a2c2-0607-47a7-a71c-7cdfa62e3370" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeIS Mailbox(*)\Slow FindRow Rate" COLLECTIONVARNAME="CollectionOfMSExchangeISMailboxSlowFindRowRate" EXPRESSIONPATH="\MSExchangeIS Mailbox(*)\Slow FindRow Rate" TRENDVARNAME="TrendMSExchangeISMailboxSlowFindRowRate" DATATYPE="integer">
+      <EXCLUDE INSTANCE="_Total" />
+    </DATASOURCE>
+    <CHART CHARTTITLE="\MSExchangeIS Mailbox(*)\Slow FindRow Rate" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeIS Mailbox(*)\Slow FindRow Rate" CHARTLABELS="instance" />
+    <THRESHOLD NAME="MSExchangeIS mailbox slow find rate of 10 or greater" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeISMailboxSlowFindRowRate -Operator 'ge' -Threshold 10]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>Slow FindRow Rate is the rate at which the slower FindRow needs to be used in the mailbox store.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the rate at which the slower FindRow needs to be used in the mailbox store.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For Exchange Server 2007 Mailbox servers, this value should be no more than 10 for any specific mailbox store.</p>
+<p>Higher values indicate applications are crawling or searching mailboxes, which is affecting server performance. These include desktop search engines, customer relationship management (CRM), or other third-party applications.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeIS Mailbox Search Task Rate" ENABLED="True" CATEGORY="MSExchangeIS Mailbox" PRIMARYDATASOURCE="\MSExchangeIS Mailbox(*)\Search Task Rate" ID="4d1b9d53-85e0-4d40-8aba-5f1ee1eaaae3" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeIS Mailbox(*)\Search Task Rate" COLLECTIONVARNAME="CollectionOfMSExchangeISMailboxSearchTaskRate" EXPRESSIONPATH="\MSExchangeIS Mailbox(*)\Search Task Rate" TRENDVARNAME="TrendMSExchangeISMailboxSearchTaskRate" DATATYPE="integer">
+      <EXCLUDE INSTANCE="_Total" />
+    </DATASOURCE>
+    <CHART CHARTTITLE="\MSExchangeIS Mailbox(*)\Search Task Rate" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeIS Mailbox(*)\Search Task Rate" CHARTLABELS="instance" />
+    <THRESHOLD NAME="MSExchangeIS mailbox search task rate of 10 or greater" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeISMailboxSearchTaskRate -Operator 'ge' -Threshold 10]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>Number of search tasks created per second.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the number of search tasks created per second.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For Exchange Server 2007 Mailbox servers, this value should be less than 10 at all times.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeIS Slow QP Threads" ENABLED="True" CATEGORY="MSExchangeIS" PRIMARYDATASOURCE="\MSExchangeIS\Slow QP Threads" ID="76a7e63b-8118-4710-9d05-c6a61eba8a22" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeIS\Slow QP Threads" COLLECTIONVARNAME="CollectionOfMSExchangeISSlowQPThreads" EXPRESSIONPATH="\MSExchangeIS\Slow QP Threads" TRENDVARNAME="TrendMSExchangeISSlowQPThreads" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeIS\Slow QP Threads" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeIS\Slow QP Threads" CHARTLABELS="instance" />
+    <THRESHOLD NAME="MSExchangeIS slow QP threads of 10 or more" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeISSlowQPThreads -Operator 'ge' -Threshold 10]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>Number of Query Processor threads currently running unoptimized queries.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the number of query processor threads currently running queries that are not optimized.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For Exchange Server 2007 Mailbox servers, this value should be less than 10 at all times.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeIS Slow Search Threads" ENABLED="True" CATEGORY="MSExchangeIS" PRIMARYDATASOURCE="\MSExchangeIS\Slow Search Threads" ID="94a633d4-7ce3-412a-9d50-e1e26d51d2af" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeIS\Slow Search Threads" COLLECTIONVARNAME="CollectionOfMSExchangeISSlowSearchThreads" EXPRESSIONPATH="\MSExchangeIS\Slow Search Threads" TRENDVARNAME="TrendMSExchangeISSlowSearchThreads" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeIS\Slow Search Threads" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeIS\Slow Search Threads" CHARTLABELS="instance" />
+    <THRESHOLD NAME="MSExchangeIS slow search threads of 10 or more" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeISSlowSearchThreads -Operator 'ge' -Threshold 10]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>Number of Search threads currently running unoptimized queries.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the number of search threads currently running queries that are not optimized.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For Exchange Server 2007 Mailbox servers, this value should be less than 10 at all times.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeIS Mailbox Categorization Count" ENABLED="True" CATEGORY="MSExchangeIS Mailbox" PRIMARYDATASOURCE="\MSExchangeIS Mailbox(*)\Categorization Count" ID="69367037-57a6-4adb-a387-5d13b0727974" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeIS Mailbox(*)\Categorization Count" COLLECTIONVARNAME="CollectionOfMSExchangeISMailboxCategorizationCount" EXPRESSIONPATH="\MSExchangeIS Mailbox(*)\Categorization Count" TRENDVARNAME="TrendMSExchangeISMailboxCategorizationCount" DATATYPE="integer">
+      <EXCLUDE INSTANCE="_Total" />
+    </DATASOURCE>
+    <CHART CHARTTITLE="\MSExchangeIS Mailbox(*)\Categorization Count" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeIS Mailbox(*)\Categorization Count" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>Categorization Count is the number of categorizations that exist in the mailbox store. Categorizations are created when a user creates a filtered view or performs a search. When the information store must maintain an excessive number of categorizations, performance can be affected.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the categorization count in the number of categorizations that exist in the mailbox store. Categorizations are created when a user creates a filtered view or performs a search. When the information store must maintain an excessive number of categorizations, performance can be affected.</p>
+<p>Indicates an overall number of restricted search folders and regular search folders in the system. Sharp increases, especially after implementing any third-party application that takes advantage of MAPI interfaces, should be checked.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Not Applicable.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Exchange Search Process % Processor Time" ENABLED="True" CATEGORY="Process" PRIMARYDATASOURCE="\Process(Microsoft.Exchange.Search.ExSearch)\% Processor Time" ID="52a74057-3c07-4fa4-9540-8fe2ccf273b5" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\Process(Microsoft.Exchange.Search.ExSearch)\% Processor Time" COLLECTIONVARNAME="CollectionOfProcessPercentProcessorTime" EXPRESSIONPATH="\Process(Microsoft.Exchange.Search.ExSearch)\% Processor Time" TRENDVARNAME="TrendProcessPercentProcessorTime" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Process(Microsoft.Exchange.Search.ExSearch)\% Processor Time" ISTHRESHOLDSADDED="False" DATASOURCE="\Process(Microsoft.Exchange.Search.ExSearch)\% Processor Time" CHARTLABELS="instance" />
+    <THRESHOLD NAME="Exchange Search service process percent processor time average of 1% or greater" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[
+For ($i=0;$i -lt $CollectionOfProcessPercentProcessorTime.Count;$i++)
+{
+	$oCounterInstance = $CollectionOfProcessPercentProcessorTime[$i]
+    
+	For ($t=0;$t -lt $alQuantizedTime.Count;$t++)
+	{
+		If ($oCounterInstance.QuantizedAvg[$t] -ge 1)
+		{
+			CreateAlert -TimeSliceIndex $t -CounterInstanceObject $oCounterInstance -IsMinThresholdBroken $False -IsAvgThresholdBroken $True -IsMaxThresholdBroken $False -IsTrendThresholdBroken $False -IsMinEvaluated $False -IsAvgEvaluated $True -IsMaxEvaluated $False -IsTrendEvaluated $False
+		}
+	}
+}
+]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>% Processor Time is the percentage of elapsed time that all of process threads used the processor to execution instructions. An instruction is the basic unit of execution in a computer, a thread is the object that executes instructions, and a process is the object created when a program is run. Code executed to handle some hardware interrupts and trap conditions are included in this count.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the amount of processor time that is currently being consumed by the Exchange Search service.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For Exchange Server 2007 Mailbox servers, this value should be less than 1% of overall CPU typically and not sustained above 5%</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Content Indexing Process % Processor Time" ENABLED="False" CATEGORY="Process" PRIMARYDATASOURCE="\Process(msftefd)\% Processor Time" ID="63f5d370-1232-48c2-8021-1be601bd1bc4" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\Process(msftefd)\% Processor Time" COLLECTIONVARNAME="CollectionOfProcessPercentProcessorTime" EXPRESSIONPATH="\Process(msftefd)\% Processor Time" TRENDVARNAME="TrendProcessPercentProcessorTime" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Process(msftefd)\% Processor Time" ISTHRESHOLDSADDED="False" DATASOURCE="\Process(msftefd)\% Processor Time" CHARTLABELS="instance" />
+    <DATASOURCE TYPE="CounterLog" NAME="\Process(store)\% Processor Time" EXPRESSIONPATH="\Process(store)\% Processor Time" COLLECTIONVARNAME="CollectionOfProcessPercentProcessorTimestore" DATATYPE="integer" />
+    <THRESHOLD NAME="Content indexing process processor time percentage greater than 10% of store process processor time percentage" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[
+For ($i=0;$i -lt $CollectionOfProcessPercentProcessorTime.Count;$i++)
+{
+	$oCounterInstance = $CollectionOfProcessPercentProcessorTime[$i]
+	$oCounterInstanceStore = $CollectionOfProcessPercentProcessorTimestore[0]
+    
+	For ($t=0;$t -lt $alQuantizedTime.Count;$t++)
+	{
+		$TenPercentOfStoreProcessProcessorTime = $oCounterInstanceStore.QuantizedAvg[$t] * 0.1
+	
+		If ($oCounterInstance.QuantizedAvg[$t] -ge $TenPercentOfStoreProcessProcessorTime)
+		{
+			CreateAlert -TimeSliceIndex $t -CounterInstanceObject $oCounterInstance -IsMinThresholdBroken $False -IsAvgThresholdBroken $True -IsMaxThresholdBroken $False -IsTrendThresholdBroken $False -IsMinEvaluated $False -IsAvgEvaluated $True -IsMaxEvaluated $False -IsTrendEvaluated $False
+		}
+	}
+}	  
+	  ]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>% Processor Time is the percentage of elapsed time that all of process threads used the processor to execution instructions. An instruction is the basic unit of execution in a computer, a thread is the object that executes instructions, and a process is the object created when a program is run. Code executed to handle some hardware interrupts and trap conditions are included in this count.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the amount of processor time that is being consumed to update content indexing within the store process.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For Exchange Server 2007 Mailbox servers, this value should be less than 10% of what the store process is during steady state.</p>
+<p>Full crawls will increase overall processing time, but should never exceed overall store CPU capacity. Check throttling counters to determine if throttling is occurring due to server performance bottlenecks.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Search Indices Recent Average Latency of RPCs Used to Obtain Content" ENABLED="True" CATEGORY="MSExchange Search Indices" PRIMARYDATASOURCE="\MSExchange Search Indices(*)\Recent Average Latency of RPCs Used to Obtain Content" ID="073a04a4-d006-4c2d-b8c9-8bfc7d41ef7e" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Search Indices(*)\Recent Average Latency of RPCs Used to Obtain Content" COLLECTIONVARNAME="CollectionOfMSExchangeSearchIndicesRecentAverageLatencyofRPCsUsedtoObtainContent" EXPRESSIONPATH="\MSExchange Search Indices(*)\Recent Average Latency of RPCs Used to Obtain Content" TRENDVARNAME="TrendMSExchangeSearchIndicesRecentAverageLatencyofRPCsUsedtoObtainContent" DATATYPE="integer">
+      <EXCLUDE INSTANCE="_Total" />
+    </DATASOURCE>
+    <CHART CHARTTITLE="\MSExchange Search Indices(*)\Recent Average Latency of RPCs Used to Obtain Content" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Search Indices(*)\Recent Average Latency of RPCs Used to Obtain Content" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>Recent Average Latency of RPCs Used to Obtain Content is the average latency (in milliseconds) of the most recent RPCs to the Exchange Information Store service. These RPCs are used to get content for the filter daemon for the given database.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the average latency, in milliseconds, of the most recent RPCs to the Microsoft Exchange Information Store service. These RPCs are used to get content for the filter daemon for the specified database.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Should coincide with the latencies that Outlook clients are experiencing.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Search Indices Throttling Delay Value" ENABLED="True" CATEGORY="MSExchange Search Indices" PRIMARYDATASOURCE="\MSExchange Search Indices(*)\Throttling Delay Value" ID="8d807969-ca25-4605-a36d-9f36c9546fc6" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Search Indices(*)\Throttling Delay Value" COLLECTIONVARNAME="CollectionOfMSExchangeSearchIndicesThrottlingDelayValue" EXPRESSIONPATH="\MSExchange Search Indices(*)\Throttling Delay Value" TRENDVARNAME="TrendMSExchangeSearchIndicesThrottlingDelayValue" DATATYPE="integer">
+      <EXCLUDE INSTANCE="_Total" />
+    </DATASOURCE>
+    <CHART CHARTTITLE="\MSExchange Search Indices(*)\Throttling Delay Value" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Search Indices(*)\Throttling Delay Value" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>Throttling Delay Value is the total Total time (in milliseconds) a worker thread sleeps before it retrieves a document from the Exchange Information Store service. This is set by the throttling monitor thread.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the total time, in milliseconds, a worker thread sleeps before it retrieves a document from the Microsoft Exchange Information Store service. This is set by the throttling monitor thread.</p>
+<p>Indicates the current throttling delay value. If this value is non-zero, this indicates a potential server bottleneck causing delay values to be introduced to throttle the rate at which indexing is occurring.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Not Applicable.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Search Indices Average document indexing time" ENABLED="True" CATEGORY="MSExchange Search Indices" PRIMARYDATASOURCE="\MSExchange Search Indices(*)\Average document indexing time" ID="01ed8d16-1bb3-41e1-a57a-070f6d377f55" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Search Indices(*)\Average document indexing time" COLLECTIONVARNAME="CollectionOfMSExchangeSearchIndicesAveragedocumentindexingtime" EXPRESSIONPATH="\MSExchange Search Indices(*)\Average document indexing time" TRENDVARNAME="TrendMSExchangeSearchIndicesAveragedocumentindexingtime" DATATYPE="integer">
+      <EXCLUDE INSTANCE="_Total" />
+    </DATASOURCE>
+    <CHART CHARTTITLE="\MSExchange Search Indices(*)\Average document indexing time" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Search Indices(*)\Average document indexing time" CHARTLABELS="instance" />
+    <THRESHOLD NAME="MSExchange search index average document indexing time of 30 seconds or more" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeSearchIndicesAveragedocumentindexingtime -Operator 'ge' -Threshold 30000]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>Average Document Indexing Time is the average (in milliseconds) of how long it takes to index documents.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the average, in milliseconds, of how long it takes to index documents.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For Exchange Server 2007 Mailbox servers, this value should be less than 30 seconds at all time.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Search Indices Full Crawl Mode Status" ENABLED="True" CATEGORY="MSExchange Search Indices" PRIMARYDATASOURCE="\MSExchange Search Indices(*)\Full Crawl Mode Status" ID="05c86892-e64b-4cc3-9e7c-3f7c42350ed1" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Search Indices(*)\Full Crawl Mode Status" COLLECTIONVARNAME="CollectionOfMSExchangeSearchIndicesFullCrawlModeStatus" EXPRESSIONPATH="\MSExchange Search Indices(*)\Full Crawl Mode Status" TRENDVARNAME="TrendMSExchangeSearchIndicesFullCrawlModeStatus" DATATYPE="integer">
+      <EXCLUDE INSTANCE="_Total" />
+    </DATASOURCE>
+    <CHART CHARTTITLE="\MSExchange Search Indices(*)\Full Crawl Mode Status" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Search Indices(*)\Full Crawl Mode Status" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>Full Crawl Mode Status indicates whether this MDB is going through a full crawl (value=1) or not (value=0).</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Indicates whether this .mdb file is going through a full crawl (value=1) or not (value=0).</p>
+<p>Used to determine if a full crawl is occurring for any specified database.</p>
+<p>If CPU resources are high, it is possible content indexing is occurring for a database or set of databases.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Not Applicable.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Mailbox Assistants Process % Processor Time" ENABLED="True" CATEGORY="Process" PRIMARYDATASOURCE="\Process(MSExchangeMailboxAssistants)\% Processor Time" ID="1d5489cf-6504-4f41-b494-0620d98b9244" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\Process(MSExchangeMailboxAssistants)\% Processor Time" COLLECTIONVARNAME="CollectionOfProcessPercentProcessorTime" EXPRESSIONPATH="\Process(MSExchangeMailboxAssistants)\% Processor Time" TRENDVARNAME="TrendProcessPercentProcessorTime" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Process(MSExchangeMailboxAssistants)\% Processor Time" ISTHRESHOLDSADDED="False" DATASOURCE="\Process(MSExchangeMailboxAssistants)\% Processor Time" CHARTLABELS="instance" />
+    <THRESHOLD NAME="Mailbox assistants process percent processor time average of 5% or greater" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[
+For ($i=0;$i -lt $CollectionOfProcessPercentProcessorTime.Count;$i++)
+{
+	$oCounterInstance = $CollectionOfProcessPercentProcessorTime[$i]
+    
+	For ($t=0;$t -lt $alQuantizedTime.Count;$t++)
+	{
+		If ($oCounterInstance.QuantizedAvg[$t] -ge 5)
+		{
+			CreateAlert -TimeSliceIndex $t -CounterInstanceObject $oCounterInstance -IsMinThresholdBroken $False -IsAvgThresholdBroken $True -IsMaxThresholdBroken $False -IsTrendThresholdBroken $False -IsMinEvaluated $False -IsAvgEvaluated $True -IsMaxEvaluated $False -IsTrendEvaluated $False
+		}
+	}
+}
+]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>% Processor Time is the percentage of elapsed time that all of process threads used the processor to execution instructions. An instruction is the basic unit of execution in a computer, a thread is the object that executes instructions, and a process is the object created when a program is run. Code executed to handle some hardware interrupts and trap conditions are included in this count.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the amount of processor time that is being consumed by mailbox assistants.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For Exchange Server 2007 Mailbox servers, this value should be less than 5% of overall CPU capacity.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Assistants Mailboxes processed/sec" ENABLED="True" CATEGORY="MSExchange Assistants" PRIMARYDATASOURCE="\MSExchange Assistants(*)\Mailboxes processed/sec" ID="5a8f9112-6cad-4f28-80eb-90ac4b199fc5" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Assistants(*)\Mailboxes processed/sec" COLLECTIONVARNAME="CollectionOfMSExchangeAssistantsMailboxesprocessedsec" EXPRESSIONPATH="\MSExchange Assistants(*)\Mailboxes processed/sec" TRENDVARNAME="TrendMSExchangeAssistantsMailboxesprocessedsec" DATATYPE="integer">
+      <EXCLUDE INSTANCE="_Total" />
+    </DATASOURCE>
+    <CHART CHARTTITLE="\MSExchange Assistants(*)\Mailboxes processed/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Assistants(*)\Mailboxes processed/sec" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>Mailboxes processed/sec is the rate of mailboxes processed by time-based assistants per second.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the rate of mailboxes processed by time-based assistants per second.</p>
+<p>Determines current load statistics for this counter.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Not Applicable.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Assistants Events Polled/sec" ENABLED="True" CATEGORY="MSExchange Assistants" PRIMARYDATASOURCE="\MSExchange Assistants(*)\Events Polled/sec" ID="6269b081-7c99-4f84-8f17-068930b3758c" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Assistants(*)\Events Polled/sec" COLLECTIONVARNAME="CollectionOfMSExchangeAssistantsEventsPolledsec" EXPRESSIONPATH="\MSExchange Assistants(*)\Events Polled/sec" TRENDVARNAME="TrendMSExchangeAssistantsEventsPolledsec" DATATYPE="integer">
+      <EXCLUDE INSTANCE="_Total" />
+    </DATASOURCE>
+    <CHART CHARTTITLE="\MSExchange Assistants(*)\Events Polled/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Assistants(*)\Events Polled/sec" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>The number of events polled per second.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the number of events polled per second.</p>
+<p>Determines current load statistics for this counter.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Not Applicable.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Assistants Events in queue" ENABLED="True" CATEGORY="MSExchange Assistants" PRIMARYDATASOURCE="\MSExchange Assistants(*)\Events in queue" ID="b5351534-00e5-45d2-9d00-5b4cd0a7eb74" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Assistants(*)\Events in queue" COLLECTIONVARNAME="CollectionOfMSExchangeAssistantsEventsinqueue" EXPRESSIONPATH="\MSExchange Assistants(*)\Events in queue" TRENDVARNAME="TrendMSExchangeAssistantsEventsinqueue" DATATYPE="integer">
+      <EXCLUDE INSTANCE="_Total" />
+    </DATASOURCE>
+    <CHART CHARTTITLE="\MSExchange Assistants(*)\Events in queue" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Assistants(*)\Events in queue" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>Events in queue is the current number of events in the in-memory queue waiting to be processed by the assistants.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the number of events in the in-memory queue waiting to be processed by the assistants.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Should be a low value at all times. High values may indicate a performance bottleneck.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Assistants Average Event Processing Time In seconds" ENABLED="True" CATEGORY="MSExchange Assistants" PRIMARYDATASOURCE="\MSExchange Assistants(*)\Average Event Processing Time In seconds" ID="c31804f7-8df2-46ea-a332-cbb547ddba59" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Assistants(*)\Average Event Processing Time In seconds" COLLECTIONVARNAME="CollectionOfMSExchangeAssistantsAverageEventProcessingTimeInseconds" EXPRESSIONPATH="\MSExchange Assistants(*)\Average Event Processing Time In seconds" TRENDVARNAME="TrendMSExchangeAssistantsAverageEventProcessingTimeInseconds" DATATYPE="integer">
+      <EXCLUDE INSTANCE="_Total" />
+    </DATASOURCE>
+    <CHART CHARTTITLE="\MSExchange Assistants(*)\Average Event Processing Time In seconds" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Assistants(*)\Average Event Processing Time In seconds" CHARTLABELS="instance" />
+    <THRESHOLD NAME="MSExchange assistants average event processing time of 2 seconds or more" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeAssistantsAverageEventProcessingTimeInseconds -Operator 'ge' -Threshold 2]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>Average processing time of the events chosen as interesting.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the average processing time of the events chosen.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For Exchange Server 2007 Mailbox servers, this value should be less than 2 at all times.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Resource Booking Average Resource Booking Processing Time" ENABLED="True" CATEGORY="MSExchange Resource Booking" PRIMARYDATASOURCE="\MSExchange Resource Booking\Average Resource Booking Processing Time" ID="b5c18dbb-0978-431f-b0e1-8518fe788864" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Resource Booking\Average Resource Booking Processing Time" COLLECTIONVARNAME="CollectionOfMSExchangeResourceBookingAverageResourceBookingProcessingTime" EXPRESSIONPATH="\MSExchange Resource Booking\Average Resource Booking Processing Time" TRENDVARNAME="TrendMSExchangeResourceBookingAverageResourceBookingProcessingTime" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Resource Booking\Average Resource Booking Processing Time" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Resource Booking\Average Resource Booking Processing Time" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>Average Resource Booking Processing Time is the average time to process an event in the Resource Booking Attendant.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the average time to process an event in the Resource Booking Attendant.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Should be a low value at all times. High values may indicate a performance bottleneck.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Resource Booking Requests Failed" ENABLED="True" CATEGORY="MSExchange Resource Booking" PRIMARYDATASOURCE="\MSExchange Resource Booking\Requests Failed" ID="39c60f54-2529-437d-bc62-68a688d52074" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Resource Booking\Requests Failed" COLLECTIONVARNAME="CollectionOfMSExchangeResourceBookingRequestsFailed" EXPRESSIONPATH="\MSExchange Resource Booking\Requests Failed" TRENDVARNAME="TrendMSExchangeResourceBookingRequestsFailed" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Resource Booking\Requests Failed" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Resource Booking\Requests Failed" CHARTLABELS="instance" />
+    <THRESHOLD NAME="MSExchange resource booking requests failed greater than 0" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeResourceBookingRequestsFailed -Operator 'gt' -Threshold 0]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>Requests Failed is the  total number of failures that occurred while Resource Booking Attendant was processing events.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the total number of failures that occurred while the Resource Booking Attendant was processing events.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For Exchange Server 2007 Mailbox servers, this value should be 0 at all times.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Calendar Attendant Average Calendar Attendant Processing Time" ENABLED="True" CATEGORY="MSExchange Calendar Attendant" PRIMARYDATASOURCE="\MSExchange Calendar Attendant\Average Calendar Attendant Processing Time" ID="0ab209d3-b06e-419f-90de-fb4039176102" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Calendar Attendant\Average Calendar Attendant Processing Time" COLLECTIONVARNAME="CollectionOfMSExchangeCalendarAttendantAverageCalendarAttendantProcessingTime" EXPRESSIONPATH="\MSExchange Calendar Attendant\Average Calendar Attendant Processing Time" TRENDVARNAME="TrendMSExchangeCalendarAttendantAverageCalendarAttendantProcessingTime" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Calendar Attendant\Average Calendar Attendant Processing Time" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Calendar Attendant\Average Calendar Attendant Processing Time" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>Average Calendar Attendant Processing Time is the average  time to process an event in the Calendar Attendant.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the average time to process an event in the Calendar Attendant.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Should be a low value at all times. High values may indicate a performance bottleneck.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Calendar Attendant Requests Failed" ENABLED="True" CATEGORY="MSExchange Calendar Attendant" PRIMARYDATASOURCE="\MSExchange Calendar Attendant\Requests Failed" ID="be04b413-3296-49f4-866f-4b4c2566e5ee" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Calendar Attendant\Requests Failed" COLLECTIONVARNAME="CollectionOfMSExchangeCalendarAttendantRequestsFailed" EXPRESSIONPATH="\MSExchange Calendar Attendant\Requests Failed" TRENDVARNAME="TrendMSExchangeCalendarAttendantRequestsFailed" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Calendar Attendant\Requests Failed" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Calendar Attendant\Requests Failed" CHARTLABELS="instance" />
+    <THRESHOLD NAME="MSExchange calendar attendant requests failed greater than 0" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeCalendarAttendantRequestsFailed -Operator 'gt' -Threshold 0]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>Requests Failed is the total number of failures that occurred while Calendar Attendant was processing events.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the total number of failures that occurred while the Calendar Attendant was processing events.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For Exchange Server 2007 Mailbox servers, this value should be 0 at all times.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Store Interface RPC Latency average (msec)" ENABLED="True" CATEGORY="MSExchange Store Interface" PRIMARYDATASOURCE="\MSExchange Store Interface(_Total)\RPC Latency average (msec)" ID="55abca59-3a74-4321-838c-fd0d6071a679" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Store Interface(_Total)\RPC Latency average (msec)" COLLECTIONVARNAME="CollectionOfMSExchangeStoreInterfaceRPCLatencyaveragemsec" EXPRESSIONPATH="\MSExchange Store Interface(_Total)\RPC Latency average (msec)" TRENDVARNAME="TrendMSExchangeStoreInterfaceRPCLatencyaveragemsec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Store Interface(_Total)\RPC Latency average (msec)" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Store Interface(_Total)\RPC Latency average (msec)" CHARTLABELS="instance" />
+    <THRESHOLD NAME="MSExchange store interface total RPC latency average of 100ms or greater" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeStoreInterfaceRPCLatencyaveragemsec -Operator 'ge' -Threshold 100]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>RPC Latency average (msec) is the average latency in milliseconds of RPC requests. Average is calculated over all RPCs since exrpc32 was loaded.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the average latency, in milliseconds, of RPC requests. The average is calculated over all RPCs since exrpc32 was loaded.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For Exchange Server 2007 Mailbox servers, this value should be less than 100 ms at all times.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Store Interface Total RPC Requests outstanding" ENABLED="True" CATEGORY="MSExchange Store Interface" PRIMARYDATASOURCE="\MSExchange Store Interface(_Total)\RPC Requests outstanding" ID="fbd4a18d-2fa6-4f08-be9f-74767d18e2c6" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Store Interface(_Total)\RPC Requests outstanding" COLLECTIONVARNAME="CollectionOfMSExchangeStoreInterfaceRPCRequestsoutstanding" EXPRESSIONPATH="\MSExchange Store Interface(_Total)\RPC Requests outstanding" TRENDVARNAME="TrendMSExchangeStoreInterfaceRPCRequestsoutstanding" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Store Interface(_Total)\RPC Requests outstanding" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Store Interface(_Total)\RPC Requests outstanding" CHARTLABELS="instance" />
+    <THRESHOLD NAME="MSExchange store interface total RPC requests outstanding greater than 0" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeStoreInterfaceRPCRequestsoutstanding -Operator 'gt' -Threshold 0]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>RPC Requests outstanding is the current number of outstanding RPC requests.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the current number of outstanding RPC requests.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For Exchange Server 2007 Mailbox servers, this value should be 0 at all times.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Store Interface ROP Requests outstanding" ENABLED="True" CATEGORY="MSExchange Store Interface" PRIMARYDATASOURCE="\MSExchange Store Interface(*)\ROP Requests outstanding" ID="d4e820e4-b566-4519-a406-99e7344adcdd" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Store Interface(*)\ROP Requests outstanding" COLLECTIONVARNAME="CollectionOfMSExchangeStoreInterfaceROPRequestsoutstanding" EXPRESSIONPATH="\MSExchange Store Interface(*)\ROP Requests outstanding" TRENDVARNAME="TrendMSExchangeStoreInterfaceROPRequestsoutstanding" DATATYPE="integer">
+      <EXCLUDE INSTANCE="_Total" />
+    </DATASOURCE>
+    <CHART CHARTTITLE="\MSExchange Store Interface(*)\ROP Requests outstanding" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Store Interface(*)\ROP Requests outstanding" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>ROP Requests outstanding is the total number of outstanding ROP requests.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the total number of outstanding remote operations (ROP) requests.</p>
+<p>Used for determining current load.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Not Applicable.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Store Interface RPC Requests outstanding" ENABLED="True" CATEGORY="MSExchange Store Interface" PRIMARYDATASOURCE="\MSExchange Store Interface(*)\RPC Requests outstanding" ID="4d626035-14fa-49a9-9317-4acfde6350a8" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Store Interface(*)\RPC Requests outstanding" COLLECTIONVARNAME="CollectionOfMSExchangeStoreInterfaceRPCRequestsoutstanding" EXPRESSIONPATH="\MSExchange Store Interface(*)\RPC Requests outstanding" TRENDVARNAME="TrendMSExchangeStoreInterfaceRPCRequestsoutstanding" DATATYPE="integer">
+      <EXCLUDE INSTANCE="_Total" />
+    </DATASOURCE>
+    <CHART CHARTTITLE="\MSExchange Store Interface(*)\RPC Requests outstanding" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Store Interface(*)\RPC Requests outstanding" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>RPC Requests outstanding is the current number of outstanding RPC requests.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the total number of outstanding RPC requests.</p>
+<p>Used for determining current load.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Not Applicable.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Store Interface RPC Requests failed (%)" ENABLED="True" CATEGORY="MSExchange Store Interface" PRIMARYDATASOURCE="\MSExchange Store Interface(*)\RPC Requests failed (%)" ID="a42157ca-46c1-4620-a760-e4f3f0ba2175" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Store Interface(*)\RPC Requests failed (%)" COLLECTIONVARNAME="CollectionOfMSExchangeStoreInterfaceRPCRequestsfailedPercent" EXPRESSIONPATH="\MSExchange Store Interface(*)\RPC Requests failed (%)" TRENDVARNAME="TrendMSExchangeStoreInterfaceRPCRequestsfailedPercent" DATATYPE="integer">
+      <EXCLUDE INSTANCE="_Total" />
+    </DATASOURCE>
+    <CHART CHARTTITLE="\MSExchange Store Interface(*)\RPC Requests failed (%)" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Store Interface(*)\RPC Requests failed (%)" CHARTLABELS="instance" />
+    <THRESHOLD NAME="MSExchange store interface RPC requests failed percentage greater than 0" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeStoreInterfaceRPCRequestsfailedPercent -Operator 'gt' -Threshold 0]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>RPC Requests failed (%) is the percent of failed requests in total number of RPC requests. Here, failed means the sum of failed with error code plus failed with exception.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the percentage of failed requests in the total number of RPC requests. Here, failed means the sum of failed with error code plus failed with exception.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For Exchange Server 2007 Mailbox servers, this value should be 0 at all times.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Store Interface RPC Requests sent/sec" ENABLED="True" CATEGORY="MSExchange Store Interface" PRIMARYDATASOURCE="\MSExchange Store Interface(*)\RPC Requests sent/sec" ID="34188f58-163d-4b7c-bd70-16bc2fe3fae6" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Store Interface(*)\RPC Requests sent/sec" COLLECTIONVARNAME="CollectionOfMSExchangeStoreInterfaceRPCRequestssentsec" EXPRESSIONPATH="\MSExchange Store Interface(*)\RPC Requests sent/sec" TRENDVARNAME="TrendMSExchangeStoreInterfaceRPCRequestssentsec" DATATYPE="integer">
+      <EXCLUDE INSTANCE="_Total" />
+    </DATASOURCE>
+    <CHART CHARTTITLE="\MSExchange Store Interface(*)\RPC Requests sent/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Store Interface(*)\RPC Requests sent/sec" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>RPC Requests sent/sec is the current rate of initiated RPC requests per second.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the current rate of initiated RPC requests per second.</p>
+<p>Used for determining current load.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Not Applicable.</p>
+]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Store Interface RPC Slow requests (%)" ENABLED="True" CATEGORY="MSExchange Store Interface" PRIMARYDATASOURCE="\MSExchange Store Interface(*)\RPC Slow requests (%)" ID="4cea344d-15b0-4e3f-b22b-1038e141fe05" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Store Interface(*)\RPC Slow requests (%)" COLLECTIONVARNAME="CollectionOfMSExchangeStoreInterfaceRPCSlowrequestsPercent" EXPRESSIONPATH="\MSExchange Store Interface(*)\RPC Slow requests (%)" TRENDVARNAME="TrendMSExchangeStoreInterfaceRPCSlowrequestsPercent" DATATYPE="integer">
+      <EXCLUDE INSTANCE="_Total" />
+    </DATASOURCE>
+    <CHART CHARTTITLE="\MSExchange Store Interface(*)\RPC Slow requests (%)" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Store Interface(*)\RPC Slow requests (%)" CHARTLABELS="instance" />
+    <THRESHOLD NAME="MSExchange store interface RPC slow requests percentage of greater than 1%" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeStoreInterfaceRPCSlowrequestsPercent -Operator 'gt' -Threshold 1]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>RPC Slow requests (%) is the percent of slow RPC requests among all RPC requests.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the percentage of slow RPC requests among all RPC requests.</p>
+<p>A slow RPC request is one that has taken more than 500 ms.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For Exchange Server 2007 Mailbox servers, this value should be less than 1 at all times.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Store Interface RPC Slow requests latency average (msec)" ENABLED="True" CATEGORY="MSExchange Store Interface" PRIMARYDATASOURCE="\MSExchange Store Interface(*)\RPC Slow requests latency average (msec)" ID="558d8721-a4df-4589-ac6b-1fc0e74dc997" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Store Interface(*)\RPC Slow requests latency average (msec)" COLLECTIONVARNAME="CollectionOfMSExchangeStoreInterfaceRPCSlowrequestslatencyaveragemsec" EXPRESSIONPATH="\MSExchange Store Interface(*)\RPC Slow requests latency average (msec)" TRENDVARNAME="TrendMSExchangeStoreInterfaceRPCSlowrequestslatencyaveragemsec" DATATYPE="integer">
+      <EXCLUDE INSTANCE="_Total" />
+    </DATASOURCE>
+    <CHART CHARTTITLE="\MSExchange Store Interface(*)\RPC Slow requests latency average (msec)" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Store Interface(*)\RPC Slow requests latency average (msec)" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>RPC Slow requests latency average (msec) is the average latency in milliseconds of slow RPC requests.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the average latency, in milliseconds, of slow requests.</p>
+<p>Used for determining the average latencies of RPC slow requests.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Not Applicable.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeMailSubmission Hub Servers In Retry" ENABLED="True" CATEGORY="MSExchangeMailSubmission" PRIMARYDATASOURCE="\MSExchangeMailSubmission(*)\Hub Servers In Retry" ID="f29b7cd0-4b7d-41ac-a374-6d0457594154" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeMailSubmission(*)\Hub Servers In Retry" COLLECTIONVARNAME="CollectionOfMSExchangeMailSubmissionHubServersInRetry" EXPRESSIONPATH="\MSExchangeMailSubmission(*)\Hub Servers In Retry" TRENDVARNAME="TrendMSExchangeMailSubmissionHubServersInRetry" DATATYPE="integer">
+      <EXCLUDE INSTANCE="_Total" />
+    </DATASOURCE>
+    <CHART CHARTTITLE="\MSExchangeMailSubmission(*)\Hub Servers In Retry" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeMailSubmission(*)\Hub Servers In Retry" CHARTLABELS="instance" />
+    <THRESHOLD NAME="MSExchange mail submission hub servers in retry greater than 0" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeMailSubmissionHubServersInRetry -Operator 'gt' -Threshold 0]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>Hub Servers In Retry is the number of hub servers in retry.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the number of Hub Transport servers in retry mode.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For Exchange Server 2007 Mailbox servers, this value should be 0 at all times.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeMailSubmission Successful Submissions Per Second" ENABLED="True" CATEGORY="MSExchangeMailSubmission" PRIMARYDATASOURCE="\MSExchangeMailSubmission(*)\Successful Submissions Per Second" ID="2c8afd6d-c4b6-4822-b751-69049a805690" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeMailSubmission(*)\Successful Submissions Per Second" COLLECTIONVARNAME="CollectionOfMSExchangeMailSubmissionSuccessfulSubmissionsPerSecond" EXPRESSIONPATH="\MSExchangeMailSubmission(*)\Successful Submissions Per Second" TRENDVARNAME="TrendMSExchangeMailSubmissionSuccessfulSubmissionsPerSecond" DATATYPE="integer">
+      <EXCLUDE INSTANCE="_Total" />
+    </DATASOURCE>
+    <CHART CHARTTITLE="\MSExchangeMailSubmission(*)\Successful Submissions Per Second" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeMailSubmission(*)\Successful Submissions Per Second" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>Successful Submissions Per Second</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Determines current mail submission rate.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Not Applicable.</p>
+]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeMailSubmission Failed Submissions Per Second" ENABLED="True" CATEGORY="MSExchangeMailSubmission" PRIMARYDATASOURCE="\MSExchangeMailSubmission(*)\Failed Submissions Per Second" ID="f1a4d8f5-1996-44b4-8a0c-b7a5fedb3afe" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeMailSubmission(*)\Failed Submissions Per Second" COLLECTIONVARNAME="CollectionOfMSExchangeMailSubmissionFailedSubmissionsPerSecond" EXPRESSIONPATH="\MSExchangeMailSubmission(*)\Failed Submissions Per Second" TRENDVARNAME="TrendMSExchangeMailSubmissionFailedSubmissionsPerSecond" DATATYPE="integer">
+      <EXCLUDE INSTANCE="_Total" />
+    </DATASOURCE>
+    <CHART CHARTTITLE="\MSExchangeMailSubmission(*)\Failed Submissions Per Second" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeMailSubmission(*)\Failed Submissions Per Second" CHARTLABELS="instance" />
+    <THRESHOLD NAME="MSExchange mail submission failed submissions per second greater than 0" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeMailSubmissionFailedSubmissionsPerSecond -Operator 'gt' -Threshold 0]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>Failed Submissions Per Second</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p></p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For Exchange Server 2007 Mailbox servers, this value should be 0 at all times.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeMailSubmission Temporary Submission Failures/sec" ENABLED="True" CATEGORY="MSExchangeMailSubmission" PRIMARYDATASOURCE="\MSExchangeMailSubmission(*)\Temporary Submission Failures/sec" ID="697277b7-987f-40ed-8e70-93a88222c431" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeMailSubmission(*)\Temporary Submission Failures/sec" COLLECTIONVARNAME="CollectionOfMSExchangeMailSubmissionTemporarySubmissionFailuressec" EXPRESSIONPATH="\MSExchangeMailSubmission(*)\Temporary Submission Failures/sec" TRENDVARNAME="TrendMSExchangeMailSubmissionTemporarySubmissionFailuressec" DATATYPE="integer">
+      <EXCLUDE INSTANCE="_Total" />
+    </DATASOURCE>
+    <CHART CHARTTITLE="\MSExchangeMailSubmission(*)\Temporary Submission Failures/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeMailSubmission(*)\Temporary Submission Failures/sec" CHARTLABELS="instance" />
+    <THRESHOLD NAME="MSExchange mail submission temporary submission failures per second greater than 0" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeMailSubmissionTemporarySubmissionFailuressec -Operator 'gt' -Threshold 0]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>Temporary Submission Failures per second is the number of temporary submission failures per second.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the number of temporary submission failures per second.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For Exchange Server 2007 Mailbox servers, this value should be 0 at all times.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Replication ReplayQueueLength" ENABLED="True" CATEGORY="MSExchange Replication" PRIMARYDATASOURCE="\MSExchange Replication\ReplayQueueLength" ID="1ca44c83-678d-436c-aa41-1380c09ce480" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Replication\ReplayQueueLength" COLLECTIONVARNAME="CollectionOfMSExchangeReplicationReplayQueueLength" EXPRESSIONPATH="\MSExchange Replication\ReplayQueueLength" TRENDVARNAME="TrendMSExchangeReplicationReplayQueueLength" DATATYPE="integer">
+      <EXCLUDE INSTANCE="_Total" />
+    </DATASOURCE>
+    <CHART CHARTTITLE="\MSExchange Replication\ReplayQueueLength" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Replication\ReplayQueueLength" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>Replay Queue Length is the number of log generations waiting to be replayed.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the number of transaction log files waiting to be replayed into the passive copy.</p>
+<p>NOTE: Both nodes of the CCR clusters should be monitored for this counter depending on the passive node.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Indicates the current replay queue length. Higher values cause longer store mount times when a handoff, failover, or activation is performed.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Replica Seeder Seeding Finished %" ENABLED="True" CATEGORY="MSExchange Replica Seeder" PRIMARYDATASOURCE="\MSExchange Replica Seeder\Seeding Finished %" ID="03e0e8bc-2e17-41ec-97b4-8e5e23af174e" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Replica Seeder\Seeding Finished %" COLLECTIONVARNAME="CollectionOfMSExchangeReplicaSeederSeedingFinishedPercent" EXPRESSIONPATH="\MSExchange Replica Seeder\Seeding Finished %" TRENDVARNAME="TrendMSExchangeReplicaSeederSeedingFinishedPercent" DATATYPE="integer">
+      <EXCLUDE INSTANCE="_Total" />
+    </DATASOURCE>
+    <CHART CHARTTITLE="\MSExchange Replica Seeder\Seeding Finished %" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Replica Seeder\Seeding Finished %" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>Seeding Finished % is the finished percentage of seeding. Its value is from 0 to 100 percent.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the finished percentage of seeding. Its value is from 0 to 100 percent.</p>
+<p>Used to determine if seeding is occurring for a particular database, which is possibly affecting overall server performance or current network bandwidth.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Not Applicable.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Replication CopyQueueLength" ENABLED="True" CATEGORY="MSExchange Replication" PRIMARYDATASOURCE="\MSExchange Replication\CopyQueueLength" ID="0a46019c-b304-46d2-bb3e-312e567cf958" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Replication\CopyQueueLength" COLLECTIONVARNAME="CollectionOfMSExchangeReplicationCopyQueueLength" EXPRESSIONPATH="\MSExchange Replication\CopyQueueLength" TRENDVARNAME="TrendMSExchangeReplicationCopyQueueLength" DATATYPE="integer">
+      <EXCLUDE INSTANCE="_Total" />
+    </DATASOURCE>
+    <CHART CHARTTITLE="\MSExchange Replication\CopyQueueLength" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Replication\CopyQueueLength" CHARTLABELS="instance" />
+    <THRESHOLD NAME="MSExchange replication copy queue length greater than 10 and CCR is in use" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[
+If ($CCR -eq $True)
+{
+	StaticThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeReplicationCopyQueueLength -Operator 'ge' -Threshold 10
+}
+	]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="MSExchange replication copy queue length greater than 1" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[
+If ($CCR -eq $False)
+{
+	StaticThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeReplicationCopyQueueLength -Operator 'ge' -Threshold 1
+}
+	]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>Copy Queue Length is the number of log generations waiting to be both copied and inspected successfully.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the number of transaction log files waiting to be copied to the passive copy log file folder. A copy is not considered complete until it has been checked for corruption.</p>
+<p>NOTE: Both nodes of the cluster continuous replication (CCR) clusters should be monitored for this counter depending on the passive node.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For Exchange Server 2007 Mailbox servers, this value should be less than 10 at all times for CCR, and should be less than 1 at all times for local continuous replication (LCR).</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <INHERITANCE FILEPATH="Exchange2007-Common-TechNet.xml" />
+</PAL>

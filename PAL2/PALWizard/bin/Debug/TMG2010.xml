@@ -1,0 +1,652 @@
+<?xml version="1.0"?>
+<PAL PALVERSION="2.0" NAME="TMG 2010" DESCRIPTION="General threshold file for Microsoft Thread Managment Gateway (TMG) 2010" CONTENTOWNERS="Zbigniew Kukowski" FEEDBACKEMAILADDRESS="Zbigniew.Kukowski@microsoft.com" VERSION="2.6">
+  <ANALYSIS NAME="Netlogon Semaphore Waiters" ENABLED="True" CATEGORY="Netlogon" PRIMARYDATASOURCE="\Netlogon(_Total)\Semaphore Waiters" ID="163e3b2f-baf8-44c8-9ab3-dbbd72757653" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\Netlogon(_Total)\Semaphore Waiters" COLLECTIONVARNAME="CollectionOfNetlogonSemaphoreWaiters" EXPRESSIONPATH="\Netlogon(_Total)\Semaphore Waiters" TRENDVARNAME="TrendNetlogonSemaphoreWaiters" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Netlogon(_Total)\Semaphore Waiters" ISTHRESHOLDSADDED="True" DATASOURCE="\Netlogon(_Total)\Semaphore Waiters" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfNetlogonSemaphoreWaiters -MinThreshold 0 -MaxThreshold 2 -UseMaxValue $False
+        ]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfNetlogonSemaphoreWaiters -MinThreshold 2 -MaxThreshold 2.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Critical more than 2" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[
+StaticThreshold -CollectionOfCounterInstances $CollectionOfNetlogonSemaphoreWaiters -Operator 'ge' -Threshold 2
+
+#// The -Operator parameter accepts gt for greater than, ge for greater than or equal to, lt for less than,
+#//  and le for less than or equal to. -Threshold is the static value for the threshold.]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[Number of thread currently waiting to acquire the semaphore. The number of the thread that is waiting to obtain the semaphore. This value should remain at 0 at all times. Short bursty spikes are OK to see as that simply means that we had a large amount of requests which were handled in a short period of time. <br>
+More info: http://support.microsoft.com/kb/928576]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Netlogon Semaphore Holders" ENABLED="True" CATEGORY="Netlogon" PRIMARYDATASOURCE="\Netlogon(_Total)\Semaphore Holders" ID="044b84bb-ab97-4c1a-8316-c1b4e5be3fc3" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\Netlogon(_Total)\Semaphore Holders" COLLECTIONVARNAME="CollectionOfNetlogonSemaphoreHolders" EXPRESSIONPATH="\Netlogon(_Total)\Semaphore Holders" TRENDVARNAME="TrendNetlogonSemaphoreHolders" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Netlogon(_Total)\Semaphore Holders" ISTHRESHOLDSADDED="True" DATASOURCE="\Netlogon(_Total)\Semaphore Holders" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfNetlogonSemaphoreHolders -MinThreshold 0 -MaxThreshold 2 -UseMaxValue $False
+        ]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfNetlogonSemaphoreHolders -MinThreshold 2 -MaxThreshold 2.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Warning if more than 0 " CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[
+StaticThreshold -CollectionOfCounterInstances $CollectionOfNetlogonSemaphoreHolders -Operator 'gt' -Threshold 0
+]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="Critical if more than 2" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[
+StaticThreshold -CollectionOfCounterInstances $CollectionOfNetlogonSemaphoreHolders -Operator 'ge' -Threshold 2
+]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[Number of thread currently holding the semaphore. How many threads on average are holding the client semaphore. This is the number of threads trying to get a netlogon session to a DC that are Blocked. Blocked could be locked open by a process, network down, etc. when semaphore waiters is non 0, some local process is waiting on lsass for a response and the lsass thread is blocked <br> More info: http://support.microsoft.com/kb/928576]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Forefront TMG Firewall Packet Engine Active Connections" ENABLED="True" CATEGORY="Forefront TMG Firewall Packet Engine" PRIMARYDATASOURCE="\Forefront TMG Firewall Packet Engine\Active Connections" ID="73e0a71c-581f-4b4a-8525-753eb9b1e3fd" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\Forefront TMG Firewall Packet Engine\Active Connections" COLLECTIONVARNAME="CollectionOfForefrontTMGFirewallPacketEngineActiveConnections" EXPRESSIONPATH="\Forefront TMG Firewall Packet Engine\Active Connections" TRENDVARNAME="TrendForefrontTMGFirewallPacketEngineActiveConnections" DATATYPE="integer" />
+    <CHART CHARTTITLE="Forefront TMG Firewall Packet Engine - Active Connections" ISTHRESHOLDSADDED="True" DATASOURCE="\Forefront TMG Firewall Packet Engine\Active Connections" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $CollectionOfForefrontTMGFirewallPacketEngineActiveConnections -MinThreshold 50000 -MaxThreshold 100000 -IsOperatorGreaterThan $True -UseMaxValue $False]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $CollectionOfForefrontTMGFirewallPacketEngineActiveConnections -MinThreshold 100000 -MaxThreshold 120000 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Warning if greater than 50k concurent active connectioins" CONDITION="Warning" COLOR="Yellow" PRIORITY="60">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[
+StaticThreshold -CollectionOfCounterInstances $CollectionOfForefrontTMGFirewallPacketEngineActiveConnections -Operator 'gt' -Threshold 50000
+]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="Critical if more than 100k concurent active connections" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[
+StaticThreshold -CollectionOfCounterInstances $CollectionOfForefrontTMGFirewallPacketEngineActiveConnections -Operator 'gt' -Threshold 100000
+
+]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The total number of active connections currently passing data.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Forefront TMG Firewall Packet Engine Backlogged Packets" ENABLED="True" CATEGORY="Forefront TMG Firewall Packet Engine" PRIMARYDATASOURCE="\Forefront TMG Firewall Packet Engine\Backlogged Packets" ID="88c711fc-8995-47c6-97bd-19a37467c32f" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The number of packets waiting for the firewall packet engine to create a data pump.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\Forefront TMG Firewall Packet Engine\Backlogged Packets" COLLECTIONVARNAME="CollectionOfForefrontTMGFirewallPacketEngineBackloggedPackets" EXPRESSIONPATH="\Forefront TMG Firewall Packet Engine\Backlogged Packets" TRENDVARNAME="TrendForefrontTMGFirewallPacketEngineBackloggedPackets" DATATYPE="integer" />
+    <CHART CHARTTITLE="Forefront TMG Firewall Packet Engine - Backlogged Packets" ISTHRESHOLDSADDED="True" DATASOURCE="\Forefront TMG Firewall Packet Engine\Backlogged Packets" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $CollectionOfForefrontTMGFirewallPacketEngineBackloggedPackets -MinThreshold 2 -MaxThreshold 10 -IsOperatorGreaterThan $True -UseMaxValue $False]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $CollectionOfForefrontTMGFirewallPacketEngineBackloggedPackets -MinThreshold 10 -MaxThreshold 99.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Warning if more than 2 packets losted" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[
+StaticThreshold -CollectionOfCounterInstances $CollectionOfForefrontTMGFirewallPacketEngineBackloggedPackets -Operator 'gt' -Threshold 2
+]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="Critical if more than 10 packets were lost" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[
+StaticThreshold -CollectionOfCounterInstances $CollectionOfForefrontTMGFirewallPacketEngineBackloggedPackets -Operator 'gt' -Threshold 10
+]]></CODE>
+    </THRESHOLD>
+  </ANALYSIS>
+  <ANALYSIS NAME="Forefront TMG Firewall Packet Engine Dropped Packets/sec" ENABLED="True" CATEGORY="Forefront TMG Firewall Packet Engine" PRIMARYDATASOURCE="\Forefront TMG Firewall Packet Engine\Dropped Packets/sec" ID="6dd2e922-de06-4911-9cc6-6d0c3f78ecfd" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\Forefront TMG Firewall Packet Engine\Dropped Packets/sec" COLLECTIONVARNAME="CollectionOfForefrontTMGFirewallPacketEngineDroppedPacketssec" EXPRESSIONPATH="\Forefront TMG Firewall Packet Engine\Dropped Packets/sec" TRENDVARNAME="TrendForefrontTMGFirewallPacketEngineDroppedPacketssec" DATATYPE="integer" />
+    <CHART CHARTTITLE="Forefront TMG Firewall Packet Engine - Dropped Packets/sec" ISTHRESHOLDSADDED="True" DATASOURCE="\Forefront TMG Firewall Packet Engine\Dropped Packets/sec" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfForefrontTMGFirewallPacketEngineDroppedPacketssec -MinThreshold 100 -MaxThreshold 200 -UseMaxValue $False
+        ]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfForefrontTMGFirewallPacketEngineDroppedPacketssec -MinThreshold 200 -MaxThreshold 219.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Warning if more than 100" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[
+StaticThreshold -CollectionOfCounterInstances $CollectionOfForefrontTMGFirewallPacketEngineDroppedPacketssec -Operator 'ge' -Threshold 100
+]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="Critical if greater than 200" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[
+StaticThreshold -CollectionOfCounterInstances $CollectionOfForefrontTMGFirewallPacketEngineDroppedPacketssec -Operator 'ge' -Threshold 200
+]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[Shows the number of packets dropped by TMG per second. Value should be under 200.Should be coreleted with other collected counters from Firewall Packet Engine]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Forefront TMG Firewall Packet Engine ReInject Available IRPs" ENABLED="True" CATEGORY="Forefront TMG Firewall Packet Engine" PRIMARYDATASOURCE="\Forefront TMG Firewall Packet Engine\ReInject Available IRPs" ID="41556f39-e1ec-43a4-996c-e018f51b53c6" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\Forefront TMG Firewall Packet Engine\ReInject Available IRPs" COLLECTIONVARNAME="CollectionOfForefrontTMGFirewallPacketEngineReInjectAvailableIRPs" EXPRESSIONPATH="\Forefront TMG Firewall Packet Engine\ReInject Available IRPs" TRENDVARNAME="TrendForefrontTMGFirewallPacketEngineReInjectAvailableIRPs" DATATYPE="integer" />
+    <CHART CHARTTITLE="Forefront TMG Firewall Packet Engine - ReInject Available IRPs" ISTHRESHOLDSADDED="True" DATASOURCE="\Forefront TMG Firewall Packet Engine\ReInject Available IRPs" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfForefrontTMGFirewallPacketEngineReInjectAvailableIRPs -MinThreshold 5 -MaxThreshold 20 -UseMaxValue $False
+        ]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfForefrontTMGFirewallPacketEngineReInjectAvailableIRPs -MinThreshold 0 -MaxThreshold 5 -UseMaxValue $False
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Warning if lower than 20" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[
+StaticThreshold -CollectionOfCounterInstances $CollectionOfForefrontTMGFirewallPacketEngineReInjectAvailableIRPs -Operator 'le' -Threshold 20
+
+]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="Critical if lower than 5. It's mean that we have only free buffer for local(TMG) demand" CONDITION="Critical" COLOR="Red" PRIORITY="90">
+      <CODE><![CDATA[
+StaticThreshold -CollectionOfCounterInstances $CollectionOfForefrontTMGFirewallPacketEngineReInjectAvailableIRPs -Operator 'le' -Threshold 5
+]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The number of reinject available IRPs. Value of 50 is the default result. By default it reserves 10% of the re-injection threads for localhost traffic, so smaller than 5 is considered bad. Value should be always above 20 (in average). TMG by default it reserves 10% of the re-injection threads for localhost traffic. If that counter is small you should compare it with authentication and name resolution counters.<br>
+To enable this counter you need to add the following registry entry:<BR>
+Location: HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\RAT\Stingray\Debug\FWSRV<BR>
+Key: FWS_PRIVATE_PERFORMANCE_COUNTERS<BR>
+Type: DWORD<BR>
+Value: 1<BR>
+The restart is not neccesary.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Forefront TMG Cache\Disk Failure Rate  Disk Failure Rate (failures/sec)" ENABLED="True" CATEGORY="Forefront TMG Cache" PRIMARYDATASOURCE="\Forefront TMG Cache\Disk Failure Rate (failures/sec)" ID="eb3ab879-4627-4db3-b158-52ca79e19e72" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\Forefront TMG Cache\Disk Failure Rate (failures/sec)" COLLECTIONVARNAME="CollectionOfForefrontTMGCacheDiskFailureRateDiskFailureRatefailuressec" EXPRESSIONPATH="\Forefront TMG Cache\Disk Failure Rate (failures/sec)" TRENDVARNAME="TrendForefrontTMGCacheDiskFailureRateDiskFailureRatefailuressec" DATATYPE="integer" />
+    <CHART CHARTTITLE="Disk Failure Rate (failures/sec)" ISTHRESHOLDSADDED="True" DATASOURCE="\Forefront TMG Cache\Disk Failure Rate (failures/sec)" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $CollectionOfForefrontTMGCacheDiskFailureRateDiskFailureRatefailuressec -MinThreshold 5 -MaxThreshold 10 -IsOperatorGreaterThan $True -UseMaxValue $False]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $CollectionOfForefrontTMGCacheDiskFailureRateDiskFailureRatefailuressec -MinThreshold 10 -MaxThreshold 12.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Warning if greater than5" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[
+StaticThreshold -CollectionOfCounterInstances $CollectionOfForefrontTMGCacheDiskFailureRateDiskFailureRatefailuressec -Operator 'ge' -Threshold 5
+]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="Critical if higher than 10" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[
+StaticThreshold -CollectionOfCounterInstances $CollectionOfForefrontTMGCacheDiskFailureRateDiskFailureRatefailuressec -Operator 'gt' -Threshold 10
+]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The number of I/O failures per second since the Firewall service started. An I/O failure occurs when Forefront TMG fails to read from or write to disk cache.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Forefront TMG Web Proxy HTTPS connection inspection/sec" ENABLED="True" CATEGORY="Forefront TMG Web Proxy" PRIMARYDATASOURCE="\Forefront TMG Web Proxy\HTTPS connection inspection/sec" ID="5a4e4c0b-2d8c-4cae-985f-653c5b690098" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\Forefront TMG Web Proxy\HTTPS connection inspection/sec" COLLECTIONVARNAME="CollectionOfForefrontTMGWebProxyHTTPSconnectioninspectionsec" EXPRESSIONPATH="\Forefront TMG Web Proxy\HTTPS connection inspection/sec" TRENDVARNAME="TrendForefrontTMGWebProxyHTTPSconnectioninspectionsec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Forefront TMG Web Proxy\HTTPS connection inspection/sec" ISTHRESHOLDSADDED="True" DATASOURCE="\Forefront TMG Web Proxy\HTTPS connection inspection/sec" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $CollectionOfGeneratedForefrontTMGWebProxypercentsHTTPSinspectionfailuressec -MinThreshold 30 -MaxThreshold 50 -IsOperatorGreaterThan $True -UseMaxValue $False]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $CollectionOfGeneratedForefrontTMGWebProxypercentsHTTPSinspectionfailuressec -MinThreshold 50 -MaxThreshold 99.999 -IsOperatorGreaterThan $True -UseMaxValue $False]]></CODE>
+      </SERIES>
+    </CHART>
+    <DATASOURCE TYPE="CounterLog" NAME="\Forefront TMG Web Proxy\HTTPS inspection failures/sec" EXPRESSIONPATH="\Forefront TMG Web Proxy\HTTPS inspection failures/sec" COLLECTIONVARNAME="CollectionOfForefrontTMGWebProxyHTTPSinspectionfailuressec" DATATYPE="integer" />
+    <DATASOURCE TYPE="Generated" NAME="\Forefront TMG Web Proxy\% HTTPS inspection failures/sec" EXPRESSIONPATH="\Forefront TMG Web Proxy\% HTTPS inspection failures/sec" COLLECTIONVARNAME="CollectionOfGeneratedForefrontTMGWebProxypercentsHTTPSinspectionfailuressec" DATATYPE="integer">
+      <CODE><![CDATA[
+          $CollectionOfGeneratedForefrontTMGWebProxypercentsHTTPSinspectionfailuressec = @{}
+          For ($i=0;$i -lt $CollectionOfForefrontTMGWebProxyHTTPSconnectioninspectionsec.Count;$i++)
+          {
+            For ($a=0;$a -lt $CollectionOfForefrontTMGWebProxyHTTPSinspectionfailuressec.Count;$a++)
+            {
+              If ($CollectionOfForefrontTMGWebProxyHTTPSconnectioninspectionsec[$i].CounterInstance -eq $CollectionOfForefrontTMGWebProxyHTTPSinspectionfailuressec[$a].CounterInstance)
+              { 
+                $b = $a
+              }
+            }
+            $alValues = New-Object System.Collections.ArrayList
+            For ($v=0;$v -lt $CollectionOfForefrontTMGWebProxyHTTPSconnectioninspectionsec[$i].Value.Count;$v++)
+            {
+              If (($CollectionOfForefrontTMGWebProxyHTTPSconnectioninspectionsec[$i].QuantizedAvg[$v] -gt 0) -and ($CollectionOfForefrontTMGWebProxyHTTPSinspectionfailuressec[$b].QuantizedAvg[$v] -gt 0))
+              {
+                [int]$iPercentage = ([double]$CollectionOfForefrontTMGWebProxyHTTPSinspectionfailuressec[$i].QuantizedAvg[$v] / [double]$CollectionOfForefrontTMGWebProxyHTTPSconnectioninspectionsec[$b].QuantizedAvg[$v]) * 100
+                [void] $alValues.Add($iPercentage)
+              }
+              Else
+              {
+                [void] $alValues.Add(0)
+              }
+            }
+            $sGeneratedInstanceName = "\\$($CollectionOfForefrontTMGWebProxyHTTPSconnectioninspectionsec[$i].CounterComputer)\Forefront TMG Web Proxy\% HTTPS inspection failures/sec"
+            $CollectionOfGeneratedForefrontTMGWebProxypercentsHTTPSinspectionfailuressec.Add($sGeneratedInstanceName,$alValues)
+          }
+        ]]></CODE>
+    </DATASOURCE>
+    <THRESHOLD NAME="Greater than 30%" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfGeneratedForefrontTMGWebProxypercentsHTTPSinspectionfailuressec -Operator 'gt' -Threshold 30]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="Greater than 50%" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfGeneratedForefrontTMGWebProxypercentsHTTPSinspectionfailuressec -Operator 'gt' -Threshold 50]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The rate per second at which HTTPS connections are inspected.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Forefront TMG Web Proxy Active Web Sessions" ENABLED="True" CATEGORY="Forefront TMG Web Proxy" PRIMARYDATASOURCE="\Forefront TMG Web Proxy\Active Web Sessions" ID="5fea8ecb-2956-4a72-8128-30b17cf73b79" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\Forefront TMG Web Proxy\Active Web Sessions" COLLECTIONVARNAME="CollectionOfForefrontTMGWebProxyActiveWebSessions" EXPRESSIONPATH="\Forefront TMG Web Proxy\Active Web Sessions" TRENDVARNAME="TrendForefrontTMGWebProxyActiveWebSessions" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Forefront TMG Web Proxy\Active Web Sessions" ISTHRESHOLDSADDED="False" DATASOURCE="\Forefront TMG Web Proxy\Active Web Sessions" CHARTLABELS="instance">
+    </CHART>
+    <THRESHOLD NAME="Warning if there is mostly only one active Web Session." CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[
+StaticThreshold -CollectionOfCounterInstances $CollectionOfForefrontTMGWebProxyActiveWebSessions -Operator 'le' -Threshold 1
+
+#// The -Operator parameter accepts gt for greater than, ge for greater than or equal to, lt for less than,
+#//  and le for less than or equal to. -Threshold is the static value for the threshold.]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The number of active Web sessions currently connected to Forefront TMG.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Forefront TMG Web Proxy\Cache Hit Ratio for Last 10K Requests  Cache Hit Ratio for Last 10K Requests (%)" ENABLED="True" CATEGORY="Forefront TMG Web Proxy" PRIMARYDATASOURCE="\Forefront TMG Web Proxy\Cache Hit Ratio for Last 10K Requests (%)" ID="bd769232-611f-456a-9016-f5db117ddc5b" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\Forefront TMG Web Proxy\Cache Hit Ratio for Last 10K Requests (%)" COLLECTIONVARNAME="CollectionOfForefrontTMGWebProxyCacheHitRatioforLast10KRequestsCacheHitRatioforLast10KRequestsPercent" EXPRESSIONPATH="\Forefront TMG Web Proxy\Cache Hit Ratio for Last 10K Requests (%)" TRENDVARNAME="TrendForefrontTMGWebProxyCacheHitRatioforLast10KRequestsCacheHitRatioforLast10KRequestsPercent" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Forefront TMG Web Proxy\Cache Hit Ratio for Last 10K Requests (%)" ISTHRESHOLDSADDED="False" DATASOURCE="\Forefront TMG Web Proxy\Cache Hit Ratio for Last 10K Requests (%)" CHARTLABELS="instance" />
+    <THRESHOLD NAME="Cache almost not used" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[
+StaticThreshold -CollectionOfCounterInstances $CollectionOfForefrontTMGWebProxyCacheHitRatioforLast10KRequestsCacheHitRatioforLast10KRequestsPercent -Operator 'le' -Threshold 5
+]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="You should inc cache size" CONDITION="Warning" COLOR="Yellow" PRIORITY="60">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[
+StaticThreshold -CollectionOfCounterInstances $CollectionOfForefrontTMGWebProxyCacheHitRatioforLast10KRequestsCacheHitRatioforLast10KRequestsPercent -Operator 'ge' -Threshold 90
+]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The percentage of Web Proxy client requests served using cached data out of the total number of Web Proxy client requests to the Forefront TMG, for the last 10,000 requests serviced. Shows the amount of requests served from the cache as a percentage of total successful requests serviced. This ratio is the same as that measured by the Cache Hit Ratio counter. The difference between these two counters is that the Cache Running Hit Ratio counter measures this ratio for the last 10,000 requests serviced, and the Cache Hit Ratio counter measures this ratio since the last time that Web proxy was started. This means that the Cache Running Hit Ratio counter gives a more dynamic evaluation of cache effectiveness. If lower than 5% Cache not used - Consider  If higher than 95% should be increased.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Forefront TMG Web Proxy Average Milliseconds/request" ENABLED="True" CATEGORY="Forefront TMG Web Proxy" PRIMARYDATASOURCE="\Forefront TMG Web Proxy\Average Milliseconds/request" ID="7155ca97-8ff3-4f0d-9c8f-1c3616b92435" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\Forefront TMG Web Proxy\Average Milliseconds/request" COLLECTIONVARNAME="CollectionOfForefrontTMGWebProxyAverageMillisecondsrequest" EXPRESSIONPATH="\Forefront TMG Web Proxy\Average Milliseconds/request" TRENDVARNAME="TrendForefrontTMGWebProxyAverageMillisecondsrequest" DATATYPE="integer" />
+    <CHART CHARTTITLE="Forefront TMG Web Proxy - Average Request time in miliseconds" ISTHRESHOLDSADDED="True" DATASOURCE="\Forefront TMG Web Proxy\Average Milliseconds/request" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfForefrontTMGWebProxyAverageMillisecondsrequest -MinThreshold 20000 -MaxThreshold 30000 -UseMaxValue $False
+        ]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfForefrontTMGWebProxyAverageMillisecondsrequest -MinThreshold 30000 -MaxThreshold 30000.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Warning if response time equal or higher than 20 sec." CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[
+StaticThreshold -CollectionOfCounterInstances $CollectionOfForefrontTMGWebProxyAverageMillisecondsrequest -Operator 'ge' -Threshold 20000
+]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="Critical if response time is greater than 30000" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[
+StaticThreshold -CollectionOfCounterInstances $CollectionOfForefrontTMGWebProxyAverageMillisecondsrequest -Operator 'gt' -Threshold 30000
+]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[Shows the mean number of milliseconds required to service a Web Proxy client request, not including requests serviced by the Secure Sockets Layer (SSL) tunnel. This counter can be monitored at peak and off-peak times to get a comprehensive picture of the rate at which client requests are being serviced. A counter with a value that is too high might indicate that the TMG computer is having difficulty in handling all requests and that requests are being delayed. It shouldn’t be over 30000 for longer than couple minutes. Review policy and check whether it is possible to use stateful filtering instead of application filtering for traffic that is considered harmless.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Forefront TMG Web Proxy Current Cache Fetches Average Milliseconds/request" ENABLED="True" CATEGORY="Forefront TMG Web Proxy" PRIMARYDATASOURCE="\Forefront TMG Web Proxy\Current Cache Fetches Average Milliseconds/request" ID="23c8e36a-82d8-4f5d-87a6-b1aaae8c1d21" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The mean number of milliseconds required to service a Web Proxy client request from cache (not including tunneled requests for HTTPS or SNEWS).]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\Forefront TMG Web Proxy\Current Cache Fetches Average Milliseconds/request" COLLECTIONVARNAME="CollectionOfForefrontTMGWebProxyCurrentCacheFetchesAverageMillisecondsrequest" EXPRESSIONPATH="\Forefront TMG Web Proxy\Current Cache Fetches Average Milliseconds/request" TRENDVARNAME="TrendForefrontTMGWebProxyCurrentCacheFetchesAverageMillisecondsrequest" DATATYPE="integer" />
+    <CHART CHARTTITLE="Forefront TMG Web Proxy - Average Current Cache Fetches Request time in miliseconds" ISTHRESHOLDSADDED="True" DATASOURCE="\Forefront TMG Web Proxy\Current Cache Fetches Average Milliseconds/request" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfForefrontTMGWebProxyCurrentCacheFetchesAverageMillisecondsrequest -MinThreshold 200 -MaxThreshold 300 -UseMaxValue $False
+        ]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfForefrontTMGWebProxyCurrentCacheFetchesAverageMillisecondsrequest -MinThreshold 300 -MaxThreshold 300.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Warning if greater than 200" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[
+StaticThreshold -CollectionOfCounterInstances $CollectionOfForefrontTMGWebProxyCurrentCacheFetchesAverageMillisecondsrequest -Operator 'gt' -Threshold 200
+
+]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="Critical if greater than 300" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[
+StaticThreshold -CollectionOfCounterInstances $CollectionOfForefrontTMGWebProxyCurrentCacheFetchesAverageMillisecondsrequest -Operator 'gt' -Threshold 300
+]]></CODE>
+    </THRESHOLD>
+  </ANALYSIS>
+  <ANALYSIS NAME="Forefront TMG Web Proxy Current Direct Fetches Average Milliseconds/request" ENABLED="True" CATEGORY="Forefront TMG Web Proxy" PRIMARYDATASOURCE="\Forefront TMG Web Proxy\Current Direct Fetches Average Milliseconds/request" ID="dd22f523-4272-4607-9460-c6ab5992c410" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\Forefront TMG Web Proxy\Current Direct Fetches Average Milliseconds/request" COLLECTIONVARNAME="CollectionOfForefrontTMGWebProxyCurrentDirectFetchesAverageMillisecondsrequest" EXPRESSIONPATH="\Forefront TMG Web Proxy\Current Direct Fetches Average Milliseconds/request" TRENDVARNAME="TrendForefrontTMGWebProxyCurrentDirectFetchesAverageMillisecondsrequest" DATATYPE="integer" />
+    <CHART CHARTTITLE="Forefront TMG Web Proxy - Current Direct Fetches Average Milliseconds/request" ISTHRESHOLDSADDED="True" DATASOURCE="\Forefront TMG Web Proxy\Current Direct Fetches Average Milliseconds/request" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfForefrontTMGWebProxyCurrentDirectFetchesAverageMillisecondsrequest -MinThreshold 15000 -MaxThreshold 20000 -UseMaxValue $False
+        ]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfForefrontTMGWebProxyCurrentDirectFetchesAverageMillisecondsrequest -MinThreshold 20000 -MaxThreshold 20000.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Warning if exceeded 15k" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfForefrontTMGWebProxyCurrentDirectFetchesAverageMillisecondsrequest -Operator 'gt' -Threshold 15000
+
+]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="Critical if greater than 20k" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfForefrontTMGWebProxyCurrentDirectFetchesAverageMillisecondsrequest -Operator 'gt' -Threshold 20000
+]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The mean number of milliseconds required to service a Web Proxy client request directly to the Web server or upstream proxy (not including tunneled requests for HTTPS or SNEWS).]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Forefront TMG Web Proxy\Memory Pool for HTTP Requests  Memory Pool for HTTP Requests (%)" ENABLED="True" CATEGORY="Forefront TMG Web Proxy" PRIMARYDATASOURCE="\Forefront TMG Web Proxy\Memory Pool for HTTP Requests (%)" ID="6ddebf24-7c05-4378-8005-87e83755946f" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\Forefront TMG Web Proxy\Memory Pool for HTTP Requests (%)" COLLECTIONVARNAME="CollectionOfForefrontTMGWebProxyMemoryPoolforHTTPRequestsMemoryPoolforHTTPRequestsPercent" EXPRESSIONPATH="\Forefront TMG Web Proxy\Memory Pool for HTTP Requests (%)" TRENDVARNAME="TrendForefrontTMGWebProxyMemoryPoolforHTTPRequestsMemoryPoolforHTTPRequestsPercent" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Forefront TMG Web Proxy\Memory Pool for HTTP Requests (%)" ISTHRESHOLDSADDED="True" DATASOURCE="\Forefront TMG Web Proxy\Memory Pool for HTTP Requests (%)" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[ StaticChartThreshold -CollectionOfCounterInstances $CollectionOfForefrontTMGWebProxyMemoryPoolforHTTPRequestsMemoryPoolforHTTPRequestsPercent -MinThreshold 15 -MaxThreshold 30 -UseMaxValue $False]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[ StaticChartThreshold -CollectionOfCounterInstances $CollectionOfForefrontTMGWebProxyMemoryPoolforHTTPRequestsMemoryPoolforHTTPRequestsPercent -MinThreshold 0 -MaxThreshold 15 -UseMaxValue $False]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="If less than 20% for long period" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfForefrontTMGWebProxyMemoryPoolforHTTPRequestsMemoryPoolforHTTPRequestsPercent -Operator 'le' -Threshold 20
+
+]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="Critical if more than 30% for long period" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfForefrontTMGWebProxyMemoryPoolforHTTPRequestsMemoryPoolforHTTPRequestsPercent -Operator 'le' -Threshold 30]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[Percentage of memory available for HTTP requests. When an HTTP request is made, Forefront TMG uses memory from a pre-allocated pool. You can use the ProxyVmemAlloc3pSize registry value in the HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\W3Proxy\Parameters registry key to modify the size of this pool.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Forefront TMG Web Proxy\Memory Pool for SSL Requests  Memory Pool for SSL Requests (%)" ENABLED="True" CATEGORY="Forefront TMG Web Proxy" PRIMARYDATASOURCE="\Forefront TMG Web Proxy\Memory Pool for SSL Requests (%)" ID="77d872cf-cfa5-4ee7-a72b-545592b2c1fa" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\Forefront TMG Web Proxy\Memory Pool for SSL Requests (%)" COLLECTIONVARNAME="CollectionOfForefrontTMGWebProxyMemoryPoolforSSLRequestsMemoryPoolforSSLRequestsPercent" EXPRESSIONPATH="\Forefront TMG Web Proxy\Memory Pool for SSL Requests (%)" TRENDVARNAME="TrendForefrontTMGWebProxyMemoryPoolforSSLRequestsMemoryPoolforSSLRequestsPercent" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Forefront TMG Web Proxy\Memory Pool for SSL Requests (%)" ISTHRESHOLDSADDED="True" DATASOURCE="\Forefront TMG Web Proxy\Memory Pool for SSL Requests (%)" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[ StaticChartThreshold -CollectionOfCounterInstances $CollectionOfForefrontTMGWebProxyMemoryPoolforSSLRequestsMemoryPoolforSSLRequestsPercent -MinThreshold 15 -MaxThreshold 30 -UseMaxValue $False]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[ StaticChartThreshold -CollectionOfCounterInstances $CollectionOfForefrontTMGWebProxyMemoryPoolforSSLRequestsMemoryPoolforSSLRequestsPercent -MinThreshold 0 -MaxThreshold 15 -UseMaxValue $False]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Warning if less than 30% in avg." CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[
+StaticThreshold -CollectionOfCounterInstances $CollectionOfForefrontTMGWebProxyMemoryPoolforSSLRequestsMemoryPoolforSSLRequestsPercent -Operator 'le' -Threshold 30
+]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="Critical if below 20%" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfForefrontTMGWebProxyMemoryPoolforSSLRequestsMemoryPoolforSSLRequestsPercent -Operator 'le' -Threshold 20
+]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[Percentage of memory available for SSL requests. When an SSL request is made, Forefront TMG uses memory from a pre-allocated pool. You can use the ProxyVmemAlloc1pSize registry value in the HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\W3Proxy\Parameters registry key to modify the size of this pool.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Forefront TMG Web Proxy Total Failing Requests" ENABLED="True" CATEGORY="Forefront TMG Web Proxy" PRIMARYDATASOURCE="\Forefront TMG Web Proxy\Total Failing Requests" ID="2ba8d9d9-6b1a-4843-a273-8e974e558ef8" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\Forefront TMG Web Proxy\Total Failing Requests" COLLECTIONVARNAME="CollectionOfForefrontTMGWebProxyTotalFailingRequests" EXPRESSIONPATH="\Forefront TMG Web Proxy\Total Failing Requests" TRENDVARNAME="TrendForefrontTMGWebProxyTotalFailingRequests" DATATYPE="integer" />
+    <CHART CHARTTITLE="Forefront TMG Web Proxy -Total Failing Requests" ISTHRESHOLDSADDED="True" DATASOURCE="\Forefront TMG Web Proxy\Total Failing Requests" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfForefrontTMGWebProxyTotalFailingRequestst -MinThreshold 0 -MaxThreshold 1.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="There are Failling Requests!" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[
+StaticThreshold -CollectionOfCounterInstances $CollectionOfForefrontTMGWebProxyTotalFailingRequests -Operator 'gt' -Threshold 0
+]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="There are Failings constantly" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[
+#//StaticThreshold -CollectionOfCounterInstances $CollectionOfForefrontTMGWebProxyTotalFailingRequests[0].StdDev -Operator 'ge' -Threshold 1
+]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[Shows the total number of requests that have failed to be processed by Web proxy because of errors. Errors can be the result of Web proxy failing to locate a requested server URL on the Internet or because the client did not have authorized access to the requested URL. This counter should be lower than the Total Successful Requests counter. If not, it is an indication that TMG is failing to service requests effectively. This could be a configuration problem, or a connection that is too slow. It could also indicate an access policy that is too restrictive.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Forefront TMG Firewall Service Available Worker Threads" ENABLED="True" CATEGORY="Forefront TMG Firewall Service" PRIMARYDATASOURCE="\Forefront TMG Firewall Service\Available Worker Threads" ID="9de69fc7-7d06-481f-a07c-64037e341e03" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\Forefront TMG Firewall Service\Available Worker Threads" COLLECTIONVARNAME="CollectionOfForefrontTMGFirewallServiceAvailableWorkerThreads" EXPRESSIONPATH="\Forefront TMG Firewall Service\Available Worker Threads" TRENDVARNAME="TrendForefrontTMGFirewallServiceAvailableWorkerThreads" DATATYPE="integer" />
+    <CHART CHARTTITLE="Forefront TMG Firewall Service - Available Worker Threads" ISTHRESHOLDSADDED="True" DATASOURCE="\Forefront TMG Firewall Service\Available Worker Threads" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfForefrontTMGFirewallServiceAvailableWorkerThreads -MinThreshold 5 -MaxThreshold 15 -UseMaxValue $False
+        ]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfForefrontTMGFirewallServiceAvailableWorkerThreads -MinThreshold 0 -MaxThreshold 5 -UseMaxValue $False
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="less than 5" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[
+StaticThreshold -CollectionOfCounterInstances $CollectionOfForefrontTMGFirewallServiceAvailableWorkerThreads -Operator 'le' -Threshold 5
+]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="No available Threads!" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[
+StaticThreshold -CollectionOfCounterInstances $CollectionOfForefrontTMGFirewallServiceAvailableWorkerThreads -Operator 'le' -Threshold 0
+]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The number of Firewall Service worker threads that are available (waiting in completion port queue).]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Forefront TMG Firewall Service Worker Threads" ENABLED="True" CATEGORY="Forefront TMG Firewall Service" PRIMARYDATASOURCE="\Forefront TMG Firewall Service\Worker Threads" ID="65c514bf-8e73-4878-9e5e-5876384c942e" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\Forefront TMG Firewall Service\Worker Threads" COLLECTIONVARNAME="CollectionOfForefrontTMGFirewallServiceWorkerThreads" EXPRESSIONPATH="\Forefront TMG Firewall Service\Worker Threads" TRENDVARNAME="TrendForefrontTMGFirewallServiceWorkerThreads" DATATYPE="integer" />
+    <CHART CHARTTITLE="Forefront TMG Firewall Service - Worker Threads" ISTHRESHOLDSADDED="True" DATASOURCE="\Forefront TMG Firewall Service\Worker Threads" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfForefrontTMGFirewallServiceWorkerThreads -MinThreshold 200 -MaxThreshold 400 -UseMaxValue $False
+        ]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfForefrontTMGFirewallServiceWorkerThreads -MinThreshold 400 -MaxThreshold 400.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Warning if higher than 200" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[
+StaticThreshold -CollectionOfCounterInstances $CollectionOfForefrontTMGFirewallServiceWorkerThreads -Operator 'gt' -Threshold 200
+]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="Critical after exceed 400" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[
+StaticThreshold -CollectionOfCounterInstances $CollectionOfForefrontTMGFirewallServiceWorkerThreads -Operator 'gt' -Threshold 400
+
+]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The number of Firewall Service worker threads that are currently alive. A value higher for Worker Threads than 400 is considered bad]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Forefront TMG Firewall Service DNS Cache Hits %" ENABLED="True" CATEGORY="Forefront TMG Firewall Service" PRIMARYDATASOURCE="\Forefront TMG Firewall Service\DNS Cache Hits %" ID="919dd8e3-e708-41b9-b3f0-e3d3048e08d6" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\Forefront TMG Firewall Service\DNS Cache Hits %" COLLECTIONVARNAME="CollectionOfForefrontTMGFirewallServiceDNSCacheHitsPercent" EXPRESSIONPATH="\Forefront TMG Firewall Service\DNS Cache Hits %" TRENDVARNAME="TrendForefrontTMGFirewallServiceDNSCacheHitsPercent" DATATYPE="integer" />
+    <CHART CHARTTITLE="Forefront TMG Firewall Service - DNS Cache Hits" ISTHRESHOLDSADDED="False" DATASOURCE="\Forefront TMG Firewall Service\DNS Cache Hits %" CHARTLABELS="instance" />
+    <THRESHOLD NAME="Low ratio" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[
+StaticThreshold -CollectionOfCounterInstances $CollectionOfForefrontTMGFirewallServiceDNSCacheHitsPercent -Operator 'le' -Threshold 30
+]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The percentage of DNS domain names retrieved from the DNS cache, out of a total of all DNS entries retrieved from the Firewall Service.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Forefront TMG Firewall Service Accepting TCP Connections" ENABLED="True" CATEGORY="Forefront TMG Firewall Service" PRIMARYDATASOURCE="\Forefront TMG Firewall Service\Accepting TCP Connections" ID="bbe56dfa-d2df-4720-8068-ac3c9d5b4d30" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\Forefront TMG Firewall Service\Accepting TCP Connections" COLLECTIONVARNAME="CollectionOfForefrontTMGFirewallServiceAcceptingTCPConnections" EXPRESSIONPATH="\Forefront TMG Firewall Service\Accepting TCP Connections" TRENDVARNAME="TrendForefrontTMGFirewallServiceAcceptingTCPConnections" DATATYPE="integer" />
+    <CHART CHARTTITLE="Forefront TMG Firewall Service - Accepting TCP Connections" ISTHRESHOLDSADDED="True" DATASOURCE="\Forefront TMG Firewall Service\Accepting TCP Connections" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfForefrontTMGFirewallServiceAcceptingTCPConnections -MinThreshold 10 -MaxThreshold 10.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Possible attack from Firewall clients or congestion on the Internal network" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[
+StaticThreshold -CollectionOfCounterInstances $CollectionOfForefrontTMGFirewallServiceAcceptingTCPConnections -Operator 'ge' -Threshold 10
+]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The number of connection objects waiting for a TCP connection from the Firewall client after a successful remote connection.
+If over 10 could indicates an attack from Firewall clients or congestion on the Internal network]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Forefront TMG Firewall Service Pending DNS Resolutions" ENABLED="True" CATEGORY="Forefront TMG Firewall Service" PRIMARYDATASOURCE="\Forefront TMG Firewall Service\Pending DNS Resolutions" ID="a600bab4-1f12-44bc-9959-2641a32cbe0d" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\Forefront TMG Firewall Service\Pending DNS Resolutions" COLLECTIONVARNAME="CollectionOfForefrontTMGFirewallServicePendingDNSResolutions" EXPRESSIONPATH="\Forefront TMG Firewall Service\Pending DNS Resolutions" TRENDVARNAME="TrendForefrontTMGFirewallServicePendingDNSResolutions" DATATYPE="integer" />
+    <CHART CHARTTITLE="Forefront TMG Firewall Service - Pending DNS Resolutions" ISTHRESHOLDSADDED="True" DATASOURCE="\Forefront TMG Firewall Service\Pending DNS Resolutions" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfForefrontTMGFirewallServicePendingDNSResolutions -MinThreshold 1 -MaxThreshold 1.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Warning if higher than 1" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[
+StaticThreshold -CollectionOfCounterInstances $CollectionOfForefrontTMGFirewallServicePendingDNSResolutions -Operator 'ge' -Threshold 1
+]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[Shows the number of Winsock gteaddrinfo() calls pending. These are calls used to resolve host DNS domain names and IP addresses for firewall service connections. Pending DNS resolutions can impact pending TCP connections. Windows should perform resolutions quickly & reliably – especially for domain-based DNS.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Forefront TMG Firewall Service Pending TCP Connections" ENABLED="True" CATEGORY="Forefront TMG Firewall Service" PRIMARYDATASOURCE="\Forefront TMG Firewall Service\Pending TCP Connections" ID="504d40f2-47f5-4599-ae51-3f8692c10a0f" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\Forefront TMG Firewall Service\Pending TCP Connections" COLLECTIONVARNAME="CollectionOfForefrontTMGFirewallServicePendingTCPConnections" EXPRESSIONPATH="\Forefront TMG Firewall Service\Pending TCP Connections" TRENDVARNAME="TrendForefrontTMGFirewallServicePendingTCPConnections" DATATYPE="integer" />
+    <CHART CHARTTITLE="Forefront TMG Firewall Service - Pending TCP Connections" ISTHRESHOLDSADDED="True" DATASOURCE="\Forefront TMG Firewall Service\Pending TCP Connections" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfForefrontTMGFirewallServicePendingTCPConnections -MinThreshold 20 -MaxThreshold 20.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Higher than 20" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[
+StaticThreshold -CollectionOfCounterInstances $CollectionOfForefrontTMGFirewallServicePendingTCPConnections -Operator 'gt' -Threshold 20
+]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[Shows the total number of pending TCP connections. This is the total number of connections that are waiting for a connect call to finish. High number may indicate a flood attack or worm propagation to random IP addresses when there is a policy rule that restricts access to one or more destinations specified by domain names.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSSQL$ISARS:Buffer Manager Lazy writes/sec" ENABLED="True" CATEGORY="MSSQL: Reporting engine" PRIMARYDATASOURCE="\MSSQL$ISARS:Buffer Manager\Lazy writes/sec" ID="13f7a792-7844-408a-b9b7-06c509fb219f" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSSQL$ISARS:Buffer Manager\Lazy writes/sec" COLLECTIONVARNAME="CollectionOfMSSQLISARSBufferManagerLazywritessec" EXPRESSIONPATH="\MSSQL$ISARS:Buffer Manager\Lazy writes/sec" TRENDVARNAME="TrendMSSQL$ISARSBufferManagerLazywritessec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSSQL$ISARS:Buffer Manager\Lazy writes/sec" ISTHRESHOLDSADDED="True" DATASOURCE="\MSSQL$ISARS:Buffer Manager\Lazy writes/sec" CHARTLABELS="instance">
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $CollectionOfMSSQLISARSBufferManagerLazywritessec  -MinThreshold 0.001 -MaxThreshold 20 -IsOperatorGreaterThan $True -UseMaxValue $False]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Warning if greater than 20" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE>
+        <![CDATA[
+StaticThreshold -CollectionOfCounterInstances $CollectionOfMSSQLISARSBufferManagerLazywritessec -Operator 'gt' -Threshold 20
+]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[Number of buffers written by buffer manager's lazy writer. This counter tracks how many times a second that the Lazy Writer process is moving dirty pages from the buffer to disk in order to free up buffer space. Generally speaking, this should not be a high value, say more than 20 per second or so.  Ideally, it should be close to zero. If it is zero, this indicates that your SQL Server's buffer cache is plenty big and SQL Server doesn't have to free up dirty pages, instead waiting for this to occur during regular checkpoints. If this value is high, then a need for more memory is indicated. As at default configuration it's sql express edition and memory usege is restricted, should be considered change for a standalone SQL.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSSQL$MSFW:Buffer Manager Lazy writes/sec" ENABLED="True" CATEGORY="MSSQL: Logging engine" PRIMARYDATASOURCE="\MSSQL$MSFW:Buffer Manager\Lazy writes/sec" ID="1cd392e9-8161-4fde-91dc-116fb44e04b4" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSSQL$MSFW:Buffer Manager\Lazy writes/sec" COLLECTIONVARNAME="CollectionOfMSSQLMSFWBufferManagerLazywritessec" EXPRESSIONPATH="\MSSQL$MSFW:Buffer Manager\Lazy writes/sec" TRENDVARNAME="TrendMSSQL$MSFWBufferManagerLazywritessec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSSQL$MSFW:Buffer Manager\Lazy writes/sec" ISTHRESHOLDSADDED="True" DATASOURCE="\MSSQL$MSFW:Buffer Manager\Lazy writes/sec" CHARTLABELS="instance">
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $CollectionOfMSSQLMSFWBufferManagerLazywritessec -MinThreshold 0.001 -MaxThreshold 20 -IsOperatorGreaterThan $True -UseMaxValue $False]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Warning if more than 20 " CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[
+StaticThreshold -CollectionOfCounterInstances $CollectionOfMSSQLMSFWBufferManagerLazywritessec -Operator 'gt' -Threshold 20
+]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[Number of buffers written by buffer manager's lazy writer. This counter tracks how many times a second that the Lazy Writer process is moving dirty pages from the buffer to disk in order to free up buffer space. Generally speaking, this should not be a high value, say more than 20 per second or so.  Ideally, it should be close to zero. If it is zero, this indicates that your SQL Server's buffer cache is plenty big and SQL Server doesn't have to free up dirty pages, instead waiting for this to occur during regular checkpoints. If this value is high, then a need for more memory is indicated.As at default configuration it's sql express edition and memory usege is restricted, should be considered change for a standalone SQL.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Forefront TMG Web Proxy % Failing Requests/sec" ENABLED="True" CATEGORY="Forefront TMG Web Proxy" PRIMARYDATASOURCE="\Forefront TMG Web Proxy\% Failing Requests/sec" ID="e5e3cca0-d3b9-47d2-a976-c5c362572280" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\Forefront TMG Web Proxy\Failing Requests/sec" COLLECTIONVARNAME="CollectionOfForefrontTMGWebProxyFailingRequestssec" EXPRESSIONPATH="\Forefront TMG Web Proxy\Failing Requests/sec" TRENDVARNAME="TrendForefrontTMGWebProxyFailingRequestssec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Forefront TMG Web Proxy\Failing Requests/sec" ISTHRESHOLDSADDED="True" DATASOURCE="\Forefront TMG Web Proxy\Failing Requests/sec" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $CollectionOfGeneratedForefrontTMGWebProxyPercentFailingRequestsPersec -MinThreshold 10 -MaxThreshold 30 -IsOperatorGreaterThan $True -UseMaxValue $False]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $CollectionOfGeneratedForefrontTMGWebProxyPercentFailingRequestsPersec -MinThreshold 30 -MaxThreshold 99.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <DATASOURCE TYPE="CounterLog" NAME="\Forefront TMG Web Proxy\Requests/sec" EXPRESSIONPATH="\Forefront TMG Web Proxy\Requests/sec" COLLECTIONVARNAME="CollectionOfForefrontTMGWebProxyRequestssec" DATATYPE="integer" />
+    <DATASOURCE TYPE="Generated" NAME="\Forefront TMG Web Proxy\% Failing Requests/sec" EXPRESSIONPATH="\Forefront TMG Web Proxy\% Failing Requests/sec" COLLECTIONVARNAME="CollectionOfGeneratedForefrontTMGWebProxyPercentFailingRequestsPersec" DATATYPE="integer">
+      <CODE><![CDATA[
+          $CollectionOfGeneratedForefrontTMGWebProxyPercentFailingRequestsPersec = @{}
+          For ($i=0;$i -lt $CollectionOfForefrontTMGWebProxyFailingRequestssec.Count;$i++)
+          {
+            For ($a=0;$a -lt $CollectionOfForefrontTMGWebProxyRequestssec.Count;$a++)
+            {
+              If ($CollectionOfForefrontTMGWebProxyFailingRequestssec[$i].CounterInstance -eq $CollectionOfForefrontTMGWebProxyRequestssec[$a].CounterInstance)
+              { 
+                $b = $a
+              }
+            }
+            $alValues = New-Object System.Collections.ArrayList
+            For ($v=0;$v -lt $CollectionOfForefrontTMGWebProxyFailingRequestssec[$i].Value.Count;$v++)
+            {
+              If (($CollectionOfForefrontTMGWebProxyFailingRequestssec[$i].QuantizedAvg[$v] -gt 0) -and ($CollectionOfForefrontTMGWebProxyRequestssec[$b].QuantizedAvg[$v] -gt 0))
+              {
+                [int]$iPercentage = ([double]$CollectionOfForefrontTMGWebProxyFailingRequestssec[$b].QuantizedAvg[$v] / [double]$CollectionOfForefrontTMGWebProxyRequestssec[$i].QuantizedAvg[$v]) * 100
+                [void] $alValues.Add($iPercentage)
+              }
+              Else
+              {
+                [void] $alValues.Add(0)
+              }
+            }
+            $sGeneratedInstanceName = "\\$($CollectionOfForefrontTMGWebProxyFailingRequestssec[$i].CounterComputer)\Forefront TMG Web Proxy\% Failing Requests/sec"
+            $CollectionOfGeneratedForefrontTMGWebProxyPercentFailingRequestsPersec.Add($sGeneratedInstanceName,$alValues)
+          }
+        ]]></CODE>
+    </DATASOURCE>
+    <THRESHOLD NAME="Greater than 10%" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfGeneratedForefrontTMGWebProxyPercentFailingRequestsPersec -Operator 'gt' -Threshold 10]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="Greater Than 30%" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfGeneratedForefrontTMGWebProxyPercentFailingRequestsPersec -Operator 'gt' -Threshold 30]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The rate per second of requests that have failed because of some type of error.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSSQL$MSFW:Buffer Manager:Page life expectancy" ENABLED="True" CATEGORY="MSSQL: Logging engine" PRIMARYDATASOURCE="\MSSQL$MSFW:Buffer Manager\Page life expectancy" ID="af2ac642-e688-47da-ba33-f78afd791236" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSSQL$MSFW:Buffer Manager\Page life expectancy" COLLECTIONVARNAME="CollectionOfMSSQLMSFWBufferManagerPagelifeexpectancy" EXPRESSIONPATH="\MSSQL$MSFW:Buffer Manager\Page life expectancy" TRENDVARNAME="TrendMSSQL$MSFWBufferManagerPagelifeexpectancy" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSSQL$MSFW:Buffer Manager\Page life expectancy" ISTHRESHOLDSADDED="True" DATASOURCE="\MSSQL$MSFW:Buffer Manager\Page life expectancy" CHARTLABELS="instance">
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $CollectionOfMSSQLMSFWBufferManagerPagelifeexpectancy -MinThreshold 0.001 -MaxThreshold 300 -UseMaxValue $True -IsOperatorGreaterThan $False]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Page life expectancy is less than 5 minutes (300 seconds)" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[
+StaticThreshold -CollectionOfCounterInstances $CollectionOfMSSQLMSFWBufferManagerPagelifeexpectancy -Operator 'lt' -Threshold 300
+]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[Number of seconds a page will stay in the buffer pool without references. This performance monitor counter tells you, on average, how long data pages are staying in the buffer. If this value gets below 300 seconds, this is a indication that SQL Server is doing too many logical reads putting pressure on the buffer pool or potentially that your SQL Server could use more memory in order to boost performance. Anything below 300 is a critical level.
+The Page life expectancy counter is considered one of the most critical counters for SQL Server. If Page life expectancy becomes low SQL Server will attempt physical reads from disk into the buffer pool to honor requests. Requests from physical disk will take considerably longer causing higher disk 
+
+If Buffer Manager\Page life expectancy is low then the Buffer Manager\Lazy Writes /sec will be higher as the Lazy Writer will become active attempting to free the buffer cache as SQL Server will be under memory pressure.
+Due to the disk impact of the physical reads incurred, the \Physical Disk \Avg. Disk sec/Read counter may also become a bottleneck as SQL Server is reading from disk instead of the buffer pull to honor requests.
+Look for an increase in SQL Server:Buffer Manager: Lazy Writes/sec performance object counters because SQL  starts to flush pages out of the buffer pool cache under memory pressure.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSSQL$ISARS:Buffer Manager:Page life expectancy" ENABLED="True" CATEGORY="MSSQL: Reporting engine" PRIMARYDATASOURCE="\MSSQL$ISARS:Buffer Manager\Page life expectancy" ID="9a23ca32-aeb5-4f69-a309-02bf8b8d7442" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSSQL$ISARS:Buffer Manager\Page life expectancy" COLLECTIONVARNAME="CollectionOfMSSQLISARSBufferManagerPagelifeexpectancy" EXPRESSIONPATH="\MSSQL$ISARS:Buffer Manager\Page life expectancy" TRENDVARNAME="TrendMSSQL$ISARSBufferManagerPagelifeexpectancy" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSSQL$ISARS:Buffer Manager\Page life expectancy" ISTHRESHOLDSADDED="True" DATASOURCE="\MSSQL$ISARS:Buffer Manager\Page life expectancy" CHARTLABELS="instance">
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $CollectionOfMSSQLISARSBufferManagerPagelifeexpectancy -MinThreshold 0.001 -MaxThreshold 300 -UseMaxValue $True -IsOperatorGreaterThan $False]]></CODE>
+      </SERIES>
+    </CHART>
+    <DESCRIPTION><![CDATA[Number of seconds a page will stay in the buffer pool without references. This performance monitor counter tells you, on average, how long data pages are staying in the buffer. If this value gets below 300 seconds, this is a indication that SQL Server is doing too many logical reads putting pressure on the buffer pool or potentially that your SQL Server could use more memory in order to boost performance. Anything below 300 is a critical level.
+The Page life expectancy counter is considered one of the most critical counters for SQL Server. If Page life expectancy becomes low SQL Server will attempt physical reads from disk into the buffer pool to honor requests. Requests from physical disk will take considerably longer causing higher disk 
+
+If Buffer Manager\Page life expectancy is low then the Buffer Manager\Lazy Writes /sec will be higher as the Lazy Writer will become active attempting to free the buffer cache as SQL Server will be under memory pressure.
+Due to the disk impact of the physical reads incurred, the \Physical Disk \Avg. Disk sec/Read counter may also become a bottleneck as SQL Server is reading from disk instead of the buffer pull to honor requests.
+Look for an increase in SQL Server:Buffer Manager: Lazy Writes/sec performance object counters because SQL  starts to flush pages out of the buffer pool cache under memory pressure.]]></DESCRIPTION>
+    <THRESHOLD NAME="Page life expectancy is less than 5 minutes (300 seconds)" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE>
+        <![CDATA[
+StaticThreshold -CollectionOfCounterInstances $CollectionOfMSSQLISARSBufferManagerPagelifeexpectancy -Operator 'lt' -Threshold 300
+]]></CODE>
+    </THRESHOLD>
+  </ANALYSIS>
+  <INHERITANCE FILEPATH="QuickSystemOverview.xml" />
+</PAL>

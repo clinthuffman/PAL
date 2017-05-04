@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<PAL PALVERSION="2.0" NAME="Dynamics CRM 2013 Full Server Role" DESCRIPTION="Basic Monitoring for the Dynamics CRM 2013 Full Server role" VERSION="1.0" CONTENTOWNERS="Stephane Dorrekens" FEEDBACKEMAILADDRESS="stephane.dorrekens@realdolmen.com">
+  <INHERITANCE FILEPATH="DynamicsCRM2013_BackEnd_Basic.xml" />
+  <INHERITANCE FILEPATH="DynamicsCRM2013_FrontEnd_Basic.xml" />
+</PAL>

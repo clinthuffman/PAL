@@ -1,0 +1,9 @@
+C:\Users\clinth\Documents\~Projects\PAL\PALFunctions\bin\Debug\PALFunctions.dll
+C:\Users\clinth\Documents\~Projects\PAL\PALFunctions\bin\Debug\PALFunctions.pdb
+C:\Users\clinth\Documents\~Projects\PAL\PALFunctions\bin\Debug\PALFunctions.xml
+C:\Users\clinth\Documents\~Projects\PAL\PALFunctions\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\clinth\Documents\~Projects\PAL\PALFunctions\obj\Debug\PALFunctions.Resources.resources
+C:\Users\clinth\Documents\~Projects\PAL\PALFunctions\obj\Debug\PALFunctions.vbproj.GenerateResource.Cache
+C:\Users\clinth\Documents\~Projects\PAL\PALFunctions\obj\Debug\PALFunctions.dll
+C:\Users\clinth\Documents\~Projects\PAL\PALFunctions\obj\Debug\PALFunctions.xml
+C:\Users\clinth\Documents\~Projects\PAL\PALFunctions\obj\Debug\PALFunctions.pdb

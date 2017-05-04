@@ -1,0 +1,902 @@
+<?xml version="1.0"?>
+<PAL NAME="Microsoft Exchange 2007 - EDGE (TechNet)" DESCRIPTION="Includes counters and thresholds for the Exchange Server 2007 Edge Transport role based on the following product documentation: http://technet.microsoft.com/en-us/library/ee532088%28v=exchg.80%29" VERSION="1.0" PALVERSION="2.0" CONTENTOWNERS="Kevan Brown" FEEDBACKEMAILADDRESS="kbrown@smartronix.com">
+  <ANALYSIS NAME="MSExchangeTransport Queues Aggregate Delivery Queue Length (All Queues)" ENABLED="True" CATEGORY="MSExchangeTransport Queues" PRIMARYDATASOURCE="\MSExchangeTransport Queues(_total)\Aggregate Delivery Queue Length (All Queues)" ID="3429bea6-e1ad-4f36-971d-5b8f84db8101" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeTransport Queues(_total)\Aggregate Delivery Queue Length (All Queues)" COLLECTIONVARNAME="CollectionOfMSExchangeTransportQueuesAggregateDeliveryQueueLengthAllQueues" EXPRESSIONPATH="\MSExchangeTransport Queues(_total)\Aggregate Delivery Queue Length (All Queues)" TRENDVARNAME="TrendMSExchangeTransportQueuesAggregateDeliveryQueueLengthAllQueues" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeTransport Queues(_total)\Aggregate Delivery Queue Length (All Queues)" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeTransport Queues(_total)\Aggregate Delivery Queue Length (All Queues)" CHARTLABELS="instance" />
+    <THRESHOLD NAME="MSExchange transport queues total aggregate delivery queue length (all queues) of 3000 or greater" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeTransportQueuesAggregateDeliveryQueueLengthAllQueues -Operator 'ge' -Threshold 3000]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="MSExchange transport queues total aggregate delivery queue length (all queues) of 5000 or greater" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeTransportQueuesAggregateDeliveryQueueLengthAllQueues -Operator 'ge' -Threshold 5000]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>Aggregate Delivery Queue Length (All Queues) is the number of messages queued for delivery in all queues.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>The number of messages queued for delivery in all queues.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For Exchange Server 2007 Edge Transport servers, this value should be less than 3,000 and not more than 5,000.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeTransport Queues Active Remote Delivery Queue Length" ENABLED="True" CATEGORY="MSExchangeTransport Queues" PRIMARYDATASOURCE="\MSExchangeTransport Queues(_total)\Active Remote Delivery Queue Length" ID="965deaea-c043-4b46-81e5-deea64410a8b" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeTransport Queues(_total)\Active Remote Delivery Queue Length" COLLECTIONVARNAME="CollectionOfMSExchangeTransportQueuesActiveRemoteDeliveryQueueLength" EXPRESSIONPATH="\MSExchangeTransport Queues(_total)\Active Remote Delivery Queue Length" TRENDVARNAME="TrendMSExchangeTransportQueuesActiveRemoteDeliveryQueueLength" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeTransport Queues(_total)\Active Remote Delivery Queue Length" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeTransport Queues(_total)\Active Remote Delivery Queue Length" CHARTLABELS="instance" />
+    <THRESHOLD NAME="MSExchange transport queues total active remote delivery queue length of 200 or greater" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeTransportQueuesActiveRemoteDeliveryQueueLength -Operator 'ge' -Threshold 200]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="MSExchange transport queues total active remote delivery queue length of 250 or greater" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeTransportQueuesActiveRemoteDeliveryQueueLength -Operator 'ge' -Threshold 250]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>Active Remote Delivery Queue Length is the number of messages in the active remote delivery queues.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>The number of messages in the active remote delivery queues.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For Exchange Server 2007 Edge Transport servers, this value should be less than 200. A value of 250 or more indicates a critical issue.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeTransport Queues Submission Queue Length" ENABLED="True" CATEGORY="MSExchangeTransport Queues" PRIMARYDATASOURCE="\MSExchangeTransport Queues(_total)\Submission Queue Length" ID="dee2b012-e6ee-48f8-89f2-e18021f04721" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeTransport Queues(_total)\Submission Queue Length" COLLECTIONVARNAME="CollectionOfMSExchangeTransportQueuesSubmissionQueueLength" EXPRESSIONPATH="\MSExchangeTransport Queues(_total)\Submission Queue Length" TRENDVARNAME="TrendMSExchangeTransportQueuesSubmissionQueueLength" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeTransport Queues(_total)\Submission Queue Length" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeTransport Queues(_total)\Submission Queue Length" CHARTLABELS="instance" />
+    <THRESHOLD NAME="MSExchange transport queues total submission queue length of 100 or greater" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeTransportQueuesSubmissionQueueLength -Operator 'ge' -Threshold 100]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="MSExchange transport queues total submission queue length of 250 or greater" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeTransportQueuesSubmissionQueueLength -Operator 'ge' -Threshold 250]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>Submission Queue Length is the number of messages in the Submission queue.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>The number of messages in the Submission queue.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For Exchange Server 2007 Edge Transport servers, this value should be less than 100. A value of 250 or more indicates a critical issue.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeTransport Queues Retry Remote Delivery Queue Length" ENABLED="True" CATEGORY="MSExchangeTransport Queues" PRIMARYDATASOURCE="\MSExchangeTransport Queues(_total)\Retry Remote Delivery Queue Length" ID="d25cbd1c-24cd-41c4-85cf-9ea6dca4bb99" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeTransport Queues(_total)\Retry Remote Delivery Queue Length" COLLECTIONVARNAME="CollectionOfMSExchangeTransportQueuesRetryRemoteDeliveryQueueLength" EXPRESSIONPATH="\MSExchangeTransport Queues(_total)\Retry Remote Delivery Queue Length" TRENDVARNAME="TrendMSExchangeTransportQueuesRetryRemoteDeliveryQueueLength" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeTransport Queues(_total)\Retry Remote Delivery Queue Length" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeTransport Queues(_total)\Retry Remote Delivery Queue Length" CHARTLABELS="instance" />
+    <THRESHOLD NAME="MSExchange transport queues total retry remote delivery queue length of 100 or greater" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeTransportQueuesRetryRemoteDeliveryQueueLength -Operator 'ge' -Threshold 100]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="MSExchange transport queues total retry remote delivery queue length of 250 or greater" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeTransportQueuesRetryRemoteDeliveryQueueLength -Operator 'ge' -Threshold 250]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>Retry Remote Delivery Queue Length is the number of messages in retry in the remote delivery queues.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>The number of messages in the remote delivery queues that are waiting to be retried.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For Exchange Server 2007 Edge Transport servers, this value should be less than 100. A value of 250 or more indicates a critical issue. If this value is high, we recommend that you check the next hop to determine the causes for the long queues.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeTransport Queues Unreachable Queue Length" ENABLED="True" CATEGORY="MSExchangeTransport Queues" PRIMARYDATASOURCE="\MSExchangeTransport Queues(_total)\Unreachable Queue Length" ID="bb2ebef7-6414-4f1f-bd86-75507c029c34" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeTransport Queues(_total)\Unreachable Queue Length" COLLECTIONVARNAME="CollectionOfMSExchangeTransportQueuesUnreachableQueueLength" EXPRESSIONPATH="\MSExchangeTransport Queues(_total)\Unreachable Queue Length" TRENDVARNAME="TrendMSExchangeTransportQueuesUnreachableQueueLength" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeTransport Queues(_total)\Unreachable Queue Length" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeTransport Queues(_total)\Unreachable Queue Length" CHARTLABELS="instance" />
+    <THRESHOLD NAME="MSExchange transport queues total unreachable queue length of 100 or greater" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeTransportQueuesUnreachableQueueLength -Operator 'ge' -Threshold 100]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="MSExchange transport queues total unreachable queue length of 250 or greater" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeTransportQueuesUnreachableQueueLength -Operator 'ge' -Threshold 250]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>Unreachable Queue Length is the number of messages in the Unreachable queue.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>The number of messages in the Unreachable queue.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For Exchange Server 2007 Edge Transport servers, this value should be less than 100. A value of 250 or more indicates a critical issue.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeTransport Queues Largest Delivery Queue Length" ENABLED="True" CATEGORY="MSExchangeTransport Queues" PRIMARYDATASOURCE="\MSExchangeTransport Queues(_total)\Largest Delivery Queue Length" ID="7d65c986-8db5-4950-be91-c02eceb9312d" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeTransport Queues(_total)\Largest Delivery Queue Length" COLLECTIONVARNAME="CollectionOfMSExchangeTransportQueuesLargestDeliveryQueueLength" EXPRESSIONPATH="\MSExchangeTransport Queues(_total)\Largest Delivery Queue Length" TRENDVARNAME="TrendMSExchangeTransportQueuesLargestDeliveryQueueLength" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeTransport Queues(_total)\Largest Delivery Queue Length" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeTransport Queues(_total)\Largest Delivery Queue Length" CHARTLABELS="instance" />
+    <THRESHOLD NAME="MSExchange transport queues total largest delivery queue length of 200 or greater" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeTransportQueuesLargestDeliveryQueueLength -Operator 'ge' -Threshold 200]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="MSExchange transport queues total largest delivery queue length of 250 or greater" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeTransportQueuesLargestDeliveryQueueLength -Operator 'ge' -Threshold 250]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>Largest Delivery Queue Length is the number of messages in the largest delivery queue.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>The number of messages in the largest delivery queue.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For Exchange Server 2007 Edge Transport servers, this value should be less than 200 for the Edge Transport server. A value of 250 or more indicates a critical issue. </p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeTransport Queues Poison Queue Length" ENABLED="True" CATEGORY="MSExchangeTransport Queues" PRIMARYDATASOURCE="\MSExchangeTransport Queues(_total)\Poison Queue Length" ID="6d4e6334-4fbb-417d-bce9-8b605a3785ed" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeTransport Queues(_total)\Poison Queue Length" COLLECTIONVARNAME="CollectionOfMSExchangeTransportQueuesPoisonQueueLength" EXPRESSIONPATH="\MSExchangeTransport Queues(_total)\Poison Queue Length" TRENDVARNAME="TrendMSExchangeTransportQueuesPoisonQueueLength" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeTransport Queues(_total)\Poison Queue Length" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeTransport Queues(_total)\Poison Queue Length" CHARTLABELS="instance" />
+    <THRESHOLD NAME="MSExchange transport queues total poison queue length greater than 0" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeTransportQueuesPoisonQueueLength -Operator 'gt' -Threshold 0]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="MSExchange transport queues total poison queue length of 5 or greater" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeTransportQueuesPoisonQueueLength -Operator 'ge' -Threshold 5]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>Poison Message Queue Length is the number of messages in the poison message queue.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>The number of messages in the poison message queue.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For Exchange Server 2007 Edge Transport servers, this value should be 0 at all times. A value of 5 or more indicates a critical issue.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Transport Database - MSExchange Database ==&gt; Instances I/O Log Writes/sec" ENABLED="True" CATEGORY="MSExchange Database ==&gt; Instances" PRIMARYDATASOURCE="\MSExchange Database ==&gt; Instances(*)\I/O Log Writes/sec" ID="c8369081-1cf6-4cea-9282-f5bbf5b7bc8e" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Database ==&gt; Instances(*)\I/O Log Writes/sec" COLLECTIONVARNAME="CollectionOfMSExchangeDatabaseInstancesIOLogWritessec" EXPRESSIONPATH="\MSExchange Database ==&gt; Instances(*)\I/O Log Writes/sec" TRENDVARNAME="TrendMSExchangeDatabase==&gt;InstancesIOLogWritessec" DATATYPE="integer">
+      <EXCLUDE INSTANCE="_Total" />
+    </DATASOURCE>
+    <CHART CHARTTITLE="\MSExchange Database ==&gt; Instances(*)\I/O Log Writes/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Database ==&gt; Instances(*)\I/O Log Writes/sec" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>I/O Log Writes/sec is the rate of logfile write operations completed.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>The rate at which log file write operations are completed.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Not applicable.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Transport Database - MSExchange Database ==&gt; Instances I/O Log Reads/sec" ENABLED="True" CATEGORY="MSExchange Database ==&gt; Instances" PRIMARYDATASOURCE="\MSExchange Database ==&gt; Instances(*)\I/O Log Reads/sec" ID="99a7b84e-22b6-4854-a23d-0bb69ba5e784" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Database ==&gt; Instances(*)\I/O Log Reads/sec" COLLECTIONVARNAME="CollectionOfMSExchangeDatabaseInstancesIOLogReadssec" EXPRESSIONPATH="\MSExchange Database ==&gt; Instances(*)\I/O Log Reads/sec" TRENDVARNAME="TrendMSExchangeDatabase==&gt;InstancesIOLogReadssec" DATATYPE="integer">
+      <EXCLUDE INSTANCE="_Total" />
+    </DATASOURCE>
+    <CHART CHARTTITLE="\MSExchange Database ==&gt; Instances(*)\I/O Log Reads/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Database ==&gt; Instances(*)\I/O Log Reads/sec" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>I/O Log Reads/sec is the rate of logfile read operations completed.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>The rate at which log file read operations are completed.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Not applicable.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Transport Database - MSExchange Database ==&gt; Instances Log Generation Checkpoint Depth" ENABLED="True" CATEGORY="MSExchange Database ==&gt; Instances" PRIMARYDATASOURCE="\MSExchange Database ==&gt; Instances(*)\Log Generation Checkpoint Depth" ID="b6ff781c-346f-4608-97de-9f839db63b7c" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Database ==&gt; Instances(*)\Log Generation Checkpoint Depth" COLLECTIONVARNAME="CollectionOfMSExchangeDatabaseInstancesLogGenerationCheckpointDepth" EXPRESSIONPATH="\MSExchange Database ==&gt; Instances(*)\Log Generation Checkpoint Depth" TRENDVARNAME="TrendMSExchangeDatabase==&gt;InstancesLogGenerationCheckpointDepth" DATATYPE="integer">
+      <EXCLUDE INSTANCE="_Total" />
+    </DATASOURCE>
+    <CHART CHARTTITLE="\MSExchange Database ==&gt; Instances(*)\Log Generation Checkpoint Depth" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Database ==&gt; Instances(*)\Log Generation Checkpoint Depth" CHARTLABELS="instance" />
+    <THRESHOLD NAME="MSExchange database instances log generation checkpoint depth of 1000 or greater" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeDatabaseInstancesLogGenerationCheckpointDepth -Operator 'ge' -Threshold 1000]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="MSExchange database instances log generation checkpoint depth of 60000 or greater" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeDatabaseInstancesLogGenerationCheckpointDepth -Operator 'ge' -Threshold 60000]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>Log Generation Checkpoint Depth represents the amount of work, in count of log files, that will need to be redone or undone to the database file(s) if the process crashes.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Represents the amount of work that will need to be redone or undone to the database files if the process fails. This is documented in the log file count.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For Exchange Server 2007 Edge Transport servers, this value should be less than 1,000 at all times. A value of 60,000 or more indicates a critical issue.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Transport Database - MSExchange Database ==&gt; Instances Version buckets allocated" ENABLED="True" CATEGORY="MSExchange Database ==&gt; Instances" PRIMARYDATASOURCE="\MSExchange Database ==&gt; Instances(*)\Version buckets allocated" ID="4ad21e0e-62b7-4f4c-95b9-70a7f449da60" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Database ==&gt; Instances(*)\Version buckets allocated" COLLECTIONVARNAME="CollectionOfMSExchangeDatabaseInstancesVersionbucketsallocated" EXPRESSIONPATH="\MSExchange Database ==&gt; Instances(*)\Version buckets allocated" TRENDVARNAME="TrendMSExchangeDatabase==&gt;InstancesVersionbucketsallocated" DATATYPE="integer">
+      <EXCLUDE INSTANCE="_Total" />
+    </DATASOURCE>
+    <CHART CHARTTITLE="\MSExchange Database ==&gt; Instances(*)\Version buckets allocated" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Database ==&gt; Instances(*)\Version buckets allocated" CHARTLABELS="instance" />
+    <THRESHOLD NAME="MSExchange database instances version buckets allocated of 200 or greater" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeDatabaseInstancesVersionbucketsallocated -Operator 'ge' -Threshold 200]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>Total number of version buckets allocated</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the total number of version buckets that have been allocated for the database.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For Exchange Server 2007 Edge Transport servers, this value should be less than 200 at all times.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Transport Database - MSExchange Database ==&gt; Instances I/O Database Reads/sec" ENABLED="True" CATEGORY="MSExchange Database ==&gt; Instances" PRIMARYDATASOURCE="\MSExchange Database ==&gt; Instances(*)\I/O Database Reads/sec" ID="9d4c6fbb-c58b-4666-b0b3-032835396ef4" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Database ==&gt; Instances(*)\I/O Database Reads/sec" COLLECTIONVARNAME="CollectionOfMSExchangeDatabaseInstancesIODatabaseReadssec" EXPRESSIONPATH="\MSExchange Database ==&gt; Instances(*)\I/O Database Reads/sec" TRENDVARNAME="TrendMSExchangeDatabase==&gt;InstancesIODatabaseReadssec" DATATYPE="integer">
+      <EXCLUDE INSTANCE="_Total" />
+    </DATASOURCE>
+    <CHART CHARTTITLE="\MSExchange Database ==&gt; Instances(*)\I/O Database Reads/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Database ==&gt; Instances(*)\I/O Database Reads/sec" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>I/O Database Reads/sec is the rate of database read operations completed.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>The rate at which database read operations are completed.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Not applicable.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Transport Database - MSExchange Database ==&gt; Instances I/O Database Writes/sec" ENABLED="True" CATEGORY="MSExchange Database ==&gt; Instances" PRIMARYDATASOURCE="\MSExchange Database ==&gt; Instances(*)\I/O Database Writes/sec" ID="9cd381da-3180-47ce-b9b6-5bee3e0b69e6" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Database ==&gt; Instances(*)\I/O Database Writes/sec" COLLECTIONVARNAME="CollectionOfMSExchangeDatabaseInstancesIODatabaseWritessec" EXPRESSIONPATH="\MSExchange Database ==&gt; Instances(*)\I/O Database Writes/sec" TRENDVARNAME="TrendMSExchangeDatabase==&gt;InstancesIODatabaseWritessec" DATATYPE="integer">
+      <EXCLUDE INSTANCE="_Total" />
+    </DATASOURCE>
+    <CHART CHARTTITLE="\MSExchange Database ==&gt; Instances(*)\I/O Database Writes/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Database ==&gt; Instances(*)\I/O Database Writes/sec" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>I/O Database Writes/sec is the rate of database write operations completed.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>The rate at which the database write operations are completed.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Not applicable.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Transport Database - MSExchange Database ==&gt; Instances Log Record Stalls/sec" ENABLED="True" CATEGORY="MSExchange Database ==&gt; Instances" PRIMARYDATASOURCE="\MSExchange Database ==&gt; Instances(*)\Log Record Stalls/sec" ID="2d6eb90e-767f-4215-8c0e-a56965f1dce9" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Database ==&gt; Instances(*)\Log Record Stalls/sec" COLLECTIONVARNAME="CollectionOfMSExchangeDatabaseInstancesLogRecordStallssec" EXPRESSIONPATH="\MSExchange Database ==&gt; Instances(*)\Log Record Stalls/sec" TRENDVARNAME="TrendMSExchangeDatabase==&gt;InstancesLogRecordStallssec" DATATYPE="integer">
+      <EXCLUDE INSTANCE="_Total" />
+    </DATASOURCE>
+    <CHART CHARTTITLE="\MSExchange Database ==&gt; Instances(*)\Log Record Stalls/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Database ==&gt; Instances(*)\Log Record Stalls/sec" CHARTLABELS="instance" />
+    <THRESHOLD NAME="MSExchange database instances log record stalls per second average of 10 or more, or spikes of 100 or greater" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[
+For ($i=0;$i -lt $CollectionOfMSExchangeDatabaseInstancesLogRecordStallssec.Count;$i++)
+{
+	$oCounterInstance = $CollectionOfMSExchangeDatabaseInstancesLogRecordStallssec[$i]
+    
+	For ($t=0;$t -lt $alQuantizedTime.Count;$t++)
+	{
+		$IsAvgThresholdBroken = $False
+		$IsMaxThresholdBroken = $False
+		
+		If ($oCounterInstance.QuantizedAvg[$t] -ge 10)
+		{
+			$IsAvgThresholdBroken = $True
+		}
+		
+		If ($oCounterInstance.QuantizedMax[$t] -ge 100)
+		{
+			$IsMaxThresholdBroken = $True
+		}
+		
+		If (($IsAvgThresholdBroken -eq $True) -or ($IsMaxThresholdBroken -eq $True))
+		{
+			CreateAlert -TimeSliceIndex $t -CounterInstanceObject $oCounterInstance -IsMinThresholdBroken $False -IsAvgThresholdBroken $IsAvgThresholdBroken -IsMaxThresholdBroken $IsMaxThresholdBroken -IsTrendThresholdBroken $False -IsMinEvaluated $False -IsAvgEvaluated $True -IsMaxEvaluated $True -IsTrendEvaluated $False
+		}
+	}
+}	  
+	  ]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>Log Record Stalls/sec is the number of log records that cannot be added to the log buffers per second because they are full.  If this counter is non-zero most of the time, the log buffer size may be a bottleneck.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the number of log records that cannot be added each second to the log buffers because the log buffers are full. If this counter is not zero most of the time, the log buffer size may be a bottleneck.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For Exchange Server 2007 Edge Transport servers, this value should be less than 10 per second on average with spikes (maximum values) of less than 100 per second.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Transport Database - MSExchange Database ==&gt; Instances Log Threads Waiting" ENABLED="True" CATEGORY="MSExchange Database ==&gt; Instances" PRIMARYDATASOURCE="\MSExchange Database ==&gt; Instances(*)\Log Threads Waiting" ID="ab34e0cd-a85d-4ae2-b548-c9da066a8a3e" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Database ==&gt; Instances(*)\Log Threads Waiting" COLLECTIONVARNAME="CollectionOfMSExchangeDatabaseInstancesLogThreadsWaiting" EXPRESSIONPATH="\MSExchange Database ==&gt; Instances(*)\Log Threads Waiting" TRENDVARNAME="TrendMSExchangeDatabase==&gt;InstancesLogThreadsWaiting" DATATYPE="integer">
+      <EXCLUDE INSTANCE="_Total" />
+    </DATASOURCE>
+    <CHART CHARTTITLE="\MSExchange Database ==&gt; Instances(*)\Log Threads Waiting" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Database ==&gt; Instances(*)\Log Threads Waiting" CHARTLABELS="instance" />
+    <THRESHOLD NAME="MSExchange database instances log threads waiting average of 10 or greater" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[
+For ($i=0;$i -lt $CollectionOfMSExchangeDatabaseInstancesLogThreadsWaiting.Count;$i++)
+{
+	$oCounterInstance = $CollectionOfMSExchangeDatabaseInstancesLogThreadsWaiting[$i]
+    
+	For ($t=0;$t -lt $alQuantizedTime.Count;$t++)
+	{
+		If ($oCounterInstance.QuantizedAvg[$t] -ge 10)
+		{
+			CreateAlert -TimeSliceIndex $t -CounterInstanceObject $oCounterInstance -IsMinThresholdBroken $False -IsAvgThresholdBroken $True -IsMaxThresholdBroken $False -IsTrendThresholdBroken $False -IsMinEvaluated $False -IsAvgEvaluated $True -IsMaxEvaluated $False -IsTrendEvaluated $False
+		}
+	}
+}
+	  ]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>Log Threads Waiting is the number of threads waiting for their data to be written to the log in order to complete an update of the database.  If this number is too high, the log may be a bottleneck.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the number of threads waiting for their data to be written to the log to complete an update of the database. If this number is too high, the log may be a bottleneck.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For Exchange Server 2007 Edge Transport servers, this value should be less than 10 threads waiting on average.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Transport Database - MSExchange Database Database Cache Size (MB)" ENABLED="True" CATEGORY="MSExchange Database" PRIMARYDATASOURCE="\MSExchange Database(edgetransport)\Database Cache Size (MB)" ID="7cf06561-bfa9-4f32-a527-6fd3a2238fb2" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Database(edgetransport)\Database Cache Size (MB)" COLLECTIONVARNAME="CollectionOfMSExchangeDatabaseDatabaseCacheSizeMB" EXPRESSIONPATH="\MSExchange Database(edgetransport)\Database Cache Size (MB)" TRENDVARNAME="TrendMSExchangeDatabaseDatabaseCacheSizeMB" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Database(edgetransport)\Database Cache Size (MB)" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Database(edgetransport)\Database Cache Size (MB)" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>Database Cache Size (MB) is the amount of system memory (in MegaBytes) used by the database cache manager to hold commonly used information from the database file(s) to prevent file operations.  If the database cache size seems to be too small for optimal performance and there is very little available memory on the system (see Memory/Available Bytes), adding more memory to the system may increase performance.  If there is a lot of available memory on the system and the database cache size is not growing beyond a certain point, the database cache size may be capped at an artificially low limit.  Increasing this limit may increase performance.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the amount of system memory, in megabytes, that is used by the database cache manager to hold commonly used information from the database files to prevent file operations. If the database cache size seems too small for optimal performance, and there is little available memory on the system, check the value of Memory/Available Bytes. If you add more memory to the system, it may increase performance. If there is enough memory on the system and if the database cache size is not growing, the database cache size may be capped at an artificially low limit. You can increase the database cache size limit to try and increase performance.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Not applicable.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Edge Transport - LogicalDisk Avg. Disk sec/Read" ENABLED="True" CATEGORY="LogicalDisk" PRIMARYDATASOURCE="\LogicalDisk(*)\Avg. Disk sec/Read" ID="ff95aab5-a6df-4d50-a8bc-037ab76f34f8" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\LogicalDisk(*)\Avg. Disk sec/Read" COLLECTIONVARNAME="CollectionOfLogicalDiskAvgDisksecRead" EXPRESSIONPATH="\LogicalDisk(*)\Avg. Disk sec/Read" TRENDVARNAME="TrendLogicalDiskAvgDisksecRead" DATATYPE="round3">
+      <EXCLUDE INSTANCE="_Total" />
+    </DATASOURCE>
+    <CHART CHARTTITLE="\LogicalDisk(*)\Avg. Disk sec/Read" ISTHRESHOLDSADDED="False" DATASOURCE="\LogicalDisk(*)\Avg. Disk sec/Read" CHARTLABELS="instance" />
+    <THRESHOLD NAME="Logical disk average disk read seconds average of 20ms or more, or spikes of 50ms or greater" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[
+For ($i=0;$i -lt $CollectionOfLogicalDiskAvgDisksecRead.Count;$i++)
+{
+	$oCounterInstance = $CollectionOfLogicalDiskAvgDisksecRead[$i]
+    
+	For ($t=0;$t -lt $alQuantizedTime.Count;$t++)
+	{
+		$IsAvgThresholdBroken = $False
+		$IsMaxThresholdBroken = $False
+		
+		If ($oCounterInstance.QuantizedAvg[$t] -ge 0.02)
+		{
+			$IsAvgThresholdBroken = $True
+		}
+		
+		If ($oCounterInstance.QuantizedMax[$t] -ge 0.05)
+		{
+			$IsMaxThresholdBroken = $True
+		}
+		
+		If (($IsAvgThresholdBroken -eq $True) -or ($IsMaxThresholdBroken -eq $True))
+		{
+			CreateAlert -TimeSliceIndex $t -CounterInstanceObject $oCounterInstance -IsMinThresholdBroken $False -IsAvgThresholdBroken $IsAvgThresholdBroken -IsMaxThresholdBroken $IsMaxThresholdBroken -IsTrendThresholdBroken $False -IsMinEvaluated $False -IsAvgEvaluated $True -IsMaxEvaluated $True -IsTrendEvaluated $False
+		}
+	}
+}
+	  ]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>Avg. Disk sec/Read is the average time, in seconds, of a read of data from the disk.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the average time, in seconds, it takes to read data from the hard disk.</p>
+<p>NOTE: When looking at hard disks using Perfmon.exe, an understanding of the underlying hard disk subsystem is required to determine which counters (physical disk or logical disk) to look at.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For Exchange Server 2007 Edge Transport servers, this value should be less than 20 milliseconds (ms) on average with spikes (maximum values) of less than 50 ms.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Edge Transport - PhysicalDisk Avg. Disk sec/Read" ENABLED="True" CATEGORY="PhysicalDisk" PRIMARYDATASOURCE="\PhysicalDisk(*)\Avg. Disk sec/Read" ID="ad3d6357-3f08-4f00-b02e-48fef6481b24" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\PhysicalDisk(*)\Avg. Disk sec/Read" COLLECTIONVARNAME="CollectionOfPhysicalDiskAvgDisksecRead" EXPRESSIONPATH="\PhysicalDisk(*)\Avg. Disk sec/Read" TRENDVARNAME="TrendPhysicalDiskAvgDisksecRead" DATATYPE="round3">
+      <EXCLUDE INSTANCE="_Total" />
+    </DATASOURCE>
+    <CHART CHARTTITLE="\PhysicalDisk(*)\Avg. Disk sec/Read" ISTHRESHOLDSADDED="False" DATASOURCE="\PhysicalDisk(*)\Avg. Disk sec/Read" CHARTLABELS="instance" />
+    <THRESHOLD NAME="Physical disk average disk read seconds average of 20ms or more, or spikes of 50ms or greater" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[
+For ($i=0;$i -lt $CollectionOfPhysicalDiskAvgDisksecRead.Count;$i++)
+{
+	$oCounterInstance = $CollectionOfPhysicalDiskAvgDisksecRead[$i]
+    
+	For ($t=0;$t -lt $alQuantizedTime.Count;$t++)
+	{
+		$IsAvgThresholdBroken = $False
+		$IsMaxThresholdBroken = $False
+		
+		If ($oCounterInstance.QuantizedAvg[$t] -ge 0.02)
+		{
+			$IsAvgThresholdBroken = $True
+		}
+		
+		If ($oCounterInstance.QuantizedMax[$t] -ge 0.05)
+		{
+			$IsMaxThresholdBroken = $True
+		}
+		
+		If (($IsAvgThresholdBroken -eq $True) -or ($IsMaxThresholdBroken -eq $True))
+		{
+			CreateAlert -TimeSliceIndex $t -CounterInstanceObject $oCounterInstance -IsMinThresholdBroken $False -IsAvgThresholdBroken $IsAvgThresholdBroken -IsMaxThresholdBroken $IsMaxThresholdBroken -IsTrendThresholdBroken $False -IsMinEvaluated $False -IsAvgEvaluated $True -IsMaxEvaluated $True -IsTrendEvaluated $False
+		}
+	}
+}
+	  ]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>Avg. Disk sec/Read is the average time, in seconds, of a read of data from the disk.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the average time, in seconds, it takes to read data from the hard disk.</p>
+<p>NOTE: When looking at hard disks using Perfmon.exe, an understanding of the underlying hard disk subsystem is required to determine which counters (physical disk or logical disk) to look at.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For Exchange Server 2007 Edge Transport servers, this value should be less than 20 milliseconds (ms) on average with spikes (maximum values) of less than 50 ms.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Edge Transport - LogicalDisk Avg. Disk sec/Write" ENABLED="True" CATEGORY="LogicalDisk" PRIMARYDATASOURCE="\LogicalDisk(*)\Avg. Disk sec/Write" ID="fc3f22ca-393d-4dc3-942e-d6e68d6d0fa3" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\LogicalDisk(*)\Avg. Disk sec/Write" COLLECTIONVARNAME="CollectionOfLogicalDiskAvgDisksecWrite" EXPRESSIONPATH="\LogicalDisk(*)\Avg. Disk sec/Write" TRENDVARNAME="TrendLogicalDiskAvgDisksecWrite" DATATYPE="round3">
+      <EXCLUDE INSTANCE="_Total" />
+    </DATASOURCE>
+    <CHART CHARTTITLE="\LogicalDisk(*)\Avg. Disk sec/Write" ISTHRESHOLDSADDED="False" DATASOURCE="\LogicalDisk(*)\Avg. Disk sec/Write" CHARTLABELS="instance" />
+    <THRESHOLD NAME="Logical disk average disk write seconds average of 20ms or more, or spikes of 50ms or greater" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[
+For ($i=0;$i -lt $CollectionOfLogicalDiskAvgDisksecWrite.Count;$i++)
+{
+	$oCounterInstance = $CollectionOfLogicalDiskAvgDisksecWrite[$i]
+    
+	For ($t=0;$t -lt $alQuantizedTime.Count;$t++)
+	{
+		$IsAvgThresholdBroken = $False
+		$IsMaxThresholdBroken = $False
+		
+		If ($oCounterInstance.QuantizedAvg[$t] -ge 0.02)
+		{
+			$IsAvgThresholdBroken = $True
+		}
+		
+		If ($oCounterInstance.QuantizedMax[$t] -ge 0.05)
+		{
+			$IsMaxThresholdBroken = $True
+		}
+		
+		If (($IsAvgThresholdBroken -eq $True) -or ($IsMaxThresholdBroken -eq $True))
+		{
+			CreateAlert -TimeSliceIndex $t -CounterInstanceObject $oCounterInstance -IsMinThresholdBroken $False -IsAvgThresholdBroken $IsAvgThresholdBroken -IsMaxThresholdBroken $IsMaxThresholdBroken -IsTrendThresholdBroken $False -IsMinEvaluated $False -IsAvgEvaluated $True -IsMaxEvaluated $True -IsTrendEvaluated $False
+		}
+	}
+}
+	  ]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>Avg. Disk sec/Write is the average time, in seconds, of a write of data to the disk.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the average time, in seconds, of a write of data to the disk.</p>
+<p>NOTE: When looking at disks using Perfmon.exe, an understanding of the underlying disk subsystem is required to determine which counters (physical disk or logical disk) to look at.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For Exchange Server 2007 Edge Transport servers, this value should be less than 20 milliseconds (ms) on average with spikes (maximum values) of less than 50 ms.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Edge Transport - PhysicalDisk Avg. Disk sec/Write" ENABLED="True" CATEGORY="PhysicalDisk" PRIMARYDATASOURCE="\PhysicalDisk(*)\Avg. Disk sec/Write" ID="193dc20a-ffe4-4f0e-9798-3094e9550a06" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\PhysicalDisk(*)\Avg. Disk sec/Write" COLLECTIONVARNAME="CollectionOfPhysicalDiskAvgDisksecWrite" EXPRESSIONPATH="\PhysicalDisk(*)\Avg. Disk sec/Write" TRENDVARNAME="TrendPhysicalDiskAvgDisksecWrite" DATATYPE="round3">
+      <EXCLUDE INSTANCE="_Total" />
+    </DATASOURCE>
+    <CHART CHARTTITLE="\PhysicalDisk(*)\Avg. Disk sec/Write" ISTHRESHOLDSADDED="False" DATASOURCE="\PhysicalDisk(*)\Avg. Disk sec/Write" CHARTLABELS="instance" />
+    <THRESHOLD NAME="Physical disk average disk write seconds average of 20ms or more, or spikes of 50ms or greater" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[
+For ($i=0;$i -lt $CollectionOfPhysicalDiskAvgDisksecWrite.Count;$i++)
+{
+	$oCounterInstance = $CollectionOfPhysicalDiskAvgDisksecWrite[$i]
+    
+	For ($t=0;$t -lt $alQuantizedTime.Count;$t++)
+	{
+		$IsAvgThresholdBroken = $False
+		$IsMaxThresholdBroken = $False
+		
+		If ($oCounterInstance.QuantizedAvg[$t] -ge 0.02)
+		{
+			$IsAvgThresholdBroken = $True
+		}
+		
+		If ($oCounterInstance.QuantizedMax[$t] -ge 0.05)
+		{
+			$IsMaxThresholdBroken = $True
+		}
+		
+		If (($IsAvgThresholdBroken -eq $True) -or ($IsMaxThresholdBroken -eq $True))
+		{
+			CreateAlert -TimeSliceIndex $t -CounterInstanceObject $oCounterInstance -IsMinThresholdBroken $False -IsAvgThresholdBroken $IsAvgThresholdBroken -IsMaxThresholdBroken $IsMaxThresholdBroken -IsTrendThresholdBroken $False -IsMinEvaluated $False -IsAvgEvaluated $True -IsMaxEvaluated $True -IsTrendEvaluated $False
+		}
+	}
+}
+	  ]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>Avg. Disk sec/Write is the average time, in seconds, of a write of data to the disk.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the average time, in seconds, of a write of data to the disk.</p>
+<p>NOTE: When looking at disks using Perfmon.exe, an understanding of the underlying disk subsystem is required to determine which counters (physical disk or logical disk) to look at.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For Exchange Server 2007 Edge Transport servers, this value should be less than 20 milliseconds (ms) on average with spikes (maximum values) of less than 50 ms.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Edge Transport - LogicalDisk Avg. Disk sec/Transfer" ENABLED="True" CATEGORY="LogicalDisk" PRIMARYDATASOURCE="\LogicalDisk(*)\Avg. Disk sec/Transfer" ID="73ac7c11-02af-436a-9fe8-cfa0234814cb" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\LogicalDisk(*)\Avg. Disk sec/Transfer" COLLECTIONVARNAME="CollectionOfLogicalDiskAvgDisksecTransfer" EXPRESSIONPATH="\LogicalDisk(*)\Avg. Disk sec/Transfer" TRENDVARNAME="TrendLogicalDiskAvgDisksecTransfer" DATATYPE="round3">
+      <EXCLUDE INSTANCE="_Total" />
+    </DATASOURCE>
+    <CHART CHARTTITLE="\LogicalDisk(*)\Avg. Disk sec/Transfer" ISTHRESHOLDSADDED="False" DATASOURCE="\LogicalDisk(*)\Avg. Disk sec/Transfer" CHARTLABELS="instance" />
+    <THRESHOLD NAME="LogicalDisk average disk seconds transfer of 20ms or greater" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfLogicalDiskAvgDisksecTransfer -Operator 'ge' -Threshold 0.02]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>Avg. Disk sec/Transfer is the time, in seconds, of the average disk transfer.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Indicates how fast data is being moved (in seconds). Measures the average time of each data transfer, regardless of the number of bytes read or written.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For healthy hard disks, this counter shows approximately 20 ms. Counter values larger than 20 ms, or with large spikes, indicate a possible hard disk issue (for example, failure or slow speed).</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Edge Transport - PhysicalDisk Avg. Disk sec/Transfer" ENABLED="True" CATEGORY="PhysicalDisk" PRIMARYDATASOURCE="\PhysicalDisk(*)\Avg. Disk sec/Transfer" ID="521c1449-dd3e-4505-9cf1-8d0cee479269" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\PhysicalDisk(*)\Avg. Disk sec/Transfer" COLLECTIONVARNAME="CollectionOfPhysicalDiskAvgDisksecTransfer" EXPRESSIONPATH="\PhysicalDisk(*)\Avg. Disk sec/Transfer" TRENDVARNAME="TrendPhysicalDiskAvgDisksecTransfer" DATATYPE="round3">
+      <EXCLUDE INSTANCE="_Total" />
+    </DATASOURCE>
+    <CHART CHARTTITLE="\PhysicalDisk(*)\Avg. Disk sec/Transfer" ISTHRESHOLDSADDED="False" DATASOURCE="\PhysicalDisk(*)\Avg. Disk sec/Transfer" CHARTLABELS="instance" />
+    <THRESHOLD NAME="PhysicalDisk average disk seconds transfer of 20ms or greater" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfPhysicalDiskAvgDisksecTransfer -Operator 'ge' -Threshold 0.02]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>Avg. Disk sec/Transfer is the time, in seconds, of the average disk transfer.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Indicates how fast data is being moved (in seconds). Measures the average time of each data transfer, regardless of the number of bytes read or written.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For healthy hard disks, this counter shows approximately 20 ms. Counter values larger than 20 ms, or with large spikes, indicate a possible hard disk issue (for example, failure or slow speed).</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Edge Transport - LogicalDisk Avg. Disk Queue Length" ENABLED="True" CATEGORY="LogicalDisk" PRIMARYDATASOURCE="\LogicalDisk(*)\Avg. Disk Queue Length" ID="933e0b62-31ca-4c11-8e1c-82ae6046cce5" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\LogicalDisk(*)\Avg. Disk Queue Length" COLLECTIONVARNAME="CollectionOfLogicalDiskAvgDiskQueueLength" EXPRESSIONPATH="\LogicalDisk(*)\Avg. Disk Queue Length" TRENDVARNAME="TrendLogicalDiskAvgDiskQueueLength" DATATYPE="integer">
+      <EXCLUDE INSTANCE="_Total" />
+    </DATASOURCE>
+    <CHART CHARTTITLE="\LogicalDisk(*)\Avg. Disk Queue Length" ISTHRESHOLDSADDED="False" DATASOURCE="\LogicalDisk(*)\Avg. Disk Queue Length" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>Avg. Disk Queue Length is the average number of both read and write requests that were queued for the selected disk during the sample interval.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>The average number of read and write requests that were queried for the selected disk during the sample interval.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Not applicable.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Edge Transport - PhysicalDisk Avg. Disk Queue Length" ENABLED="True" CATEGORY="PhysicalDisk" PRIMARYDATASOURCE="\PhysicalDisk(*)\Avg. Disk Queue Length" ID="419a16db-62e8-417f-8330-46e0dcbc43da" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\PhysicalDisk(*)\Avg. Disk Queue Length" COLLECTIONVARNAME="CollectionOfPhysicalDiskAvgDiskQueueLength" EXPRESSIONPATH="\PhysicalDisk(*)\Avg. Disk Queue Length" TRENDVARNAME="TrendPhysicalDiskAvgDiskQueueLength" DATATYPE="integer">
+      <EXCLUDE INSTANCE="_Total" />
+    </DATASOURCE>
+    <CHART CHARTTITLE="\PhysicalDisk(*)\Avg. Disk Queue Length" ISTHRESHOLDSADDED="False" DATASOURCE="\PhysicalDisk(*)\Avg. Disk Queue Length" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>Avg. Disk Queue Length is the average number of both read and write requests that were queued for the selected disk during the sample interval.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>The average number of read and write requests that were queried for the selected disk during the sample interval.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Not applicable.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Transport Rules Messages Evaluated/sec" ENABLED="True" CATEGORY="MSExchange Transport Rules" PRIMARYDATASOURCE="\MSExchange Transport Rules\Messages Evaluated/sec" ID="76a6d157-573b-4eb5-9577-55296169c390" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Transport Rules\Messages Evaluated/sec" COLLECTIONVARNAME="CollectionOfMSExchangeTransportRulesMessagesEvaluatedsec" EXPRESSIONPATH="\MSExchange Transport Rules\Messages Evaluated/sec" TRENDVARNAME="TrendMSExchangeTransportRulesMessagesEvaluatedsec" DATATYPE="integer">
+      <EXCLUDE INSTANCE="_Total" />
+    </DATASOURCE>
+    <CHART CHARTTITLE="\MSExchange Transport Rules\Messages Evaluated/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Transport Rules\Messages Evaluated/sec" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>Messages Evaluated per second is the number of messages the rule has evaluated per second.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the number of messages the rule has evaluated per second.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Not applicable.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Transport Rules Messages Processed/sec" ENABLED="True" CATEGORY="MSExchange Transport Rules" PRIMARYDATASOURCE="\MSExchange Transport Rules\Messages Processed/sec" ID="4f446702-56c4-47dd-a9df-ad5d360386e9" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Transport Rules\Messages Processed/sec" COLLECTIONVARNAME="CollectionOfMSExchangeTransportRulesMessagesProcessedsec" EXPRESSIONPATH="\MSExchange Transport Rules\Messages Processed/sec" TRENDVARNAME="TrendMSExchangeTransportRulesMessagesProcessedsec" DATATYPE="integer">
+      <EXCLUDE INSTANCE="_Total" />
+    </DATASOURCE>
+    <CHART CHARTTITLE="\MSExchange Transport Rules\Messages Processed/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Transport Rules\Messages Processed/sec" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>Messages Processed per second is the number of messages the rule has processed per second.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the number of messages the rule has processed per second.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Not applicable.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="DirectoryServices LDAP Searches/sec" ENABLED="True" CATEGORY="DirectoryServices" PRIMARYDATASOURCE="\DirectoryServices(ADAM_MSExchange)\LDAP Searches/sec" ID="21e64f50-c151-440b-a895-7e4761e9115b" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\DirectoryServices(ADAM_MSExchange)\LDAP Searches/sec" COLLECTIONVARNAME="CollectionOfDirectoryServicesLDAPSearchessec" EXPRESSIONPATH="\DirectoryServices(ADAM_MSExchange)\LDAP Searches/sec" TRENDVARNAME="TrendDirectoryServicesLDAPSearchessec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\DirectoryServices(ADAM_MSExchange)\LDAP Searches/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\DirectoryServices(ADAM_MSExchange)\LDAP Searches/sec" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>LDAP Searches/sec is the rate at which LDAP clients perform search operations.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the rate at which LDAP clients perfom search operations.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Not applicable.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="DirectoryServices LDAP Writes/sec" ENABLED="True" CATEGORY="DirectoryServices" PRIMARYDATASOURCE="\DirectoryServices(ADAM_MSExchange)\LDAP Writes/sec" ID="8cb3c6cf-a52c-40e5-b7d7-0f8257d5ede7" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\DirectoryServices(ADAM_MSExchange)\LDAP Writes/sec" COLLECTIONVARNAME="CollectionOfDirectoryServicesLDAPWritessec" EXPRESSIONPATH="\DirectoryServices(ADAM_MSExchange)\LDAP Writes/sec" TRENDVARNAME="TrendDirectoryServicesLDAPWritessec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\DirectoryServices(ADAM_MSExchange)\LDAP Writes/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\DirectoryServices(ADAM_MSExchange)\LDAP Writes/sec" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>LDAP Writes/sec is the rate at which LDAP clients perform write operations.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the rate at which LDAP clients perform write operations.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Not applicable.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="AD/AM LDAP Searches/sec" ENABLED="True" CATEGORY="AD/AM" PRIMARYDATASOURCE="\AD/AM(ADAM_MSExchange)\LDAP Searches/sec" ID="3e80c2a4-fb23-47f3-8fda-38c7b89f098b" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\AD/AM(ADAM_MSExchange)\LDAP Searches/sec" COLLECTIONVARNAME="CollectionOfADAMLDAPSearchessec" EXPRESSIONPATH="\AD/AM(ADAM_MSExchange)\LDAP Searches/sec" TRENDVARNAME="TrendADAMLDAPSearchessec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\AD/AM(ADAM_MSExchange)\LDAP Searches/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\AD/AM(ADAM_MSExchange)\LDAP Searches/sec" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>LDAP Searches/sec is the rate at which LDAP clients perform search operations.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the rate at which LDAP clients perfom search operations.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Not applicable.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="AD/AM LDAP Writes/sec" ENABLED="True" CATEGORY="AD/AM" PRIMARYDATASOURCE="\AD/AM(ADAM_MSExchange)\LDAP Writes/sec" ID="ac3c6123-cc61-4f23-a400-723cd5de7d51" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\AD/AM(ADAM_MSExchange)\LDAP Writes/sec" COLLECTIONVARNAME="CollectionOfADAMLDAPWritessec" EXPRESSIONPATH="\AD/AM(ADAM_MSExchange)\LDAP Writes/sec" TRENDVARNAME="TrendADAMLDAPWritessec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\AD/AM(ADAM_MSExchange)\LDAP Writes/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\AD/AM(ADAM_MSExchange)\LDAP Writes/sec" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>LDAP Writes/sec is the rate at which LDAP clients perform write operations.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the rate at which LDAP clients perform write operations.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Not applicable.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeEdgeSync Job Edge objects added/sec" ENABLED="True" CATEGORY="MSExchangeEdgeSync Job" PRIMARYDATASOURCE="\MSExchangeEdgeSync Job\Edge objects added/sec" ID="2e6ffdeb-9fc3-4bc5-be4b-0f4b8fc8fe86" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeEdgeSync Job\Edge objects added/sec" COLLECTIONVARNAME="CollectionOfMSExchangeEdgeSyncJobEdgeobjectsaddedsec" EXPRESSIONPATH="\MSExchangeEdgeSync Job\Edge objects added/sec" TRENDVARNAME="TrendMSExchangeEdgeSyncJobEdgeobjectsaddedsec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeEdgeSync Job\Edge objects added/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeEdgeSync Job\Edge objects added/sec" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>Edge objects added/sec is the rate of Edge objects added per second by EdgeSync.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the rate of Edge objects added per second by EdgeSync.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Not applicable.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeEdgeSync Job Edge objects deleted/sec" ENABLED="True" CATEGORY="MSExchangeEdgeSync Job" PRIMARYDATASOURCE="\MSExchangeEdgeSync Job\Edge objects deleted/sec" ID="1ca370a9-15bb-408d-b90f-aef722171b83" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeEdgeSync Job\Edge objects deleted/sec" COLLECTIONVARNAME="CollectionOfMSExchangeEdgeSyncJobEdgeobjectsdeletedsec" EXPRESSIONPATH="\MSExchangeEdgeSync Job\Edge objects deleted/sec" TRENDVARNAME="TrendMSExchangeEdgeSyncJobEdgeobjectsdeletedsec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeEdgeSync Job\Edge objects deleted/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeEdgeSync Job\Edge objects deleted/sec" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>Edge objects deleted/sec is the rate of Edge objects deleted per second by EdgeSync.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the rate of Edge objects deleted per second by EdgeSync.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Not applicable.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeEdgeSync Job Edge objects updated/sec" ENABLED="True" CATEGORY="MSExchangeEdgeSync Job" PRIMARYDATASOURCE="\MSExchangeEdgeSync Job\Edge objects updated/sec" ID="3a95da33-e642-4891-890d-5c2e4e156b1d" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeEdgeSync Job\Edge objects updated/sec" COLLECTIONVARNAME="CollectionOfMSExchangeEdgeSyncJobEdgeobjectsupdatedsec" EXPRESSIONPATH="\MSExchangeEdgeSync Job\Edge objects updated/sec" TRENDVARNAME="TrendMSExchangeEdgeSyncJobEdgeobjectsupdatedsec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeEdgeSync Job\Edge objects updated/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeEdgeSync Job\Edge objects updated/sec" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>Edge objects updated/sec is the rate of Edge objects updated per second by EdgeSync.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the rate of Edge objects updated per second by EdgeSync.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Not applicable.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeEdgeSync Job Scan jobs completed successfully total" ENABLED="True" CATEGORY="MSExchangeEdgeSync Job" PRIMARYDATASOURCE="\MSExchangeEdgeSync Job\Scan jobs completed successfully total" ID="712f0e3f-8838-4f99-9aef-66409351a032" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeEdgeSync Job\Scan jobs completed successfully total" COLLECTIONVARNAME="CollectionOfMSExchangeEdgeSyncJobScanjobscompletedsuccessfullytotal" EXPRESSIONPATH="\MSExchangeEdgeSync Job\Scan jobs completed successfully total" TRENDVARNAME="TrendMSExchangeEdgeSyncJobScanjobscompletedsuccessfullytotal" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeEdgeSync Job\Scan jobs completed successfully total" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeEdgeSync Job\Scan jobs completed successfully total" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>Scan jobs completed successfully total is the total number of scan jobs completed successfully by EdgeSync.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the total number of scan jobs completed successfully by EdgeSync.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Not applicable.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeEdgeSync Job Scan jobs failed because could not extend lock total" ENABLED="True" CATEGORY="MSExchangeEdgeSync Job" PRIMARYDATASOURCE="\MSExchangeEdgeSync Job\Scan jobs failed because could not extend lock total" ID="1212bf6e-627a-420e-a418-728bbdc3552d" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeEdgeSync Job\Scan jobs failed because could not extend lock total" COLLECTIONVARNAME="CollectionOfMSExchangeEdgeSyncJobScanjobsfailedbecausecouldnotextendlocktotal" EXPRESSIONPATH="\MSExchangeEdgeSync Job\Scan jobs failed because could not extend lock total" TRENDVARNAME="TrendMSExchangeEdgeSyncJobScanjobsfailedbecausecouldnotextendlocktotal" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeEdgeSync Job\Scan jobs failed because could not extend lock total" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeEdgeSync Job\Scan jobs failed because could not extend lock total" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>Scan jobs failed because could not extend lock total is the total number of EdgeSync scan jobs that failed because EdgeSync could not extend its lease of an Edge Transport server.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the total number of EdgeSync scan jobs that failed because EdgeSync could not extend its lease of an Edge Transport server.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Not applicable.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeEdgeSync Job Scan jobs failed because of directory error total" ENABLED="True" CATEGORY="MSExchangeEdgeSync Job" PRIMARYDATASOURCE="\MSExchangeEdgeSync Job\Scan jobs failed because of directory error total" ID="776e447e-f2e4-4dd4-9a39-4dd1d43ffd6e" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeEdgeSync Job\Scan jobs failed because of directory error total" COLLECTIONVARNAME="CollectionOfMSExchangeEdgeSyncJobScanjobsfailedbecauseofdirectoryerrortotal" EXPRESSIONPATH="\MSExchangeEdgeSync Job\Scan jobs failed because of directory error total" TRENDVARNAME="TrendMSExchangeEdgeSyncJobScanjobsfailedbecauseofdirectoryerrortotal" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeEdgeSync Job\Scan jobs failed because of directory error total" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeEdgeSync Job\Scan jobs failed because of directory error total" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>Scan jobs failed because of directory error total is the total number of EdgeSync directory errors.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the total number of EdgeSync directory errors.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Not applicable.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeEdgeSync Job Source objects scanned/sec" ENABLED="True" CATEGORY="MSExchangeEdgeSync Job" PRIMARYDATASOURCE="\MSExchangeEdgeSync Job\Source objects scanned/sec" ID="364d472d-8fdf-46f3-aa01-26c933c61442" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeEdgeSync Job\Source objects scanned/sec" COLLECTIONVARNAME="CollectionOfMSExchangeEdgeSyncJobSourceobjectsscannedsec" EXPRESSIONPATH="\MSExchangeEdgeSync Job\Source objects scanned/sec" TRENDVARNAME="TrendMSExchangeEdgeSyncJobSourceobjectsscannedsec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeEdgeSync Job\Source objects scanned/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeEdgeSync Job\Source objects scanned/sec" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>Source objects scanned/sec is the rate of Active Directory objects scanned per second by EdgeSync.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the rate of Active Directory objects scanned per second by EdgeSync.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Not applicable.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeEdgeSync Job Target objects scanned/sec" ENABLED="True" CATEGORY="MSExchangeEdgeSync Job" PRIMARYDATASOURCE="\MSExchangeEdgeSync Job\Target objects scanned/sec" ID="851796c2-48d6-4422-8c4c-5ed4ee9a1a01" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeEdgeSync Job\Target objects scanned/sec" COLLECTIONVARNAME="CollectionOfMSExchangeEdgeSyncJobTargetobjectsscannedsec" EXPRESSIONPATH="\MSExchangeEdgeSync Job\Target objects scanned/sec" TRENDVARNAME="TrendMSExchangeEdgeSyncJobTargetobjectsscannedsec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeEdgeSync Job\Target objects scanned/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeEdgeSync Job\Target objects scanned/sec" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>Target objects scanned/sec is the rate of Edge objects scanned per second by EdgeSync.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the rate of Edge objects scanned per second by EdgeSync.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Not applicable.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeTransport Queues Messages Submitted Per Second" ENABLED="True" CATEGORY="MSExchangeTransport Queues" PRIMARYDATASOURCE="\MSExchangeTransport Queues(_total)\Messages Submitted Per Second" ID="72996683-3d56-4c7b-a8df-b3140796be03" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeTransport Queues(_total)\Messages Submitted Per Second" COLLECTIONVARNAME="CollectionOfMSExchangeTransportQueuesMessagesSubmittedPerSecond" EXPRESSIONPATH="\MSExchangeTransport Queues(_total)\Messages Submitted Per Second" TRENDVARNAME="TrendMSExchangeTransportQueuesMessagesSubmittedPerSecond" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeTransport Queues(_total)\Messages Submitted Per Second" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeTransport Queues(_total)\Messages Submitted Per Second" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>Messages Submitted Per Second is the number of messages that have been queued in the Submission queue per second.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the number of messages in the Submission queue per second.</p>
+<p>This counter determines current load, which can then be compared to the historical baselines.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>To calculate the approximate expected values of these counters, use the following formula:</p>
+<p>Queue threshold = (SLA in seconds) x (average number of messages handled per second)</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeTransport Queues Messages Completed Delivery Per Second" ENABLED="True" CATEGORY="MSExchangeTransport Queues" PRIMARYDATASOURCE="\MSExchangeTransport Queues(_total)\Messages Completed Delivery Per Second" ID="d5d17ed8-673a-496f-8a64-9fae85a6bda3" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeTransport Queues(_total)\Messages Completed Delivery Per Second" COLLECTIONVARNAME="CollectionOfMSExchangeTransportQueuesMessagesCompletedDeliveryPerSecond" EXPRESSIONPATH="\MSExchangeTransport Queues(_total)\Messages Completed Delivery Per Second" TRENDVARNAME="TrendMSExchangeTransportQueuesMessagesCompletedDeliveryPerSecond" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeTransport Queues(_total)\Messages Completed Delivery Per Second" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeTransport Queues(_total)\Messages Completed Delivery Per Second" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>Messages Completed Delivery Per Second is the number of messages that are delivered per second.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the number of messages that are delivered per second.</p>
+<p>Determines current load. Compare values to historical baselines.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>To calculate the approximate expected values of these counters, use the following formula:</p>
+<p>Queue threshold = (SLA in seconds) x (average number of messages handled per second)</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeTransport Queues Items Completed Delivery Per Second" ENABLED="True" CATEGORY="MSExchangeTransport Queues" PRIMARYDATASOURCE="\MSExchangeTransport Queues(_total)\Items Completed Delivery Per Second" ID="96801cb6-80af-4f14-96e3-0eea131c66e2" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeTransport Queues(_total)\Items Completed Delivery Per Second" COLLECTIONVARNAME="CollectionOfMSExchangeTransportQueuesItemsCompletedDeliveryPerSecond" EXPRESSIONPATH="\MSExchangeTransport Queues(_total)\Items Completed Delivery Per Second" TRENDVARNAME="TrendMSExchangeTransportQueuesItemsCompletedDeliveryPerSecond" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeTransport Queues(_total)\Items Completed Delivery Per Second" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeTransport Queues(_total)\Items Completed Delivery Per Second" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>Items Completed Delivery Per Second is the number of items processed to completion. All recipients either succeeded or failed.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Show the number of items processed to completion. All recipients either succeeded or failed.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>To calculate the approximate expected values of these counters, use the following formula:</p>
+<p>Queue threshold = (SLA in seconds) x (average number of messages handled per second)</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeTransport SmtpReceive Average bytes/message" ENABLED="True" CATEGORY="MSExchangeTransport SmtpReceive" PRIMARYDATASOURCE="\MSExchangeTransport SmtpReceive(_total)\Average bytes/message" ID="bfd70939-3e85-4c7e-916a-de11d6ad874a" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeTransport SmtpReceive(_total)\Average bytes/message" COLLECTIONVARNAME="CollectionOfMSExchangeTransportSmtpReceiveAveragebytesmessage" EXPRESSIONPATH="\MSExchangeTransport SmtpReceive(_total)\Average bytes/message" TRENDVARNAME="TrendMSExchangeTransportSmtpReceiveAveragebytesmessage" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeTransport SmtpReceive(_total)\Average bytes/message" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeTransport SmtpReceive(_total)\Average bytes/message" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>Average Bytes/Message is the average number of message bytes per inbound message received.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the average number of message bytes per inbound message received.</p>
+<p>Determines sizes of messages being received for an Edge receive connector.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>To calculate the approximate expected values of these counters, use the following formula:</p>
+<p>Queue threshold = (SLA in seconds) x (average number of messages handled per second)</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeTransport SmtpReceive Messages Received/sec" ENABLED="True" CATEGORY="MSExchangeTransport SmtpReceive" PRIMARYDATASOURCE="\MSExchangeTransport SmtpReceive(_total)\Messages Received/sec" ID="8d87961b-1e27-45a0-9058-79d72fb7f4d8" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeTransport SmtpReceive(_total)\Messages Received/sec" COLLECTIONVARNAME="CollectionOfMSExchangeTransportSmtpReceiveMessagesReceivedsec" EXPRESSIONPATH="\MSExchangeTransport SmtpReceive(_total)\Messages Received/sec" TRENDVARNAME="TrendMSExchangeTransportSmtpReceiveMessagesReceivedsec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeTransport SmtpReceive(_total)\Messages Received/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeTransport SmtpReceive(_total)\Messages Received/sec" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>Messages Received/sec is the number of messages received by the SMTP server each second.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the number of messages received by the SMTP receive connector each second.</p>
+<p>Determines current load. Compare values to historical baselines.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>To calculate the approximate expected values of these counters, use the following formula:</p>
+<p>Queue threshold = (SLA in seconds) x (average number of messages handled per second)</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeTransport SmtpSend Messages Sent/sec" ENABLED="True" CATEGORY="MSExchangeTransport SmtpSend" PRIMARYDATASOURCE="\MSExchangeTransport SmtpSend(_total)\Messages Sent/sec" ID="d5361684-82db-42f1-aaf0-935714c195c8" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeTransport SmtpSend(_total)\Messages Sent/sec" COLLECTIONVARNAME="CollectionOfMSExchangeTransportSmtpSendMessagesSentsec" EXPRESSIONPATH="\MSExchangeTransport SmtpSend(_total)\Messages Sent/sec" TRENDVARNAME="TrendMSExchangeTransportSmtpSendMessagesSentsec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeTransport SmtpSend(_total)\Messages Sent/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeTransport SmtpSend(_total)\Messages Sent/sec" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>Messages Sent/sec is the number of messages sent by the SMTP Send connector each second.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the number of messages sent by the SMTP send connector each second.</p>
+<p>Determines current load. Compare values to historical baselines.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>To calculate the approximate expected values of these counters, use the following formula:</p>
+<p>Queue threshold = (SLA in seconds) x (average number of messages handled per second)</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Extensibility Agents Average Agent Processing Time (sec)" ENABLED="True" CATEGORY="MSExchange Extensibility Agents" PRIMARYDATASOURCE="\MSExchange Extensibility Agents(*)\Average Agent Processing Time (sec)" ID="d9b63968-31b7-4f7e-8c4f-cff9b514cd3a" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Extensibility Agents(*)\Average Agent Processing Time (sec)" COLLECTIONVARNAME="CollectionOfMSExchangeExtensibilityAgentsAverageAgentProcessingTimesec" EXPRESSIONPATH="\MSExchange Extensibility Agents(*)\Average Agent Processing Time (sec)" TRENDVARNAME="TrendMSExchangeExtensibilityAgentsAverageAgentProcessingTimesec" DATATYPE="integer">
+      <EXCLUDE INSTANCE="_Total" />
+    </DATASOURCE>
+    <CHART CHARTTITLE="\MSExchange Extensibility Agents(*)\Average Agent Processing Time (sec)" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Extensibility Agents(*)\Average Agent Processing Time (sec)" CHARTLABELS="instance" />
+    <THRESHOLD NAME="MSExchange extensibility agents average agent processing time of 20 seconds or greater" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeExtensibilityAgentsAverageAgentProcessingTimesec -Operator 'ge' -Threshold 20]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[<p></p><p>Average agent processing time in seconds per event.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the average agent processing time in seconds per event.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For Exchange Server 2007 Edge Transport servers, this value should be less than 20 at all times.</p>
+<p>Sustained higher latencies may indicate that an agent is not responding.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Recipient Filter Agent Recipients Rejected by Recipient Validation/sec" ENABLED="True" CATEGORY="MSExchange Recipient Filter Agent" PRIMARYDATASOURCE="\MSExchange Recipient Filter Agent\Recipients Rejected by Recipient Validation/sec" ID="533ab65b-e0b4-4b6e-ad62-8dd52c7dc16f" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Recipient Filter Agent\Recipients Rejected by Recipient Validation/sec" COLLECTIONVARNAME="CollectionOfMSExchangeRecipientFilterAgentRecipientsRejectedbyRecipientValidationsec" EXPRESSIONPATH="\MSExchange Recipient Filter Agent\Recipients Rejected by Recipient Validation/sec" TRENDVARNAME="TrendMSExchangeRecipientFilterAgentRecipientsRejectedbyRecipientValidationsec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Recipient Filter Agent\Recipients Rejected by Recipient Validation/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Recipient Filter Agent\Recipients Rejected by Recipient Validation/sec" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>Recipients Rejected by Recipient Validation per second is the number of recipients rejected by recipient validation per second.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Show the number of recipients rejected by recipient validation per second.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Not applicable.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Recipient Filter Agent Recipients Rejected by Block List/sec" ENABLED="True" CATEGORY="MSExchange Recipient Filter Agent" PRIMARYDATASOURCE="\MSExchange Recipient Filter Agent\Recipients Rejected by Block List/sec" ID="83b9d00e-a137-4f1a-bf8d-536e0531e1c2" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Recipient Filter Agent\Recipients Rejected by Block List/sec" COLLECTIONVARNAME="CollectionOfMSExchangeRecipientFilterAgentRecipientsRejectedbyBlockListsec" EXPRESSIONPATH="\MSExchange Recipient Filter Agent\Recipients Rejected by Block List/sec" TRENDVARNAME="TrendMSExchangeRecipientFilterAgentRecipientsRejectedbyBlockListsec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Recipient Filter Agent\Recipients Rejected by Block List/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Recipient Filter Agent\Recipients Rejected by Block List/sec" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>Recipients Rejected by Block List per second is the number of recipients rejected by block list per second.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Show the number of recipients rejected by block list per second.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Not applicable.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Sender Filter Agent Messages Filtered by Sender Filter/sec" ENABLED="True" CATEGORY="MSExchange Sender Filter Agent" PRIMARYDATASOURCE="\MSExchange Sender Filter Agent\Messages Filtered by Sender Filter/sec" ID="e2a1e5fd-6401-42f9-8102-c1d4ee1a6594" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Sender Filter Agent\Messages Filtered by Sender Filter/sec" COLLECTIONVARNAME="CollectionOfMSExchangeSenderFilterAgentMessagesFilteredbySenderFiltersec" EXPRESSIONPATH="\MSExchange Sender Filter Agent\Messages Filtered by Sender Filter/sec" TRENDVARNAME="TrendMSExchangeSenderFilterAgentMessagesFilteredbySenderFiltersec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Sender Filter Agent\Messages Filtered by Sender Filter/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Sender Filter Agent\Messages Filtered by Sender Filter/sec" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>Messages Filtered by Sender Filter per second is the number of messages filtered by the Sender Filter agent per second.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Show the number of messages filtered by the Sender Filter agent per second.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Not applicable.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Sender Id Agent DNS Queries/sec" ENABLED="True" CATEGORY="MSExchange Sender Id Agent" PRIMARYDATASOURCE="\MSExchange Sender Id Agent\DNS Queries/sec" ID="b4454e68-f3e6-4fd8-97fb-820d419950e3" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Sender Id Agent\DNS Queries/sec" COLLECTIONVARNAME="CollectionOfMSExchangeSenderIdAgentDNSQueriessec" EXPRESSIONPATH="\MSExchange Sender Id Agent\DNS Queries/sec" TRENDVARNAME="TrendMSExchangeSenderIdAgentDNSQueriessec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Sender Id Agent\DNS Queries/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Sender Id Agent\DNS Queries/sec" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>DNS Queries per second is the number of DNS queries per second performed by the Sender Id agent.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the number of DNS queries per second performed by the Sender Id agent.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Not applicable.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Attachment Filtering Messages Attachment Filtered" ENABLED="True" CATEGORY="MSExchange Attachment Filtering" PRIMARYDATASOURCE="\MSExchange Attachment Filtering\Messages Attachment Filtered" ID="23ccbcd0-e7fd-4a4a-a1a6-d0560f8e7267" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Attachment Filtering\Messages Attachment Filtered" COLLECTIONVARNAME="CollectionOfMSExchangeAttachmentFilteringMessagesAttachmentFiltered" EXPRESSIONPATH="\MSExchange Attachment Filtering\Messages Attachment Filtered" TRENDVARNAME="TrendMSExchangeAttachmentFilteringMessagesAttachmentFiltered" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Attachment Filtering\Messages Attachment Filtered" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Attachment Filtering\Messages Attachment Filtered" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>Messages Attachment Filtered is the number of messages that were either blocked, attachment-stripped or silent-deleted (as per configuration) by the attachment filtering agent.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the number of messages that were blocked, stripped of attachments, or silently deleted (as per configuration) by the attachment filtering agent.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Not applicable.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Attachment Filtering Messages Filtered/sec" ENABLED="True" CATEGORY="MSExchange Attachment Filtering" PRIMARYDATASOURCE="\MSExchange Attachment Filtering\Messages Filtered/sec" ID="805c6f09-a5a4-475d-9622-62ec9c6be4b6" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Attachment Filtering\Messages Filtered/sec" COLLECTIONVARNAME="CollectionOfMSExchangeAttachmentFilteringMessagesFilteredsec" EXPRESSIONPATH="\MSExchange Attachment Filtering\Messages Filtered/sec" TRENDVARNAME="TrendMSExchangeAttachmentFilteringMessagesFilteredsec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Attachment Filtering\Messages Filtered/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Attachment Filtering\Messages Filtered/sec" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>Messages Filtered per second is the number of messages per second that the attachment filtering agent blocked, attachment-stripped or silent deleted. If this rate rises greatly beyond what is "normal" for the Exchange server, it may indicate that the organization is being flooded with malicious e-mail.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the number of messages per second that the attachment filtering agent blocked, stripped of attachments, or silently deleted. If this rate rises greatly beyond what is “normal” for the Exchange server, it may indicate that the organization is being flooded with malicious e-mail.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Not applicable.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Content Filter Agent Messages Deleted" ENABLED="True" CATEGORY="MSExchange Content Filter Agent" PRIMARYDATASOURCE="\MSExchange Content Filter Agent\Messages Deleted" ID="500e4520-ca58-4e82-befc-a03e13dce4b6" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Content Filter Agent\Messages Deleted" COLLECTIONVARNAME="CollectionOfMSExchangeContentFilterAgentMessagesDeleted" EXPRESSIONPATH="\MSExchange Content Filter Agent\Messages Deleted" TRENDVARNAME="TrendMSExchangeContentFilterAgentMessagesDeleted" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Content Filter Agent\Messages Deleted" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Content Filter Agent\Messages Deleted" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>Messages Deleted is the total number of messages that were deleted by Content Filter Agent.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the total number of messages that were deleted by Content Filter Agent.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Not applicable.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Content Filter Agent Messages Quarantined" ENABLED="True" CATEGORY="MSExchange Content Filter Agent" PRIMARYDATASOURCE="\MSExchange Content Filter Agent\Messages Quarantined" ID="e2210c24-5db5-406e-b318-901274eed339" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Content Filter Agent\Messages Quarantined" COLLECTIONVARNAME="CollectionOfMSExchangeContentFilterAgentMessagesQuarantined" EXPRESSIONPATH="\MSExchange Content Filter Agent\Messages Quarantined" TRENDVARNAME="TrendMSExchangeContentFilterAgentMessagesQuarantined" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Content Filter Agent\Messages Quarantined" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Content Filter Agent\Messages Quarantined" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>Messages Quarantined is the total number of messages that were quarantined by Content Filter Agent.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the total number of messages that were quarantined by Content Filter Agent.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Not applicable.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Content Filter Agent Messages Rejected" ENABLED="True" CATEGORY="MSExchange Content Filter Agent" PRIMARYDATASOURCE="\MSExchange Content Filter Agent\Messages Rejected" ID="93c68ab5-a925-43af-871a-3d3844708622" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Content Filter Agent\Messages Rejected" COLLECTIONVARNAME="CollectionOfMSExchangeContentFilterAgentMessagesRejected" EXPRESSIONPATH="\MSExchange Content Filter Agent\Messages Rejected" TRENDVARNAME="TrendMSExchangeContentFilterAgentMessagesRejected" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Content Filter Agent\Messages Rejected" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Content Filter Agent\Messages Rejected" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>Messages Rejected is the total number of messages that were rejected by Content Filter Agent.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the total number of messages that were rejected by Content Filter Agent.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Not applicable.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Content Filter Agent Messages that Bypassed Scanning" ENABLED="True" CATEGORY="MSExchange Content Filter Agent" PRIMARYDATASOURCE="\MSExchange Content Filter Agent\Messages that Bypassed Scanning" ID="8c2288c2-1985-4356-998c-12b88f7af397" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Content Filter Agent\Messages that Bypassed Scanning" COLLECTIONVARNAME="CollectionOfMSExchangeContentFilterAgentMessagesthatBypassedScanning" EXPRESSIONPATH="\MSExchange Content Filter Agent\Messages that Bypassed Scanning" TRENDVARNAME="TrendMSExchangeContentFilterAgentMessagesthatBypassedScanning" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Content Filter Agent\Messages that Bypassed Scanning" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Content Filter Agent\Messages that Bypassed Scanning" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>The total number of messages that bypass scanning</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the total number of messages that bypass scanning.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Not applicable.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Content Filter Agent Messages Scanned Per Second" ENABLED="True" CATEGORY="MSExchange Content Filter Agent" PRIMARYDATASOURCE="\MSExchange Content Filter Agent\Messages Scanned Per Second" ID="beae1c16-0904-4c2b-982d-d3e57057d6d9" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Content Filter Agent\Messages Scanned Per Second" COLLECTIONVARNAME="CollectionOfMSExchangeContentFilterAgentMessagesScannedPerSecond" EXPRESSIONPATH="\MSExchange Content Filter Agent\Messages Scanned Per Second" TRENDVARNAME="TrendMSExchangeContentFilterAgentMessagesScannedPerSecond" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Content Filter Agent\Messages Scanned Per Second" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Content Filter Agent\Messages Scanned Per Second" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>The number of messages scanned per second</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the number of messages scanned per second.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Not applicable.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Content Filter Agent Messages with SCL 0" ENABLED="True" CATEGORY="MSExchange Content Filter Agent" PRIMARYDATASOURCE="\MSExchange Content Filter Agent\Messages with SCL 0" ID="b20187cd-fdb3-42f0-b407-921621b09fc3" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Content Filter Agent\Messages with SCL 0" COLLECTIONVARNAME="CollectionOfMSExchangeContentFilterAgentMessageswithSCL0" EXPRESSIONPATH="\MSExchange Content Filter Agent\Messages with SCL 0" TRENDVARNAME="TrendMSExchangeContentFilterAgentMessageswithSCL0" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Content Filter Agent\Messages with SCL 0" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Content Filter Agent\Messages with SCL 0" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>Messages with SCL 0 is the total number of messages assigned an SCL rating of 0.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the total number of messages assigned to a particular SCL level</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Not applicable.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Content Filter Agent Messages with SCL 1" ENABLED="True" CATEGORY="MSExchange Content Filter Agent" PRIMARYDATASOURCE="\MSExchange Content Filter Agent\Messages with SCL 1" ID="b696f5c1-1b51-4127-bdc0-45098e99fb1c" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Content Filter Agent\Messages with SCL 1" COLLECTIONVARNAME="CollectionOfMSExchangeContentFilterAgentMessageswithSCL1" EXPRESSIONPATH="\MSExchange Content Filter Agent\Messages with SCL 1" TRENDVARNAME="TrendMSExchangeContentFilterAgentMessageswithSCL1" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Content Filter Agent\Messages with SCL 1" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Content Filter Agent\Messages with SCL 1" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>Messages with SCL 0 is the total number of messages assigned an SCL rating of 1.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the total number of messages assigned to a particular SCL level</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Not applicable.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Content Filter Agent Messages with SCL 2" ENABLED="True" CATEGORY="MSExchange Content Filter Agent" PRIMARYDATASOURCE="\MSExchange Content Filter Agent\Messages with SCL 2" ID="c4ebbb60-c698-4e51-a70b-e2ef07de063a" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Content Filter Agent\Messages with SCL 2" COLLECTIONVARNAME="CollectionOfMSExchangeContentFilterAgentMessageswithSCL2" EXPRESSIONPATH="\MSExchange Content Filter Agent\Messages with SCL 2" TRENDVARNAME="TrendMSExchangeContentFilterAgentMessageswithSCL2" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Content Filter Agent\Messages with SCL 2" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Content Filter Agent\Messages with SCL 2" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>Messages with SCL 0 is the total number of messages assigned an SCL rating of 2.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the total number of messages assigned to a particular SCL level</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Not applicable.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Content Filter Agent Messages with SCL 3" ENABLED="True" CATEGORY="MSExchange Content Filter Agent" PRIMARYDATASOURCE="\MSExchange Content Filter Agent\Messages with SCL 3" ID="c0b373b6-032d-4eef-96bf-60686a51179e" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Content Filter Agent\Messages with SCL 3" COLLECTIONVARNAME="CollectionOfMSExchangeContentFilterAgentMessageswithSCL3" EXPRESSIONPATH="\MSExchange Content Filter Agent\Messages with SCL 3" TRENDVARNAME="TrendMSExchangeContentFilterAgentMessageswithSCL3" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Content Filter Agent\Messages with SCL 3" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Content Filter Agent\Messages with SCL 3" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>Messages with SCL 0 is the total number of messages assigned an SCL rating of 3.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the total number of messages assigned to a particular SCL level</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Not applicable.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Content Filter Agent Messages with SCL 4" ENABLED="True" CATEGORY="MSExchange Content Filter Agent" PRIMARYDATASOURCE="\MSExchange Content Filter Agent\Messages with SCL 4" ID="9de7417a-1eef-4cf7-a593-8761005d4da7" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Content Filter Agent\Messages with SCL 4" COLLECTIONVARNAME="CollectionOfMSExchangeContentFilterAgentMessageswithSCL4" EXPRESSIONPATH="\MSExchange Content Filter Agent\Messages with SCL 4" TRENDVARNAME="TrendMSExchangeContentFilterAgentMessageswithSCL4" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Content Filter Agent\Messages with SCL 4" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Content Filter Agent\Messages with SCL 4" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>Messages with SCL 0 is the total number of messages assigned an SCL rating of 4.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the total number of messages assigned to a particular SCL level</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Not applicable.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Content Filter Agent Messages with SCL 5" ENABLED="True" CATEGORY="MSExchange Content Filter Agent" PRIMARYDATASOURCE="\MSExchange Content Filter Agent\Messages with SCL 5" ID="c1af7e18-ca2b-4c2d-9410-ab581ec25fb0" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Content Filter Agent\Messages with SCL 5" COLLECTIONVARNAME="CollectionOfMSExchangeContentFilterAgentMessageswithSCL5" EXPRESSIONPATH="\MSExchange Content Filter Agent\Messages with SCL 5" TRENDVARNAME="TrendMSExchangeContentFilterAgentMessageswithSCL5" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Content Filter Agent\Messages with SCL 5" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Content Filter Agent\Messages with SCL 5" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>Messages with SCL 0 is the total number of messages assigned an SCL rating of 5.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the total number of messages assigned to a particular SCL level</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Not applicable.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Content Filter Agent Messages with SCL 6" ENABLED="True" CATEGORY="MSExchange Content Filter Agent" PRIMARYDATASOURCE="\MSExchange Content Filter Agent\Messages with SCL 6" ID="86e2b621-86b1-4a03-b6b4-9429c37c3ea6" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Content Filter Agent\Messages with SCL 6" COLLECTIONVARNAME="CollectionOfMSExchangeContentFilterAgentMessageswithSCL6" EXPRESSIONPATH="\MSExchange Content Filter Agent\Messages with SCL 6" TRENDVARNAME="TrendMSExchangeContentFilterAgentMessageswithSCL6" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Content Filter Agent\Messages with SCL 6" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Content Filter Agent\Messages with SCL 6" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>Messages with SCL 0 is the total number of messages assigned an SCL rating of 6.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the total number of messages assigned to a particular SCL level</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Not applicable.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Content Filter Agent Messages with SCL 7" ENABLED="True" CATEGORY="MSExchange Content Filter Agent" PRIMARYDATASOURCE="\MSExchange Content Filter Agent\Messages with SCL 7" ID="8bc6aa07-aefe-4538-91f3-4923e8b5ef64" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Content Filter Agent\Messages with SCL 7" COLLECTIONVARNAME="CollectionOfMSExchangeContentFilterAgentMessageswithSCL7" EXPRESSIONPATH="\MSExchange Content Filter Agent\Messages with SCL 7" TRENDVARNAME="TrendMSExchangeContentFilterAgentMessageswithSCL7" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Content Filter Agent\Messages with SCL 7" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Content Filter Agent\Messages with SCL 7" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>Messages with SCL 0 is the total number of messages assigned an SCL rating of 7.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the total number of messages assigned to a particular SCL level</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Not applicable.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Content Filter Agent Messages with SCL 8" ENABLED="True" CATEGORY="MSExchange Content Filter Agent" PRIMARYDATASOURCE="\MSExchange Content Filter Agent\Messages with SCL 8" ID="adeb5d6d-1170-4397-ac16-05b348e666a4" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Content Filter Agent\Messages with SCL 8" COLLECTIONVARNAME="CollectionOfMSExchangeContentFilterAgentMessageswithSCL8" EXPRESSIONPATH="\MSExchange Content Filter Agent\Messages with SCL 8" TRENDVARNAME="TrendMSExchangeContentFilterAgentMessageswithSCL8" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Content Filter Agent\Messages with SCL 8" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Content Filter Agent\Messages with SCL 8" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>Messages with SCL 0 is the total number of messages assigned an SCL rating of 8.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the total number of messages assigned to a particular SCL level</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Not applicable.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Content Filter Agent Messages with SCL 9" ENABLED="True" CATEGORY="MSExchange Content Filter Agent" PRIMARYDATASOURCE="\MSExchange Content Filter Agent\Messages with SCL 9" ID="bf869a08-53d9-4a40-8825-83fab6fa2916" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Content Filter Agent\Messages with SCL 9" COLLECTIONVARNAME="CollectionOfMSExchangeContentFilterAgentMessageswithSCL9" EXPRESSIONPATH="\MSExchange Content Filter Agent\Messages with SCL 9" TRENDVARNAME="TrendMSExchangeContentFilterAgentMessageswithSCL9" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Content Filter Agent\Messages with SCL 9" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Content Filter Agent\Messages with SCL 9" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>Messages with SCL 0 is the total number of messages assigned an SCL rating of 9.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the total number of messages assigned to a particular SCL level</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Not applicable.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Protocol Analysis Background Agent Block Senders" ENABLED="True" CATEGORY="MSExchange Protocol Analysis Background Agent" PRIMARYDATASOURCE="\MSExchange Protocol Analysis Background Agent\Block Senders" ID="68dfb8e0-cabd-4f1f-a034-c8664cfe24e0" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Protocol Analysis Background Agent\Block Senders" COLLECTIONVARNAME="CollectionOfMSExchangeProtocolAnalysisBackgroundAgentBlockSenders" EXPRESSIONPATH="\MSExchange Protocol Analysis Background Agent\Block Senders" TRENDVARNAME="TrendMSExchangeProtocolAnalysisBackgroundAgentBlockSenders" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Protocol Analysis Background Agent\Block Senders" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Protocol Analysis Background Agent\Block Senders" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[<p></p><p>Block Senders is the total number of blocked senders.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Shows the total number of blocked senders.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>Not applicable.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <INHERITANCE FILEPATH="Exchange2007-Common-TechNet.xml" />
+</PAL>

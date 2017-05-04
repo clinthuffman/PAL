@@ -1,0 +1,194 @@
+<?xml version="1.0"?>
+<PAL PALVERSION="2.0" NAME="Dynamics CRM 2013 Front-End Role" DESCRIPTION="Basic Monitoring for the Dynamics CRM 2013 Front-End role" VERSION="1.0" CONTENTOWNERS="Stephane Dorrekens" FEEDBACKEMAILADDRESS="stephane.dorrekens@realdolmen.com">
+  <ANALYSIS NAME="CRM Server Failed Internal Organization Service Requests" ENABLED="True" CATEGORY="CRM Server" PRIMARYDATASOURCE="\CRM Server(*)\Failed Internal Organization Service Requests" ID="a3a38993-aebf-4bec-b407-89bdb8024efa" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\CRM Server(*)\Failed Internal Organization Service Requests" COLLECTIONVARNAME="CollectionOfCRMServerFailedInternalOrganizationServiceRequests" EXPRESSIONPATH="\CRM Server(*)\Failed Internal Organization Service Requests" TRENDVARNAME="TrendCRMServerFailedInternalOrganizationServiceRequests" DATATYPE="integer" />
+    <CHART CHARTTITLE="\CRM Server(*)\Failed Internal Organization Service Requests" ISTHRESHOLDSADDED="False" DATASOURCE="\CRM Server(*)\Failed Internal Organization Service Requests" CHARTLABELS="instance" />
+    <THRESHOLD NAME="#Total Failures&gt;0" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMServerFailedInternalOrganizationServiceRequests -Operator 'gt' -Threshold 0
+
+]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="#Failures is raising" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMServerFailedInternalOrganizationServiceRequests -Operator 'gt' -Threshold 0 -IsTrendOnly $True
+]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[Total number of failed Web service requests to Microsoft Dynamics CRM InProc calls that are made by applications that use the methods described in the Microsoft Dynamics CRM SDK.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="CRM Server Failed Organization Service Metadata Requests" ENABLED="True" CATEGORY="CRM Server" PRIMARYDATASOURCE="\CRM Server(*)\Failed Organization Service Metadata Requests" ID="2b56e671-0ef3-4410-b024-452a73192eb5" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\CRM Server(*)\Failed Organization Service Metadata Requests" COLLECTIONVARNAME="CollectionOfCRMServerFailedOrganizationServiceMetadataRequests" EXPRESSIONPATH="\CRM Server(*)\Failed Organization Service Metadata Requests" TRENDVARNAME="TrendCRMServerFailedOrganizationServiceMetadataRequests" DATATYPE="integer" />
+    <CHART CHARTTITLE="\CRM Server(*)\Failed Organization Service Metadata Requests" ISTHRESHOLDSADDED="False" DATASOURCE="\CRM Server(*)\Failed Organization Service Metadata Requests" CHARTLABELS="instance" />
+    <THRESHOLD NAME="#Total Failures&gt;0" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMServerFailedOrganizationServiceMetadataRequests -Operator 'gt' -Threshold 0
+
+]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="#Failures is raising" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMServerFailedOrganizationServiceMetadataRequests -Operator 'gt' -Threshold 0 -IsTrendOnly $True
+]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[Total number of metadata requests received by the Microsoft Dynamics CRM Organization Web service that failed because of a time-out or other SOAP failure.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="CRM Server Failed Organization Service Requests" ENABLED="True" CATEGORY="CRM Server" PRIMARYDATASOURCE="\CRM Server(*)\Failed Organization Service Requests" ID="9d12b6a5-0b19-4b67-9c84-8642d339d158" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\CRM Server(*)\Failed Organization Service Requests" COLLECTIONVARNAME="CollectionOfCRMServerFailedOrganizationServiceRequests" EXPRESSIONPATH="\CRM Server(*)\Failed Organization Service Requests" TRENDVARNAME="TrendCRMServerFailedOrganizationServiceRequests" DATATYPE="integer" />
+    <CHART CHARTTITLE="\CRM Server(*)\Failed Organization Service Requests" ISTHRESHOLDSADDED="False" DATASOURCE="\CRM Server(*)\Failed Organization Service Requests" CHARTLABELS="instance" />
+    <THRESHOLD NAME="#Total Failures&gt;0" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMServerFailedOrganizationServiceRequests -Operator 'gt' -Threshold 0
+
+]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="#Failures is raising" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMServerFailedOrganizationServiceRequests -Operator 'gt' -Threshold 0 -IsTrendOnly $True
+]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[Total number of requests to the Microsoft Dynamics CRM Web services that failed because of a time-out or other SOAP failure.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="CRM Server Failed Report Render Requests" ENABLED="True" CATEGORY="CRM Server" PRIMARYDATASOURCE="\CRM Server(*)\Failed Report Render Requests" ID="490c54a9-5d9b-4e67-9761-e0c63ba9108c" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\CRM Server(*)\Failed Report Render Requests" COLLECTIONVARNAME="CollectionOfCRMServerFailedReportRenderRequests" EXPRESSIONPATH="\CRM Server(*)\Failed Report Render Requests" TRENDVARNAME="TrendCRMServerFailedReportRenderRequests" DATATYPE="integer" />
+    <CHART CHARTTITLE="\CRM Server(*)\Failed Report Render Requests" ISTHRESHOLDSADDED="False" DATASOURCE="\CRM Server(*)\Failed Report Render Requests" CHARTLABELS="instance" />
+    <THRESHOLD NAME="#Total Failures&gt;0" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMServerFailedReportRenderRequests -Operator 'gt' -Threshold 0
+
+]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="#Failures is raising" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMServerFailedReportRenderRequests -Operator 'gt' -Threshold 0 -IsTrendOnly $True
+]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[Number of report rendering failures]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="CRM Server Script Error Reports" ENABLED="True" CATEGORY="CRM Server" PRIMARYDATASOURCE="\CRM Server(*)\Script Error Reports" ID="d0a4e291-8742-4d8e-bd2f-fa8eb2005fdd" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\CRM Server(*)\Script Error Reports" COLLECTIONVARNAME="CollectionOfCRMServerScriptErrorReports" EXPRESSIONPATH="\CRM Server(*)\Script Error Reports" TRENDVARNAME="TrendCRMServerScriptErrorReports" DATATYPE="integer" />
+    <CHART CHARTTITLE="\CRM Server(*)\Script Error Reports" ISTHRESHOLDSADDED="True" DATASOURCE="\CRM Server(*)\Script Error Reports" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[$ScriptErrorsWarning = (600/[Int]$SampleInterval)*500
+$ScriptErrorsWarningMax = $ScriptErrorsWarning*10
+StaticChartThreshold -CollectionOfCounterInstances $CollectionOfCRMServerScriptErrorReports -MinThreshold $ScriptErrorsWarning -MaxThreshold $ScriptErrorsWarningMax -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Script Errors" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[$ScriptErrorsWarning = (600/[Int]$SampleInterval)*500
+StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMServerScriptErrorReports -Operator 'gt' -Threshold $ScriptErrorsWarning
+
+]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[Number of Script Error Reports Received]]></DESCRIPTION>
+  </ANALYSIS>
+  <QUESTION QUESTIONVARNAME="SampleInterval" DATATYPE="string" DEFAULTVALUE="15">Sample Interval of the Analysed Filed</QUESTION>
+  <ANALYSIS NAME="CRM Server Time Spent In Organization Service Metadata Requests" ENABLED="True" CATEGORY="CRM Server" PRIMARYDATASOURCE="\CRM Server(*)\Time Spent In Organization Service Metadata Requests" ID="f59a97bc-dcd7-422e-971e-3ec8349ae5cd" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Total time spent by the Microsoft Dynamics CRM Web services processing metadata requests. This includes both successful and unsuccessful requests.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\CRM Server(*)\Time Spent In Organization Service Metadata Requests" COLLECTIONVARNAME="CollectionOfCRMServerTimeSpentInOrganizationServiceMetadataRequests" EXPRESSIONPATH="\CRM Server(*)\Time Spent In Organization Service Metadata Requests" TRENDVARNAME="TrendCRMServerTimeSpentInOrganizationServiceMetadataRequests" DATATYPE="integer" />
+    <CHART CHARTTITLE="\CRM Server(*)\Time Spent In Organization Service Metadata Requests" ISTHRESHOLDSADDED="False" DATASOURCE="\CRM Server(*)\Time Spent In Organization Service Metadata Requests" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="CRM Server Time Spent In Internal Organization Service Requests" ENABLED="True" CATEGORY="CRM Server" PRIMARYDATASOURCE="\CRM Server(*)\Time Spent In Internal Organization Service Requests" ID="f0ed2b9c-417d-4713-b67e-ab188632a192" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\CRM Server(*)\Time Spent In Internal Organization Service Requests" COLLECTIONVARNAME="CollectionOfCRMServerTimeSpentInInternalOrganizationServiceRequests" EXPRESSIONPATH="\CRM Server(*)\Time Spent In Internal Organization Service Requests" TRENDVARNAME="TrendCRMServerTimeSpentInInternalOrganizationServiceRequests" DATATYPE="integer" />
+    <CHART CHARTTITLE="\CRM Server(*)\Time Spent In Internal Organization Service Requests" ISTHRESHOLDSADDED="False" DATASOURCE="\CRM Server(*)\Time Spent In Internal Organization Service Requests" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[Total time spent by the Microsoft Dynamics CRM Web services processing requests from CRM components. This includes both successful and unsuccessful requests.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="CRM Authentication ClaimsAuthenticationFailuresInTheLastMinute" ENABLED="True" CATEGORY="CRM Authentication" PRIMARYDATASOURCE="\CRM Authentication\ClaimsAuthenticationFailuresInTheLastMinute" ID="09356cc9-a530-46c3-9166-3bdb09296e82" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\CRM Authentication\ClaimsAuthenticationFailuresInTheLastMinute" COLLECTIONVARNAME="CollectionOfCRMAuthenticationClaimsAuthenticationFailuresInTheLastMinute" EXPRESSIONPATH="\CRM Authentication\ClaimsAuthenticationFailuresInTheLastMinute" TRENDVARNAME="TrendCRMAuthenticationClaimsAuthenticationFailuresInTheLastMinute" DATATYPE="integer" />
+    <CHART CHARTTITLE="\CRM Authentication\ClaimsAuthenticationFailuresInTheLastMinute" ISTHRESHOLDSADDED="False" DATASOURCE="\CRM Authentication\ClaimsAuthenticationFailuresInTheLastMinute" CHARTLABELS="instance" />
+    <THRESHOLD NAME="Failure" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[
+StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAuthenticationClaimsAuthenticationFailuresInTheLastMinute -Operator 'gt' -Threshold 30
+
+]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[Total number of failed authorization requests processed per minute using claims. This counter measures the whole deployment including all organizations.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="CRM Authentication ConfigDBWindowsAuthenticationFailuresInTheLastMinute" ENABLED="True" CATEGORY="CRM Authentication" PRIMARYDATASOURCE="\CRM Authentication\ConfigDBWindowsAuthenticationFailuresInTheLastMinute" ID="fcfa4b98-7e01-4eb8-a9a8-c312bdf25eb7" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\CRM Authentication\ConfigDBWindowsAuthenticationFailuresInTheLastMinute" COLLECTIONVARNAME="CollectionOfCRMAuthenticationConfigDBWindowsAuthenticationFailuresInTheLastMinute" EXPRESSIONPATH="\CRM Authentication\ConfigDBWindowsAuthenticationFailuresInTheLastMinute" TRENDVARNAME="TrendCRMAuthenticationConfigDBWindowsAuthenticationFailuresInTheLastMinute" DATATYPE="integer" />
+    <CHART CHARTTITLE="\CRM Authentication\ConfigDBWindowsAuthenticationFailuresInTheLastMinute" ISTHRESHOLDSADDED="False" DATASOURCE="\CRM Authentication\ConfigDBWindowsAuthenticationFailuresInTheLastMinute" CHARTLABELS="instance" />
+    <THRESHOLD NAME="Failure" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[
+StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAuthenticationConfigDBWindowsAuthenticationFailuresInTheLastMinute -Operator 'gt' -Threshold 30
+]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[Total number of failed authorization requests processed per minute using Active Directory authentication credentials. This counter measures the entire deployment including all organizations.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="CRM Authentication CrmPostAuthenticationFailuresInTheLastMinute" ENABLED="True" CATEGORY="CRM Authentication" PRIMARYDATASOURCE="\CRM Authentication\CrmPostAuthenticationFailuresInTheLastMinute" ID="1728d7b2-c882-4af1-b107-a09920875183" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\CRM Authentication\CrmPostAuthenticationFailuresInTheLastMinute" COLLECTIONVARNAME="CollectionOfCRMAuthenticationCrmPostAuthenticationFailuresInTheLastMinute" EXPRESSIONPATH="\CRM Authentication\CrmPostAuthenticationFailuresInTheLastMinute" TRENDVARNAME="TrendCRMAuthenticationCrmPostAuthenticationFailuresInTheLastMinute" DATATYPE="integer" />
+    <CHART CHARTTITLE="\CRM Authentication\CrmPostAuthenticationFailuresInTheLastMinute" ISTHRESHOLDSADDED="False" DATASOURCE="\CRM Authentication\CrmPostAuthenticationFailuresInTheLastMinute" CHARTLABELS="instance" />
+    <THRESHOLD NAME="Failure" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[
+StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAuthenticationCrmPostAuthenticationFailuresInTheLastMinute -Operator 'gt' -Threshold 30
+]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[Total number of failed authorization requests processed per minute using Microsoft Dynamics CRM cookie authentication credentials. This counter measures the entire deployment including all organizations.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="CRM Authentication WindowsAuthenticationFailuresInTheLastMinute" ENABLED="True" CATEGORY="CRM Authentication" PRIMARYDATASOURCE="\CRM Authentication\WindowsAuthenticationFailuresInTheLastMinute" ID="b4a1ef8b-11b2-463f-945b-588248120c07" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\CRM Authentication\WindowsAuthenticationFailuresInTheLastMinute" COLLECTIONVARNAME="CollectionOfCRMAuthenticationWindowsAuthenticationFailuresInTheLastMinute" EXPRESSIONPATH="\CRM Authentication\WindowsAuthenticationFailuresInTheLastMinute" TRENDVARNAME="TrendCRMAuthenticationWindowsAuthenticationFailuresInTheLastMinute" DATATYPE="integer" />
+    <CHART CHARTTITLE="\CRM Authentication\WindowsAuthenticationFailuresInTheLastMinute" ISTHRESHOLDSADDED="False" DATASOURCE="\CRM Authentication\WindowsAuthenticationFailuresInTheLastMinute" CHARTLABELS="instance" />
+    <THRESHOLD NAME="Failure" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAuthenticationWindowsAuthenticationFailuresInTheLastMinute -Operator 'gt' -Threshold 30
+]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[Total number of failed authorization requests processed per minute using Active Directory authentication credentials. This counter measures the entire deployment including all organizations.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="CRM Discovery Failed Discovery Service Requests" ENABLED="True" CATEGORY="CRM Discovery" PRIMARYDATASOURCE="\CRM Discovery\Failed Discovery Service Requests" ID="f95f3480-236a-4fcd-bde6-fc5e0bd61969" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\CRM Discovery\Failed Discovery Service Requests" COLLECTIONVARNAME="CollectionOfCRMDiscoveryFailedDiscoveryServiceRequests" EXPRESSIONPATH="\CRM Discovery\Failed Discovery Service Requests" TRENDVARNAME="TrendCRMDiscoveryFailedDiscoveryServiceRequests" DATATYPE="integer" />
+    <CHART CHARTTITLE="\CRM Discovery\Failed Discovery Service Requests" ISTHRESHOLDSADDED="False" DATASOURCE="\CRM Discovery\Failed Discovery Service Requests" CHARTLABELS="instance" />
+    <THRESHOLD NAME="#Total Failures&gt;0" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMDiscoveryFailedDiscoveryServiceRequests -Operator 'gt' -Threshold 0
+]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="#Failures is raising" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMDiscoveryFailedDiscoveryServiceRequests -Operator 'gt' -Threshold 0 -IsTrendOnly $True
+]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[Total number of requests to the Microsoft Dynamics CRM Discovery Service that failed.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="CRM LocatorService LocatorServiceFailedCacheFlushRequests" ENABLED="True" CATEGORY="CRM LocatorService" PRIMARYDATASOURCE="\CRM LocatorService\LocatorServiceFailedCacheFlushRequests" ID="78b8691d-25ed-453b-b0d7-e72929a59df6" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\CRM LocatorService\LocatorServiceFailedCacheFlushRequests" COLLECTIONVARNAME="CollectionOfCRMLocatorServiceLocatorServiceFailedCacheFlushRequests" EXPRESSIONPATH="\CRM LocatorService\LocatorServiceFailedCacheFlushRequests" TRENDVARNAME="TrendCRMLocatorServiceLocatorServiceFailedCacheFlushRequests" DATATYPE="integer" />
+    <CHART CHARTTITLE="\CRM LocatorService\LocatorServiceFailedCacheFlushRequests" ISTHRESHOLDSADDED="False" DATASOURCE="\CRM LocatorService\LocatorServiceFailedCacheFlushRequests" CHARTLABELS="instance" />
+    <THRESHOLD NAME="#Total Failures&gt;0" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMLocatorServiceLocatorServiceFailedCacheFlushRequests -Operator 'gt' -Threshold 0
+
+]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="#Failures is raising" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMLocatorServiceLocatorServiceFailedCacheFlushRequests -Operator 'gt' -Threshold 0 -IsTrendOnly $True
+]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[Total number of flush requests made to the Locator Service that failed.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="CRM OutlookSync Total Offline Sync Requests" ENABLED="True" CATEGORY="CRM OutlookSync" PRIMARYDATASOURCE="\CRM OutlookSync\Total Offline Sync Requests" ID="2baa5776-aa86-4ad4-a990-191e89f2a77f" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Total number of offline synchronization requests from Microsoft Dynamics CRM clients for Outlook made to a Microsoft Dynamics CRM server.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\CRM OutlookSync\Total Offline Sync Requests" COLLECTIONVARNAME="CollectionOfCRMOutlookSyncTotalOfflineSyncRequests" EXPRESSIONPATH="\CRM OutlookSync\Total Offline Sync Requests" TRENDVARNAME="TrendCRMOutlookSyncTotalOfflineSyncRequests" DATATYPE="integer" />
+    <CHART CHARTTITLE="\CRM OutlookSync\Total Offline Sync Requests" ISTHRESHOLDSADDED="False" DATASOURCE="\CRM OutlookSync\Total Offline Sync Requests" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="CRM OutlookSync Total Succeeded Offline Sync Requests" ENABLED="True" CATEGORY="CRM OutlookSync" PRIMARYDATASOURCE="\CRM OutlookSync\Total Succeeded Offline Sync Requests" ID="681b1e5b-ce30-4e2d-9c24-59e39b3c6333" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\CRM OutlookSync\Total Succeeded Offline Sync Requests" COLLECTIONVARNAME="CollectionOfCRMOutlookSyncTotalSucceededOfflineSyncRequests" EXPRESSIONPATH="\CRM OutlookSync\Total Succeeded Offline Sync Requests" TRENDVARNAME="TrendCRMOutlookSyncTotalSucceededOfflineSyncRequests" DATATYPE="integer" />
+    <CHART CHARTTITLE="\CRM OutlookSync\Total Succeeded Offline Sync Requests" ISTHRESHOLDSADDED="False" DATASOURCE="\CRM OutlookSync\Total Succeeded Offline Sync Requests" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[Total number of successful offline synchronization requests from Microsoft Dynamics CRM clients for Outlook made to a Microsoft Dynamics CRM server.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="CRM Sandbox Client % Execute Failures" ENABLED="True" CATEGORY="CRM Sandbox Client" PRIMARYDATASOURCE="\CRM Sandbox Client(*)\% Execute Failures" ID="5a2be0ca-e3c8-4e13-943d-39c9c74287ef" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\CRM Sandbox Client(*)\% Execute Failures" COLLECTIONVARNAME="CollectionOfCRMSandboxClientPercentExecuteFailures" EXPRESSIONPATH="\CRM Sandbox Client(*)\% Execute Failures" TRENDVARNAME="TrendCRMSandboxClientPercentExecuteFailures" DATATYPE="integer" />
+    <CHART CHARTTITLE="\CRM Sandbox Client(*)\% Execute Failures" ISTHRESHOLDSADDED="False" DATASOURCE="\CRM Sandbox Client(*)\% Execute Failures" CHARTLABELS="instance" />
+    <THRESHOLD NAME="#Total Failures&gt;0" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMSandboxClientPercentExecuteFailures -Operator 'gt' -Threshold 0
+
+]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="#Failures is raising" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMSandboxClientPercentExecuteFailures -Operator 'gt' -Threshold 0 -IsTrendOnly $True
+]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The outgoing Execute failure rate percentage.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="CRM Sandbox Client % SDK Failures" ENABLED="True" CATEGORY="CRM Sandbox Client" PRIMARYDATASOURCE="\CRM Sandbox Client(*)\% SDK Failures" ID="00763ff0-fbf8-4f55-9bd8-18b79418c8d5" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\CRM Sandbox Client(*)\% SDK Failures" COLLECTIONVARNAME="CollectionOfCRMSandboxClientPercentSDKFailures" EXPRESSIONPATH="\CRM Sandbox Client(*)\% SDK Failures" TRENDVARNAME="TrendCRMSandboxClientPercentSDKFailures" DATATYPE="integer" />
+    <CHART CHARTTITLE="\CRM Sandbox Client(*)\% SDK Failures" ISTHRESHOLDSADDED="False" DATASOURCE="\CRM Sandbox Client(*)\% SDK Failures" CHARTLABELS="instance" />
+    <THRESHOLD NAME="#Total Failures&gt;0" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMSandboxClientPercentSDKFailures -Operator 'gt' -Threshold 0
+
+]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="#Failures is raising" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMSandboxClientPercentSDKFailures -Operator 'gt' -Threshold 0 -IsTrendOnly $True
+]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The incoming SDK Request failure rate percentage.]]></DESCRIPTION>
+  </ANALYSIS>
+  <INHERITANCE FILEPATH="IIS.xml" />
+</PAL>
