@@ -1,0 +1,1121 @@
+<PAL NAME="Microsoft OCS 2007 R2 - Edge" DESCRIPTION="Performance counter thresholds for Microsoft Office Communications Server 2007 R2 Edge Server." CONTENTOWNERS="Doug Deitterick" FEEDBACKEMAILADDRESS="dodeitte@microsoft.com" VERSION="2.0" PALVERSION="2.0" LANGUAGE="English" LANGUAGECODE="en">
+  <INHERITANCE FILEPATH="QuickSystemOverview.xml" />
+  <ANALYSIS NAME="A/V Auth - 00 - Requests - 003 - Bad Requests Received/sec" ENABLED="True" CATEGORY="A/V Auth - 00 - Requests" PRIMARYDATASOURCE="\A/V Auth - 00 - Requests\- 003 - Bad Requests Received/sec" ID="{c0a1fe3b-cf31-4476-af6b-7ac9266ef77d}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The number of bad requests received/sec]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\A/V Auth - 00 - Requests\- 003 - Bad Requests Received/sec" COLLECTIONVARNAME="CollectionOfAVAuth00Requests003BadRequestsReceivedsec" EXPRESSIONPATH="\A/V Auth - 00 - Requests\- 003 - Bad Requests Received/sec" DATATYPE="integer" />
+    <THRESHOLD NAME="More than 20 bad requests per second have been received" CONDITION="Warning" COLOR="Yellow" PRIORITY="50" ID="">
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfAVAuth00Requests003BadRequestsReceivedsec -Operator 'ge' -Threshold 20
+         ]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="More than 30 bad requests per second have been received" CONDITION="Critical" COLOR="Red" PRIORITY="100" ID="">
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfAVAuth00Requests003BadRequestsReceivedsec -Operator 'ge' -Threshold 30
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\A/V Auth - 00 - Requests\- 003 - Bad Requests Received/sec" ISTHRESHOLDSADDED="True" DATASOURCE="\A/V Auth - 00 - Requests\- 003 - Bad Requests Received/sec" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfAVAuth00Requests003BadRequestsReceivedsec -MinThreshold 20 -MaxThreshold 29.999 -UseMaxValue $False
+        ]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfAVAuth00Requests003BadRequestsReceivedsec -MinThreshold 30 -MaxThreshold 39.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+  </ANALYSIS>
+  <ANALYSIS NAME="A/V Edge - 00 - UDP Counters - 004 - Authentication Failures/sec" ENABLED="True" CATEGORY="A/V Edge - 00 - UDP Counters" PRIMARYDATASOURCE="\A/V Edge - 00 - UDP Counters(_Total)\- 004 - Authentication Failures/sec" ID="{af0e0899-859b-4463-afa6-b5f4af224b1f}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The per-second rate of failed attempts to authenticate with the relay over UDP.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\A/V Edge - 00 - UDP Counters(_Total)\- 004 - Authentication Failures/sec" COLLECTIONVARNAME="CollectionOfAVEdge00UDPCounters004AuthenticationFailuressec_Total" EXPRESSIONPATH="\A/V Edge - 00 - UDP Counters(_Total)\- 004 - Authentication Failures/sec" DATATYPE="integer" />
+    <THRESHOLD NAME="More than 10 failed attempts per-second to authenticate with the relay over UDP have been received" CONDITION="Warning" COLOR="Yellow" PRIORITY="50" ID="">
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfAVEdge00UDPCounters004AuthenticationFailuressec_Total -Operator 'ge' -Threshold 10
+         ]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="More than 20 failed attempts per-second to authenticate with the relay over UDP have been received" CONDITION="Critical" COLOR="Red" PRIORITY="100" ID="">
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfAVEdge00UDPCounters004AuthenticationFailuressec_Total -Operator 'ge' -Threshold 20
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\A/V Edge - 00 - UDP Counters(_Total)\- 004 - Authentication Failures/sec" ISTHRESHOLDSADDED="True" DATASOURCE="\A/V Edge - 00 - UDP Counters(_Total)\- 004 - Authentication Failures/sec" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfAVEdge00UDPCounters004AuthenticationFailuressec_Total -MinThreshold 10 -MaxThreshold 19.999 -UseMaxValue $False
+        ]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfAVEdge00UDPCounters004AuthenticationFailuressec_Total -MinThreshold 20 -MaxThreshold 29.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+  </ANALYSIS>
+  <ANALYSIS NAME="A/V Edge - 00 - UDP Counters - 006 - Allocate Requests Exceeding Port Limit/sec" ENABLED="True" CATEGORY="A/V Edge - 00 - UDP Counters" PRIMARYDATASOURCE="\A/V Edge - 00 - UDP Counters(_Total)\- 006 - Allocate Requests Exceeding Port Limit/sec" ID="{20ea4e10-5889-4062-a1e3-2560d679a963}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The per-second rate of allocate requests over UDP that exceeded the port limit.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\A/V Edge - 00 - UDP Counters(_Total)\- 006 - Allocate Requests Exceeding Port Limit/sec" COLLECTIONVARNAME="CollectionOFAVEdge00UDPCounters006AllocateRequestsExceedingPortLimitsec_Total" EXPRESSIONPATH="\A/V Edge - 00 - UDP Counters(_Total)\- 006 - Allocate Requests Exceeding Port Limit/sec" DATATYPE="integer" />
+    <THRESHOLD NAME="More than 10 requests per-second over UDP that exceeded the port limit have been received" CONDITION="Warning" COLOR="Yellow" PRIORITY="50" ID="">
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOFAVEdge00UDPCounters006AllocateRequestsExceedingPortLimitsec_Total -Operator 'ge' -Threshold 10
+         ]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="More than 20 requests per-second over UDP that exceeded the port limit have been received" CONDITION="Critical" COLOR="Red" PRIORITY="100" ID="">
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOFAVEdge00UDPCounters006AllocateRequestsExceedingPortLimitsec_Total -Operator 'ge' -Threshold 20
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\A/V Edge - 00 - UDP Counters(_Total)\- 006 - Allocate Requests Exceeding Port Limit/sec" ISTHRESHOLDSADDED="True" DATASOURCE="\A/V Edge - 00 - UDP Counters(_Total)\- 006 - Allocate Requests Exceeding Port Limit/sec" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOFAVEdge00UDPCounters006AllocateRequestsExceedingPortLimitsec_Total -MinThreshold 10 -MaxThreshold 19.999 -UseMaxValue $False
+        ]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOFAVEdge00UDPCounters006AllocateRequestsExceedingPortLimitsec_Total -MinThreshold 20 -MaxThreshold 29.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+  </ANALYSIS>
+  <ANALYSIS NAME="A/V Edge - 00 - UDP Counters - 021 - Packets Dropped/sec" ENABLED="True" CATEGORY="A/V Edge - 00 - UDP Counters" PRIMARYDATASOURCE="\A/V Edge - 00 - UDP Counters(_Total)\- 021 - Packets Dropped/sec" ID="{bf3f1d64-58eb-48bd-a442-65e7c3169767}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The per-second rate of packets over UDP dropped by the relay.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\A/V Edge - 00 - UDP Counters(_Total)\- 021 - Packets Dropped/sec" COLLECTIONVARNAME="CollectionOfAVEdge00UDPCounters021PacketsDroppedsec_Total" EXPRESSIONPATH="\A/V Edge - 00 - UDP Counters(_Total)\- 021 - Packets Dropped/sec" DATATYPE="integer" />
+    <THRESHOLD NAME="More than 300 packets over UDP dropped by the relay per-second" CONDITION="Warning" COLOR="Yellow" PRIORITY="50" ID="">
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfAVEdge00UDPCounters021PacketsDroppedsec_Total -Operator 'ge' -Threshold 300
+         ]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="More than 300 packets over UDP dropped by the relay per-second" CONDITION="Critical" COLOR="Red" PRIORITY="100" ID="">
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfAVEdge00UDPCounters021PacketsDroppedsec_Total -Operator 'ge' -Threshold 400
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\A/V Edge - 00 - UDP Counters(_Total)\- 021 - Packets Dropped/sec" ISTHRESHOLDSADDED="True" DATASOURCE="\A/V Edge - 00 - UDP Counters(_Total)\- 021 - Packets Dropped/sec" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfAVEdge00UDPCounters021PacketsDroppedsec_Total -MinThreshold 300 -MaxThreshold 399.999 -UseMaxValue $False
+        ]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfAVEdge00UDPCounters021PacketsDroppedsec_Total -MinThreshold 400 -MaxThreshold 499.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+  </ANALYSIS>
+  <ANALYSIS NAME="A/V Edge - 00 - UDP Counters - 026 - Active Sessions Exceeding Avg Bandwidth Limit" ENABLED="True" CATEGORY="A/V Edge - 00 - UDP Counters" PRIMARYDATASOURCE="\A/V Edge - 00 - UDP Counters(_Total)\- 026 - Active Sessions Exceeding Avg Bandwidth Limit" ID="{b582cc3b-f8ea-4ad3-afdf-0114ed2f6e79}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The number of active relay sessions over UDP that are exceeding bandwidth limit.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\A/V Edge - 00 - UDP Counters(_Total)\- 026 - Active Sessions Exceeding Avg Bandwidth Limit" COLLECTIONVARNAME="CollectionOfAVEdge00UDPCounters026ActiveSessionsExceedingAvgBandwidthLimit_Total" EXPRESSIONPATH="\A/V Edge - 00 - UDP Counters(_Total)\- 026 - Active Sessions Exceeding Avg Bandwidth Limit" DATATYPE="integer" />
+    <THRESHOLD NAME="More than 10 active relay sessions over UDP are exceeding the bandwidth limit" CONDITION="Warning" COLOR="Yellow" PRIORITY="50" ID="">
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfAVEdge00UDPCounters026ActiveSessionsExceedingAvgBandwidthLimit_Total -Operator 'ge' -Threshold 10
+         ]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="More than 20 active relay sessions over UDP are exceeding the bandwidth limit" CONDITION="Critical" COLOR="Red" PRIORITY="100" ID="">
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfAVEdge00UDPCounters026ActiveSessionsExceedingAvgBandwidthLimit_Total -Operator 'ge' -Threshold 20
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\A/V Edge - 00 - UDP Counters(_Total)\- 026 - Active Sessions Exceeding Avg Bandwidth Limit" ISTHRESHOLDSADDED="True" DATASOURCE="\A/V Edge - 00 - UDP Counters(_Total)\- 026 - Active Sessions Exceeding Avg Bandwidth Limit" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfAVEdge00UDPCounters026ActiveSessionsExceedingAvgBandwidthLimit_Total -MinThreshold 10 -MaxThreshold 19.999 -UseMaxValue $False
+        ]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfAVEdge00UDPCounters026ActiveSessionsExceedingAvgBandwidthLimit_Total -MinThreshold 20 -MaxThreshold 29.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+  </ANALYSIS>
+  <ANALYSIS NAME="A/V Edge - 00 - UDP Counters - 027 - Active Sessions Exceeding Peak Bandwidth Limit" ENABLED="True" CATEGORY="A/V Edge - 00 - UDP Counters" PRIMARYDATASOURCE="\A/V Edge - 00 - UDP Counters(_Total)\- 027 - Active Sessions Exceeding Peak Bandwidth Limit" ID="{e6d084cc-921c-41b4-8a35-4ddc19f85a6b}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The number of active relay sessions over UDP that are exceeding bandwidth limit.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\A/V Edge - 00 - UDP Counters(_Total)\- 027 - Active Sessions Exceeding Peak Bandwidth Limit" COLLECTIONVARNAME="CollectionOfAVEdge00UDPCounters027ActiveSessionsExceedingPeakBandwidthLimit_Total" EXPRESSIONPATH="\A/V Edge - 00 - UDP Counters(_Total)\- 027 - Active Sessions Exceeding Peak Bandwidth Limit" DATATYPE="integer" />
+    <THRESHOLD NAME="More than 10 active relay sessions over UDP are exceeding the bandwidth limit" CONDITION="Warning" COLOR="Yellow" PRIORITY="50" ID="">
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfAVEdge00UDPCounters027ActiveSessionsExceedingPeakBandwidthLimit_Total -Operator 'ge' -Threshold 10
+         ]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="More than 20 active relay sessions over UDP are exceeding the bandwidth limit" CONDITION="Critical" COLOR="Red" PRIORITY="100" ID="">
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfAVEdge00UDPCounters027ActiveSessionsExceedingPeakBandwidthLimit_Total -Operator 'ge' -Threshold 20
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\A/V Edge - 00 - UDP Counters(_Total)\- 027 - Active Sessions Exceeding Peak Bandwidth Limit" ISTHRESHOLDSADDED="True" DATASOURCE="\A/V Edge - 00 - UDP Counters(_Total)\- 027 - Active Sessions Exceeding Peak Bandwidth Limit" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfAVEdge00UDPCounters027ActiveSessionsExceedingPeakBandwidthLimit_Total -MinThreshold 10 -MaxThreshold 19.999 -UseMaxValue $False
+        ]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfAVEdge00UDPCounters027ActiveSessionsExceedingPeakBandwidthLimit_Total -MinThreshold 20 -MaxThreshold 29.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+  </ANALYSIS>
+  <ANALYSIS NAME="A/V Edge - 01 - TCP Counters - 004 - Authentication Failures/sec" ENABLED="True" CATEGORY="A/V Edge - 01 - TCP Counters" PRIMARYDATASOURCE="\A/V Edge - 01 - TCP Counters(_Total)\- 004 - Authentication Failures/sec" ID="{e6d1d303-1422-484c-bbdc-a440c671eafd}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The per-second rate of failed attempts to authenticate with the relay over TCP.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\A/V Edge - 01 - TCP Counters(_Total)\- 004 - Authentication Failures/sec" COLLECTIONVARNAME="CollectionOfAVEdge01TCPCounters004AuthenticationFailuressec_Total" EXPRESSIONPATH="\A/V Edge - 01 - TCP Counters(_Total)\- 004 - Authentication Failures/sec" DATATYPE="integer" />
+    <THRESHOLD NAME="More than 10 failed attempts to authenticate with the relay over TCP per-second" CONDITION="Warning" COLOR="Yellow" PRIORITY="50" ID="">
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfAVEdge01TCPCounters004AuthenticationFailuressec_Total -Operator 'ge' -Threshold 10
+         ]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="More than 20 failed attempts to authenticate with the relay over TCP per-second" CONDITION="Critical" COLOR="Red" PRIORITY="100" ID="">
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfAVEdge01TCPCounters004AuthenticationFailuressec_Total -Operator 'ge' -Threshold 20
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\A/V Edge - 01 - TCP Counters(_Total)\- 004 - Authentication Failures/sec" ISTHRESHOLDSADDED="True" DATASOURCE="\A/V Edge - 01 - TCP Counters(_Total)\- 004 - Authentication Failures/sec" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfAVEdge01TCPCounters004AuthenticationFailuressec_Total -MinThreshold 10 -MaxThreshold 19.999 -UseMaxValue $False
+        ]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfAVEdge01TCPCounters004AuthenticationFailuressec_Total -MinThreshold 20 -MaxThreshold 29.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+  </ANALYSIS>
+  <ANALYSIS NAME="A/V Edge - 01 - TCP Counters - 006 - Allocate Requests Exceeding Port Limit/sec" ENABLED="True" CATEGORY="A/V Edge - 01 - TCP Counters" PRIMARYDATASOURCE="\A/V Edge - 01 - TCP Counters(_Total)\- 006 - Allocate Requests Exceeding Port Limit/sec" ID="{a3de262d-18a7-42a8-aaaa-ddc8c6b61d15}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The per-second rate of allocate requests over TCP that exceeded the port limit.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\A/V Edge - 01 - TCP Counters(_Total)\- 006 - Allocate Requests Exceeding Port Limit/sec" COLLECTIONVARNAME="CollectionOfAVEdge01TCPCounters006AllocateRequestsExceedingPortLimitsec_Total" EXPRESSIONPATH="\A/V Edge - 01 - TCP Counters(_Total)\- 006 - Allocate Requests Exceeding Port Limit/sec" DATATYPE="integer" />
+    <THRESHOLD NAME="More than 10 allocate requests over TCP exceeded the port limit per-second" CONDITION="Warning" COLOR="Yellow" PRIORITY="50" ID="">
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfAVEdge01TCPCounters006AllocateRequestsExceedingPortLimitsec_Total -Operator 'ge' -Threshold 10
+         ]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="More than 20 allocate requests over TCP exceeded the port limit per-second" CONDITION="Critical" COLOR="Red" PRIORITY="100" ID="">
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfAVEdge01TCPCounters006AllocateRequestsExceedingPortLimitsec_Total -Operator 'ge' -Threshold 20
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\A/V Edge - 01 - TCP Counters(_Total)\- 006 - Allocate Requests Exceeding Port Limit/sec" ISTHRESHOLDSADDED="True" DATASOURCE="\A/V Edge - 01 - TCP Counters(_Total)\- 006 - Allocate Requests Exceeding Port Limit/sec" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfAVEdge01TCPCounters006AllocateRequestsExceedingPortLimitsec_Total -MinThreshold 10 -MaxThreshold 19.999 -UseMaxValue $False
+        ]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfAVEdge01TCPCounters006AllocateRequestsExceedingPortLimitsec_Total -MinThreshold 20 -MaxThreshold 29.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+  </ANALYSIS>
+  <ANALYSIS NAME="A/V Edge - 01 - TCP Counters - 022 - Packets Dropped/sec" ENABLED="True" CATEGORY="A/V Edge - 01 - TCP Counters" PRIMARYDATASOURCE="\A/V Edge - 01 - TCP Counters(_Total)\- 022 - Packets Dropped/sec" ID="{fc9c18ef-06ec-42d9-b1b3-b0d1a95d605f}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The per-second rate of packets over TCP dropped by the relay.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\A/V Edge - 01 - TCP Counters(_Total)\- 022 - Packets Dropped/sec" COLLECTIONVARNAME="CollectionOfAVEdge01TCPCounters022PacketsDroppedsec_Total" EXPRESSIONPATH="\A/V Edge - 01 - TCP Counters(_Total)\- 022 - Packets Dropped/sec" DATATYPE="integer" />
+    <THRESHOLD NAME="More than 300 packets over TCP dropped by the relay per-second" CONDITION="Warning" COLOR="Yellow" PRIORITY="50" ID="">
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfAVEdge01TCPCounters022PacketsDroppedsec_Total -Operator 'ge' -Threshold 300
+         ]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="More than 400 packets over TCP dropped by the relay per-second" CONDITION="Critical" COLOR="Red" PRIORITY="100" ID="">
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfAVEdge01TCPCounters022PacketsDroppedsec_Total -Operator 'ge' -Threshold 400
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\A/V Edge - 01 - TCP Counters(_Total)\- 022 - Packets Dropped/sec" ISTHRESHOLDSADDED="True" DATASOURCE="\A/V Edge - 01 - TCP Counters(_Total)\- 022 - Packets Dropped/sec" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE>
+          <![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfAVEdge01TCPCounters022PacketsDroppedsec_Total -MinThreshold 300 -MaxThreshold 399.999 -UseMaxValue $False
+        ]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE>
+          <![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfAVEdge01TCPCounters022PacketsDroppedsec_Total -MinThreshold 400 -MaxThreshold 499.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+  </ANALYSIS>
+  <ANALYSIS NAME="A/V Edge - 01 - TCP Counters - 025 - Active Sessions Exceeding Avg Bandwidth Limit" ENABLED="True" CATEGORY="A/V Edge - 01 - TCP Counters" PRIMARYDATASOURCE="\A/V Edge - 01 - TCP Counters(_Total)\- 025 - Active Sessions Exceeding Avg Bandwidth Limit" ID="{98fa0c7e-3c73-4ab1-9b0d-693782fd2a84}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The number of active relay sessions over UDP that are exceeding bandwidth limit.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\A/V Edge - 01 - TCP Counters(_Total)\- 025 - Active Sessions Exceeding Avg Bandwidth Limit" COLLECTIONVARNAME="CollectionOfAVEdge01TCPCounters025ActiveSessionsExceedingAvgBandwidthLimit_Total" EXPRESSIONPATH="\A/V Edge - 01 - TCP Counters(_Total)\- 025 - Active Sessions Exceeding Avg Bandwidth Limit" DATATYPE="integer" />
+    <THRESHOLD NAME="More than 10 active relay sessions over UDP are exceeding the bandwidth limit" CONDITION="Warning" COLOR="Yellow" PRIORITY="50" ID="">
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfAVEdge01TCPCounters025ActiveSessionsExceedingAvgBandwidthLimit_Total -Operator 'ge' -Threshold 10
+         ]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="More than 20 active relay sessions over UDP are exceeding the bandwidth limit" CONDITION="Critical" COLOR="Red" PRIORITY="100" ID="">
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfAVEdge01TCPCounters025ActiveSessionsExceedingAvgBandwidthLimit_Total -Operator 'ge' -Threshold 20
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\A/V Edge - 01 - TCP Counters(_Total)\- 025 - Active Sessions Exceeding Avg Bandwidth Limit" ISTHRESHOLDSADDED="True" DATASOURCE="\A/V Edge - 01 - TCP Counters(_Total)\- 025 - Active Sessions Exceeding Avg Bandwidth Limit" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfAVEdge01TCPCounters025ActiveSessionsExceedingAvgBandwidthLimit_Total -MinThreshold 10 -MaxThreshold 19.999 -UseMaxValue $False
+        ]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfAVEdge01TCPCounters025ActiveSessionsExceedingAvgBandwidthLimit_Total -MinThreshold 20 -MaxThreshold 29.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+  </ANALYSIS>
+  <ANALYSIS NAME="A/V Edge - 01 - TCP Counters - 026 - Active Sessions Exceeding Peak Bandwidth Limit" ENABLED="True" CATEGORY="A/V Edge - 01 - TCP Counters" PRIMARYDATASOURCE="\A/V Edge - 01 - TCP Counters(_Total)\- 026 - Active Sessions Exceeding Peak Bandwidth Limit" ID="{3fbcf146-21b1-4c2e-ac9b-c420db4a3dd8}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The number of active relay sessions over UDP that are exceeding bandwidth limit.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\A/V Edge - 01 - TCP Counters(_Total)\- 026 - Active Sessions Exceeding Peak Bandwidth Limit" COLLECTIONVARNAME="CollectionOfAVEdge01TCPCounters026ActiveSessionsExceedingPeakBandwidthLimit_Total" EXPRESSIONPATH="\A/V Edge - 01 - TCP Counters(_Total)\- 026 - Active Sessions Exceeding Peak Bandwidth Limit" DATATYPE="integer" />
+    <THRESHOLD NAME="More than 10 active relay sessions over UDP are exceeding the bandwidth limit" CONDITION="Warning" COLOR="Yellow" PRIORITY="50" ID="">
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfAVEdge01TCPCounters026ActiveSessionsExceedingPeakBandwidthLimit_Total -Operator 'ge' -Threshold 10
+         ]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="More than 20 active relay sessions over UDP are exceeding the bandwidth limit" CONDITION="Critical" COLOR="Red" PRIORITY="100" ID="">
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfAVEdge01TCPCounters026ActiveSessionsExceedingPeakBandwidthLimit_Total -Operator 'ge' -Threshold 20
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\A/V Edge - 01 - TCP Counters(_Total)\- 026 - Active Sessions Exceeding Peak Bandwidth Limit" ISTHRESHOLDSADDED="True" DATASOURCE="\A/V Edge - 01 - TCP Counters(_Total)\- 026 - Active Sessions Exceeding Peak Bandwidth Limit" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE>
+          <![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfAVEdge01TCPCounters026ActiveSessionsExceedingPeakBandwidthLimit_Total -MinThreshold 10 -MaxThreshold 19.999 -UseMaxValue $False
+        ]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE>
+          <![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfAVEdge01TCPCounters026ActiveSessionsExceedingPeakBandwidthLimit_Total -MinThreshold 20 -MaxThreshold 29.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+  </ANALYSIS>
+  <ANALYSIS NAME="A/V Edge - 02 - Total Counters - 027 - Active Sessions Exceeding Avg Bandwidth Limit" ENABLED="True" CATEGORY="A/V Edge - 02 - Total Counters" PRIMARYDATASOURCE="\A/V Edge - 02 - Total Counters(_Total)\- 027 - Active Sessions Exceeding Avg Bandwidth Limit" ID="{7855b178-d3b3-40ee-9141-fe363ec0397b}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The number of active relay sessions over UDP that are exceeding bandwidth limit.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\A/V Edge - 02 - Total Counters(_Total)\- 027 - Active Sessions Exceeding Avg Bandwidth Limit" COLLECTIONVARNAME="CollectionOfAVEdge02TotalCounters027ActiveSessionsExceedingAvgBandwidthLimit_Total" EXPRESSIONPATH="\A/V Edge - 02 - Total Counters(_Total)\- 027 - Active Sessions Exceeding Avg Bandwidth Limit" DATATYPE="integer" />
+    <THRESHOLD NAME="More than 10 active relay sessions over UDP are exceeding the bandwidth limit" CONDITION="Warning" COLOR="Yellow" PRIORITY="50" ID="">
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfAVEdge02TotalCounters027ActiveSessionsExceedingAvgBandwidthLimit_Total -Operator 'ge' -Threshold 10
+         ]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="More than 20 active relay sessions over UDP are exceeding the bandwidth limit" CONDITION="Critical" COLOR="Red" PRIORITY="100" ID="">
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfAVEdge02TotalCounters027ActiveSessionsExceedingAvgBandwidthLimit_Total -Operator 'ge' -Threshold 20
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\A/V Edge - 02 - Total Counters(_Total)\- 027 - Active Sessions Exceeding Avg Bandwidth Limit" ISTHRESHOLDSADDED="True" DATASOURCE="\A/V Edge - 02 - Total Counters(_Total)\- 027 - Active Sessions Exceeding Avg Bandwidth Limit" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfAVEdge02TotalCounters027ActiveSessionsExceedingAvgBandwidthLimit_Total -MinThreshold 10 -MaxThreshold 19.999 -UseMaxValue $False
+        ]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfAVEdge02TotalCounters027ActiveSessionsExceedingAvgBandwidthLimit_Total -MinThreshold 20 -MaxThreshold 29.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+  </ANALYSIS>
+  <ANALYSIS NAME="A/V Edge - 02 - Total Counters - 028 - Active Sessions Exceeding Peak Bandwidth Limit" ENABLED="True" CATEGORY="A/V Edge - 02 - Total Counters" PRIMARYDATASOURCE="\A/V Edge - 02 - Total Counters(_Total)\- 028 - Active Sessions Exceeding Peak Bandwidth Limit" ID="{76ad6404-8e40-4237-be4a-8e573943d237}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The number of active relay sessions over UDP that are exceeding bandwidth limit.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\A/V Edge - 02 - Total Counters(_Total)\- 028 - Active Sessions Exceeding Peak Bandwidth Limit" COLLECTIONVARNAME="CollectionOfAVEdge02TotalCounters028ActiveSessionsExceedingPeakBandwidthLimit_Total" EXPRESSIONPATH="\A/V Edge - 02 - Total Counters(_Total)\- 028 - Active Sessions Exceeding Peak Bandwidth Limit" DATATYPE="integer" />
+    <THRESHOLD NAME="More than 10 active relay sessions over UDP are exceeding the bandwidth limit" CONDITION="Warning" COLOR="Yellow" PRIORITY="50" ID="">
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfAVEdge02TotalCounters028ActiveSessionsExceedingPeakBandwidthLimit_Total -Operator 'ge' -Threshold 10
+         ]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="More than 20 active relay sessions over UDP are exceeding the bandwidth limit" CONDITION="Critical" COLOR="Red" PRIORITY="100" ID="">
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfAVEdge02TotalCounters028ActiveSessionsExceedingPeakBandwidthLimit_Total -Operator 'ge' -Threshold 20
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\A/V Edge - 02 - Total Counters(_Total)\- 028 - Active Sessions Exceeding Peak Bandwidth Limit" ISTHRESHOLDSADDED="True" DATASOURCE="\A/V Edge - 02 - Total Counters(_Total)\- 028 - Active Sessions Exceeding Peak Bandwidth Limit" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfAVEdge02TotalCounters028ActiveSessionsExceedingPeakBandwidthLimit_Total -MinThreshold 10 -MaxThreshold 19.999 -UseMaxValue $False
+        ]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfAVEdge02TotalCounters028ActiveSessionsExceedingPeakBandwidthLimit_Total -MinThreshold 20 -MaxThreshold 29.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+  </ANALYSIS>
+  <ANALYSIS NAME="LC:API - 00 - API Application Instance Counters API - 026 - Transactions Pending Dispatch Completion" ENABLED="True" CATEGORY="LC:API - 00 - API Application Instance Counters" PRIMARYDATASOURCE="\LC:API - 00 - API Application Instance Counters(_Total)\API - 026 - Transactions Pending Dispatch Completion" ID="{5faa1654-83ff-46a4-a482-57d4a7542403}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The current total number of active transactions awaiting Dispatch completion.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\LC:API - 00 - API Application Instance Counters(_Total)\API - 026 - Transactions Pending Dispatch Completion" COLLECTIONVARNAME="CollectionOfLCAPI00APIApplicationInstanceCountersAPI026TransactionsPendingDispatchCompletion_Total" EXPRESSIONPATH="\LC:API - 00 - API Application Instance Counters(_Total)\API - 026 - Transactions Pending Dispatch Completion" DATATYPE="integer" />
+    <THRESHOLD NAME="More than 1000 active transactions awaiting Dispatch completion" CONDITION="Critical" COLOR="Red" PRIORITY="100" ID="">
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfLCAPI00APIApplicationInstanceCountersAPI026TransactionsPendingDispatchCompletion_Total -Operator 'ge' -Threshold 1000
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\LC:API - 00 - API Application Instance Counters(_Total)\API - 026 - Transactions Pending Dispatch Completion" ISTHRESHOLDSADDED="True" DATASOURCE="\LC:API - 00 - API Application Instance Counters(_Total)\API - 026 - Transactions Pending Dispatch Completion" CHARTLABELS="instance">
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfLCAPI00APIApplicationInstanceCountersAPI026TransactionsPendingDispatchCompletion_Total -MinThreshold 1000 -MaxThreshold 1099.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+  </ANALYSIS>
+  <ANALYSIS NAME="LC:SIP - 01 - Peers SIP - 001 - TLS Connections Active" ENABLED="True" CATEGORY="LC:SIP - 01 - Peers" PRIMARYDATASOURCE="\LC:SIP - 01 - Peers(_Total)\SIP - 001 - TLS Connections Active" ID="{9a749448-931e-4897-9772-b3565dd3ddbd}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The number of established TLS connections that are currently active. TLS Connection is considered established when peer certificate and, possibly, host name are verified for trust relationship.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\LC:SIP - 01 - Peers(_Total)\SIP - 001 - TLS Connections Active" COLLECTIONVARNAME="CollectionOfLCSIP01PeersSIP001TLSConnectionsActive_Total" EXPRESSIONPATH="\LC:SIP - 01 - Peers(_Total)\SIP - 001 - TLS Connections Active" DATATYPE="integer" />
+    <THRESHOLD NAME="More than 10000 established TLS connections are currently active" CONDITION="Critical" COLOR="Red" PRIORITY="100" ID="">
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfLCSIP01PeersSIP001TLSConnectionsActive_Total -Operator 'ge' -Threshold 10000
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\LC:SIP - 01 - Peers(_Total)\SIP - 001 - TLS Connections Active" ISTHRESHOLDSADDED="True" DATASOURCE="\LC:SIP - 01 - Peers(_Total)\SIP - 001 - TLS Connections Active" CHARTLABELS="instance">
+      <SERIES NAME="Critical">
+        <CODE>
+          <![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfLCSIP01PeersSIP001TLSConnectionsActive_Total -MinThreshold 10000 -MaxThreshold 1099.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+  </ANALYSIS>
+  <ANALYSIS NAME="LC:SIP - 01 - Peers SIP - 004 - Above Limit Connections Dropped (Access Proxies only)" ENABLED="True" CATEGORY="LC:SIP - 01 - Peers" PRIMARYDATASOURCE="\LC:SIP - 01 - Peers(_Total)\SIP - 004 - Above Limit Connections Dropped (Access Proxies only)" ID="{9587fc78-4855-4979-9404-26d9568b9808}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The total number of connections that were dropped because the limit on number of incoming connections from a federated partner or clearinghouse was exceeded.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\LC:SIP - 01 - Peers(_Total)\SIP - 004 - Above Limit Connections Dropped (Access Proxies only)" COLLECTIONVARNAME="CollectionOfLCSIP01PeersSIP004AboveLimitConnectionsDroppedAccessProxiesonly_Total" EXPRESSIONPATH="\LC:SIP - 01 - Peers(_Total)\SIP - 004 - Above Limit Connections Dropped (Access Proxies only)" DATATYPE="integer" />
+    <THRESHOLD NAME="More than 1 connection was dropped because the limit on number of incoming connections from a federated partner or clearinghouse was exceeded" CONDITION="Critical" COLOR="Red" PRIORITY="100" ID="">
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfLCSIP01PeersSIP004AboveLimitConnectionsDroppedAccessProxiesonly_Total -Operator 'ge' -Threshold 1
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\LC:SIP - 01 - Peers(_Total)\SIP - 004 - Above Limit Connections Dropped (Access Proxies only)" ISTHRESHOLDSADDED="True" DATASOURCE="\LC:SIP - 01 - Peers(_Total)\SIP - 004 - Above Limit Connections Dropped (Access Proxies only)" CHARTLABELS="instance">
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfLCSIP01PeersSIP004AboveLimitConnectionsDroppedAccessProxiesonly_Total -MinThreshold 1 -MaxThreshold 1.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+  </ANALYSIS>
+  <ANALYSIS NAME="LC:SIP - 01 - Peers SIP - 018 - Sends Timed-Out" ENABLED="True" CATEGORY="LC:SIP - 01 - Peers" PRIMARYDATASOURCE="\LC:SIP - 01 - Peers(_Total)\SIP - 018 - Sends Timed-Out" ID="{fd4333cc-907a-47f1-b794-abe736acbb7c}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The total number of sends dropped because they stayed in the outgoing (send) queue for too long.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\LC:SIP - 01 - Peers(_Total)\SIP - 018 - Sends Timed-Out" COLLECTIONVARNAME="CollectionOfLCSIP01PeersSIP018SendsTimedOut_Total" EXPRESSIONPATH="\LC:SIP - 01 - Peers(_Total)\SIP - 018 - Sends Timed-Out" DATATYPE="integer" />
+    <THRESHOLD NAME="More than 1000 sends were dropped because they stayed in the outgoing (send) queue for too long" CONDITION="Critical" COLOR="Red" PRIORITY="100" ID="">
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfLCSIP01PeersSIP018SendsTimedOut_Total -Operator 'ge' -Threshold 1000
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\LC:SIP - 01 - Peers(_Total)\SIP - 018 - Sends Timed-Out" ISTHRESHOLDSADDED="True" DATASOURCE="\LC:SIP - 01 - Peers(_Total)\SIP - 018 - Sends Timed-Out" CHARTLABELS="instance">
+      <SERIES NAME="Critical">
+        <CODE>
+          <![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfLCSIP01PeersSIP018SendsTimedOut_Total -MinThreshold 1000 -MaxThreshold 1099.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+  </ANALYSIS>
+  <ANALYSIS NAME="LC:SIP - 01 - Peers SIP - 023 - Flow-controlled Connections" ENABLED="True" CATEGORY="LC:SIP - 01 - Peers" PRIMARYDATASOURCE="\LC:SIP - 01 - Peers(_Total)\SIP - 023 - Flow-controlled Connections" ID="{842fc334-498b-4fb1-bc17-a63ffc14dec4}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The number of connections that are currently being flow-controlled (no socket receives are posted).]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\LC:SIP - 01 - Peers(_Total)\SIP - 023 - Flow-controlled Connections" COLLECTIONVARNAME="CollectionOfLCSIP01PeersSIP023FlowcontrolledConnections_Total" EXPRESSIONPATH="\LC:SIP - 01 - Peers(_Total)\SIP - 023 - Flow-controlled Connections" DATATYPE="integer" />
+    <THRESHOLD NAME="More than 100 connections are currently being flow-controlled" CONDITION="Critical" COLOR="Red" PRIORITY="100" ID="">
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfLCSIP01PeersSIP023FlowcontrolledConnections_Total -Operator 'ge' -Threshold 100
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\LC:SIP - 01 - Peers(_Total)\SIP - 023 - Flow-controlled Connections" ISTHRESHOLDSADDED="True" DATASOURCE="\LC:SIP - 01 - Peers(_Total)\SIP - 023 - Flow-controlled Connections" CHARTLABELS="instance">
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfLCSIP01PeersSIP023FlowcontrolledConnections_Total -MinThreshold 100 -MaxThreshold 109.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+  </ANALYSIS>
+  <ANALYSIS NAME="LC:SIP - 01 - Peers SIP - 024 - Flow-controlled Connections Dropped" ENABLED="True" CATEGORY="LC:SIP - 01 - Peers" PRIMARYDATASOURCE="\LC:SIP - 01 - Peers(_Total)\SIP - 024 - Flow-controlled Connections Dropped" ID="{def55e03-d369-4780-99fe-bcc77622ca87}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The total number of connections dropped because of excessive flow-control.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\LC:SIP - 01 - Peers(_Total)\SIP - 024 - Flow-controlled Connections Dropped" COLLECTIONVARNAME="CollectionOfLCSIP01PeersSIP024FlowcontrolledConnectionsDropped_Total" EXPRESSIONPATH="\LC:SIP - 01 - Peers(_Total)\SIP - 024 - Flow-controlled Connections Dropped" DATATYPE="integer" />
+    <THRESHOLD NAME="More than 10 connections were dropped because of excessive flow-control" CONDITION="Critical" COLOR="Red" PRIORITY="100" ID="">
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfLCSIP01PeersSIP024FlowcontrolledConnectionsDropped_Total -Operator 'ge' -Threshold 10
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\LC:SIP - 01 - Peers(_Total)\SIP - 024 - Flow-controlled Connections Dropped" ISTHRESHOLDSADDED="True" DATASOURCE="\LC:SIP - 01 - Peers(_Total)\SIP - 024 - Flow-controlled Connections Dropped" CHARTLABELS="instance">
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfLCSIP01PeersSIP024FlowcontrolledConnectionsDropped_Total -MinThreshold 10 -MaxThreshold 11.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+  </ANALYSIS>
+  <ANALYSIS NAME="LC:SIP - 02 - Protocol SIP - 005 - Incoming Requests Dropped/sec" ENABLED="True" CATEGORY="LC:SIP - 02 - Protocol" PRIMARYDATASOURCE="\LC:SIP - 02 - Protocol\SIP - 005 - Incoming Requests Dropped/sec" ID="{b2c19bb7-e0c7-46a7-899e-bfeed0c21cca}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The per-second rate of incoming requests dropped because they could not be processed (due to bad headers, insufficient routing information, server resource allocation failure).]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\LC:SIP - 02 - Protocol\SIP - 005 - Incoming Requests Dropped/sec" COLLECTIONVARNAME="CollectionOfLCSIP02ProtocolSIP005IncomingRequestsDroppedsec" EXPRESSIONPATH="\LC:SIP - 02 - Protocol\SIP - 005 - Incoming Requests Dropped/sec" DATATYPE="integer" />
+    <THRESHOLD NAME="More than 1 request per-second was dropped because they could not be processed" CONDITION="Critical" COLOR="Red" PRIORITY="100" ID="">
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfLCSIP02ProtocolSIP005IncomingRequestsDroppedsec -Operator 'gt' -Threshold 0
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\LC:SIP - 02 - Protocol\SIP - 005 - Incoming Requests Dropped/sec" ISTHRESHOLDSADDED="True" DATASOURCE="\LC:SIP - 02 - Protocol\SIP - 005 - Incoming Requests Dropped/sec" CHARTLABELS="instance">
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfLCSIP02ProtocolSIP005IncomingRequestsDroppedsec -MinThreshold 0 -MaxThreshold 0.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+  </ANALYSIS>
+  <ANALYSIS NAME="LC:SIP - 02 - Protocol SIP - 009 - Incoming Responses Dropped/sec" ENABLED="True" CATEGORY="LC:SIP - 02 - Protocol" PRIMARYDATASOURCE="\LC:SIP - 02 - Protocol\SIP - 009 - Incoming Responses Dropped/sec" ID="{a7e93275-238f-4611-a2d2-3a740acdc376}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The per-second rate of incoming responses dropped because they could not be processed (due to bad headers, insufficient routing information, server resource allocation failure).]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\LC:SIP - 02 - Protocol\SIP - 009 - Incoming Responses Dropped/sec" COLLECTIONVARNAME="CollectionOfLCSIP02ProtocolSIP009IncomingResponsesDroppedsec" EXPRESSIONPATH="\LC:SIP - 02 - Protocol\SIP - 009 - Incoming Responses Dropped/sec" DATATYPE="integer" />
+    <THRESHOLD NAME="More than 1 response per-second was dropped because they could not be processed" CONDITION="Critical" COLOR="Red" PRIORITY="100" ID="">
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfLCSIP02ProtocolSIP009IncomingResponsesDroppedsec -Operator 'gt' -Threshold 0
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\LC:SIP - 02 - Protocol\SIP - 009 - Incoming Responses Dropped/sec" ISTHRESHOLDSADDED="True" DATASOURCE="\LC:SIP - 02 - Protocol\SIP - 009 - Incoming Responses Dropped/sec" CHARTLABELS="instance">
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfLCSIP02ProtocolSIP009IncomingResponsesDroppedsec -MinThreshold 0 -MaxThreshold 0.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+  </ANALYSIS>
+  <ANALYSIS NAME="LC:SIP - 02 - Protocol SIP - 011 - Messages/sec Dropped Due To Certificate Mismatch" ENABLED="True" CATEGORY="LC:SIP - 02 - Protocol" PRIMARYDATASOURCE="\LC:SIP - 02 - Protocol\SIP - 011 - Messages/sec Dropped Due To Certificate Mismatch" ID="{55332cbb-b785-44cf-8786-702aec4bde0f}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The per-second rate of messages dropped because the remote peer's certificate did not contain a matching FQDN.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\LC:SIP - 02 - Protocol\SIP - 011 - Messages/sec Dropped Due To Certificate Mismatch" COLLECTIONVARNAME="CollectionOfLCSIP02ProtocolSIP011MessagessecDroppedDueToCertificateMismatch" EXPRESSIONPATH="\LC:SIP - 02 - Protocol\SIP - 011 - Messages/sec Dropped Due To Certificate Mismatch" DATATYPE="integer" />
+    <THRESHOLD NAME="More than 100 messages per-second were dropped because the remote peer's certificate did not contain a matching FQDN" CONDITION="Critical" COLOR="Red" PRIORITY="100" ID="">
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfLCSIP02ProtocolSIP011MessagessecDroppedDueToCertificateMismatch -Operator 'ge' -Threshold 100
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\LC:SIP - 02 - Protocol\SIP - 011 - Messages/sec Dropped Due To Certificate Mismatch" ISTHRESHOLDSADDED="True" DATASOURCE="\LC:SIP - 02 - Protocol\SIP - 011 - Messages/sec Dropped Due To Certificate Mismatch" CHARTLABELS="instance">
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfLCSIP02ProtocolSIP011MessagessecDroppedDueToCertificateMismatch -MinThreshold 100 -MaxThreshold 109.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+  </ANALYSIS>
+  <ANALYSIS NAME="LC:SIP - 02 - Protocol SIP - 012 - Messages In Server" ENABLED="True" CATEGORY="LC:SIP - 02 - Protocol" PRIMARYDATASOURCE="\LC:SIP - 02 - Protocol\SIP - 012 - Messages In Server" ID="{2a729b5b-d012-430a-8f59-883450cf2ad5}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The number of messages currently being processed by the server.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\LC:SIP - 02 - Protocol\SIP - 012 - Messages In Server" COLLECTIONVARNAME="CollectionOfLCSIP02ProtocolSIP012MessagesInServer" EXPRESSIONPATH="\LC:SIP - 02 - Protocol\SIP - 012 - Messages In Server" DATATYPE="integer" />
+    <THRESHOLD NAME="More than 5000 messages are currently being processed by the server" CONDITION="Critical" COLOR="Red" PRIORITY="100" ID="">
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfLCSIP02ProtocolSIP012MessagesInServer -Operator 'ge' -Threshold 5000
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\LC:SIP - 02 - Protocol\SIP - 012 - Messages In Server" ISTHRESHOLDSADDED="True" DATASOURCE="\LC:SIP - 02 - Protocol\SIP - 012 - Messages In Server" CHARTLABELS="instance">
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfLCSIP02ProtocolSIP012MessagesInServer -MinThreshold 5000 -MaxThreshold 5199.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+  </ANALYSIS>
+  <ANALYSIS NAME="LC:SIP - 02 - Protocol SIP - 021 - Average Incoming Message Processing Time" ENABLED="True" CATEGORY="LC:SIP - 02 - Protocol" PRIMARYDATASOURCE="\LC:SIP - 02 - Protocol\SIP - 021 - Average Incoming Message Processing Time" ID="{f32a2de3-8e7c-4ec8-a817-9997b9901265}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The average time (in seconds) it takes to process an incoming message.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\LC:SIP - 02 - Protocol\SIP - 021 - Average Incoming Message Processing Time" COLLECTIONVARNAME="CollectionOfLCSIP02ProtocolSIP021AverageIncomingMessageProcessingTime" EXPRESSIONPATH="\LC:SIP - 02 - Protocol\SIP - 021 - Average Incoming Message Processing Time" DATATYPE="integer" />
+    <THRESHOLD NAME="It is taking more than 5 seconds (average) to process an incoming message" CONDITION="Critical" COLOR="Red" PRIORITY="100" ID="">
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfLCSIP02ProtocolSIP021AverageIncomingMessageProcessingTime -Operator 'ge' -Threshold 5
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\LC:SIP - 02 - Protocol\SIP - 021 - Average Incoming Message Processing Time" ISTHRESHOLDSADDED="True" DATASOURCE="\LC:SIP - 02 - Protocol\SIP - 021 - Average Incoming Message Processing Time" CHARTLABELS="instance">
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfLCSIP02ProtocolSIP021AverageIncomingMessageProcessingTime -MinThreshold 5 -MaxThreshold 5.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+  </ANALYSIS>
+  <ANALYSIS NAME="LC:SIP - 07 - Load Management SIP - 009 - Address space usage" ENABLED="True" CATEGORY="LC:SIP - 07 - Load Management" PRIMARYDATASOURCE="\LC:SIP - 07 - Load Management\SIP - 009 - Address space usage" ID="{d9b3c32e-203c-41e2-b40b-e1f3ef007b2d}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The percentage of available address space currently in use by the server process.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\LC:SIP - 07 - Load Management\SIP - 009 - Address space usage" COLLECTIONVARNAME="CollectionOfLCSIP07LoadManagementSIP009Addressspaceusage" EXPRESSIONPATH="\LC:SIP - 07 - Load Management\SIP - 009 - Address space usage" DATATYPE="integer" />
+    <THRESHOLD NAME="More than 70 percent of the available address space is currently in use by the server process" CONDITION="Warning" COLOR="Yellow" PRIORITY="50" ID="">
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfLCSIP07LoadManagementSIP009Addressspaceusage -Operator 'ge' -Threshold 70
+         ]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="More than 80 percent of the available address space is currently in use by the server process" CONDITION="Critical" COLOR="Red" PRIORITY="100" ID="">
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfLCSIP07LoadManagementSIP009Addressspaceusage -Operator 'ge' -Threshold 80
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\LC:SIP - 07 - Load Management\SIP - 009 - Address space usage" ISTHRESHOLDSADDED="True" DATASOURCE="\LC:SIP - 07 - Load Management\SIP - 009 - Address space usage" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfLCSIP07LoadManagementSIP009Addressspaceusage -MinThreshold 70 -MaxThreshold 80 -UseMaxValue $False
+        ]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfLCSIP07LoadManagementSIP009Addressspaceusage -MinThreshold 80 -MaxThreshold 89.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+  </ANALYSIS>
+  <ANALYSIS NAME="LC:SIP - 08 - Access Edge Server Connections SIP - 013 - Rejected External Edge Server Connections/sec" ENABLED="True" CATEGORY="LC:SIP - 08 - Access Edge Server Connections" PRIMARYDATASOURCE="\LC:SIP - 08 - Access Edge Server Connections\SIP - 013 - Rejected External Edge Server Connections/sec" ID="{c289b970-c629-41dd-b813-aa2e4ef840a7}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The per-second rate of server connections rejected at the external edge because all federation is disabled.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\LC:SIP - 08 - Access Edge Server Connections\SIP - 013 - Rejected External Edge Server Connections/sec" COLLECTIONVARNAME="CollectionOfLCSIP08AccessEdgeServerConnectionsSIP013RejectedExternalEdgeServerConnectionssec" EXPRESSIONPATH="\LC:SIP - 08 - Access Edge Server Connections\SIP - 013 - Rejected External Edge Server Connections/sec" DATATYPE="integer" />
+    <THRESHOLD NAME="More than 5 server connections per-second are rejected at the external edge because all federation is disabled" CONDITION="Warning" COLOR="Yellow" PRIORITY="50" ID="">
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfLCSIP08AccessEdgeServerConnectionsSIP013RejectedExternalEdgeServerConnectionssec -Operator 'ge' -Threshold 5
+         ]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="More than 10 server connections per-second are rejected at the external edge because all federation is disabled" CONDITION="Critical" COLOR="Red" PRIORITY="100" ID="">
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfLCSIP08AccessEdgeServerConnectionsSIP013RejectedExternalEdgeServerConnectionssec -Operator 'ge' -Threshold 10
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\LC:SIP - 08 - Access Edge Server Connections\SIP - 013 - Rejected External Edge Server Connections/sec" ISTHRESHOLDSADDED="True" DATASOURCE="\LC:SIP - 08 - Access Edge Server Connections\SIP - 013 - Rejected External Edge Server Connections/sec" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfLCSIP08AccessEdgeServerConnectionsSIP013RejectedExternalEdgeServerConnectionssec -MinThreshold 5 -MaxThreshold 10 -UseMaxValue $False
+        ]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfLCSIP08AccessEdgeServerConnectionsSIP013RejectedExternalEdgeServerConnectionssec -MinThreshold 10 -MaxThreshold 14.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+  </ANALYSIS>
+  <ANALYSIS NAME="LC:SIP - 08 - Access Edge Server Connections SIP - 015 - Rejected External Edge Client Connections/sec" ENABLED="True" CATEGORY="LC:SIP - 08 - Access Edge Server Connections" PRIMARYDATASOURCE="\LC:SIP - 08 - Access Edge Server Connections\SIP - 015 - Rejected External Edge Client Connections/sec" ID="{23ebc166-cfaf-4e72-a5d8-8e87750bb4fa}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The per-second rate of client connections rejected at the external edge because remote user access is disabled.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\LC:SIP - 08 - Access Edge Server Connections\SIP - 015 - Rejected External Edge Client Connections/sec" COLLECTIONVARNAME="CollectionOfLCSIP08AccessEdgeServerConnectionsSIP015RejectedExternalEdgeClientConnectionssec" EXPRESSIONPATH="\LC:SIP - 08 - Access Edge Server Connections\SIP - 015 - Rejected External Edge Client Connections/sec" DATATYPE="integer" />
+    <THRESHOLD NAME="More than 5 client connections per-second are rejected at the external edge because remote user access is disabled" CONDITION="Warning" COLOR="Yellow" PRIORITY="50" ID="">
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfLCSIP08AccessEdgeServerConnectionsSIP015RejectedExternalEdgeClientConnectionssec -Operator 'ge' -Threshold 5
+         ]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="More than 10 client connections per-second are rejected at the external edge because remote user access is disabled" CONDITION="Critical" COLOR="Red" PRIORITY="100" ID="">
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfLCSIP08AccessEdgeServerConnectionsSIP015RejectedExternalEdgeClientConnectionssec -Operator 'ge' -Threshold 10
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\LC:SIP - 08 - Access Edge Server Connections\SIP - 015 - Rejected External Edge Client Connections/sec" ISTHRESHOLDSADDED="True" DATASOURCE="\LC:SIP - 08 - Access Edge Server Connections\SIP - 015 - Rejected External Edge Client Connections/sec" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfLCSIP08AccessEdgeServerConnectionsSIP015RejectedExternalEdgeClientConnectionssec -MinThreshold 5 -MaxThreshold 10 -UseMaxValue $False
+        ]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfLCSIP08AccessEdgeServerConnectionsSIP015RejectedExternalEdgeClientConnectionssec -MinThreshold 10 -MaxThreshold 14.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+  </ANALYSIS>
+  <ANALYSIS NAME="LC:SIP - 09 - Access Edge Server Messages SIP - 021 - Messages/sec Dropped Due To Unknown Domain" ENABLED="True" CATEGORY="LC:SIP - 09 - Access Edge Server Messages" PRIMARYDATASOURCE="\LC:SIP - 09 - Access Edge Server Messages\SIP - 021 - Messages/sec Dropped Due To Unknown Domain" ID="{338351ae-6812-42a2-a308-59648c70a4fa}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The per-second rate of messages that could not be routed because the message domain is not in the routing table.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\LC:SIP - 09 - Access Edge Server Messages\SIP - 021 - Messages/sec Dropped Due To Unknown Domain" COLLECTIONVARNAME="CollectionOfLCSIP09AccessEdgeServerMessagesSIP021MessagessecDroppedDueToUnknownDomain" EXPRESSIONPATH="\LC:SIP - 09 - Access Edge Server Messages\SIP - 021 - Messages/sec Dropped Due To Unknown Domain" DATATYPE="integer" />
+    <THRESHOLD NAME="More than 5 messages per-second could not be routed because the message domain is not in the routing table" CONDITION="Warning" COLOR="Yellow" PRIORITY="50" ID="">
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfLCSIP09AccessEdgeServerMessagesSIP021MessagessecDroppedDueToUnknownDomain -Operator 'ge' -Threshold 5
+         ]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="More than 10 messages per-second could not be routed because the message domain is not in the routing table" CONDITION="Critical" COLOR="Red" PRIORITY="100" ID="">
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfLCSIP09AccessEdgeServerMessagesSIP021MessagessecDroppedDueToUnknownDomain -Operator 'ge' -Threshold 10
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\LC:SIP - 09 - Access Edge Server Messages\SIP - 021 - Messages/sec Dropped Due To Unknown Domain" ISTHRESHOLDSADDED="True" DATASOURCE="\LC:SIP - 09 - Access Edge Server Messages\SIP - 021 - Messages/sec Dropped Due To Unknown Domain" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfLCSIP09AccessEdgeServerMessagesSIP021MessagessecDroppedDueToUnknownDomain -MinThreshold 5 -MaxThreshold 10 -UseMaxValue $False
+        ]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfLCSIP09AccessEdgeServerMessagesSIP021MessagessecDroppedDueToUnknownDomain -MinThreshold 10 -MaxThreshold 14.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+  </ANALYSIS>
+  <ANALYSIS NAME="LC:SIP - 09 - Access Edge Server Messages SIP - 027 - External Messages/sec Dropped Due To Blocked Domain" ENABLED="True" CATEGORY="LC:SIP - 09 - Access Edge Server Messages" PRIMARYDATASOURCE="\LC:SIP - 09 - Access Edge Server Messages\SIP - 027 - External Messages/sec Dropped Due To Blocked Domain" ID="{52872c21-8e21-4c5e-b1f4-8ecf75518029}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The per-second rate of messages dropped at the external edge because the domain is in the blocked list.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\LC:SIP - 09 - Access Edge Server Messages\SIP - 027 - External Messages/sec Dropped Due To Blocked Domain" COLLECTIONVARNAME="CollectionOfLCSIP09AccessEdgeServerMessagesSIP027ExternalMessagessecDroppedDueToBlockedDomain" EXPRESSIONPATH="\LC:SIP - 09 - Access Edge Server Messages\SIP - 027 - External Messages/sec Dropped Due To Blocked Domain" DATATYPE="integer" />
+    <THRESHOLD NAME="More than 5 messages per-second are dropped at the external edge because the domain is in the blocked list" CONDITION="Warning" COLOR="Yellow" PRIORITY="50" ID="">
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfLCSIP09AccessEdgeServerMessagesSIP027ExternalMessagessecDroppedDueToBlockedDomain -Operator 'ge' -Threshold 5
+         ]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="More than 10 messages per-second are dropped at the external edge because the domain is in the blocked list" CONDITION="Critical" COLOR="Red" PRIORITY="100" ID="">
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfLCSIP09AccessEdgeServerMessagesSIP027ExternalMessagessecDroppedDueToBlockedDomain -Operator 'ge' -Threshold 10
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\LC:SIP - 09 - Access Edge Server Messages\SIP - 027 - External Messages/sec Dropped Due To Blocked Domain" ISTHRESHOLDSADDED="True" DATASOURCE="\LC:SIP - 09 - Access Edge Server Messages\SIP - 027 - External Messages/sec Dropped Due To Blocked Domain" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfLCSIP09AccessEdgeServerMessagesSIP027ExternalMessagessecDroppedDueToBlockedDomain -MinThreshold 5 -MaxThreshold 10 -UseMaxValue $False
+        ]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfLCSIP09AccessEdgeServerMessagesSIP027ExternalMessagessecDroppedDueToBlockedDomain -MinThreshold 10 -MaxThreshold 14.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+  </ANALYSIS>
+  <ANALYSIS NAME="LC:SIP - 09 - Access Edge Server Messages SIP - 029 - Client Messages/sec Dropped Due To Unsupported Internal Domain" ENABLED="True" CATEGORY="LC:SIP - 09 - Access Edge Server Messages" PRIMARYDATASOURCE="\LC:SIP - 09 - Access Edge Server Messages\SIP - 029 - Client Messages/sec Dropped Due To Unsupported Internal Domain" ID="{e3f4e70b-a2dd-4017-8f70-49dcb67f5ff7}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The per-second rate of client messages dropped at the external edge because the domain is not internally supported.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\LC:SIP - 09 - Access Edge Server Messages\SIP - 029 - Client Messages/sec Dropped Due To Unsupported Internal Domain" COLLECTIONVARNAME="CollectionOfLCSIP09AccessEdgeServerMessagesSIP029ClientMessagessecDroppedDueToUnsupportedInternalDomain" EXPRESSIONPATH="\LC:SIP - 09 - Access Edge Server Messages\SIP - 029 - Client Messages/sec Dropped Due To Unsupported Internal Domain" DATATYPE="integer" />
+    <THRESHOLD NAME="More than 5 client messages per-second are dropped at the external edge because the domain is not internally supported" CONDITION="Warning" COLOR="Yellow" PRIORITY="50" ID="">
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfLCSIP09AccessEdgeServerMessagesSIP029ClientMessagessecDroppedDueToUnsupportedInternalDomain -Operator 'ge' -Threshold 5
+         ]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="More than 10 client messages per-second are dropped at the external edge because the domain is not internally supported" CONDITION="Critical" COLOR="Red" PRIORITY="100" ID="">
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfLCSIP09AccessEdgeServerMessagesSIP029ClientMessagessecDroppedDueToUnsupportedInternalDomain -Operator 'ge' -Threshold 10
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\LC:SIP - 09 - Access Edge Server Messages\SIP - 029 - Client Messages/sec Dropped Due To Unsupported Internal Domain" ISTHRESHOLDSADDED="True" DATASOURCE="\LC:SIP - 09 - Access Edge Server Messages\SIP - 029 - Client Messages/sec Dropped Due To Unsupported Internal Domain" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfLCSIP09AccessEdgeServerMessagesSIP029ClientMessagessecDroppedDueToUnsupportedInternalDomain -MinThreshold 5 -MaxThreshold 10 -UseMaxValue $False
+        ]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfLCSIP09AccessEdgeServerMessagesSIP029ClientMessagessecDroppedDueToUnsupportedInternalDomain -MinThreshold 10 -MaxThreshold 14.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+  </ANALYSIS>
+  <ANALYSIS NAME="LC:SIP - 09 - Access Edge Server Messages SIP - 031 - Remote User Client Messages/sec Dropped Due To Access Disabled" ENABLED="True" CATEGORY="LC:SIP - 09 - Access Edge Server Messages" PRIMARYDATASOURCE="\LC:SIP - 09 - Access Edge Server Messages\SIP - 031 - Remote User Client Messages/sec Dropped Due To Access Disabled" ID="{bf4d789c-8196-410b-a94a-4c1148eb8a23}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The per-second rate of remote user client messages dropped at the external edge because access for remote user clients is disabled.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\LC:SIP - 09 - Access Edge Server Messages\SIP - 031 - Remote User Client Messages/sec Dropped Due To Access Disabled" COLLECTIONVARNAME="CollectionOfLCSIP09AccessEdgeServerMessagesSIP031RemoteUserClientMessagessecDroppedDueToAccessDisabled" EXPRESSIONPATH="\LC:SIP - 09 - Access Edge Server Messages\SIP - 031 - Remote User Client Messages/sec Dropped Due To Access Disabled" DATATYPE="integer" />
+    <THRESHOLD NAME="More than 5 remote user client messages per-second are dropped at the external edge because access for remote user clients is disabled" CONDITION="Warning" COLOR="Yellow" PRIORITY="50" ID="">
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfLCSIP09AccessEdgeServerMessagesSIP031RemoteUserClientMessagessecDroppedDueToAccessDisabled -Operator 'ge' -Threshold 5
+         ]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="More than 10 remote user client messages per-second are dropped at the external edge because access for remote user clients is disabled" CONDITION="Critical" COLOR="Red" PRIORITY="100" ID="">
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfLCSIP09AccessEdgeServerMessagesSIP031RemoteUserClientMessagessecDroppedDueToAccessDisabled -Operator 'ge' -Threshold 10
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\LC:SIP - 09 - Access Edge Server Messages\SIP - 031 - Remote User Client Messages/sec Dropped Due To Access Disabled" ISTHRESHOLDSADDED="True" DATASOURCE="\LC:SIP - 09 - Access Edge Server Messages\SIP - 031 - Remote User Client Messages/sec Dropped Due To Access Disabled" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfLCSIP09AccessEdgeServerMessagesSIP031RemoteUserClientMessagessecDroppedDueToAccessDisabled -MinThreshold 5 -MaxThreshold 10 -UseMaxValue $False
+        ]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfLCSIP09AccessEdgeServerMessagesSIP031RemoteUserClientMessagessecDroppedDueToAccessDisabled -MinThreshold 10 -MaxThreshold 14.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+  </ANALYSIS>
+  <ANALYSIS NAME="LC:SIP - 09 - Access Edge Server Messages SIP - 033 - Anonymous User Client Messages/sec Dropped Due To Access Disabled" ENABLED="True" CATEGORY="LC:SIP - 09 - Access Edge Server Messages" PRIMARYDATASOURCE="\LC:SIP - 09 - Access Edge Server Messages\SIP - 033 - Anonymous User Client Messages/sec Dropped Due To Access Disabled" ID="{51f04f69-4317-44e7-983c-fd14e97a730e}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The per-second rate of anonymous user client messages dropped at the external edge because access for anonymous users is disabled.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\LC:SIP - 09 - Access Edge Server Messages\SIP - 033 - Anonymous User Client Messages/sec Dropped Due To Access Disabled" COLLECTIONVARNAME="CollectionOfLCSIP09AccessEdgeServerMessagesSIP033AnonymousUserClientMessagessecDroppedDueToAccessDisabled" EXPRESSIONPATH="\LC:SIP - 09 - Access Edge Server Messages\SIP - 033 - Anonymous User Client Messages/sec Dropped Due To Access Disabled" DATATYPE="integer" />
+    <THRESHOLD NAME="More than 5 anonymous user client messages per-second are dropped at the external edge because access for anonymous users is disabled" CONDITION="Warning" COLOR="Yellow" PRIORITY="50" ID="">
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfLCSIP09AccessEdgeServerMessagesSIP033AnonymousUserClientMessagessecDroppedDueToAccessDisabled -Operator 'ge' -Threshold 5
+         ]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="More than 10 anonymous user client messages per-second are dropped at the external edge because access for anonymous users is disabled" CONDITION="Critical" COLOR="Red" PRIORITY="100" ID="">
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfLCSIP09AccessEdgeServerMessagesSIP033AnonymousUserClientMessagessecDroppedDueToAccessDisabled -Operator 'ge' -Threshold 10
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\LC:SIP - 09 - Access Edge Server Messages\SIP - 033 - Anonymous User Client Messages/sec Dropped Due To Access Disabled" ISTHRESHOLDSADDED="True" DATASOURCE="\LC:SIP - 09 - Access Edge Server Messages\SIP - 033 - Anonymous User Client Messages/sec Dropped Due To Access Disabled" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfLCSIP09AccessEdgeServerMessagesSIP033AnonymousUserClientMessagessecDroppedDueToAccessDisabled -MinThreshold 5 -MaxThreshold 10 -UseMaxValue $False
+        ]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfLCSIP09AccessEdgeServerMessagesSIP033AnonymousUserClientMessagessecDroppedDueToAccessDisabled -MinThreshold 10 -MaxThreshold 14.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+  </ANALYSIS>
+  <ANALYSIS NAME="LC:SIP - 09 - Access Edge Server Messages SIP - 053 - Messages/sec From Users Not Enabled For Federation" ENABLED="True" CATEGORY="LC:SIP - 09 - Access Edge Server Messages" PRIMARYDATASOURCE="\LC:SIP - 09 - Access Edge Server Messages\SIP - 053 - Messages/sec From Users Not Enabled For Federation" ID="{d33d2cd6-0866-4f57-a083-4f15b79dda7d}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The per-second rate of messages dropped at the external edge because the user is not authorized to communicate with federated partners.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\LC:SIP - 09 - Access Edge Server Messages\SIP - 053 - Messages/sec From Users Not Enabled For Federation" COLLECTIONVARNAME="CollectionOfLCSIP09AccessEdgeServerMessagesSIP053MessagessecFromUsersNotEnabledForFederation" EXPRESSIONPATH="\LC:SIP - 09 - Access Edge Server Messages\SIP - 053 - Messages/sec From Users Not Enabled For Federation" DATATYPE="integer" />
+    <THRESHOLD NAME="More than 5 messages per-second are dropped at the external edge because the user is not authorized to communicate with federated partners" CONDITION="Warning" COLOR="Yellow" PRIORITY="50" ID="">
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfLCSIP09AccessEdgeServerMessagesSIP053MessagessecFromUsersNotEnabledForFederation -Operator 'ge' -Threshold 5
+         ]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="More than 10 messages per-second are dropped at the external edge because the user is not authorized to communicate with federated partners" CONDITION="Critical" COLOR="Red" PRIORITY="100" ID="">
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfLCSIP09AccessEdgeServerMessagesSIP053MessagessecFromUsersNotEnabledForFederation -Operator 'ge' -Threshold 10
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\LC:SIP - 09 - Access Edge Server Messages\SIP - 053 - Messages/sec From Users Not Enabled For Federation" ISTHRESHOLDSADDED="True" DATASOURCE="\LC:SIP - 09 - Access Edge Server Messages\SIP - 053 - Messages/sec From Users Not Enabled For Federation" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfLCSIP09AccessEdgeServerMessagesSIP053MessagessecFromUsersNotEnabledForFederation -MinThreshold 5 -MaxThreshold 10 -UseMaxValue $False
+        ]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfLCSIP09AccessEdgeServerMessagesSIP053MessagessecFromUsersNotEnabledForFederation -MinThreshold 10 -MaxThreshold 14.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+  </ANALYSIS>
+  <ANALYSIS NAME="LC:SIP - 09 - Access Edge Server Messages SIP - 055 - Messages/sec From Users Not Enabled For Public IM Providers" ENABLED="True" CATEGORY="LC:SIP - 09 - Access Edge Server Messages" PRIMARYDATASOURCE="\LC:SIP - 09 - Access Edge Server Messages\SIP - 055 - Messages/sec From Users Not Enabled For Public IM Providers" ID="{c5736486-a38a-4968-88ab-2791f93a8eff}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The per-second rate of messages dropped at the external edge because the user is not authorized to communicate with public IM providers.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\LC:SIP - 09 - Access Edge Server Messages\SIP - 055 - Messages/sec From Users Not Enabled For Public IM Providers" COLLECTIONVARNAME="CollectionOfLCSIP09AccessEdgeServerMessagesSIP055MessagessecFromUsersNotEnabledForPublicIMProviders" EXPRESSIONPATH="\LC:SIP - 09 - Access Edge Server Messages\SIP - 055 - Messages/sec From Users Not Enabled For Public IM Providers" DATATYPE="integer" />
+    <THRESHOLD NAME="More than 5 messages per-second are dropped at the external edge because the user is not authorized to communicate with public IM providers" CONDITION="Warning" COLOR="Yellow" PRIORITY="50" ID="">
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfLCSIP09AccessEdgeServerMessagesSIP055MessagessecFromUsersNotEnabledForPublicIMProviders -Operator 'ge' -Threshold 5
+         ]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="More than 10 messages per-second are dropped at the external edge because the user is not authorized to communicate with public IM providers" CONDITION="Critical" COLOR="Red" PRIORITY="100" ID="">
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfLCSIP09AccessEdgeServerMessagesSIP055MessagessecFromUsersNotEnabledForPublicIMProviders -Operator 'ge' -Threshold 10
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\LC:SIP - 09 - Access Edge Server Messages\SIP - 055 - Messages/sec From Users Not Enabled For Public IM Providers" ISTHRESHOLDSADDED="True" DATASOURCE="\LC:SIP - 09 - Access Edge Server Messages\SIP - 055 - Messages/sec From Users Not Enabled For Public IM Providers" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfLCSIP09AccessEdgeServerMessagesSIP055MessagessecFromUsersNotEnabledForPublicIMProviders -MinThreshold 5 -MaxThreshold 10 -UseMaxValue $False
+        ]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfLCSIP09AccessEdgeServerMessagesSIP055MessagessecFromUsersNotEnabledForPublicIMProviders -MinThreshold 10 -MaxThreshold 14.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+  </ANALYSIS>
+  <ANALYSIS NAME="LC:SIP - 09 - Access Edge Server Messages SIP - 057 - External Messages/sec Dropped Due To Unresolved Domain" ENABLED="True" CATEGORY="LC:SIP - 09 - Access Edge Server Messages" PRIMARYDATASOURCE="\LC:SIP - 09 - Access Edge Server Messages\SIP - 057 - External Messages/sec Dropped Due To Unresolved Domain" ID="{520e7181-3dd9-46a1-92fd-2e7c19af8535}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The per-second rate of messages dropped at the external edge because the domain failed to resolve by DNS SRV.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\LC:SIP - 09 - Access Edge Server Messages\SIP - 057 - External Messages/sec Dropped Due To Unresolved Domain" COLLECTIONVARNAME="CollectionOfLCSIP09AccessEdgeServerMessagesSIP057ExternalMessagessecDroppedDueToUnresolvedDomain" EXPRESSIONPATH="\LC:SIP - 09 - Access Edge Server Messages\SIP - 057 - External Messages/sec Dropped Due To Unresolved Domain" DATATYPE="integer" />
+    <THRESHOLD NAME="More than 5 messages per-second are dropped at the external edge because the domain failed to resolve by DNS SRV" CONDITION="Warning" COLOR="Yellow" PRIORITY="50" ID="">
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfLCSIP09AccessEdgeServerMessagesSIP057ExternalMessagessecDroppedDueToUnresolvedDomain -Operator 'ge' -Threshold 5
+         ]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="More than 10 messages per-second are dropped at the external edge because the domain failed to resolve by DNS SRV" CONDITION="Critical" COLOR="Red" PRIORITY="100" ID="">
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfLCSIP09AccessEdgeServerMessagesSIP057ExternalMessagessecDroppedDueToUnresolvedDomain -Operator 'ge' -Threshold 10
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\LC:SIP - 09 - Access Edge Server Messages\SIP - 057 - External Messages/sec Dropped Due To Unresolved Domain" ISTHRESHOLDSADDED="True" DATASOURCE="\LC:SIP - 09 - Access Edge Server Messages\SIP - 057 - External Messages/sec Dropped Due To Unresolved Domain" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfLCSIP09AccessEdgeServerMessagesSIP057ExternalMessagessecDroppedDueToUnresolvedDomain -MinThreshold 5 -MaxThreshold 10 -UseMaxValue $False
+        ]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfLCSIP09AccessEdgeServerMessagesSIP057ExternalMessagessecDroppedDueToUnresolvedDomain -MinThreshold 10 -MaxThreshold 14.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+  </ANALYSIS>
+  <ANALYSIS NAME="LC:SIP - 09 - Access Edge Server Messages SIP - 059 - External Messages/sec Dropped Due To Blocked IM Service Provider Domain" ENABLED="True" CATEGORY="LC:SIP - 09 - Access Edge Server Messages" PRIMARYDATASOURCE="\LC:SIP - 09 - Access Edge Server Messages\SIP - 059 - External Messages/sec Dropped Due To Blocked IM Service Provider Domain" ID="{723a1fea-3510-4b0d-a9fd-5ff40141c349}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The per-second rate of messages dropped at the external edge because the domain resolved by DNS SRV to a server that is blocked in the IM Service Providers table.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\LC:SIP - 09 - Access Edge Server Messages\SIP - 059 - External Messages/sec Dropped Due To Blocked IM Service Provider Domain" COLLECTIONVARNAME="CollectionOfLCSIP09AccessEdgeServerMessagesSIP059ExternalMessagessecDroppedDueToBlockedIMServiceProviderDomain" EXPRESSIONPATH="\LC:SIP - 09 - Access Edge Server Messages\SIP - 059 - External Messages/sec Dropped Due To Blocked IM Service Provider Domain" DATATYPE="integer" />
+    <THRESHOLD NAME="More than 5 messages per-second are dropped at the external edge because the domain resolved by DNS SRV to a server that is blocked in the IM Service Providers table" CONDITION="Warning" COLOR="Yellow" PRIORITY="50" ID="">
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfLCSIP09AccessEdgeServerMessagesSIP059ExternalMessagessecDroppedDueToBlockedIMServiceProviderDomain -Operator 'ge' -Threshold 5
+         ]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="More than 10 messages per-second are dropped at the external edge because the domain resolved by DNS SRV to a server that is blocked in the IM Service Providers table" CONDITION="Critical" COLOR="Red" PRIORITY="100" ID="">
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfLCSIP09AccessEdgeServerMessagesSIP059ExternalMessagessecDroppedDueToBlockedIMServiceProviderDomain -Operator 'ge' -Threshold 10
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\LC:SIP - 09 - Access Edge Server Messages\SIP - 059 - External Messages/sec Dropped Due To Blocked IM Service Provider Domain" ISTHRESHOLDSADDED="True" DATASOURCE="\LC:SIP - 09 - Access Edge Server Messages\SIP - 059 - External Messages/sec Dropped Due To Blocked IM Service Provider Domain" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfLCSIP09AccessEdgeServerMessagesSIP059ExternalMessagessecDroppedDueToBlockedIMServiceProviderDomain -MinThreshold 5 -MaxThreshold 10 -UseMaxValue $False
+        ]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfLCSIP09AccessEdgeServerMessagesSIP059ExternalMessagessecDroppedDueToBlockedIMServiceProviderDomain -MinThreshold 10 -MaxThreshold 14.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+  </ANALYSIS>
+  <ANALYSIS NAME="LC:SIP - 09 - Access Edge Server Messages SIP - 061 - External Messages/sec Dropped Due To Unauthorized IM Service Provider Domain" ENABLED="True" CATEGORY="LC:SIP - 09 - Access Edge Server Messages" PRIMARYDATASOURCE="\LC:SIP - 09 - Access Edge Server Messages\SIP - 061 - External Messages/sec Dropped Due To Unauthorized IM Service Provider Domain" ID="{30d8693a-177d-4f6a-91f4-9ef8ea63e14f}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The per-second rate of messages dropped at the external edge because the domain did not resolve by DNS SRV to the connection peer FQDN.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\LC:SIP - 09 - Access Edge Server Messages\SIP - 061 - External Messages/sec Dropped Due To Unauthorized IM Service Provider Domain" COLLECTIONVARNAME="CollectionOfLCSIP09AccessEdgeServerMessagesSIP061ExternalMessagessecDroppedDueToUnauthorizedIMServiceProviderDomain" EXPRESSIONPATH="\LC:SIP - 09 - Access Edge Server Messages\SIP - 061 - External Messages/sec Dropped Due To Unauthorized IM Service Provider Domain" DATATYPE="integer" />
+    <THRESHOLD NAME="More than 5 messages per-second are dropped at the external edge because the domain did not resolve by DNS SRV to the connection peer FQDN" CONDITION="Warning" COLOR="Yellow" PRIORITY="50" ID="">
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfLCSIP09AccessEdgeServerMessagesSIP061ExternalMessagessecDroppedDueToUnauthorizedIMServiceProviderDomain -Operator 'ge' -Threshold 5
+         ]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="More than 10 messages per-second are dropped at the external edge because the domain did not resolve by DNS SRV to the connection peer FQDN" CONDITION="Critical" COLOR="Red" PRIORITY="100" ID="">
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfLCSIP09AccessEdgeServerMessagesSIP061ExternalMessagessecDroppedDueToUnauthorizedIMServiceProviderDomain -Operator 'ge' -Threshold 10
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\LC:SIP - 09 - Access Edge Server Messages\SIP - 061 - External Messages/sec Dropped Due To Unauthorized IM Service Provider Domain" ISTHRESHOLDSADDED="True" DATASOURCE="\LC:SIP - 09 - Access Edge Server Messages\SIP - 061 - External Messages/sec Dropped Due To Unauthorized IM Service Provider Domain" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfLCSIP09AccessEdgeServerMessagesSIP061ExternalMessagessecDroppedDueToUnauthorizedIMServiceProviderDomain -MinThreshold 5 -MaxThreshold 10 -UseMaxValue $False
+        ]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfLCSIP09AccessEdgeServerMessagesSIP061ExternalMessagessecDroppedDueToUnauthorizedIMServiceProviderDomain -MinThreshold 10 -MaxThreshold 14.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+  </ANALYSIS>
+  <ANALYSIS NAME="LC:SIP - 09 - Access Edge Server Messages SIP - 063 - External Messages/sec Dropped Due To Unauthorized Allowed or Discovered Domain" ENABLED="True" CATEGORY="LC:SIP - 09 - Access Edge Server Messages" PRIMARYDATASOURCE="\LC:SIP - 09 - Access Edge Server Messages\SIP - 063 - External Messages/sec Dropped Due To Unauthorized Allowed or Discovered Domain" ID="{7090ef74-83e8-43eb-bccd-949d51a9ceec}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The per-second rate of messages dropped at the external edge that cannot be routed as an allowed or discovered domain.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\LC:SIP - 09 - Access Edge Server Messages\SIP - 063 - External Messages/sec Dropped Due To Unauthorized Allowed or Discovered Domain" COLLECTIONVARNAME="CollectionOfLCSIP09AccessEdgeServerMessagesSIP063ExternalMessagessecDroppedDueToUnauthorizedAllowedorDiscoveredDomain" EXPRESSIONPATH="\LC:SIP - 09 - Access Edge Server Messages\SIP - 063 - External Messages/sec Dropped Due To Unauthorized Allowed or Discovered Domain" DATATYPE="integer" />
+    <THRESHOLD NAME="More than 5 messages per-second are dropped at the external edge that cannot be routed as an allowed or discovered domain" CONDITION="Warning" COLOR="Yellow" PRIORITY="50" ID="">
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfLCSIP09AccessEdgeServerMessagesSIP063ExternalMessagessecDroppedDueToUnauthorizedAllowedorDiscoveredDomain -Operator 'ge' -Threshold 5
+         ]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="More than 10 messages per-second are dropped at the external edge that cannot be routed as an allowed or discovered domain" CONDITION="Critical" COLOR="Red" PRIORITY="100" ID="">
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfLCSIP09AccessEdgeServerMessagesSIP063ExternalMessagessecDroppedDueToUnauthorizedAllowedorDiscoveredDomain -Operator 'ge' -Threshold 10
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\LC:SIP - 09 - Access Edge Server Messages\SIP - 063 - External Messages/sec Dropped Due To Unauthorized Allowed or Discovered Domain" ISTHRESHOLDSADDED="True" DATASOURCE="\LC:SIP - 09 - Access Edge Server Messages\SIP - 063 - External Messages/sec Dropped Due To Unauthorized Allowed or Discovered Domain" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfLCSIP09AccessEdgeServerMessagesSIP063ExternalMessagessecDroppedDueToUnauthorizedAllowedorDiscoveredDomain -MinThreshold 5 -MaxThreshold 10 -UseMaxValue $False
+        ]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfLCSIP09AccessEdgeServerMessagesSIP063ExternalMessagessecDroppedDueToUnauthorizedAllowedorDiscoveredDomain -MinThreshold 10 -MaxThreshold 14.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+  </ANALYSIS>
+  <ANALYSIS NAME="LC:SIP - 09 - Access Edge Server Messages SIP - 065 - External Messages/sec Dropped Due To Incompatible DNS SRV Result for Allowed Domain" ENABLED="True" CATEGORY="LC:SIP - 09 - Access Edge Server Messages" PRIMARYDATASOURCE="\LC:SIP - 09 - Access Edge Server Messages\SIP - 065 - External Messages/sec Dropped Due To Incompatible DNS SRV Result for Allowed Domain" ID="{ccfbc251-85ab-4e9c-8b8e-63b145f8463a}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The per-second rate of messages dropped at the external with an allowed partner domain that resolved by DNS SRV to a FQDN that matches a different routing rule.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\LC:SIP - 09 - Access Edge Server Messages\SIP - 065 - External Messages/sec Dropped Due To Incompatible DNS SRV Result for Allowed Domain" COLLECTIONVARNAME="CollectionOfLCSIP09AccessEdgeServerMessagesSIP065ExternalMessagessecDroppedDueToIncompatibleDNSSRVResultforAllowedDomain" EXPRESSIONPATH="\LC:SIP - 09 - Access Edge Server Messages\SIP - 065 - External Messages/sec Dropped Due To Incompatible DNS SRV Result for Allowed Domain" DATATYPE="integer" />
+    <THRESHOLD NAME="More than 5 messages per-second are dropped at the external with an allowed partner domain that resolved by DNS SRV to a FQDN that matches a different routing rule" CONDITION="Warning" COLOR="Yellow" PRIORITY="50" ID="">
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfLCSIP09AccessEdgeServerMessagesSIP065ExternalMessagessecDroppedDueToIncompatibleDNSSRVResultforAllowedDomain -Operator 'ge' -Threshold 5
+         ]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="More than 10 messages per-second are dropped at the external with an allowed partner domain that resolved by DNS SRV to a FQDN that matches a different routing rule" CONDITION="Critical" COLOR="Red" PRIORITY="100" ID="">
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfLCSIP09AccessEdgeServerMessagesSIP065ExternalMessagessecDroppedDueToIncompatibleDNSSRVResultforAllowedDomain -Operator 'ge' -Threshold 10
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\LC:SIP - 09 - Access Edge Server Messages\SIP - 065 - External Messages/sec Dropped Due To Incompatible DNS SRV Result for Allowed Domain" ISTHRESHOLDSADDED="True" DATASOURCE="\LC:SIP - 09 - Access Edge Server Messages\SIP - 065 - External Messages/sec Dropped Due To Incompatible DNS SRV Result for Allowed Domain" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfLCSIP09AccessEdgeServerMessagesSIP065ExternalMessagessecDroppedDueToIncompatibleDNSSRVResultforAllowedDomain -MinThreshold 5 -MaxThreshold 10 -UseMaxValue $False
+        ]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfLCSIP09AccessEdgeServerMessagesSIP065ExternalMessagessecDroppedDueToIncompatibleDNSSRVResultforAllowedDomain -MinThreshold 10 -MaxThreshold 14.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+  </ANALYSIS>
+  <ANALYSIS NAME="LC:SIP - 09 - Access Edge Server Messages SIP - 067 - External Messages/sec Dropped Due To Multiple Incompatible DNS SRV Results" ENABLED="True" CATEGORY="LC:SIP - 09 - Access Edge Server Messages" PRIMARYDATASOURCE="\LC:SIP - 09 - Access Edge Server Messages\SIP - 067 - External Messages/sec Dropped Due To Multiple Incompatible DNS SRV Results" ID="{31267692-484b-44a9-9dc9-99414e5aba5f}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The per-second rate of messages dropped at the external with a domain that resolved by DNS SRV to multiple FQDNs that match different routing rules.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\LC:SIP - 09 - Access Edge Server Messages\SIP - 067 - External Messages/sec Dropped Due To Multiple Incompatible DNS SRV Results" COLLECTIONVARNAME="CollectionOfLCSIP09AccessEdgeServerMessagesSIP067ExternalMessagessecDroppedDueToMultipleIncompatibleDNSSRVResults" EXPRESSIONPATH="\LC:SIP - 09 - Access Edge Server Messages\SIP - 067 - External Messages/sec Dropped Due To Multiple Incompatible DNS SRV Results" DATATYPE="integer" />
+    <THRESHOLD NAME="More than 5 messages per-second are dropped at the external with a domain that resolved by DNS SRV to multiple FQDNs that match different routing rules" CONDITION="Warning" COLOR="Yellow" PRIORITY="50" ID="">
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfLCSIP09AccessEdgeServerMessagesSIP067ExternalMessagessecDroppedDueToMultipleIncompatibleDNSSRVResults -Operator 'ge' -Threshold 5
+         ]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="More than 10 messages per-second are dropped at the external with a domain that resolved by DNS SRV to multiple FQDNs that match different routing rules" CONDITION="Critical" COLOR="Red" PRIORITY="100" ID="">
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfLCSIP09AccessEdgeServerMessagesSIP067ExternalMessagessecDroppedDueToMultipleIncompatibleDNSSRVResults -Operator 'ge' -Threshold 10
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\LC:SIP - 09 - Access Edge Server Messages\SIP - 067 - External Messages/sec Dropped Due To Multiple Incompatible DNS SRV Results" ISTHRESHOLDSADDED="True" DATASOURCE="\LC:SIP - 09 - Access Edge Server Messages\SIP - 067 - External Messages/sec Dropped Due To Multiple Incompatible DNS SRV Results" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfLCSIP09AccessEdgeServerMessagesSIP067ExternalMessagessecDroppedDueToMultipleIncompatibleDNSSRVResults -MinThreshold 5 -MaxThreshold 10 -UseMaxValue $False
+        ]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfLCSIP09AccessEdgeServerMessagesSIP067ExternalMessagessecDroppedDueToMultipleIncompatibleDNSSRVResults -MinThreshold 10 -MaxThreshold 14.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+  </ANALYSIS>
+  <ANALYSIS NAME="LC:SIP - 09 - Access Edge Server Messages SIP - 069 - External Messages/sec Dropped Due To Incompatible Message Domain" ENABLED="True" CATEGORY="LC:SIP - 09 - Access Edge Server Messages" PRIMARYDATASOURCE="\LC:SIP - 09 - Access Edge Server Messages\SIP - 069 - External Messages/sec Dropped Due To Incompatible Message Domain" ID="{3bf2ec5b-8333-4b89-ad9a-64938b380b6b}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The per-second rate of messages dropped at the external edge because the federation type of the domain is incompatible with previous messages.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\LC:SIP - 09 - Access Edge Server Messages\SIP - 069 - External Messages/sec Dropped Due To Incompatible Message Domain" COLLECTIONVARNAME="CollectionOfLCSIP09AccessEdgeServerMessagesSIP069ExternalMessagessecDroppedDueToIncompatibleMessageDomain" EXPRESSIONPATH="\LC:SIP - 09 - Access Edge Server Messages\SIP - 069 - External Messages/sec Dropped Due To Incompatible Message Domain" DATATYPE="integer" />
+    <THRESHOLD NAME="More than 5 messages per-second are dropped at the external edge because the federation type of the domain is incompatible with previous messages" CONDITION="Warning" COLOR="Yellow" PRIORITY="50" ID="">
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfLCSIP09AccessEdgeServerMessagesSIP069ExternalMessagessecDroppedDueToIncompatibleMessageDomain -Operator 'ge' -Threshold 5
+         ]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="More than 10 messages per-second are dropped at the external edge because the federation type of the domain is incompatible with previous messages" CONDITION="Critical" COLOR="Red" PRIORITY="100" ID="">
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfLCSIP09AccessEdgeServerMessagesSIP069ExternalMessagessecDroppedDueToIncompatibleMessageDomain -Operator 'ge' -Threshold 10
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\LC:SIP - 09 - Access Edge Server Messages\SIP - 069 - External Messages/sec Dropped Due To Incompatible Message Domain" ISTHRESHOLDSADDED="True" DATASOURCE="\LC:SIP - 09 - Access Edge Server Messages\SIP - 069 - External Messages/sec Dropped Due To Incompatible Message Domain" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfLCSIP09AccessEdgeServerMessagesSIP069ExternalMessagessecDroppedDueToIncompatibleMessageDomain -MinThreshold 5 -MaxThreshold 10 -UseMaxValue $False
+        ]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfLCSIP09AccessEdgeServerMessagesSIP069ExternalMessagessecDroppedDueToIncompatibleMessageDomain -MinThreshold 10 -MaxThreshold 14.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+  </ANALYSIS>
+  <ANALYSIS NAME="LC:SIP - 09 - Access Edge Server Messages SIP - 071 - Messages/sec Dropped Due To Incompatible Asserted Identity" ENABLED="True" CATEGORY="LC:SIP - 09 - Access Edge Server Messages" PRIMARYDATASOURCE="\LC:SIP - 09 - Access Edge Server Messages\SIP - 071 - Messages/sec Dropped Due To Incompatible Asserted Identity" ID="{87d3428e-1d17-4928-a009-3ea4b73ed0ca}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The per-second rate of messages dropped because the domain of the asserted identity URI is not compatible with the source.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\LC:SIP - 09 - Access Edge Server Messages\SIP - 071 - Messages/sec Dropped Due To Incompatible Asserted Identity" COLLECTIONVARNAME="CollectionOfLCSIP09AccessEdgeServerMessagesSIP071MessagessecDroppedDueToIncompatibleAssertedIdentity" EXPRESSIONPATH="\LC:SIP - 09 - Access Edge Server Messages\SIP - 071 - Messages/sec Dropped Due To Incompatible Asserted Identity" DATATYPE="integer" />
+    <THRESHOLD NAME="More than 5 messages per-second are dropped because the domain of the asserted identity URI is not compatible with the source" CONDITION="Warning" COLOR="Yellow" PRIORITY="50" ID="">
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfLCSIP09AccessEdgeServerMessagesSIP071MessagessecDroppedDueToIncompatibleAssertedIdentity -Operator 'ge' -Threshold 5
+         ]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="More than 10 messages per-second are dropped because the domain of the asserted identity URI is not compatible with the source" CONDITION="Critical" COLOR="Red" PRIORITY="100" ID="">
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfLCSIP09AccessEdgeServerMessagesSIP071MessagessecDroppedDueToIncompatibleAssertedIdentity -Operator 'ge' -Threshold 10
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\LC:SIP - 09 - Access Edge Server Messages\SIP - 071 - Messages/sec Dropped Due To Incompatible Asserted Identity" ISTHRESHOLDSADDED="True" DATASOURCE="\LC:SIP - 09 - Access Edge Server Messages\SIP - 071 - Messages/sec Dropped Due To Incompatible Asserted Identity" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfLCSIP09AccessEdgeServerMessagesSIP071MessagessecDroppedDueToIncompatibleAssertedIdentity -MinThreshold 5 -MaxThreshold 10 -UseMaxValue $False
+        ]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfLCSIP09AccessEdgeServerMessagesSIP071MessagessecDroppedDueToIncompatibleAssertedIdentity -MinThreshold 10 -MaxThreshold 14.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+  </ANALYSIS>
+  <ANALYSIS NAME="LC:SIP - 09 - Access Edge Server Messages SIP - 073 - Messages/sec Dropped Due To Incompatible Boss Domain" ENABLED="True" CATEGORY="LC:SIP - 09 - Access Edge Server Messages" PRIMARYDATASOURCE="\LC:SIP - 09 - Access Edge Server Messages\SIP - 073 - Messages/sec Dropped Due To Incompatible Boss Domain" ID="{f43df3a4-4ea9-4c56-97cc-9d5bac996668}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The per-second rate of messages dropped because the domain of the boss (on-behalf-of) URI is not compatible with the source.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\LC:SIP - 09 - Access Edge Server Messages\SIP - 073 - Messages/sec Dropped Due To Incompatible Boss Domain" COLLECTIONVARNAME="CollectionOfLCSIP09AccessEdgeServerMessagesSIP073MessagessecDroppedDueToIncompatibleBossDomain" EXPRESSIONPATH="\LC:SIP - 09 - Access Edge Server Messages\SIP - 073 - Messages/sec Dropped Due To Incompatible Boss Domain" DATATYPE="integer" />
+    <THRESHOLD NAME="More than 5 messages per-second are dropped because the domain of the boss (on-behalf-of) URI is not compatible with the source" CONDITION="Warning" COLOR="Yellow" PRIORITY="50" ID="">
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfLCSIP09AccessEdgeServerMessagesSIP073MessagessecDroppedDueToIncompatibleBossDomain -Operator 'ge' -Threshold 5
+         ]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="More than 10 messages per-second are dropped because the domain of the boss (on-behalf-of) URI is not compatible with the source" CONDITION="Critical" COLOR="Red" PRIORITY="100" ID="">
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfLCSIP09AccessEdgeServerMessagesSIP073MessagessecDroppedDueToIncompatibleBossDomain -Operator 'ge' -Threshold 10
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\LC:SIP - 09 - Access Edge Server Messages\SIP - 073 - Messages/sec Dropped Due To Incompatible Boss Domain" ISTHRESHOLDSADDED="True" DATASOURCE="\LC:SIP - 09 - Access Edge Server Messages\SIP - 073 - Messages/sec Dropped Due To Incompatible Boss Domain" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfLCSIP09AccessEdgeServerMessagesSIP073MessagessecDroppedDueToIncompatibleBossDomain -MinThreshold 5 -MaxThreshold 10 -UseMaxValue $False
+        ]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfLCSIP09AccessEdgeServerMessagesSIP073MessagessecDroppedDueToIncompatibleBossDomain -MinThreshold 10 -MaxThreshold 14.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+  </ANALYSIS>
+  <ANALYSIS NAME="LC:DATAPROXY - 00 - Server Connections DATAPROXY - 034 - Current count of server connections that are throttled" ENABLED="True" CATEGORY="LC:DATAPROXY - 00 - Server Connections" PRIMARYDATASOURCE="\LC:DATAPROXY - 00 - Server Connections(_Total)\DATAPROXY - 034 - Current count of server connections that are throttled" ID="{b427da24-38fd-48ee-8eeb-8404f176340c}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The number of server connections currently that are throttled]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\LC:DATAPROXY - 00 - Server Connections(_Total)\DATAPROXY - 034 - Current count of server connections that are throttled" COLLECTIONVARNAME="CollectionOfLCDATAPROXY00ServerConnectionsDATAPROXY034Currentcountofserverconnectionsthatarethrottled_Total" EXPRESSIONPATH="\LC:DATAPROXY - 00 - Server Connections(_Total)\DATAPROXY - 034 - Current count of server connections that are throttled" DATATYPE="integer" />
+    <THRESHOLD NAME="More than 1 server connection currently throttled" CONDITION="Warning" COLOR="Yellow" PRIORITY="50" ID="">
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfLCDATAPROXY00ServerConnectionsDATAPROXY034Currentcountofserverconnectionsthatarethrottled_Total -Operator 'ge' -Threshold 1
+         ]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="More than 4 server connections currently that are throttled" CONDITION="Critical" COLOR="Red" PRIORITY="100" ID="">
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfLCDATAPROXY00ServerConnectionsDATAPROXY034Currentcountofserverconnectionsthatarethrottled_Total -Operator 'ge' -Threshold 4
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\LC:DATAPROXY - 00 - Server Connections(_Total)\DATAPROXY - 034 - Current count of server connections that are throttled" ISTHRESHOLDSADDED="True" DATASOURCE="\LC:DATAPROXY - 00 - Server Connections(_Total)\DATAPROXY - 034 - Current count of server connections that are throttled" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfLCDATAPROXY00ServerConnectionsDATAPROXY034Currentcountofserverconnectionsthatarethrottled_Total -MinThreshold 1 -MaxThreshold 4 -UseMaxValue $False
+        ]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfLCDATAPROXY00ServerConnectionsDATAPROXY034Currentcountofserverconnectionsthatarethrottled_Total -MinThreshold 4 -MaxThreshold 5.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+  </ANALYSIS>
+  <ANALYSIS NAME="LC:DATAPROXY - 00 - Server Connections DATAPROXY - 041 - System is throttling" ENABLED="True" CATEGORY="LC:DATAPROXY - 00 - Server Connections" PRIMARYDATASOURCE="\LC:DATAPROXY - 00 - Server Connections(_Total)\DATAPROXY - 041 - System is throttling" ID="{c46d55f9-70c9-4d7a-a429-dc9e6d4250b7}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[This value indicates that system wide throttling is on]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\LC:DATAPROXY - 00 - Server Connections(_Total)\DATAPROXY - 041 - System is throttling" COLLECTIONVARNAME="CollectionOfLCDATAPROXY00ServerConnectionsDATAPROXY041Systemisthrottling_Total" EXPRESSIONPATH="\LC:DATAPROXY - 00 - Server Connections(_Total)\DATAPROXY - 041 - System is throttling" DATATYPE="integer" />
+    <THRESHOLD NAME="A value of 1 or greater indicates that system wide throttling is on" CONDITION="Warning" COLOR="Yellow" PRIORITY="50" ID="">
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfLCDATAPROXY00ServerConnectionsDATAPROXY041Systemisthrottling_Total -Operator 'ge' -Threshold 1
+         ]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="A value of 2 or greater indicates that system wide throttling is on" CONDITION="Critical" COLOR="Red" PRIORITY="100" ID="">
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfLCDATAPROXY00ServerConnectionsDATAPROXY041Systemisthrottling_Total -Operator 'ge' -Threshold 2
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\LC:DATAPROXY - 00 - Server Connections(_Total)\DATAPROXY - 041 - System is throttling" ISTHRESHOLDSADDED="True" DATASOURCE="\LC:DATAPROXY - 00 - Server Connections(_Total)\DATAPROXY - 041 - System is throttling" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfLCDATAPROXY00ServerConnectionsDATAPROXY041Systemisthrottling_Total -MinThreshold 1 -MaxThreshold 2 -UseMaxValue $False
+        ]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfLCDATAPROXY00ServerConnectionsDATAPROXY041Systemisthrottling_Total -MinThreshold 2 -MaxThreshold 2.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+  </ANALYSIS>
+  <ANALYSIS NAME="LC:DATAPROXY - 01 - Client Connections DATAPROXY - 008 - Clients disconnected per second due to invalid cookie timestamp" ENABLED="True" CATEGORY="LC:DATAPROXY - 01 - Client Connections" PRIMARYDATASOURCE="\LC:DATAPROXY - 01 - Client Connections\DATAPROXY - 008 - Clients disconnected per second due to invalid cookie timestamp" ID="{d6b23e07-e7f0-4416-869e-fce3307c3632}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The per-second rate of number of clients rejected due to invalid timestamps]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\LC:DATAPROXY - 01 - Client Connections\DATAPROXY - 008 - Clients disconnected per second due to invalid cookie timestamp" COLLECTIONVARNAME="CollectionOfLCDATAPROXY01ClientConnectionsDATAPROXY008Clientsdisconnectedpersecondduetoinvalidcookietimestamp" EXPRESSIONPATH="\LC:DATAPROXY - 01 - Client Connections\DATAPROXY - 008 - Clients disconnected per second due to invalid cookie timestamp" DATATYPE="integer" />
+    <THRESHOLD NAME="More than 50 clients rejected due to invalid timestamps per-second" CONDITION="Warning" COLOR="Yellow" PRIORITY="50" ID="">
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfLCDATAPROXY01ClientConnectionsDATAPROXY008Clientsdisconnectedpersecondduetoinvalidcookietimestamp -Operator 'ge' -Threshold 50
+         ]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="More than 100 clients rejected due to invalid timestamps per-second" CONDITION="Critical" COLOR="Red" PRIORITY="100" ID="">
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfLCDATAPROXY01ClientConnectionsDATAPROXY008Clientsdisconnectedpersecondduetoinvalidcookietimestamp -Operator 'ge' -Threshold 100
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\LC:DATAPROXY - 01 - Client Connections\DATAPROXY - 008 - Clients disconnected per second due to invalid cookie timestamp" ISTHRESHOLDSADDED="True" DATASOURCE="\LC:DATAPROXY - 01 - Client Connections\DATAPROXY - 008 - Clients disconnected per second due to invalid cookie timestamp" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfLCDATAPROXY01ClientConnectionsDATAPROXY008Clientsdisconnectedpersecondduetoinvalidcookietimestamp -MinThreshold 50 -MaxThreshold 100 -UseMaxValue $False
+        ]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfLCDATAPROXY01ClientConnectionsDATAPROXY008Clientsdisconnectedpersecondduetoinvalidcookietimestamp -MinThreshold 100 -MaxThreshold 149.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+  </ANALYSIS>
+  <ANALYSIS NAME="LC:DATAPROXY - 01 - Client Connections DATAPROXY - 012 - Clients disconnected per second due to invalid cookie data" ENABLED="True" CATEGORY="LC:DATAPROXY - 01 - Client Connections" PRIMARYDATASOURCE="\LC:DATAPROXY - 01 - Client Connections\DATAPROXY - 012 - Clients disconnected per second due to invalid cookie data" ID="{6407e99a-29a0-4805-8b61-00969698785d}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The per-second rate of number of clients disconnected due to invalid cookie data]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\LC:DATAPROXY - 01 - Client Connections\DATAPROXY - 012 - Clients disconnected per second due to invalid cookie data" COLLECTIONVARNAME="CollectionOfLCDATAPROXY01ClientConnectionsDATAPROXY012Clientsdisconnectedpersecondduetoinvalidcookiedata" EXPRESSIONPATH="\LC:DATAPROXY - 01 - Client Connections\DATAPROXY - 012 - Clients disconnected per second due to invalid cookie data" DATATYPE="integer" />
+    <THRESHOLD NAME="More than 50 clients disconnected due to invalid cookie data per-second" CONDITION="Warning" COLOR="Yellow" PRIORITY="50" ID="">
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfLCDATAPROXY01ClientConnectionsDATAPROXY012Clientsdisconnectedpersecondduetoinvalidcookiedata -Operator 'ge' -Threshold 50
+         ]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="More than 100 clients disconnected due to invalid cookie data per-second" CONDITION="Critical" COLOR="Red" PRIORITY="100" ID="">
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfLCDATAPROXY01ClientConnectionsDATAPROXY012Clientsdisconnectedpersecondduetoinvalidcookiedata -Operator 'ge' -Threshold 100
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\LC:DATAPROXY - 01 - Client Connections\DATAPROXY - 012 - Clients disconnected per second due to invalid cookie data" ISTHRESHOLDSADDED="True" DATASOURCE="\LC:DATAPROXY - 01 - Client Connections\DATAPROXY - 012 - Clients disconnected per second due to invalid cookie data" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfLCDATAPROXY01ClientConnectionsDATAPROXY012Clientsdisconnectedpersecondduetoinvalidcookiedata -MinThreshold 50 -MaxThreshold 100 -UseMaxValue $False
+        ]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfLCDATAPROXY01ClientConnectionsDATAPROXY012Clientsdisconnectedpersecondduetoinvalidcookiedata -MinThreshold 100 -MaxThreshold 149.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+  </ANALYSIS>
+</PAL>

@@ -1,0 +1,8 @@
+\LogicalDisk(*)\*
+\TCPv4(*)\*
+\Memory\*
+\Network Interface(*)\*
+\PhysicalDisk(*)\*
+\Process(*)\*
+\Processor(*)\*
+\System\*

@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<PAL PALVERSION="2.0" NAME="Custom - Choose inheritance" DESCRIPTION="Choose your own threshold file load order using the inheritance control below. This is an empty threshold file and requires threshold file inheritance." CONTENTOWNERS="you" FEEDBACKEMAILADDRESS="@" VERSION="1.0" LANGUAGE="English" LANGUAGECODE="en">
+  <INHERITANCE FILEPATH="Exchange2010.xml" />
+  <INHERITANCE FILEPATH="SQLServer2008R2.xml" />
+</PAL>

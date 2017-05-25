@@ -1,0 +1,37 @@
+\.NET CLR Exceptions(*)\*
+\.NET CLR Memory(*)\*
+\BizTalk: BAS TPM Management Web Service\*
+\BizTalk: BAS TPM Publishing Web Service\*
+\BizTalk:FILE Receive Adapter(*)\*
+\BizTalk:FILE Send Adapter(*)\*
+\BizTalk:FTP Receive Adapter(*)\*
+\BizTalk:FTP Send Adapter(*)\*
+\BizTalk:HTTP Receive Adapter(*)\*
+\BizTalk:HTTP Send Adapter(*)\*
+\BizTalk:Message Agent(*)\*
+\BizTalk:Message Box:General Counters(*)\*
+\BizTalk:Message Box:Host Counters(*)\*
+\BizTalk:Messaging Latency(*)\*
+\BizTalk:Messaging(*)\*
+\BizTalk:MSMQ Receive Adapter(*)\*
+\BizTalk:MSMQ Send Adapter(*)\*
+\BizTalk:POP3 Receive Adapter(*)\*
+\BizTalk:SMTP Send Adapter(*)\*
+\BizTalk:SOAP Receive Adapter(*)\*
+\BizTalk:SOAP Send Adapter(*)\*
+\BizTalk:SQL Receive Adapter(*)\*
+\BizTalk:SQL Send Adapter(*)\*
+\BizTalk:TDDS(*)\*
+\BizTalk:Windows SharePoint Services Adapter(*)\*
+\Cache\*
+\Distributed Transaction Coordinator\*
+\Enterprise SSO(*)\*
+\LogicalDisk(*)\*
+\Memory\*
+\Network Interface(*)\*
+\PhysicalDisk(*)\*
+\Process(*)\*
+\Processor(*)\*
+\System\*
+\TCPv4\*
+\XLANG/s Orchestrations(*)\*

@@ -1,0 +1,45 @@
+<PAL NAME="Microsoft OCS 2007 R2 - Archiving" DESCRIPTION="Performance counter thresholds for Microsoft Office Communications Server 2007 R2 Archiving Server." CONTENTOWNERS="Doug Deitterick" FEEDBACKEMAILADDRESS="dodeitte@microsoft.com" VERSION="2.0" PALVERSION="2.0" LANGUAGE="English" LANGUAGECODE="en">
+  <INHERITANCE FILEPATH="QuickSystemOverview.xml" />
+  <ANALYSIS NAME="LC:Arch Service - 01 - READ Arch Service - 002 - Messages that failed validation" ENABLED="True" CATEGORY="LC:Arch Service - 01 - READ" PRIMARYDATASOURCE="\LC:Arch Service - 01 - READ\Arch Service - 002 - Messages that failed validation" ID="{b186abff-22ad-4b10-ba49-eb9cb1581282}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\LC:Arch Service - 01 - READ\Arch Service - 002 - Messages that failed validation" COLLECTIONVARNAME="LCArchService01READArchService002Messagesthatfailedvalidation" EXPRESSIONPATH="\LC:Arch Service - 01 - READ\Arch Service - 002 - Messages that failed validation" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LC:Arch Service - 01 - READ\Arch Service - 002 - Messages that failed validation" ISTHRESHOLDSADDED="True" DATASOURCE="\LC:Arch Service - 01 - READ\Arch Service - 002 - Messages that failed validation" CHARTLABELS="instance">
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $LCArchService01READArchService002Messagesthatfailedvalidation -MinThreshold 1 -MaxThreshold 9.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Greater than or equal to 1" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $LCArchService01READArchService002Messagesthatfailedvalidation -Operator 'ge' -Threshold 1]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[Number of messages that validation failed for.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="LC:Arch Service - 01 - READ Arch Service - 006 - Dropped messages from MQ" ENABLED="True" CATEGORY="LC:Arch Service - 01 - READ" PRIMARYDATASOURCE="\LC:Arch Service - 01 - READ\Arch Service - 006 - Dropped messages from MQ" ID="{ad2b3c1e-1ce9-4641-b8bf-f1835c817b8e}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\LC:Arch Service - 01 - READ\Arch Service - 006 - Dropped messages from MQ" COLLECTIONVARNAME="LCArchService01READArchService006DroppedmessagesfromMQ" EXPRESSIONPATH="\LC:Arch Service - 01 - READ\Arch Service - 006 - Dropped messages from MQ" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LC:Arch Service - 01 - READ\Arch Service - 006 - Dropped messages from MQ" ISTHRESHOLDSADDED="True" DATASOURCE="\LC:Arch Service - 01 - READ\Arch Service - 006 - Dropped messages from MQ" CHARTLABELS="instance">
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $LCArchService01READArchService006DroppedmessagesfromMQ -MinThreshold 1 -MaxThreshold 9.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Greater than or equal to 1" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $LCArchService01READArchService006DroppedmessagesfromMQ -Operator 'ge' -Threshold 1]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[Number of messages dropped from MSMQ queue.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="LC:Arch Service - 02 - WRITE Arch Service - 002 - Messages failed to be written to DB" ENABLED="True" CATEGORY="LC:Arch Service - 02 - WRITE" PRIMARYDATASOURCE="\LC:Arch Service - 02 - WRITE\Arch Service - 002 - Messages failed to be written to DB" ID="{36aea20f-2a25-481c-bb57-18de923c8b15}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\LC:Arch Service - 02 - WRITE\Arch Service - 002 - Messages failed to be written to DB" COLLECTIONVARNAME="LCArchService02WRITEArchService002MessagesfailedtobewrittentoDB" EXPRESSIONPATH="\LC:Arch Service - 02 - WRITE\Arch Service - 002 - Messages failed to be written to DB" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LC:Arch Service - 02 - WRITE\Arch Service - 002 - Messages failed to be written to DB" ISTHRESHOLDSADDED="True" DATASOURCE="\LC:Arch Service - 02 - WRITE\Arch Service - 002 - Messages failed to be written to DB" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $LCArchService02WRITEArchService002MessagesfailedtobewrittentoDB -MinThreshold 1 -MaxThreshold 499.999 -IsOperatorGreaterThan $True -UseMaxValue $False]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $LCArchService02WRITEArchService002MessagesfailedtobewrittentoDB -MinThreshold 500 -MaxThreshold 599.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Greater than or equal to 1" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $LCArchService02WRITEArchService002MessagesfailedtobewrittentoDB -Operator 'ge' -Threshold 1]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="Greater than or equal to 500" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $LCArchService02WRITEArchService002MessagesfailedtobewrittentoDB -Operator 'ge' -Threshold 500]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[Number of messages failed to be written to SQL database.]]></DESCRIPTION>
+  </ANALYSIS>
+</PAL>

@@ -1,0 +1,127 @@
+<?xml version="1.0"?>
+<PAL PALVERSION="2.0" NAME="SharePoint Server 2010" DESCRIPTION="General performance counters to assist in identifying SharePoint 2010 specific performance issues" CONTENTOWNERS="Aaron Saikovski" FEEDBACKEMAILADDRESS="asaikov@microsoft.com" VERSION="1.1" LANGUAGE="English" LANGUAGECODE="en">
+  <ANALYSIS NAME="SharePoint Foundation Current Page Requests" ENABLED="True" CATEGORY="SharePoint Foundation" PRIMARYDATASOURCE="\SharePoint Foundation(*)\Current Page Requests" ID="3e0c046a-2f6f-4515-b9d9-a6d4bda74cd0" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The number of current requests in processing]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\SharePoint Foundation(*)\Current Page Requests" COLLECTIONVARNAME="CollectionOfSharePointFoundationCurrentPageRequests" EXPRESSIONPATH="\SharePoint Foundation(*)\Current Page Requests" TRENDVARNAME="TrendSharePointFoundationCurrentPageRequests" DATATYPE="integer" />
+    <CHART CHARTTITLE="\SharePoint Foundation(*)\Current Page Requests" ISTHRESHOLDSADDED="False" DATASOURCE="\SharePoint Foundation(*)\Current Page Requests" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="SharePoint Foundation Executing Sql Queries" ENABLED="True" CATEGORY="SharePoint Foundation" PRIMARYDATASOURCE="\SharePoint Foundation(*)\Executing Sql Queries" ID="12c0bb22-9b52-453f-b88a-3795a3be8825" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The number of current executing Sql queries]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\SharePoint Foundation(*)\Executing Sql Queries" COLLECTIONVARNAME="CollectionOfSharePointFoundationExecutingSqlQueries" EXPRESSIONPATH="\SharePoint Foundation(*)\Executing Sql Queries" TRENDVARNAME="TrendSharePointFoundationExecutingSqlQueries" DATATYPE="integer" />
+    <CHART CHARTTITLE="\SharePoint Foundation(*)\Executing Sql Queries" ISTHRESHOLDSADDED="False" DATASOURCE="\SharePoint Foundation(*)\Executing Sql Queries" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="SharePoint Foundation Executing Time/Page Request" ENABLED="True" CATEGORY="SharePoint Foundation" PRIMARYDATASOURCE="\SharePoint Foundation(*)\Executing Time/Page Request" ID="9923ee47-cadb-471d-bec9-1183a288ba04" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Average executing time (in ms) for responsed requests in last seconds]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\SharePoint Foundation(*)\Executing Time/Page Request" COLLECTIONVARNAME="CollectionOfSharePointFoundationExecutingTimePageRequest" EXPRESSIONPATH="\SharePoint Foundation(*)\Executing Time/Page Request" TRENDVARNAME="TrendSharePointFoundationExecutingTimePageRequest" DATATYPE="integer" />
+    <CHART CHARTTITLE="\SharePoint Foundation(*)\Executing Time/Page Request" ISTHRESHOLDSADDED="False" DATASOURCE="\SharePoint Foundation(*)\Executing Time/Page Request" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="SharePoint Foundation Incoming Page Requests Rate" ENABLED="True" CATEGORY="SharePoint Foundation" PRIMARYDATASOURCE="\SharePoint Foundation(*)\Incoming Page Requests Rate" ID="6d2d17b4-a6de-4fc2-8826-570b578e822a" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The number of incoming requests in last second]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\SharePoint Foundation(*)\Incoming Page Requests Rate" COLLECTIONVARNAME="CollectionOfSharePointFoundationIncomingPageRequestsRate" EXPRESSIONPATH="\SharePoint Foundation(*)\Incoming Page Requests Rate" TRENDVARNAME="TrendSharePointFoundationIncomingPageRequestsRate" DATATYPE="integer" />
+    <CHART CHARTTITLE="\SharePoint Foundation(*)\Incoming Page Requests Rate" ISTHRESHOLDSADDED="False" DATASOURCE="\SharePoint Foundation(*)\Incoming Page Requests Rate" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="SharePoint Foundation Reject Page Requests Rate" ENABLED="True" CATEGORY="SharePoint Foundation" PRIMARYDATASOURCE="\SharePoint Foundation(*)\Reject Page Requests Rate" ID="8bd68e67-82f1-45f2-9fd3-9c6d0d425e03" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The number of rejecting requests in last second]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\SharePoint Foundation(*)\Reject Page Requests Rate" COLLECTIONVARNAME="CollectionOfSharePointFoundationRejectPageRequestsRate" EXPRESSIONPATH="\SharePoint Foundation(*)\Reject Page Requests Rate" TRENDVARNAME="TrendSharePointFoundationRejectPageRequestsRate" DATATYPE="integer" />
+    <CHART CHARTTITLE="\SharePoint Foundation(*)\Reject Page Requests Rate" ISTHRESHOLDSADDED="False" DATASOURCE="\SharePoint Foundation(*)\Reject Page Requests Rate" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="SharePoint Foundation Responded Page Requests Rate" ENABLED="True" CATEGORY="SharePoint Foundation" PRIMARYDATASOURCE="\SharePoint Foundation(*)\Responded Page Requests Rate" ID="12f81cae-06d4-4b68-af84-8370ce9e8a54" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Number of requests responded in last second]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\SharePoint Foundation(*)\Responded Page Requests Rate" COLLECTIONVARNAME="CollectionOfSharePointFoundationRespondedPageRequestsRate" EXPRESSIONPATH="\SharePoint Foundation(*)\Responded Page Requests Rate" TRENDVARNAME="TrendSharePointFoundationRespondedPageRequestsRate" DATATYPE="integer" />
+    <CHART CHARTTITLE="\SharePoint Foundation(*)\Responded Page Requests Rate" ISTHRESHOLDSADDED="False" DATASOURCE="\SharePoint Foundation(*)\Responded Page Requests Rate" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="SharePoint Foundation Sql Query Executing  time" ENABLED="True" CATEGORY="SharePoint Foundation" PRIMARYDATASOURCE="\SharePoint Foundation(*)\Sql Query Executing  time" ID="bf529f2c-411f-485c-8eeb-4678d25fd7e7" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The average executing time of Sql queries]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\SharePoint Foundation(*)\Sql Query Executing  time" COLLECTIONVARNAME="CollectionOfSharePointFoundationSqlQueryExecutingtime" EXPRESSIONPATH="\SharePoint Foundation(*)\Sql Query Executing  time" TRENDVARNAME="TrendSharePointFoundationSqlQueryExecutingtime" DATATYPE="integer" />
+    <CHART CHARTTITLE="\SharePoint Foundation(*)\Sql Query Executing  time" ISTHRESHOLDSADDED="False" DATASOURCE="\SharePoint Foundation(*)\Sql Query Executing  time" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="SharePoint Foundation Throttled Page Requests" ENABLED="True" CATEGORY="SharePoint Foundation" PRIMARYDATASOURCE="\SharePoint Foundation(*)\Throttled Page Requests" ID="3ea9d3d6-9bd1-4304-8d0c-fd7c3bddaa86" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\SharePoint Foundation(*)\Throttled Page Requests" COLLECTIONVARNAME="CollectionOfSharePointFoundationThrottledPageRequests" EXPRESSIONPATH="\SharePoint Foundation(*)\Throttled Page Requests" TRENDVARNAME="TrendSharePointFoundationThrottledPageRequests" DATATYPE="integer" />
+    <CHART CHARTTITLE="\SharePoint Foundation(*)\Throttled Page Requests" ISTHRESHOLDSADDED="False" DATASOURCE="\SharePoint Foundation(*)\Throttled Page Requests" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[This counter displays the number of  page request has been throttled by the web application since its start. ]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="SharePoint Foundation Active Heap Count" ENABLED="True" CATEGORY="SharePoint Foundation" PRIMARYDATASOURCE="\SharePoint Foundation(_Total)\Active Heap Count" ID="4c8a9548-09dd-4bd8-b937-0a333aeadc5c" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The number of native heaps in use by the process]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\SharePoint Foundation(_Total)\Active Heap Count" COLLECTIONVARNAME="CollectionOfSharePointFoundationActiveHeapCount" EXPRESSIONPATH="\SharePoint Foundation(_Total)\Active Heap Count" TRENDVARNAME="TrendSharePointFoundationActiveHeapCount" DATATYPE="integer" />
+    <CHART CHARTTITLE="\SharePoint Foundation(_Total)\Active Heap Count" ISTHRESHOLDSADDED="False" DATASOURCE="\SharePoint Foundation(_Total)\Active Heap Count" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="SharePoint Foundation Active Threads" ENABLED="True" CATEGORY="SharePoint Foundation" PRIMARYDATASOURCE="\SharePoint Foundation(_Total)\Active Threads" ID="6e91610a-d325-48b1-bd0e-6cc55ce1dd00" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The number of threads currently executing in SharePoint code]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\SharePoint Foundation(_Total)\Active Threads" COLLECTIONVARNAME="CollectionOfSharePointFoundationActiveThreads" EXPRESSIONPATH="\SharePoint Foundation(_Total)\Active Threads" TRENDVARNAME="TrendSharePointFoundationActiveThreads" DATATYPE="integer" />
+    <CHART CHARTTITLE="\SharePoint Foundation(_Total)\Active Threads" ISTHRESHOLDSADDED="False" DATASOURCE="\SharePoint Foundation(_Total)\Active Threads" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="SharePoint Publishing Cache Publishing cache flushes / second" ENABLED="True" CATEGORY="SharePoint Publishing Cache" PRIMARYDATASOURCE="\SharePoint Publishing Cache(*)\Publishing cache flushes / second" ID="90d6b1ef-64d8-4818-a357-ed16cd1f2402" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\SharePoint Publishing Cache(*)\Publishing cache flushes / second" COLLECTIONVARNAME="CollectionOfSharePointPublishingCachePublishingcacheflushessecondALL" EXPRESSIONPATH="\SharePoint Publishing Cache(*)\Publishing cache flushes / second" TRENDVARNAME="TrendSharePointPublishingCachePublishingcacheflushessecond" DATATYPE="integer" />
+    <CHART CHARTTITLE="\SharePoint Publishing Cache(*)\Publishing cache flushes / second" ISTHRESHOLDSADDED="False" DATASOURCE="\SharePoint Publishing Cache(*)\Publishing cache flushes / second" CHARTLABELS="instance" />
+    <THRESHOLD NAME="Cache flushes greater than 1 per second" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfSharePointPublishingCachePublishingcacheflushessecondALL -Operator 'gt' -Threshold 1
+         ]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The rate that we are updating the cache due to site changes.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="SharePoint Publishing Cache Publishing cache hits / sec" ENABLED="True" CATEGORY="SharePoint Publishing Cache" PRIMARYDATASOURCE="\SharePoint Publishing Cache(*)\Publishing cache hits / sec" ID="45c30ac3-a241-4a7f-b7f2-b11af75c02f7" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The hit rate on the Publishing cache.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\SharePoint Publishing Cache(*)\Publishing cache hits / sec" COLLECTIONVARNAME="CollectionOfSharePointPublishingCachePublishingcachehitssec" EXPRESSIONPATH="\SharePoint Publishing Cache(*)\Publishing cache hits / sec" TRENDVARNAME="TrendSharePointPublishingCachePublishingcachehitssec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\SharePoint Publishing Cache(*)\Publishing cache hits / sec" ISTHRESHOLDSADDED="False" DATASOURCE="\SharePoint Publishing Cache(*)\Publishing cache hits / sec" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="SharePoint Publishing Cache Publishing cache hit count" ENABLED="True" CATEGORY="SharePoint Publishing Cache" PRIMARYDATASOURCE="\SharePoint Publishing Cache(*)\Publishing cache hit count" ID="5c299680-983c-491f-a06c-80a431186bb8" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\SharePoint Publishing Cache(*)\Publishing cache hit count" COLLECTIONVARNAME="CollectionOfSharePointPublishingCachePublishingcachehitcount" EXPRESSIONPATH="\SharePoint Publishing Cache(*)\Publishing cache hit count" TRENDVARNAME="TrendSharePointPublishingCachePublishingcachehitcount" DATATYPE="integer" />
+    <CHART CHARTTITLE="\SharePoint Publishing Cache(*)\Publishing cache hit count" ISTHRESHOLDSADDED="False" DATASOURCE="\SharePoint Publishing Cache(*)\Publishing cache hit count" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[The total number of hits on the Publishing cache.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="SharePoint Publishing Cache Total number of cache flushes" ENABLED="True" CATEGORY="SharePoint Publishing Cache" PRIMARYDATASOURCE="\SharePoint Publishing Cache(_Total)\Total number of cache flushes" ID="966d85ef-0160-466d-b195-55023a89f8f2" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The total number of times we have updated the cache due to site changes.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\SharePoint Publishing Cache(_Total)\Total number of cache flushes" COLLECTIONVARNAME="CollectionOfSharePointPublishingCacheTotalnumberofcacheflushes" EXPRESSIONPATH="\SharePoint Publishing Cache(_Total)\Total number of cache flushes" TRENDVARNAME="TrendSharePointPublishingCacheTotalnumberofcacheflushes" DATATYPE="integer" />
+    <CHART CHARTTITLE="\SharePoint Publishing Cache(_Total)\Total number of cache flushes" ISTHRESHOLDSADDED="False" DATASOURCE="\SharePoint Publishing Cache(_Total)\Total number of cache flushes" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="SharePoint Publishing Cache Publishing cache hit ratio" ENABLED="True" CATEGORY="SharePoint Publishing Cache" PRIMARYDATASOURCE="\SharePoint Publishing Cache(_Total)\Publishing cache hit ratio" ID="e9e14c44-901f-4010-ba62-2501452bf82d" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\SharePoint Publishing Cache(_Total)\Publishing cache hit ratio" COLLECTIONVARNAME="CollectionOfSharePointPublishingCachePublishingcachehitratioALL" EXPRESSIONPATH="\SharePoint Publishing Cache(_Total)\Publishing cache hit ratio" TRENDVARNAME="TrendSharePointPublishingCachePublishingcachehitratio" DATATYPE="integer" />
+    <CHART CHARTTITLE="\SharePoint Publishing Cache(_Total)\Publishing cache hit ratio" ISTHRESHOLDSADDED="False" DATASOURCE="\SharePoint Publishing Cache(_Total)\Publishing cache hit ratio" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[The ratio of hits to misses on the Publishing cache.]]></DESCRIPTION>
+    <THRESHOLD NAME="SharePoint's publishing cache hit ratio is less then 99 percent" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfSharePointPublishingCachePublishingcachehitratioALL -Operator 'lt' -Threshold 99
+         ]]></CODE>
+    </THRESHOLD>
+  </ANALYSIS>
+  <ANALYSIS NAME="SharePoint Publishing Cache Publishing cache misses / sec" ENABLED="True" CATEGORY="SharePoint Publishing Cache" PRIMARYDATASOURCE="\SharePoint Publishing Cache(_Total)\Publishing cache misses / sec" ID="42f64df0-0d99-4392-b334-c1f4e85640fe" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\SharePoint Publishing Cache(_Total)\Publishing cache misses / sec" COLLECTIONVARNAME="CollectionOfSharePointPublishingCachePublishingcachemissessecALL" EXPRESSIONPATH="\SharePoint Publishing Cache(_Total)\Publishing cache misses / sec" TRENDVARNAME="TrendSharePointPublishingCachePublishingcachemissessec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\SharePoint Publishing Cache(_Total)\Publishing cache misses / sec" ISTHRESHOLDSADDED="False" DATASOURCE="\SharePoint Publishing Cache(_Total)\Publishing cache misses / sec" CHARTLABELS="instance" />
+    <THRESHOLD NAME="More than 1 SharePoint publishing cache miss per second" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfSharePointPublishingCachePublishingcachemissessecALL -Operator 'gt' -Threshold 1
+         ]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The miss rate on the Publishing cache.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="OSS Search Archival Plugin Total documents" ENABLED="True" CATEGORY="OSS Search Archival Plugin" PRIMARYDATASOURCE="\OSS Search Archival Plugin(_Total)\Total documents" ID="34db8b5c-66f3-4cc3-91a7-c15928afee6f" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\OSS Search Archival Plugin(_Total)\Total documents" COLLECTIONVARNAME="CollectionOfOSSSearchArchivalPluginTotaldocuments" EXPRESSIONPATH="\OSS Search Archival Plugin(_Total)\Total documents" TRENDVARNAME="TrendOSSSearchArchivalPluginTotaldocuments" DATATYPE="integer" />
+    <CHART CHARTTITLE="\OSS Search Archival Plugin(_Total)\Total documents" ISTHRESHOLDSADDED="False" DATASOURCE="\OSS Search Archival Plugin(_Total)\Total documents" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[The number of documents processed.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="OSS Search Gatherer Documents Filtered" ENABLED="True" CATEGORY="OSS Search Gatherer" PRIMARYDATASOURCE="\OSS Search Gatherer\Documents Filtered" ID="527a1ffa-fca7-464b-a9d1-59020e3136ff" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The number of times a filter object was created. This corresponds to the total number of documents filtered in the system since startup.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\OSS Search Gatherer\Documents Filtered" COLLECTIONVARNAME="CollectionOfOSSSearchGathererDocumentsFiltered" EXPRESSIONPATH="\OSS Search Gatherer\Documents Filtered" TRENDVARNAME="TrendOSSSearchGathererDocumentsFiltered" DATATYPE="integer" />
+    <CHART CHARTTITLE="\OSS Search Gatherer\Documents Filtered" ISTHRESHOLDSADDED="False" DATASOURCE="\OSS Search Gatherer\Documents Filtered" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="OSS Search Gatherer Documents Filtered Rate" ENABLED="True" CATEGORY="OSS Search Gatherer" PRIMARYDATASOURCE="\OSS Search Gatherer\Documents Filtered Rate" ID="a631381d-7327-4d26-8a9d-9a7b2dc6eb49" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The number of documents filtered per second.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\OSS Search Gatherer\Documents Filtered Rate" COLLECTIONVARNAME="CollectionOfOSSSearchGathererDocumentsFilteredRate" EXPRESSIONPATH="\OSS Search Gatherer\Documents Filtered Rate" TRENDVARNAME="TrendOSSSearchGathererDocumentsFilteredRate" DATATYPE="integer" />
+    <CHART CHARTTITLE="\OSS Search Gatherer\Documents Filtered Rate" ISTHRESHOLDSADDED="False" DATASOURCE="\OSS Search Gatherer\Documents Filtered Rate" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="OSS Search Gatherer Performance Level" ENABLED="True" CATEGORY="OSS Search Gatherer" PRIMARYDATASOURCE="\OSS Search Gatherer\Performance Level" ID="9b1301d3-76a5-4587-9627-fc86f8139a18" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Indicates the level of the amount of system resources that the Gatherer service is allowed to use.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\OSS Search Gatherer\Performance Level" COLLECTIONVARNAME="CollectionOfOSSSearchGathererPerformanceLevel" EXPRESSIONPATH="\OSS Search Gatherer\Performance Level" TRENDVARNAME="TrendOSSSearchGathererPerformanceLevel" DATATYPE="integer" />
+    <CHART CHARTTITLE="\OSS Search Gatherer\Performance Level" ISTHRESHOLDSADDED="False" DATASOURCE="\OSS Search Gatherer\Performance Level" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="OSS Search Gatherer Threads Accessing Network" ENABLED="True" CATEGORY="OSS Search Gatherer" PRIMARYDATASOURCE="\OSS Search Gatherer\Threads Accessing Network" ID="fd401bbb-719f-43ce-bdc6-afbf7fae745e" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\OSS Search Gatherer\Threads Accessing Network" COLLECTIONVARNAME="CollectionOfOSSSearchGathererThreadsAccessingNetwork" EXPRESSIONPATH="\OSS Search Gatherer\Threads Accessing Network" TRENDVARNAME="TrendOSSSearchGathererThreadsAccessingNetwork" DATATYPE="integer" />
+    <CHART CHARTTITLE="\OSS Search Gatherer\Threads Accessing Network" ISTHRESHOLDSADDED="False" DATASOURCE="\OSS Search Gatherer\Threads Accessing Network" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[The number of threads waiting for a response from the filter process. If no activity is going on and this number is equal to number of filtering threads, it may indicate a network problem or unavailability of the server it is crawling.]]></DESCRIPTION>
+  </ANALYSIS>
+  <INHERITANCE FILEPATH="QuickSystemOverview.xml" />
+  <INHERITANCE FILEPATH="IIS.xml" />
+  <INHERITANCE FILEPATH="AspDotNet.xml" />
+</PAL>

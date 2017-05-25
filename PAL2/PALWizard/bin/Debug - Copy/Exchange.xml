@@ -1,0 +1,1287 @@
+<PAL NAME="Microsoft Exchange 2007" DESCRIPTION="Use this for general analysis of all Exchange 2007 Roles." CONTENTOWNERS="Mike Lagase" FEEDBACKEMAILADDRESS="mikelag@microsoft.com" VERSION="1.0" PALVERSION="2.0" LANGUAGE="English" LANGUAGECODE="en">
+  <INHERITANCE FILEPATH="QuickSystemOverview.xml" />
+  <INHERITANCE FILEPATH="IIS.xml" />
+  <ANALYSIS NAME="LogicalDisk Read Latency Analysis" ENABLED="True" CATEGORY="LogicalDisk" PRIMARYDATASOURCE="\LogicalDisk(*)\Avg. Disk sec/Read" ID="{dfb21d00-cf83-49e7-bf63-3d82db3d63c3}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\LogicalDisk(*)\Avg. Disk sec/Read" COLLECTIONVARNAME="LogicalDiskAvgDisksecReadALL" EXPRESSIONPATH="\LogicalDisk(*)\Avg. Disk sec/Read" DATATYPE="round3">
+      <EXCLUDE INSTANCE="_Total" />
+    </DATASOURCE>
+    <THRESHOLD NAME="Greater than 10ms logical disk READ response times" CONDITION="Warning" COLOR="#FFFF00" PRIORITY="52" ID="">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $LogicalDiskAvgDisksecReadALL -Operator 'gt' -Threshold 0.010
+         ]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="Greater than 20ms logical disk READ response times" CONDITION="Critical" COLOR="Red" PRIORITY="100" ID="">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $LogicalDiskAvgDisksecReadALL -Operator 'gt' -Threshold 0.020
+        ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\LogicalDisk(*)\Avg. Disk sec/Read" ISTHRESHOLDSADDED="True" DATASOURCE="\LogicalDisk(*)\Avg. Disk sec/Read" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $LogicalDiskAvgDisksecReadALL -MinThreshold 0.010 -MaxThreshold 0.020 -UseMaxValue $False
+        ]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $LogicalDiskAvgDisksecReadALL -MinThreshold 0.020 -MaxThreshold 0.029999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+    <DESCRIPTION><![CDATA[Avg. Disk sec/Read is the average time, in seconds, of a read of data to the disk. This analysis determines if any of the physical disks are responding slowly.<BR>
+<BR>
+If the response times are greater than <B>.010 (10 milliseconds)</B>, then the disk subsystem is keeping up with demand, but does not have much overhead left.<BR>
+<BR>
+If the response times are greater than <B>.020 (20 milliseconds)</B>, then noticeable slow downs and performance issues affecting users may be occurring.<BR>
+<BR>
+<B>Reference:</B><BR>
+Ruling Out Disk-Bound Problems<BR>
+<A HREF="http://technet.microsoft.com/en-us/library/5bcdd349-dcc6-43eb-9dc3-54175f7061ad.aspx">http://technet.microsoft.com/en-us/library/5bcdd349-dcc6-43eb-9dc3-54175f7061ad.aspx</A><BR>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="LogicalDisk Write Latency Analysis" ENABLED="True" CATEGORY="LogicalDisk" PRIMARYDATASOURCE="\LogicalDisk(*)\Avg. Disk sec/Write" ID="{28eaa0b2-0bc2-41f8-8c27-9045b597d001}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\LogicalDisk(*)\Avg. Disk sec/Write" COLLECTIONVARNAME="LogicalDiskAvgDisksecWriteALL" EXPRESSIONPATH="\LogicalDisk(*)\Avg. Disk sec/Write" DATATYPE="round3">
+      <EXCLUDE INSTANCE="_Total" />
+    </DATASOURCE>
+    <THRESHOLD NAME="Greater than 10ms logical disk WRITE response times" CONDITION="Warning" COLOR="Yellow" PRIORITY="50" ID="">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+         StaticThreshold -CollectionOfCounterInstances $LogicalDiskAvgDisksecWriteALL -Operator 'gt' -Threshold 0.010
+         ]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="Greater than 20ms logical disk WRITE response times" CONDITION="Critical" COLOR="Red" PRIORITY="100" ID="">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $LogicalDiskAvgDisksecWriteALL -Operator 'gt' -Threshold 0.020
+        ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\LogicalDisk(*)\Avg. Disk sec/Write" ISTHRESHOLDSADDED="True" DATASOURCE="\LogicalDisk(*)\Avg. Disk sec/Write" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $LogicalDiskAvgDisksecWriteALL -MinThreshold 0.010 -MaxThreshold 0.020 -UseMaxValue $False        ]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $LogicalDiskAvgDisksecWriteALL -MinThreshold 0.020 -MaxThreshold 0.029999 -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Greater than 900ms - Slower than a 3.5 inch floppy drive" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[#// Use PowerShell code to create alerts when the conditions for this threshold are met.
+#// Optionally use the variables listed above in the Variables list box.
+#// If the condition for this threshold is a static value, then use the StaticThreshold() function.
+#// Otherwise, you will need to manually loop through the counter instance collection object.
+#// The counter instance collection object has a unique name for each counter data source in this analysis.
+#// See the variables in the Variables list box above for more information on the counter instance collection object.
+
+#// Here is a ready to use example on how to use the StaticThreshold() function to define a threshold:
+StaticThreshold -CollectionOfCounterInstances $LogicalDiskAvgDisksecWriteALL -Operator 'gt' -Threshold 0.9
+#// The -Operator parameter accepts gt for greater than, ge for greater than or equal to, lt for less than,
+#//  and le for less than or equal to. -Threshold is the static value for the threshold.]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[Avg. Disk sec/Write is the average time, in seconds, of a write of data to the disk. This analysis determines if any of the physical disks are responding slowly.<BR>
+<BR>
+If the response times are greater than <B>.010 (15 milliseconds)</B>, then the disk subsystem is keeping up with demand, but does not have much overhead left.<BR>
+<BR>
+If the response times are greater than <B>.020 (25 milliseconds)</B>, then noticeable slow downs and performance issues affecting users may be occurring.<BR>
+<BR>
+<B>Reference:</B><BR>
+Ruling Out Disk-Bound Problems<BR>
+<A HREF="http://technet.microsoft.com/en-us/library/5bcdd349-dcc6-43eb-9dc3-54175f7061ad.aspx">http://technet.microsoft.com/en-us/library/5bcdd349-dcc6-43eb-9dc3-54175f7061ad.aspx</A><BR>
+<BR>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange ActiveSync Requests/sec" ENABLED="True" CATEGORY="MSExchange ActiveSync" PRIMARYDATASOURCE="\MSExchange ActiveSync\Requests/sec" ID="{d9dc0232-e730-4420-aa50-b294f934ce8c}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Requests/sec is the number of HTTP requests that are received from the client via ASP.NET per second.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange ActiveSync\Requests/sec" COLLECTIONVARNAME="CollectionOfMSExchangeActiveSyncRequestssec" EXPRESSIONPATH="\MSExchange ActiveSync\Requests/sec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange ActiveSync\Requests/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange ActiveSync\Requests/sec" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Availability Service\Availability Requests (sec)" ENABLED="True" CATEGORY="MSExchange Availability Service" PRIMARYDATASOURCE="\MSExchange Availability Service\Availability Requests (sec)" ID="{8668a681-ce2f-4e01-97bf-1e42066e72a3}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Availability Requests per second is the number  of requests serviced per second. The request can be only for free busy or include suggestions. One request may contain multiple mailboxes.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Availability Service\Availability Requests (sec)" COLLECTIONVARNAME="CollectionOfMSExchangeAvailabilityServiceAvailabilityRequestssec" EXPRESSIONPATH="\MSExchange Availability Service\Availability Requests (sec)" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Availability Service\Availability Requests (sec)" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Availability Service\Availability Requests (sec)" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Availability Service Average Time to Process a Free Busy Request" ENABLED="True" CATEGORY="MSExchange Availability Service" PRIMARYDATASOURCE="\MSExchange Availability Service\Average Time to Process a Free Busy Request" ID="{fceb4091-d6dc-4740-b428-c99363f572be}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Average Time to Process a Free Busy Request is the average time to process a free busy request in seconds. One request may contain multiple mailboxes. Free busy responses do not have meeting suggestions.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Availability Service\Average Time to Process a Free Busy Request" COLLECTIONVARNAME="CollectionOfMSExchangeAvailabilityServiceAverageTimetoProcessaFreeBusyRequest" EXPRESSIONPATH="\MSExchange Availability Service\Average Time to Process a Free Busy Request" DATATYPE="integer" />
+    <THRESHOLD NAME="Free busy requests taking longer than 5ms" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeAvailabilityServiceAverageTimetoProcessaFreeBusyRequest -Operator 'gt' -Threshold 5
+         ]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="Free busy requests taking longer than 25ms" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeAvailabilityServiceAverageTimetoProcessaFreeBusyRequest -Operator 'gt' -Threshold 25
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\MSExchange Availability Service\Average Time to Process a Free Busy Request" ISTHRESHOLDSADDED="True" DATASOURCE="\MSExchange Availability Service\Average Time to Process a Free Busy Request" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeAvailabilityServiceAverageTimetoProcessaFreeBusyRequest -MinThreshold 5 -MaxThreshold 25 -UseMaxValue $False
+        ]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeAvailabilityServiceAverageTimetoProcessaFreeBusyRequest -MinThreshold 25 -MaxThreshold 49.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Availability Service Average Time to Process a Cross-Forest Free Busy Request" ENABLED="True" CATEGORY="MSExchange Availability Service" PRIMARYDATASOURCE="\MSExchange Availability Service\Average Time to Process a Cross-Forest Free Busy Request" ID="{ac078cb3-f001-45e1-89ad-f0aff43f7f88}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Average Time to Process a Cross-Forest Free Busy Request is the average time to process a cross-forest free busy request in seconds. One request may contain multiple mailboxes. Free busy responses do not have meeting suggestions.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Availability Service\Average Time to Process a Cross-Forest Free Busy Request" COLLECTIONVARNAME="CollectionOfMSExchangeAvailabilityServiceAverageTimetoProcessaCrossForestFreeBusyRequest" EXPRESSIONPATH="\MSExchange Availability Service\Average Time to Process a Cross-Forest Free Busy Request" DATATYPE="integer" />
+    <THRESHOLD NAME="Cross Forest Free busy requests taking longer than 5ms" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeAvailabilityServiceAverageTimetoProcessaCrossForestFreeBusyRequest -Operator 'gt' -Threshold 5        
+         ]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="Cross Forest Free busy requests taking longer than 25ms" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeAvailabilityServiceAverageTimetoProcessaCrossForestFreeBusyRequest -Operator 'gt' -Threshold 25        
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\MSExchange Availability Service\Average Time to Process a Cross-Forest Free Busy Request" ISTHRESHOLDSADDED="True" DATASOURCE="\MSExchange Availability Service\Average Time to Process a Cross-Forest Free Busy Request" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeAvailabilityServiceAverageTimetoProcessaCrossForestFreeBusyRequest -MinThreshold 5 -MaxThreshold 25 -UseMaxValue $False
+        ]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeAvailabilityServiceAverageTimetoProcessaCrossForestFreeBusyRequest -MinThreshold 25 -MaxThreshold 49.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Availability Service Average Time to Process a Cross-Site Free Busy Request" ENABLED="True" CATEGORY="MSExchange Availability Service" PRIMARYDATASOURCE="\MSExchange Availability Service\Average Time to Process a Cross-Site Free Busy Request" ID="{c5007676-9144-4285-8615-a7423f27f639}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Average Time to Process a Cross-Site Free Busy Request is the average time to process a cross-site free busy request in seconds. One request may contain multiple mailboxes. Free busy responses do not have meeting suggestions.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Availability Service\Average Time to Process a Cross-Site Free Busy Request" COLLECTIONVARNAME="CollectionOfMSExchangeAvailabilityServiceAverageTimetoProcessaCrossSiteFreeBusyRequest" EXPRESSIONPATH="\MSExchange Availability Service\Average Time to Process a Cross-Site Free Busy Request" DATATYPE="integer" />
+    <THRESHOLD NAME="Cross Site Free busy requests taking longer than 5ms" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeAvailabilityServiceAverageTimetoProcessaCrossSiteFreeBusyRequest -Operator 'gt' -Threshold 5        
+         ]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="Cross Site Free busy requests taking longer than 25ms" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeAvailabilityServiceAverageTimetoProcessaCrossSiteFreeBusyRequest -Operator 'gt' -Threshold 25        
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\MSExchange Availability Service\Average Time to Process a Cross-Site Free Busy Request" ISTHRESHOLDSADDED="True" DATASOURCE="\MSExchange Availability Service\Average Time to Process a Cross-Site Free Busy Request" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeAvailabilityServiceAverageTimetoProcessaCrossSiteFreeBusyRequest -MinThreshold 5 -MaxThreshold 25 -UseMaxValue $False
+        ]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeAvailabilityServiceAverageTimetoProcessaCrossSiteFreeBusyRequest -MinThreshold 25 -MaxThreshold 49.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Availability Service Average Time to Process a Meeting Suggestions Request" ENABLED="True" CATEGORY="MSExchange Availability Service" PRIMARYDATASOURCE="\MSExchange Availability Service\Average Time to Process a Meeting Suggestions Request" ID="{fdd0599a-43ae-4e75-bb3b-15d232139a77}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Average Time to Process a Meeting Suggestions Request is the average time to process a meeting suggestions request in seconds. One request may contain multiple mailboxes. This time includes time for fetching free busy.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Availability Service\Average Time to Process a Meeting Suggestions Request" COLLECTIONVARNAME="CollectionOfMSExchangeAvailabilityServiceAverageTimetoProcessaMeetingSuggestionsRequest" EXPRESSIONPATH="\MSExchange Availability Service\Average Time to Process a Meeting Suggestions Request" DATATYPE="integer" />
+    <THRESHOLD NAME="Meeting suggestion requests taking longer than 5ms" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeAvailabilityServiceAverageTimetoProcessaMeetingSuggestionsRequest -Operator 'gt' -Threshold 5        
+         ]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="Meeting suggestion requests taking longer than 25ms" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeAvailabilityServiceAverageTimetoProcessaMeetingSuggestionsRequest -Operator 'gt' -Threshold 25        
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\MSExchange Availability Service\Average Time to Process a Meeting Suggestions Request" ISTHRESHOLDSADDED="True" DATASOURCE="\MSExchange Availability Service\Average Time to Process a Meeting Suggestions Request" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeAvailabilityServiceAverageTimetoProcessaMeetingSuggestionsRequest -MinThreshold 5 -MaxThreshold 25 -UseMaxValue $False
+        ]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeAvailabilityServiceAverageTimetoProcessaMeetingSuggestionsRequest -MinThreshold 25 -MaxThreshold 49.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Availability Service Average Number of Mailboxes Processed per Request" ENABLED="True" CATEGORY="MSExchange Availability Service" PRIMARYDATASOURCE="\MSExchange Availability Service\Average Number of Mailboxes Processed per Request" ID="{83ff8c9a-a181-49e3-be5f-a2e13203f3c7}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Average Number of Mailboxes Processed per Request is the average number of mailboxes processed per request. Some of the mailboxes may have errors during processing.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Availability Service\Average Number of Mailboxes Processed per Request" COLLECTIONVARNAME="CollectionOfMSExchangeAvailabilityServiceAverageNumberofMailboxesProcessedperRequest" EXPRESSIONPATH="\MSExchange Availability Service\Average Number of Mailboxes Processed per Request" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Availability Service\Average Number of Mailboxes Processed per Request" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Availability Service\Average Number of Mailboxes Processed per Request" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange OWA Current Unique Users" ENABLED="True" CATEGORY="MSExchange OWA" PRIMARYDATASOURCE="\MSExchange OWA\Current Unique Users" ID="{9f4c016f-059e-4cca-8d90-f5240c5f2b7f}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Current Unique Users is the number of unique users currently logged on to Outlook Web Access. This value monitors the number of unique active user sessions, so that users are only removed from this count after they log off or their session times out.<br>
+<br>
+This is used for information purposes only.<br>
+<br>
+]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange OWA\Current Unique Users" COLLECTIONVARNAME="MSExchangeOWACurrentUniqueUsers" EXPRESSIONPATH="\MSExchange OWA\Current Unique Users" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange OWA\Current Unique Users" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange OWA\Current Unique Users" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeFDS:OAB Download Task Queued" ENABLED="True" CATEGORY="MSExchangeFDS:OAB" PRIMARYDATASOURCE="\MSExchangeFDS:OAB(*)\Download Task Queued" ID="{0f215b28-d183-4758-b913-bb88274dc854}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Download Task Queued is '1' if task is queued for execution, otherwise '0.'<br>
+<br>
+This is used for information purposes only.<br>
+<br>
+]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeFDS:OAB(*)\Download Task Queued" COLLECTIONVARNAME="CollectionOfMSExchangeFDSOABDownloadTaskQueuedALL" EXPRESSIONPATH="\MSExchangeFDS:OAB(*)\Download Task Queued" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeFDS:OAB(*)\Download Task Queued" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeFDS:OAB(*)\Download Task Queued" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeFDS:UM Download Task Queued" ENABLED="True" CATEGORY="MSExchangeFDS:UM" PRIMARYDATASOURCE="\MSExchangeFDS:UM\Download Task Queued" ID="{dec88c93-ff8d-4707-9167-23f951d2807c}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Download Task Queued is '1' if task is queued for execution, otherwise '0.'<br>
+<br>
+This is used for information purposes only.<br>
+<br>
+]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeFDS:UM\Download Task Queued" COLLECTIONVARNAME="CollectionOfMSExchangeFDSUMDownloadTaskQueued" EXPRESSIONPATH="\MSExchangeFDS:UM\Download Task Queued" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeFDS:UM\Download Task Queued" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeFDS:UM\Download Task Queued" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange OWA Average Search Time" ENABLED="True" CATEGORY="MSExchange OWA" PRIMARYDATASOURCE="\MSExchange OWA\Average Search Time" ID="{f61c4a9e-9159-4347-acfe-8198fbb3cbf6}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Average Search Time is the average time that elapsed while waiting for a search to complete.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange OWA\Average Search Time" COLLECTIONVARNAME="CollectionOfMSExchangeOWAAverageSearchTime" EXPRESSIONPATH="\MSExchange OWA\Average Search Time" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange OWA\Average Search Time" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange OWA\Average Search Time" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange OWA Requests/sec" ENABLED="True" CATEGORY="MSExchange OWA" PRIMARYDATASOURCE="\MSExchange OWA\Requests/sec" ID="{29013fbc-30d5-4e4d-a2a4-5a976015d768}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Requests/sec is the number of requests handled by Outlook Web Access per second.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange OWA\Requests/sec" COLLECTIONVARNAME="CollectionOfMSExchangeOWARequestssec" EXPRESSIONPATH="\MSExchange OWA\Requests/sec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange OWA\Requests/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange OWA\Requests/sec" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeWS Requests/sec" ENABLED="True" CATEGORY="MSExchangeWS" PRIMARYDATASOURCE="\MSExchangeWS\Requests/sec" ID="{ddcd6784-707f-47ac-bb87-d43da82b79e0}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Requests per second is the number of requests processed each second.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeWS\Requests/sec" COLLECTIONVARNAME="CollectionOfMSExchangeWSRequestssec" EXPRESSIONPATH="\MSExchangeWS\Requests/sec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeWS\Requests/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeWS\Requests/sec" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange OWA Average Response Time" ENABLED="True" CATEGORY="MSExchange OWA" PRIMARYDATASOURCE="\MSExchange OWA\Average Response Time" ID="{90124e62-0ee0-432e-93b7-4bba6fe54966}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Average Response Time is the average time (in milliseconds) that elapsed between the beginning and end of an OEH or ASPX request.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange OWA\Average Response Time" COLLECTIONVARNAME="CollectionOfMSExchangeOWAAverageResponseTime" EXPRESSIONPATH="\MSExchange OWA\Average Response Time" DATATYPE="integer" />
+    <THRESHOLD NAME="OWA response times high - greater than 100ms" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeOWAAverageResponseTime -Operator 'gt' -Threshold 100        
+         ]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="OWA response times very high - greater than 500ms" CONDITION="Critical" COLOR="Red" PRIORITY="75">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeOWAAverageResponseTime -Operator 'gt' -Threshold 500        
+         ]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="OWA response times critical - greater than 1000ms" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeOWAAverageResponseTime -Operator 'gt' -Threshold 1000        
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\MSExchange OWA\Average Response Time" ISTHRESHOLDSADDED="True" DATASOURCE="\MSExchange OWA\Average Response Time" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeOWAAverageResponseTime -MinThreshold 100 -MaxThreshold 500 -UseMaxValue $False
+        ]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeOWAAverageResponseTime -MinThreshold 500 -MaxThreshold 999.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange OWA Queued Conversion Requests" ENABLED="True" CATEGORY="MSExchange OWA" PRIMARYDATASOURCE="\MSExchange OWA\Queued Conversion Requests" ID="{64d67201-08fa-4edc-9e87-ae156af03ef3}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Queued Conversion Requests is the number of requests for conversion that are currently waiting to be processed.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange OWA\Queued Conversion Requests" COLLECTIONVARNAME="CollectionOfMSExchangeOWAQueuedConversionRequests" EXPRESSIONPATH="\MSExchange OWA\Queued Conversion Requests" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange OWA\Queued Conversion Requests" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange OWA\Queued Conversion Requests" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange OWA Active Conversions" ENABLED="True" CATEGORY="MSExchange OWA" PRIMARYDATASOURCE="\MSExchange OWA\Active Conversions" ID="{5d407439-a02c-42db-a50e-8b6eb76f0a1a}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Active Conversions is the number of conversions that are currently being processed by the WebReady Document Viewing service.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange OWA\Active Conversions" COLLECTIONVARNAME="CollectionOfMSExchangeOWAActiveConversions" EXPRESSIONPATH="\MSExchange OWA\Active Conversions" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange OWA\Active Conversions" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange OWA\Active Conversions" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange OWA Average Conversion Time" ENABLED="True" CATEGORY="MSExchange OWA" PRIMARYDATASOURCE="\MSExchange OWA\Average Conversion Time" ID="{4582b1cd-53ae-4e6e-beff-a6e12f7573fb}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Average Conversion Time is the average length of time, in milliseconds, it has taken to convert a document since the process was restarted.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange OWA\Average Conversion Time" COLLECTIONVARNAME="CollectionOfMSExchangeOWAAverageConversionTime" EXPRESSIONPATH="\MSExchange OWA\Average Conversion Time" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange OWA\Average Conversion Time" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange OWA\Average Conversion Time" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangePop3 Connections Current" ENABLED="True" CATEGORY="MSExchangePop3" PRIMARYDATASOURCE="\MSExchangePop3\Connections Current" ID="{0ca21715-1cd0-41e1-a455-b039bd234a5e}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Current Connections is the number of connections that are currently open on the POP service.<br>
+<br>
+This counter is used to report load on the server.<br>
+<br>
+]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangePop3\Connections Current" COLLECTIONVARNAME="CollectionOfMSExchangePop3ConnectionsCurrent" EXPRESSIONPATH="\MSExchangePop3\Connections Current" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangePop3\Connections Current" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangePop3\Connections Current" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangePop3 Average Command Processing Time (milliseconds)" ENABLED="True" CATEGORY="MSExchangePop3" PRIMARYDATASOURCE="\MSExchangePop3\Average Command Processing Time (milliseconds)" ID="{db109f96-0dc4-4947-80d5-50feda4d5dad}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Average Command Processing Time is the average processing time, in milliseconds, for the last 1024 commands received from clients.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangePop3\Average Command Processing Time (milliseconds)" COLLECTIONVARNAME="CollectionOfMSExchangePop3AverageCommandProcessingTimemilliseconds" EXPRESSIONPATH="\MSExchangePop3\Average Command Processing Time (milliseconds)" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangePop3\Average Command Processing Time (milliseconds)" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangePop3\Average Command Processing Time (milliseconds)" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeImap4 Average Command Processing Time (milliseconds)" ENABLED="True" CATEGORY="MSExchangeImap4" PRIMARYDATASOURCE="\MSExchangeImap4\Average Command Processing Time (milliseconds)" ID="{c02117d0-b73d-412f-a33d-a97db1f0d7cf}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Average Command Processing Time is the average processing time, in milliseconds, for the last 1024 commands received from clients.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeImap4\Average Command Processing Time (milliseconds)" COLLECTIONVARNAME="CollectionOfMSExchangeImap4AverageCommandProcessingTimemilliseconds" EXPRESSIONPATH="\MSExchangeImap4\Average Command Processing Time (milliseconds)" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeImap4\Average Command Processing Time (milliseconds)" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeImap4\Average Command Processing Time (milliseconds)" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeImap4 Current Connections" ENABLED="True" CATEGORY="MSExchangeImap4" PRIMARYDATASOURCE="\MSExchangeImap4\Current Connections" ID="{d3a70508-8795-4eb8-8e1a-f55ac6104437}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Current Connections is the number of connections that are currently open on the IMAP service.<br>
+<br>
+This counter is used to report load on the server.<br>
+<br>
+]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeImap4\Current Connections" COLLECTIONVARNAME="CollectionOfMSExchangeImap4CurrentConnections" EXPRESSIONPATH="\MSExchangeImap4\Current Connections" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeImap4\Current Connections" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeImap4\Current Connections" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeAutodiscover Requests/sec" ENABLED="True" CATEGORY="MSExchangeAutodiscover" PRIMARYDATASOURCE="\MSExchangeAutodiscover\Requests/sec" ID="{1dab12fa-d8f5-43a3-99f2-d03b3f6c1464}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Requests per second is the number of Autodiscover requests processed each second.<br>
+<br>
+This counter is used to report load on the server.<br>
+<br>]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeAutodiscover\Requests/sec" COLLECTIONVARNAME="CollectionOfMSExchangeAutodiscoverRequestssec" EXPRESSIONPATH="\MSExchangeAutodiscover\Requests/sec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeAutodiscover\Requests/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeAutodiscover\Requests/sec" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange ADAccess Domain Controllers LDAP Search Time" ENABLED="True" CATEGORY="MSExchange ADAccess Domain Controllers" PRIMARYDATASOURCE="\MSExchange ADAccess Domain Controllers(*)\LDAP Search Time" ID="{9e2cd162-4633-491c-b449-7162edb9eda1}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[LDAP Search Time is the time (in ms) taken to send an LDAP search request and receive a response]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange ADAccess Domain Controllers(*)\LDAP Search Time" COLLECTIONVARNAME="CollectionOfMSExchangeADAccessDomainControllersLDAPSearchTimeALL" EXPRESSIONPATH="\MSExchange ADAccess Domain Controllers(*)\LDAP Search Time" DATATYPE="integer" />
+    <THRESHOLD NAME="Average LDAP search times - greater than 50ms" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeADAccessDomainControllersLDAPSearchTimeALL -Operator 'gt' -Threshold 50
+         ]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="Average LDAP search times - greater than 100ms" CONDITION="Critical" COLOR="Red" PRIORITY="75">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeADAccessDomainControllersLDAPSearchTimeALL -Operator 'gt' -Threshold 100
+         ]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="Average LDAP search times - greater than 500ms" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeADAccessDomainControllersLDAPSearchTimeALL -Operator 'gt' -Threshold 500
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\MSExchange ADAccess Domain Controllers(*)\LDAP Search Time" ISTHRESHOLDSADDED="True" DATASOURCE="\MSExchange ADAccess Domain Controllers(*)\LDAP Search Time" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeADAccessDomainControllersLDAPSearchTimeALL -MinThreshold 50 -MaxThreshold 100 -UseMaxValue $False
+        ]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeADAccessDomainControllersLDAPSearchTimeALL -MinThreshold 100 -MaxThreshold 499.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange ADAccess Caches LDAP Searches/Sec" ENABLED="True" CATEGORY="MSExchange ADAccess Caches" PRIMARYDATASOURCE="\MSExchange ADAccess Caches(*)\LDAP Searches/Sec" ID="{abdd0643-2dce-470c-8e0f-d01d15350832}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[LDAP Searches/Sec is the number of LDAP search requests issued per second.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange ADAccess Caches(*)\LDAP Searches/Sec" COLLECTIONVARNAME="CollectionOfMSExchangeADAccessCachesLDAPSearchesSecALL" EXPRESSIONPATH="\MSExchange ADAccess Caches(*)\LDAP Searches/Sec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange ADAccess Caches(*)\LDAP Searches/Sec" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange ADAccess Caches(*)\LDAP Searches/Sec" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange ADAccess Domain Controllers LDAP Read Time" ENABLED="True" CATEGORY="MSExchange ADAccess Domain Controllers" PRIMARYDATASOURCE="\MSExchange ADAccess Domain Controllers(*)\LDAP Read Time" ID="{32c85837-4ad7-49cd-900d-7ddb08215572}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[LDAP Read Time for a given DC is the time (in ms) taken to send an LDAP read request to the specified DC and receive a response]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange ADAccess Domain Controllers(*)\LDAP Read Time" COLLECTIONVARNAME="MSExchangeADAccessDomainControllersLDAPReadTimeALL" EXPRESSIONPATH="\MSExchange ADAccess Domain Controllers(*)\LDAP Read Time" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange ADAccess Domain Controllers(*)\LDAP Read Time" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange ADAccess Domain Controllers(*)\LDAP Read Time" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange ADAccess Processes LDAP Read Time" ENABLED="True" CATEGORY="MSExchange ADAccess Processes" PRIMARYDATASOURCE="\MSExchange ADAccess Processes(*)\LDAP Read Time" ID="{1558c003-9a8c-46f1-a3e7-a39594a73c71}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[LDAP Read Time is the time (in ms) taken to send an LDAP read request and receive a response]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange ADAccess Processes(*)\LDAP Read Time" COLLECTIONVARNAME="MSExchangeADAccessProcessesLDAPReadTimeALL" EXPRESSIONPATH="\MSExchange ADAccess Processes(*)\LDAP Read Time" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange ADAccess Processes(*)\LDAP Read Time" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange ADAccess Processes(*)\LDAP Read Time" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange ADAccess Processes LDAP Search Time" ENABLED="True" CATEGORY="MSExchange ADAccess Processes" PRIMARYDATASOURCE="\MSExchange ADAccess Processes(*)\LDAP Search Time" ID="{a6e54395-3f92-455c-873b-390aeff7fc8b}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[LDAP Search Time is the time (in ms) taken to send an LDAP search request and receive a response]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange ADAccess Processes(*)\LDAP Search Time" COLLECTIONVARNAME="CollectionOfMSExchangeADAccessProcessesLDAPSearchTimeALL" EXPRESSIONPATH="\MSExchange ADAccess Processes(*)\LDAP Search Time" DATATYPE="integer" />
+    <THRESHOLD NAME="Average LDAP Search times - greater than 50ms" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeADAccessProcessesLDAPSearchTimeALL -Operator 'gt' -Threshold 50
+         ]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="Average LDAP search times - greater than 100ms" CONDITION="Critical" COLOR="Red" PRIORITY="75">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeADAccessProcessesLDAPSearchTimeALL -Operator 'gt' -Threshold 100
+         ]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="Average LDAP search times - greater than 500ms" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeADAccessProcessesLDAPSearchTimeALL -Operator 'gt' -Threshold 500
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\MSExchange ADAccess Processes(*)\LDAP Search Time" ISTHRESHOLDSADDED="True" DATASOURCE="\MSExchange ADAccess Processes(*)\LDAP Search Time" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeADAccessProcessesLDAPSearchTimeALL -MinThreshold 50 -MaxThreshold 100 -UseMaxValue $False
+        ]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeADAccessProcessesLDAPSearchTimeALL -MinThreshold 100 -MaxThreshold 499.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange ADAccess Domain Controllers LDAP Searches timed out per minute" ENABLED="True" CATEGORY="MSExchange ADAccess Domain Controllers" PRIMARYDATASOURCE="\MSExchange ADAccess Domain Controllers(*)\LDAP Searches timed out per minute" ID="{a4a1fdb1-5e58-4b90-ad82-edc50451f3b1}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[LDAP Searches timed out per minute is the number of LDAP searches returned LDAP_TIMEOUT during the last minute<br>
+<br>
+This counter is indicitive of an overloaded domain controller or there are network connectivity problems to the DC.<br>
+<br>
+]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange ADAccess Domain Controllers(*)\LDAP Searches timed out per minute" COLLECTIONVARNAME="CollectionOfMSExchangeADAccessDomainControllersLDAPSearchestimedoutperminuteALL" EXPRESSIONPATH="\MSExchange ADAccess Domain Controllers(*)\LDAP Searches timed out per minute" DATATYPE="integer" />
+    <THRESHOLD NAME="LDAP Searches timed out per minute - greater than 10" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeADAccessDomainControllersLDAPSearchestimedoutperminuteALL -Operator 'gt' -Threshold 10
+         ]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="LDAP Searches timed out per minute - greater than 20" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeADAccessDomainControllersLDAPSearchestimedoutperminuteALL -Operator 'gt' -Threshold 20
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\MSExchange ADAccess Domain Controllers(*)\LDAP Searches timed out per minute" ISTHRESHOLDSADDED="True" DATASOURCE="\MSExchange ADAccess Domain Controllers(*)\LDAP Searches timed out per minute" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeADAccessDomainControllersLDAPSearchestimedoutperminuteALL -MinThreshold 10 -MaxThreshold 20 -UseMaxValue $False
+        ]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeADAccessDomainControllersLDAPSearchestimedoutperminuteALL -MinThreshold 20 -MaxThreshold 49.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange ADAccess Domain Controllers Long running LDAP operations/Min" ENABLED="True" CATEGORY="MSExchange ADAccess Domain Controllers" PRIMARYDATASOURCE="\MSExchange ADAccess Domain Controllers(*)\Long running LDAP operations/Min" ID="{45c3d41a-dc29-4ca9-85a1-a7d331ff5c67}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Long running LDAP operations/Min is the number of LDAP operations on this DC that took longer than the specified threshold per minute (default threshold is 15 seconds)<br>
+<br>
+This counter is useful for determining domain controller latencies that may affect overall Exchange performance.<br>
+<br>
+]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange ADAccess Domain Controllers(*)\Long running LDAP operations/Min" COLLECTIONVARNAME="CollectionOfMSExchangeADAccessDomainControllersLongrunningLDAPoperationsMinALL" EXPRESSIONPATH="\MSExchange ADAccess Domain Controllers(*)\Long running LDAP operations/Min" DATATYPE="integer" />
+    <THRESHOLD NAME="Long Running LDAP operations/min - greater than 50" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeADAccessDomainControllersLongrunningLDAPoperationsMinALL -Operator 'gt' -Threshold 50
+         ]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="Long Running LDAP operations/min - greater than 100" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeADAccessDomainControllersLongrunningLDAPoperationsMinALL -Operator 'gt' -Threshold 100
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\MSExchange ADAccess Domain Controllers(*)\Long running LDAP operations/Min" ISTHRESHOLDSADDED="True" DATASOURCE="\MSExchange ADAccess Domain Controllers(*)\Long running LDAP operations/Min" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeADAccessDomainControllersLongrunningLDAPoperationsMinALL -MinThreshold 50 -MaxThreshold 100 -UseMaxValue $False
+        ]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeADAccessDomainControllersLongrunningLDAPoperationsMinALL -MinThreshold 100 -MaxThreshold 149.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange ADAccess Domain Controllers LDAP Search calls/Sec" ENABLED="True" CATEGORY="MSExchange ADAccess Domain Controllers" PRIMARYDATASOURCE="\MSExchange ADAccess Domain Controllers(*)\LDAP Search calls/Sec" ID="{a7eedea1-c0c6-47ef-91f4-3c8b62d0b8dd}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[LDAP Search calls/Sec is the number of Depth 1 or 2 LDAP Search calls made by this process per second<br>
+<br>
+This counter is useful to determine if there is an increase in LDAP calls to the domain controllers possibly affecting overall latency on the server.<br>
+<br>
+]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange ADAccess Domain Controllers(*)\LDAP Search calls/Sec" COLLECTIONVARNAME="MSExchangeADAccessDomainControllersLDAPSearchcallsSecALL" EXPRESSIONPATH="\MSExchange ADAccess Domain Controllers(*)\LDAP Search calls/Sec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange ADAccess Domain Controllers(*)\LDAP Search calls/Sec" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange ADAccess Domain Controllers(*)\LDAP Search calls/Sec" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Database ==&gt; Instances Log Generation Checkpoint Depth" ENABLED="True" CATEGORY="Database ==&gt; Instances" PRIMARYDATASOURCE="\Database ==&gt; Instances(*)\Log Generation Checkpoint Depth" ID="{7065675c-5e97-488f-afac-b3310f3fbbed}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[
+Log Generation Checkpoint Depth represents the amount of work, in count of log files, that will need to be redone or undone to the database file(s) if the process crashes.<br>
+
+<p>The Log Generation Checkpoint Depth performance counter reports the number of transaction log files that have not yet been saved to the database. This number represents the number of transaction log files that must be replayed to the database if the Microsoft Exchange Information Store service process (Store.exe) stops and needs to be restarted. As the log file generation depth increases, the Exchange Information Store startup time increases. If the transaction log file depth of a storage group reaches 5,000, the Extensible Storage Engine (ESE) dismounts all the databases that are in the affected storage group.</p>
+<p>This alert indicates that the checkpoint depth is greater than 2500. The transaction log file depth may grow during periods when the server is busy. However, large values typically occur when there is a failure or when a backup fails.</p>
+<p><strong>User Action:</strong><br />
+To resolve this error, do one or more of the following:</p>
+<ul>
+    <li>Check if there is a failure, or if there is any application causing the Exchange Information Store to fail. Resolve the cause of the failure&nbsp;so that the checkpoint depth will start to decrease.</li>
+    <li>Check if there is a backup process that has failed.</li>
+</ul>    
+    ]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\Database ==&gt; Instances(*)\Log Generation Checkpoint Depth" COLLECTIONVARNAME="Database==&gt;InstancesLogGenerationCheckpointDepthALL" EXPRESSIONPATH="\Database ==&gt; Instances(*)\Log Generation Checkpoint Depth" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Database ==&gt; Instances(*)\Log Generation Checkpoint Depth" ISTHRESHOLDSADDED="False" DATASOURCE="\Database ==&gt; Instances(*)\Log Generation Checkpoint Depth" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Database Database Page Fault Stalls/sec" ENABLED="True" CATEGORY="Database" PRIMARYDATASOURCE="\Database(*)\Database Page Fault Stalls/sec" ID="{9aaa4c83-ba19-4d98-a9e7-940707448b88}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Database Page Fault Stalls/sec is the rate of page faults that cannot be serviced because there are no pages available for allocation from the database cache.  If this counter is non-zero most of the time, the clean threshold may be too low.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\Database(*)\Database Page Fault Stalls/sec" COLLECTIONVARNAME="CollectionOfDatabaseDatabasePageFaultStallssecALL" EXPRESSIONPATH="\Database(*)\Database Page Fault Stalls/sec" DATATYPE="integer" />
+    <THRESHOLD NAME="Disk bottleneck detected" CONDITION="Critical" COLOR="Red" PRIORITY="75">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfDatabaseDatabasePageFaultStallssecALL -Operator 'gt' -Threshold 1
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\Database(*)\Database Page Fault Stalls/sec" ISTHRESHOLDSADDED="True" DATASOURCE="\Database(*)\Database Page Fault Stalls/sec" CHARTLABELS="instance">
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfDatabaseDatabasePageFaultStallssecALL -MinThreshold 1 -MaxThreshold 1.009 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+  </ANALYSIS>
+  <ANALYSIS NAME="Database Log Record Stalls/sec" ENABLED="True" CATEGORY="Database" PRIMARYDATASOURCE="\Database(*)\Log Record Stalls/sec" ID="{8ff616d2-5e31-441d-a00e-2086cef9caa7}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Log Record Stalls/sec is the number of log records that cannot be added to the log buffers per second because they are full.  If this counter is non-zero most of the time, the log buffer size may be a bottleneck.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\Database(*)\Log Record Stalls/sec" COLLECTIONVARNAME="CollectionOfDatabaseLogRecordStallssecALL" EXPRESSIONPATH="\Database(*)\Log Record Stalls/sec" DATATYPE="integer" />
+    <THRESHOLD NAME="Log records not being processed in a timely fashion - greater than 10" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfDatabaseLogRecordStallssecALL -Operator 'gt' -Threshold 10
+         ]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="High log record stalls due to server performance issues - greater than 100" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfDatabaseLogRecordStallssecALL -Operator 'gt' -Threshold 100
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\Database(*)\Log Record Stalls/sec" ISTHRESHOLDSADDED="True" DATASOURCE="\Database(*)\Log Record Stalls/sec" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfDatabaseLogRecordStallssecALL -MinThreshold 10 -MaxThreshold 100 -UseMaxValue $False
+        ]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfDatabaseLogRecordStallssecALL -MinThreshold 100 -MaxThreshold 119.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+  </ANALYSIS>
+  <ANALYSIS NAME="Database Log Threads Waiting" ENABLED="True" CATEGORY="Database" PRIMARYDATASOURCE="\Database(*)\Log Threads Waiting" ID="{17c49fb1-4c42-42ac-95df-aaa7e5ae9d82}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Log Threads Waiting is the number of threads waiting for their data to be written to the log in order to complete an update of the database.  If this number is too high, the log may be a bottleneck.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\Database(*)\Log Threads Waiting" COLLECTIONVARNAME="CollectionOfDatabaseLogThreadsWaitingALL" EXPRESSIONPATH="\Database(*)\Log Threads Waiting" DATATYPE="integer" />
+    <THRESHOLD NAME="Log threads not being processed in a timely manner - greater than 10" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfDatabaseLogThreadsWaitingALL -Operator 'gt' -Threshold 10
+         ]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="Log threads not being processed in a timely manner - greater than 100" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfDatabaseLogThreadsWaitingALL -Operator 'gt' -Threshold 100
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\Database(*)\Log Threads Waiting" ISTHRESHOLDSADDED="True" DATASOURCE="\Database(*)\Log Threads Waiting" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfDatabaseLogThreadsWaitingALL -MinThreshold 10 -MaxThreshold 100 -UseMaxValue $False
+        ]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfDatabaseLogThreadsWaitingALL -MinThreshold 100 -MaxThreshold 119.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+  </ANALYSIS>
+  <ANALYSIS NAME="Database Version buckets allocated" ENABLED="True" CATEGORY="Database" PRIMARYDATASOURCE="\Database(Information Store)\Version buckets allocated" ID="{8471adde-2ddf-4fdd-b005-605e826644b9}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Total number of version buckets allocated]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\Database(Information Store)\Version buckets allocated" COLLECTIONVARNAME="CollectionOfDatabaseVersionbucketsallocatedInformationStore" EXPRESSIONPATH="\Database(Information Store)\Version buckets allocated" DATATYPE="integer" />
+    <THRESHOLD NAME="High amount of queued transactions in Store - Performance may be affected" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfDatabaseVersionbucketsallocatedInformationStore -Operator 'gt' -Threshold 12000
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\Database(Information Store)\Version buckets allocated" ISTHRESHOLDSADDED="True" DATASOURCE="\Database(*)\Version buckets allocated" CHARTLABELS="instance">
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfDatabaseVersionbucketsallocatedInformationStore -MinThreshold 12000 -MaxThreshold 1599.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+  </ANALYSIS>
+  <ANALYSIS NAME="Database Database Cache Size" ENABLED="True" CATEGORY="Database" PRIMARYDATASOURCE="\Database(*)\Database Cache Size" ID="{9ed8661d-bec3-40be-9b77-db61ba26e185}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Database Cache Size is the amount of system memory used by the database cache manager to hold commonly used information from the database file(s) to prevent file operations.  If the database cache size seems to be too small for optimal performance and there is very little available memory on the system (see Memory/Available Bytes), adding more memory to the system may increase performance.  If there is a lot of available memory on the system and the database cache size is not growing beyond a certain point, the database cache size may be capped at an artificially low limit.  Increasing this limit may increase performance.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\Database(*)\Database Cache Size" COLLECTIONVARNAME="DatabaseDatabaseCacheSizeALL" EXPRESSIONPATH="\Database(*)\Database Cache Size" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Database(*)\Database Cache Size" ISTHRESHOLDSADDED="False" DATASOURCE="\Database(*)\Database Cache Size" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeIS Client RPC Operations/sec" ENABLED="True" CATEGORY="MSExchangeIS Client" PRIMARYDATASOURCE="\MSExchangeIS Client(*)\RPC Operations/sec" ID="{6e7ade0e-4b17-4071-80f0-1ebf82499b3c}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[RPC Operations/sec is the rate that RPC operations occur.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeIS Client(*)\RPC Operations/sec" COLLECTIONVARNAME="MSExchangeISClientRPCOperationssecALL" EXPRESSIONPATH="\MSExchangeIS Client(*)\RPC Operations/sec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeIS Client(*)\RPC Operations/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeIS Client(*)\RPC Operations/sec" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeIS Mailbox Slow FindRow Rate" ENABLED="True" CATEGORY="MSExchangeIS Mailbox" PRIMARYDATASOURCE="\MSExchangeIS Mailbox(*)\Slow FindRow Rate" ID="{e1d40468-a09c-416c-ae5a-88a8b8609f44}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Slow FindRow Rate is the rate at which the slower FindRow needs to be used in the mailbox store.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeIS Mailbox(*)\Slow FindRow Rate" COLLECTIONVARNAME="CollectionOfMSExchangeISMailboxSlowFindRowRateALL" EXPRESSIONPATH="\MSExchangeIS Mailbox(*)\Slow FindRow Rate" DATATYPE="integer" />
+    <THRESHOLD NAME="Moderate use of client applications crawling mailboxes" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeISMailboxSlowFindRowRateALL -Operator 'gt' -Threshold 10
+         ]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="Heavy use of client applications crawling mailboxes" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeISMailboxSlowFindRowRateALL -Operator 'gt' -Threshold 20
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\MSExchangeIS Mailbox(*)\Slow FindRow Rate" ISTHRESHOLDSADDED="True" DATASOURCE="\MSExchangeIS Mailbox(*)\Slow FindRow Rate" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeISMailboxSlowFindRowRateALL -MinThreshold 10 -MaxThreshold 20 -UseMaxValue $False
+        ]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeISMailboxSlowFindRowRateALL -MinThreshold 20 -MaxThreshold 29.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeIS Mailbox Messages Delivered/sec" ENABLED="True" CATEGORY="MSExchangeIS Mailbox" PRIMARYDATASOURCE="\MSExchangeIS Mailbox(*)\Messages Delivered/sec" ID="{1bdabf4c-6e21-451f-a145-fb28d19ee3b1}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Messages Delivered/sec is the rate that messages are delivered to all recipients.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeIS Mailbox(*)\Messages Delivered/sec" COLLECTIONVARNAME="MSExchangeISMailboxMessagesDeliveredsecALL" EXPRESSIONPATH="\MSExchangeIS Mailbox(*)\Messages Delivered/sec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeIS Mailbox(*)\Messages Delivered/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeIS Mailbox(*)\Messages Delivered/sec" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeIS Mailbox Messages Queued For Submission" ENABLED="True" CATEGORY="MSExchangeIS Mailbox" PRIMARYDATASOURCE="\MSExchangeIS Mailbox(*)\Messages Queued For Submission" ID="{f60cef4d-79cd-42a9-acd6-b7a94b732bd3}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Messages Queued For Submission is the current number of submitted messages which are not yet processed by transport.<br>
+<br>
+If there are messages queued for this counter, this this means that the HUB server(s) is not picking up mail in a timely fashion.<br>
+<br>
+]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeIS Mailbox(*)\Messages Queued For Submission" COLLECTIONVARNAME="MSExchangeISMailboxMessagesQueuedForSubmissionALL" EXPRESSIONPATH="\MSExchangeIS Mailbox(*)\Messages Queued For Submission" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeIS Mailbox(*)\Messages Queued For Submission" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeIS Mailbox(*)\Messages Queued For Submission" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeIS Mailbox Messages Sent/sec" ENABLED="True" CATEGORY="MSExchangeIS Mailbox" PRIMARYDATASOURCE="\MSExchangeIS Mailbox(*)\Messages Sent/sec" ID="{f627f9f2-c507-4b7c-9274-bddd569702ac}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Messages Sent/sec is the rate that messages are sent to the transport.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeIS Mailbox(*)\Messages Sent/sec" COLLECTIONVARNAME="MSExchangeISMailboxMessagesSentsecALL" EXPRESSIONPATH="\MSExchangeIS Mailbox(*)\Messages Sent/sec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeIS Mailbox(*)\Messages Sent/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeIS Mailbox(*)\Messages Sent/sec" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeIS Mailbox Messages Submitted/sec" ENABLED="True" CATEGORY="MSExchangeIS Mailbox" PRIMARYDATASOURCE="\MSExchangeIS Mailbox(*)\Messages Submitted/sec" ID="{899b03df-ad21-46df-a4d7-537bfedbcaeb}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Messages Submitted/sec is the rate that messages are submitted by clients.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeIS Mailbox(*)\Messages Submitted/sec" COLLECTIONVARNAME="MSExchangeISMailboxMessagesSubmittedsecALL" EXPRESSIONPATH="\MSExchangeIS Mailbox(*)\Messages Submitted/sec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeIS Mailbox(*)\Messages Submitted/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeIS Mailbox(*)\Messages Submitted/sec" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeIS RPC Averaged Latency" ENABLED="True" CATEGORY="MSExchangeIS" PRIMARYDATASOURCE="\MSExchangeIS\RPC Averaged Latency" ID="{71fe2228-d117-47f2-853b-4a15ff410b7f}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[RPC latency in milliseconds averaged for the past 1024 packets.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeIS\RPC Averaged Latency" COLLECTIONVARNAME="MSExchangeISRPCAveragedLatency" EXPRESSIONPATH="\MSExchangeIS\RPC Averaged Latency" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeIS\RPC Averaged Latency" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeIS\RPC Averaged Latency" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeIS RPC Operations/sec" ENABLED="True" CATEGORY="MSExchangeIS" PRIMARYDATASOURCE="\MSExchangeIS\RPC Operations/sec" ID="{93c3da8d-9e7b-48b3-aa24-f42a39a3d9f3}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[RPC Operations/sec is the rate that RPC operations occur.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeIS\RPC Operations/sec" COLLECTIONVARNAME="MSExchangeISRPCOperationssec" EXPRESSIONPATH="\MSExchangeIS\RPC Operations/sec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeIS\RPC Operations/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeIS\RPC Operations/sec" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeIS RPC Requests" ENABLED="True" CATEGORY="MSExchangeIS" PRIMARYDATASOURCE="\MSExchangeIS\RPC Requests" ID="{1b84a5cf-a4d3-4719-8c2f-b03b38f98dfc}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[RPC Requests is the number of client requests that are currently being processed by the information store.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeIS\RPC Requests" COLLECTIONVARNAME="CollectionOfMSExchangeISRPCRequests" EXPRESSIONPATH="\MSExchangeIS\RPC Requests" DATATYPE="integer" />
+    <THRESHOLD NAME="Queued RPC requests detected - greater than 70" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeISRPCRequests -Operator 'gt' -Threshold 70
+         ]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="High RPC requests detected - greater than 300" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeISRPCRequests -Operator 'gt' -Threshold 300
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\MSExchangeIS\RPC Requests" ISTHRESHOLDSADDED="True" DATASOURCE="\MSExchangeIS\RPC Requests" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeISRPCRequests -MinThreshold 70 -MaxThreshold 300 -UseMaxValue $False
+        ]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeISRPCRequests -MinThreshold 300 -MaxThreshold 399.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeIS User Count" ENABLED="True" CATEGORY="MSExchangeIS" PRIMARYDATASOURCE="\MSExchangeIS\User Count" ID="{0795d84b-cb55-42cf-b354-e944cc553a22}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[User Count is the number of users connected to the information store.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeIS\User Count" COLLECTIONVARNAME="MSExchangeISUserCount" EXPRESSIONPATH="\MSExchangeIS\User Count" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeIS\User Count" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeIS\User Count" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeIS Virus Scan Queue Length" ENABLED="True" CATEGORY="MSExchangeIS" PRIMARYDATASOURCE="\MSExchangeIS\Virus Scan Queue Length" ID="{6fd5eb3d-5fac-4d88-9d17-4cd775e7ae17}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Current number of outstanding requests that are queued for virus scanning.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeIS\Virus Scan Queue Length" COLLECTIONVARNAME="MSExchangeISVirusScanQueueLength" EXPRESSIONPATH="\MSExchangeIS\Virus Scan Queue Length" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeIS\Virus Scan Queue Length" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeIS\Virus Scan Queue Length" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeIS Virus Scan Files Scanned/sec" ENABLED="True" CATEGORY="MSExchangeIS" PRIMARYDATASOURCE="\MSExchangeIS\Virus Scan Files Scanned/sec" ID="{ec4d82a9-d2f8-4f6c-a5b7-c1ad2186ac52}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The rate at which separate files are processed by virus scanner.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeIS\Virus Scan Files Scanned/sec" COLLECTIONVARNAME="MSExchangeISVirusScanFilesScannedsec" EXPRESSIONPATH="\MSExchangeIS\Virus Scan Files Scanned/sec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeIS\Virus Scan Files Scanned/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeIS\Virus Scan Files Scanned/sec" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeIS Virus Scan Messages Processed/sec" ENABLED="True" CATEGORY="MSExchangeIS" PRIMARYDATASOURCE="\MSExchangeIS\Virus Scan Messages Processed/sec" ID="{e92c101a-d2e1-42cc-ad21-1c85f9c42aa3}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The rate at which top-level messages are processed by virus scanner.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeIS\Virus Scan Messages Processed/sec" COLLECTIONVARNAME="MSExchangeISVirusScanMessagesProcessedsec" EXPRESSIONPATH="\MSExchangeIS\Virus Scan Messages Processed/sec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeIS\Virus Scan Messages Processed/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeIS\Virus Scan Messages Processed/sec" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeIS VM Largest Block Size" ENABLED="True" CATEGORY="MSExchangeIS" PRIMARYDATASOURCE="\MSExchangeIS\VM Largest Block Size" ID="{2b2f60ae-bb59-461a-a286-3293e6c9ad07}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Size of the largest free virtual memory block.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeIS\VM Largest Block Size" COLLECTIONVARNAME="MSExchangeISVMLargestBlockSize" EXPRESSIONPATH="\MSExchangeIS\VM Largest Block Size" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeIS\VM Largest Block Size" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeIS\VM Largest Block Size" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeIS VM Total 16MB Free Blocks" ENABLED="True" CATEGORY="MSExchangeIS" PRIMARYDATASOURCE="\MSExchangeIS\VM Total 16MB Free Blocks" ID="{41aeca1a-cc9a-47e3-9f62-15b3ade4c522}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Total number of free Virtual Memory blocks larger than or equal to 16MB.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeIS\VM Total 16MB Free Blocks" COLLECTIONVARNAME="MSExchangeISVMTotal16MBFreeBlocks" EXPRESSIONPATH="\MSExchangeIS\VM Total 16MB Free Blocks" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeIS\VM Total 16MB Free Blocks" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeIS\VM Total 16MB Free Blocks" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeIS VM Total Free Blocks" ENABLED="True" CATEGORY="MSExchangeIS" PRIMARYDATASOURCE="\MSExchangeIS\VM Total Free Blocks" ID="{53030d5e-1b6c-4185-b720-0b1b653bc775}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Total number of free Virtual Memory blocks.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeIS\VM Total Free Blocks" COLLECTIONVARNAME="MSExchangeISVMTotalFreeBlocks" EXPRESSIONPATH="\MSExchangeIS\VM Total Free Blocks" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeIS\VM Total Free Blocks" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeIS\VM Total Free Blocks" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeIS VM Total Large Free Block Bytes" ENABLED="True" CATEGORY="MSExchangeIS" PRIMARYDATASOURCE="\MSExchangeIS\VM Total Large Free Block Bytes" ID="{b0509120-23f1-4791-8f7c-cbc624ab7c87}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Total number of bytes in free Virtual Memory blocks larger than or equal to 16MB.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeIS\VM Total Large Free Block Bytes" COLLECTIONVARNAME="MSExchangeISVMTotalLargeFreeBlockBytes" EXPRESSIONPATH="\MSExchangeIS\VM Total Large Free Block Bytes" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeIS\VM Total Large Free Block Bytes" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeIS\VM Total Large Free Block Bytes" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeIS Mailbox Restricted View Cache Miss Rate" ENABLED="True" CATEGORY="MSExchangeIS Mailbox" PRIMARYDATASOURCE="\MSExchangeIS Mailbox(*)\Restricted View Cache Miss Rate" ID="{ca2f241e-bc5c-4b3b-8392-2faa67329d64}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Restricted View Cache Miss Rate is the rate at which restricted views are created in the mailbox store.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeIS Mailbox(*)\Restricted View Cache Miss Rate" COLLECTIONVARNAME="MSExchangeISMailboxRestrictedViewCacheMissRateALL" EXPRESSIONPATH="\MSExchangeIS Mailbox(*)\Restricted View Cache Miss Rate" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeIS Mailbox(*)\Restricted View Cache Miss Rate" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeIS Mailbox(*)\Restricted View Cache Miss Rate" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Memory Transition Faults/sec" ENABLED="True" CATEGORY="Memory" PRIMARYDATASOURCE="\Memory\Transition Faults/sec" ID="{97064846-9eb7-4a85-814c-67ddc687f158}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Transition Faults/sec is the rate at which page faults are resolved by recovering pages that were being used by another process sharing the page, or were on the modified page list or the standby list, or were being written to disk at the time of the page fault. The pages were recovered without additional disk activity. Transition faults are counted in numbers of faults; because only one page is faulted in each operation, it is also equal to the number of pages faulted.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\Memory\Transition Faults/sec" COLLECTIONVARNAME="MemoryTransitionFaultssec" EXPRESSIONPATH="\Memory\Transition Faults/sec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Memory\Transition Faults/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\Memory\Transition Faults/sec" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeIS RPC Num. of Slow Packets" ENABLED="True" CATEGORY="MSExchangeIS" PRIMARYDATASOURCE="\MSExchangeIS\RPC Num. of Slow Packets" ID="{fc8af47c-e693-4d89-a298-89027723d031}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Number of RPC packets in the past 1024 that have latencies longer than 2 seconds.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeIS\RPC Num. of Slow Packets" COLLECTIONVARNAME="MSExchangeISRPCNumofSlowPackets" EXPRESSIONPATH="\MSExchangeIS\RPC Num. of Slow Packets" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeIS\RPC Num. of Slow Packets" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeIS\RPC Num. of Slow Packets" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeIS RPC Client Backoff/sec" ENABLED="True" CATEGORY="MSExchangeIS" PRIMARYDATASOURCE="\MSExchangeIS\RPC Client Backoff/sec" ID="{173f2610-32a0-405c-8837-27733747effb}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[RPC Client Backoff/sec is the rate that server notifies a client to back off.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeIS\RPC Client Backoff/sec" COLLECTIONVARNAME="MSExchangeISRPCClientBackoffsec" EXPRESSIONPATH="\MSExchangeIS\RPC Client Backoff/sec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeIS\RPC Client Backoff/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeIS\RPC Client Backoff/sec" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeIS Client RPC Average Latency" ENABLED="True" CATEGORY="MSExchangeIS Client" PRIMARYDATASOURCE="\MSExchangeIS Client(*)\RPC Average Latency" ID="{d738f484-52cb-4080-9857-b484d7d22e46}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[RPC Average Latency is a server RPC latency in milliseconds averaged for the past 1024 packets.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeIS Client(*)\RPC Average Latency" COLLECTIONVARNAME="MSExchangeISClientRPCAverageLatencyALL" EXPRESSIONPATH="\MSExchangeIS Client(*)\RPC Average Latency" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeIS Client(*)\RPC Average Latency" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeIS Client(*)\RPC Average Latency" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Assistants Number of events processed per second." ENABLED="True" CATEGORY="MSExchange Assistants" PRIMARYDATASOURCE="\MSExchange Assistants(*)\Number of events processed per second." ID="{4f29ffd0-4f8f-400e-9915-a5f7c7027fe2}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The number of events processed per second.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Assistants(*)\Number of events processed per second." COLLECTIONVARNAME="MSExchangeAssistantsNumberofeventsprocessedpersecondALL" EXPRESSIONPATH="\MSExchange Assistants(*)\Number of events processed per second." DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Assistants(*)\Number of events processed per second." ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Assistants(*)\Number of events processed per second." CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Store Interface RPC Latency average (msec)" ENABLED="True" CATEGORY="MSExchange Store Interface" PRIMARYDATASOURCE="\MSExchange Store Interface(_Total)\RPC Latency average (msec)" ID="{3497ee78-af48-4750-90ff-af92ab82ce6d}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[RPC Latency average (msec) is the average latency in milliseconds of RPC requests. Average is calculated over all RPCs since exrpc32 was loaded.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Store Interface(_Total)\RPC Latency average (msec)" COLLECTIONVARNAME="MSExchangeStoreInterfaceRPCLatencyaveragemsec_Total" EXPRESSIONPATH="\MSExchange Store Interface(_Total)\RPC Latency average (msec)" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Store Interface(_Total)\RPC Latency average (msec)" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Store Interface(_Total)\RPC Latency average (msec)" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Store Interface RPC Requests outstanding" ENABLED="True" CATEGORY="MSExchange Store Interface" PRIMARYDATASOURCE="\MSExchange Store Interface(*)\RPC Requests outstanding" ID="{09c499e1-e33d-4472-a8ec-20af1b155f3b}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[RPC Requests outstanding is the current number of outstanding RPC requests.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Store Interface(*)\RPC Requests outstanding" COLLECTIONVARNAME="MSExchangeStoreInterfaceRPCRequestsoutstandingALL" EXPRESSIONPATH="\MSExchange Store Interface(*)\RPC Requests outstanding" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Store Interface(*)\RPC Requests outstanding" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Store Interface(*)\RPC Requests outstanding" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeMailSubmission Hub Servers In Retry" ENABLED="True" CATEGORY="MSExchangeMailSubmission" PRIMARYDATASOURCE="\MSExchangeMailSubmission(*)\Hub Servers In Retry" ID="{5e8a2aa0-82af-4b08-a353-d9882e693d82}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Hub Servers In Retry is the number of hub servers in retry.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeMailSubmission(*)\Hub Servers In Retry" COLLECTIONVARNAME="MSExchangeMailSubmissionHubServersInRetryALL" EXPRESSIONPATH="\MSExchangeMailSubmission(*)\Hub Servers In Retry" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeMailSubmission(*)\Hub Servers In Retry" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeMailSubmission(*)\Hub Servers In Retry" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Database Database Cache Size" ENABLED="True" CATEGORY="MSExchange Database" PRIMARYDATASOURCE="\MSExchange Database(Information Store)\Database Cache Size" ID="{77d87dfc-9367-4ad6-9c6c-0d69e3aaac9c}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Database Cache Size is the amount of system memory used by the database cache manager to hold commonly used information from the database file(s) to prevent file operations.  If the database cache size seems to be too small for optimal performance and there is very little available memory on the system (see Memory/Available Bytes), adding more memory to the system may increase performance.  If there is a lot of available memory on the system and the database cache size is not growing beyond a certain point, the database cache size may be capped at an artificially low limit.  Increasing this limit may increase performance.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Database(Information Store)\Database Cache Size" COLLECTIONVARNAME="MSExchangeDatabaseDatabaseCacheSizeInformationStore" EXPRESSIONPATH="\MSExchange Database(Information Store)\Database Cache Size" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Database(Information Store)\Database Cache Size" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Database(Information Store)\Database Cache Size" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Database Database Page Fault Stalls/sec" ENABLED="True" CATEGORY="MSExchange Database" PRIMARYDATASOURCE="\MSExchange Database(*)\Database Page Fault Stalls/sec" ID="{3885acf7-1552-4a88-b05e-445098df10f2}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Database Page Fault Stalls/sec is the rate of page faults that cannot be serviced because there are no pages available for allocation from the database cache.  If this counter is non-zero most of the time, the clean threshold may be too low.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Database(*)\Database Page Fault Stalls/sec" COLLECTIONVARNAME="CollectionOfMSExchangeDatabaseDatabasePageFaultStallssecALL" EXPRESSIONPATH="\MSExchange Database(*)\Database Page Fault Stalls/sec" DATATYPE="integer" />
+    <THRESHOLD NAME="Disk bottleneck detected" CONDITION="Critical" COLOR="Red" PRIORITY="75">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeDatabaseDatabasePageFaultStallssecALL -Operator 'gt' -Threshold 1
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\MSExchange Database(*)\Database Page Fault Stalls/sec" ISTHRESHOLDSADDED="True" DATASOURCE="\MSExchange Database(*)\Database Page Fault Stalls/sec" CHARTLABELS="instance">
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeDatabaseDatabasePageFaultStallssecALL -MinThreshold 1 -MaxThreshold 1.09 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Database Log Record Stalls/sec" ENABLED="True" CATEGORY="MSExchange Database" PRIMARYDATASOURCE="\MSExchange Database(Information Store)\Log Record Stalls/sec" ID="{80c6021b-c04b-4ff5-b97c-d1415dbcd081}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Log Record Stalls/sec is the number of log records that cannot be added to the log buffers per second because they are full.  If this counter is non-zero most of the time, the log buffer size may be a bottleneck.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Database(Information Store)\Log Record Stalls/sec" COLLECTIONVARNAME="CollectionOfMSExchangeDatabaseLogRecordStallssecInformationStore" EXPRESSIONPATH="\MSExchange Database(Information Store)\Log Record Stalls/sec" DATATYPE="integer" />
+    <THRESHOLD NAME="Log records not being processed in a timely fashion - greater than 10" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeDatabaseLogRecordStallssecInformationStore -Operator 'gt' -Threshold 10
+         ]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="High log record stalls due to server performance issues - greater than 100" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeDatabaseLogRecordStallssecInformationStore -Operator 'gt' -Threshold 100
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\MSExchange Database(Information Store)\Log Record Stalls/sec" ISTHRESHOLDSADDED="True" DATASOURCE="\MSExchange Database(Information Store)\Log Record Stalls/sec" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeDatabaseLogRecordStallssecInformationStore -MinThreshold 10 -MaxThreshold 100 -UseMaxValue $False
+        ]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeDatabaseLogRecordStallssecInformationStore -MinThreshold 100 -MaxThreshold 199.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Database Log Threads Waiting" ENABLED="True" CATEGORY="MSExchange Database" PRIMARYDATASOURCE="\MSExchange Database(*)\Log Threads Waiting" ID="{adb237a5-5a28-4b13-aea3-ee938af54b2d}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Log Threads Waiting is the number of threads waiting for their data to be written to the log in order to complete an update of the database.  If this number is too high, the log may be a bottleneck.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Database(*)\Log Threads Waiting" COLLECTIONVARNAME="CollectionOfMSExchangeDatabaseLogThreadsWaitingALL" EXPRESSIONPATH="\MSExchange Database(*)\Log Threads Waiting" DATATYPE="integer" />
+    <THRESHOLD NAME="Log threads not being processed in a timely manner - greater than 10" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeDatabaseLogThreadsWaitingALL -Operator 'gt' -Threshold 10
+         ]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="Log threads not being processed in a timely manner - greater than 100" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeDatabaseLogThreadsWaitingALL -Operator 'gt' -Threshold 100
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\MSExchange Database(*)\Log Threads Waiting" ISTHRESHOLDSADDED="True" DATASOURCE="\MSExchange Database(*)\Log Threads Waiting" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeDatabaseLogThreadsWaitingALL -MinThreshold 10 -MaxThreshold 100 -UseMaxValue $False
+        ]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeDatabaseLogThreadsWaitingALL -MinThreshold 100 -MaxThreshold 199.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Database Version buckets allocated" ENABLED="True" CATEGORY="MSExchange Database" PRIMARYDATASOURCE="\MSExchange Database(Information Store)\Version buckets allocated" ID="{d0ff1f6a-8284-464a-9a6c-2119383e8989}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Total number of version buckets allocated]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Database(Information Store)\Version buckets allocated" COLLECTIONVARNAME="CollectionOfMSExchangeDatabaseVersionbucketsallocatedInformationStore" EXPRESSIONPATH="\MSExchange Database(Information Store)\Version buckets allocated" DATATYPE="integer" />
+    <THRESHOLD NAME="High amount of queued transactions in Store - Performance may be affected" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeDatabaseVersionbucketsallocatedInformationStore -Operator 'gt' -Threshold 12000
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\MSExchange Database(Information Store)\Version buckets allocated" ISTHRESHOLDSADDED="True" DATASOURCE="\MSExchange Database(Information Store)\Version buckets allocated" CHARTLABELS="instance">
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfMSExchangeDatabaseVersionbucketsallocatedInformationStore -MinThreshold 12000 -MaxThreshold 1299.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Database ==&gt; Instances I/O Database Reads Average Latency" ENABLED="True" CATEGORY="MSExchange Database ==&gt; Instances" PRIMARYDATASOURCE="\MSExchange Database ==&gt; Instances(*)\I/O Database Reads Average Latency" ID="{ade092eb-b5a9-4cd3-a317-b0378dbbb499}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[I/O Database Reads Average Latency is the average length of time,  in milliseconds, per database read operation.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Database ==&gt; Instances(*)\I/O Database Reads Average Latency" COLLECTIONVARNAME="MSExchangeDatabase==&gt;InstancesIODatabaseReadsAverageLatencyALL" EXPRESSIONPATH="\MSExchange Database ==&gt; Instances(*)\I/O Database Reads Average Latency" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Database ==&gt; Instances(*)\I/O Database Reads Average Latency" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Database ==&gt; Instances(*)\I/O Database Reads Average Latency" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Database ==&gt; Instances I/O Database Writes Average Latency" ENABLED="True" CATEGORY="MSExchange Database ==&gt; Instances" PRIMARYDATASOURCE="\MSExchange Database ==&gt; Instances(*)\I/O Database Writes Average Latency" ID="{001bdd3e-34a2-4180-af53-04eb9c38e1f1}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[I/O Database Writes Average Latency is the average length of time,  in milliseconds, per database write operation.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Database ==&gt; Instances(*)\I/O Database Writes Average Latency" COLLECTIONVARNAME="MSExchangeDatabase==&gt;InstancesIODatabaseWritesAverageLatencyALL" EXPRESSIONPATH="\MSExchange Database ==&gt; Instances(*)\I/O Database Writes Average Latency" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Database ==&gt; Instances(*)\I/O Database Writes Average Latency" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Database ==&gt; Instances(*)\I/O Database Writes Average Latency" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Database Database Cache % Hit" ENABLED="True" CATEGORY="MSExchange Database" PRIMARYDATASOURCE="\MSExchange Database(Information Store)\Database Cache % Hit" ID="{a8a63109-118f-4625-94b1-19299d47813d}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Database Cache % Hit is the percentage of database file page requests that were fulfilled by the database cache without causing a file operation.  If this percentage is too low, the database cache size may be too small.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Database(Information Store)\Database Cache % Hit" COLLECTIONVARNAME="MSExchangeDatabaseDatabaseCachePercentHitInformationStore" EXPRESSIONPATH="\MSExchange Database(Information Store)\Database Cache % Hit" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Database(Information Store)\Database Cache % Hit" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Database(Information Store)\Database Cache % Hit" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeIS Client JET Log Records/sec" ENABLED="True" CATEGORY="MSExchangeIS Client" PRIMARYDATASOURCE="\MSExchangeIS Client(*)\JET Log Records/sec" ID="{93fbc531-36be-45dd-b63a-72ca081a98f9}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[JET Log Records/sec is the rate that database log records are generated while processing requests for the client.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeIS Client(*)\JET Log Records/sec" COLLECTIONVARNAME="MSExchangeISClientJETLogRecordssecALL" EXPRESSIONPATH="\MSExchangeIS Client(*)\JET Log Records/sec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeIS Client(*)\JET Log Records/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeIS Client(*)\JET Log Records/sec" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeIS Client JET Pages Read/sec" ENABLED="True" CATEGORY="MSExchangeIS Client" PRIMARYDATASOURCE="\MSExchangeIS Client(*)\JET Pages Read/sec" ID="{c236fcd2-3a29-47a8-9d14-21bbed7b7e64}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[JET Pages Read/sec is the rate that database pages are read from disk while processing requests for the client.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeIS Client(*)\JET Pages Read/sec" COLLECTIONVARNAME="MSExchangeISClientJETPagesReadsecALL" EXPRESSIONPATH="\MSExchangeIS Client(*)\JET Pages Read/sec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeIS Client(*)\JET Pages Read/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeIS Client(*)\JET Pages Read/sec" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeIS Client Directory Access: LDAP Reads/sec" ENABLED="True" CATEGORY="MSExchangeIS Client" PRIMARYDATASOURCE="\MSExchangeIS Client(*)\Directory Access: LDAP Reads/sec" ID="{3f4034b2-c00c-4d74-b31f-470d0a8cb589}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Directory Access: LDAP Reads/sec is the rate LDAP reads occur while processing requests for the client.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeIS Client(*)\Directory Access: LDAP Reads/sec" COLLECTIONVARNAME="MSExchangeISClientDirectoryAccessLDAPReadssecALL" EXPRESSIONPATH="\MSExchangeIS Client(*)\Directory Access: LDAP Reads/sec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeIS Client(*)\Directory Access: LDAP Reads/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeIS Client(*)\Directory Access: LDAP Reads/sec" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeIS Client Directory Access: LDAP Searches/sec" ENABLED="True" CATEGORY="MSExchangeIS Client" PRIMARYDATASOURCE="\MSExchangeIS Client(*)\Directory Access: LDAP Searches/sec" ID="{00a63b9b-ea32-43f0-87a3-c705f2dfa03a}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Directory Access: LDAP Searches/sec is the rate LDAP searches occur while processing requests for the client.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeIS Client(*)\Directory Access: LDAP Searches/sec" COLLECTIONVARNAME="MSExchangeISClientDirectoryAccessLDAPSearchessecALL" EXPRESSIONPATH="\MSExchangeIS Client(*)\Directory Access: LDAP Searches/sec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeIS Client(*)\Directory Access: LDAP Searches/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeIS Client(*)\Directory Access: LDAP Searches/sec" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeIS Client: RPCs Failed: Server Too Busy / sec" ENABLED="True" CATEGORY="MSExchangeIS" PRIMARYDATASOURCE="\MSExchangeIS\Client: RPCs Failed: Server Too Busy / sec" ID="{5ffa6f44-92f4-475c-a56a-a17de420a447}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The client-reported rate of failed RPCs (since the store was started) due to the Server Too Busy RPC error.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeIS\Client: RPCs Failed: Server Too Busy / sec" COLLECTIONVARNAME="MSExchangeISClientRPCsFailedServerTooBusysec" EXPRESSIONPATH="\MSExchangeIS\Client: RPCs Failed: Server Too Busy / sec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeIS\Client: RPCs Failed: Server Too Busy / sec" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeIS\Client: RPCs Failed: Server Too Busy / sec" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeIS Client: RPCs Failed: Server Too Busy" ENABLED="True" CATEGORY="MSExchangeIS" PRIMARYDATASOURCE="\MSExchangeIS\Client: RPCs Failed: Server Too Busy" ID="{14fe6ba4-cc60-4915-8d2a-7a76e44a43ac}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The client-reported number of failed RPCs (since the store was started) due to the Server Too Busy RPC error.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeIS\Client: RPCs Failed: Server Too Busy" COLLECTIONVARNAME="MSExchangeISClientRPCsFailedServerTooBusy" EXPRESSIONPATH="\MSExchangeIS\Client: RPCs Failed: Server Too Busy" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeIS\Client: RPCs Failed: Server Too Busy" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeIS\Client: RPCs Failed: Server Too Busy" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Database Log Bytes Write/sec" ENABLED="True" CATEGORY="MSExchange Database" PRIMARYDATASOURCE="\MSExchange Database(Information Store)\Log Bytes Write/sec" ID="{92b071b4-23fa-4c0f-8101-7e868f142d69}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Log Bytes Write per second is the rate bytes are written to the log.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Database(Information Store)\Log Bytes Write/sec" COLLECTIONVARNAME="MSExchangeDatabaseLogBytesWritesecInformationStore" EXPRESSIONPATH="\MSExchange Database(Information Store)\Log Bytes Write/sec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Database(Information Store)\Log Bytes Write/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Database(Information Store)\Log Bytes Write/sec" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeIS Public Receive Queue Size" ENABLED="True" CATEGORY="MSExchangeIS Public" PRIMARYDATASOURCE="\MSExchangeIS Public(*)\Receive Queue Size" ID="{175c25db-97a4-4eb8-84e0-d89821e14759}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Receive Queue Size is the number of messages in the public store's receive queue.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeIS Public(*)\Receive Queue Size" COLLECTIONVARNAME="MSExchangeISPublicReceiveQueueSizeALL" EXPRESSIONPATH="\MSExchangeIS Public(*)\Receive Queue Size" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeIS Public(*)\Receive Queue Size" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeIS Public(*)\Receive Queue Size" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeIS Slow QP Threads" ENABLED="True" CATEGORY="MSExchangeIS" PRIMARYDATASOURCE="\MSExchangeIS\Slow QP Threads" ID="{b49d8e9e-4619-48fb-a05b-43046b31bb68}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Number of Query Processor threads currently running unoptimized queries.
+<p>This counter is essentially incremented when an un-optimized search for a string in the text context or subject occurred.</p>
+<p>If this counter is sustained over 20,&nbsp;store version buckets is very high, and RPC requests flatlines at the same time, then 623 events might be occurring due to a queued transaction inside Store. See <a href="http://blogs.technet.com/mikelag/archive/2008/08/22/search-folder-performance-problem-detection.aspx">http://blogs.technet.com/mikelag/archive/2008/08/22/search-folder-performance-problem-detection.aspx</a> for additional information]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeIS\Slow QP Threads" COLLECTIONVARNAME="MSExchangeISSlowQPThreads" EXPRESSIONPATH="\MSExchangeIS\Slow QP Threads" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeIS\Slow QP Threads" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeIS\Slow QP Threads" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeIS Slow Search Threads" ENABLED="True" CATEGORY="MSExchangeIS" PRIMARYDATASOURCE="\MSExchangeIS\Slow Search Threads" ID="{9d63715a-0f8c-4aaa-ace4-ea642a2c39d6}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Number of Search threads currently running unoptimized queries.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeIS\Slow Search Threads" COLLECTIONVARNAME="MSExchangeISSlowSearchThreads" EXPRESSIONPATH="\MSExchangeIS\Slow Search Threads" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeIS\Slow Search Threads" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeIS\Slow Search Threads" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeIS Mailbox Categorization Count" ENABLED="True" CATEGORY="MSExchangeIS Mailbox" PRIMARYDATASOURCE="\MSExchangeIS Mailbox(*)\Categorization Count" ID="{17a30c8d-8372-42c1-b6ae-abc63e26f81f}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Categorization Count is the number of categorizations that exist in the mailbox store. Categorizations are created when a user creates a filtered view or performs a search. When the information store must maintain an excessive number of categorizations, performance can be affected.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeIS Mailbox(*)\Categorization Count" COLLECTIONVARNAME="MSExchangeISMailboxCategorizationCountALL" EXPRESSIONPATH="\MSExchangeIS Mailbox(*)\Categorization Count" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeIS Mailbox(*)\Categorization Count" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeIS Mailbox(*)\Categorization Count" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Search Indices Throttling Delay Value" ENABLED="True" CATEGORY="MSExchange Search Indices" PRIMARYDATASOURCE="\MSExchange Search Indices(*)\Throttling Delay Value" ID="{4ca5853c-e9a7-48ab-bdd4-b3566828646d}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Throttling Delay Value is the total Total time (in milliseconds) a worker thread sleeps before it retrieves a document from the Exchange Information Store service. This is set by the throttling monitor thread.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Search Indices(*)\Throttling Delay Value" COLLECTIONVARNAME="MSExchangeSearchIndicesThrottlingDelayValueALL" EXPRESSIONPATH="\MSExchange Search Indices(*)\Throttling Delay Value" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Search Indices(*)\Throttling Delay Value" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Search Indices(*)\Throttling Delay Value" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Search Indices Average document indexing time" ENABLED="True" CATEGORY="MSExchange Search Indices" PRIMARYDATASOURCE="\MSExchange Search Indices(*)\Average document indexing time" ID="{847ddc62-67a5-47d3-9e2b-58e1b32a0ec8}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Average Document Indexing Time is the average (in milliseconds) of how long it takes to index documents.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Search Indices(*)\Average document indexing time" COLLECTIONVARNAME="MSExchangeSearchIndicesAveragedocumentindexingtimeALL" EXPRESSIONPATH="\MSExchange Search Indices(*)\Average document indexing time" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Search Indices(*)\Average document indexing time" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Search Indices(*)\Average document indexing time" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Search Indices Full Crawl Mode Status" ENABLED="True" CATEGORY="MSExchange Search Indices" PRIMARYDATASOURCE="\MSExchange Search Indices(*)\Full Crawl Mode Status" ID="{e768d057-c647-41cb-9a1c-8b99f2cb2604}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Full Crawl Mode Status indicates whether this MDB is going through a full crawl (value=1) or not (value=0).]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Search Indices(*)\Full Crawl Mode Status" COLLECTIONVARNAME="MSExchangeSearchIndicesFullCrawlModeStatusALL" EXPRESSIONPATH="\MSExchange Search Indices(*)\Full Crawl Mode Status" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Search Indices(*)\Full Crawl Mode Status" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Search Indices(*)\Full Crawl Mode Status" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Assistants Mailboxes processed/sec" ENABLED="True" CATEGORY="MSExchange Assistants" PRIMARYDATASOURCE="\MSExchange Assistants(*)\Mailboxes processed/sec" ID="{a16bf314-db02-49bb-8af8-1d1b8c6b7604}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Mailboxes processed/sec is the rate of mailboxes processed by time-based assistants per second.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Assistants(*)\Mailboxes processed/sec" COLLECTIONVARNAME="MSExchangeAssistantsMailboxesprocessedsecALL" EXPRESSIONPATH="\MSExchange Assistants(*)\Mailboxes processed/sec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Assistants(*)\Mailboxes processed/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Assistants(*)\Mailboxes processed/sec" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Assistants Events Polled/sec" ENABLED="True" CATEGORY="MSExchange Assistants" PRIMARYDATASOURCE="\MSExchange Assistants(*)\Events Polled/sec" ID="{5b91a047-640e-4fb6-af42-e6cc78bd7564}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The number of events polled per second.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Assistants(*)\Events Polled/sec" COLLECTIONVARNAME="MSExchangeAssistantsEventsPolledsecALL" EXPRESSIONPATH="\MSExchange Assistants(*)\Events Polled/sec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Assistants(*)\Events Polled/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Assistants(*)\Events Polled/sec" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Assistants Events in queue" ENABLED="True" CATEGORY="MSExchange Assistants" PRIMARYDATASOURCE="\MSExchange Assistants(*)\Events in queue" ID="{187ccbb1-3196-4529-b1ec-f1af1a62114a}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Events in queue is the current number of events in the in-memory queue waiting to be processed by the assistants.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Assistants(*)\Events in queue" COLLECTIONVARNAME="MSExchangeAssistantsEventsinqueueALL" EXPRESSIONPATH="\MSExchange Assistants(*)\Events in queue" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Assistants(*)\Events in queue" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Assistants(*)\Events in queue" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Assistants Average Event Processing Time In seconds" ENABLED="True" CATEGORY="MSExchange Assistants" PRIMARYDATASOURCE="\MSExchange Assistants(*)\Average Event Processing Time In seconds" ID="{fa54395e-d7bb-40b4-be44-578b4cc465bb}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Average processing time of the events chosen as interesting.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Assistants(*)\Average Event Processing Time In seconds" COLLECTIONVARNAME="MSExchangeAssistantsAverageEventProcessingTimeInsecondsALL" EXPRESSIONPATH="\MSExchange Assistants(*)\Average Event Processing Time In seconds" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Assistants(*)\Average Event Processing Time In seconds" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Assistants(*)\Average Event Processing Time In seconds" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Resource Booking Average Resource Booking Processing Time" ENABLED="True" CATEGORY="MSExchange Resource Booking" PRIMARYDATASOURCE="\MSExchange Resource Booking\Average Resource Booking Processing Time" ID="{21598145-5027-451b-947a-37248c0fa5b2}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Average Resource Booking Processing Time is the average time to process an event in the Resource Booking Attendant.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Resource Booking\Average Resource Booking Processing Time" COLLECTIONVARNAME="MSExchangeResourceBookingAverageResourceBookingProcessingTime" EXPRESSIONPATH="\MSExchange Resource Booking\Average Resource Booking Processing Time" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Resource Booking\Average Resource Booking Processing Time" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Resource Booking\Average Resource Booking Processing Time" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Resource Booking Requests Failed" ENABLED="True" CATEGORY="MSExchange Resource Booking" PRIMARYDATASOURCE="\MSExchange Resource Booking\Requests Failed" ID="{99050a44-3089-4d58-8bbe-7a0783758ba2}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Requests Failed is the  total number of failures that occurred while Resource Booking Attendant was processing events.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Resource Booking\Requests Failed" COLLECTIONVARNAME="MSExchangeResourceBookingRequestsFailed" EXPRESSIONPATH="\MSExchange Resource Booking\Requests Failed" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Resource Booking\Requests Failed" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Resource Booking\Requests Failed" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Calendar Attendant Average Calendar Attendant Processing Time" ENABLED="True" CATEGORY="MSExchange Calendar Attendant" PRIMARYDATASOURCE="\MSExchange Calendar Attendant\Average Calendar Attendant Processing Time" ID="{cde2bb6b-33e6-4116-9b41-ad82b7e622cb}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Average Calendar Attendant Processing Time is the average  time to process an event in the Calendar Attendant.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Calendar Attendant\Average Calendar Attendant Processing Time" COLLECTIONVARNAME="MSExchangeCalendarAttendantAverageCalendarAttendantProcessingTime" EXPRESSIONPATH="\MSExchange Calendar Attendant\Average Calendar Attendant Processing Time" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Calendar Attendant\Average Calendar Attendant Processing Time" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Calendar Attendant\Average Calendar Attendant Processing Time" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Calendar Attendant Requests Failed" ENABLED="True" CATEGORY="MSExchange Calendar Attendant" PRIMARYDATASOURCE="\MSExchange Calendar Attendant\Requests Failed" ID="{60e5070f-fde6-40ef-9aee-099007f84649}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Requests Failed is the total number of failures that occurred while Calendar Attendant was processing events.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Calendar Attendant\Requests Failed" COLLECTIONVARNAME="MSExchangeCalendarAttendantRequestsFailed" EXPRESSIONPATH="\MSExchange Calendar Attendant\Requests Failed" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Calendar Attendant\Requests Failed" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Calendar Attendant\Requests Failed" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Store Interface RPC Requests failed (%)" ENABLED="True" CATEGORY="MSExchange Store Interface" PRIMARYDATASOURCE="\MSExchange Store Interface(*)\RPC Requests failed (%)" ID="{12a934c5-4e37-488b-9099-a839ff314a94}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[RPC Requests failed (%) is the percent of failed requests in total number of RPC requests. Here, failed means the sum of failed with error code plus failed with exception.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Store Interface(*)\RPC Requests failed (%)" COLLECTIONVARNAME="MSExchangeStoreInterfaceRPCRequestsfailedPercentALL" EXPRESSIONPATH="\MSExchange Store Interface(*)\RPC Requests failed (%)" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Store Interface(*)\RPC Requests failed (%)" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Store Interface(*)\RPC Requests failed (%)" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Store Interface RPC Requests sent/sec" ENABLED="True" CATEGORY="MSExchange Store Interface" PRIMARYDATASOURCE="\MSExchange Store Interface(*)\RPC Requests sent/sec" ID="{5b2ae218-dd7c-4f6e-9f33-45c8f15a99a7}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[RPC Requests sent/sec is the current rate of initiated RPC requests per second.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Store Interface(*)\RPC Requests sent/sec" COLLECTIONVARNAME="MSExchangeStoreInterfaceRPCRequestssentsecALL" EXPRESSIONPATH="\MSExchange Store Interface(*)\RPC Requests sent/sec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Store Interface(*)\RPC Requests sent/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Store Interface(*)\RPC Requests sent/sec" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Store Interface RPC Slow requests (%)" ENABLED="True" CATEGORY="MSExchange Store Interface" PRIMARYDATASOURCE="\MSExchange Store Interface(*)\RPC Slow requests (%)" ID="{b3413046-46ba-4d78-b51d-eb6296ad4727}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[RPC Slow requests (%) is the percent of slow RPC requests among all RPC requests.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Store Interface(*)\RPC Slow requests (%)" COLLECTIONVARNAME="MSExchangeStoreInterfaceRPCSlowrequestsPercentALL" EXPRESSIONPATH="\MSExchange Store Interface(*)\RPC Slow requests (%)" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Store Interface(*)\RPC Slow requests (%)" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Store Interface(*)\RPC Slow requests (%)" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeMailSubmission Successful Submissions Per Second" ENABLED="True" CATEGORY="MSExchangeMailSubmission" PRIMARYDATASOURCE="\MSExchangeMailSubmission(*)\Successful Submissions Per Second" ID="{c540bb93-c3d7-4511-865c-1857c7327ef0}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Successful Submissions Per Second]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeMailSubmission(*)\Successful Submissions Per Second" COLLECTIONVARNAME="MSExchangeMailSubmissionSuccessfulSubmissionsPerSecondALL" EXPRESSIONPATH="\MSExchangeMailSubmission(*)\Successful Submissions Per Second" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeMailSubmission(*)\Successful Submissions Per Second" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeMailSubmission(*)\Successful Submissions Per Second" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeMailSubmission Failed Submissions Per Second" ENABLED="True" CATEGORY="MSExchangeMailSubmission" PRIMARYDATASOURCE="\MSExchangeMailSubmission(*)\Failed Submissions Per Second" ID="{de827b92-4684-4cac-b100-e26c9476daa5}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Failed Submissions Per Second]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeMailSubmission(*)\Failed Submissions Per Second" COLLECTIONVARNAME="MSExchangeMailSubmissionFailedSubmissionsPerSecondALL" EXPRESSIONPATH="\MSExchangeMailSubmission(*)\Failed Submissions Per Second" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeMailSubmission(*)\Failed Submissions Per Second" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeMailSubmission(*)\Failed Submissions Per Second" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeMailSubmission Temporary Submission Failures/sec" ENABLED="True" CATEGORY="MSExchangeMailSubmission" PRIMARYDATASOURCE="\MSExchangeMailSubmission(*)\Temporary Submission Failures/sec" ID="{2cc42c61-7577-456a-bdb1-b738ce2150b0}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Temporary Submission Failures per second is the number of temporary submission failures per second.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeMailSubmission(*)\Temporary Submission Failures/sec" COLLECTIONVARNAME="MSExchangeMailSubmissionTemporarySubmissionFailuressecALL" EXPRESSIONPATH="\MSExchangeMailSubmission(*)\Temporary Submission Failures/sec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeMailSubmission(*)\Temporary Submission Failures/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeMailSubmission(*)\Temporary Submission Failures/sec" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Replication CopyQueueLength" ENABLED="True" CATEGORY="MSExchange Replication" PRIMARYDATASOURCE="\MSExchange Replication(*)\CopyQueueLength" ID="{24f8c563-d6e5-4285-b543-4b822261d22d}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Copy Queue Length is the number of log generations waiting to be both copied and inspected successfully.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Replication(*)\CopyQueueLength" COLLECTIONVARNAME="MSExchangeReplicationCopyQueueLengthALL" EXPRESSIONPATH="\MSExchange Replication(*)\CopyQueueLength" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Replication(*)\CopyQueueLength" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Replication(*)\CopyQueueLength" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Replication ReplayQueueLength" ENABLED="True" CATEGORY="MSExchange Replication" PRIMARYDATASOURCE="\MSExchange Replication(*)\ReplayQueueLength" ID="{7cf0fff3-c5b9-441f-92d7-88be574aeccd}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Replay Queue Length is the number of log generations waiting to be replayed.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Replication(*)\ReplayQueueLength" COLLECTIONVARNAME="MSExchangeReplicationReplayQueueLengthALL" EXPRESSIONPATH="\MSExchange Replication(*)\ReplayQueueLength" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Replication(*)\ReplayQueueLength" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Replication(*)\ReplayQueueLength" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Replica Seeder Seeding Finished %" ENABLED="True" CATEGORY="MSExchange Replica Seeder" PRIMARYDATASOURCE="\MSExchange Replica Seeder(*)\Seeding Finished %" ID="{482f8ac0-5cd3-4c07-b283-dc5abc5d887c}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Seeding Finished % is the finished percentage of seeding. Its value is from 0 to 100 percent.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Replica Seeder(*)\Seeding Finished %" COLLECTIONVARNAME="MSExchangeReplicaSeederSeedingFinishedPercentALL" EXPRESSIONPATH="\MSExchange Replica Seeder(*)\Seeding Finished %" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Replica Seeder(*)\Seeding Finished %" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Replica Seeder(*)\Seeding Finished %" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Process IO Write Bytes/sec" ENABLED="True" CATEGORY="Process" PRIMARYDATASOURCE="\Process(EdgeTransport)\IO Write Bytes/sec" ID="{bddaa517-d912-46c9-a96c-a338b2cff239}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The rate at which the process is writing bytes to I/O operations. This counter counts all I/O activity generated by the process to include file, network and device I/Os.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\Process(EdgeTransport)\IO Write Bytes/sec" COLLECTIONVARNAME="ProcessIOWriteBytessecEdgeTransport" EXPRESSIONPATH="\Process(EdgeTransport)\IO Write Bytes/sec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Process(EdgeTransport)\IO Write Bytes/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\Process(EdgeTransport)\IO Write Bytes/sec" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Process IO Data Bytes/sec" ENABLED="True" CATEGORY="Process" PRIMARYDATASOURCE="\Process(EdgeTransport)\IO Data Bytes/sec" ID="{b5146395-37de-4489-8e81-ecbf943de2db}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The rate at which the process is reading and writing bytes in I/O operations. This counter counts all I/O activity generated by the process to include file, network and device I/Os.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\Process(EdgeTransport)\IO Data Bytes/sec" COLLECTIONVARNAME="ProcessIODataBytessecEdgeTransport" EXPRESSIONPATH="\Process(EdgeTransport)\IO Data Bytes/sec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Process(EdgeTransport)\IO Data Bytes/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\Process(EdgeTransport)\IO Data Bytes/sec" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Process IO Read Bytes/sec" ENABLED="True" CATEGORY="Process" PRIMARYDATASOURCE="\Process(EdgeTransport)\IO Read Bytes/sec" ID="{61ca2eeb-3218-4ecc-803b-a26f5dc5f84c}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The rate at which the process is reading bytes from I/O operations. This counter counts all I/O activity generated by the process to include file, network and device I/Os.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\Process(EdgeTransport)\IO Read Bytes/sec" COLLECTIONVARNAME="ProcessIOReadBytessecEdgeTransport" EXPRESSIONPATH="\Process(EdgeTransport)\IO Read Bytes/sec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Process(EdgeTransport)\IO Read Bytes/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\Process(EdgeTransport)\IO Read Bytes/sec" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeTransport Queues Messages Submitted Per Second" ENABLED="True" CATEGORY="MSExchangeTransport Queues" PRIMARYDATASOURCE="\MSExchangeTransport Queues(_total)\Messages Submitted Per Second" ID="{b0b45a79-01a5-421b-9d16-d2d61003e0dc}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Messages Submitted Per Second is the number of messages enqueued in the submission queue per second.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeTransport Queues(_total)\Messages Submitted Per Second" COLLECTIONVARNAME="MSExchangeTransportQueuesMessagesSubmittedPerSecond_total" EXPRESSIONPATH="\MSExchangeTransport Queues(_total)\Messages Submitted Per Second" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeTransport Queues(_total)\Messages Submitted Per Second" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeTransport Queues(_total)\Messages Submitted Per Second" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeTransport Queues Messages Completed Delivery Per Second" ENABLED="True" CATEGORY="MSExchangeTransport Queues" PRIMARYDATASOURCE="\MSExchangeTransport Queues(_total)\Messages Completed Delivery Per Second" ID="{8d3b0df1-6ba3-4dfa-b553-8e530a171efb}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Messages Completed Delivery Per Second is the number of messages delivery per second.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeTransport Queues(_total)\Messages Completed Delivery Per Second" COLLECTIONVARNAME="MSExchangeTransportQueuesMessagesCompletedDeliveryPerSecond_total" EXPRESSIONPATH="\MSExchangeTransport Queues(_total)\Messages Completed Delivery Per Second" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeTransport Queues(_total)\Messages Completed Delivery Per Second" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeTransport Queues(_total)\Messages Completed Delivery Per Second" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeTransport Queues Active Mailbox Delivery Queue Length" ENABLED="True" CATEGORY="MSExchangeTransport Queues" PRIMARYDATASOURCE="\MSExchangeTransport Queues(_total)\Active Mailbox Delivery Queue Length" ID="{97b1aaaf-6e42-446b-bdbf-a8d171b8034c}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Active Mailbox Delivery Queue Length is the number of items in the active mailbox queues.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeTransport Queues(_total)\Active Mailbox Delivery Queue Length" COLLECTIONVARNAME="MSExchangeTransportQueuesActiveMailboxDeliveryQueueLength_total" EXPRESSIONPATH="\MSExchangeTransport Queues(_total)\Active Mailbox Delivery Queue Length" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeTransport Queues(_total)\Active Mailbox Delivery Queue Length" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeTransport Queues(_total)\Active Mailbox Delivery Queue Length" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeTransport Queues Active Non-Smtp Delivery Queue Length" ENABLED="True" CATEGORY="MSExchangeTransport Queues" PRIMARYDATASOURCE="\MSExchangeTransport Queues(_total)\Active Non-Smtp Delivery Queue Length" ID="{7358548c-176b-48d8-b564-b464f18ea1ba}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Active Non-Smtp Delivery Queue Length is the number of items in the active Non-Smtp queues.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeTransport Queues(_total)\Active Non-Smtp Delivery Queue Length" COLLECTIONVARNAME="MSExchangeTransportQueuesActiveNonSmtpDeliveryQueueLength_total" EXPRESSIONPATH="\MSExchangeTransport Queues(_total)\Active Non-Smtp Delivery Queue Length" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeTransport Queues(_total)\Active Non-Smtp Delivery Queue Length" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeTransport Queues(_total)\Active Non-Smtp Delivery Queue Length" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeTransport Queues Active Remote Delivery Queue Length" ENABLED="True" CATEGORY="MSExchangeTransport Queues" PRIMARYDATASOURCE="\MSExchangeTransport Queues(_total)\Active Remote Delivery Queue Length" ID="{d09346e6-a3d5-458e-b192-9323d4f2163b}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Active Remote Delivery Queue Length is the number of items in the active remote delivery queues.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeTransport Queues(_total)\Active Remote Delivery Queue Length" COLLECTIONVARNAME="MSExchangeTransportQueuesActiveRemoteDeliveryQueueLength_total" EXPRESSIONPATH="\MSExchangeTransport Queues(_total)\Active Remote Delivery Queue Length" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeTransport Queues(_total)\Active Remote Delivery Queue Length" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeTransport Queues(_total)\Active Remote Delivery Queue Length" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeTransport Queues Retry Mailbox Delivery Queue Length" ENABLED="True" CATEGORY="MSExchangeTransport Queues" PRIMARYDATASOURCE="\MSExchangeTransport Queues(_total)\Retry Mailbox Delivery Queue Length" ID="{76a871f6-5f29-48ee-97f5-b2b6b392d104}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Retry Mailbox Delivery Queue Length is the number of items in retry in the retry mailbox queues.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeTransport Queues(_total)\Retry Mailbox Delivery Queue Length" COLLECTIONVARNAME="MSExchangeTransportQueuesRetryMailboxDeliveryQueueLength_total" EXPRESSIONPATH="\MSExchangeTransport Queues(_total)\Retry Mailbox Delivery Queue Length" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeTransport Queues(_total)\Retry Mailbox Delivery Queue Length" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeTransport Queues(_total)\Retry Mailbox Delivery Queue Length" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeTransport Queues Retry Non-Smtp Delivery Queue Length" ENABLED="True" CATEGORY="MSExchangeTransport Queues" PRIMARYDATASOURCE="\MSExchangeTransport Queues(_total)\Retry Non-Smtp Delivery Queue Length" ID="{fa65af84-3e22-4c8c-8a91-5cf68d474d35}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Retry Non-Smtp Delivery Queue Length is the number of items in rety in the Non-Smtp queues.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeTransport Queues(_total)\Retry Non-Smtp Delivery Queue Length" COLLECTIONVARNAME="MSExchangeTransportQueuesRetryNonSmtpDeliveryQueueLength_total" EXPRESSIONPATH="\MSExchangeTransport Queues(_total)\Retry Non-Smtp Delivery Queue Length" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeTransport Queues(_total)\Retry Non-Smtp Delivery Queue Length" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeTransport Queues(_total)\Retry Non-Smtp Delivery Queue Length" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeTransport Queues Retry Remote Delivery Queue Length" ENABLED="True" CATEGORY="MSExchangeTransport Queues" PRIMARYDATASOURCE="\MSExchangeTransport Queues(_total)\Retry Remote Delivery Queue Length" ID="{d829f2ac-8b8a-4a77-b420-ef992d31b2f5}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Retry Remote Delivery Queue Length is the number of items in retry in the remote delivery queues.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeTransport Queues(_total)\Retry Remote Delivery Queue Length" COLLECTIONVARNAME="MSExchangeTransportQueuesRetryRemoteDeliveryQueueLength_total" EXPRESSIONPATH="\MSExchangeTransport Queues(_total)\Retry Remote Delivery Queue Length" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeTransport Queues(_total)\Retry Remote Delivery Queue Length" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeTransport Queues(_total)\Retry Remote Delivery Queue Length" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeTransport Queues Submission Queue Length" ENABLED="True" CATEGORY="MSExchangeTransport Queues" PRIMARYDATASOURCE="\MSExchangeTransport Queues(_total)\Submission Queue Length" ID="{7eb0c49e-e2ed-4cb9-ae33-b7f9d2fe26dd}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Submission Queue Length is the number of items in the submission queue.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeTransport Queues(_total)\Submission Queue Length" COLLECTIONVARNAME="MSExchangeTransportQueuesSubmissionQueueLength_total" EXPRESSIONPATH="\MSExchangeTransport Queues(_total)\Submission Queue Length" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeTransport Queues(_total)\Submission Queue Length" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeTransport Queues(_total)\Submission Queue Length" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeTransport Queues Unreachable Queue Length" ENABLED="True" CATEGORY="MSExchangeTransport Queues" PRIMARYDATASOURCE="\MSExchangeTransport Queues(_total)\Unreachable Queue Length" ID="{9348b543-3734-4f7a-9787-9e3ab30c66a1}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Unreachable Queue Length is the number of items in the unreachable queues.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeTransport Queues(_total)\Unreachable Queue Length" COLLECTIONVARNAME="MSExchangeTransportQueuesUnreachableQueueLength_total" EXPRESSIONPATH="\MSExchangeTransport Queues(_total)\Unreachable Queue Length" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeTransport Queues(_total)\Unreachable Queue Length" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeTransport Queues(_total)\Unreachable Queue Length" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeTransport Dumpster Dumpster Size" ENABLED="True" CATEGORY="MSExchangeTransport Dumpster" PRIMARYDATASOURCE="\MSExchangeTransport Dumpster\Dumpster Size" ID="{2de81454-3dfc-4506-920e-ce672790fa5f}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Item Size is the total size  (in bytes) of mail items that are currently in the Transport Dumpster on this server.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeTransport Dumpster\Dumpster Size" COLLECTIONVARNAME="MSExchangeTransportDumpsterDumpsterSize" EXPRESSIONPATH="\MSExchangeTransport Dumpster\Dumpster Size" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeTransport Dumpster\Dumpster Size" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeTransport Dumpster\Dumpster Size" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeTransport Dumpster Dumpster Inserts/sec" ENABLED="True" CATEGORY="MSExchangeTransport Dumpster" PRIMARYDATASOURCE="\MSExchangeTransport Dumpster\Dumpster Inserts/sec" ID="{cbfd3b13-811f-4e5f-9c39-ec182f85135d}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Insert Rate is the rate at which items are inserted into the Transport Dumpster on this server.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeTransport Dumpster\Dumpster Inserts/sec" COLLECTIONVARNAME="MSExchangeTransportDumpsterDumpsterInsertssec" EXPRESSIONPATH="\MSExchangeTransport Dumpster\Dumpster Inserts/sec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeTransport Dumpster\Dumpster Inserts/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeTransport Dumpster\Dumpster Inserts/sec" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeTransport Dumpster Dumpster Item Count" ENABLED="True" CATEGORY="MSExchangeTransport Dumpster" PRIMARYDATASOURCE="\MSExchangeTransport Dumpster\Dumpster Item Count" ID="{01d824b4-8d24-4240-96af-b13cb4cea615}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Item Count is the total number of mail  items that are currently in the Transport Dumpster on this server.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeTransport Dumpster\Dumpster Item Count" COLLECTIONVARNAME="MSExchangeTransportDumpsterDumpsterItemCount" EXPRESSIONPATH="\MSExchangeTransport Dumpster\Dumpster Item Count" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeTransport Dumpster\Dumpster Item Count" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeTransport Dumpster\Dumpster Item Count" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeTransport Dumpster Dumpster Deletes/sec" ENABLED="True" CATEGORY="MSExchangeTransport Dumpster" PRIMARYDATASOURCE="\MSExchangeTransport Dumpster\Dumpster Deletes/sec" ID="{283c58d9-672e-4a3a-9512-f5426230a517}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Delete Rate is the rate at which items are deleted from the Transport Dumpster on this server.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeTransport Dumpster\Dumpster Deletes/sec" COLLECTIONVARNAME="MSExchangeTransportDumpsterDumpsterDeletessec" EXPRESSIONPATH="\MSExchangeTransport Dumpster\Dumpster Deletes/sec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeTransport Dumpster\Dumpster Deletes/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeTransport Dumpster\Dumpster Deletes/sec" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeTransport Database Stream writes/sec" ENABLED="True" CATEGORY="MSExchangeTransport Database" PRIMARYDATASOURCE="\MSExchangeTransport Database(*)\Stream writes/sec" ID="{beb421ca-6d37-4a56-8ad7-35dadb3dcbc9}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[This counter should only be used if Microsoft Product Support services advises that they need this information to troubleshoot a complex ESE-related performance issue.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeTransport Database(*)\Stream writes/sec" COLLECTIONVARNAME="MSExchangeTransportDatabaseStreamwritessecALL" EXPRESSIONPATH="\MSExchangeTransport Database(*)\Stream writes/sec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeTransport Database(*)\Stream writes/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeTransport Database(*)\Stream writes/sec" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeTransport Database Stream read/sec" ENABLED="True" CATEGORY="MSExchangeTransport Database" PRIMARYDATASOURCE="\MSExchangeTransport Database(*)\Stream read/sec" ID="{975697e0-4e36-4977-b37b-69445bf4b3fb}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[This counter should only be used if Microsoft Product Support services advises that they need this information to troubleshoot a complex ESE-related performance issue.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeTransport Database(*)\Stream read/sec" COLLECTIONVARNAME="MSExchangeTransportDatabaseStreamreadsecALL" EXPRESSIONPATH="\MSExchangeTransport Database(*)\Stream read/sec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeTransport Database(*)\Stream read/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeTransport Database(*)\Stream read/sec" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeTransport Database MailItem begin commit/sec" ENABLED="True" CATEGORY="MSExchangeTransport Database" PRIMARYDATASOURCE="\MSExchangeTransport Database(*)\MailItem begin commit/sec" ID="{c248e880-7515-470f-bbb0-22079d4f25e1}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[This counter should only be used if Microsoft Product Support services advises that they need this information to troubleshoot a complex ESE-related performance issue.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeTransport Database(*)\MailItem begin commit/sec" COLLECTIONVARNAME="MSExchangeTransportDatabaseMailItembegincommitsecALL" EXPRESSIONPATH="\MSExchangeTransport Database(*)\MailItem begin commit/sec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeTransport Database(*)\MailItem begin commit/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeTransport Database(*)\MailItem begin commit/sec" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeTransport Batch Point Transactions committed/sec" ENABLED="True" CATEGORY="MSExchangeTransport Batch Point" PRIMARYDATASOURCE="\MSExchangeTransport Batch Point(*)\Transactions committed/sec" ID="{0fb65831-1d4d-47d4-9bff-a688efb02713}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[This counter should only be used if Microsoft Product Support services advises that they need this information to troubleshoot a complex ESE-related performance issue.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeTransport Batch Point(*)\Transactions committed/sec" COLLECTIONVARNAME="MSExchangeTransportBatchPointTransactionscommittedsecALL" EXPRESSIONPATH="\MSExchangeTransport Batch Point(*)\Transactions committed/sec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeTransport Batch Point(*)\Transactions committed/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeTransport Batch Point(*)\Transactions committed/sec" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Extensibility Agents Average Agent Processing Time (sec)" ENABLED="True" CATEGORY="MSExchange Extensibility Agents" PRIMARYDATASOURCE="\MSExchange Extensibility Agents(*)\Average Agent Processing Time (sec)" ID="{449d296f-1619-43ac-a6fe-6f82b446b876}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Average agent processing time in seconds per event.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Extensibility Agents(*)\Average Agent Processing Time (sec)" COLLECTIONVARNAME="MSExchangeExtensibilityAgentsAverageAgentProcessingTimesecALL" EXPRESSIONPATH="\MSExchange Extensibility Agents(*)\Average Agent Processing Time (sec)" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Extensibility Agents(*)\Average Agent Processing Time (sec)" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Extensibility Agents(*)\Average Agent Processing Time (sec)" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Extensibility Agents Total Agent Invocations" ENABLED="True" CATEGORY="MSExchange Extensibility Agents" PRIMARYDATASOURCE="\MSExchange Extensibility Agents(*)\Total Agent Invocations" ID="{b4c3f496-8ea7-4929-b401-c8cbcc9a316e}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Total number of agent invocations since the last restart.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Extensibility Agents(*)\Total Agent Invocations" COLLECTIONVARNAME="MSExchangeExtensibilityAgentsTotalAgentInvocationsALL" EXPRESSIONPATH="\MSExchange Extensibility Agents(*)\Total Agent Invocations" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Extensibility Agents(*)\Total Agent Invocations" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Extensibility Agents(*)\Total Agent Invocations" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Store Driver Inbound: MessageDeliveryAttempts" ENABLED="True" CATEGORY="MSExchange Store Driver" PRIMARYDATASOURCE="\MSExchange Store Driver(_total)\Inbound: MessageDeliveryAttempts" ID="{8c6ffef1-e09a-408b-8cc9-16b036dcb90b}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Inbound: Message Delivery Attempts is the number of attempt for delivering transport mailitem.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Store Driver(_total)\Inbound: MessageDeliveryAttempts" COLLECTIONVARNAME="MSExchangeStoreDriverInboundMessageDeliveryAttempts_total" EXPRESSIONPATH="\MSExchange Store Driver(_total)\Inbound: MessageDeliveryAttempts" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Store Driver(_total)\Inbound: MessageDeliveryAttempts" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Store Driver(_total)\Inbound: MessageDeliveryAttempts" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Store Driver Inbound: MessageDeliveryAttemptsPerSecond" ENABLED="True" CATEGORY="MSExchange Store Driver" PRIMARYDATASOURCE="\MSExchange Store Driver(_total)\Inbound: MessageDeliveryAttemptsPerSecond" ID="{0324d5b4-436d-4aca-b8b0-584a4d2bc522}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Inbound: Message Delivery Attempts Per Second is the number of attempts for delivering transport mailitem per second.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Store Driver(_total)\Inbound: MessageDeliveryAttemptsPerSecond" COLLECTIONVARNAME="MSExchangeStoreDriverInboundMessageDeliveryAttemptsPerSecond_total" EXPRESSIONPATH="\MSExchange Store Driver(_total)\Inbound: MessageDeliveryAttemptsPerSecond" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Store Driver(_total)\Inbound: MessageDeliveryAttemptsPerSecond" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Store Driver(_total)\Inbound: MessageDeliveryAttemptsPerSecond" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeTransport Queues Aggregate Delivery Queue Length (All Queues)" ENABLED="True" CATEGORY="MSExchangeTransport Queues" PRIMARYDATASOURCE="\MSExchangeTransport Queues(_total)\Aggregate Delivery Queue Length (All Queues)" ID="{08b2fa6e-e1f9-4b84-80cc-5924e84a6e72}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Aggregate Delivery Queue Length (All Queues) is the number of items queued for delivery in all queues.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeTransport Queues(_total)\Aggregate Delivery Queue Length (All Queues)" COLLECTIONVARNAME="MSExchangeTransportQueuesAggregateDeliveryQueueLengthAllQueues_total" EXPRESSIONPATH="\MSExchangeTransport Queues(_total)\Aggregate Delivery Queue Length (All Queues)" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeTransport Queues(_total)\Aggregate Delivery Queue Length (All Queues)" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeTransport Queues(_total)\Aggregate Delivery Queue Length (All Queues)" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeTransport Queues Largest Delivery Queue Length" ENABLED="True" CATEGORY="MSExchangeTransport Queues" PRIMARYDATASOURCE="\MSExchangeTransport Queues(_total)\Largest Delivery Queue Length" ID="{6f280230-43dc-438c-811c-dffc533a261e}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Largest Delivery Queue Length is the number of messages in the largest delivery queue.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeTransport Queues(_total)\Largest Delivery Queue Length" COLLECTIONVARNAME="MSExchangeTransportQueuesLargestDeliveryQueueLength_total" EXPRESSIONPATH="\MSExchangeTransport Queues(_total)\Largest Delivery Queue Length" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeTransport Queues(_total)\Largest Delivery Queue Length" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeTransport Queues(_total)\Largest Delivery Queue Length" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeTransport Queues Poison Queue Length" ENABLED="True" CATEGORY="MSExchangeTransport Queues" PRIMARYDATASOURCE="\MSExchangeTransport Queues(_total)\Poison Queue Length" ID="{5ef6738b-47b1-4dd3-b8d3-07c9c0346162}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Poison Message Queue Length is the number of messages in the poison message queue.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeTransport Queues(_total)\Poison Queue Length" COLLECTIONVARNAME="MSExchangeTransportQueuesPoisonQueueLength_total" EXPRESSIONPATH="\MSExchangeTransport Queues(_total)\Poison Queue Length" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeTransport Queues(_total)\Poison Queue Length" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeTransport Queues(_total)\Poison Queue Length" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Store Driver Inbound: LocalDeliveryCallsPerSecond" ENABLED="True" CATEGORY="MSExchange Store Driver" PRIMARYDATASOURCE="\MSExchange Store Driver(_total)\Inbound: LocalDeliveryCallsPerSecond" ID="{8164797d-770e-4a0d-9b89-1fc8163b52fe}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Inbound: Local Delivery Calls Per Second is the number of local delivery attempts per second.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Store Driver(_total)\Inbound: LocalDeliveryCallsPerSecond" COLLECTIONVARNAME="MSExchangeStoreDriverInboundLocalDeliveryCallsPerSecond_total" EXPRESSIONPATH="\MSExchange Store Driver(_total)\Inbound: LocalDeliveryCallsPerSecond" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Store Driver(_total)\Inbound: LocalDeliveryCallsPerSecond" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Store Driver(_total)\Inbound: LocalDeliveryCallsPerSecond" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Store Driver Outbound: Submitted Mail Items Per Second" ENABLED="True" CATEGORY="MSExchange Store Driver" PRIMARYDATASOURCE="\MSExchange Store Driver(_total)\Outbound: Submitted Mail Items Per Second" ID="{b8575125-9a81-4c66-ae8d-93ee12d2eb00}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Outbound: Submitted Mail Items Per Second is the number of mail items per second being submitted.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Store Driver(_total)\Outbound: Submitted Mail Items Per Second" COLLECTIONVARNAME="MSExchangeStoreDriverOutboundSubmittedMailItemsPerSecond_total" EXPRESSIONPATH="\MSExchange Store Driver(_total)\Outbound: Submitted Mail Items Per Second" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Store Driver(_total)\Outbound: Submitted Mail Items Per Second" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Store Driver(_total)\Outbound: Submitted Mail Items Per Second" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeTransport SmtpReceive Average bytes/message" ENABLED="True" CATEGORY="MSExchangeTransport SmtpReceive" PRIMARYDATASOURCE="\MSExchangeTransport SmtpReceive(_total)\Average bytes/message" ID="{df12882e-d605-4050-a850-418d233cdb61}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Average Bytes/Message is the average number of message bytes per inbound message received.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeTransport SmtpReceive(_total)\Average bytes/message" COLLECTIONVARNAME="MSExchangeTransportSmtpReceiveAveragebytesmessage_total" EXPRESSIONPATH="\MSExchangeTransport SmtpReceive(_total)\Average bytes/message" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeTransport SmtpReceive(_total)\Average bytes/message" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeTransport SmtpReceive(_total)\Average bytes/message" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeTransport SmtpReceive Messages Received/sec" ENABLED="True" CATEGORY="MSExchangeTransport SmtpReceive" PRIMARYDATASOURCE="\MSExchangeTransport SmtpReceive(_total)\Messages Received/sec" ID="{2f655db6-8505-41d8-804d-ac4493edb6c1}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Messages Received/sec is the number of messages received by the SMTP server each second.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeTransport SmtpReceive(_total)\Messages Received/sec" COLLECTIONVARNAME="MSExchangeTransportSmtpReceiveMessagesReceivedsec_total" EXPRESSIONPATH="\MSExchangeTransport SmtpReceive(_total)\Messages Received/sec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeTransport SmtpReceive(_total)\Messages Received/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeTransport SmtpReceive(_total)\Messages Received/sec" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeTransport SmtpSend Messages Sent/sec" ENABLED="True" CATEGORY="MSExchangeTransport SmtpSend" PRIMARYDATASOURCE="\MSExchangeTransport SmtpSend(_total)\Messages Sent/sec" ID="{954eaea1-39de-4142-8ba0-7f5c92e13a5d}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Messages Sent/sec is the number of messages sent by the SMTP Send connector each second.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeTransport SmtpSend(_total)\Messages Sent/sec" COLLECTIONVARNAME="MSExchangeTransportSmtpSendMessagesSentsec_total" EXPRESSIONPATH="\MSExchangeTransport SmtpSend(_total)\Messages Sent/sec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeTransport SmtpSend(_total)\Messages Sent/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeTransport SmtpSend(_total)\Messages Sent/sec" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Store Driver Inbound: Recipients Delivered Per Second" ENABLED="True" CATEGORY="MSExchange Store Driver" PRIMARYDATASOURCE="\MSExchange Store Driver(_total)\Inbound: Recipients Delivered Per Second" ID="{444ce28a-318d-410b-b4a0-e9aa3828f4f2}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Recipients delivered per second]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Store Driver(_total)\Inbound: Recipients Delivered Per Second" COLLECTIONVARNAME="MSExchangeStoreDriverInboundRecipientsDeliveredPerSecond_total" EXPRESSIONPATH="\MSExchange Store Driver(_total)\Inbound: Recipients Delivered Per Second" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Store Driver(_total)\Inbound: Recipients Delivered Per Second" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Store Driver(_total)\Inbound: Recipients Delivered Per Second" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Database ==&gt; Instances I/O Log Writes/sec" ENABLED="True" CATEGORY="MSExchange Database ==&gt; Instances" PRIMARYDATASOURCE="\MSExchange Database ==&gt; Instances(edgetransport/Transport Mail Database)\I/O Log Writes/sec" ID="{b4dc0218-38eb-4a68-9a15-beeada4ca59b}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[I/O Log Writes/sec is the rate of logfile write operations completed.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Database ==&gt; Instances(edgetransport/Transport Mail Database)\I/O Log Writes/sec" COLLECTIONVARNAME="MSExchangeDatabase==&gt;InstancesIOLogWritessecedgetransportTransportMailDatabase" EXPRESSIONPATH="\MSExchange Database ==&gt; Instances(edgetransport/Transport Mail Database)\I/O Log Writes/sec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Database ==&gt; Instances(edgetransport/Transport Mail Database)\I/O Log Writes/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Database ==&gt; Instances(edgetransport/Transport Mail Database)\I/O Log Writes/sec" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Database ==&gt; Instances I/O Log Reads/sec" ENABLED="True" CATEGORY="MSExchange Database ==&gt; Instances" PRIMARYDATASOURCE="\MSExchange Database ==&gt; Instances(edgetransport/Transport Mail Database)\I/O Log Reads/sec" ID="{11b4a5b4-81c1-415b-9772-32e6fd96becc}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[I/O Log Reads/sec is the rate of logfile read operations completed.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Database ==&gt; Instances(edgetransport/Transport Mail Database)\I/O Log Reads/sec" COLLECTIONVARNAME="MSExchangeDatabase==&gt;InstancesIOLogReadssecedgetransportTransportMailDatabase" EXPRESSIONPATH="\MSExchange Database ==&gt; Instances(edgetransport/Transport Mail Database)\I/O Log Reads/sec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Database ==&gt; Instances(edgetransport/Transport Mail Database)\I/O Log Reads/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Database ==&gt; Instances(edgetransport/Transport Mail Database)\I/O Log Reads/sec" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Database ==&gt; Instances Version buckets allocated" ENABLED="True" CATEGORY="MSExchange Database ==&gt; Instances" PRIMARYDATASOURCE="\MSExchange Database ==&gt; Instances(edgetransport/Transport Mail Database)\Version buckets allocated" ID="{02d0a2c0-3855-4f11-b87c-4e54a955260c}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Total number of version buckets allocated]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Database ==&gt; Instances(edgetransport/Transport Mail Database)\Version buckets allocated" COLLECTIONVARNAME="MSExchangeDatabase==&gt;InstancesVersionbucketsallocatededgetransportTransportMailDatabase" EXPRESSIONPATH="\MSExchange Database ==&gt; Instances(edgetransport/Transport Mail Database)\Version buckets allocated" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Database ==&gt; Instances(edgetransport/Transport Mail Database)\Version buckets allocated" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Database ==&gt; Instances(edgetransport/Transport Mail Database)\Version buckets allocated" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Database ==&gt; Instances I/O Database Reads/sec" ENABLED="True" CATEGORY="MSExchange Database ==&gt; Instances" PRIMARYDATASOURCE="\MSExchange Database ==&gt; Instances(edgetransport/Transport Mail Database)\I/O Database Reads/sec" ID="{f2f20df0-53c6-41e3-ab44-99119ae2edff}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[I/O Database Reads/sec is the rate of database read operations completed.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Database ==&gt; Instances(edgetransport/Transport Mail Database)\I/O Database Reads/sec" COLLECTIONVARNAME="MSExchangeDatabase==&gt;InstancesIODatabaseReadssecedgetransportTransportMailDatabase" EXPRESSIONPATH="\MSExchange Database ==&gt; Instances(edgetransport/Transport Mail Database)\I/O Database Reads/sec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Database ==&gt; Instances(edgetransport/Transport Mail Database)\I/O Database Reads/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Database ==&gt; Instances(edgetransport/Transport Mail Database)\I/O Database Reads/sec" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Database ==&gt; Instances I/O Database Writes/sec" ENABLED="True" CATEGORY="MSExchange Database ==&gt; Instances" PRIMARYDATASOURCE="\MSExchange Database ==&gt; Instances(edgetransport/Transport Mail Database)\I/O Database Writes/sec" ID="{fab31b9e-dd60-4a00-97c4-225ffba8b67d}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[I/O Database Writes/sec is the rate of database write operations completed.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Database ==&gt; Instances(edgetransport/Transport Mail Database)\I/O Database Writes/sec" COLLECTIONVARNAME="MSExchangeDatabase==&gt;InstancesIODatabaseWritessecedgetransportTransportMailDatabase" EXPRESSIONPATH="\MSExchange Database ==&gt; Instances(edgetransport/Transport Mail Database)\I/O Database Writes/sec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Database ==&gt; Instances(edgetransport/Transport Mail Database)\I/O Database Writes/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Database ==&gt; Instances(edgetransport/Transport Mail Database)\I/O Database Writes/sec" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Database ==&gt; Instances Log Record Stalls/sec" ENABLED="True" CATEGORY="MSExchange Database ==&gt; Instances" PRIMARYDATASOURCE="\MSExchange Database ==&gt; Instances(edgetransport/Transport Mail Database)\Log Record Stalls/sec" ID="{7063c6e3-5ba6-4605-a929-3f07c9c4b312}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Log Record Stalls/sec is the number of log records that cannot be added to the log buffers per second because they are full.  If this counter is non-zero most of the time, the log buffer size may be a bottleneck.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Database ==&gt; Instances(edgetransport/Transport Mail Database)\Log Record Stalls/sec" COLLECTIONVARNAME="MSExchangeDatabase==&gt;InstancesLogRecordStallssecedgetransportTransportMailDatabase" EXPRESSIONPATH="\MSExchange Database ==&gt; Instances(edgetransport/Transport Mail Database)\Log Record Stalls/sec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Database ==&gt; Instances(edgetransport/Transport Mail Database)\Log Record Stalls/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Database ==&gt; Instances(edgetransport/Transport Mail Database)\Log Record Stalls/sec" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Database ==&gt; Instances Log Threads Waiting" ENABLED="True" CATEGORY="MSExchange Database ==&gt; Instances" PRIMARYDATASOURCE="\MSExchange Database ==&gt; Instances(edgetransport/Transport Mail Database)\Log Threads Waiting" ID="{3c902986-9ecd-4ac6-bb46-9a73e99c699b}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Log Threads Waiting is the number of threads waiting for their data to be written to the log in order to complete an update of the database.  If this number is too high, the log may be a bottleneck.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Database ==&gt; Instances(edgetransport/Transport Mail Database)\Log Threads Waiting" COLLECTIONVARNAME="MSExchangeDatabase==&gt;InstancesLogThreadsWaitingedgetransportTransportMailDatabase" EXPRESSIONPATH="\MSExchange Database ==&gt; Instances(edgetransport/Transport Mail Database)\Log Threads Waiting" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Database ==&gt; Instances(edgetransport/Transport Mail Database)\Log Threads Waiting" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Database ==&gt; Instances(edgetransport/Transport Mail Database)\Log Threads Waiting" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Database ==&gt; Instances Log Generation Checkpoint Depth" ENABLED="True" CATEGORY="MSExchange Database ==&gt; Instances" PRIMARYDATASOURCE="\MSExchange Database ==&gt; Instances(edgetransport/Transport Mail Database)\Log Generation Checkpoint Depth" ID="{752a09f3-3b84-49d4-bf69-28a3de3a234e}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Log Generation Checkpoint Depth represents the amount of work, in count of log files, that will need to be redone or undone to the database file(s) if the process crashes.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Database ==&gt; Instances(edgetransport/Transport Mail Database)\Log Generation Checkpoint Depth" COLLECTIONVARNAME="MSExchangeDatabase==&gt;InstancesLogGenerationCheckpointDepthedgetransportTransportMailDatabase" EXPRESSIONPATH="\MSExchange Database ==&gt; Instances(edgetransport/Transport Mail Database)\Log Generation Checkpoint Depth" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Database ==&gt; Instances(edgetransport/Transport Mail Database)\Log Generation Checkpoint Depth" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Database ==&gt; Instances(edgetransport/Transport Mail Database)\Log Generation Checkpoint Depth" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Store Interface RPC Slow requests latency average (msec)" ENABLED="True" CATEGORY="MSExchange Store Interface" PRIMARYDATASOURCE="\MSExchange Store Interface(*)\RPC Slow requests latency average (msec)" ID="{a8631441-499d-4ed2-8735-8c4dee8dbaa5}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[RPC Slow requests latency average (msec) is the average latency in milliseconds of slow RPC requests.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Store Interface(*)\RPC Slow requests latency average (msec)" COLLECTIONVARNAME="MSExchangeStoreInterfaceRPCSlowrequestslatencyaveragemsecALL" EXPRESSIONPATH="\MSExchange Store Interface(*)\RPC Slow requests latency average (msec)" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Store Interface(*)\RPC Slow requests latency average (msec)" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Store Interface(*)\RPC Slow requests latency average (msec)" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Store Interface ROP Requests outstanding" ENABLED="True" CATEGORY="MSExchange Store Interface" PRIMARYDATASOURCE="\MSExchange Store Interface(_Total)\ROP Requests outstanding" ID="{5baab8ee-f0bc-4922-bd71-efd2ff0bad03}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[ROP Requests outstanding is the total number of outstanding ROP requests.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Store Interface(_Total)\ROP Requests outstanding" COLLECTIONVARNAME="MSExchangeStoreInterfaceROPRequestsoutstanding_Total" EXPRESSIONPATH="\MSExchange Store Interface(_Total)\ROP Requests outstanding" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Store Interface(_Total)\ROP Requests outstanding" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Store Interface(_Total)\ROP Requests outstanding" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeIS Mailbox Search Task Rate" ENABLED="True" CATEGORY="MSExchangeIS Mailbox" PRIMARYDATASOURCE="\MSExchangeIS Mailbox(*)\Search Task Rate" ID="{59ee7361-cc5d-4c31-a12c-81d0f053bf59}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Number of search tasks created per second.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeIS Mailbox(*)\Search Task Rate" COLLECTIONVARNAME="MSExchangeISMailboxSearchTaskRateALL" EXPRESSIONPATH="\MSExchangeIS Mailbox(*)\Search Task Rate" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeIS Mailbox(*)\Search Task Rate" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchangeIS Mailbox(*)\Search Task Rate" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Search Indices Recent Average Latency of RPCs Used to Obtain Content" ENABLED="True" CATEGORY="MSExchange Search Indices" PRIMARYDATASOURCE="\MSExchange Search Indices(*)\Recent Average Latency of RPCs Used to Obtain Content" ID="{d92129f1-40ba-4ad5-8dfc-e843dfd217f8}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Recent Average Latency of RPCs Used to Obtain Content is the average latency (in milliseconds) of the most recent RPCs to the Exchange Information Store service. These RPCs are used to get content for the filter daemon for the given database.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Search Indices(*)\Recent Average Latency of RPCs Used to Obtain Content" COLLECTIONVARNAME="MSExchangeSearchIndicesRecentAverageLatencyofRPCsUsedtoObtainContentALL" EXPRESSIONPATH="\MSExchange Search Indices(*)\Recent Average Latency of RPCs Used to Obtain Content" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Search Indices(*)\Recent Average Latency of RPCs Used to Obtain Content" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Search Indices(*)\Recent Average Latency of RPCs Used to Obtain Content" CHARTLABELS="instance" />
+  </ANALYSIS>
+</PAL>

@@ -1,0 +1,23 @@
+<PAL NAME="Microsoft OCS 2007 R2 - Mediation" DESCRIPTION="Performance counter thresholds for Microsoft Office Communications Server 2007 R2 Mediation Server." CONTENTOWNERS="Doug Deitterick" FEEDBACKEMAILADDRESS="dodeitte@microsoft.com" VERSION="2.0" PALVERSION="2.0" LANGUAGE="English" LANGUAGECODE="en">
+  <INHERITANCE FILEPATH="QuickSystemOverview.xml" />
+  <ANALYSIS NAME="MediationServer - 03 - Health Indices - 000 - Load Call Failure Index" ENABLED="True" CATEGORY="MediationServer - 03 - Health Indices" PRIMARYDATASOURCE="\MediationServer - 03 - Health Indices\- 000 - Load Call Failure Index" ID="{495759db-f4ae-4e37-a908-ebf603da632e}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\MediationServer - 03 - Health Indices\- 000 - Load Call Failure Index" COLLECTIONVARNAME="MediationServer03HealthIndices000LoadCallFailureIndex" EXPRESSIONPATH="\MediationServer - 03 - Health Indices\- 000 - Load Call Failure Index" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MediationServer - 03 - Health Indices\- 000 - Load Call Failure Index" ISTHRESHOLDSADDED="True" DATASOURCE="\MediationServer - 03 - Health Indices\- 000 - Load Call Failure Index" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $MediationServer03HealthIndices000LoadCallFailureIndex -MinThreshold 5 -MaxThreshold 10 -IsOperatorGreaterThan $True -UseMaxValue $False]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $MediationServer03HealthIndices000LoadCallFailureIndex -MinThreshold 10 -MaxThreshold 11.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Greater than or equal to 5" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $MediationServer03HealthIndices000LoadCallFailureIndex -Operator 'ge' -Threshold 5]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="Greater than or equal to 10" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $MediationServer03HealthIndices000LoadCallFailureIndex -Operator 'ge' -Threshold 10]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[Scaled index between zero and 100 that is related to all call failures due to heavy load]]></DESCRIPTION>
+  </ANALYSIS>
+</PAL>

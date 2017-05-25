@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<PAL NAME="Microsoft Exchange 2007 - HUB/CAS/MBX (TechNet)" DESCRIPTION="Includes counters and thresholds for the Exchange Server 2007 Client Acccess Server, Hub Transport, and Mailbox roles based on the following product documentation: http://technet.microsoft.com/en-us/library/bb201674%28v=exchg.80%29 and http://technet.microsoft.com/en-us/library/bb201704%28v=exchg.80%29 and http://technet.microsoft.com/en-us/library/bb201689%28v=exchg.80%29" VERSION="1.0" PALVERSION="2.0" CONTENTOWNERS="Kevan Brown" FEEDBACKEMAILADDRESS="kbrown@smartronix.com">
+  <ANALYSIS NAME="Client Access - LogicalDisk Disk Reads/sec" ENABLED="False" CATEGORY="LogicalDisk" PRIMARYDATASOURCE="\LogicalDisk(_Total)\Disk Reads/sec" ID="80255f09-4a58-4d63-af48-6a609d7286a9" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\LogicalDisk(_Total)\Disk Reads/sec" COLLECTIONVARNAME="CollectionOfLogicalDiskDiskReadssec" EXPRESSIONPATH="\LogicalDisk(_Total)\Disk Reads/sec" TRENDVARNAME="TrendLogicalDiskDiskReadssec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LogicalDisk(_Total)\Disk Reads/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\LogicalDisk(_Total)\Disk Reads/sec" CHARTLABELS="instance" />
+    <DATASOURCE TYPE="CounterLog" NAME="\LogicalDisk(_Total)\Disk Writes/sec" EXPRESSIONPATH="\LogicalDisk(_Total)\Disk Writes/sec" COLLECTIONVARNAME="CollectionOfLogicalDiskDiskWritessecTotal" DATATYPE="integer" />
+    <DESCRIPTION><![CDATA[<p></p><p>Disk Reads/sec is the rate of read operations on the disk.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Indicates that a paging situation may exist because data was read from disk instead of memory.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For Exchange Server 2007 Client Access Servers, this value should be less than 50 at all times.</p>
+<p>Disk Writes/sec + Disk Reads/sec = < 50</p>
+<p>NOTE: These counters assume that the server is performing only the Client Access server role. These counters are inappropriate for servers performing multiple role functions, because their profile is markedly different.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Client Access - LogicalDisk Disk Writes/sec" ENABLED="False" CATEGORY="LogicalDisk" PRIMARYDATASOURCE="\LogicalDisk(_Total)\Disk Writes/sec" ID="34938274-f2b1-4976-bf24-8cdbf4c8395a" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\LogicalDisk(_Total)\Disk Writes/sec" COLLECTIONVARNAME="CollectionOfLogicalDiskDiskWritessec" EXPRESSIONPATH="\LogicalDisk(_Total)\Disk Writes/sec" TRENDVARNAME="TrendLogicalDiskDiskWritessec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LogicalDisk(_Total)\Disk Writes/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\LogicalDisk(_Total)\Disk Writes/sec" CHARTLABELS="instance" />
+    <DATASOURCE TYPE="CounterLog" NAME="\LogicalDisk(_Total)\Disk Reads/sec" EXPRESSIONPATH="\LogicalDisk(_Total)\Disk Reads/sec" COLLECTIONVARNAME="CollectionOfLogicalDiskDiskReadssecTotal" DATATYPE="integer" />
+    <DESCRIPTION><![CDATA[<p></p><p>Disk Writes/sec is the rate of write operations on the disk.</p>
+<p><strong>TechNet Exchange Counter Description:</strong></p>
+<p>Indicates that a paging situation may exist because data was written to disk instead of being stored in memory.</p>
+<p><strong>TechNet Exchange Guidance:</strong></p>
+<p>For Exchange Server 2007 Client Access Servers, this value should be less than 50 at all times.</p>
+<p>Disk Writes/sec + Disk Reads/sec = < 50</p>
+<p>NOTE: These counters assume that the server is performing only the Client Access server role. These counters are inappropriate for servers performing multiple role functions, because their profile is markedly different.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <INHERITANCE FILEPATH="Exchange2007-MBX-TechNet.xml" />  
+  <INHERITANCE FILEPATH="Exchange2007-CAS-TechNet.xml" />  
+  <INHERITANCE FILEPATH="Exchange2007-HUB-TechNet.xml" />
+</PAL>

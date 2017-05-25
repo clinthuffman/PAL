@@ -1,0 +1,828 @@
+<?xml version="1.0"?>
+<PAL PALVERSION="2.0" NAME="Dynamics CRM 2013 Back End Role" DESCRIPTION="Basic Monitoring for the Dynamics CRM 2013 Back End role" VERSION="1.0" CONTENTOWNERS="Stephane Dorrekens" FEEDBACKEMAILADDRESS="stephane.dorrekens@realdolmen.com">
+  <ANALYSIS NAME="CRM Async Service Workflow Operations Outstanding" ENABLED="True" CATEGORY="CRM Async Service (Workflows)" PRIMARYDATASOURCE="\CRM Async Service(mscrmasyncservice)\Workflow Operations Outstanding" ID="46ba5268-38b3-49be-8a38-7bee3e5cdd02" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\CRM Async Service(mscrmasyncservice)\Workflow Operations Outstanding" COLLECTIONVARNAME="CollectionOfCRMAsyncServiceWorkflowOperationsOutstanding" EXPRESSIONPATH="\CRM Async Service(mscrmasyncservice)\Workflow Operations Outstanding" TRENDVARNAME="TrendCRMAsyncServiceWorkflowOperationsOutstanding" DATATYPE="integer" />
+    <CHART CHARTTITLE="\CRM Async Service(mscrmasyncservice)\Workflow Operations Outstanding" ISTHRESHOLDSADDED="True" DATASOURCE="\CRM Async Service(mscrmasyncservice)\Workflow Operations Outstanding" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[$MaxOutstandingWorkflows = [Int]$MaximumAsyncOperationsTroughput
+$MaxOutstandingWorkflowsMax = [Int]$MaximumAsyncOperationsTroughput * 10
+StaticChartThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServiceWorkflowOperationsOutstanding -MinThreshold $MaxOutstandingWorkflows -MaxThreshold $MaxOutstandingWorkflowsMax -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[$MaxOutstandingWorkflowsMax =  [Int]$MaximumAsyncOperationsTroughput * 10
+StaticChartThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServiceWorkflowOperationsOutstanding -MinThreshold $MaxOutstandingWorkflowsMax -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Outstanding Warning" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[
+$MaxOutstandingWorkflows =  [Int]$MaximumAsyncOperationsTroughput
+StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServiceWorkflowOperationsOutstanding -Operator 'gt' -Threshold $MaxOutstandingWorkflows
+
+]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The current number of Workflow operations oustanding, including in-memory queued items.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="CRM Async Service Workflow Operations Completion Throughput" ENABLED="True" CATEGORY="CRM Async Service (Workflows)" PRIMARYDATASOURCE="\CRM Async Service(mscrmasyncservice)\Workflow Operations Completion Throughput" ID="473754ac-0643-4ca9-b1f9-ec683da92fba" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Completion throughput of Workflow operations.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\CRM Async Service(mscrmasyncservice)\Workflow Operations Completion Throughput" COLLECTIONVARNAME="CollectionOfCRMAsyncServiceWorkflowOperationsCompletionThroughput" EXPRESSIONPATH="\CRM Async Service(mscrmasyncservice)\Workflow Operations Completion Throughput" TRENDVARNAME="TrendCRMAsyncServiceWorkflowOperationsCompletionThroughput" DATATYPE="integer" />
+    <CHART CHARTTITLE="\CRM Async Service(mscrmasyncservice)\Workflow Operations Completion Throughput" ISTHRESHOLDSADDED="False" DATASOURCE="\CRM Async Service(mscrmasyncservice)\Workflow Operations Completion Throughput" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="CRM Async Service Workflow Operations Executing" ENABLED="True" CATEGORY="CRM Async Service (Workflows)" PRIMARYDATASOURCE="\CRM Async Service(mscrmasyncservice)\Workflow Operations Executing" ID="2e8ca75e-561a-442c-9c09-c5dd3047dfdb" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The current number of Workflow operations being processed by asynchronous handlers.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\CRM Async Service(mscrmasyncservice)\Workflow Operations Executing" COLLECTIONVARNAME="CollectionOfCRMAsyncServiceWorkflowOperationsExecuting" EXPRESSIONPATH="\CRM Async Service(mscrmasyncservice)\Workflow Operations Executing" TRENDVARNAME="TrendCRMAsyncServiceWorkflowOperationsExecuting" DATATYPE="integer" />
+    <CHART CHARTTITLE="\CRM Async Service(mscrmasyncservice)\Workflow Operations Executing" ISTHRESHOLDSADDED="False" DATASOURCE="\CRM Async Service(mscrmasyncservice)\Workflow Operations Executing" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="CRM Async Service Workflow Operations Failed" ENABLED="True" CATEGORY="CRM Async Service (Workflows)" PRIMARYDATASOURCE="\CRM Async Service(mscrmasyncservice)\Workflow Operations Failed" ID="09231b83-01eb-4536-a143-5d688abda658" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\CRM Async Service(mscrmasyncservice)\Workflow Operations Failed" COLLECTIONVARNAME="CollectionOfCRMAsyncServiceWorkflowOperationsFailed" EXPRESSIONPATH="\CRM Async Service(mscrmasyncservice)\Workflow Operations Failed" TRENDVARNAME="TrendCRMAsyncServiceWorkflowOperationsFailed" DATATYPE="integer" />
+    <CHART CHARTTITLE="\CRM Async Service(mscrmasyncservice)\Workflow Operations Failed" ISTHRESHOLDSADDED="True" DATASOURCE="\CRM Async Service(mscrmasyncservice)\Workflow Operations Failed" CHARTLABELS="instance">
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServiceWorkflowOperationsFailed -MinThreshold 1 -MaxThreshold 100 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="#Total Failures&gt;0" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServiceWorkflowOperationsFailed -Operator 'gt' -Threshold 0
+
+]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="#Failures is raising" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServiceWorkflowOperationsFailed -Operator 'gt' -Threshold 0 -IsTrendOnly $True
+]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The total number of Workflow operations failed.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="CRM Async Service Workflow - Average time spent in operation" ENABLED="True" CATEGORY="CRM Async Service (Workflows)" PRIMARYDATASOURCE="\CRM Async Service(mscrmasyncservice)\Workflow - Average time spent in operation" ID="d9167fe2-ebcb-41a4-9258-9626473c6296" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\CRM Async Service(mscrmasyncservice)\Workflow - Average time spent in operation" COLLECTIONVARNAME="CollectionOfCRMAsyncServiceWorkflowAveragetimespentinoperation" EXPRESSIONPATH="\CRM Async Service(mscrmasyncservice)\Workflow - Average time spent in operation" TRENDVARNAME="TrendCRMAsyncServiceWorkflowAveragetimespentinoperation" DATATYPE="integer" />
+    <CHART CHARTTITLE="\CRM Async Service(mscrmasyncservice)\Workflow - Average time spent in operation" ISTHRESHOLDSADDED="False" DATASOURCE="\CRM Async Service(mscrmasyncservice)\Workflow - Average time spent in operation" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[Workflow - Average time spent in operation.]]></DESCRIPTION>
+  </ANALYSIS>
+  <QUESTION QUESTIONVARNAME="MaximumAsyncOperationsTroughput" DATATYPE="string" DEFAULTVALUE="100">Maximum Async Operations Troughput per Server</QUESTION>
+  <ANALYSIS NAME="CRM Async Service Activity Propagation Operations Failed" ENABLED="True" CATEGORY="CRM Async Service" PRIMARYDATASOURCE="\CRM Async Service(mscrmasyncservice)\Activity Propagation Operations Failed" ID="68eea0f8-000c-4b40-9482-18e68bbecc2c" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\CRM Async Service(mscrmasyncservice)\Activity Propagation Operations Failed" COLLECTIONVARNAME="CollectionOfCRMAsyncServiceActivityPropagationOperationsFailed" EXPRESSIONPATH="\CRM Async Service(mscrmasyncservice)\Activity Propagation Operations Failed" TRENDVARNAME="TrendCRMAsyncServiceActivityPropagationOperationsFailed" DATATYPE="integer" />
+    <CHART CHARTTITLE="\CRM Async Service(mscrmasyncservice)\Activity Propagation Operations Failed" ISTHRESHOLDSADDED="False" DATASOURCE="\CRM Async Service(mscrmasyncservice)\Activity Propagation Operations Failed" CHARTLABELS="instance" />
+    <THRESHOLD NAME="#Total Failures&gt;0" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServiceActivityPropagationOperationsFailed -Operator 'gt' -Threshold 0
+]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="#Failures is raising" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServiceActivityPropagationOperationsFailed -Operator 'gt' -Threshold 0 -IsTrendOnly $True
+]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The total number of Activity Propagation operations failed.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="CRM Async Service ActivityQueue: Total Operations Failed" ENABLED="True" CATEGORY="CRM Async Service (SSS)" PRIMARYDATASOURCE="\CRM Async Service(mscrmasyncservice)\ActivityQueue: Total Operations Failed" ID="026b779f-3860-47cb-9e88-082e610a0638" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\CRM Async Service(mscrmasyncservice)\ActivityQueue: Total Operations Failed" COLLECTIONVARNAME="CollectionOfCRMAsyncServiceActivityQueueTotalOperationsFailed" EXPRESSIONPATH="\CRM Async Service(mscrmasyncservice)\ActivityQueue: Total Operations Failed" TRENDVARNAME="TrendCRMAsyncServiceActivityQueueTotalOperationsFailed" DATATYPE="integer" />
+    <CHART CHARTTITLE="\CRM Async Service(mscrmasyncservice)\ActivityQueue: Total Operations Failed" ISTHRESHOLDSADDED="False" DATASOURCE="\CRM Async Service(mscrmasyncservice)\ActivityQueue: Total Operations Failed" CHARTLABELS="instance" />
+    <THRESHOLD NAME="#Total Failures&gt;0" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServiceActivityQueueTotalOperationsFailed -Operator 'gt' -Threshold 0
+]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="#Failures is raising" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServiceActivityQueueTotalOperationsFailed -Operator 'gt' -Threshold 0 -IsTrendOnly $True
+]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The total number of ActivityQueue: Total operations failed.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="CRM Async Service Bulk Email Operations Failed" ENABLED="True" CATEGORY="CRM Async Service" PRIMARYDATASOURCE="\CRM Async Service(mscrmasyncservice)\Bulk Email Operations Failed" ID="eb5f10bc-d12e-4b19-813d-3dcd1c4771d9" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\CRM Async Service(mscrmasyncservice)\Bulk Email Operations Failed" COLLECTIONVARNAME="CollectionOfCRMAsyncServiceBulkEmailOperationsFailed" EXPRESSIONPATH="\CRM Async Service(mscrmasyncservice)\Bulk Email Operations Failed" TRENDVARNAME="TrendCRMAsyncServiceBulkEmailOperationsFailed" DATATYPE="integer" />
+    <CHART CHARTTITLE="\CRM Async Service(mscrmasyncservice)\Bulk Email Operations Failed" ISTHRESHOLDSADDED="False" DATASOURCE="\CRM Async Service(mscrmasyncservice)\Bulk Email Operations Failed" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[The total number of Bulk Email operations failed.]]></DESCRIPTION>
+    <THRESHOLD NAME="#Total Failures&gt;0" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServiceBulkEmailOperationsFailed -Operator 'gt' -Threshold 0
+]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="#Failures is raising" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServiceBulkEmailOperationsFailed -Operator 'gt' -Threshold 0 -IsTrendOnly $True
+]]></CODE>
+    </THRESHOLD>
+  </ANALYSIS>
+  <ANALYSIS NAME="CRM Async Service BulkDelete Operations Failed" ENABLED="True" CATEGORY="CRM Async Service" PRIMARYDATASOURCE="\CRM Async Service(mscrmasyncservice)\BulkDelete Operations Failed" ID="bbc8b3ae-c847-4816-9ed8-cc55ff340197" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\CRM Async Service(mscrmasyncservice)\BulkDelete Operations Failed" COLLECTIONVARNAME="CollectionOfCRMAsyncServiceBulkDeleteOperationsFailed" EXPRESSIONPATH="\CRM Async Service(mscrmasyncservice)\BulkDelete Operations Failed" TRENDVARNAME="TrendCRMAsyncServiceBulkDeleteOperationsFailed" DATATYPE="integer" />
+    <CHART CHARTTITLE="\CRM Async Service(mscrmasyncservice)\BulkDelete Operations Failed" ISTHRESHOLDSADDED="False" DATASOURCE="\CRM Async Service(mscrmasyncservice)\BulkDelete Operations Failed" CHARTLABELS="instance" />
+    <THRESHOLD NAME="#Total Failures&gt;0" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServiceBulkDeleteOperationsFailed -Operator 'gt' -Threshold 0
+]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="#Failures is raising" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServiceBulkDeleteOperationsFailed -Operator 'gt' -Threshold 0 -IsTrendOnly $True
+]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The total number of BulkDelete operations failed.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="CRM Async Service Event Operations Failed" ENABLED="True" CATEGORY="CRM Async Service" PRIMARYDATASOURCE="\CRM Async Service(mscrmasyncservice)\Event Operations Failed" ID="d9fe838c-1dbe-48da-81e4-164d506fd205" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\CRM Async Service(mscrmasyncservice)\Event Operations Failed" COLLECTIONVARNAME="CollectionOfCRMAsyncServiceEventOperationsFailed" EXPRESSIONPATH="\CRM Async Service(mscrmasyncservice)\Event Operations Failed" TRENDVARNAME="TrendCRMAsyncServiceEventOperationsFailed" DATATYPE="integer" />
+    <CHART CHARTTITLE="\CRM Async Service(mscrmasyncservice)\Event Operations Failed" ISTHRESHOLDSADDED="False" DATASOURCE="\CRM Async Service(mscrmasyncservice)\Event Operations Failed" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[The total number of Event operations failed.]]></DESCRIPTION>
+    <THRESHOLD NAME="#Total Failures&gt;0" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServiceEventOperationsFailed -Operator 'gt' -Threshold 0
+]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="#Failures is raising" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServiceEventOperationsFailed -Operator 'gt' -Threshold 0 -IsTrendOnly $True
+]]></CODE>
+    </THRESHOLD>
+  </ANALYSIS>
+  <ANALYSIS NAME="CRM Async Service Exchange Sync: Tasks Failed" ENABLED="True" CATEGORY="CRM Async Service (SSS)" PRIMARYDATASOURCE="\CRM Async Service(mscrmasyncservice)\Exchange Sync: Tasks Failed" ID="99bfd577-386f-49b5-a267-ad978df26e9c" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Total number of Tasks Failed]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\CRM Async Service(mscrmasyncservice)\Exchange Sync: Tasks Failed" COLLECTIONVARNAME="CollectionOfCRMAsyncServiceExchangeSyncTasksFailed" EXPRESSIONPATH="\CRM Async Service(mscrmasyncservice)\Exchange Sync: Tasks Failed" TRENDVARNAME="TrendCRMAsyncServiceExchangeSyncTasksFailed" DATATYPE="integer" />
+    <CHART CHARTTITLE="\CRM Async Service(mscrmasyncservice)\Exchange Sync: Tasks Failed" ISTHRESHOLDSADDED="False" DATASOURCE="\CRM Async Service(mscrmasyncservice)\Exchange Sync: Tasks Failed" CHARTLABELS="instance" />
+    <THRESHOLD NAME="#Total Failures&gt;0" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServiceExchangeSyncTasksFailed -Operator 'gt' -Threshold 0
+]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="#Failures is raising" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServiceExchangeSyncTasksFailed -Operator 'gt' -Threshold 0 -IsTrendOnly $True
+]]></CODE>
+    </THRESHOLD>
+  </ANALYSIS>
+  <ANALYSIS NAME="CRM Async Service Exchange Sync: ACTs Failed" ENABLED="True" CATEGORY="CRM Async Service (SSS)" PRIMARYDATASOURCE="\CRM Async Service(mscrmasyncservice)\Exchange Sync: ACTs Failed" ID="a618da96-4578-4859-8b61-a667b07766c4" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Total number of ACTs Failed]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\CRM Async Service(mscrmasyncservice)\Exchange Sync: ACTs Failed" COLLECTIONVARNAME="CollectionOfCRMAsyncServiceExchangeSyncACTsFailed" EXPRESSIONPATH="\CRM Async Service(mscrmasyncservice)\Exchange Sync: ACTs Failed" TRENDVARNAME="TrendCRMAsyncServiceExchangeSyncACTsFailed" DATATYPE="integer" />
+    <CHART CHARTTITLE="\CRM Async Service(mscrmasyncservice)\Exchange Sync: ACTs Failed" ISTHRESHOLDSADDED="False" DATASOURCE="\CRM Async Service(mscrmasyncservice)\Exchange Sync: ACTs Failed" CHARTLABELS="instance" />
+    <THRESHOLD NAME="#Total Failures&gt;0" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServiceExchangeSyncACTsFailed -Operator 'gt' -Threshold 0
+]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="#Failures is raising" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServiceExchangeSyncACTsFailed -Operator 'gt' -Threshold 0 -IsTrendOnly $True
+]]></CODE>
+    </THRESHOLD>
+  </ANALYSIS>
+  <ANALYSIS NAME="CRM Async Service Exchange Sync: Appointments Failed" ENABLED="True" CATEGORY="CRM Async Service (SSS)" PRIMARYDATASOURCE="\CRM Async Service(mscrmasyncservice)\Exchange Sync: Appointments Failed" ID="0f779c09-4727-4e5b-baac-4f3e12d2d818" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Total number of Appointments Failed]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\CRM Async Service(mscrmasyncservice)\Exchange Sync: Appointments Failed" COLLECTIONVARNAME="CollectionOfCRMAsyncServiceExchangeSyncAppointmentsFailed" EXPRESSIONPATH="\CRM Async Service(mscrmasyncservice)\Exchange Sync: Appointments Failed" TRENDVARNAME="TrendCRMAsyncServiceExchangeSyncAppointmentsFailed" DATATYPE="integer" />
+    <CHART CHARTTITLE="\CRM Async Service(mscrmasyncservice)\Exchange Sync: Appointments Failed" ISTHRESHOLDSADDED="False" DATASOURCE="\CRM Async Service(mscrmasyncservice)\Exchange Sync: Appointments Failed" CHARTLABELS="instance" />
+    <THRESHOLD NAME="#Total Failures&gt;0" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServiceExchangeSyncAppointmentsFailed -Operator 'gt' -Threshold 0
+]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="#Failures is raising" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServiceExchangeSyncAppointmentsFailed -Operator 'gt' -Threshold 0 -IsTrendOnly $True
+]]></CODE>
+    </THRESHOLD>
+  </ANALYSIS>
+  <ANALYSIS NAME="CRM Async Service Exchange Sync: Contacts Failed" ENABLED="True" CATEGORY="CRM Async Service (SSS)" PRIMARYDATASOURCE="\CRM Async Service(mscrmasyncservice)\Exchange Sync: Contacts Failed" ID="0a4624be-e6d4-447b-87e2-27a551a11c74" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\CRM Async Service(mscrmasyncservice)\Exchange Sync: Contacts Failed" COLLECTIONVARNAME="CollectionOfCRMAsyncServiceExchangeSyncContactsFailed" EXPRESSIONPATH="\CRM Async Service(mscrmasyncservice)\Exchange Sync: Contacts Failed" TRENDVARNAME="TrendCRMAsyncServiceExchangeSyncContactsFailed" DATATYPE="integer" />
+    <CHART CHARTTITLE="\CRM Async Service(mscrmasyncservice)\Exchange Sync: Contacts Failed" ISTHRESHOLDSADDED="False" DATASOURCE="\CRM Async Service(mscrmasyncservice)\Exchange Sync: Contacts Failed" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[Total number of Contacts Failed]]></DESCRIPTION>
+    <THRESHOLD NAME="#Total Failures&gt;0" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServiceExchangeSyncContactsFailed -Operator 'gt' -Threshold 0
+]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="#Failures is raising" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServiceExchangeSyncContactsFailed -Operator 'gt' -Threshold 0 -IsTrendOnly $True
+]]></CODE>
+    </THRESHOLD>
+  </ANALYSIS>
+  <ANALYSIS NAME="CRM Async Service Exchange Sync: Transient Errors for ACTs" ENABLED="True" CATEGORY="CRM Async Service (SSS)" PRIMARYDATASOURCE="\CRM Async Service(mscrmasyncservice)\Exchange Sync: Transient Errors for ACTs" ID="e8c43216-d6f7-494b-acd2-9bed934844ae" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Total number of Transient Errors for ACTs]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\CRM Async Service(mscrmasyncservice)\Exchange Sync: Transient Errors for ACTs" COLLECTIONVARNAME="CollectionOfCRMAsyncServiceExchangeSyncTransientErrorsforACTs" EXPRESSIONPATH="\CRM Async Service(mscrmasyncservice)\Exchange Sync: Transient Errors for ACTs" TRENDVARNAME="TrendCRMAsyncServiceExchangeSyncTransientErrorsforACTs" DATATYPE="integer" />
+    <CHART CHARTTITLE="\CRM Async Service(mscrmasyncservice)\Exchange Sync: Transient Errors for ACTs" ISTHRESHOLDSADDED="False" DATASOURCE="\CRM Async Service(mscrmasyncservice)\Exchange Sync: Transient Errors for ACTs" CHARTLABELS="instance" />
+    <THRESHOLD NAME="#Total Transient Failures&gt;0" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServiceExchangeSyncTransientErrorsforACTs -Operator 'gt' -Threshold 0
+]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="#Transient Failures is raising" CONDITION="Waning" COLOR="Yellow" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServiceExchangeSyncTransientErrorsforACTs -Operator 'gt' -Threshold 0 -IsTrendOnly $True
+]]></CODE>
+    </THRESHOLD>
+  </ANALYSIS>
+  <ANALYSIS NAME="CRM Async Service Exchange Sync: Transient Errors for Appointments" ENABLED="True" CATEGORY="CRM Async Service (SSS)" PRIMARYDATASOURCE="\CRM Async Service(mscrmasyncservice)\Exchange Sync: Transient Errors for Appointments" ID="80d69f38-a268-40cc-88d2-6dcd0e4e070c" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\CRM Async Service(mscrmasyncservice)\Exchange Sync: Transient Errors for Appointments" COLLECTIONVARNAME="CollectionOfCRMAsyncServiceExchangeSyncTransientErrorsforAppointments" EXPRESSIONPATH="\CRM Async Service(mscrmasyncservice)\Exchange Sync: Transient Errors for Appointments" TRENDVARNAME="TrendCRMAsyncServiceExchangeSyncTransientErrorsforAppointments" DATATYPE="integer" />
+    <CHART CHARTTITLE="\CRM Async Service(mscrmasyncservice)\Exchange Sync: Transient Errors for Appointments" ISTHRESHOLDSADDED="False" DATASOURCE="\CRM Async Service(mscrmasyncservice)\Exchange Sync: Transient Errors for Appointments" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[Total number of Transient Errors for Appointments]]></DESCRIPTION>
+    <THRESHOLD NAME="#Total Transient Failures&gt;0" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServiceExchangeSyncTransientErrorsforAppointments -Operator 'gt' -Threshold 0
+]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="#Transient Failures is raising" CONDITION="Waning" COLOR="Yellow" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServiceExchangeSyncTransientErrorsforAppointments -Operator 'gt' -Threshold 0 -IsTrendOnly $True
+]]></CODE>
+    </THRESHOLD>
+  </ANALYSIS>
+  <ANALYSIS NAME="CRM Async Service Exchange Sync: Transient Errors for Contacts" ENABLED="True" CATEGORY="CRM Async Service (SSS)" PRIMARYDATASOURCE="\CRM Async Service(mscrmasyncservice)\Exchange Sync: Transient Errors for Contacts" ID="9adb11f3-e346-42c6-a46e-02135dc3fecd" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\CRM Async Service(mscrmasyncservice)\Exchange Sync: Transient Errors for Contacts" COLLECTIONVARNAME="CollectionOfCRMAsyncServiceExchangeSyncTransientErrorsforContacts" EXPRESSIONPATH="\CRM Async Service(mscrmasyncservice)\Exchange Sync: Transient Errors for Contacts" TRENDVARNAME="TrendCRMAsyncServiceExchangeSyncTransientErrorsforContacts" DATATYPE="integer" />
+    <CHART CHARTTITLE="\CRM Async Service(mscrmasyncservice)\Exchange Sync: Transient Errors for Contacts" ISTHRESHOLDSADDED="False" DATASOURCE="\CRM Async Service(mscrmasyncservice)\Exchange Sync: Transient Errors for Contacts" CHARTLABELS="instance" />
+    <THRESHOLD NAME="#Total Transient Failures&gt;0" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServiceExchangeSyncTransientErrorsforContacts -Operator 'gt' -Threshold 0
+]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="#Transient Failures is raising" CONDITION="Waning" COLOR="Yellow" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServiceExchangeSyncTransientErrorsforContacts -Operator 'gt' -Threshold 0 -IsTrendOnly $True
+]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[Total number of Transient Errors for Contacts]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="CRM Async Service Exchange Sync: Transient Errors for Tasks" ENABLED="True" CATEGORY="CRM Async Service (SSS)" PRIMARYDATASOURCE="\CRM Async Service(mscrmasyncservice)\Exchange Sync: Transient Errors for Tasks" ID="1009fd55-14d0-4436-9835-96618e3ca298" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\CRM Async Service(mscrmasyncservice)\Exchange Sync: Transient Errors for Tasks" COLLECTIONVARNAME="CollectionOfCRMAsyncServiceExchangeSyncTransientErrorsforTasks" EXPRESSIONPATH="\CRM Async Service(mscrmasyncservice)\Exchange Sync: Transient Errors for Tasks" TRENDVARNAME="TrendCRMAsyncServiceExchangeSyncTransientErrorsforTasks" DATATYPE="integer" />
+    <CHART CHARTTITLE="\CRM Async Service(mscrmasyncservice)\Exchange Sync: Transient Errors for Tasks" ISTHRESHOLDSADDED="False" DATASOURCE="\CRM Async Service(mscrmasyncservice)\Exchange Sync: Transient Errors for Tasks" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[Total number of Transient Errors for Tasks]]></DESCRIPTION>
+    <THRESHOLD NAME="#Total Transient Failures&gt;0" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServiceExchangeSyncTransientErrorsforTasks -Operator 'gt' -Threshold 0
+]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="#Transient Failures is raising" CONDITION="Waning" COLOR="Yellow" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServiceExchangeSyncTransientErrorsforTasks -Operator 'gt' -Threshold 0 -IsTrendOnly $True
+]]></CODE>
+    </THRESHOLD>
+  </ANALYSIS>
+  <ANALYSIS NAME="CRM Async Service ExecuteSdkMessage Operations Failed" ENABLED="True" CATEGORY="CRM Async Service" PRIMARYDATASOURCE="\CRM Async Service(mscrmasyncservice)\ExecuteSdkMessage Operations Failed" ID="74a09815-090c-4742-94c4-166ace120421" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\CRM Async Service(mscrmasyncservice)\ExecuteSdkMessage Operations Failed" COLLECTIONVARNAME="CollectionOfCRMAsyncServiceExecuteSdkMessageOperationsFailed" EXPRESSIONPATH="\CRM Async Service(mscrmasyncservice)\ExecuteSdkMessage Operations Failed" TRENDVARNAME="TrendCRMAsyncServiceExecuteSdkMessageOperationsFailed" DATATYPE="integer" />
+    <CHART CHARTTITLE="\CRM Async Service(mscrmasyncservice)\ExecuteSdkMessage Operations Failed" ISTHRESHOLDSADDED="False" DATASOURCE="\CRM Async Service(mscrmasyncservice)\ExecuteSdkMessage Operations Failed" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[The total number of ExecuteSdkMessage operations failed.]]></DESCRIPTION>
+    <THRESHOLD NAME="#Total Failures&gt;0" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServiceExecuteSdkMessageOperationsFailed -Operator 'gt' -Threshold 0
+]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="#Failures is raising" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServiceExecuteSdkMessageOperationsFailed -Operator 'gt' -Threshold 0 -IsTrendOnly $True
+]]></CODE>
+    </THRESHOLD>
+  </ANALYSIS>
+  <ANALYSIS NAME="CRM Async Service Import Operations Failed" ENABLED="True" CATEGORY="CRM Async Service" PRIMARYDATASOURCE="\CRM Async Service(mscrmasyncservice)\Import Operations Failed" ID="4c4963eb-07b0-46e1-8de2-55c7fbc7e345" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The total number of Import operations failed.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\CRM Async Service(mscrmasyncservice)\Import Operations Failed" COLLECTIONVARNAME="CollectionOfCRMAsyncServiceImportOperationsFailed" EXPRESSIONPATH="\CRM Async Service(mscrmasyncservice)\Import Operations Failed" TRENDVARNAME="TrendCRMAsyncServiceImportOperationsFailed" DATATYPE="integer" />
+    <CHART CHARTTITLE="\CRM Async Service(mscrmasyncservice)\Import Operations Failed" ISTHRESHOLDSADDED="False" DATASOURCE="\CRM Async Service(mscrmasyncservice)\Import Operations Failed" CHARTLABELS="instance" />
+    <THRESHOLD NAME="#Total Failures&gt;0" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServiceImportOperationsFailed -Operator 'gt' -Threshold 0
+]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="#Failures is raising" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServiceImportOperationsFailed -Operator 'gt' -Threshold 0 -IsTrendOnly $True
+]]></CODE>
+    </THRESHOLD>
+  </ANALYSIS>
+  <ANALYSIS NAME="CRM Async Service IncomingEmailProcessing Operations Failed" ENABLED="True" CATEGORY="CRM Async Service (Email Router)" PRIMARYDATASOURCE="\CRM Async Service(mscrmasyncservice)\IncomingEmailProcessing Operations Failed" ID="3749be1a-8dd6-4995-84cb-d80b6f667f9f" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\CRM Async Service(mscrmasyncservice)\IncomingEmailProcessing Operations Failed" COLLECTIONVARNAME="CollectionOfCRMAsyncServiceIncomingEmailProcessingOperationsFailed" EXPRESSIONPATH="\CRM Async Service(mscrmasyncservice)\IncomingEmailProcessing Operations Failed" TRENDVARNAME="TrendCRMAsyncServiceIncomingEmailProcessingOperationsFailed" DATATYPE="integer" />
+    <CHART CHARTTITLE="\CRM Async Service(mscrmasyncservice)\IncomingEmailProcessing Operations Failed" ISTHRESHOLDSADDED="False" DATASOURCE="\CRM Async Service(mscrmasyncservice)\IncomingEmailProcessing Operations Failed" CHARTLABELS="instance" />
+    <THRESHOLD NAME="#Total Failures&gt;0" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServiceIncomingEmailProcessingOperationsFailed -Operator 'gt' -Threshold 0
+]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="#Failures is raising" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServiceIncomingEmailProcessingOperationsFailed -Operator 'gt' -Threshold 0 -IsTrendOnly $True
+]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The total number of IncomingEmailProcessing operations failed.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="CRM Async Service MailboxQueue: Total Operations Failed" ENABLED="True" CATEGORY="CRM Async Service (SSS)" PRIMARYDATASOURCE="\CRM Async Service(mscrmasyncservice)\MailboxQueue: Total Operations Failed" ID="2e806792-d512-4478-a0f7-0c724535ac5e" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\CRM Async Service(mscrmasyncservice)\MailboxQueue: Total Operations Failed" COLLECTIONVARNAME="CollectionOfCRMAsyncServiceMailboxQueueTotalOperationsFailed" EXPRESSIONPATH="\CRM Async Service(mscrmasyncservice)\MailboxQueue: Total Operations Failed" TRENDVARNAME="TrendCRMAsyncServiceMailboxQueueTotalOperationsFailed" DATATYPE="integer" />
+    <CHART CHARTTITLE="\CRM Async Service(mscrmasyncservice)\MailboxQueue: Total Operations Failed" ISTHRESHOLDSADDED="False" DATASOURCE="\CRM Async Service(mscrmasyncservice)\MailboxQueue: Total Operations Failed" CHARTLABELS="instance" />
+    <THRESHOLD NAME="#Total Failures&gt;0" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServiceMailboxQueueTotalOperationsFailed -Operator 'gt' -Threshold 0
+]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="#Failures is raising" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServiceMailboxQueueTotalOperationsFailed -Operator 'gt' -Threshold 0 -IsTrendOnly $True
+]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The total number of MailboxQueue: Total operations failed.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="CRM Async Service OutgoingActivity Operations Failed" ENABLED="True" CATEGORY="CRM Async Service (Email Router)" PRIMARYDATASOURCE="\CRM Async Service(mscrmasyncservice)\OutgoingActivity Operations Failed" ID="7a659a5f-bbec-4290-90f2-40ffcff95e58" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\CRM Async Service(mscrmasyncservice)\OutgoingActivity Operations Failed" COLLECTIONVARNAME="CollectionOfCRMAsyncServiceOutgoingActivityOperationsFailed" EXPRESSIONPATH="\CRM Async Service(mscrmasyncservice)\OutgoingActivity Operations Failed" TRENDVARNAME="TrendCRMAsyncServiceOutgoingActivityOperationsFailed" DATATYPE="integer" />
+    <CHART CHARTTITLE="\CRM Async Service(mscrmasyncservice)\OutgoingActivity Operations Failed" ISTHRESHOLDSADDED="False" DATASOURCE="\CRM Async Service(mscrmasyncservice)\OutgoingActivity Operations Failed" CHARTLABELS="instance" />
+    <THRESHOLD NAME="#Total Failures&gt;0" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServiceOutgoingActivityOperationsFailed -Operator 'gt' -Threshold 0
+]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="#Failures is raising" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServiceOutgoingActivityOperationsFailed -Operator 'gt' -Threshold 0 -IsTrendOnly $True
+]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The total number of OutgoingActivity operations failed.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="CRM Async Service Parse Operations Failed" ENABLED="True" CATEGORY="CRM Async Service" PRIMARYDATASOURCE="\CRM Async Service(mscrmasyncservice)\Parse Operations Failed" ID="a1975913-2686-4f1c-a410-07a6612dc02a" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\CRM Async Service(mscrmasyncservice)\Parse Operations Failed" COLLECTIONVARNAME="CollectionOfCRMAsyncServiceParseOperationsFailed" EXPRESSIONPATH="\CRM Async Service(mscrmasyncservice)\Parse Operations Failed" TRENDVARNAME="TrendCRMAsyncServiceParseOperationsFailed" DATATYPE="integer" />
+    <CHART CHARTTITLE="\CRM Async Service(mscrmasyncservice)\Parse Operations Failed" ISTHRESHOLDSADDED="False" DATASOURCE="\CRM Async Service(mscrmasyncservice)\Parse Operations Failed" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[The total number of Parse operations failed.]]></DESCRIPTION>
+    <THRESHOLD NAME="#Total Failures&gt;0" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServiceParseOperationsFailed -Operator 'gt' -Threshold 0
+]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="#Failures is raising" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServiceParseOperationsFailed -Operator 'gt' -Threshold 0 -IsTrendOnly $True
+]]></CODE>
+    </THRESHOLD>
+  </ANALYSIS>
+  <ANALYSIS NAME="CRM Async Service PostToYammer Operations Failed" ENABLED="True" CATEGORY="CRM Async Service" PRIMARYDATASOURCE="\CRM Async Service(mscrmasyncservice)\PostToYammer Operations Failed" ID="32109f39-22a8-4f59-98a7-53156dd86357" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\CRM Async Service(mscrmasyncservice)\PostToYammer Operations Failed" COLLECTIONVARNAME="CollectionOfCRMAsyncServicePostToYammerOperationsFailed" EXPRESSIONPATH="\CRM Async Service(mscrmasyncservice)\PostToYammer Operations Failed" TRENDVARNAME="TrendCRMAsyncServicePostToYammerOperationsFailed" DATATYPE="integer" />
+    <CHART CHARTTITLE="\CRM Async Service(mscrmasyncservice)\PostToYammer Operations Failed" ISTHRESHOLDSADDED="False" DATASOURCE="\CRM Async Service(mscrmasyncservice)\PostToYammer Operations Failed" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[The total number of PostToYammer operations failed.]]></DESCRIPTION>
+    <THRESHOLD NAME="#Total Failures&gt;0" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServicePostToYammerOperationsFailed -Operator 'gt' -Threshold 0
+]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="#Failures is raising" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServicePostToYammerOperationsFailed -Operator 'gt' -Threshold 0 -IsTrendOnly $True
+]]></CODE>
+    </THRESHOLD>
+  </ANALYSIS>
+  <ANALYSIS NAME="CRM Async Service Publish Duplicate Rule Operations Failed" ENABLED="True" CATEGORY="CRM Async Service" PRIMARYDATASOURCE="\CRM Async Service(mscrmasyncservice)\Publish Duplicate Rule Operations Failed" ID="5d085858-b149-478f-89a3-a795c8d353cb" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\CRM Async Service(mscrmasyncservice)\Publish Duplicate Rule Operations Failed" COLLECTIONVARNAME="CollectionOfCRMAsyncServicePublishDuplicateRuleOperationsFailed" EXPRESSIONPATH="\CRM Async Service(mscrmasyncservice)\Publish Duplicate Rule Operations Failed" TRENDVARNAME="TrendCRMAsyncServicePublishDuplicateRuleOperationsFailed" DATATYPE="integer" />
+    <CHART CHARTTITLE="\CRM Async Service(mscrmasyncservice)\Publish Duplicate Rule Operations Failed" ISTHRESHOLDSADDED="False" DATASOURCE="\CRM Async Service(mscrmasyncservice)\Publish Duplicate Rule Operations Failed" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[The total number of Publish Duplicate Rule operations failed.]]></DESCRIPTION>
+    <THRESHOLD NAME="#Total Failures&gt;0" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServicePublishDuplicateRuleOperationsFailed -Operator 'gt' -Threshold 0
+]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="#Failures is raising" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServicePublishDuplicateRuleOperationsFailed -Operator 'gt' -Threshold 0 -IsTrendOnly $True
+]]></CODE>
+    </THRESHOLD>
+  </ANALYSIS>
+  <ANALYSIS NAME="CRM Async Service Quick Campaign Operations Failed" ENABLED="True" CATEGORY="CRM Async Service" PRIMARYDATASOURCE="\CRM Async Service(mscrmasyncservice)\Quick Campaign Operations Failed" ID="3820e2c4-4dc9-49c5-9f8e-4e4aa15e731d" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\CRM Async Service(mscrmasyncservice)\Quick Campaign Operations Failed" COLLECTIONVARNAME="CollectionOfCRMAsyncServiceQuickCampaignOperationsFailed" EXPRESSIONPATH="\CRM Async Service(mscrmasyncservice)\Quick Campaign Operations Failed" TRENDVARNAME="TrendCRMAsyncServiceQuickCampaignOperationsFailed" DATATYPE="integer" />
+    <CHART CHARTTITLE="\CRM Async Service(mscrmasyncservice)\Quick Campaign Operations Failed" ISTHRESHOLDSADDED="False" DATASOURCE="\CRM Async Service(mscrmasyncservice)\Quick Campaign Operations Failed" CHARTLABELS="instance" />
+    <THRESHOLD NAME="#Total Failures&gt;0" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServiceQuickCampaignOperationsFailed -Operator 'gt' -Threshold 0
+]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="#Failures is raising" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServiceQuickCampaignOperationsFailed -Operator 'gt' -Threshold 0 -IsTrendOnly $True
+]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The total number of Quick Campaign operations failed.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="CRM Async Service Server-Side Synchronization (Incoming): Items Failed" ENABLED="True" CATEGORY="CRM Async Service (SSS)" PRIMARYDATASOURCE="\CRM Async Service(mscrmasyncservice)\Server-Side Synchronization (Incoming): Items Failed" ID="eee98391-9a44-4745-a1c9-8cb1e0ef6c81" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\CRM Async Service(mscrmasyncservice)\Server-Side Synchronization (Incoming): Items Failed" COLLECTIONVARNAME="CollectionOfCRMAsyncServiceServerSideSynchronizationIncomingItemsFailed" EXPRESSIONPATH="\CRM Async Service(mscrmasyncservice)\Server-Side Synchronization (Incoming): Items Failed" TRENDVARNAME="TrendCRMAsyncServiceServerSideSynchronizationIncomingItemsFailed" DATATYPE="integer" />
+    <CHART CHARTTITLE="\CRM Async Service(mscrmasyncservice)\Server-Side Synchronization (Incoming): Items Failed" ISTHRESHOLDSADDED="False" DATASOURCE="\CRM Async Service(mscrmasyncservice)\Server-Side Synchronization (Incoming): Items Failed" CHARTLABELS="instance" />
+    <THRESHOLD NAME="#Total Failures&gt;0" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServiceServerSideSynchronizationIncomingItemsFailed -Operator 'gt' -Threshold 0
+]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="#Failures is raising" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServiceServerSideSynchronizationIncomingItemsFailed -Operator 'gt' -Threshold 0 -IsTrendOnly $True
+]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[Total number of incoming mail items failed]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="CRM Async Service Server-Side Synchronization (Incoming): Transient Errors" ENABLED="True" CATEGORY="CRM Async Service (SSS)" PRIMARYDATASOURCE="\CRM Async Service(mscrmasyncservice)\Server-Side Synchronization (Incoming): Transient Errors" ID="9a9740b7-baa0-488f-8862-692d840aa2d3" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\CRM Async Service(mscrmasyncservice)\Server-Side Synchronization (Incoming): Transient Errors" COLLECTIONVARNAME="CollectionOfCRMAsyncServiceServerSideSynchronizationIncomingTransientErrors" EXPRESSIONPATH="\CRM Async Service(mscrmasyncservice)\Server-Side Synchronization (Incoming): Transient Errors" TRENDVARNAME="TrendCRMAsyncServiceServerSideSynchronizationIncomingTransientErrors" DATATYPE="integer" />
+    <CHART CHARTTITLE="\CRM Async Service(mscrmasyncservice)\Server-Side Synchronization (Incoming): Transient Errors" ISTHRESHOLDSADDED="False" DATASOURCE="\CRM Async Service(mscrmasyncservice)\Server-Side Synchronization (Incoming): Transient Errors" CHARTLABELS="instance" />
+    <THRESHOLD NAME="#Total Transient Failures&gt;0" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServiceServerSideSynchronizationIncomingTransientErrors -Operator 'gt' -Threshold 0
+]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="#Transient Failures is raising" CONDITION="Warning" COLOR="Yellow" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServiceServerSideSynchronizationIncomingTransientErrors -Operator 'gt' -Threshold 0 -IsTrendOnly $True
+]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[Total number of transient errors in incoming mail items]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="CRM Async Service Server-Side Synchronization (Outgoing): Items Failed" ENABLED="True" CATEGORY="CRM Async Service (SSS)" PRIMARYDATASOURCE="\CRM Async Service(mscrmasyncservice)\Server-Side Synchronization (Outgoing): Items Failed" ID="0639355e-a34e-43ec-a05f-f3d8356d19d8" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\CRM Async Service(mscrmasyncservice)\Server-Side Synchronization (Outgoing): Items Failed" COLLECTIONVARNAME="CollectionOfCRMAsyncServiceServerSideSynchronizationOutgoingItemsFailed" EXPRESSIONPATH="\CRM Async Service(mscrmasyncservice)\Server-Side Synchronization (Outgoing): Items Failed" TRENDVARNAME="TrendCRMAsyncServiceServerSideSynchronizationOutgoingItemsFailed" DATATYPE="integer" />
+    <CHART CHARTTITLE="\CRM Async Service(mscrmasyncservice)\Server-Side Synchronization (Outgoing): Items Failed" ISTHRESHOLDSADDED="False" DATASOURCE="\CRM Async Service(mscrmasyncservice)\Server-Side Synchronization (Outgoing): Items Failed" CHARTLABELS="instance" />
+    <THRESHOLD NAME="#Total Failures&gt;0" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServiceServerSideSynchronizationOutgoingItemsFailed -Operator 'gt' -Threshold 0
+]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="#Failures is raising" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServiceServerSideSynchronizationOutgoingItemsFailed -Operator 'gt' -Threshold 0 -IsTrendOnly $True
+]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[Total number of outgoing mail items failed]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="CRM Async Service Server-Side Synchronization (Outgoing): Transient Errors" ENABLED="True" CATEGORY="CRM Async Service (SSS)" PRIMARYDATASOURCE="\CRM Async Service(mscrmasyncservice)\Server-Side Synchronization (Outgoing): Transient Errors" ID="fe7d9630-3cef-4db5-a568-de500a2d4ac3" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\CRM Async Service(mscrmasyncservice)\Server-Side Synchronization (Outgoing): Transient Errors" COLLECTIONVARNAME="CollectionOfCRMAsyncServiceServerSideSynchronizationOutgoingTransientErrors" EXPRESSIONPATH="\CRM Async Service(mscrmasyncservice)\Server-Side Synchronization (Outgoing): Transient Errors" TRENDVARNAME="TrendCRMAsyncServiceServerSideSynchronizationOutgoingTransientErrors" DATATYPE="integer" />
+    <CHART CHARTTITLE="\CRM Async Service(mscrmasyncservice)\Server-Side Synchronization (Outgoing): Transient Errors" ISTHRESHOLDSADDED="False" DATASOURCE="\CRM Async Service(mscrmasyncservice)\Server-Side Synchronization (Outgoing): Transient Errors" CHARTLABELS="instance" />
+    <THRESHOLD NAME="#Total Transient Failures&gt;0" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServiceServerSideSynchronizationOutgoingTransientErrors -Operator 'gt' -Threshold 0
+]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="#Transient Failures is raising" CONDITION="Warning" COLOR="Yellow" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServiceServerSideSynchronizationOutgoingTransientErrors -Operator 'gt' -Threshold 0 -IsTrendOnly $True
+]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[Total number of transient errors in outgoing mail items]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="CRM Async Service AuditPartitionCreation Operations Failed" ENABLED="True" CATEGORY="CRM Async Service (Maintenance)" PRIMARYDATASOURCE="\CRM Async Service(mscrmasyncservice$maintenance)\AuditPartitionCreation Operations Failed" ID="b155f347-8a17-4973-9202-6bfe0a8ac394" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\CRM Async Service(mscrmasyncservice$maintenance)\AuditPartitionCreation Operations Failed" COLLECTIONVARNAME="CollectionOfCRMAsyncServiceAuditPartitionCreationOperationsFailed" EXPRESSIONPATH="\CRM Async Service(mscrmasyncservice$maintenance)\AuditPartitionCreation Operations Failed" TRENDVARNAME="TrendCRMAsyncServiceAuditPartitionCreationOperationsFailed" DATATYPE="integer" />
+    <CHART CHARTTITLE="\CRM Async Service(mscrmasyncservice$maintenance)\AuditPartitionCreation Operations Failed" ISTHRESHOLDSADDED="False" DATASOURCE="\CRM Async Service(mscrmasyncservice$maintenance)\AuditPartitionCreation Operations Failed" CHARTLABELS="instance" />
+    <THRESHOLD NAME="#Total Maintenance Failures&gt;0" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServiceAuditPartitionCreationOperationsFailed -Operator 'gt' -Threshold 0
+]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="#Maintenance Failures is raising" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServiceAuditPartitionCreationOperationsFailed -Operator 'gt' -Threshold 0 -IsTrendOnly $True
+]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The total number of AuditPartitionCreation operations failed.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="CRM Async Service Bulk Detect Duplicates Operations Failed" ENABLED="True" CATEGORY="CRM Async Service (Maintenance)" PRIMARYDATASOURCE="\CRM Async Service(mscrmasyncservice$maintenance)\Bulk Detect Duplicates Operations Failed" ID="e8b53086-6530-4643-af2a-e31fea111d24" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\CRM Async Service(mscrmasyncservice$maintenance)\Bulk Detect Duplicates Operations Failed" COLLECTIONVARNAME="CollectionOfCRMAsyncServiceBulkDetectDuplicatesOperationsFailed" EXPRESSIONPATH="\CRM Async Service(mscrmasyncservice$maintenance)\Bulk Detect Duplicates Operations Failed" TRENDVARNAME="TrendCRMAsyncServiceBulkDetectDuplicatesOperationsFailed" DATATYPE="integer" />
+    <CHART CHARTTITLE="\CRM Async Service(mscrmasyncservice$maintenance)\Bulk Detect Duplicates Operations Failed" ISTHRESHOLDSADDED="False" DATASOURCE="\CRM Async Service(mscrmasyncservice$maintenance)\Bulk Detect Duplicates Operations Failed" CHARTLABELS="instance" />
+    <THRESHOLD NAME="#Total Maintenance Failures&gt;0" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServiceBulkDetectDuplicatesOperationsFailed -Operator 'gt' -Threshold 0
+]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="#Maintenance Failures is raising" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServiceBulkDetectDuplicatesOperationsFailed -Operator 'gt' -Threshold 0 -IsTrendOnly $True
+]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The total number of Bulk Detect Duplicates operations failed.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="CRM Async Service CalculateOrgMaxStorageSize Operations Failed" ENABLED="True" CATEGORY="CRM Async Service (Maintenance)" PRIMARYDATASOURCE="\CRM Async Service(mscrmasyncservice$maintenance)\CalculateOrgMaxStorageSize Operations Failed" ID="015a76f4-9e33-4abe-9cf2-1e33277e961e" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\CRM Async Service(mscrmasyncservice$maintenance)\CalculateOrgMaxStorageSize Operations Failed" COLLECTIONVARNAME="CollectionOfCRMAsyncServiceCalculateOrgMaxStorageSizeOperationsFailed" EXPRESSIONPATH="\CRM Async Service(mscrmasyncservice$maintenance)\CalculateOrgMaxStorageSize Operations Failed" TRENDVARNAME="TrendCRMAsyncServiceCalculateOrgMaxStorageSizeOperationsFailed" DATATYPE="integer" />
+    <CHART CHARTTITLE="\CRM Async Service(mscrmasyncservice$maintenance)\CalculateOrgMaxStorageSize Operations Failed" ISTHRESHOLDSADDED="False" DATASOURCE="\CRM Async Service(mscrmasyncservice$maintenance)\CalculateOrgMaxStorageSize Operations Failed" CHARTLABELS="instance" />
+    <THRESHOLD NAME="#Total Maintenance Failures&gt;0" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServiceCalculateOrgMaxStorageSizeOperationsFailed -Operator 'gt' -Threshold 0
+]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="#Maintenance Failures is raising" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServiceCalculateOrgMaxStorageSizeOperationsFailed -Operator 'gt' -Threshold 0 -IsTrendOnly $True
+]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The total number of CalculateOrgMaxStorageSize operations failed.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="CRM Async Service CheckForLanguagePackUpdates Operations Failed" ENABLED="True" CATEGORY="CRM Async Service (Maintenance)" PRIMARYDATASOURCE="\CRM Async Service(mscrmasyncservice$maintenance)\CheckForLanguagePackUpdates Operations Failed" ID="29774608-f0c5-4fd6-be74-bfbfa06a3efa" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\CRM Async Service(mscrmasyncservice$maintenance)\CheckForLanguagePackUpdates Operations Failed" COLLECTIONVARNAME="CollectionOfCRMAsyncServiceCheckForLanguagePackUpdatesOperationsFailed" EXPRESSIONPATH="\CRM Async Service(mscrmasyncservice$maintenance)\CheckForLanguagePackUpdates Operations Failed" TRENDVARNAME="TrendCRMAsyncServiceCheckForLanguagePackUpdatesOperationsFailed" DATATYPE="integer" />
+    <CHART CHARTTITLE="\CRM Async Service(mscrmasyncservice$maintenance)\CheckForLanguagePackUpdates Operations Failed" ISTHRESHOLDSADDED="False" DATASOURCE="\CRM Async Service(mscrmasyncservice$maintenance)\CheckForLanguagePackUpdates Operations Failed" CHARTLABELS="instance" />
+    <THRESHOLD NAME="#Total Maintenance Failures&gt;0" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServiceCheckForLanguagePackUpdatesOperationsFailed -Operator 'gt' -Threshold 0
+]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="#Maintenance Failures is raising" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServiceCheckForLanguagePackUpdatesOperationsFailed -Operator 'gt' -Threshold 0 -IsTrendOnly $True
+]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The total number of CheckForLanguagePackUpdates operations failed.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="CRM Async Service BulkDeleteChild Operations Failed" ENABLED="True" CATEGORY="CRM Async Service" PRIMARYDATASOURCE="\CRM Async Service(mscrmasyncservice)\BulkDeleteChild Operations Failed" ID="91a22e12-f9d9-4d3f-925a-e3c38f061083" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\CRM Async Service(mscrmasyncservice)\BulkDeleteChild Operations Failed" COLLECTIONVARNAME="CollectionOfCRMAsyncServiceBulkDeleteChildOperationsFailed" EXPRESSIONPATH="\CRM Async Service(mscrmasyncservice)\BulkDeleteChild Operations Failed" TRENDVARNAME="TrendCRMAsyncServiceBulkDeleteChildOperationsFailed" DATATYPE="integer" />
+    <CHART CHARTTITLE="\CRM Async Service(mscrmasyncservice)\BulkDeleteChild Operations Failed" ISTHRESHOLDSADDED="False" DATASOURCE="\CRM Async Service(mscrmasyncservice)\BulkDeleteChild Operations Failed" CHARTLABELS="instance" />
+    <THRESHOLD NAME="#Total Failures&gt;0" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServiceBulkDeleteChildOperationsFailed -Operator 'gt' -Threshold 0
+]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="#Failures is raising" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServiceBulkDeleteChildOperationsFailed -Operator 'gt' -Threshold 0 -IsTrendOnly $True
+]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The total number of BulkDeleteChild operations failed.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="CRM Async Service CleanupInactiveWorkflowAssemblies Operations Failed" ENABLED="True" CATEGORY="CRM Async Service (Maintenance)" PRIMARYDATASOURCE="\CRM Async Service(mscrmasyncservice$maintenance)\CleanupInactiveWorkflowAssemblies Operations Failed" ID="2aadaeed-f0a4-497a-99e4-d6553658748e" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\CRM Async Service(mscrmasyncservice$maintenance)\CleanupInactiveWorkflowAssemblies Operations Failed" COLLECTIONVARNAME="CollectionOfCRMAsyncServiceCleanupInactiveWorkflowAssembliesOperationsFailed" EXPRESSIONPATH="\CRM Async Service(mscrmasyncservice$maintenance)\CleanupInactiveWorkflowAssemblies Operations Failed" TRENDVARNAME="TrendCRMAsyncServiceCleanupInactiveWorkflowAssembliesOperationsFailed" DATATYPE="integer" />
+    <CHART CHARTTITLE="\CRM Async Service(mscrmasyncservice$maintenance)\CleanupInactiveWorkflowAssemblies Operations Failed" ISTHRESHOLDSADDED="False" DATASOURCE="\CRM Async Service(mscrmasyncservice$maintenance)\CleanupInactiveWorkflowAssemblies Operations Failed" CHARTLABELS="instance" />
+    <THRESHOLD NAME="#Total Maintenance Failures&gt;0" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServiceCleanupInactiveWorkflowAssembliesOperationsFailed -Operator 'gt' -Threshold 0
+]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="#Maintenance Failures is raising" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServiceCleanupInactiveWorkflowAssembliesOperationsFailed -Operator 'gt' -Threshold 0 -IsTrendOnly $True
+]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The total number of CleanupInactiveWorkflowAssemblies operations failed.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="CRM Async Service Collect Sqm Data Operations Failed" ENABLED="True" CATEGORY="CRM Async Service (Maintenance)" PRIMARYDATASOURCE="\CRM Async Service(mscrmasyncservice$maintenance)\Collect Sqm Data Operations Failed" ID="8f464148-ae78-4f4c-b9ea-a99c6e7e0afb" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\CRM Async Service(mscrmasyncservice$maintenance)\Collect Sqm Data Operations Failed" COLLECTIONVARNAME="CollectionOfCRMAsyncServiceCollectSqmDataOperationsFailed" EXPRESSIONPATH="\CRM Async Service(mscrmasyncservice$maintenance)\Collect Sqm Data Operations Failed" TRENDVARNAME="TrendCRMAsyncServiceCollectSqmDataOperationsFailed" DATATYPE="integer" />
+    <CHART CHARTTITLE="\CRM Async Service(mscrmasyncservice$maintenance)\Collect Sqm Data Operations Failed" ISTHRESHOLDSADDED="False" DATASOURCE="\CRM Async Service(mscrmasyncservice$maintenance)\Collect Sqm Data Operations Failed" CHARTLABELS="instance" />
+    <THRESHOLD NAME="#Total Maintenance Failures&gt;0" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServiceCollectSqmDataOperationsFailed -Operator 'gt' -Threshold 0
+]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="#Maintenance Failures is raising" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServiceCollectSqmDataOperationsFailed -Operator 'gt' -Threshold 0 -IsTrendOnly $True
+]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The total number of Collect Sqm Data operations failed.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="CRM Async Service CollectOrgDBStats Operations Failed" ENABLED="True" CATEGORY="CRM Async Service (Maintenance)" PRIMARYDATASOURCE="\CRM Async Service(mscrmasyncservice$maintenance)\CollectOrgDBStats Operations Failed" ID="1aeb55ee-a72e-44b5-a3b4-f28da9d53020" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\CRM Async Service(mscrmasyncservice$maintenance)\CollectOrgDBStats Operations Failed" COLLECTIONVARNAME="CollectionOfCRMAsyncServiceCollectOrgDBStatsOperationsFailed" EXPRESSIONPATH="\CRM Async Service(mscrmasyncservice$maintenance)\CollectOrgDBStats Operations Failed" TRENDVARNAME="TrendCRMAsyncServiceCollectOrgDBStatsOperationsFailed" DATATYPE="integer" />
+    <CHART CHARTTITLE="\CRM Async Service(mscrmasyncservice$maintenance)\CollectOrgDBStats Operations Failed" ISTHRESHOLDSADDED="False" DATASOURCE="\CRM Async Service(mscrmasyncservice$maintenance)\CollectOrgDBStats Operations Failed" CHARTLABELS="instance" />
+    <THRESHOLD NAME="#Total Maintenance Failures&gt;0" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServiceCollectOrgDBStatsOperationsFailed -Operator 'gt' -Threshold 0
+]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="#Maintenance Failures is raising" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServiceCollectOrgDBStatsOperationsFailed -Operator 'gt' -Threshold 0 -IsTrendOnly $True
+]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The total number of CollectOrgDBStats operations failed.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="CRM Async Service CollectOrgSizeStats Operations Failed" ENABLED="True" CATEGORY="CRM Async Service (Maintenance)" PRIMARYDATASOURCE="\CRM Async Service(mscrmasyncservice$maintenance)\CollectOrgSizeStats Operations Failed" ID="0907e469-975f-4cd1-8c16-b0c951828ae8" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\CRM Async Service(mscrmasyncservice$maintenance)\CollectOrgSizeStats Operations Failed" COLLECTIONVARNAME="CollectionOfCRMAsyncServiceCollectOrgSizeStatsOperationsFailed" EXPRESSIONPATH="\CRM Async Service(mscrmasyncservice$maintenance)\CollectOrgSizeStats Operations Failed" TRENDVARNAME="TrendCRMAsyncServiceCollectOrgSizeStatsOperationsFailed" DATATYPE="integer" />
+    <CHART CHARTTITLE="\CRM Async Service(mscrmasyncservice$maintenance)\CollectOrgSizeStats Operations Failed" ISTHRESHOLDSADDED="False" DATASOURCE="\CRM Async Service(mscrmasyncservice$maintenance)\CollectOrgSizeStats Operations Failed" CHARTLABELS="instance" />
+    <THRESHOLD NAME="#Total Maintenance Failures&gt;0" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServiceCollectOrgSizeStatsOperationsFailed -Operator 'gt' -Threshold 0
+]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="#Maintenance Failures is raising" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServiceCollectOrgSizeStatsOperationsFailed -Operator 'gt' -Threshold 0 -IsTrendOnly $True
+]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The total number of CollectOrgSizeStats operations failed.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="CRM Async Service DatabaseLogBackup Operations Failed" ENABLED="True" CATEGORY="CRM Async Service (Maintenance)" PRIMARYDATASOURCE="\CRM Async Service(mscrmasyncservice$maintenance)\DatabaseLogBackup Operations Failed" ID="049ce01f-428c-401d-8f7f-db64222e3fd1" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\CRM Async Service(mscrmasyncservice$maintenance)\DatabaseLogBackup Operations Failed" COLLECTIONVARNAME="CollectionOfCRMAsyncServiceDatabaseLogBackupOperationsFailed" EXPRESSIONPATH="\CRM Async Service(mscrmasyncservice$maintenance)\DatabaseLogBackup Operations Failed" TRENDVARNAME="TrendCRMAsyncServiceDatabaseLogBackupOperationsFailed" DATATYPE="integer" />
+    <CHART CHARTTITLE="\CRM Async Service(mscrmasyncservice$maintenance)\DatabaseLogBackup Operations Failed" ISTHRESHOLDSADDED="False" DATASOURCE="\CRM Async Service(mscrmasyncservice$maintenance)\DatabaseLogBackup Operations Failed" CHARTLABELS="instance" />
+    <THRESHOLD NAME="#Total Maintenance Failures&gt;0" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServiceDatabaseLogBackupOperationsFailed -Operator 'gt' -Threshold 0
+]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="#Maintenance Failures is raising" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServiceDatabaseLogBackupOperationsFailed -Operator 'gt' -Threshold 0 -IsTrendOnly $True
+]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The total number of DatabaseLogBackup operations failed.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="CRM Async Service DatabaseTuning Operations Failed" ENABLED="True" CATEGORY="CRM Async Service (Maintenance)" PRIMARYDATASOURCE="\CRM Async Service(mscrmasyncservice$maintenance)\DatabaseTuning Operations Failed" ID="48c6942e-ab89-4253-8300-f79df0429c92" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\CRM Async Service(mscrmasyncservice$maintenance)\DatabaseTuning Operations Failed" COLLECTIONVARNAME="CollectionOfCRMAsyncServiceDatabaseTuningOperationsFailed" EXPRESSIONPATH="\CRM Async Service(mscrmasyncservice$maintenance)\DatabaseTuning Operations Failed" TRENDVARNAME="TrendCRMAsyncServiceDatabaseTuningOperationsFailed" DATATYPE="integer" />
+    <CHART CHARTTITLE="\CRM Async Service(mscrmasyncservice$maintenance)\DatabaseTuning Operations Failed" ISTHRESHOLDSADDED="False" DATASOURCE="\CRM Async Service(mscrmasyncservice$maintenance)\DatabaseTuning Operations Failed" CHARTLABELS="instance" />
+    <THRESHOLD NAME="#Total Maintenance Failures&gt;0" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServiceDatabaseTuningOperationsFailed -Operator 'gt' -Threshold 0
+]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="#Maintenance Failures is raising" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServiceDatabaseTuningOperationsFailed -Operator 'gt' -Threshold 0 -IsTrendOnly $True
+]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The total number of DatabaseTuning operations failed.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="CRM Async Service DeletionService Operations Failed" ENABLED="True" CATEGORY="CRM Async Service (Maintenance)" PRIMARYDATASOURCE="\CRM Async Service(mscrmasyncservice$maintenance)\DeletionService Operations Failed" ID="23b5636c-6542-440f-8616-c5e8c8ba02f7" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\CRM Async Service(mscrmasyncservice$maintenance)\DeletionService Operations Failed" COLLECTIONVARNAME="CollectionOfCRMAsyncServiceDeletionServiceOperationsFailed" EXPRESSIONPATH="\CRM Async Service(mscrmasyncservice$maintenance)\DeletionService Operations Failed" TRENDVARNAME="TrendCRMAsyncServiceDeletionServiceOperationsFailed" DATATYPE="integer" />
+    <CHART CHARTTITLE="\CRM Async Service(mscrmasyncservice$maintenance)\DeletionService Operations Failed" ISTHRESHOLDSADDED="False" DATASOURCE="\CRM Async Service(mscrmasyncservice$maintenance)\DeletionService Operations Failed" CHARTLABELS="instance" />
+    <THRESHOLD NAME="#Total Maintenance Failures&gt;0" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServiceDeletionServiceOperationsFailed -Operator 'gt' -Threshold 0
+]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="#Maintenance Failures is raising" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServiceDeletionServiceOperationsFailed -Operator 'gt' -Threshold 0 -IsTrendOnly $True
+]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The total number of DeletionService operations failed.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="CRM Async Service EncryptionHealthCheck Operations Failed" ENABLED="True" CATEGORY="CRM Async Service (Maintenance)" PRIMARYDATASOURCE="\CRM Async Service(mscrmasyncservice$maintenance)\EncryptionHealthCheck Operations Failed" ID="d148b0c4-959b-4083-8e8c-482645f0c864" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\CRM Async Service(mscrmasyncservice$maintenance)\EncryptionHealthCheck Operations Failed" COLLECTIONVARNAME="CollectionOfCRMAsyncServiceEncryptionHealthCheckOperationsFailed" EXPRESSIONPATH="\CRM Async Service(mscrmasyncservice$maintenance)\EncryptionHealthCheck Operations Failed" TRENDVARNAME="TrendCRMAsyncServiceEncryptionHealthCheckOperationsFailed" DATATYPE="integer" />
+    <CHART CHARTTITLE="\CRM Async Service(mscrmasyncservice$maintenance)\EncryptionHealthCheck Operations Failed" ISTHRESHOLDSADDED="False" DATASOURCE="\CRM Async Service(mscrmasyncservice$maintenance)\EncryptionHealthCheck Operations Failed" CHARTLABELS="instance" />
+    <THRESHOLD NAME="#Total Maintenance Failures&gt;0" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServiceEncryptionHealthCheckOperationsFailed -Operator 'gt' -Threshold 0
+]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="#Maintenance Failures is raising" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServiceEncryptionHealthCheckOperationsFailed -Operator 'gt' -Threshold 0 -IsTrendOnly $True
+]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The total number of EncryptionHealthCheck operations failed.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="CRM Async Service FullTextCatalogIndex Operations Failed" ENABLED="True" CATEGORY="CRM Async Service (Maintenance)" PRIMARYDATASOURCE="\CRM Async Service(mscrmasyncservice$maintenance)\FullTextCatalogIndex Operations Failed" ID="cd1afa01-d7d1-4904-8f0f-3d282821a95a" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\CRM Async Service(mscrmasyncservice$maintenance)\FullTextCatalogIndex Operations Failed" COLLECTIONVARNAME="CollectionOfCRMAsyncServiceFullTextCatalogIndexOperationsFailed" EXPRESSIONPATH="\CRM Async Service(mscrmasyncservice$maintenance)\FullTextCatalogIndex Operations Failed" TRENDVARNAME="TrendCRMAsyncServiceFullTextCatalogIndexOperationsFailed" DATATYPE="integer" />
+    <CHART CHARTTITLE="\CRM Async Service(mscrmasyncservice$maintenance)\FullTextCatalogIndex Operations Failed" ISTHRESHOLDSADDED="False" DATASOURCE="\CRM Async Service(mscrmasyncservice$maintenance)\FullTextCatalogIndex Operations Failed" CHARTLABELS="instance" />
+    <THRESHOLD NAME="#Total Maintenance Failures&gt;0" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServiceFullTextCatalogIndexOperationsFailed -Operator 'gt' -Threshold 0
+]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="#Maintenance Failures is raising" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServiceFullTextCatalogIndexOperationsFailed -Operator 'gt' -Threshold 0 -IsTrendOnly $True
+]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The total number of FullTextCatalogIndex operations failed.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="CRM Async Service GoalRollup Operations Failed" ENABLED="True" CATEGORY="CRM Async Service" PRIMARYDATASOURCE="\CRM Async Service(mscrmasyncservice)\GoalRollup Operations Failed" ID="0aa72de0-a8c6-4657-b714-edb8e4c8abd6" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\CRM Async Service(mscrmasyncservice)\GoalRollup Operations Failed" COLLECTIONVARNAME="CollectionOfCRMAsyncServiceGoalRollupOperationsFailed" EXPRESSIONPATH="\CRM Async Service(mscrmasyncservice)\GoalRollup Operations Failed" TRENDVARNAME="TrendCRMAsyncServiceGoalRollupOperationsFailed" DATATYPE="integer" />
+    <CHART CHARTTITLE="\CRM Async Service(mscrmasyncservice)\GoalRollup Operations Failed" ISTHRESHOLDSADDED="False" DATASOURCE="\CRM Async Service(mscrmasyncservice)\GoalRollup Operations Failed" CHARTLABELS="instance" />
+    <THRESHOLD NAME="#Total Failures&gt;0" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServiceGoalRollupOperationsFailed -Operator 'gt' -Threshold 0
+]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="#Failures is raising" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServiceGoalRollupOperationsFailed -Operator 'gt' -Threshold 0 -IsTrendOnly $True
+]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The total number of GoalRollup operations failed.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="CRM Async Service IndexManagement Operations Failed" ENABLED="True" CATEGORY="CRM Async Service (Maintenance)" PRIMARYDATASOURCE="\CRM Async Service(mscrmasyncservice$maintenance)\IndexManagement Operations Failed" ID="cef4553a-bdad-4191-a02e-663b297147e6" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\CRM Async Service(mscrmasyncservice$maintenance)\IndexManagement Operations Failed" COLLECTIONVARNAME="CollectionOfCRMAsyncServiceIndexManagementOperationsFailed" EXPRESSIONPATH="\CRM Async Service(mscrmasyncservice$maintenance)\IndexManagement Operations Failed" TRENDVARNAME="TrendCRMAsyncServiceIndexManagementOperationsFailed" DATATYPE="integer" />
+    <CHART CHARTTITLE="\CRM Async Service(mscrmasyncservice$maintenance)\IndexManagement Operations Failed" ISTHRESHOLDSADDED="False" DATASOURCE="\CRM Async Service(mscrmasyncservice$maintenance)\IndexManagement Operations Failed" CHARTLABELS="instance" />
+    <THRESHOLD NAME="#Total Maintenance Failures&gt;0" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServiceIndexManagementOperationsFailed -Operator 'gt' -Threshold 0
+]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="#Maintenance Failures is raising" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServiceIndexManagementOperationsFailed -Operator 'gt' -Threshold 0 -IsTrendOnly $True
+]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The total number of IndexManagement operations failed.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="CRM Async Service OrgDBUpdate Operations Failed" ENABLED="True" CATEGORY="CRM Async Service" PRIMARYDATASOURCE="\CRM Async Service(mscrmasyncservice)\OrgDBUpdate Operations Failed" ID="e3f88454-991b-4ef5-9030-52a7557e7fa6" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\CRM Async Service(mscrmasyncservice)\OrgDBUpdate Operations Failed" COLLECTIONVARNAME="CollectionOfCRMAsyncServiceOrgDBUpdateOperationsFailed" EXPRESSIONPATH="\CRM Async Service(mscrmasyncservice)\OrgDBUpdate Operations Failed" TRENDVARNAME="TrendCRMAsyncServiceOrgDBUpdateOperationsFailed" DATATYPE="integer" />
+    <CHART CHARTTITLE="\CRM Async Service(mscrmasyncservice)\OrgDBUpdate Operations Failed" ISTHRESHOLDSADDED="False" DATASOURCE="\CRM Async Service(mscrmasyncservice)\OrgDBUpdate Operations Failed" CHARTLABELS="instance" />
+    <THRESHOLD NAME="#Total Maintenance Failures&gt;0" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServiceOrgDBUpdateOperationsFailed -Operator 'gt' -Threshold 0
+]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="#Maintenance Failures is raising" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServiceOrgDBUpdateOperationsFailed -Operator 'gt' -Threshold 0 -IsTrendOnly $True
+]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The total number of OrgDBUpdate operations failed.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="CRM Async Service Persist Match Code Operations Failed" ENABLED="True" CATEGORY="CRM Async Service" PRIMARYDATASOURCE="\CRM Async Service(mscrmasyncservice)\Persist Match Code Operations Failed" ID="dd1b329e-19b2-4554-9a77-eed95a113908" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\CRM Async Service(mscrmasyncservice)\Persist Match Code Operations Failed" COLLECTIONVARNAME="CollectionOfCRMAsyncServicePersistMatchCodeOperationsFailed" EXPRESSIONPATH="\CRM Async Service(mscrmasyncservice)\Persist Match Code Operations Failed" TRENDVARNAME="TrendCRMAsyncServicePersistMatchCodeOperationsFailed" DATATYPE="integer" />
+    <CHART CHARTTITLE="\CRM Async Service(mscrmasyncservice)\Persist Match Code Operations Failed" ISTHRESHOLDSADDED="False" DATASOURCE="\CRM Async Service(mscrmasyncservice)\Persist Match Code Operations Failed" CHARTLABELS="instance" />
+    <THRESHOLD NAME="#Total Failures&gt;0" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServicePersistMatchCodeOperationsFailed -Operator 'gt' -Threshold 0
+]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="#Failures is raising" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServicePersistMatchCodeOperationsFailed -Operator 'gt' -Threshold 0 -IsTrendOnly $True
+]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The total number of Persist Match Code operations failed.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="CRM Async Service RecurringSeriesExpansion Operations Failed" ENABLED="True" CATEGORY="CRM Async Service (Maintenance)" PRIMARYDATASOURCE="\CRM Async Service(mscrmasyncservice$maintenance)\RecurringSeriesExpansion Operations Failed" ID="d53e41bb-8623-475f-9b69-1df462f4cdbc" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\CRM Async Service(mscrmasyncservice$maintenance)\RecurringSeriesExpansion Operations Failed" COLLECTIONVARNAME="CollectionOfCRMAsyncServiceRecurringSeriesExpansionOperationsFailed" EXPRESSIONPATH="\CRM Async Service(mscrmasyncservice$maintenance)\RecurringSeriesExpansion Operations Failed" TRENDVARNAME="TrendCRMAsyncServiceRecurringSeriesExpansionOperationsFailed" DATATYPE="integer" />
+    <CHART CHARTTITLE="\CRM Async Service(mscrmasyncservice$maintenance)\RecurringSeriesExpansion Operations Failed" ISTHRESHOLDSADDED="False" DATASOURCE="\CRM Async Service(mscrmasyncservice$maintenance)\RecurringSeriesExpansion Operations Failed" CHARTLABELS="instance" />
+    <THRESHOLD NAME="#Total Maintenance Failures&gt;0" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServiceRecurringSeriesExpansionOperationsFailed -Operator 'gt' -Threshold 0
+]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="#Maintenance Failures is raising" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServiceRecurringSeriesExpansionOperationsFailed -Operator 'gt' -Threshold 0 -IsTrendOnly $True
+]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The total number of RecurringSeriesExpansion operations failed.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="CRM Async Service RefreshReadSharingSnapshots Operations Failed" ENABLED="True" CATEGORY="CRM Async Service (Maintenance)" PRIMARYDATASOURCE="\CRM Async Service(mscrmasyncservice$maintenance)\RefreshReadSharingSnapshots Operations Failed" ID="0abb7dd0-2974-4ce5-81fe-1a809fe1596d" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\CRM Async Service(mscrmasyncservice$maintenance)\RefreshReadSharingSnapshots Operations Failed" COLLECTIONVARNAME="CollectionOfCRMAsyncServiceRefreshReadSharingSnapshotsOperationsFailed" EXPRESSIONPATH="\CRM Async Service(mscrmasyncservice$maintenance)\RefreshReadSharingSnapshots Operations Failed" TRENDVARNAME="TrendCRMAsyncServiceRefreshReadSharingSnapshotsOperationsFailed" DATATYPE="integer" />
+    <CHART CHARTTITLE="\CRM Async Service(mscrmasyncservice$maintenance)\RefreshReadSharingSnapshots Operations Failed" ISTHRESHOLDSADDED="False" DATASOURCE="\CRM Async Service(mscrmasyncservice$maintenance)\RefreshReadSharingSnapshots Operations Failed" CHARTLABELS="instance" />
+    <THRESHOLD NAME="#Total Maintenance Failures&gt;0" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServiceRefreshReadSharingSnapshotsOperationsFailed -Operator 'gt' -Threshold 0
+]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="#Maintenance Failures is raising" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServiceRefreshReadSharingSnapshotsOperationsFailed -Operator 'gt' -Threshold 0 -IsTrendOnly $True
+]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The total number of RefreshReadSharingSnapshots operations failed.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="CRM Async Service RefreshRowCountSnapshots Operations Failed" ENABLED="True" CATEGORY="CRM Async Service (Maintenance)" PRIMARYDATASOURCE="\CRM Async Service(mscrmasyncservice$maintenance)\RefreshRowCountSnapshots Operations Failed" ID="a194bec4-7c50-43fa-8096-7680b076ca9d" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\CRM Async Service(mscrmasyncservice$maintenance)\RefreshRowCountSnapshots Operations Failed" COLLECTIONVARNAME="CollectionOfCRMAsyncServiceRefreshRowCountSnapshotsOperationsFailed" EXPRESSIONPATH="\CRM Async Service(mscrmasyncservice$maintenance)\RefreshRowCountSnapshots Operations Failed" TRENDVARNAME="TrendCRMAsyncServiceRefreshRowCountSnapshotsOperationsFailed" DATATYPE="integer" />
+    <CHART CHARTTITLE="\CRM Async Service(mscrmasyncservice$maintenance)\RefreshRowCountSnapshots Operations Failed" ISTHRESHOLDSADDED="False" DATASOURCE="\CRM Async Service(mscrmasyncservice$maintenance)\RefreshRowCountSnapshots Operations Failed" CHARTLABELS="instance" />
+    <THRESHOLD NAME="#Total Maintenance Failures&gt;0" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServiceRefreshRowCountSnapshotsOperationsFailed -Operator 'gt' -Threshold 0
+]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="#Maintenance Failures is raising" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServiceRefreshRowCountSnapshotsOperationsFailed -Operator 'gt' -Threshold 0 -IsTrendOnly $True
+]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The total number of RefreshRowCountSnapshots operations failed.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="CRM Async Service ReindexAll Operations Failed" ENABLED="True" CATEGORY="CRM Async Service (Maintenance)" PRIMARYDATASOURCE="\CRM Async Service(mscrmasyncservice$maintenance)\ReindexAll Operations Failed" ID="2a361cd7-b729-4281-8065-2d957a465808" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\CRM Async Service(mscrmasyncservice$maintenance)\ReindexAll Operations Failed" COLLECTIONVARNAME="CollectionOfCRMAsyncServiceReindexAllOperationsFailed" EXPRESSIONPATH="\CRM Async Service(mscrmasyncservice$maintenance)\ReindexAll Operations Failed" TRENDVARNAME="TrendCRMAsyncServiceReindexAllOperationsFailed" DATATYPE="integer" />
+    <CHART CHARTTITLE="\CRM Async Service(mscrmasyncservice$maintenance)\ReindexAll Operations Failed" ISTHRESHOLDSADDED="False" DATASOURCE="\CRM Async Service(mscrmasyncservice$maintenance)\ReindexAll Operations Failed" CHARTLABELS="instance" />
+    <THRESHOLD NAME="#Total Maintenance Failures&gt;0" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServiceReindexAllOperationsFailed -Operator 'gt' -Threshold 0
+]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="#Maintenance Failures is raising" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServiceReindexAllOperationsFailed -Operator 'gt' -Threshold 0 -IsTrendOnly $True
+]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The total number of ReindexAll operations failed.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="CRM Async Service ShrinkDatabase Operations Failed" ENABLED="True" CATEGORY="CRM Async Service (Maintenance)" PRIMARYDATASOURCE="\CRM Async Service(mscrmasyncservice$maintenance)\ShrinkDatabase Operations Failed" ID="978448f1-104e-4e57-b5ad-ae25b5b4fa1d" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The total number of ShrinkDatabase operations failed.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\CRM Async Service(mscrmasyncservice$maintenance)\ShrinkDatabase Operations Failed" COLLECTIONVARNAME="CollectionOfCRMAsyncServiceShrinkDatabaseOperationsFailed" EXPRESSIONPATH="\CRM Async Service(mscrmasyncservice$maintenance)\ShrinkDatabase Operations Failed" TRENDVARNAME="TrendCRMAsyncServiceShrinkDatabaseOperationsFailed" DATATYPE="integer" />
+    <CHART CHARTTITLE="\CRM Async Service(mscrmasyncservice$maintenance)\ShrinkDatabase Operations Failed" ISTHRESHOLDSADDED="False" DATASOURCE="\CRM Async Service(mscrmasyncservice$maintenance)\ShrinkDatabase Operations Failed" CHARTLABELS="instance" />
+    <THRESHOLD NAME="#Total Maintenance Failures&gt;0" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServiceShrinkDatabaseOperationsFailed -Operator 'gt' -Threshold 0
+]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="#Maintenance Failures is raising" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServiceShrinkDatabaseOperationsFailed -Operator 'gt' -Threshold 0 -IsTrendOnly $True
+]]></CODE>
+    </THRESHOLD>
+  </ANALYSIS>
+  <ANALYSIS NAME="CRM Async Service ShrinkLogFile Operations Failed" ENABLED="True" CATEGORY="CRM Async Service (Maintenance)" PRIMARYDATASOURCE="\CRM Async Service(mscrmasyncservice$maintenance)\ShrinkLogFile Operations Failed" ID="8464df4c-7f2f-43f9-8a6d-96c24d783ddd" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\CRM Async Service(mscrmasyncservice$maintenance)\ShrinkLogFile Operations Failed" COLLECTIONVARNAME="CollectionOfCRMAsyncServiceShrinkLogFileOperationsFailed" EXPRESSIONPATH="\CRM Async Service(mscrmasyncservice$maintenance)\ShrinkLogFile Operations Failed" TRENDVARNAME="TrendCRMAsyncServiceShrinkLogFileOperationsFailed" DATATYPE="integer" />
+    <CHART CHARTTITLE="\CRM Async Service(mscrmasyncservice$maintenance)\ShrinkLogFile Operations Failed" ISTHRESHOLDSADDED="False" DATASOURCE="\CRM Async Service(mscrmasyncservice$maintenance)\ShrinkLogFile Operations Failed" CHARTLABELS="instance" />
+    <THRESHOLD NAME="#Total Maintenance Failures&gt;0" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServiceShrinkLogFileOperationsFailed -Operator 'gt' -Threshold 0
+]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="#Maintenance Failures is raising" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServiceShrinkLogFileOperationsFailed -Operator 'gt' -Threshold 0 -IsTrendOnly $True
+]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The total number of ShrinkLogFile operations failed.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="CRM Async Service SnapshotIsolationUpdate Operations Failed" ENABLED="True" CATEGORY="CRM Async Service (Maintenance)" PRIMARYDATASOURCE="\CRM Async Service(mscrmasyncservice$maintenance)\SnapshotIsolationUpdate Operations Failed" ID="d15a6821-b691-44c7-a2a9-e021c0e7313f" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\CRM Async Service(mscrmasyncservice$maintenance)\SnapshotIsolationUpdate Operations Failed" COLLECTIONVARNAME="CollectionOfCRMAsyncServiceSnapshotIsolationUpdateOperationsFailed" EXPRESSIONPATH="\CRM Async Service(mscrmasyncservice$maintenance)\SnapshotIsolationUpdate Operations Failed" TRENDVARNAME="TrendCRMAsyncServiceSnapshotIsolationUpdateOperationsFailed" DATATYPE="integer" />
+    <CHART CHARTTITLE="\CRM Async Service(mscrmasyncservice$maintenance)\SnapshotIsolationUpdate Operations Failed" ISTHRESHOLDSADDED="False" DATASOURCE="\CRM Async Service(mscrmasyncservice$maintenance)\SnapshotIsolationUpdate Operations Failed" CHARTLABELS="instance" />
+    <THRESHOLD NAME="#Total Maintenance Failures&gt;0" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServiceSnapshotIsolationUpdateOperationsFailed -Operator 'gt' -Threshold 0
+]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="#Maintenance Failures is raising" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServiceSnapshotIsolationUpdateOperationsFailed -Operator 'gt' -Threshold 0 -IsTrendOnly $True
+]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The total number of SnapshotIsolationUpdate operations failed.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="CRM Async Service SolutionUpdate Operations Failed" ENABLED="True" CATEGORY="CRM Async Service" PRIMARYDATASOURCE="\CRM Async Service(mscrmasyncservice)\SolutionUpdate Operations Failed" ID="a7844a8e-1350-4089-b977-3bac1270b399" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\CRM Async Service(mscrmasyncservice)\SolutionUpdate Operations Failed" COLLECTIONVARNAME="CollectionOfCRMAsyncServiceSolutionUpdateOperationsFailed" EXPRESSIONPATH="\CRM Async Service(mscrmasyncservice)\SolutionUpdate Operations Failed" TRENDVARNAME="TrendCRMAsyncServiceSolutionUpdateOperationsFailed" DATATYPE="integer" />
+    <CHART CHARTTITLE="\CRM Async Service(mscrmasyncservice)\SolutionUpdate Operations Failed" ISTHRESHOLDSADDED="False" DATASOURCE="\CRM Async Service(mscrmasyncservice)\SolutionUpdate Operations Failed" CHARTLABELS="instance" />
+    <THRESHOLD NAME="#Total Failures&gt;0" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServiceSolutionUpdateOperationsFailed -Operator 'gt' -Threshold 0
+]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="# Failures is raising" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServiceSolutionUpdateOperationsFailed -Operator 'gt' -Threshold 0 -IsTrendOnly $True
+]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The total number of SolutionUpdate operations failed.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="CRM Async Service StorageLimitNotification Operations Failed" ENABLED="True" CATEGORY="CRM Async Service (Maintenance)" PRIMARYDATASOURCE="\CRM Async Service(mscrmasyncservice$maintenance)\StorageLimitNotification Operations Failed" ID="9f1a9afd-6ba3-4523-8b2c-526b4103d8d4" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\CRM Async Service(mscrmasyncservice$maintenance)\StorageLimitNotification Operations Failed" COLLECTIONVARNAME="CollectionOfCRMAsyncServiceStorageLimitNotificationOperationsFailed" EXPRESSIONPATH="\CRM Async Service(mscrmasyncservice$maintenance)\StorageLimitNotification Operations Failed" TRENDVARNAME="TrendCRMAsyncServiceStorageLimitNotificationOperationsFailed" DATATYPE="integer" />
+    <CHART CHARTTITLE="\CRM Async Service(mscrmasyncservice$maintenance)\StorageLimitNotification Operations Failed" ISTHRESHOLDSADDED="False" DATASOURCE="\CRM Async Service(mscrmasyncservice$maintenance)\StorageLimitNotification Operations Failed" CHARTLABELS="instance" />
+    <THRESHOLD NAME="#Total Maintenance Failures&gt;0" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServiceStorageLimitNotificationOperationsFailed -Operator 'gt' -Threshold 0
+]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="#Maintenance Failures is raising" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServiceStorageLimitNotificationOperationsFailed -Operator 'gt' -Threshold 0 -IsTrendOnly $True
+]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The total number of StorageLimitNotification operations failed.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="CRM Async Service Total Operations Failed" ENABLED="True" CATEGORY="CRM Async Service" PRIMARYDATASOURCE="\CRM Async Service(*)\Total Operations Failed" ID="f736f390-1e8a-4156-a655-b6cfe765fcf0" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\CRM Async Service(*)\Total Operations Failed" COLLECTIONVARNAME="CollectionOfCRMAsyncServiceTotalOperationsFailed" EXPRESSIONPATH="\CRM Async Service(*)\Total Operations Failed" TRENDVARNAME="TrendCRMAsyncServiceTotalOperationsFailed" DATATYPE="integer" />
+    <CHART CHARTTITLE="\CRM Async Service(*)\Total Operations Failed" ISTHRESHOLDSADDED="False" DATASOURCE="\CRM Async Service(*)\Total Operations Failed" CHARTLABELS="instance" />
+    <THRESHOLD NAME="#Total Failures&gt;0" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServiceTotalOperationsFailed -Operator 'gt' -Threshold 0
+
+]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="#Failues is raising" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServiceTotalOperationsFailed -Operator 'gt' -Threshold 0 -IsTrendOnly $True
+]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The total number of Total operations failed.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="CRM Async Service Transform Operations Failed" ENABLED="True" CATEGORY="CRM Async Service" PRIMARYDATASOURCE="\CRM Async Service(mscrmasyncservice)\Transform Operations Failed" ID="61ed417f-9d48-4cdf-ab32-1785a4ff8d08" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The total number of Transform operations failed.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\CRM Async Service(mscrmasyncservice)\Transform Operations Failed" COLLECTIONVARNAME="CollectionOfCRMAsyncServiceTransformOperationsFailed" EXPRESSIONPATH="\CRM Async Service(mscrmasyncservice)\Transform Operations Failed" TRENDVARNAME="TrendCRMAsyncServiceTransformOperationsFailed" DATATYPE="integer" />
+    <CHART CHARTTITLE="\CRM Async Service(mscrmasyncservice)\Transform Operations Failed" ISTHRESHOLDSADDED="False" DATASOURCE="\CRM Async Service(mscrmasyncservice)\Transform Operations Failed" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="CRM Async Service UpdateStatisticIntervals Operations Failed" ENABLED="True" CATEGORY="CRM Async Service (Maintenance)" PRIMARYDATASOURCE="\CRM Async Service(mscrmasyncservice$maintenance)\UpdateStatisticIntervals Operations Failed" ID="03a4811d-60a9-4a57-a67e-7a96c67f869e" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\CRM Async Service(mscrmasyncservice$maintenance)\UpdateStatisticIntervals Operations Failed" COLLECTIONVARNAME="CollectionOfCRMAsyncServiceUpdateStatisticIntervalsOperationsFailed" EXPRESSIONPATH="\CRM Async Service(mscrmasyncservice$maintenance)\UpdateStatisticIntervals Operations Failed" TRENDVARNAME="TrendCRMAsyncServiceUpdateStatisticIntervalsOperationsFailed" DATATYPE="integer" />
+    <CHART CHARTTITLE="\CRM Async Service(mscrmasyncservice$maintenance)\UpdateStatisticIntervals Operations Failed" ISTHRESHOLDSADDED="False" DATASOURCE="\CRM Async Service(mscrmasyncservice$maintenance)\UpdateStatisticIntervals Operations Failed" CHARTLABELS="instance" />
+    <THRESHOLD NAME="#Total Maintenance Failures&gt;0" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServiceUpdateStatisticIntervalsOperationsFailed -Operator 'gt' -Threshold 0
+]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="#Maintenance Failures is raising" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMAsyncServiceUpdateStatisticIntervalsOperationsFailed -Operator 'gt' -Threshold 0 -IsTrendOnly $True
+]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The total number of UpdateStatisticIntervals operations failed.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="CRM Platform Average time of import request" ENABLED="True" CATEGORY="CRM Platform" PRIMARYDATASOURCE="\CRM Platform(crmasyncservice)\Average time of import request" ID="31d6781e-25d8-4cf5-83bf-d19b428b99ca" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\CRM Platform(crmasyncservice)\Average time of import request" COLLECTIONVARNAME="CollectionOfCRMPlatformAveragetimeofimportrequest" EXPRESSIONPATH="\CRM Platform(crmasyncservice)\Average time of import request" TRENDVARNAME="TrendCRMPlatformAveragetimeofimportrequest" DATATYPE="integer" />
+    <CHART CHARTTITLE="\CRM Platform(crmasyncservice)\Average time of import request" ISTHRESHOLDSADDED="False" DATASOURCE="\CRM Platform(crmasyncservice)\Average time of import request" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[Info]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="CRM Sandbox Host % CPU Usage" ENABLED="True" CATEGORY="CRM Sandbox Host" PRIMARYDATASOURCE="\CRM Sandbox Host\% CPU Usage" ID="09d56d7c-71f9-463e-a6ed-aec0bcbfbe82" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\CRM Sandbox Host\% CPU Usage" COLLECTIONVARNAME="CollectionOfCRMSandboxHostPercentCPUUsage" EXPRESSIONPATH="\CRM Sandbox Host\% CPU Usage" TRENDVARNAME="TrendCRMSandboxHostPercentCPUUsage" DATATYPE="integer" />
+    <CHART CHARTTITLE="\CRM Sandbox Host\% CPU Usage" ISTHRESHOLDSADDED="False" DATASOURCE="\CRM Sandbox Host\% CPU Usage" CHARTLABELS="instance" />
+    <THRESHOLD NAME="Sandbox CPU" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMSandboxHostPercentCPUUsage -Operator 'gt' -Threshold 70
+
+]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The total CPU percentage used by all Sandbox Worker processes.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="CRM Sandbox Host % Worker Processes Crashed" ENABLED="True" CATEGORY="CRM Sandbox Host" PRIMARYDATASOURCE="\CRM Sandbox Host\% Worker Processes Crashed" ID="9ac4a428-a1a3-4057-86f6-7d4e33f1d0c3" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\CRM Sandbox Host\% Worker Processes Crashed" COLLECTIONVARNAME="CollectionOfCRMSandboxHostPercentWorkerProcessesCrashed" EXPRESSIONPATH="\CRM Sandbox Host\% Worker Processes Crashed" TRENDVARNAME="TrendCRMSandboxHostPercentWorkerProcessesCrashed" DATATYPE="integer" />
+    <CHART CHARTTITLE="\CRM Sandbox Host\% Worker Processes Crashed" ISTHRESHOLDSADDED="False" DATASOURCE="\CRM Sandbox Host\% Worker Processes Crashed" CHARTLABELS="instance" />
+    <THRESHOLD NAME="#Total Failures&gt;0" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMSandboxHostPercentWorkerProcessesCrashed -Operator 'gt' -Threshold 0
+]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="#Failures is raising" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMSandboxHostPercentWorkerProcessesCrashed -Operator 'gt' -Threshold 0 -IsTrendOnly $True
+]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The percentage of Sandbox Worker processes that have crashed.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="CRM Sandbox Host % Worker Processes Terminated" ENABLED="True" CATEGORY="CRM Sandbox Host" PRIMARYDATASOURCE="\CRM Sandbox Host\% Worker Processes Terminated" ID="ca8ac098-b37f-454a-899f-70e3624fab3f" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\CRM Sandbox Host\% Worker Processes Terminated" COLLECTIONVARNAME="CollectionOfCRMSandboxHostPercentWorkerProcessesTerminated" EXPRESSIONPATH="\CRM Sandbox Host\% Worker Processes Terminated" TRENDVARNAME="TrendCRMSandboxHostPercentWorkerProcessesTerminated" DATATYPE="integer" />
+    <CHART CHARTTITLE="\CRM Sandbox Host\% Worker Processes Terminated" ISTHRESHOLDSADDED="False" DATASOURCE="\CRM Sandbox Host\% Worker Processes Terminated" CHARTLABELS="instance" />
+    <THRESHOLD NAME="#Total Failures&gt;0" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMSandboxHostPercentWorkerProcessesTerminated -Operator 'gt' -Threshold 0
+]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="#Failures is raising" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCRMSandboxHostPercentWorkerProcessesTerminated -Operator 'gt' -Threshold 0 -IsTrendOnly $True
+]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The percentage of Sandbox Worker processes that have been terminated, due to excessive resource usage or no response.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="CRM Sandbox Host % Assembly Cache Hits" ENABLED="True" CATEGORY="CRM Sandbox Host" PRIMARYDATASOURCE="\CRM Sandbox Host\% Assembly Cache Hits" ID="c72cefff-16b7-4c31-b466-1d7e1ef95d28" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\CRM Sandbox Host\% Assembly Cache Hits" COLLECTIONVARNAME="CollectionOfCRMSandboxHostPercentAssemblyCacheHits" EXPRESSIONPATH="\CRM Sandbox Host\% Assembly Cache Hits" TRENDVARNAME="TrendCRMSandboxHostPercentAssemblyCacheHits" DATATYPE="integer" />
+    <CHART CHARTTITLE="\CRM Sandbox Host\% Assembly Cache Hits" ISTHRESHOLDSADDED="False" DATASOURCE="\CRM Sandbox Host\% Assembly Cache Hits" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[The assembly cache hit rate percentage.]]></DESCRIPTION>
+  </ANALYSIS>
+  <INHERITANCE FILEPATH="SystemOverview.xml" />
+</PAL>

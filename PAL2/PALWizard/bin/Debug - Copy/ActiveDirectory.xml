@@ -1,0 +1,94 @@
+<PAL NAME="Microsoft Active Directory" DESCRIPTION="Microsoft Active Directory threshold file. Use this to analyze Microsoft Active Directory domain controllers." CONTENTOWNERS="Kip Gumenberg, Matthew Reynolds, and Clint Huffman" FEEDBACKEMAILADDRESS="kipg@microsoft.com;mreyn@microsoft.com;clinth@microsoft.com" VERSION="1.5.3" PALVERSION="2.0" LANGUAGE="English" LANGUAGECODE="en">
+  <ANALYSIS NAME="NTDS LDAP Bind Time" ENABLED="True" CATEGORY="NTDS" PRIMARYDATASOURCE="\NTDS\LDAP Bind Time" ID="{0065e61b-04bd-4d66-acdf-d8f7aba6dc26}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Time (in milliseconds) taken for last successful LDAP bind.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\NTDS\LDAP Bind Time" COLLECTIONVARNAME="CollectionOfNTDSLDAPBindTime" EXPRESSIONPATH="\NTDS\LDAP Bind Time" DATATYPE="integer" />
+    <THRESHOLD NAME="Bind Time is greater than 15 milliseconds" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfNTDSLDAPBindTime -Operator 'gt' -Threshold 15
+         ]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="Bind Time is greater than 20 milliseconds" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfNTDSLDAPBindTime -Operator 'gt' -Threshold 20
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\NTDS\LDAP Bind Time" ISTHRESHOLDSADDED="True" DATASOURCE="\NTDS\LDAP Bind Time" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfNTDSLDAPBindTime -MinThreshold 15 -MaxThreshold 20 -UseMaxValue $False
+        ]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfNTDSLDAPBindTime -MinThreshold 20 -MaxThreshold 29.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+  </ANALYSIS>
+  <ANALYSIS NAME="LSASS Process % Processor Time" ENABLED="True" CATEGORY="Process" PRIMARYDATASOURCE="\Process(lsass)\% Processor Time" ID="{a02ca713-fdd3-4798-9cfd-d1997b82f2b0}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[% Processor Time is the percentage of elapsed time that all of process threads used the processor to execution instructions. An instruction is the basic unit of execution in a computer, a thread is the object that executes instructions, and a process is the object created when a program is run. Code executed to handle some hardware interrupts and trap conditions are included in this count.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\Process(lsass)\% Processor Time" COLLECTIONVARNAME="ProcessPercentProcessorTimelsass" EXPRESSIONPATH="\Process(lsass)\% Processor Time" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Process(lsass)\% Processor Time" ISTHRESHOLDSADDED="False" DATASOURCE="\Process(lsass)\% Processor Time" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="LSASS Process Working Set" ENABLED="True" CATEGORY="Process" PRIMARYDATASOURCE="\Process(lsass)\Working Set" ID="{3ecbeb45-9e79-403d-ad6a-a7f6d637c1b1}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Working Set is the current size, in bytes, of the Working Set of this process. The Working Set is the set of memory pages touched recently by the threads in the process. If free memory in the computer is above a threshold, pages are left in the Working Set of a process even if they are not in use.  When free memory falls below a threshold, pages are trimmed from Working Sets. If they are needed they will then be soft-faulted back into the Working Set before leaving main memory.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\Process(lsass)\Working Set" COLLECTIONVARNAME="ProcessWorkingSetlsass" EXPRESSIONPATH="\Process(lsass)\Working Set" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Process(lsass)\Working Set" ISTHRESHOLDSADDED="False" DATASOURCE="\Process(lsass)\Working Set" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="NTDS Kerberos Authentications" ENABLED="True" CATEGORY="NTDS" PRIMARYDATASOURCE="\NTDS\Kerberos Authentications" ID="{62d6b2ad-cd61-4b76-83e8-65f5c3fe87e0}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The number of times per second that clients use a ticket to this DC to authenticate to this DC.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\NTDS\Kerberos Authentications" COLLECTIONVARNAME="NTDSKerberosAuthentications" EXPRESSIONPATH="\NTDS\Kerberos Authentications" DATATYPE="integer" />
+    <CHART CHARTTITLE="\NTDS\Kerberos Authentications" ISTHRESHOLDSADDED="False" DATASOURCE="\NTDS\Kerberos Authentications" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="NTDS LDAP Searches/sec" ENABLED="True" CATEGORY="NTDS" PRIMARYDATASOURCE="\NTDS\LDAP Searches/sec" ID="{44bf9bc3-8715-413a-bf35-b1d6144741ea}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[LDAP Searches/sec is the rate at which LDAP clients perform search operations.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\NTDS\LDAP Searches/sec" COLLECTIONVARNAME="NTDSLDAPSearchessec" EXPRESSIONPATH="\NTDS\LDAP Searches/sec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\NTDS\LDAP Searches/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\NTDS\LDAP Searches/sec" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="NTDS LDAP Client Sessions" ENABLED="True" CATEGORY="NTDS" PRIMARYDATASOURCE="\NTDS\LDAP Client Sessions" ID="{1613a5bc-2c44-4294-892c-91d72e62c579}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[LDAP Client Sessions is the number of connected LDAP client sessions.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\NTDS\LDAP Client Sessions" COLLECTIONVARNAME="NTDSLDAPClientSessions" EXPRESSIONPATH="\NTDS\LDAP Client Sessions" DATATYPE="integer" />
+    <CHART CHARTTITLE="\NTDS\LDAP Client Sessions" ISTHRESHOLDSADDED="False" DATASOURCE="\NTDS\LDAP Client Sessions" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="NTDS AB Client Sessions" ENABLED="True" CATEGORY="NTDS" PRIMARYDATASOURCE="\NTDS\AB Client Sessions" ID="{ed782939-18d6-4bf3-b694-86ebff37b337}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[AB Client Sessions is the number of connected Address Book client sessions.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\NTDS\AB Client Sessions" COLLECTIONVARNAME="NTDSABClientSessions" EXPRESSIONPATH="\NTDS\AB Client Sessions" DATATYPE="integer" />
+    <CHART CHARTTITLE="\NTDS\AB Client Sessions" ISTHRESHOLDSADDED="False" DATASOURCE="\NTDS\AB Client Sessions" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="NTDS LDAP Active Threads" ENABLED="True" CATEGORY="NTDS" PRIMARYDATASOURCE="\NTDS\LDAP Active Threads" ID="{93a269c1-44c9-41c9-aef6-360cb9decf06}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[LDAP Active Threads is the current number of threads in use by the LDAP subsystem of the local direcotry service.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\NTDS\LDAP Active Threads" COLLECTIONVARNAME="NTDSLDAPActiveThreads" EXPRESSIONPATH="\NTDS\LDAP Active Threads" DATATYPE="integer" />
+    <CHART CHARTTITLE="\NTDS\LDAP Active Threads" ISTHRESHOLDSADDED="False" DATASOURCE="\NTDS\LDAP Active Threads" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="NTDS DRA Pending Replication Synchronizations" ENABLED="True" CATEGORY="NTDS" PRIMARYDATASOURCE="\NTDS\DRA Pending Replication Synchronizations" ID="{c45a2a8a-939d-43ad-ac6a-aca05b968de6}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[DRA Pending Replication Synchronizations is the number of directory synchronizations that are queued for this server but not yet processed.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\NTDS\DRA Pending Replication Synchronizations" COLLECTIONVARNAME="NTDSDRAPendingReplicationSynchronizations" EXPRESSIONPATH="\NTDS\DRA Pending Replication Synchronizations" DATATYPE="integer" />
+    <CHART CHARTTITLE="\NTDS\DRA Pending Replication Synchronizations" ISTHRESHOLDSADDED="False" DATASOURCE="\NTDS\DRA Pending Replication Synchronizations" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Server Server Sessions" ENABLED="True" CATEGORY="Server" PRIMARYDATASOURCE="\Server\Server Sessions" ID="{b4442de6-bc49-4d29-929d-94c9cb6e447e}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The number of sessions currently active in the server.  Indicates current server activity.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\Server\Server Sessions" COLLECTIONVARNAME="ServerServerSessions" EXPRESSIONPATH="\Server\Server Sessions" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Server\Server Sessions" ISTHRESHOLDSADDED="False" DATASOURCE="\Server\Server Sessions" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="NTDS DRA Pending Replication Operations" ENABLED="True" CATEGORY="NTDS" PRIMARYDATASOURCE="\NTDS\DRA Pending Replication Operations" ID="{1718fb29-4033-42d3-988a-9cb55ecbc465}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The total number of replication operations on the directory that are queued for this server but not yet performed.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\NTDS\DRA Pending Replication Operations" COLLECTIONVARNAME="CollectionOfNTDSDRAPendingReplicationOperations" EXPRESSIONPATH="\NTDS\DRA Pending Replication Operations" DATATYPE="integer" />
+    <THRESHOLD NAME="More than 0 DRA Pending Replication Operations" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfNTDSDRAPendingReplicationOperations -Operator 'gt' -Threshold 0
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\NTDS\DRA Pending Replication Operations" ISTHRESHOLDSADDED="True" DATASOURCE="\NTDS\DRA Pending Replication Operations" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfNTDSDRAPendingReplicationOperations -MinThreshold 1 -MaxThreshold 2.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+  </ANALYSIS>
+  <INHERITANCE FILEPATH="SystemOverview.xml" />
+  <INHERITANCE FILEPATH="VMWare.xml" />
+</PAL>

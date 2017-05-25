@@ -1,0 +1,259 @@
+<PAL NAME="Microsoft Internet Information Services 5.x/6.x/7.x" DESCRIPTION="Analysis of Microsoft Internet Information Services (IIS) for IIS v5.x, v6.x, and v7.x. This threshold file includes the .NET Framework and ASP.NET thresholds." CONTENTOWNERS="Clint Huffman" FEEDBACKEMAILADDRESS="clinth@microsoft.com" VERSION="1.3.2" PALVERSION="2.0" LANGUAGE="English" LANGUAGECODE="en">
+  <ANALYSIS NAME="Web Service Current Connections" ENABLED="True" CATEGORY="Web Service" PRIMARYDATASOURCE="\Web Service(_Total)\Current Connections" ID="{c4d604dc-4c04-41ae-a7b2-b807cc0c9c27}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Current Connections is the current number of connections established with the Web service.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\Web Service(_Total)\Current Connections" COLLECTIONVARNAME="WebServiceCurrentConnections_Total" EXPRESSIONPATH="\Web Service(_Total)\Current Connections" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Web Service(_Total)\Current Connections" ISTHRESHOLDSADDED="False" DATASOURCE="\Web Service(_Total)\Current Connections" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Web Service ISAPI Extension Requests/sec" ENABLED="True" CATEGORY="Web Service" PRIMARYDATASOURCE="\Web Service(_Total)\ISAPI Extension Requests/sec" ID="{9e32f588-7976-4009-8e32-e4d90b7d3d20}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The rate that ISAPI Extension requests are received by the Web service.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\Web Service(_Total)\ISAPI Extension Requests/sec" COLLECTIONVARNAME="WebServiceISAPIExtensionRequestssec_Total" EXPRESSIONPATH="\Web Service(_Total)\ISAPI Extension Requests/sec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Web Service(_Total)\ISAPI Extension Requests/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\Web Service(_Total)\ISAPI Extension Requests/sec" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Web Service Other Request Methods/sec" ENABLED="True" CATEGORY="Web Service" PRIMARYDATASOURCE="\Web Service(_Total)\Other Request Methods/sec" ID="{f001c08e-bc1b-4c3c-86f1-39b77469a0a8}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The rate HTTP requests are made that do not use the OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, MOVE, COPY, MKCOL, PROPFIND, PROPPATCH, SEARCH, LOCK or UNLOCK methods.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\Web Service(_Total)\Other Request Methods/sec" COLLECTIONVARNAME="WebServiceOtherRequestMethodssec_Total" EXPRESSIONPATH="\Web Service(_Total)\Other Request Methods/sec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Web Service(_Total)\Other Request Methods/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\Web Service(_Total)\Other Request Methods/sec" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Web Service Connection Attempts/sec" ENABLED="True" CATEGORY="Web Service" PRIMARYDATASOURCE="\Web Service(_Total)\Connection Attempts/sec" ID="{83d4ff03-890a-4161-ace8-7f4ab2f1863f}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The rate that connections to the Web service are being attempted.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\Web Service(_Total)\Connection Attempts/sec" COLLECTIONVARNAME="WebServiceConnectionAttemptssec_Total" EXPRESSIONPATH="\Web Service(_Total)\Connection Attempts/sec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Web Service(_Total)\Connection Attempts/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\Web Service(_Total)\Connection Attempts/sec" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="APP_POOL_WAS Current Application Pool State" ENABLED="True" CATEGORY="APP_POOL_WAS" PRIMARYDATASOURCE="\APP_POOL_WAS(*)\Current Application Pool State" ID="d4d9f5b6-8862-41df-b03c-21381a919624" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\APP_POOL_WAS(*)\Current Application Pool State" COLLECTIONVARNAME="CollectionOfAPPPOOLWASCurrentApplicationPoolState" EXPRESSIONPATH="\APP_POOL_WAS(*)\Current Application Pool State" TRENDVARNAME="TrendAPPPOOLWASCurrentApplicationPoolState" DATATYPE="integer" />
+    <CHART CHARTTITLE="\APP_POOL_WAS(*)\Current Application Pool State" ISTHRESHOLDSADDED="False" DATASOURCE="\APP_POOL_WAS(*)\Current Application Pool State" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[The current status of the application pool (1 - Uninitialized, 2 - Initialized, 3 - Running, 4 - Disabling, 5 - Disabled, 6 - Shutdown Pending, 7 - Delete Pending).]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="APP_POOL_WAS Current Application Pool Uptime" ENABLED="True" CATEGORY="APP_POOL_WAS" PRIMARYDATASOURCE="\APP_POOL_WAS(*)\Current Application Pool Uptime" ID="0988c5ea-d391-4a39-9af8-fdce947eeccf" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\APP_POOL_WAS(*)\Current Application Pool Uptime" COLLECTIONVARNAME="CollectionOfAPPPOOLWASCurrentApplicationPoolUptime" EXPRESSIONPATH="\APP_POOL_WAS(*)\Current Application Pool Uptime" TRENDVARNAME="TrendAPPPOOLWASCurrentApplicationPoolUptime" DATATYPE="integer" />
+    <CHART CHARTTITLE="\APP_POOL_WAS(*)\Current Application Pool Uptime" ISTHRESHOLDSADDED="False" DATASOURCE="\APP_POOL_WAS(*)\Current Application Pool Uptime" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[The length of time, in seconds, that the application pool has been running since it was started.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="APP_POOL_WAS Current Worker Processes" ENABLED="True" CATEGORY="APP_POOL_WAS" PRIMARYDATASOURCE="\APP_POOL_WAS(*)\Current Worker Processes" ID="303ebbe4-2e01-4410-9ae4-8e22c6cb14c6" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The current number of worker processes that are running in the application pool.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\APP_POOL_WAS(*)\Current Worker Processes" COLLECTIONVARNAME="CollectionOfAPPPOOLWASCurrentWorkerProcesses" EXPRESSIONPATH="\APP_POOL_WAS(*)\Current Worker Processes" TRENDVARNAME="TrendAPPPOOLWASCurrentWorkerProcesses" DATATYPE="integer" />
+    <CHART CHARTTITLE="\APP_POOL_WAS(*)\Current Worker Processes" ISTHRESHOLDSADDED="False" DATASOURCE="\APP_POOL_WAS(*)\Current Worker Processes" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="APP_POOL_WAS Recent Worker Process Failures" ENABLED="True" CATEGORY="APP_POOL_WAS" PRIMARYDATASOURCE="\APP_POOL_WAS(*)\Recent Worker Process Failures" ID="a6504227-9849-4810-ae07-35a83bf71feb" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\APP_POOL_WAS(*)\Recent Worker Process Failures" COLLECTIONVARNAME="CollectionOfAPPPOOLWASRecentWorkerProcessFailures" EXPRESSIONPATH="\APP_POOL_WAS(*)\Recent Worker Process Failures" TRENDVARNAME="TrendAPPPOOLWASRecentWorkerProcessFailures" DATATYPE="integer" />
+    <CHART CHARTTITLE="\APP_POOL_WAS(*)\Recent Worker Process Failures" ISTHRESHOLDSADDED="False" DATASOURCE="\APP_POOL_WAS(*)\Recent Worker Process Failures" CHARTLABELS="instance" />
+    <THRESHOLD NAME="At least 1 worker process failed durin the rapid-fail protection interval" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfAPPPOOLWASRecentWorkerProcessFailures -Operator 'ge' -Threshold 1]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The number of times that worker processes for the application pool failed during the rapid-fail protection interval.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="APP_POOL_WAS Total Worker Process Failures" ENABLED="True" CATEGORY="APP_POOL_WAS" PRIMARYDATASOURCE="\APP_POOL_WAS(*)\Total Worker Process Failures" ID="afc25b15-c0e7-4f40-ba02-058540fcfc67" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The number of times that worker processes have crashed since the application pool was started.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\APP_POOL_WAS(*)\Total Worker Process Failures" COLLECTIONVARNAME="CollectionOfAPPPOOLWASTotalWorkerProcessFailures" EXPRESSIONPATH="\APP_POOL_WAS(*)\Total Worker Process Failures" TRENDVARNAME="TrendAPPPOOLWASTotalWorkerProcessFailures" DATATYPE="integer" />
+    <CHART CHARTTITLE="\APP_POOL_WAS(*)\Total Worker Process Failures" ISTHRESHOLDSADDED="False" DATASOURCE="\APP_POOL_WAS(*)\Total Worker Process Failures" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="APP_POOL_WAS Total Worker Process Ping Failures" ENABLED="True" CATEGORY="APP_POOL_WAS" PRIMARYDATASOURCE="\APP_POOL_WAS(*)\Total Worker Process Ping Failures" ID="29d37048-1a7b-4798-97fc-50fd4f100c57" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The number of times that Windows Process Activation Service (WAS) did not receive a response to ping messages sent to a worker process.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\APP_POOL_WAS(*)\Total Worker Process Ping Failures" COLLECTIONVARNAME="CollectionOfAPPPOOLWASTotalWorkerProcessPingFailures" EXPRESSIONPATH="\APP_POOL_WAS(*)\Total Worker Process Ping Failures" TRENDVARNAME="TrendAPPPOOLWASTotalWorkerProcessPingFailures" DATATYPE="integer" />
+    <CHART CHARTTITLE="\APP_POOL_WAS(*)\Total Worker Process Ping Failures" ISTHRESHOLDSADDED="False" DATASOURCE="\APP_POOL_WAS(*)\Total Worker Process Ping Failures" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="APP_POOL_WAS Total Worker Process Shutdown Failures" ENABLED="True" CATEGORY="APP_POOL_WAS" PRIMARYDATASOURCE="\APP_POOL_WAS(*)\Total Worker Process Shutdown Failures" ID="0d83cc2d-9a61-4cce-b05a-114d4e498a4b" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The number of times that Windows Process Activation Service (WAS) failed to shut down a worker process.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\APP_POOL_WAS(*)\Total Worker Process Shutdown Failures" COLLECTIONVARNAME="CollectionOfAPPPOOLWASTotalWorkerProcessShutdownFailures" EXPRESSIONPATH="\APP_POOL_WAS(*)\Total Worker Process Shutdown Failures" TRENDVARNAME="TrendAPPPOOLWASTotalWorkerProcessShutdownFailures" DATATYPE="integer" />
+    <CHART CHARTTITLE="\APP_POOL_WAS(*)\Total Worker Process Shutdown Failures" ISTHRESHOLDSADDED="False" DATASOURCE="\APP_POOL_WAS(*)\Total Worker Process Shutdown Failures" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="APP_POOL_WAS Total Worker Process Startup Failures" ENABLED="True" CATEGORY="APP_POOL_WAS" PRIMARYDATASOURCE="\APP_POOL_WAS(*)\Total Worker Process Startup Failures" ID="bacaaf1e-52d5-4abc-b005-16f3f2c9b965" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The number of times that Windows Process Activation Service (WAS) failed to start a worker process.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\APP_POOL_WAS(*)\Total Worker Process Startup Failures" COLLECTIONVARNAME="CollectionOfAPPPOOLWASTotalWorkerProcessStartupFailures" EXPRESSIONPATH="\APP_POOL_WAS(*)\Total Worker Process Startup Failures" TRENDVARNAME="TrendAPPPOOLWASTotalWorkerProcessStartupFailures" DATATYPE="integer" />
+    <CHART CHARTTITLE="\APP_POOL_WAS(*)\Total Worker Process Startup Failures" ISTHRESHOLDSADDED="False" DATASOURCE="\APP_POOL_WAS(*)\Total Worker Process Startup Failures" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="HTTP Service Request Queues ArrivalRate" ENABLED="True" CATEGORY="HTTP Service Request Queues" PRIMARYDATASOURCE="\HTTP Service Request Queues(*)\ArrivalRate" ID="56ba913d-5d2f-4bb1-9639-f71446b1e249" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\HTTP Service Request Queues(*)\ArrivalRate" COLLECTIONVARNAME="CollectionOfHTTPServiceRequestQueuesArrivalRate" EXPRESSIONPATH="\HTTP Service Request Queues(*)\ArrivalRate" TRENDVARNAME="TrendHTTPServiceRequestQueuesArrivalRate" DATATYPE="integer" />
+    <CHART CHARTTITLE="\HTTP Service Request Queues(*)\ArrivalRate" ISTHRESHOLDSADDED="False" DATASOURCE="\HTTP Service Request Queues(*)\ArrivalRate" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[Rate at which requests are arriving in the queue]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="HTTP Service Request Queues CacheHitRate" ENABLED="True" CATEGORY="HTTP Service Request Queues" PRIMARYDATASOURCE="\HTTP Service Request Queues(*)\CacheHitRate" ID="c466ad7c-8cd3-4e62-b17e-9ba228767b3c" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Rate of cache hits for the queue]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\HTTP Service Request Queues(*)\CacheHitRate" COLLECTIONVARNAME="CollectionOfHTTPServiceRequestQueuesCacheHitRate" EXPRESSIONPATH="\HTTP Service Request Queues(*)\CacheHitRate" TRENDVARNAME="TrendHTTPServiceRequestQueuesCacheHitRate" DATATYPE="integer" />
+    <CHART CHARTTITLE="\HTTP Service Request Queues(*)\CacheHitRate" ISTHRESHOLDSADDED="False" DATASOURCE="\HTTP Service Request Queues(*)\CacheHitRate" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="HTTP Service Request Queues CurrentQueueSize" ENABLED="True" CATEGORY="HTTP Service Request Queues" PRIMARYDATASOURCE="\HTTP Service Request Queues(*)\CurrentQueueSize" ID="4a17defa-4d67-4117-b45f-d65a3d007620" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Number of requests in the queue]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\HTTP Service Request Queues(*)\CurrentQueueSize" COLLECTIONVARNAME="CollectionOfHTTPServiceRequestQueuesCurrentQueueSize" EXPRESSIONPATH="\HTTP Service Request Queues(*)\CurrentQueueSize" TRENDVARNAME="TrendHTTPServiceRequestQueuesCurrentQueueSize" DATATYPE="integer" />
+    <CHART CHARTTITLE="\HTTP Service Request Queues(*)\CurrentQueueSize" ISTHRESHOLDSADDED="False" DATASOURCE="\HTTP Service Request Queues(*)\CurrentQueueSize" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="HTTP Service Request Queues MaxQueueItemAge" ENABLED="True" CATEGORY="HTTP Service Request Queues" PRIMARYDATASOURCE="\HTTP Service Request Queues(*)\MaxQueueItemAge" ID="d32e6b6a-8c64-4507-810f-a66db89b8096" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Age of the oldest request in the queue]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\HTTP Service Request Queues(*)\MaxQueueItemAge" COLLECTIONVARNAME="CollectionOfHTTPServiceRequestQueuesMaxQueueItemAge" EXPRESSIONPATH="\HTTP Service Request Queues(*)\MaxQueueItemAge" TRENDVARNAME="TrendHTTPServiceRequestQueuesMaxQueueItemAge" DATATYPE="integer" />
+    <CHART CHARTTITLE="\HTTP Service Request Queues(*)\MaxQueueItemAge" ISTHRESHOLDSADDED="False" DATASOURCE="\HTTP Service Request Queues(*)\MaxQueueItemAge" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="HTTP Service Request Queues RejectedRequests" ENABLED="True" CATEGORY="HTTP Service Request Queues" PRIMARYDATASOURCE="\HTTP Service Request Queues(*)\RejectedRequests" ID="e3935e49-67ad-4de2-80f3-74e14cee90b9" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Total number of requests rejected from the queue]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\HTTP Service Request Queues(*)\RejectedRequests" COLLECTIONVARNAME="CollectionOfHTTPServiceRequestQueuesRejectedRequests" EXPRESSIONPATH="\HTTP Service Request Queues(*)\RejectedRequests" TRENDVARNAME="TrendHTTPServiceRequestQueuesRejectedRequests" DATATYPE="integer" />
+    <CHART CHARTTITLE="\HTTP Service Request Queues(*)\RejectedRequests" ISTHRESHOLDSADDED="False" DATASOURCE="\HTTP Service Request Queues(*)\RejectedRequests" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="HTTP Service Request Queues RejectionRate" ENABLED="True" CATEGORY="HTTP Service Request Queues" PRIMARYDATASOURCE="\HTTP Service Request Queues(*)\RejectionRate" ID="4ac560c3-b958-48a5-a7d8-b05f28ea6911" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\HTTP Service Request Queues(*)\RejectionRate" COLLECTIONVARNAME="CollectionOfHTTPServiceRequestQueuesRejectionRate" EXPRESSIONPATH="\HTTP Service Request Queues(*)\RejectionRate" TRENDVARNAME="TrendHTTPServiceRequestQueuesRejectionRate" DATATYPE="integer" />
+    <CHART CHARTTITLE="\HTTP Service Request Queues(*)\RejectionRate" ISTHRESHOLDSADDED="False" DATASOURCE="\HTTP Service Request Queues(*)\RejectionRate" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[Rate at which requests are rejected from the queue]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="HTTP Service Url Groups AllRequests" ENABLED="True" CATEGORY="HTTP Service Url Groups" PRIMARYDATASOURCE="\HTTP Service Url Groups(*)\AllRequests" ID="84b8a86e-d4c6-43ad-b130-d04884aea00b" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Total number of HTTP requests made for this site]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\HTTP Service Url Groups(*)\AllRequests" COLLECTIONVARNAME="CollectionOfHTTPServiceUrlGroupsAllRequests" EXPRESSIONPATH="\HTTP Service Url Groups(*)\AllRequests" TRENDVARNAME="TrendHTTPServiceUrlGroupsAllRequests" DATATYPE="integer" />
+    <CHART CHARTTITLE="\HTTP Service Url Groups(*)\AllRequests" ISTHRESHOLDSADDED="False" DATASOURCE="\HTTP Service Url Groups(*)\AllRequests" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="HTTP Service Url Groups BytesSentRate" ENABLED="True" CATEGORY="HTTP Service Url Groups" PRIMARYDATASOURCE="\HTTP Service Url Groups(*)\BytesSentRate" ID="c42a7ba7-e66b-493e-aba3-d9f1e74f868c" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Rate of sending data by HTTP service for this site]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\HTTP Service Url Groups(*)\BytesSentRate" COLLECTIONVARNAME="CollectionOfHTTPServiceUrlGroupsBytesSentRate" EXPRESSIONPATH="\HTTP Service Url Groups(*)\BytesSentRate" TRENDVARNAME="TrendHTTPServiceUrlGroupsBytesSentRate" DATATYPE="integer" />
+    <CHART CHARTTITLE="\HTTP Service Url Groups(*)\BytesSentRate" ISTHRESHOLDSADDED="False" DATASOURCE="\HTTP Service Url Groups(*)\BytesSentRate" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="HTTP Service Url Groups BytesReceivedRate" ENABLED="True" CATEGORY="HTTP Service Url Groups" PRIMARYDATASOURCE="\HTTP Service Url Groups(*)\BytesReceivedRate" ID="4079f8da-9194-4ea0-9420-b0aac9a5c579" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Rate of received data by HTTP service for this site]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\HTTP Service Url Groups(*)\BytesReceivedRate" COLLECTIONVARNAME="CollectionOfHTTPServiceUrlGroupsBytesReceivedRate" EXPRESSIONPATH="\HTTP Service Url Groups(*)\BytesReceivedRate" TRENDVARNAME="TrendHTTPServiceUrlGroupsBytesReceivedRate" DATATYPE="integer" />
+    <CHART CHARTTITLE="\HTTP Service Url Groups(*)\BytesReceivedRate" ISTHRESHOLDSADDED="False" DATASOURCE="\HTTP Service Url Groups(*)\BytesReceivedRate" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="HTTP Service Url Groups BytesTransferredRate" ENABLED="True" CATEGORY="HTTP Service Url Groups" PRIMARYDATASOURCE="\HTTP Service Url Groups(*)\BytesTransferredRate" ID="9905ad3b-6001-4101-8b48-49a2333883b0" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Rate of total bytes transferred (sent and received) by HTTP service for this site]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\HTTP Service Url Groups(*)\BytesTransferredRate" COLLECTIONVARNAME="CollectionOfHTTPServiceUrlGroupsBytesTransferredRate" EXPRESSIONPATH="\HTTP Service Url Groups(*)\BytesTransferredRate" TRENDVARNAME="TrendHTTPServiceUrlGroupsBytesTransferredRate" DATATYPE="integer" />
+    <CHART CHARTTITLE="\HTTP Service Url Groups(*)\BytesTransferredRate" ISTHRESHOLDSADDED="False" DATASOURCE="\HTTP Service Url Groups(*)\BytesTransferredRate" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="HTTP Service Url Groups ConnectionAttempts" ENABLED="True" CATEGORY="HTTP Service Url Groups" PRIMARYDATASOURCE="\HTTP Service Url Groups(*)\ConnectionAttempts" ID="d3725ad8-6381-49f4-a726-4be9b3a22d74" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Rate at which connection attempts are being made for this site]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\HTTP Service Url Groups(*)\ConnectionAttempts" COLLECTIONVARNAME="CollectionOfHTTPServiceUrlGroupsConnectionAttempts" EXPRESSIONPATH="\HTTP Service Url Groups(*)\ConnectionAttempts" TRENDVARNAME="TrendHTTPServiceUrlGroupsConnectionAttempts" DATATYPE="integer" />
+    <CHART CHARTTITLE="\HTTP Service Url Groups(*)\ConnectionAttempts" ISTHRESHOLDSADDED="False" DATASOURCE="\HTTP Service Url Groups(*)\ConnectionAttempts" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="HTTP Service Url Groups CurrentConnections" ENABLED="True" CATEGORY="HTTP Service Url Groups" PRIMARYDATASOURCE="\HTTP Service Url Groups(*)\CurrentConnections" ID="747edf27-b194-4e06-ae19-b6186bb0de87" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Number of current connections established for this site]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\HTTP Service Url Groups(*)\CurrentConnections" COLLECTIONVARNAME="CollectionOfHTTPServiceUrlGroupsCurrentConnections" EXPRESSIONPATH="\HTTP Service Url Groups(*)\CurrentConnections" TRENDVARNAME="TrendHTTPServiceUrlGroupsCurrentConnections" DATATYPE="integer" />
+    <CHART CHARTTITLE="\HTTP Service Url Groups(*)\CurrentConnections" ISTHRESHOLDSADDED="False" DATASOURCE="\HTTP Service Url Groups(*)\CurrentConnections" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="HTTP Service Url Groups GetRequests" ENABLED="True" CATEGORY="HTTP Service Url Groups" PRIMARYDATASOURCE="\HTTP Service Url Groups(*)\GetRequests" ID="a556a71b-e679-4ec7-8e76-b952d64a070b" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Rate at which GET method requests are made for this site]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\HTTP Service Url Groups(*)\GetRequests" COLLECTIONVARNAME="CollectionOfHTTPServiceUrlGroupsGetRequests" EXPRESSIONPATH="\HTTP Service Url Groups(*)\GetRequests" TRENDVARNAME="TrendHTTPServiceUrlGroupsGetRequests" DATATYPE="integer" />
+    <CHART CHARTTITLE="\HTTP Service Url Groups(*)\GetRequests" ISTHRESHOLDSADDED="False" DATASOURCE="\HTTP Service Url Groups(*)\GetRequests" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="HTTP Service Url Groups HeadRequests" ENABLED="True" CATEGORY="HTTP Service Url Groups" PRIMARYDATASOURCE="\HTTP Service Url Groups(*)\HeadRequests" ID="d192291b-21e5-45cb-8576-e326c396063f" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Rate at which HEAD method requests are made for this site]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\HTTP Service Url Groups(*)\HeadRequests" COLLECTIONVARNAME="CollectionOfHTTPServiceUrlGroupsHeadRequests" EXPRESSIONPATH="\HTTP Service Url Groups(*)\HeadRequests" TRENDVARNAME="TrendHTTPServiceUrlGroupsHeadRequests" DATATYPE="integer" />
+    <CHART CHARTTITLE="\HTTP Service Url Groups(*)\HeadRequests" ISTHRESHOLDSADDED="False" DATASOURCE="\HTTP Service Url Groups(*)\HeadRequests" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="HTTP Service Url Groups MaxConnections" ENABLED="True" CATEGORY="HTTP Service Url Groups" PRIMARYDATASOURCE="\HTTP Service Url Groups(*)\MaxConnections" ID="71851a8f-214b-4dfc-ad7f-7413b2e88139" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\HTTP Service Url Groups(*)\MaxConnections" COLLECTIONVARNAME="CollectionOfHTTPServiceUrlGroupsMaxConnections" EXPRESSIONPATH="\HTTP Service Url Groups(*)\MaxConnections" TRENDVARNAME="TrendHTTPServiceUrlGroupsMaxConnections" DATATYPE="integer" />
+    <CHART CHARTTITLE="\HTTP Service Url Groups(*)\MaxConnections" ISTHRESHOLDSADDED="False" DATASOURCE="\HTTP Service Url Groups(*)\MaxConnections" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[Maximum number of concurrent connections established for this site]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="W3SVC_W3WP Active Requests" ENABLED="True" CATEGORY="W3SVC_W3WP" PRIMARYDATASOURCE="\W3SVC_W3WP(*)\Active Requests" ID="df062e8d-9880-426f-a6c1-e02bd57626a4" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Current number of requests being processed by the worker process.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\W3SVC_W3WP(*)\Active Requests" COLLECTIONVARNAME="CollectionOfW3SVCW3WPActiveRequests" EXPRESSIONPATH="\W3SVC_W3WP(*)\Active Requests" TRENDVARNAME="TrendW3SVCW3WPActiveRequests" DATATYPE="integer" />
+    <CHART CHARTTITLE="\W3SVC_W3WP(*)\Active Requests" ISTHRESHOLDSADDED="False" DATASOURCE="\W3SVC_W3WP(*)\Active Requests" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="W3SVC_W3WP Active Threads Count" ENABLED="True" CATEGORY="W3SVC_W3WP" PRIMARYDATASOURCE="\W3SVC_W3WP(*)\Active Threads Count" ID="7c54f47b-07df-40d3-ac8f-3e3c78d9f6c1" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Number of threads actively processing requests in the worker process.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\W3SVC_W3WP(*)\Active Threads Count" COLLECTIONVARNAME="CollectionOfW3SVCW3WPActiveThreadsCount" EXPRESSIONPATH="\W3SVC_W3WP(*)\Active Threads Count" TRENDVARNAME="TrendW3SVCW3WPActiveThreadsCount" DATATYPE="integer" />
+    <CHART CHARTTITLE="\W3SVC_W3WP(*)\Active Threads Count" ISTHRESHOLDSADDED="False" DATASOURCE="\W3SVC_W3WP(*)\Active Threads Count" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="W3SVC_W3WP Current File Cache Memory Usage" ENABLED="True" CATEGORY="W3SVC_W3WP" PRIMARYDATASOURCE="\W3SVC_W3WP(*)\Current File Cache Memory Usage" ID="256cc8df-c1aa-42f3-9b1c-ffb6746ac11e" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Current number of bytes used by user-mode file cache.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\W3SVC_W3WP(*)\Current File Cache Memory Usage" COLLECTIONVARNAME="CollectionOfW3SVCW3WPCurrentFileCacheMemoryUsage" EXPRESSIONPATH="\W3SVC_W3WP(*)\Current File Cache Memory Usage" TRENDVARNAME="TrendW3SVCW3WPCurrentFileCacheMemoryUsage" DATATYPE="integer" />
+    <CHART CHARTTITLE="\W3SVC_W3WP(*)\Current File Cache Memory Usage" ISTHRESHOLDSADDED="False" DATASOURCE="\W3SVC_W3WP(*)\Current File Cache Memory Usage" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="W3SVC_W3WP Current Files Cached" ENABLED="True" CATEGORY="W3SVC_W3WP" PRIMARYDATASOURCE="\W3SVC_W3WP(*)\Current Files Cached" ID="f72464db-cce7-4e35-bfd1-571c9d024269" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Current number of files whose contents are present in user-mode cache.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\W3SVC_W3WP(*)\Current Files Cached" COLLECTIONVARNAME="CollectionOfW3SVCW3WPCurrentFilesCached" EXPRESSIONPATH="\W3SVC_W3WP(*)\Current Files Cached" TRENDVARNAME="TrendW3SVCW3WPCurrentFilesCached" DATATYPE="integer" />
+    <CHART CHARTTITLE="\W3SVC_W3WP(*)\Current Files Cached" ISTHRESHOLDSADDED="False" DATASOURCE="\W3SVC_W3WP(*)\Current Files Cached" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="W3SVC_W3WP Current Metadata Cached" ENABLED="True" CATEGORY="W3SVC_W3WP" PRIMARYDATASOURCE="\W3SVC_W3WP(*)\Current Metadata Cached" ID="3745b84e-8d8c-4ed7-908d-4feda20a7bcf" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Number of metadata information blocks currently present in user-mode cache.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\W3SVC_W3WP(*)\Current Metadata Cached" COLLECTIONVARNAME="CollectionOfW3SVCW3WPCurrentMetadataCached" EXPRESSIONPATH="\W3SVC_W3WP(*)\Current Metadata Cached" TRENDVARNAME="TrendW3SVCW3WPCurrentMetadataCached" DATATYPE="integer" />
+    <CHART CHARTTITLE="\W3SVC_W3WP(*)\Current Metadata Cached" ISTHRESHOLDSADDED="False" DATASOURCE="\W3SVC_W3WP(*)\Current Metadata Cached" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="W3SVC_W3WP Current URIs Cached" ENABLED="True" CATEGORY="W3SVC_W3WP" PRIMARYDATASOURCE="\W3SVC_W3WP(*)\Current URIs Cached" ID="e885e94b-9c5f-4a91-8ddc-d7ec1e980f1d" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[URI information blocks currently in the user-mode cache.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\W3SVC_W3WP(*)\Current URIs Cached" COLLECTIONVARNAME="CollectionOfW3SVCW3WPCurrentURIsCached" EXPRESSIONPATH="\W3SVC_W3WP(*)\Current URIs Cached" TRENDVARNAME="TrendW3SVCW3WPCurrentURIsCached" DATATYPE="integer" />
+    <CHART CHARTTITLE="\W3SVC_W3WP(*)\Current URIs Cached" ISTHRESHOLDSADDED="False" DATASOURCE="\W3SVC_W3WP(*)\Current URIs Cached" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="W3SVC_W3WP File Cache Misses / sec" ENABLED="True" CATEGORY="W3SVC_W3WP" PRIMARYDATASOURCE="\W3SVC_W3WP(*)\File Cache Misses / sec" ID="310c162f-7fd9-4b6e-9fb0-3eff573b3262" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Rate of unsuccessful lookups in file cache during last sample interval.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\W3SVC_W3WP(*)\File Cache Misses / sec" COLLECTIONVARNAME="CollectionOfW3SVCW3WPFileCacheMissessec" EXPRESSIONPATH="\W3SVC_W3WP(*)\File Cache Misses / sec" TRENDVARNAME="TrendW3SVCW3WPFileCacheMissessec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\W3SVC_W3WP(*)\File Cache Misses / sec" ISTHRESHOLDSADDED="False" DATASOURCE="\W3SVC_W3WP(*)\File Cache Misses / sec" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="W3SVC_W3WP Maximum Threads Count" ENABLED="True" CATEGORY="W3SVC_W3WP" PRIMARYDATASOURCE="\W3SVC_W3WP(*)\Maximum Threads Count" ID="1830e451-1194-411c-8027-26f653d5ebd6" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Maximum number of threads to which the thread pool can grow as needed.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\W3SVC_W3WP(*)\Maximum Threads Count" COLLECTIONVARNAME="CollectionOfW3SVCW3WPMaximumThreadsCount" EXPRESSIONPATH="\W3SVC_W3WP(*)\Maximum Threads Count" TRENDVARNAME="TrendW3SVCW3WPMaximumThreadsCount" DATATYPE="integer" />
+    <CHART CHARTTITLE="\W3SVC_W3WP(*)\Maximum Threads Count" ISTHRESHOLDSADDED="False" DATASOURCE="\W3SVC_W3WP(*)\Maximum Threads Count" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="W3SVC_W3WP Metadata Cache Misses / sec" ENABLED="True" CATEGORY="W3SVC_W3WP" PRIMARYDATASOURCE="\W3SVC_W3WP(*)\Metadata Cache Misses / sec" ID="0e77dd20-bea8-433c-a269-0b7202afadf4" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Rate of unsuccessful lookups in metadata cache during last sample interval.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\W3SVC_W3WP(*)\Metadata Cache Misses / sec" COLLECTIONVARNAME="CollectionOfW3SVCW3WPMetadataCacheMissessec" EXPRESSIONPATH="\W3SVC_W3WP(*)\Metadata Cache Misses / sec" TRENDVARNAME="TrendW3SVCW3WPMetadataCacheMissessec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\W3SVC_W3WP(*)\Metadata Cache Misses / sec" ISTHRESHOLDSADDED="False" DATASOURCE="\W3SVC_W3WP(*)\Metadata Cache Misses / sec" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="W3SVC_W3WP Output Cache Current Memory Usage" ENABLED="True" CATEGORY="W3SVC_W3WP" PRIMARYDATASOURCE="\W3SVC_W3WP(*)\Output Cache Current Memory Usage" ID="243a8362-b653-48e9-8d3b-b574a1fd5ba0" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Current number of bytes used by output cache.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\W3SVC_W3WP(*)\Output Cache Current Memory Usage" COLLECTIONVARNAME="CollectionOfW3SVCW3WPOutputCacheCurrentMemoryUsage" EXPRESSIONPATH="\W3SVC_W3WP(*)\Output Cache Current Memory Usage" TRENDVARNAME="TrendW3SVCW3WPOutputCacheCurrentMemoryUsage" DATATYPE="integer" />
+    <CHART CHARTTITLE="\W3SVC_W3WP(*)\Output Cache Current Memory Usage" ISTHRESHOLDSADDED="False" DATASOURCE="\W3SVC_W3WP(*)\Output Cache Current Memory Usage" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="W3SVC_W3WP Output Cache Misses / sec" ENABLED="True" CATEGORY="W3SVC_W3WP" PRIMARYDATASOURCE="\W3SVC_W3WP(*)\Output Cache Misses / sec" ID="d7601a61-e5ae-4cf0-8477-d407c244f430" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Rate of unsuccessful lookups in output cache during last sample interval.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\W3SVC_W3WP(*)\Output Cache Misses / sec" COLLECTIONVARNAME="CollectionOfW3SVCW3WPOutputCacheMissessec" EXPRESSIONPATH="\W3SVC_W3WP(*)\Output Cache Misses / sec" TRENDVARNAME="TrendW3SVCW3WPOutputCacheMissessec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\W3SVC_W3WP(*)\Output Cache Misses / sec" ISTHRESHOLDSADDED="False" DATASOURCE="\W3SVC_W3WP(*)\Output Cache Misses / sec" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="W3SVC_W3WP Requests / Sec" ENABLED="True" CATEGORY="W3SVC_W3WP" PRIMARYDATASOURCE="\W3SVC_W3WP(*)\Requests / Sec" ID="bbb99e16-62e6-4b38-b44f-9da40e30de0a" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[HTTP requests/sec being processed by the worker process.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\W3SVC_W3WP(*)\Requests / Sec" COLLECTIONVARNAME="CollectionOfW3SVCW3WPRequestsSec" EXPRESSIONPATH="\W3SVC_W3WP(*)\Requests / Sec" TRENDVARNAME="TrendW3SVCW3WPRequestsSec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\W3SVC_W3WP(*)\Requests / Sec" ISTHRESHOLDSADDED="False" DATASOURCE="\W3SVC_W3WP(*)\Requests / Sec" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="W3SVC_W3WP Total Threads" ENABLED="True" CATEGORY="W3SVC_W3WP" PRIMARYDATASOURCE="\W3SVC_W3WP(*)\Total Threads" ID="eaf124ec-c2dc-4826-ad7e-36f9b5f6e1f6" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Total number of threads available to process requests in the worker process.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\W3SVC_W3WP(*)\Total Threads" COLLECTIONVARNAME="CollectionOfW3SVCW3WPTotalThreads" EXPRESSIONPATH="\W3SVC_W3WP(*)\Total Threads" TRENDVARNAME="TrendW3SVCW3WPTotalThreads" DATATYPE="integer" />
+    <CHART CHARTTITLE="\W3SVC_W3WP(*)\Total Threads" ISTHRESHOLDSADDED="False" DATASOURCE="\W3SVC_W3WP(*)\Total Threads" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="WAS_W3WP Health Ping Reply Latency" ENABLED="True" CATEGORY="WAS_W3WP" PRIMARYDATASOURCE="\WAS_W3WP(*)\Health Ping Reply Latency" ID="4bf18573-e76c-4121-8769-898514d75866" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\WAS_W3WP(*)\Health Ping Reply Latency" COLLECTIONVARNAME="CollectionOfWASW3WPHealthPingReplyLatency" EXPRESSIONPATH="\WAS_W3WP(*)\Health Ping Reply Latency" TRENDVARNAME="TrendWASW3WPHealthPingReplyLatency" DATATYPE="integer" />
+    <CHART CHARTTITLE="\WAS_W3WP(*)\Health Ping Reply Latency" ISTHRESHOLDSADDED="False" DATASOURCE="\WAS_W3WP(*)\Health Ping Reply Latency" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[Time, in 100 nanosecond increments, taken by worker process to reply to last health ping.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="WAS_W3WP Active Listener Channels" ENABLED="True" CATEGORY="WAS_W3WP" PRIMARYDATASOURCE="\WAS_W3WP(*)\Active Listener Channels" ID="bcda6369-1227-493c-89f4-bff0db76f77a" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Number of currently active listener channels in the worker process.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\WAS_W3WP(*)\Active Listener Channels" COLLECTIONVARNAME="CollectionOfWASW3WPActiveListenerChannels" EXPRESSIONPATH="\WAS_W3WP(*)\Active Listener Channels" TRENDVARNAME="TrendWASW3WPActiveListenerChannels" DATATYPE="integer" />
+    <CHART CHARTTITLE="\WAS_W3WP(*)\Active Listener Channels" ISTHRESHOLDSADDED="False" DATASOURCE="\WAS_W3WP(*)\Active Listener Channels" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="WAS_W3WP Active Protocol Handlers" ENABLED="True" CATEGORY="WAS_W3WP" PRIMARYDATASOURCE="\WAS_W3WP(*)\Active Protocol Handlers" ID="03d4be82-b73b-4b27-a524-5a5cb13988f8" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Number of currently active protocol handlers in the worker process.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\WAS_W3WP(*)\Active Protocol Handlers" COLLECTIONVARNAME="CollectionOfWASW3WPActiveProtocolHandlers" EXPRESSIONPATH="\WAS_W3WP(*)\Active Protocol Handlers" TRENDVARNAME="TrendWASW3WPActiveProtocolHandlers" DATATYPE="integer" />
+    <CHART CHARTTITLE="\WAS_W3WP(*)\Active Protocol Handlers" ISTHRESHOLDSADDED="False" DATASOURCE="\WAS_W3WP(*)\Active Protocol Handlers" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Web Service Bytes Total/sec" ENABLED="True" CATEGORY="Web Service" PRIMARYDATASOURCE="\Web Service(*)\Bytes Total/sec" ID="ed34c60f-a716-4dec-8bca-addf4f7c19a8" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Bytes Total/sec is the sum of Bytes Sent/sec and Bytes Received/sec.  This is the total rate of bytes transferred by the Web service.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\Web Service(*)\Bytes Total/sec" COLLECTIONVARNAME="CollectionOfWebServiceBytesTotalsec" EXPRESSIONPATH="\Web Service(*)\Bytes Total/sec" TRENDVARNAME="TrendWebServiceBytesTotalsec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Web Service(*)\Bytes Total/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\Web Service(*)\Bytes Total/sec" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Web Service Connection Attempts/sec" ENABLED="True" CATEGORY="Web Service" PRIMARYDATASOURCE="\Web Service(*)\Connection Attempts/sec" ID="4777656c-b722-471c-81b1-fe951e150d48" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The rate that connections to the Web service are being attempted.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\Web Service(*)\Connection Attempts/sec" COLLECTIONVARNAME="CollectionOfWebServiceConnectionAttemptssec" EXPRESSIONPATH="\Web Service(*)\Connection Attempts/sec" TRENDVARNAME="TrendWebServiceConnectionAttemptssec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Web Service(*)\Connection Attempts/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\Web Service(*)\Connection Attempts/sec" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Web Service Current Anonymous Users" ENABLED="True" CATEGORY="Web Service" PRIMARYDATASOURCE="\Web Service(*)\Current Anonymous Users" ID="f1646c35-0973-420d-a1d6-171784cd059f" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Current Anonymous Users is the number of users who currently have an anonymous connection using the Web service.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\Web Service(*)\Current Anonymous Users" COLLECTIONVARNAME="CollectionOfWebServiceCurrentAnonymousUsers" EXPRESSIONPATH="\Web Service(*)\Current Anonymous Users" TRENDVARNAME="TrendWebServiceCurrentAnonymousUsers" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Web Service(*)\Current Anonymous Users" ISTHRESHOLDSADDED="False" DATASOURCE="\Web Service(*)\Current Anonymous Users" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Web Service Current NonAnonymous Users" ENABLED="True" CATEGORY="Web Service" PRIMARYDATASOURCE="\Web Service(*)\Current NonAnonymous Users" ID="83114b69-1d15-40a0-a1c5-be3ea5150629" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Current NonAnonymous Users is the number of users who currently have a non-anonymous connection using the Web service.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\Web Service(*)\Current NonAnonymous Users" COLLECTIONVARNAME="CollectionOfWebServiceCurrentNonAnonymousUsers" EXPRESSIONPATH="\Web Service(*)\Current NonAnonymous Users" TRENDVARNAME="TrendWebServiceCurrentNonAnonymousUsers" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Web Service(*)\Current NonAnonymous Users" ISTHRESHOLDSADDED="False" DATASOURCE="\Web Service(*)\Current NonAnonymous Users" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Web Service Cache File Cache Hits %" ENABLED="True" CATEGORY="Web Service Cache" PRIMARYDATASOURCE="\Web Service Cache\File Cache Hits %" ID="9f64f9e2-fff5-4963-a930-5e434307d77b" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The ratio of user-mode file cache hits to total cache requests (since service startup).]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\Web Service Cache\File Cache Hits %" COLLECTIONVARNAME="CollectionOfWebServiceCacheFileCacheHitsPercent" EXPRESSIONPATH="\Web Service Cache\File Cache Hits %" TRENDVARNAME="TrendWebServiceCacheFileCacheHitsPercent" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Web Service Cache\File Cache Hits %" ISTHRESHOLDSADDED="False" DATASOURCE="\Web Service Cache\File Cache Hits %" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Web Service Cache Kernel: URI Cache Hits %" ENABLED="True" CATEGORY="Web Service Cache" PRIMARYDATASOURCE="\Web Service Cache\Kernel: URI Cache Hits %" ID="553c835a-d1f6-4456-9f27-f31748267e49" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The ratio of kernel URI cache hits to total cache requests (since service startup).]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\Web Service Cache\Kernel: URI Cache Hits %" COLLECTIONVARNAME="CollectionOfWebServiceCacheKernelURICacheHitsPercent" EXPRESSIONPATH="\Web Service Cache\Kernel: URI Cache Hits %" TRENDVARNAME="TrendWebServiceCacheKernelURICacheHitsPercent" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Web Service Cache\Kernel: URI Cache Hits %" ISTHRESHOLDSADDED="False" DATASOURCE="\Web Service Cache\Kernel: URI Cache Hits %" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Web Service Cache Output Cache Current Hits %" ENABLED="True" CATEGORY="Web Service Cache" PRIMARYDATASOURCE="\Web Service Cache\Output Cache Current Hits %" ID="4620cf32-b55f-4b81-b316-f0e0878aa425" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\Web Service Cache\Output Cache Current Hits %" COLLECTIONVARNAME="CollectionOfWebServiceCacheOutputCacheCurrentHitsPercent" EXPRESSIONPATH="\Web Service Cache\Output Cache Current Hits %" TRENDVARNAME="TrendWebServiceCacheOutputCacheCurrentHitsPercent" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Web Service Cache\Output Cache Current Hits %" ISTHRESHOLDSADDED="False" DATASOURCE="\Web Service Cache\Output Cache Current Hits %" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[Output Cache current hit ratio. Calculated as (H)/(H+M) where H and M represent Hits and Misses in previous sample interval respectively.]]></DESCRIPTION>
+  </ANALYSIS>
+  <INHERITANCE FILEPATH="AspDotNet.xml" />
+  <INHERITANCE FILEPATH="SystemOverview.xml" />
+  <INHERITANCE FILEPATH="Asp.xml" />
+</PAL>

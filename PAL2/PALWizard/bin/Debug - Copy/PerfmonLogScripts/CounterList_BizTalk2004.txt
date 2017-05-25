@@ -1,0 +1,15 @@
+\.NET CLR Exceptions(*)\*
+\.NET CLR Memory(*)\*
+\BizTalk:Messaging(*)\*
+\BizTalk:TDDS(*)\*
+\Distributed Transaction Coordinator\*
+\Enterprise SSO(*)\*
+\LogicalDisk(*)\*
+\Memory\*
+\Network Interface(*)\*
+\PhysicalDisk(*)\*
+\Process(*)\*
+\Processor(*)\*
+\System\*
+\TCPv4\*
+\XLANG/s Orchestrations(*)\*

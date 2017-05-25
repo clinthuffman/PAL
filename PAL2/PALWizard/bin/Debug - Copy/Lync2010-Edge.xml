@@ -1,0 +1,116 @@
+<?xml version="1.0"?>
+<PAL PALVERSION="2.0" NAME="Microsoft Lync Server 2010 - Edge" DESCRIPTION="Performance counter thresholds for Microsoft Lync Server 2010 Edge Server." VERSION="1.0" CONTENTOWNERS="Doug Deitterick" FEEDBACKEMAILADDRESS="dodeitte@microsoft.com">
+  <ANALYSIS NAME="LS:A/V Auth - 00 - Requests - 003 - Bad Requests Received/sec" ENABLED="True" CATEGORY="LS:A/V Auth - 00 - Requests" PRIMARYDATASOURCE="\LS:A/V Auth - 00 - Requests\- 003 - Bad Requests Received/sec" ID="bbc0ae56-fbd6-4f32-829a-596f51fd96cc" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The number of bad requests received/sec]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\LS:A/V Auth - 00 - Requests\- 003 - Bad Requests Received/sec" COLLECTIONVARNAME="CollectionOfLSAVAuth00Requests003BadRequestsReceivedsec" EXPRESSIONPATH="\LS:A/V Auth - 00 - Requests\- 003 - Bad Requests Received/sec" TRENDVARNAME="TrendLSAVAuth00Requests003BadRequestsReceivedsec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LS:A/V Auth - 00 - Requests\- 003 - Bad Requests Received/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\LS:A/V Auth - 00 - Requests\- 003 - Bad Requests Received/sec" CHARTLABELS="instance" />
+    <THRESHOLD NAME="Bad Requests Received/sec &gt;= 20" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfLSAVAuth00Requests003BadRequestsReceivedsec -Operator 'ge' -Threshold 20]]></CODE>
+    </THRESHOLD>
+  </ANALYSIS>
+  <ANALYSIS NAME="LS:A/V Edge - 00 - UDP Counters A/V Edge - 008 - Authentication Failures/sec" ENABLED="True" CATEGORY="LS:A/V Edge - 00 - UDP Counters" PRIMARYDATASOURCE="\LS:A/V Edge - 00 - UDP Counters(*)\A/V Edge - 008 - Authentication Failures/sec" ID="96b3ed7c-113d-4995-8129-547a1a4175b3" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The per-second rate of failed attempts to authenticate with the relay over UDP.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\LS:A/V Edge - 00 - UDP Counters(*)\A/V Edge - 008 - Authentication Failures/sec" COLLECTIONVARNAME="CollectionOfLSAVEdge00UDPCountersAVEdge008AuthenticationFailuressec" EXPRESSIONPATH="\LS:A/V Edge - 00 - UDP Counters(*)\A/V Edge - 008 - Authentication Failures/sec" TRENDVARNAME="TrendLSAVEdge00UDPCountersAVEdge008AuthenticationFailuressec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LS:A/V Edge - 00 - UDP Counters(*)\A/V Edge - 008 - Authentication Failures/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\LS:A/V Edge - 00 - UDP Counters(*)\A/V Edge - 008 - Authentication Failures/sec" CHARTLABELS="instance" />
+    <THRESHOLD NAME="Authentication Failures/sec &gt;= 20" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfLSAVEdge00UDPCountersAVEdge008AuthenticationFailuressec -Operator 'ge' -Threshold 20]]></CODE>
+    </THRESHOLD>
+  </ANALYSIS>
+  <ANALYSIS NAME="LS:A/V Edge - 00 - UDP Counters A/V Edge - 009 - Allocate Requests Exceeding Port Limit" ENABLED="True" CATEGORY="LS:A/V Edge - 00 - UDP Counters" PRIMARYDATASOURCE="\LS:A/V Edge - 00 - UDP Counters(*)\A/V Edge - 009 - Allocate Requests Exceeding Port Limit" ID="5f811915-782b-4569-b402-7f0128a52be2" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The number of allocate requests over UDP that exceeded the port limit.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\LS:A/V Edge - 00 - UDP Counters(*)\A/V Edge - 009 - Allocate Requests Exceeding Port Limit" COLLECTIONVARNAME="CollectionOfLSAVEdge00UDPCountersAVEdge009AllocateRequestsExceedingPortLimit" EXPRESSIONPATH="\LS:A/V Edge - 00 - UDP Counters(*)\A/V Edge - 009 - Allocate Requests Exceeding Port Limit" TRENDVARNAME="TrendLSAVEdge00UDPCountersAVEdge009AllocateRequestsExceedingPortLimit" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LS:A/V Edge - 00 - UDP Counters(*)\A/V Edge - 009 - Allocate Requests Exceeding Port Limit" ISTHRESHOLDSADDED="False" DATASOURCE="\LS:A/V Edge - 00 - UDP Counters(*)\A/V Edge - 009 - Allocate Requests Exceeding Port Limit" CHARTLABELS="instance" />
+    <THRESHOLD NAME="Allocate Requests Exceeding Port Limit &gt;= 20" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfLSAVEdge00UDPCountersAVEdge009AllocateRequestsExceedingPortLimit -Operator 'ge' -Threshold 20]]></CODE>
+    </THRESHOLD>
+  </ANALYSIS>
+  <ANALYSIS NAME="LS:A/V Edge - 00 - UDP Counters A/V Edge - 029 - Packets Dropped/sec" ENABLED="True" CATEGORY="LS:A/V Edge - 00 - UDP Counters" PRIMARYDATASOURCE="\LS:A/V Edge - 00 - UDP Counters(*)\A/V Edge - 029 - Packets Dropped/sec" ID="948ee212-35e2-4c66-b0f3-2b5a330ce414" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The per-second rate of packets over UDP dropped by the relay.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\LS:A/V Edge - 00 - UDP Counters(*)\A/V Edge - 029 - Packets Dropped/sec" COLLECTIONVARNAME="CollectionOfLSAVEdge00UDPCountersAVEdge029PacketsDroppedsec" EXPRESSIONPATH="\LS:A/V Edge - 00 - UDP Counters(*)\A/V Edge - 029 - Packets Dropped/sec" TRENDVARNAME="TrendLSAVEdge00UDPCountersAVEdge029PacketsDroppedsec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LS:A/V Edge - 00 - UDP Counters(*)\A/V Edge - 029 - Packets Dropped/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\LS:A/V Edge - 00 - UDP Counters(*)\A/V Edge - 029 - Packets Dropped/sec" CHARTLABELS="instance" />
+    <THRESHOLD NAME="Packets Dropped/sec &gt;= 300" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfLSAVEdge00UDPCountersAVEdge029PacketsDroppedsec -Operator 'ge' -Threshold 300]]></CODE>
+    </THRESHOLD>
+  </ANALYSIS>
+  <ANALYSIS NAME="LS:A/V Edge - 01 - TCP Counters A/V Edge - 008 - Authentication Failures/sec" ENABLED="True" CATEGORY="LS:A/V Edge - 01 - TCP Counters" PRIMARYDATASOURCE="\LS:A/V Edge - 01 - TCP Counters(*)\A/V Edge - 008 - Authentication Failures/sec" ID="c7f5c826-8e20-4ded-b811-f7fba1f1b992" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The per-second rate of failed attempts to authenticate with the relay over TCP.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\LS:A/V Edge - 01 - TCP Counters(*)\A/V Edge - 008 - Authentication Failures/sec" COLLECTIONVARNAME="CollectionOfLSAVEdge01TCPCountersAVEdge008AuthenticationFailuressec" EXPRESSIONPATH="\LS:A/V Edge - 01 - TCP Counters(*)\A/V Edge - 008 - Authentication Failures/sec" TRENDVARNAME="TrendLSAVEdge01TCPCountersAVEdge008AuthenticationFailuressec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LS:A/V Edge - 01 - TCP Counters(*)\A/V Edge - 008 - Authentication Failures/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\LS:A/V Edge - 01 - TCP Counters(*)\A/V Edge - 008 - Authentication Failures/sec" CHARTLABELS="instance" />
+    <THRESHOLD NAME="Authentication Failures/sec &gt;= 20" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfLSAVEdge01TCPCountersAVEdge008AuthenticationFailuressec -Operator 'ge' -Threshold 20]]></CODE>
+    </THRESHOLD>
+  </ANALYSIS>
+  <ANALYSIS NAME="LS:A/V Edge - 01 - TCP Counters A/V Edge - 009 - Allocate Requests Exceeding Port Limit" ENABLED="True" CATEGORY="LS:A/V Edge - 01 - TCP Counters" PRIMARYDATASOURCE="\LS:A/V Edge - 01 - TCP Counters(*)\A/V Edge - 009 - Allocate Requests Exceeding Port Limit" ID="7ba17f2c-e92b-4c9a-a2dc-3a26e772ac49" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The number of allocate requests over TCP that exceeded the port limit.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\LS:A/V Edge - 01 - TCP Counters(*)\A/V Edge - 009 - Allocate Requests Exceeding Port Limit" COLLECTIONVARNAME="CollectionOfLSAVEdge01TCPCountersAVEdge009AllocateRequestsExceedingPortLimit" EXPRESSIONPATH="\LS:A/V Edge - 01 - TCP Counters(*)\A/V Edge - 009 - Allocate Requests Exceeding Port Limit" TRENDVARNAME="TrendLSAVEdge01TCPCountersAVEdge009AllocateRequestsExceedingPortLimit" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LS:A/V Edge - 01 - TCP Counters(*)\A/V Edge - 009 - Allocate Requests Exceeding Port Limit" ISTHRESHOLDSADDED="False" DATASOURCE="\LS:A/V Edge - 01 - TCP Counters(*)\A/V Edge - 009 - Allocate Requests Exceeding Port Limit" CHARTLABELS="instance" />
+    <THRESHOLD NAME="Allocate Requests Exceeding Port Limit &gt;= 20" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfLSAVEdge01TCPCountersAVEdge009AllocateRequestsExceedingPortLimit -Operator 'ge' -Threshold 10]]></CODE>
+    </THRESHOLD>
+  </ANALYSIS>
+  <ANALYSIS NAME="LS:A/V Edge - 01 - TCP Counters A/V Edge - 030 - Packets Dropped/sec" ENABLED="True" CATEGORY="LS:A/V Edge - 01 - TCP Counters" PRIMARYDATASOURCE="\LS:A/V Edge - 01 - TCP Counters(*)\A/V Edge - 030 - Packets Dropped/sec" ID="3401a70a-a724-43a5-a1b4-9e418156eb1e" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The per-second rate of packets over TCP dropped by the relay.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\LS:A/V Edge - 01 - TCP Counters(*)\A/V Edge - 030 - Packets Dropped/sec" COLLECTIONVARNAME="CollectionOfLSAVEdge01TCPCountersAVEdge030PacketsDroppedsec" EXPRESSIONPATH="\LS:A/V Edge - 01 - TCP Counters(*)\A/V Edge - 030 - Packets Dropped/sec" TRENDVARNAME="TrendLSAVEdge01TCPCountersAVEdge030PacketsDroppedsec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LS:A/V Edge - 01 - TCP Counters(*)\A/V Edge - 030 - Packets Dropped/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\LS:A/V Edge - 01 - TCP Counters(*)\A/V Edge - 030 - Packets Dropped/sec" CHARTLABELS="instance" />
+    <THRESHOLD NAME="Packets Dropped/sec &gt;= 300" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfLSAVEdge01TCPCountersAVEdge030PacketsDroppedsec -Operator 'ge' -Threshold 300]]></CODE>
+    </THRESHOLD>
+  </ANALYSIS>
+  <ANALYSIS NAME="LS:SIP - 01 - Peers SIP - 004 - Above Limit Connections Dropped (Access Proxies only)" ENABLED="True" CATEGORY="LS:SIP - 01 - Peers" PRIMARYDATASOURCE="\LS:SIP - 01 - Peers(*)\SIP - 004 - Above Limit Connections Dropped (Access Proxies only)" ID="dd25a81d-2576-48f1-80ab-67744c0e771d" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The total number of connections that were dropped because the limit on number of incoming connections from a federated partner or clearinghouse was exceeded.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\LS:SIP - 01 - Peers(*)\SIP - 004 - Above Limit Connections Dropped (Access Proxies only)" COLLECTIONVARNAME="CollectionOfLSSIP01PeersSIP004AboveLimitConnectionsDroppedAccessProxiesonly" EXPRESSIONPATH="\LS:SIP - 01 - Peers(*)\SIP - 004 - Above Limit Connections Dropped (Access Proxies only)" TRENDVARNAME="TrendLSSIP01PeersSIP004AboveLimitConnectionsDroppedAccessProxiesonly" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LS:SIP - 01 - Peers(*)\SIP - 004 - Above Limit Connections Dropped (Access Proxies only)" ISTHRESHOLDSADDED="False" DATASOURCE="\LS:SIP - 01 - Peers(*)\SIP - 004 - Above Limit Connections Dropped (Access Proxies only)" CHARTLABELS="instance" />
+    <THRESHOLD NAME="Above Limit Connections Dropped (Access Proxies only) &gt;= 1" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfLSSIP01PeersSIP004AboveLimitConnectionsDroppedAccessProxiesonly -Operator 'ge' -Threshold 1]]></CODE>
+    </THRESHOLD>
+  </ANALYSIS>
+  <ANALYSIS NAME="LS:SIP - 01 - Peers SIP - 019 - Sends Timed-Out/sec" ENABLED="True" CATEGORY="LS:SIP - 01 - Peers" PRIMARYDATASOURCE="\LS:SIP - 01 - Peers(*)\SIP - 019 - Sends Timed-Out/sec" ID="0d6fe34f-6944-4ff7-a882-d2262d38d182" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The per-second rate of sends dropped because they stayed in outgoing (send) queue for too long.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\LS:SIP - 01 - Peers(*)\SIP - 019 - Sends Timed-Out/sec" COLLECTIONVARNAME="CollectionOfLSSIP01PeersSIP019SendsTimedOutsec" EXPRESSIONPATH="\LS:SIP - 01 - Peers(*)\SIP - 019 - Sends Timed-Out/sec" TRENDVARNAME="TrendLSSIP01PeersSIP019SendsTimedOutsec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LS:SIP - 01 - Peers(*)\SIP - 019 - Sends Timed-Out/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\LS:SIP - 01 - Peers(*)\SIP - 019 - Sends Timed-Out/sec" CHARTLABELS="instance" />
+    <THRESHOLD NAME="Sends Timed-Out/sec &gt;= 10" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfLSSIP01PeersSIP019SendsTimedOutsec -Operator 'ge' -Threshold 10]]></CODE>
+    </THRESHOLD>
+  </ANALYSIS>
+  <ANALYSIS NAME="LS:SIP - 01 - Peers SIP - 023 - Flow-controlled Connections" ENABLED="True" CATEGORY="LS:SIP - 01 - Peers" PRIMARYDATASOURCE="\LS:SIP - 01 - Peers(*)\SIP - 023 - Flow-controlled Connections" ID="b9f41c83-a96f-4f45-aebf-e76bd9d03448" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The number of connections that are currently being flow-controlled (no socket receives are posted).]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\LS:SIP - 01 - Peers(*)\SIP - 023 - Flow-controlled Connections" COLLECTIONVARNAME="CollectionOfLSSIP01PeersSIP023FlowcontrolledConnections" EXPRESSIONPATH="\LS:SIP - 01 - Peers(*)\SIP - 023 - Flow-controlled Connections" TRENDVARNAME="TrendLSSIP01PeersSIP023FlowcontrolledConnections" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LS:SIP - 01 - Peers(*)\SIP - 023 - Flow-controlled Connections" ISTHRESHOLDSADDED="False" DATASOURCE="\LS:SIP - 01 - Peers(*)\SIP - 023 - Flow-controlled Connections" CHARTLABELS="instance" />
+    <THRESHOLD NAME="Flow-controlled Connections &gt;= 100" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfLSSIP01PeersSIP023FlowcontrolledConnections -Operator 'gt' -Threshold 100]]></CODE>
+    </THRESHOLD>
+  </ANALYSIS>
+  <ANALYSIS NAME="LS:SIP - 02 - Protocol SIP - 005 - Incoming Requests Dropped/sec" ENABLED="True" CATEGORY="LS:SIP - 02 - Protocol" PRIMARYDATASOURCE="\LS:SIP - 02 - Protocol\SIP - 005 - Incoming Requests Dropped/sec" ID="04cae415-f024-4319-bf39-ff640659da88" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The per-second rate of incoming requests dropped because they could not be processed (due to bad headers, insufficient routing information, server resource allocation failure).]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\LS:SIP - 02 - Protocol\SIP - 005 - Incoming Requests Dropped/sec" COLLECTIONVARNAME="CollectionOfLSSIP02ProtocolSIP005IncomingRequestsDroppedsec" EXPRESSIONPATH="\LS:SIP - 02 - Protocol\SIP - 005 - Incoming Requests Dropped/sec" TRENDVARNAME="TrendLSSIP02ProtocolSIP005IncomingRequestsDroppedsec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LS:SIP - 02 - Protocol\SIP - 005 - Incoming Requests Dropped/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\LS:SIP - 02 - Protocol\SIP - 005 - Incoming Requests Dropped/sec" CHARTLABELS="instance" />
+    <THRESHOLD NAME="Incoming Requests Dropped/sec &gt;= 1" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfLSSIP02ProtocolSIP005IncomingRequestsDroppedsec -Operator 'ge' -Threshold 1]]></CODE>
+    </THRESHOLD>
+  </ANALYSIS>
+  <ANALYSIS NAME="LS:SIP - 02 - Protocol SIP - 021 - Average Incoming Message Processing Time" ENABLED="True" CATEGORY="LS:SIP - 02 - Protocol" PRIMARYDATASOURCE="\LS:SIP - 02 - Protocol\SIP - 021 - Average Incoming Message Processing Time" ID="2b81988a-cc38-4ebe-9d90-6c4757f23927" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\LS:SIP - 02 - Protocol\SIP - 021 - Average Incoming Message Processing Time" COLLECTIONVARNAME="CollectionOfLSSIP02ProtocolSIP021AverageIncomingMessageProcessingTime" EXPRESSIONPATH="\LS:SIP - 02 - Protocol\SIP - 021 - Average Incoming Message Processing Time" TRENDVARNAME="TrendLSSIP02ProtocolSIP021AverageIncomingMessageProcessingTime" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LS:SIP - 02 - Protocol\SIP - 021 - Average Incoming Message Processing Time" ISTHRESHOLDSADDED="False" DATASOURCE="\LS:SIP - 02 - Protocol\SIP - 021 - Average Incoming Message Processing Time" CHARTLABELS="instance" />
+    <THRESHOLD NAME="Average Incoming Message Processing Time &gt;= 3" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfLSSIP02ProtocolSIP021AverageIncomingMessageProcessingTime -Operator 'ge' -Threshold 3]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The average time (in seconds) it takes to process an incoming message.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="LS:DATAPROXY - 00 - Server Connections DATAPROXY - 034 - Current count of server connections that are throttled" ENABLED="True" CATEGORY="LS:DATAPROXY - 00 - Server Connections" PRIMARYDATASOURCE="\LS:DATAPROXY - 00 - Server Connections(*)\DATAPROXY - 034 - Current count of server connections that are throttled" ID="e1568b45-da81-4b8d-8d28-b67220c182f0" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The number of server connections currently that are throttled]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\LS:DATAPROXY - 00 - Server Connections(*)\DATAPROXY - 034 - Current count of server connections that are throttled" COLLECTIONVARNAME="CollectionOfLSDATAPROXY00ServerConnectionsDATAPROXY034Currentcountofserverconnectionsthatarethrottled" EXPRESSIONPATH="\LS:DATAPROXY - 00 - Server Connections(*)\DATAPROXY - 034 - Current count of server connections that are throttled" TRENDVARNAME="TrendLSDATAPROXY00ServerConnectionsDATAPROXY034Currentcountofserverconnectionsthatarethrottled" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LS:DATAPROXY - 00 - Server Connections(*)\DATAPROXY - 034 - Current count of server connections that are throttled" ISTHRESHOLDSADDED="False" DATASOURCE="\LS:DATAPROXY - 00 - Server Connections(*)\DATAPROXY - 034 - Current count of server connections that are throttled" CHARTLABELS="instance" />
+    <THRESHOLD NAME="Current count of server connections that are throttled &gt;= 3" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfLSDATAPROXY00ServerConnectionsDATAPROXY034Currentcountofserverconnectionsthatarethrottled -Operator 'ge' -Threshold 3]]></CODE>
+    </THRESHOLD>
+  </ANALYSIS>
+  <ANALYSIS NAME="LS:DATAPROXY - 00 - Server Connections DATAPROXY - 041 - System is throttling" ENABLED="True" CATEGORY="LS:DATAPROXY - 00 - Server Connections" PRIMARYDATASOURCE="\LS:DATAPROXY - 00 - Server Connections(*)\DATAPROXY - 041 - System is throttling" ID="7368902a-4f5e-4e6c-8b8e-4eff81b6da3f" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\LS:DATAPROXY - 00 - Server Connections(*)\DATAPROXY - 041 - System is throttling" COLLECTIONVARNAME="CollectionOfLSDATAPROXY00ServerConnectionsDATAPROXY041Systemisthrottling" EXPRESSIONPATH="\LS:DATAPROXY - 00 - Server Connections(*)\DATAPROXY - 041 - System is throttling" TRENDVARNAME="TrendLSDATAPROXY00ServerConnectionsDATAPROXY041Systemisthrottling" DATATYPE="integer" />
+    <CHART CHARTTITLE="\LS:DATAPROXY - 00 - Server Connections(*)\DATAPROXY - 041 - System is throttling" ISTHRESHOLDSADDED="False" DATASOURCE="\LS:DATAPROXY - 00 - Server Connections(*)\DATAPROXY - 041 - System is throttling" CHARTLABELS="instance" />
+    <THRESHOLD NAME="System is throttling &gt;= 1" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfLSDATAPROXY00ServerConnectionsDATAPROXY041Systemisthrottling -Operator 'ge' -Threshold 1]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[This value indicates that system wide throttling is on]]></DESCRIPTION>
+  </ANALYSIS>
+  <INHERITANCE FILEPATH="QuickSystemOverview.xml" />
+</PAL>

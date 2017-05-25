@@ -1,0 +1,38 @@
+<PAL NAME="Dynamics AX 40/2009" DESCRIPTION="Performance counter thresholds for Dynamics AX 40/2009." CONTENTOWNERS="Dick Wenning" FEEDBACKEMAILADDRESS="dwenning@promentum.nl" VERSION="1.0.9." PALVERSION="2.0" LANGUAGE="English" LANGUAGECODE="en">
+  <INHERITANCE FILEPATH="SystemOverview.xml" />
+  <ANALYSIS NAME="Microsoft Dynamics AX Object Server Actice Sessions" ENABLED="True" CATEGORY="Microsoft Dynamics AX Object Server" PRIMARYDATASOURCE="\Microsoft Dynamics AX Object Server(*)\Active Sessions" ID="{d9dc0232-e730-4420-aa50-b294f934ce8c}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The number of currently Active server Sessions]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\Microsoft Dynamics AX Object Server(*)\Active Sessions" COLLECTIONVARNAME="CollectionOfMicrosoftDynamicsAxObjectServerActiveSessions" EXPRESSIONPATH="\Microsoft Dynamics AX Object Server(*)\Active Sessions" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Microsoft Dynamics AX Object Server(*)\Active Sessions" ISTHRESHOLDSADDED="False" DATASOURCE="\Microsoft Dynamics AX Object Server(*)\Active Sessions" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Microsoft Dynamics AX Object Server Total Sessions" ENABLED="True" CATEGORY="Microsoft Dynamics AX Object Server" PRIMARYDATASOURCE="\Microsoft Dynamics AX Object Server(*)\Total Sessions" ID="{d9dc0232-e730-4420-aa50-b294f934ce8d}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The total number of Active Sessions since the AOS instance started.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\Microsoft Dynamics AX Object Server(*)\Total Sessions" COLLECTIONVARNAME="CollectionOfMicrosoftDynamicsAxObjectServerTotalSessions" EXPRESSIONPATH="\Microsoft Dynamics AX Object Server(*)\Total Sessions" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Microsoft Dynamics AX Object Server(*)\Total Sessions" ISTHRESHOLDSADDED="False" DATASOURCE="\Microsoft Dynamics AX Object Server(*)\Total Sessions" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Microsoft Dynamics AX Object Server Number of Bytes Received by Server" ENABLED="True" CATEGORY="Microsoft Dynamics AX Object Server" PRIMARYDATASOURCE="\Microsoft Dynamics AX Object Server(*)\Number of Bytes Received by Server" ID="{d9dc0232-e730-4420-aa50-b294f934ce8e}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The number of bytes received by the Application Object Server (AOS) instance since it started.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\Microsoft Dynamics AX Object Server(*)\Number of Bytes Received by Server" COLLECTIONVARNAME="CollectionOfMicrosoftDynamicsAxObjectServerNumberOfBytesReceivedByServer " EXPRESSIONPATH="\Microsoft Dynamics AX Object Server(*)\Number of Bytes Received by Server" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Microsoft Dynamics AX Object Server(*)\Number of Bytes Received by Server" ISTHRESHOLDSADDED="False" DATASOURCE="\Microsoft Dynamics AX Object Server(*)\Number of Bytes Received by Server" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Microsoft Dynamics AX Object Server Number of Bytes Sent by Server" ENABLED="True" CATEGORY="Microsoft Dynamics AX Object Server" PRIMARYDATASOURCE="\Microsoft Dynamics AX Object Server(*)\Number of Bytes Sent by Server" ID="{d9dc0232-e730-4420-aa50-b294f934ce8f}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The number of bytes sent by the AOS instance since it started.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\Microsoft Dynamics AX Object Server(*)\Number of Bytes Sent by Server" COLLECTIONVARNAME="CollectionOfMicrosoftDynamicsAxObjectServerNumberOfBytesSentByServer" EXPRESSIONPATH="\Microsoft Dynamics AX Object Server(*)\Number of Bytes Sent by Server" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Microsoft Dynamics AX Object Server(*)\Number of Bytes Sent by Server" ISTHRESHOLDSADDED="False" DATASOURCE="\Microsoft Dynamics AX Object Server(*)\Number of Bytes Sent by Server" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Microsoft Dynamics AX Object Server Number of Client Requests" ENABLED="True" CATEGORY="Microsoft Dynamics AX Object Server" PRIMARYDATASOURCE="\Microsoft Dynamics AX Object Server(*)\Number of Client Requests" ID="{d9dc0232-e730-4420-aa50-b294f934ce8g}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The number of client-to-server requests since the AOS instance started.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\Microsoft Dynamics AX Object Server(*)\Number of Client Requests" COLLECTIONVARNAME="CollectionOfMicrosoftDynamicsAxObjectServerNumberOfClientRequests" EXPRESSIONPATH="\Microsoft Dynamics AX Object Server(*)\Number of Client Requests" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Microsoft Dynamics AX Object Server(*)\Number of Client Requests" ISTHRESHOLDSADDED="False" DATASOURCE="\Microsoft Dynamics AX Object Server(*)\Number of Client Requests" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Microsoft Dynamics AX Object Server Number of Client Requests per Second" ENABLED="True" CATEGORY="Microsoft Dynamics AX Object Server" PRIMARYDATASOURCE="\Microsoft Dynamics AX Object Server(*)\Number of Client Requests per Second" ID="{d9dc0232-e730-4420-aa50-b294f934ce8h}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The number of client-to-server requests processed per second by the AOS instance.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\Microsoft Dynamics AX Object Server(*)\Number of Client Requests per Second" COLLECTIONVARNAME="CollectionOfMicrosoftDynamicsAxObjectServerNumberOfClientRequestsPerSecond" EXPRESSIONPATH="\Microsoft Dynamics AX Object Server(*)\Number of Client Requests per Second" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Microsoft Dynamics AX Object Server(*)\Number of Client Requests per Second" ISTHRESHOLDSADDED="False" DATASOURCE="\Microsoft Dynamics AX Object Server(*)\Number of Client Requests per Second" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Microsoft Dynamics AX Object Server Number of Server Requests" ENABLED="True" CATEGORY="Microsoft Dynamics AX Object Server" PRIMARYDATASOURCE="\Microsoft Dynamics AX Object Server(*)\Number of Server Requests" ID="{d9dc0232-e730-4420-aa50-b294f934ce90}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The number of server-to-client requests processed since the AOS instance started.]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\Microsoft Dynamics AX Object Server(*)\Total Sessions" COLLECTIONVARNAME="CollectionOfMicrosoftDynamicsAxObjectServerNumberOfServerRequests" EXPRESSIONPATH="\Microsoft Dynamics AX Object Server(*)\Number of Server Requests" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Microsoft Dynamics AX Object Server(*)\Number of Server Requests" ISTHRESHOLDSADDED="False" DATASOURCE="\Microsoft Dynamics AX Object Server(*)\Number of Server Requests" CHARTLABELS="instance" />
+  </ANALYSIS>
+</PAL>

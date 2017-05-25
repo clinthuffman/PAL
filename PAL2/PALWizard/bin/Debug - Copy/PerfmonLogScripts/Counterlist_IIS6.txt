@@ -1,0 +1,24 @@
+\.NET CLR Exceptions(*)\*
+\.NET CLR Memory(*)\*
+\Active Server Pages\*
+\ASP.NET Applications(*)\*
+\ASP.NET Apps v1.1.4322(*)\*
+\ASP.NET Apps v2.0.50727(*)\*
+\ASP.NET State Service\*
+\ASP.NET v1.1.4322\*
+\ASP.NET v2.0.50727\*
+\ASP.NET\*
+\Cache\*
+\FTP Service(*)\*
+\Internet Information Services Global\*
+\IPv4\*
+\LogicalDisk(*)\*
+\Memory\*
+\Network Interface(*)\*
+\PhysicalDisk(*)\*
+\Process(*)\*
+\Processor(*)\*
+\System\*
+\TCPv4\*
+\Web Service Cache\*
+\Web Service(*)\*

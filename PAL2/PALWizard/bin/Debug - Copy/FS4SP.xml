@@ -1,0 +1,92 @@
+<PAL NAME="Microsoft FAST Search Server 2010 for SharePoint" DESCRIPTION="Performance analysis of Microsoft FAST Search Server 2010 for SharePoint instances" CONTENTOWNERS="Alex Windel" FEEDBACKEMAILADDRESS="awindel@microsoft.com" VERSION="1.0.1" PALVERSION="2.0" LANGUAGE="English" LANGUAGECODE="en">
+  <INHERITANCE FILEPATH="SystemOverview.xml" />
+  <INHERITANCE FILEPATH="IIS.xml" />
+  <INHERITANCE FILEPATH="SQLServer.xml" />
+  <INHERITANCE FILEPATH="AspDotNet.xml" />
+  <ANALYSIS NAME="FAST Search Indexer API queue load" ENABLED="False" CATEGORY="FAST Search Indexer" PRIMARYDATASOURCE="\FAST Search Indexer(*)\API queue load" ID="c99cd4f6-c8f1-4957-827b-1db6d9b31dfa" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\FAST Search Indexer(*)\API queue load" COLLECTIONVARNAME="CollectionOfFASTSearchIndexerAPIqueueload" EXPRESSIONPATH="\FAST Search Indexer(*)\API queue load" TRENDVARNAME="TrendFASTSearchIndexerAPIqueueload" DATATYPE="integer" />
+    <CHART CHARTTITLE="\FAST Search Indexer(*)\API queue load" ISTHRESHOLDSADDED="False" DATASOURCE="\FAST Search Indexer(*)\API queue load" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[The api queue load is the current size in bytes of the apiqueue divided by the maximum allowed size of the apiqueue in bytes.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="FAST Search Indexer Status Time since last index" ENABLED="True" CATEGORY="FAST Search Indexer Status" PRIMARYDATASOURCE="\FAST Search Indexer Status(*)\Time since last index" ID="af252eef-72f1-4398-a2b1-75f393138acb" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\FAST Search Indexer Status(*)\Time since last index" COLLECTIONVARNAME="CollectionOfFASTSearchIndexerStatusTimesincelastindex" EXPRESSIONPATH="\FAST Search Indexer Status(*)\Time since last index" TRENDVARNAME="TrendFASTSearchIndexerStatusTimesincelastindex" DATATYPE="integer" />
+    <CHART CHARTTITLE="\FAST Search Indexer Status(*)\Time since last index" ISTHRESHOLDSADDED="True" DATASOURCE="\FAST Search Indexer Status(*)\Time since last index" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $CollectionOfFASTSearchIndexerStatusTimesincelastindex -MinThreshold 0 -MaxThreshold 300 -IsOperatorGreaterThan $True -UseMaxValue $False]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $CollectionOfFASTSearchIndexerStatusTimesincelastindex -MinThreshold 0 -MaxThreshold 900 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Time since last index 15min or more!" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[
+StaticThreshold -CollectionOfCounterInstances $CollectionOfFASTSearchIndexerStatusTimesincelastindex -Operator 'ge' -Threshold 900
+
+]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="Time since last index 5min or more!" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[
+StaticThreshold -CollectionOfCounterInstances $CollectionOfFASTSearchIndexerStatusTimesincelastindex -Operator 'ge' -Threshold 300
+]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[Time since the last index was built, in seconds.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="FAST Search Indexer Documents in indexer" ENABLED="True" CATEGORY="FAST Search Indexer" PRIMARYDATASOURCE="\FAST Search Indexer(*)\Documents in indexer" ID="247d5055-35d6-49ec-96f5-8a70a2b33f95" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\FAST Search Indexer(*)\Documents in indexer" COLLECTIONVARNAME="CollectionOfFASTSearchIndexerDocumentsinindexer" EXPRESSIONPATH="\FAST Search Indexer(*)\Documents in indexer" TRENDVARNAME="TrendFASTSearchIndexerDocumentsinindexer" DATATYPE="integer" />
+    <CHART CHARTTITLE="\FAST Search Indexer(*)\Documents in indexer" ISTHRESHOLDSADDED="False" DATASOURCE="\FAST Search Indexer(*)\Documents in indexer" CHARTLABELS="instance" />
+    <THRESHOLD NAME="No documents in Indexer!" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[
+StaticThreshold -CollectionOfCounterInstances $CollectionOfFASTSearchIndexerDocumentsinindexer -Operator 'eq' -Threshold 0
+]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The total number of documents is the current total number of valid documents contained in the docindex of the indexer. The docindex is a mapping to the persisted documents on disk, so it translates the number of valid documents persisted on disk (fixml).]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="FAST Search Indexer Disk low state" ENABLED="False" CATEGORY="FAST Search Indexer" PRIMARYDATASOURCE="\FAST Search Indexer(*)\Disk low state" ID="c8f86c90-f101-4973-b7d5-dd7485d56b31" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\FAST Search Indexer(*)\Disk low state" COLLECTIONVARNAME="CollectionOfFASTSearchIndexerDisklowstate" EXPRESSIONPATH="\FAST Search Indexer(*)\Disk low state" TRENDVARNAME="TrendFASTSearchIndexerDisklowstate" DATATYPE="integer" />
+    <CHART CHARTTITLE="\FAST Search Indexer(*)\Disk low state" ISTHRESHOLDSADDED="False" DATASOURCE="\FAST Search Indexer(*)\Disk low state" CHARTLABELS="instance" />
+    <DESCRIPTION><![CDATA[The indexer disk space low shows if the indexer is in a state where it has found out that there is little disk to work with for persisting documents and building new indices.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="FAST Search QRServer # of Fail user queries" ENABLED="True" CATEGORY="FAST Search QRServer" PRIMARYDATASOURCE="\FAST Search QRServer(*)\# of Fail user queries" ID="7618e6c3-76c7-4942-9bcc-94fc5d8afd90" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Number of failed queries (user)]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\FAST Search QRServer(*)\# of Fail user queries" COLLECTIONVARNAME="CollectionOfFASTSearchQRServer#ofFailuserqueries" EXPRESSIONPATH="\FAST Search QRServer(*)\# of Fail user queries" TRENDVARNAME="TrendFASTSearchQRServer#ofFailuserqueries" DATATYPE="integer" />
+    <CHART CHARTTITLE="\FAST Search QRServer(*)\# of Fail user queries" ISTHRESHOLDSADDED="False" DATASOURCE="\FAST Search QRServer(*)\# of Fail user queries" CHARTLABELS="instance" />
+    <THRESHOLD NAME="Queries failed!" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[
+StaticThreshold -CollectionOfCounterInstances $CollectionOfFASTSearchQRServer#ofFailuserqueries -Operator 'gt' -Threshold 0
+]]></CODE>
+    </THRESHOLD>
+  </ANALYSIS>
+  <ANALYSIS NAME="FAST Search Content Distributor Document processors" ENABLED="True" CATEGORY="FAST Search Content Distributor" PRIMARYDATASOURCE="\FAST Search Content Distributor(*)\Document processors" ID="3e4ff99c-e23e-4bb7-b266-33dc5ff9bec0" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[# document processors]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\FAST Search Content Distributor(*)\Document processors" COLLECTIONVARNAME="CollectionOfFASTSearchContentDistributorDocumentprocessors" EXPRESSIONPATH="\FAST Search Content Distributor(*)\Document processors" TRENDVARNAME="TrendFASTSearchContentDistributorDocumentprocessors" DATATYPE="integer" />
+    <CHART CHARTTITLE="\FAST Search Content Distributor(*)\Document processors" ISTHRESHOLDSADDED="False" DATASOURCE="\FAST Search Content Distributor(*)\Document processors" CHARTLABELS="instance" />
+    <THRESHOLD NAME="No document processors registered with content distributor!" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[
+StaticThreshold -CollectionOfCounterInstances $CollectionOfFASTSearchContentDistributorDocumentprocessors -Operator 'eq' -Threshold 0
+]]></CODE>
+    </THRESHOLD>
+  </ANALYSIS>
+  <ANALYSIS NAME="FAST Search Indexer Fixml fill rate" ENABLED="True" CATEGORY="FAST Search Indexer" PRIMARYDATASOURCE="\FAST Search Indexer(*)\Fixml fill rate" ID="0246e0d4-17de-4a56-b3b2-46521e13f67c" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\FAST Search Indexer(*)\Fixml fill rate" COLLECTIONVARNAME="CollectionOfFASTSearchIndexerFixmlfillrate" EXPRESSIONPATH="\FAST Search Indexer(*)\Fixml fill rate" TRENDVARNAME="TrendFASTSearchIndexerFixmlfillrate" DATATYPE="integer" />
+    <CHART CHARTTITLE="\FAST Search Indexer(*)\Fixml fill rate" ISTHRESHOLDSADDED="True" DATASOURCE="\FAST Search Indexer(*)\Fixml fill rate" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $CollectionOfFASTSearchIndexerFixmlfillrate -MinThreshold 0 -MaxThreshold 30 -IsOperatorGreaterThan $False -UseMaxValue $True]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $CollectionOfFASTSearchIndexerFixmlfillrate -MinThreshold 0 -MaxThreshold 15 -IsOperatorGreaterThan $False -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="FIXML Fill Rate very low!" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[
+StaticThreshold -CollectionOfCounterInstances $CollectionOfFASTSearchIndexerFixmlfillrate -Operator 'le' -Threshold 15
+]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="FIXML Fill Rate is low!" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[
+StaticThreshold -CollectionOfCounterInstances $CollectionOfFASTSearchIndexerFixmlfillrate -Operator 'le' -Threshold 30
+
+]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The fixml fill rate is an approximation of the ratio between the number of valid documents in a persisted file (fixml file) and the total number of documents persisted. A value close to 100% means that the files on disk are well compacted together.]]></DESCRIPTION>
+  </ANALYSIS>
+</PAL>

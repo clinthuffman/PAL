@@ -1,37 +1,3 @@
-*v2.7.7*
-* *Bug fix:* Fixed a bug referring to CollectionOfProcessorPercentProcessorTime and "Unexpected token 'All.Count' in expression or statement."
-* *Threshold file update:* The SQL Server 2014 threshold file was updated with a fix to "Analysis SQLServer:Resource Pool Stats Used memory (KB) was not iterating properly" by Pedro Lopes.
-
-*v2.7.6*
-* *Bug fix:* Fixed a terminating error in MSExchange Replication CopyQueueLength in the Exchange2010.xml threshold file.
-* *Update:* Updated threshold files for Microsoft SQL Server 2012 and Microsoft SQL Server 2014 by David Pless and Pedro Lopes.
-
-*v2.7.5*
-* *Bug fix:* Fixed a bug where the error, "Property 'Computer' cannot be found on this object." would come up when processing some CSV files.
-* *Bug fix:* Fixed a bug where the error, "The property 'Count' cannot be found on this object. " would come up when processing a BLG file with the Exchange 2013 threshold file.
-
-*v2.7.4*
-* *Bug fix:* Fixed a bug the PowerStates.xml threshold file would return an error of "not compatible".
-* *Bug fix:* Fixed a bug related to this error: Cannot convert the "System.Object[]" value of type "System.Object[]" to "System.Double".
-* *Change:* Disabled analyses titled with "“(Total Latch Wait Time) / (Latch Waits/Sec)" in the SQL Server related threshold files since the threshold does not reflect the description.
-* *Change:* The new Exchange Server 2013 threshold file was not inheriting from SystemOverview.xml. Fixed.
-
-*v2.7.3*
-* *Bug fix:* Fixed a bug where the error, "Invoke-Expression : The variable '$iMemPoolMax' cannot be retrieved because it has not been set."
-* *Bug fix:* Fixed a bug where counter values were being compared as type String when it should have been type Double. A humble, "thank you" to Mike Bakker for finding and reporting this bug.
-* *Change:* The the "LogicalDisk Avg. Disk sec/Transfer" analysis in QuickSystemOverview.xml to have a chart MAXLIMIT of 0.099999. This prevent exceptionally large, rare, values from skewing the chart. Added Warning and Critical thresholds to the chart.
-* *Change:* Added the log file name to the Overall Progress bar.
-* *New threshold file:* Microsoft Exchange Server 2013 created by Adrian Moore (admoore@microsoft.com).
-* *Change:* Removed redundant question variables from several threshold files.
-
-*v2.7.2*
-* *Bug fix:* Fixed more processing errors.
-* *Bug fix:* Updated the label in the Execution tab to say the default is the number of logical processors instead of 1.
-* *New feature:* The "All" threshold file has been added for users who want to run a counter log through all of the threshold files.
-* *New feature:* Added the Auto-Detect feature which detects the best combination of threshold files for the counter log. The auto detection can take several seconds and processing time may increase significantly.
-* *Bug fix:* Fixed a bug referring to an analysis ID not matching.
-* *Bug fix:* Fixed a bug referring to Unexpected token in All.Count.
-
 *v2.7.1*
 * *Bug fix:* Fixed a bug where chart processing would fail on "IsGreaterThanZero" is not found. This fixed many non-OS threshold files such as SQL Server and Exchange Server.
 * *Command prompt change:* The command prompt that starts PAL.ps1 now automatically terminates when done since errors are now displayed via HTML.

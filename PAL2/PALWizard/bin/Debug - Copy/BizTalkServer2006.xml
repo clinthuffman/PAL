@@ -1,0 +1,1556 @@
+<PAL NAME="Microsoft BizTalk Server 2006/2009/2010" DESCRIPTION="Use this threshold file when analyzing Microsoft BizTalk Server 2006, 2009, and 2010 - Includes analysis of the .NET Framework and Microsoft SQL Server." CONTENTOWNERS="Clint Huffman" FEEDBACKEMAILADDRESS="clinth@microsoft.com" VERSION="1.5.8.2" PALVERSION="2.0" LANGUAGE="English" LANGUAGECODE="en">
+  <ANALYSIS NAME="BizTalk Messaging Publishing Throttling State" ENABLED="True" CATEGORY="BizTalk:Message Agent" PRIMARYDATASOURCE="\BizTalk:Message Agent(*)\Message publishing throttling state" ID="{39a3d27e-7d54-4d21-871a-05ed7bfe3683}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The BizTalk message publishing throttling state is one of the primary indicators of throttling. It is a flag indicating whether the system is throttling message publishing (affecting XLANG message processing and inbound transports).The throttling condition is indicated by the numeric value of the counter. Here is a list of the values and their respective meaning:<BR>
+<BR>
+0: Not throttling<BR>
+2: Throttling due to imbalanced message publishing rate (input rate exceeds output rate)<BR>
+4: Throttling due to process memory pressure<BR>
+5: Throttling due to system memory pressure<BR>
+6: Throttling due to database growth<BR>
+8: Throttling due to high session count<BR>
+9: Throttling due to high thread count<BR>
+11: Throttling due to user override on publishing<BR>
+<BR>
+This analysis checks for each of these values and has a specific alert for each of them.<BR>
+<BR>
+<B>References:</B><BR>
+Host Throttling Performance Counters<BR>
+<A HREF="http://msdn2.microsoft.com/en-us/library/aa578302.aspx">http://msdn2.microsoft.com/en-us/library/aa578302.aspx</A><BR>
+How BizTalk Server Implements Host Throttling<BR>
+<A HREF="http://msdn2.microsoft.com/en-us/library/aa559893.aspx">http://msdn2.microsoft.com/en-us/library/aa559893.aspx</A>]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\BizTalk:Message Agent(*)\Message publishing throttling state" COLLECTIONVARNAME="CollectionOfBizTalkMessageAgentMessagepublishingthrottlingstateALL" EXPRESSIONPATH="\BizTalk:Message Agent(*)\Message publishing throttling state" DATATYPE="Integer" />
+    <THRESHOLD NAME="BizTalk throttling due to imbalanced message publishing rate (input rate exceeds output rate)" CONDITION="Warning" COLOR="Yellow" PRIORITY="52">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfBizTalkMessageAgentMessagepublishingthrottlingstateALL -Operator 'eq' -Threshold 2
+         ]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="BizTalk throttling due to process memory pressure" CONDITION="Warning" COLOR="Yellow" PRIORITY="54">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfBizTalkMessageAgentMessagepublishingthrottlingstateALL -Operator 'eq' -Threshold 4
+         ]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="BizTalk throttling due to system memory pressure" CONDITION="Warning" COLOR="Yellow" PRIORITY="55">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfBizTalkMessageAgentMessagepublishingthrottlingstateALL -Operator 'eq' -Threshold 5
+         ]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="BizTalk throttling due to database growth" CONDITION="Warning" COLOR="Yellow" PRIORITY="56">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfBizTalkMessageAgentMessagepublishingthrottlingstateALL -Operator 'eq' -Threshold 6
+         ]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="BizTalk throttling due to high session count" CONDITION="Warning" COLOR="Yellow" PRIORITY="58">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfBizTalkMessageAgentMessagepublishingthrottlingstateALL -Operator 'eq' -Threshold 8
+         ]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="BizTalk throttling due to high thread count" CONDITION="Warning" COLOR="Yellow" PRIORITY="59">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfBizTalkMessageAgentMessagepublishingthrottlingstateALL -Operator 'eq' -Threshold 9
+         ]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="BizTalk throttling due to user override on publishing" CONDITION="Warning" COLOR="Yellow" PRIORITY="61">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfBizTalkMessageAgentMessagepublishingthrottlingstateALL -Operator 'eq' -Threshold 11
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\BizTalk:Message Agent(*)\Message publishing throttling state" ISTHRESHOLDSADDED="True" DATASOURCE="\BizTalk:Message Agent(*)\Message publishing throttling state" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfBizTalkMessageAgentMessagepublishingthrottlingstateALL -MinThreshold 2 -MaxThreshold 11.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+  </ANALYSIS>
+  <ANALYSIS NAME="BizTalk Message Delivery Throttling State" ENABLED="True" CATEGORY="BizTalk:Message Agent" PRIMARYDATASOURCE="\BizTalk:Message Agent(*)\Message delivery throttling state" ID="{d32d93a0-f176-4d7e-abd1-5c42be0db2c9}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The BizTalk message delivery throttling state is one of the primary indicators of throttling. It is a flag indicating whether the system is throttling message delivery (affecting XLANG message processing and outbound transports). The throttling condition is indicated by the numeric value of the counter. Here is a list of the values and their respective meaning:<BR>
+<BR>
+0: Not throttling<BR>
+1: Throttling due to imbalanced message delivery rate (input rate exceeds output rate)<BR>
+3: Throttling due to high in-process message count<BR>
+4: Throttling due to process memory pressure<BR>
+5: Throttling due to system memory pressure<BR>
+9: Throttling due to high thread count<BR>
+10: Throttling due to user override on delivery<BR>
+<BR>
+This analysis checks for each of these values and has a specific alert for each of them.<BR>
+<BR>
+<B>References:</B><BR>
+Host Throttling Performance Counters<BR>
+<A HREF="http://msdn2.microsoft.com/en-us/library/aa578302.aspx">http://msdn2.microsoft.com/en-us/library/aa578302.aspx</A><BR>
+How BizTalk Server Implements Host Throttling<BR>
+<A HREF="http://msdn2.microsoft.com/en-us/library/aa559893.aspx">http://msdn2.microsoft.com/en-us/library/aa559893.aspx</A>]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\BizTalk:Message Agent(*)\Message delivery throttling state" COLLECTIONVARNAME="CollectionOfBizTalkMessageAgentMessagedeliverythrottlingstateALL" EXPRESSIONPATH="\BizTalk:Message Agent(*)\Message delivery throttling state" DATATYPE="Integer" />
+    <THRESHOLD NAME="BizTalk throttling due to imbalanced message delivery rate (input exceeds output rate)" CONDITION="Warning" COLOR="Yellow" PRIORITY="51">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfBizTalkMessageAgentMessagedeliverythrottlingstateALL -Operator 'eq' -Threshold 1
+         ]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="BizTalk throttling due to high in-process message count" CONDITION="Warning" COLOR="Yellow" PRIORITY="53">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfBizTalkMessageAgentMessagedeliverythrottlingstateALL -Operator 'eq' -Threshold 3
+         ]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="BizTalk throttling due to process memory pressure" CONDITION="Warning" COLOR="Yellow" PRIORITY="54">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfBizTalkMessageAgentMessagedeliverythrottlingstateALL -Operator 'eq' -Threshold 4
+         ]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="BizTalk throttling due to system memory pressure" CONDITION="Warning" COLOR="Yellow" PRIORITY="55">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfBizTalkMessageAgentMessagedeliverythrottlingstateALL -Operator 'eq' -Threshold 5
+         ]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="BizTalk throttling due to high thread count" CONDITION="Warning" COLOR="Yellow" PRIORITY="59">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfBizTalkMessageAgentMessagedeliverythrottlingstateALL -Operator 'eq' -Threshold 9
+         ]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="BizTalk throttling due to user override on delivery" CONDITION="Warning" COLOR="Yellow" PRIORITY="60">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfBizTalkMessageAgentMessagedeliverythrottlingstateALL -Operator 'eq' -Threshold 10
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\BizTalk:Message Agent(*)\Message delivery throttling state" ISTHRESHOLDSADDED="True" DATASOURCE="\BizTalk:Message Agent(*)\Message delivery throttling state" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfBizTalkMessageAgentMessagedeliverythrottlingstateALL -MinThreshold 2 -MaxThreshold 11.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+  </ANALYSIS>
+  <ANALYSIS NAME="BizTalk High Database Sessions" ENABLED="True" CATEGORY="BizTalk:Message Agent" PRIMARYDATASOURCE="\BizTalk:Message Agent(*)\High database session" ID="{5469c68d-0464-4be0-9ae9-0f6a932dd982}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The number of currently opened database sessions exceeds the threshold. This counter has two possible values namely normal (0) or exceeded (1). This analysis checks for a value of 1. If so, BizTalk has exceeded the threshold of the number of database sessions permitted which is controlled by the Database connection per CPUÂ value in the BizTalk Host Throttling settings.<BR>
+<BR>
+Database connection per CPUÂis the maximum number of concurrent database sessions (per CPU) allowed before throttling begins. The idle database sessions in the common per-host session pool do not add to this count, and this check is made strictly on the number of sessions actually being used by the host instance. This option is disabled by default; typically this setting should only be enabled if the database server is a bottleneck or for low-end database servers in the BizTalk Server system. You can monitor the number of active Database connections by using the Database session performance counter under the BizTalk:Message Agent performance object category. This parameter only affects outbound message throttling. Enter a value of 0 to disable throttling that is based on the number of database sessions. The default value is 0.
+<BR>
+Note: The MaxWorkerThreads registry key has influence on the number threads available to BizTalk and may help in the case where most of BizTalk's threads are busy with database connections.<BR>
+<BR>
+<B>References:</B><BR>
+<BR>
+Host Throttling Performance Counters<BR>
+<A HREF="http://msdn2.microsoft.com/en-us/library/aa578302.aspx">http://msdn2.microsoft.com/en-us/library/aa578302.aspx</A><BR>
+<BR>
+Threads, DB sessions, and throttling<BR>
+<A HREF="http://blogs.msdn.com/biztalkperformance/archive/2007/09/28/threads-db-sessions-and-throttling.aspx">http://blogs.msdn.com/biztalkperformance/archive/2007/09/28/threads-db-sessions-and-throttling.aspx</A>
+<BR>
+Configuration Parameters that Affect Adapter Performance http://msdn2.microsoft.com/en-us/library/aa561380.aspx ]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\BizTalk:Message Agent(*)\High database session" COLLECTIONVARNAME="CollectionOfBizTalkMessageAgentHighdatabasesessionALL" EXPRESSIONPATH="\BizTalk:Message Agent(*)\High database session" DATATYPE="Integer" />
+    <THRESHOLD NAME="BizTalk database session count exceeds threshold" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfBizTalkMessageAgentHighdatabasesessionALL -Operator 'eq' -Threshold 1
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\BizTalk:Message Agent(*)\High database session" ISTHRESHOLDSADDED="True" DATASOURCE="\BizTalk:Message Agent(*)\High database session" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfBizTalkMessageAgentHighdatabasesessionALL -MinThreshold 1 -MaxThreshold 1.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+  </ANALYSIS>
+  <ANALYSIS NAME="BizTalk High Database Size" ENABLED="True" CATEGORY="BizTalk:Message Agent" PRIMARYDATASOURCE="\BizTalk:Message Agent(*)\High database size" ID="{1fa706d0-09f2-4531-beba-1f3ca18ae774}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Number of messages in the database queues that this process has published. This value is measured by the number of items in the queue tables for all hosts and the number of items in the spool and tracking tables. If a process is publishing to multiple queues, this counter reflects the weighted average of all the queues.<BR>
+<BR>
+If the host is restarted, statistics held in memory are lost. Since there is some overhead involved, BizTalk Server will resume gathering statistics only when there are at least 100 publishes with 5% of the total publishes within the restarted host process.<BR>
+<BR>
+This counter will be set to a value of one if either of the conditions listed for the Message count in database threshold occurs. This threshold is documented in the topic How to Modify the Default Host Throttling Settings. By default the host Message count in database throttling threshold is set to a value of 50,000, which will trigger a throttling condition under the following circumstances:<BR>
+The total number of messages published by the host instance to the work, state, and suspended queues of the subscribing hosts exceeds 50,000.<BR>
+The number of messages in the spool table or the tracking table exceeds 500,000 messages.<BR>
+<BR>
+Since suspended messages are included in the Message count in database calculation, throttling of message publishing can occur even if the BizTalk server is experiencing low or no load.<BR>
+<BR>
+This analysis checks for a value of 1. If this occurs, then consider a course of action that will reduce the number of messages in the database. For example, ensure the BizTalk SQL Server jobs are running without error and use the Group Hub in the BizTalk Administration console to determine if message build up is caused by large numbers of suspended messages.<BR>
+<BR>
+<B>References:</B><BR>
+Suspended Messages are Included in the Message Count in Database Throttling Threshold<BR>
+How to Modify the Default Host Throttling Settings<BR>
+<A HREF="http://msdn2.microsoft.com/en-us/library/aa559628.aspx">http://msdn2.microsoft.com/en-us/library/aa559628.aspx</A><BR>
+Host Throttling Performance Counters<BR>
+<A HREF="http://msdn2.microsoft.com/en-us/library/aa578302.aspx">http://msdn2.microsoft.com/en-us/library/aa578302.aspx</A>
+]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\BizTalk:Message Agent(*)\High database size" COLLECTIONVARNAME="CollectionOfBizTalkMessageAgentHighdatabasesizeALL" EXPRESSIONPATH="\BizTalk:Message Agent(*)\High database size" DATATYPE="Integer" />
+    <THRESHOLD NAME="BizTalk database size has grown beyond threshold" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfBizTalkMessageAgentHighdatabasesizeALL -Operator 'eq' -Threshold 1
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\BizTalk:Message Agent(*)\High database size" ISTHRESHOLDSADDED="True" DATASOURCE="\BizTalk:Message Agent(*)\High database size" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfBizTalkMessageAgentHighdatabasesizeALL -MinThreshold 1 -MaxThreshold 1.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+  </ANALYSIS>
+  <ANALYSIS NAME="BizTalk High In-Process Message Count" ENABLED="True" CATEGORY="BizTalk:Message Agent" PRIMARYDATASOURCE="\BizTalk:Message Agent(*)\High in-process message count" ID="{738321cf-a427-492d-8c1f-441403f81e10}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The In-process messages per CPUÂsetting in the Host Throttling Settings is the maximum number of messages delivered to the End Point Manager (EPM) or XLANG that have not been processed. This does not include the messages retrieved from database but still waiting for delivery in the in-memory queue. You can monitor the number of In-Process Messages by using the In-process message count performance counter under the BizTalk:Message Agent performance object category. This parameter provides a hint to the throttling mechanism for consideration of throttling conditions. The actual threshold is subject to self-tuning. You can verify the actual threshold by monitoring the In-process message count performance counter.<BR>
+<BR>
+This parameter can be set to a smaller value for large message scenarios, where either the average message size is high, or the processing of messages may require a large amount of messages. Such a case would be evident if a scenario experiences memory-based throttling too often and if the memory threshold gets auto-adjusted to a substantially low value. Such behavior would indicate that the outbound transport should process fewer messages concurrently to avoid excessive memory usage. Also, for scenarios where the adapter is more efficient when processing a few messages at a time (for example, when sending to a server that limits concurrent connections), this parameter may be tuned to a lower value than the default.<BR>
+<BR>
+This analysis checks the High In-Process Message Count counter to determine if this kind of throttling is occurring. If so, consider adjusting the In-Process messages per CPUÂ setting. This parameter only affects outbound message throttling. Enter a value of 0 in the In-Process messages per CPUÂ setting to disable throttling based on the number of in-process messages per CPU. The default value for the In-Process messages per CPUÂsetting is 1,000. Note modifying this value can also have an impact on low latency of messages and/or the efficiency of BizTalk resources.<BR>
+<BR>
+<B>References:</B><BR>
+Host Throttling Performance Counters<BR>
+<A HREF="http://msdn2.microsoft.com/en-us/library/aa578302.aspx">http://msdn2.microsoft.com/en-us/library/aa578302.aspx</A><BR>
+<BR>
+How to Modify the Default Host Throttling Settings<BR>
+<A HREF="http://msdn2.microsoft.com/en-us/library/aa559628.aspx">http://msdn2.microsoft.com/en-us/library/aa559628.aspx</A>
+]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\BizTalk:Message Agent(*)\High in-process message count" COLLECTIONVARNAME="CollectionOfBizTalkMessageAgentHighinprocessmessagecountALL" EXPRESSIONPATH="\BizTalk:Message Agent(*)\High in-process message count" DATATYPE="Integer" />
+    <THRESHOLD NAME="In-Process Message Count exceeds threshold" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfBizTalkMessageAgentHighinprocessmessagecountALL -Operator 'eq' -Threshold 1
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\BizTalk:Message Agent(*)\High in-process message count" ISTHRESHOLDSADDED="True" DATASOURCE="\BizTalk:Message Agent(*)\High in-process message count" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfBizTalkMessageAgentHighinprocessmessagecountALL -MinThreshold 1 -MaxThreshold 1.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+  </ANALYSIS>
+  <ANALYSIS NAME="BizTalk High Message Delivery Rate" ENABLED="True" CATEGORY="BizTalk:Message Agent" PRIMARYDATASOURCE="\BizTalk:Message Agent(*)\High message delivery rate" ID="{2ef533a2-0162-4a6e-b4ef-aeddbbc62f36}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[For outbound (delivered) messages, BizTalk Server throttles delivery of messages if The Message delivery incoming rate for the host instance exceeds the Message delivery outgoing rate * the specified Rate overdrive factor (percent) value. The Rate overdrive factor (percent) parameter is configurable on the Message Processing Throttling Settings dialog box. Rate based throttling for outbound messages is accomplished primarily by inducing a delay before removing the messages from the in-memory queue and delivering the messages to the End Point Manager (EPM) or orchestration engine for processing. No other action is taken to accomplish rate based throttling for outbound messages.<BR>
+<BR>
+Outbound throttling can cause delayed message delivery and messages may build up in the in-memory queue and cause de-queue threads to be blocked until the throttling condition is mitigated. When de-queue threads are blocked no additional messages are pulled from the MessageBox into the in-memory queue for outbound delivery.<BR>
+<BR>
+This analysis checks for a value of 1 in the High Message Delivery Rate counter. High message delivery rates can be caused by high processing complexity, slow outbound adapters, or a momentary shortage of system resources.<BR>
+<BR>
+<B>References:</B><BR>
+Host Throttling Performance Counters\Message Processing Throttling Settings Dialog Box<BR>
+<A HREF="http://msdn2.microsoft.com/en-us/library/aa578302.aspx">http://msdn2.microsoft.com/en-us/library/aa578302.aspx</A><BR>
+<BR>
+How BizTalk Server Implements Host Throttling<BR>
+<A HREF="http://msdn2.microsoft.com/en-us/library/aa559893.aspx">http://msdn2.microsoft.com/en-us/library/aa559893.aspx</A>
+]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\BizTalk:Message Agent(*)\High message delivery rate" COLLECTIONVARNAME="CollectionOfBizTalkMessageAgentHighmessagedeliveryrateALL" EXPRESSIONPATH="\BizTalk:Message Agent(*)\High message delivery rate" DATATYPE="Integer" />
+    <THRESHOLD NAME="BizTalk message delivery rate exceeds the message processing rate" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfBizTalkMessageAgentHighmessagedeliveryrateALL -Operator 'eq' -Threshold 1
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\BizTalk:Message Agent(*)\High message delivery rate" ISTHRESHOLDSADDED="True" DATASOURCE="\BizTalk:Message Agent(*)\High message delivery rate" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfBizTalkMessageAgentHighmessagedeliveryrateALL -MinThreshold 1 -MaxThreshold 1.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+  </ANALYSIS>
+  <ANALYSIS NAME="BizTalk High Message Publishing Rate" ENABLED="True" CATEGORY="BizTalk:Message Agent" PRIMARYDATASOURCE="\BizTalk:Message Agent(*)\High message publishing rate" ID="{f40cd361-93aa-483a-adef-46b4170a5852}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Inbound host throttling, also known as message publishing throttling in BizTalk Server, is applied to host instances that contain receive adapters or orchestrations that publish messages to the MessageBox database.<BR>
+<BR>
+This analysis checks for a value of 1 in the High Message Publishing Rate counter. If this occurs, then the database cannot keep up with the publishing rate of messages to the BizTalk messagebox database.<BR>
+<BR>
+<B>References:</B><BR>
+Host Throttling Performance Counters<BR>
+<A HREF="http://msdn2.microsoft.com/en-us/library/aa578302.aspx">http://msdn2.microsoft.com/en-us/library/aa578302.aspx</A><BR>
+<BR>
+How BizTalk Server Implements Host Throttling<BR>
+<A HREF="http://msdn2.microsoft.com/en-us/library/aa559893.aspx">http://msdn2.microsoft.com/en-us/library/aa559893.aspx</A><BR>
+<BR>
+Message Publishing Throttling Settings Dialog Box<BR>
+What is Host Throttling?
+]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\BizTalk:Message Agent(*)\High message publishing rate" COLLECTIONVARNAME="CollectionOfBizTalkMessageAgentHighmessagepublishingrateALL" EXPRESSIONPATH="\BizTalk:Message Agent(*)\High message publishing rate" DATATYPE="Integer" />
+    <THRESHOLD NAME="BizTalk publishing request rate exceeds completion rate" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfBizTalkMessageAgentHighmessagepublishingrateALL -Operator 'eq' -Threshold 1
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\BizTalk:Message Agent(*)\High message publishing rate" ISTHRESHOLDSADDED="True" DATASOURCE="\BizTalk:Message Agent(*)\High message publishing rate" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfBizTalkMessageAgentHighmessagepublishingrateALL -MinThreshold 1 -MaxThreshold 1.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+  </ANALYSIS>
+  <ANALYSIS NAME="BizTalk High Process Memory" ENABLED="True" CATEGORY="BizTalk:Message Agent" PRIMARYDATASOURCE="\BizTalk:Message Agent(*)\High process memory" ID="{8dda2ad4-ec92-4f07-936f-ab7a7055edf9}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The BizTalk Process Memory usage throttling threshold setting is the percentage of memory used compared to the sum of the working set size and total available virtual memory for the process if a value from 1 through 100 is entered. When a percentage value is specified the process memory threshold is recalculated at regular intervals. If the user specifies a percentage value, it is computed based on the available memory to commit and the current Process Memory usage.<BR>
+<BR>
+This analysis checks for a value of 1 in the High Process Memory counter. If his occurs, then try to determine the cause of the memory increase by using Debug Diag in memory leak analysis. Note that is it normal for processes to consume a large portion of memory during startup and this may initially appear as a memory leak, but a true memory leak occurs when it fails to release memory that it no longer needs, thereby reducing the amount of available memory over time. See the How to Capture a Memory Dump of a Process that is Leaking MemoryÂ reference below and/or the Memory Leak DetectionÂ analysis in PAL for more information on how to generically analyze process memory leaks in BizTalk.<BR>
+<BR>
+High process memory throttling can occur if the batch to be published has steep memory requirements or too many threads are processing messages.  If the system appears to be over-throttling, consider increasing the value associated with the Process memory usage threshold for the host and verify that the host instance does not generate an "out of memory" error. If an "out of memory" error is raised by increasing the Process memory usage threshold, then consider reducing the values for the Internal message queue size and In-process messages per CPU thresholds. This strategy is particularly relevant in large message processing scenarios. In addition, this value should be set to a low value for scenarios having large memory requirement per message. Setting a low value will kick in throttling early on and prevent a memory explosion within the process. <BR>
+<BR>
+If your BizTalk server regularly runs out of virtual memory, then consider BizTalk Server 64-bit. Each Process on 64-bit servers can address up to 4TB's of virtual memory versus the 2GBâ„¢s in 32-bit. In general, 64-bit BizTalk and 64-bit SQL Server is highly recommended. See the BizTalk Server 64-bit SupportÂ reference for more information.<BR>
+<BR>
+By default, the BizTalk Process Memory Usage throttling setting is 25.<BR>
+<BR>
+<B>References:</B><BR>
+How BizTalk Server Implements Host Throttling<BR>
+<A HREF="http://msdn2.microsoft.com/en-us/library/aa559893.aspx">http://msdn2.microsoft.com/en-us/library/aa559893.aspx</A><BR>
+<BR>
+How to Modify the Default Host Throttling Settings<BR>
+<A HREF="http://msdn2.microsoft.com/en-us/library/aa559628.aspx">http://msdn2.microsoft.com/en-us/library/aa559628.aspx</A><BR>
+How to Capture a Memory Dump of a Process that is Leaking Memory<BR>
+<A HREF="http://msdn2.microsoft.com/en-us/library/aa560560.aspx">http://msdn2.microsoft.com/en-us/library/aa560560.aspx</A>
+BizTalk Server 64-bit Support<BR>
+<A HREF="http://msdn2.microsoft.com/en-us/library/aa560166.aspx">http://msdn2.microsoft.com/en-us/library/aa560166.aspx</A>]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\BizTalk:Message Agent(*)\High process memory" COLLECTIONVARNAME="CollectionOfBizTalkMessageAgentHighprocessmemoryALL" EXPRESSIONPATH="\BizTalk:Message Agent(*)\High process memory" DATATYPE="Integer" />
+    <THRESHOLD NAME="BizTalk process memory exceeds threshold" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfBizTalkMessageAgentHighprocessmemoryALL -Operator 'eq' -Threshold 1
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\BizTalk:Message Agent(*)\High process memory" ISTHRESHOLDSADDED="True" DATASOURCE="\BizTalk:Message Agent(*)\High process memory" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfBizTalkMessageAgentHighprocessmemoryALL -MinThreshold 1 -MaxThreshold 1.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+  </ANALYSIS>
+  <ANALYSIS NAME="BizTalk High System Memory" ENABLED="True" CATEGORY="BizTalk:Message Agent" PRIMARYDATASOURCE="\BizTalk:Message Agent(*)\High system memory" ID="{21195f1e-76b4-49ee-af64-008b5c26cfde}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The BizTalk Physical Memory usage throttling threshold setting is the percentage of memory consumption compared to the total amount of available physical memory if a value from 1 through 100 is entered. This setting can also be the total amount of available physical memory in MB if a value greater than 100 is entered. Enter a value of 0 to disable throttling based on physical memory usage. The default value is 0.<BR>
+<BR>
+This analysis checks for a value of 1 in the High System Memory counter. Since this measures total system memory, a throttling condition may be triggered if non-BizTalk Server processes are consuming an extensive amount of system memory. Therefore if this occurs, the best approach is to identify which processes are consuming the most physical memory and/or add additional physical memory to the server. Also, consider reducing load by reducing the default size of the EPM thread pool, and/or the size of adapter batches. For more information, see the Memory Leak DetectionÂ.<BR>
+<BR>
+<B>References:</B><BR>
+Host Throttling Performance Counters<BR>
+<A HREF="http://msdn2.microsoft.com/en-us/library/aa578302.aspx">http://msdn2.microsoft.com/en-us/library/aa578302.aspx</A><BR>
+<BR>
+How to Modify the Default Host Throttling Settings<BR>
+<A HREF="http://msdn2.microsoft.com/en-us/library/aa559628.aspx">http://msdn2.microsoft.com/en-us/library/aa559628.aspx</A><BR>
+How BizTalk Server Implements Host Throttling<BR>
+<A HREF="http://msdn2.microsoft.com/en-us/library/aa559893.aspx">http://msdn2.microsoft.com/en-us/library/aa559893.aspx</A>
+]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\BizTalk:Message Agent(*)\High system memory" COLLECTIONVARNAME="CollectionOfBizTalkMessageAgentHighsystemmemoryALL" EXPRESSIONPATH="\BizTalk:Message Agent(*)\High system memory" DATATYPE="Integer" />
+    <THRESHOLD NAME="BizTalk system memory exceeds threshold" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfBizTalkMessageAgentHighsystemmemoryALL -Operator 'eq' -Threshold 1
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\BizTalk:Message Agent(*)\High system memory" ISTHRESHOLDSADDED="True" DATASOURCE="\BizTalk:Message Agent(*)\High system memory" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfBizTalkMessageAgentHighsystemmemoryALL -MinThreshold 1 -MaxThreshold 1.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+  </ANALYSIS>
+  <ANALYSIS NAME="BizTalk High Thread Count" ENABLED="True" CATEGORY="BizTalk:Message Agent" PRIMARYDATASOURCE="\BizTalk:Message Agent(*)\High thread count" ID="{e7522095-32d6-44e1-a2e8-0b83e6ef7f95}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Threads Per CPUÂ is the total number of threads in the host process including threads used by adapters. If this threshold is exceeded, BizTalk Server will try to reduce the size of EPM thread pool and message agent thread pool. Thread based throttling should be enabled in scenarios where high load can lead to the creation of a large number of threads. This parameter affects both inbound and outbound throttling. Thread based throttling is disabled by default.<BR>
+<BR>
+<B>Note:</B> The user-specified value is used as a guideline, and the host may dynamically self-tune this threshold value based on the memory usage patterns and thread requirements of the process.<BR>
+<BR>
+This analysis checks for a value of 1 in the High Thread Count counter. Consider adjusting the different thread pool sizes to ensure that the system does not create a large number of threads. This analysis can be correlated with Context Switches per Second analysis to determine if the operating system is saturated with too many threads, but in most cases high thread counts cause more contention on the backend database than on the BizTalk server. For more information about modifying the thread pool sizes see How to Modify the Default Host Throttling Settings.<BR>
+<BR>
+<B>References:</B><BR>
+Host Throttling Performance Counters<BR>
+<A HREF="http://msdn2.microsoft.com/en-us/library/aa578302.aspx">http://msdn2.microsoft.com/en-us/library/aa578302.aspx</A><BR>
+<BR>
+How BizTalk Server Implements Host Throttling<BR>
+<A HREF="http://msdn2.microsoft.com/en-us/library/aa559893.aspx">http://msdn2.microsoft.com/en-us/library/aa559893.aspx</A><BR>
+<BR>
+How to Modify the Default Host Throttling Settings<BR>
+<A HREF="http://msdn2.microsoft.com/en-us/library/aa559628.aspx">http://msdn2.microsoft.com/en-us/library/aa559628.aspx</A>
+<BR> 
+Configuration Parameters that Affect Adapter Performance<BR>
+<A HREF="http://msdn2.microsoft.com/en-us/library/aa561380.aspx">http://msdn2.microsoft.com/en-us/library/aa561380.aspx</A>
+<BR>
+Threads, DB sessions, and throttling<BR>
+<A HREF="http://blogs.msdn.com/biztalkperformance/archive/2007/09/28/threads-db-sessions-and-throttling.aspx">http://blogs.msdn.com/biztalkperformance/archive/2007/09/28/threads-db-sessions-and-throttling.aspx</A>
+]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\BizTalk:Message Agent(*)\High thread count" COLLECTIONVARNAME="CollectionOfBizTalkMessageAgentHighthreadcountALL" EXPRESSIONPATH="\BizTalk:Message Agent(*)\High thread count" DATATYPE="Integer" />
+    <THRESHOLD NAME="BizTalk thread count exceeds threshold" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfBizTalkMessageAgentHighthreadcountALL -Operator 'eq' -Threshold 1
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\BizTalk:Message Agent(*)\High thread count" ISTHRESHOLDSADDED="True" DATASOURCE="\BizTalk:Message Agent(*)\High thread count" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfBizTalkMessageAgentHighthreadcountALL -MinThreshold 1 -MaxThreshold 1.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+  </ANALYSIS>
+  <ANALYSIS NAME="BizTalk Message Delivery Delay" ENABLED="True" CATEGORY="BizTalk:Message Agent" PRIMARYDATASOURCE="\BizTalk:Message Agent(*)\Message delivery delay (ms)" ID="{b29a1ccd-3c66-4adc-9567-92cd01c678d7}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[This is the current delay in milliseconds imposed on each message delivery batch (applicable if the message delivery is being throttled). In regards to throttling, a delay is applied in the publishing or processing of the message, depending on whether the message is inbound or outbound. The delay period is proportional to the severity of the throttling condition, so higher severity throttling conditions will initiate a longer throttling period than lower severity throttling conditions. This delay period is adjusted up and down within certain ranges by the throttling mechanism as conditions change. The current delay period is exposed through the Message delivery delay (ms) and the Message publishing delay (ms) performance counters associated with the BizTalk:Message Agent performance object category.<BR>
+<BR>
+This analysis checks for the existance of a message delivery delay as a warning and a delay of 5 seconds or more as a critical. Long message delivery delays may indicate heavy throttling due to high load.<BR>
+<BR>
+If either of these alerts occur, then identify the throttling condition and determine if the throttling condition is desirable. Adjustment of the BizTalk throttling settings may be needed.<BR>
+<BR>
+<B>References:</B><BR>
+How BizTalk Server Implements Host Throttling<BR>
+<A HREF="http://msdn2.microsoft.com/en-us/library/aa559893.aspx">http://msdn2.microsoft.com/en-us/library/aa559893.aspx</A>  ]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\BizTalk:Message Agent(*)\Message delivery delay (ms)" COLLECTIONVARNAME="CollectionOfBizTalkMessageAgentMessagedeliverydelaymsALL" EXPRESSIONPATH="\BizTalk:Message Agent(*)\Message delivery delay (ms)" DATATYPE="Integer" />
+    <THRESHOLD NAME="BizTalk message delivery delay is greater than 2 seconds" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfBizTalkMessageAgentMessagedeliverydelaymsALL -Operator 'gt' -Threshold 0
+         ]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="BizTalk message delivery delay is greater than 5 seconds" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfBizTalkMessageAgentMessagedeliverydelaymsALL -Operator 'gt' -Threshold 5000
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\BizTalk:Message Agent(*)\Message delivery delay (ms)" ISTHRESHOLDSADDED="True" DATASOURCE="\BizTalk:Message Agent(*)\Message delivery delay (ms)" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfBizTalkMessageAgentMessagedeliverydelaymsALL -MinThreshold 1 -MaxThreshold 5000 -UseMaxValue $False
+        ]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfBizTalkMessageAgentMessagedeliverydelaymsALL -MinThreshold 5000 -MaxThreshold 7999.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+  </ANALYSIS>
+  <ANALYSIS NAME="BizTalk Message Publishing Delay" ENABLED="True" CATEGORY="BizTalk:Message Agent" PRIMARYDATASOURCE="\BizTalk:Message Agent(*)\Message publishing delay (ms)" ID="{c2d50d3e-2441-465d-a13b-2112a309efb3}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The current delay in ms imposed on each message publishing batch (applicable if the message publishing is being throttled and if the batch is not exempted from throttling).
+ In regards to throttling, a delay is applied in the publishing or processing of the message, depending on whether the message is inbound or outbound. The delay period is proportional to the severity of the throttling condition, so higher severity throttling conditions will initiate a longer throttling period than lower severity throttling conditions. This delay period is adjusted up and down within certain ranges by the throttling mechanism as conditions change. The current delay period is exposed through the Message delivery delay (ms) and the Message publishing delay (ms) performance counters associated with the BizTalk:Message Agent performance object category.<BR>
+<BR>
+This analysis checks for the existance of a message publishing delay as a warning and a delay of 5 seconds or more as a critical. Long message delivery delays may indicate heavy throttling due to high load.<BR>
+<BR>
+If either of these alerts occur, then identify the throttling condition and determine if the throttling condition is desirable. Adjustment of the BizTalk throttling settings may be needed.<BR>
+<BR>
+<B>References:</B><BR>
+How BizTalk Server Implements Host Throttling<BR>
+<A HREF="http://msdn2.microsoft.com/en-us/library/aa559893.aspx">http://msdn2.microsoft.com/en-us/library/aa559893.aspx</A>  ]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\BizTalk:Message Agent(*)\Message publishing delay (ms)" COLLECTIONVARNAME="CollectionOfBizTalkMessageAgentMessagePublishingdelaymsALL" EXPRESSIONPATH="\BizTalk:Message Agent(*)\Message publishing delay (ms)" DATATYPE="Integer" />
+    <THRESHOLD NAME="BizTalk message publishing delay is greater than 2 seconds" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfBizTalkMessageAgentMessagePublishingdelaymsALL -Operator 'gt' -Threshold 0
+         ]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="BizTalk message publishing delay is greater than 5 seconds" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfBizTalkMessageAgentMessagePublishingdelaymsALL -Operator 'gt' -Threshold 5000
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\BizTalk:Message Agent(*)\Message publishing delay (ms)" ISTHRESHOLDSADDED="True" DATASOURCE="\BizTalk:Message Agent(*)\Message publishing delay (ms)" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfBizTalkMessageAgentMessagePublishingdelaymsALL -MinThreshold 1 -MaxThreshold 5000 -UseMaxValue $False
+        ]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfBizTalkMessageAgentMessagePublishingdelaymsALL -MinThreshold 5000 -MaxThreshold 7999.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+  </ANALYSIS>
+  <ANALYSIS NAME="BizTalk Messaging Latency: Request Response Latency" ENABLED="True" CATEGORY="BizTalk:Messaging Latency" PRIMARYDATASOURCE="\BizTalk:Messaging Latency(*)\Request-Response Latency (sec)" ID="{1c52f73c-3230-4daf-990a-cff9c23a352c}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Average latency in milliseconds from when the Messaging Engine receives a request document from the adapter until the time a response document is given back to the adapter.<BR>
+<BR>
+<table class=MsoNormalTable border=0 cellspacing=0 cellpadding=0
+ style='border-collapse:collapse;mso-yfti-tbllook:1184;mso-padding-alt:0in 0in 0in 0in'>
+ <tr style='mso-yfti-irow:0;mso-yfti-firstrow:yes'>
+  <td width=173 valign=top style='width:130.1pt;border:solid black 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal align=center style='text-align:center'><span
+  style='color:#1F497D'>1<o:p></o:p></span></p>
+  </td>
+  <td width=162 valign=top style='width:121.5pt;border:solid black 1.0pt;
+  border-left:none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal align=center style='margin-left:.25in;text-align:center'><span
+  style='color:#1F497D'>2<o:p></o:p></span></p>
+  </td>
+  <td width=114 valign=top style='width:85.5pt;border:solid black 1.0pt;
+  border-left:none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal align=center style='text-align:center'><span
+  style='font-family:"Courier New";color:#1F497D'>3<o:p></o:p></span></p>
+  </td>
+  <td width=120 valign=top style='width:1.25in;border:solid black 1.0pt;
+  border-left:none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal align=center style='text-align:center'><span
+  style='font-family:"Courier New";color:#1F497D'>4<o:p></o:p></span></p>
+  </td>
+  <td width=108 valign=top style='width:81.0pt;border:solid black 1.0pt;
+  border-left:none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal align=center style='text-align:center'><span
+  style='font-family:"Courier New";color:#1F497D'>5<o:p></o:p></span></p>
+  </td>
+  <td width=102 valign=top style='width:76.5pt;border:solid black 1.0pt;
+  border-left:none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal align=center style='text-align:center'><span
+  style='font-family:"Courier New";color:#1F497D'>6<o:p></o:p></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:1'>
+  <td width=173 valign=top style='width:130.1pt;border:solid black 1.0pt;
+  border-top:none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='color:#1F497D'>Adapter receives message and
+  submits it to the engine, work done in adapter before message is given to
+  engine not captured in these perf counters.<o:p></o:p></span></p>
+  </td>
+  <td width=162 valign=top style='width:121.5pt;border-top:none;border-left:
+  none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='color:#1F497D'>Engine receives message from
+  adapter, executes receive pipeline, map, subscription evaluation, persist
+  message in DB.<o:p></o:p></span></p>
+  <p class=MsoNormal><span style='font-family:"Courier New";color:#1F497D'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td width=114 valign=top style='width:85.5pt;border-top:none;border-left:
+  none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='color:#1F497D'>Orchestration or
+  Solicit-Response port runs and generates a response message.<o:p></o:p></span></p>
+  <p class=MsoNormal><span style='color:#1F497D'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td width=120 valign=top style='width:1.25in;border-top:none;border-left:
+  none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='color:#1F497D'>Response message is <span
+  class=SpellE>dequeued</span> in messaging engine, execute the send pipeline,
+  map.<o:p></o:p></span></p>
+  </td>
+  <td width=108 valign=top style='width:81.0pt;border-top:none;border-left:
+  none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='color:#1F497D'>Messaging engine gives
+  response message to adapter.<o:p></o:p></span></p>
+  <p class=MsoNormal style='margin-left:.25in'><span style='color:#1F497D'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td width=102 valign=top style='width:76.5pt;border-top:none;border-left:
+  none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='color:#1F497D'>Adapter informs engine message
+  is all done.<o:p></o:p></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:2'>
+  <td width=173 valign=top style='width:130.1pt;border:solid black 1.0pt;
+  border-top:none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal align=center style='text-align:center'><span
+  style='font-family:"Courier New";color:#1F497D'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td width=162 valign=top style='width:121.5pt;border-top:none;border-left:
+  none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;
+  background:#D9D9D9;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal align=center style='text-align:center'><span
+  style='color:#1F497D'>Inbound Latency<o:p></o:p></span></p>
+  </td>
+  <td width=444 colspan=4 valign=top style='width:333.0pt;border-top:none;
+  border-left:none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal align=center style='text-align:center'><span
+  style='color:#1F497D'><o:p>&nbsp;</o:p></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:3'>
+  <td width=173 valign=top style='width:130.1pt;border:solid black 1.0pt;
+  border-top:none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal align=center style='text-align:center'><span
+  style='font-family:"Courier New";color:#1F497D'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td width=396 colspan=3 valign=top style='width:297.0pt;border-top:none;
+  border-left:none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;
+  background:#DDD9C3;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal align=center style='text-align:center'><span
+  style='color:#1F497D'>Request Response Latency<o:p></o:p></span></p>
+  </td>
+  <td width=210 colspan=2 valign=top style='width:157.5pt;border-top:none;
+  border-left:none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal align=center style='text-align:center'><span
+  style='color:#1F497D'><o:p>&nbsp;</o:p></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:4'>
+  <td width=449 colspan=3 valign=top style='width:337.1pt;border:solid black 1.0pt;
+  border-top:none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal align=center style='text-align:center'><span
+  style='color:#1F497D'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td width=330 colspan=3 valign=top style='width:247.5pt;border-top:none;
+  border-left:none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;
+  background:#D6E3BC;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal align=center style='text-align:center'><span
+  style='color:#1F497D'>Outbound Latency<o:p></o:p></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:5;mso-yfti-lastrow:yes'>
+  <td width=569 colspan=4 valign=top style='width:427.1pt;border:solid black 1.0pt;
+  border-top:none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal align=center style='text-align:center'><span
+  style='color:#1F497D'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td width=210 colspan=2 valign=top style='width:157.5pt;border-top:none;
+  border-left:none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;
+  background:#E5DFEC;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal align=center style='text-align:center'><span
+  style='color:#1F497D'>Outbound Adapter Latency<o:p></o:p></span></p>
+  </td>
+ </tr>
+</table>
+<BR>
+Request/Response Messaging<BR>
+<A HREF="http://msdn2.microsoft.com/en-us/library/aa559029.aspx">http://msdn2.microsoft.com/en-us/library/aa559029.aspx</A><BR>
+BizTalk Server 2006: Scalability Case Study Using the SOAP Adapter in BizTalk Server 2006<BR>
+<A HREF="http://msdn2.microsoft.com/en-us/library/aa972198.aspx">http://msdn2.microsoft.com/en-us/library/aa972198.aspx</A><BR>]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\BizTalk:Messaging Latency(*)\Request-Response Latency (sec)" COLLECTIONVARNAME="CollectionOfBizTalkMessagingLatencyRequestResponseLatencysecALL" EXPRESSIONPATH="\BizTalk:Messaging Latency(*)\Request-Response Latency (sec)" DATATYPE="Integer" />
+    <THRESHOLD NAME="BizTalk message latency exceeds 5 seconds" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfBizTalkMessagingLatencyRequestResponseLatencysecALL -Operator 'gt' -Threshold 5
+         ]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="BizTalk message latency exceeds 10 seconds" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfBizTalkMessagingLatencyRequestResponseLatencysecALL -Operator 'gt' -Threshold 10
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\BizTalk:Messaging Latency(*)\Request-Response Latency (sec)" ISTHRESHOLDSADDED="True" DATASOURCE="\BizTalk:Messaging Latency(*)\Request-Response Latency (sec)" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfBizTalkMessagingLatencyRequestResponseLatencysecALL -MinThreshold 5 -MaxThreshold 10 -UseMaxValue $False
+        ]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfBizTalkMessagingLatencyRequestResponseLatencysecALL -MinThreshold 10 -MaxThreshold 11.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+  </ANALYSIS>
+  <ANALYSIS NAME="BizTalk Inbound Latency" ENABLED="True" CATEGORY="BizTalk:Messaging Latency" PRIMARYDATASOURCE="\BizTalk:Messaging Latency(*)\Inbound Latency (sec)" ID="{d82100c9-1ad3-48bb-8fa6-6e4f01737bb3}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Average latency in milliseconds from when the Messaging Engine receives a document from the adapter until the time it is published to Message Box.<BR>
+<BR>
+Reducing latency is important to some users of BizTalk, therefore tracking how much time documents spend in the inbound adapter is important.<BR>
+<BR>
+Here is a chart showing how latency is measured.<BR>
+<table class=MsoNormalTable border=0 cellspacing=0 cellpadding=0
+ style='border-collapse:collapse;mso-yfti-tbllook:1184;mso-padding-alt:0in 0in 0in 0in'>
+ <tr style='mso-yfti-irow:0;mso-yfti-firstrow:yes'>
+  <td width=173 valign=top style='width:130.1pt;border:solid black 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal align=center style='text-align:center'><span
+  style='color:#1F497D'>1<o:p></o:p></span></p>
+  </td>
+  <td width=162 valign=top style='width:121.5pt;border:solid black 1.0pt;
+  border-left:none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal align=center style='margin-left:.25in;text-align:center'><span
+  style='color:#1F497D'>2<o:p></o:p></span></p>
+  </td>
+  <td width=114 valign=top style='width:85.5pt;border:solid black 1.0pt;
+  border-left:none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal align=center style='text-align:center'><span
+  style='font-family:"Courier New";color:#1F497D'>3<o:p></o:p></span></p>
+  </td>
+  <td width=120 valign=top style='width:1.25in;border:solid black 1.0pt;
+  border-left:none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal align=center style='text-align:center'><span
+  style='font-family:"Courier New";color:#1F497D'>4<o:p></o:p></span></p>
+  </td>
+  <td width=108 valign=top style='width:81.0pt;border:solid black 1.0pt;
+  border-left:none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal align=center style='text-align:center'><span
+  style='font-family:"Courier New";color:#1F497D'>5<o:p></o:p></span></p>
+  </td>
+  <td width=102 valign=top style='width:76.5pt;border:solid black 1.0pt;
+  border-left:none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal align=center style='text-align:center'><span
+  style='font-family:"Courier New";color:#1F497D'>6<o:p></o:p></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:1'>
+  <td width=173 valign=top style='width:130.1pt;border:solid black 1.0pt;
+  border-top:none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='color:#1F497D'>Adapter receives message and
+  submits it to the engine, work done in adapter before message is given to
+  engine not captured in these perf counters.<o:p></o:p></span></p>
+  </td>
+  <td width=162 valign=top style='width:121.5pt;border-top:none;border-left:
+  none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='color:#1F497D'>Engine receives message from
+  adapter, executes receive pipeline, map, subscription evaluation, persist
+  message in DB.<o:p></o:p></span></p>
+  <p class=MsoNormal><span style='font-family:"Courier New";color:#1F497D'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td width=114 valign=top style='width:85.5pt;border-top:none;border-left:
+  none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='color:#1F497D'>Orchestration or
+  Solicit-Response port runs and generates a response message.<o:p></o:p></span></p>
+  <p class=MsoNormal><span style='color:#1F497D'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td width=120 valign=top style='width:1.25in;border-top:none;border-left:
+  none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='color:#1F497D'>Response message is <span
+  class=SpellE>dequeued</span> in messaging engine, execute the send pipeline,
+  map.<o:p></o:p></span></p>
+  </td>
+  <td width=108 valign=top style='width:81.0pt;border-top:none;border-left:
+  none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='color:#1F497D'>Messaging engine gives
+  response message to adapter.<o:p></o:p></span></p>
+  <p class=MsoNormal style='margin-left:.25in'><span style='color:#1F497D'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td width=102 valign=top style='width:76.5pt;border-top:none;border-left:
+  none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='color:#1F497D'>Adapter informs engine message
+  is all done.<o:p></o:p></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:2'>
+  <td width=173 valign=top style='width:130.1pt;border:solid black 1.0pt;
+  border-top:none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal align=center style='text-align:center'><span
+  style='font-family:"Courier New";color:#1F497D'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td width=162 valign=top style='width:121.5pt;border-top:none;border-left:
+  none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;
+  background:#D9D9D9;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal align=center style='text-align:center'><span
+  style='color:#1F497D'>Inbound Latency<o:p></o:p></span></p>
+  </td>
+  <td width=444 colspan=4 valign=top style='width:333.0pt;border-top:none;
+  border-left:none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal align=center style='text-align:center'><span
+  style='color:#1F497D'><o:p>&nbsp;</o:p></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:3'>
+  <td width=173 valign=top style='width:130.1pt;border:solid black 1.0pt;
+  border-top:none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal align=center style='text-align:center'><span
+  style='font-family:"Courier New";color:#1F497D'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td width=396 colspan=3 valign=top style='width:297.0pt;border-top:none;
+  border-left:none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;
+  background:#DDD9C3;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal align=center style='text-align:center'><span
+  style='color:#1F497D'>Request Response Latency<o:p></o:p></span></p>
+  </td>
+  <td width=210 colspan=2 valign=top style='width:157.5pt;border-top:none;
+  border-left:none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal align=center style='text-align:center'><span
+  style='color:#1F497D'><o:p>&nbsp;</o:p></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:4'>
+  <td width=449 colspan=3 valign=top style='width:337.1pt;border:solid black 1.0pt;
+  border-top:none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal align=center style='text-align:center'><span
+  style='color:#1F497D'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td width=330 colspan=3 valign=top style='width:247.5pt;border-top:none;
+  border-left:none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;
+  background:#D6E3BC;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal align=center style='text-align:center'><span
+  style='color:#1F497D'>Outbound Latency<o:p></o:p></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:5;mso-yfti-lastrow:yes'>
+  <td width=569 colspan=4 valign=top style='width:427.1pt;border:solid black 1.0pt;
+  border-top:none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal align=center style='text-align:center'><span
+  style='color:#1F497D'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td width=210 colspan=2 valign=top style='width:157.5pt;border-top:none;
+  border-left:none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;
+  background:#E5DFEC;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal align=center style='text-align:center'><span
+  style='color:#1F497D'>Outbound Adapter Latency<o:p></o:p></span></p>
+  </td>
+ </tr>
+</table>
+<BR>
+Assuming a low latency environment, this analysis checks if the document spent more than 5 seconds in the inbound adapter. This may indicate a processing delay in the transport of messages through inbound adapters in this host instance. If multiple inbound adapters exist in this host instance, then consider separating them into their own hosts in order to determine which inbound adapter has high latency.<BR>
+<BR>
+<B>References:</B><BR>
+BizTalk Server Database Optimization<BR>
+<A HREF="http://msdn2.microsoft.com/en-us/library/bb743398.aspx">http://msdn2.microsoft.com/en-us/library/bb743398.aspx</A><BR>
+Request/Response Messaging<BR>
+<A HREF="http://msdn2.microsoft.com/en-us/library/aa559029.aspx">http://msdn2.microsoft.com/en-us/library/aa559029.aspx</A><BR>
+BizTalk Server 2006: Scalability Case Study Using the SOAP Adapter in BizTalk Server 2006<BR>
+<A HREF="http://msdn2.microsoft.com/en-us/library/aa972198.aspx">http://msdn2.microsoft.com/en-us/library/aa972198.aspx</A><BR>
+Identifying Bottlenecks in the BizTalk Tier<BR>
+<A HREF="http://msdn2.microsoft.com/en-us/library/aa561922.aspx">http://msdn2.microsoft.com/en-us/library/aa561922.aspx</A><BR>
+BizTalk Server 2004: Performance Tuning for Low Latency Messaging<BR>
+<A HREF="http://msdn2.microsoft.com/en-us/library/aa475435.aspx">http://msdn2.microsoft.com/en-us/library/aa475435.aspx</A>]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\BizTalk:Messaging Latency(*)\Inbound Latency (sec)" COLLECTIONVARNAME="CollectionOfBizTalkMessagingLatencyInboundLatencysecALL" EXPRESSIONPATH="\BizTalk:Messaging Latency(*)\Inbound Latency (sec)" DATATYPE="Integer" />
+    <THRESHOLD NAME="BizTalk inbound message latency exceeds 5 seconds" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfBizTalkMessagingLatencyInboundLatencysecALL -Operator 'gt' -Threshold 5
+         ]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="BizTalk inbound message latency exceeds 10 seconds" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfBizTalkMessagingLatencyInboundLatencysecALL -Operator 'gt' -Threshold 10
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\BizTalk:Messaging Latency(*)\Inbound Latency (sec)" ISTHRESHOLDSADDED="True" DATASOURCE="\BizTalk:Messaging Latency(*)\Inbound Latency (sec)" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfBizTalkMessagingLatencyInboundLatencysecALL -MinThreshold 5 -MaxThreshold 10 -UseMaxValue $False
+        ]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfBizTalkMessagingLatencyInboundLatencysecALL -MinThreshold 10 -MaxThreshold 11.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+  </ANALYSIS>
+  <ANALYSIS NAME="BizTalk Outbound Adapter Latency" ENABLED="True" CATEGORY="BizTalk:Messaging Latency" PRIMARYDATASOURCE="\BizTalk:Messaging Latency(*)\Outbound Adapter Latency (sec)" ID="{8f0274d1-f492-464c-80f4-e962b692f6c6}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[This is the average latency in seconds from when the adapter gets a document from the messaging engine until the time it is sent by the adapter.
+
+Here is a chart showing how latency is measured.
+<table class=MsoNormalTable border=0 cellspacing=0 cellpadding=0
+ style='border-collapse:collapse;mso-yfti-tbllook:1184;mso-padding-alt:0in 0in 0in 0in'>
+ <tr style='mso-yfti-irow:0;mso-yfti-firstrow:yes'>
+  <td width=173 valign=top style='width:130.1pt;border:solid black 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal align=center style='text-align:center'><span
+  style='color:#1F497D'>1<o:p></o:p></span></p>
+  </td>
+  <td width=162 valign=top style='width:121.5pt;border:solid black 1.0pt;
+  border-left:none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal align=center style='margin-left:.25in;text-align:center'><span
+  style='color:#1F497D'>2<o:p></o:p></span></p>
+  </td>
+  <td width=114 valign=top style='width:85.5pt;border:solid black 1.0pt;
+  border-left:none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal align=center style='text-align:center'><span
+  style='font-family:"Courier New";color:#1F497D'>3<o:p></o:p></span></p>
+  </td>
+  <td width=120 valign=top style='width:1.25in;border:solid black 1.0pt;
+  border-left:none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal align=center style='text-align:center'><span
+  style='font-family:"Courier New";color:#1F497D'>4<o:p></o:p></span></p>
+  </td>
+  <td width=108 valign=top style='width:81.0pt;border:solid black 1.0pt;
+  border-left:none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal align=center style='text-align:center'><span
+  style='font-family:"Courier New";color:#1F497D'>5<o:p></o:p></span></p>
+  </td>
+  <td width=102 valign=top style='width:76.5pt;border:solid black 1.0pt;
+  border-left:none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal align=center style='text-align:center'><span
+  style='font-family:"Courier New";color:#1F497D'>6<o:p></o:p></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:1'>
+  <td width=173 valign=top style='width:130.1pt;border:solid black 1.0pt;
+  border-top:none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='color:#1F497D'>Adapter receives message and
+  submits it to the engine, work done in adapter before message is given to
+  engine not captured in these perf counters.<o:p></o:p></span></p>
+  </td>
+  <td width=162 valign=top style='width:121.5pt;border-top:none;border-left:
+  none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='color:#1F497D'>Engine receives message from
+  adapter, executes receive pipeline, map, subscription evaluation, persist
+  message in DB.<o:p></o:p></span></p>
+  <p class=MsoNormal><span style='font-family:"Courier New";color:#1F497D'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td width=114 valign=top style='width:85.5pt;border-top:none;border-left:
+  none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='color:#1F497D'>Orchestration or
+  Solicit-Response port runs and generates a response message.<o:p></o:p></span></p>
+  <p class=MsoNormal><span style='color:#1F497D'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td width=120 valign=top style='width:1.25in;border-top:none;border-left:
+  none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='color:#1F497D'>Response message is <span
+  class=SpellE>dequeued</span> in messaging engine, execute the send pipeline,
+  map.<o:p></o:p></span></p>
+  </td>
+  <td width=108 valign=top style='width:81.0pt;border-top:none;border-left:
+  none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='color:#1F497D'>Messaging engine gives
+  response message to adapter.<o:p></o:p></span></p>
+  <p class=MsoNormal style='margin-left:.25in'><span style='color:#1F497D'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td width=102 valign=top style='width:76.5pt;border-top:none;border-left:
+  none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal><span style='color:#1F497D'>Adapter informs engine message
+  is all done.<o:p></o:p></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:2'>
+  <td width=173 valign=top style='width:130.1pt;border:solid black 1.0pt;
+  border-top:none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal align=center style='text-align:center'><span
+  style='font-family:"Courier New";color:#1F497D'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td width=162 valign=top style='width:121.5pt;border-top:none;border-left:
+  none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;
+  background:#D9D9D9;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal align=center style='text-align:center'><span
+  style='color:#1F497D'>Inbound Latency<o:p></o:p></span></p>
+  </td>
+  <td width=444 colspan=4 valign=top style='width:333.0pt;border-top:none;
+  border-left:none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal align=center style='text-align:center'><span
+  style='color:#1F497D'><o:p>&nbsp;</o:p></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:3'>
+  <td width=173 valign=top style='width:130.1pt;border:solid black 1.0pt;
+  border-top:none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal align=center style='text-align:center'><span
+  style='font-family:"Courier New";color:#1F497D'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td width=396 colspan=3 valign=top style='width:297.0pt;border-top:none;
+  border-left:none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;
+  background:#DDD9C3;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal align=center style='text-align:center'><span
+  style='color:#1F497D'>Request Response Latency<o:p></o:p></span></p>
+  </td>
+  <td width=210 colspan=2 valign=top style='width:157.5pt;border-top:none;
+  border-left:none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;
+  padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal align=center style='text-align:center'><span
+  style='color:#1F497D'><o:p>&nbsp;</o:p></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:4'>
+  <td width=449 colspan=3 valign=top style='width:337.1pt;border:solid black 1.0pt;
+  border-top:none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal align=center style='text-align:center'><span
+  style='color:#1F497D'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td width=330 colspan=3 valign=top style='width:247.5pt;border-top:none;
+  border-left:none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;
+  background:#D6E3BC;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal align=center style='text-align:center'><span
+  style='color:#1F497D'>Outbound Latency<o:p></o:p></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:5;mso-yfti-lastrow:yes'>
+  <td width=569 colspan=4 valign=top style='width:427.1pt;border:solid black 1.0pt;
+  border-top:none;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal align=center style='text-align:center'><span
+  style='color:#1F497D'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td width=210 colspan=2 valign=top style='width:157.5pt;border-top:none;
+  border-left:none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;
+  background:#E5DFEC;padding:0in 5.4pt 0in 5.4pt'>
+  <p class=MsoNormal align=center style='text-align:center'><span
+  style='color:#1F497D'>Outbound Adapter Latency<o:p></o:p></span></p>
+  </td>
+ </tr>
+</table>
+<BR>
+Assuming a low latency environment, this analysis checks for latency in the outbound adapter of greater than 5 seconds on average. This may indicate a processing delay in the transport of messages through outbound adapters in this host instance. If multiple outbound adapters exist in this host instance, then consider separating them into their own hosts in order to determine which outbound adapter has high latency.<BR>
+<BR>
+<B>References:</B><BR>
+Request/Response Messaging<BR>
+<A HREF="http://msdn2.microsoft.com/en-us/library/aa559029.aspx">http://msdn2.microsoft.com/en-us/library/aa559029.aspx</A><BR>
+BizTalk Server 2006: Scalability Case Study Using the SOAP Adapter in BizTalk Server 2006<BR>
+<A HREF="http://msdn2.microsoft.com/en-us/library/aa972198.aspx">http://msdn2.microsoft.com/en-us/library/aa972198.aspx</A>      ]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\BizTalk:Messaging Latency(*)\Outbound Adapter Latency (sec)" COLLECTIONVARNAME="CollectionOfBizTalkMessagingLatencyOutboundAdapterLatencysecALL" EXPRESSIONPATH="\BizTalk:Messaging Latency(*)\Outbound Adapter Latency (sec)" DATATYPE="Integer" />
+    <THRESHOLD NAME="BizTalk message outbound adapter latency exceeds 5 seconds" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfBizTalkMessagingLatencyOutboundAdapterLatencysecALL -Operator 'gt' -Threshold 5
+         ]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="BizTalk message outbound adapter latency exceeds 10 seconds" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfBizTalkMessagingLatencyOutboundAdapterLatencysecALL -Operator 'gt' -Threshold 10
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\BizTalk:Messaging Latency(*)\Outbound Adapter Latency (sec)" ISTHRESHOLDSADDED="True" DATASOURCE="\BizTalk:Messaging Latency(*)\Outbound Adapter Latency (sec)" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfBizTalkMessagingLatencyOutboundAdapterLatencysecALL -MinThreshold 5 -MaxThreshold 10 -UseMaxValue $False
+        ]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfBizTalkMessagingLatencyOutboundAdapterLatencysecALL -MinThreshold 10 -MaxThreshold 11.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+  </ANALYSIS>
+  <ANALYSIS NAME="BizTalk Spool Table Size" ENABLED="True" CATEGORY="BizTalk:Message Box:General Counters" PRIMARYDATASOURCE="\BizTalk:Message Box:General Counters(*)\Spool Size" ID="{630ba6d9-7e30-4b96-a8c0-022e94f19c20}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The messagebox table named spool contains a record for each message in the system (active or waiting to be garbage collected).  Monitoring the number of rows in this table, and the number of messages received per second, while increasing system load provides an easy way to find the maximum sustainable throughput.  Simply increase the input load until either (a) the spool table starts to grow indefinitely or (b) the number of messages received per second plateaus, whichever comes first, and that is your maximum sustainable throughput. In summary, regardless of other indicators, this measure will give you a quick and easy way to assess if your system is being overdriven or not.<BR>
+<BR>
+<B>Note:</B> When the BizTalk spool tables size in on an increasing trend, then throttling due to imbalanced message delivery rate (input rate exceeds output rate) or throttling due to Database size may occur.<BR>
+<BR>
+This analysis checks for an increasing trend in the BizTalk Spool Table Size.<BR>
+<BR>
+<B>References:</B><BR>
+Understanding BizTalk Server 2004 SP1 Throughput and Capacity<BR>
+<A HREF="http://blogs.msdn.com/biztalkperformance/archive/2005/04/07/406343.aspx">http://blogs.msdn.com/biztalkperformance/archive/2005/04/07/406343.aspx</A><BR>
+Sustainable Load Test<BR>
+<A HREF="http://msdn2.microsoft.com/en-us/library/aa577964.aspx">http://msdn2.microsoft.com/en-us/library/aa577964.aspx</A><BR>
+Recommendations When Testing Engine Performance<BR>
+<A HREF="http://msdn2.microsoft.com/en-us/library/aa547236.aspx">http://msdn2.microsoft.com/en-us/library/aa547236.aspx</A>]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\BizTalk:Message Box:General Counters(*)\Spool Size" COLLECTIONVARNAME="CollectionOfBizTalkMessageBoxGeneralCountersSpoolSizeALL" EXPRESSIONPATH="\BizTalk:Message Box:General Counters(*)\Spool Size" DATATYPE="Long" />
+    <THRESHOLD NAME="BizTalk: Increasing trend in spool table" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfBizTalkMessageBoxGeneralCountersSpoolSizeALL -Operator 'gt' -Threshold 10 -IsTrendOnly $True
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\BizTalk:Message Box:General Counters(*)\Spool Size" ISTHRESHOLDSADDED="False" DATASOURCE="\BizTalk:Message Box:General Counters(*)\Spool Size" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="BizTalk Tracking Data Size" ENABLED="True" CATEGORY="BizTalk:Message Box:General Counters" PRIMARYDATASOURCE="\BizTalk:Message Box:General Counters(*)\Tracking Data Size" ID="{7770f539-176d-46e8-b6aa-91ddd963155e}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[As BizTalk Server processes more and more data on your system, the BizTalk Tracking (BizTalkDTADb) database continues to grow in size. Unchecked growth decreases system performance and may generate errors in the Tracking Data Delivery Service (TDDS). In addition to general tracking data, tracked messages can also accumulate in the MessageBox database, causing poor disk performance.<BR>
+<BR>
+This analysis checks for an increasing trend of more than 5MBâ„¢s per hour in the tracking data size.<BR>
+<BR>
+<B>References:</B><BR>
+Archiving and Purging the BizTalk Tracking Database<BR>
+<A HREF="http://msdn2.microsoft.com/en-us/library/aa560754.aspx">http://msdn2.microsoft.com/en-us/library/aa560754.aspx</A>]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\BizTalk:Message Box:General Counters(*)\Tracking Data Size" COLLECTIONVARNAME="CollectionOfBizTalkMessageBoxGeneralCountersTrackingDataSizeALL" EXPRESSIONPATH="\BizTalk:Message Box:General Counters(*)\Tracking Data Size" DATATYPE="Integer" />
+    <THRESHOLD NAME="An increasing trend of more than 5MBs per hour in the BizTalk tracking database" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfBizTalkMessageBoxGeneralCountersTrackingDataSizeALL -Operator 'gt' -Threshold 5
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\BizTalk:Message Box:General Counters(*)\Tracking Data Size" ISTHRESHOLDSADDED="False" DATASOURCE="\BizTalk:Message Box:General Counters(*)\Tracking Data Size" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="BizTalk Host Queue Length" ENABLED="True" CATEGORY="BizTalk:Message Box:Host Counters" PRIMARYDATASOURCE="\BizTalk:Message Box:Host Counters(*)\Host Queue - Length" ID="{cad8b564-3c9e-49a2-aecb-bd6e8ac5d572}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The BizTalk Host Queue Length tracks the total number of messages in the particular host queue. It can also be used to give a more granular view of the number of messages being queued up internally, by showing the queue depth for an individual host. This counter can be useful in determining if a specific host is bottlenecked. Assuming unique hosts are used for each transport, this can be helpful in determining potential transport bottlenecks.<BR>
+<BR>
+<B>Note:</B> The Host Queue Length is a weighted Queue length by aggregating the record count of all the Queues (Work Q, State Q, Suspended Q) of the target host.<BR>
+<BR>
+This analysis checks for average queue lengths greater than 1.<BR>
+<BR>
+<B>References:</B><BR>
+BizTalk Server 2006: Managing a Successful Performance Lab<BR>
+<A HREF="http://msdn2.microsoft.com/en-us/library/aa972201.aspx ">http://msdn2.microsoft.com/en-us/library/aa972201.aspx</A>]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\BizTalk:Message Box:Host Counters(*)\Host Queue - Length" COLLECTIONVARNAME="CollectionOfBizTalkMessageBoxHostCountersHostQueueLengthALL" EXPRESSIONPATH="\BizTalk:Message Box:Host Counters(*)\Host Queue - Length" DATATYPE="Integer" />
+    <THRESHOLD NAME="BizTalk: Host Queue Length Size is greater than 1" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfBizTalkMessageBoxHostCountersHostQueueLengthALL -Operator 'gt' -Threshold 1
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\BizTalk:Message Box:Host Counters(*)\Host Queue - Length" ISTHRESHOLDSADDED="True" DATASOURCE="\BizTalk:Message Box:Host Counters(*)\Host Queue - Length" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfBizTalkMessageBoxHostCountersHostQueueLengthALL -MinThreshold 1 -MaxThreshold 9.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+  </ANALYSIS>
+  <ANALYSIS NAME="BizTalk Host Suspended Messages Queue Length" ENABLED="True" CATEGORY="BizTalk:Message Box:Host Counters" PRIMARYDATASOURCE="\BizTalk:Message Box:Host Counters(*)\Host Queue - Suspended Msgs - Length" ID="{44c701cd-023c-418b-be70-a0e891f732ae}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[This counter Tracks the total number of suspended messages for the particular host. A suspended message is an instance of a message or orchestration that BizTalk Server has stopped processing, due to an error in the system or the message. Generally, suspended instances caused by system errors are resumable upon resolution of the system issue. Often, suspended instances due to a message problem are not resumable, and the message itself must be fixed and resubmitted to the BizTalk Server system.<BR>
+<BR>
+The suspended message queue is a queue that contains work items for which an error or failure was encountered during processing. A suspended queue stores the messages until they can be corrected and reprocessed, or deleted.<BR>
+<BR>
+This analysis checks for any occurrence of suspended messages. An increasing trend could indicate severe processing errors.<BR>
+<BR>
+<B>References:</B><BR>
+BizTalk Server 2004: Monitoring and Troubleshooting<BR>
+<A HREF="http://msdn2.microsoft.com/en-us/library/ms942197.aspx">http://msdn2.microsoft.com/en-us/library/ms942197.aspx</A>]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\BizTalk:Message Box:Host Counters(*)\Host Queue - Suspended Msgs - Length" COLLECTIONVARNAME="CollectionOfBizTalkMessageBoxHostCountersHostQueueSuspendedMsgsLengthALL" EXPRESSIONPATH="\BizTalk:Message Box:Host Counters(*)\Host Queue - Suspended Msgs - Length" DATATYPE="Integer" />
+    <THRESHOLD NAME="BizTalk: Suspended Messages in queue" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfBizTalkMessageBoxHostCountersHostQueueSuspendedMsgsLengthALL -Operator 'gt' -Threshold 1
+         ]]></CODE>
+    </THRESHOLD>
+    <!--    
+    <THRESHOLD NAME="An increasing trend of suspended messages" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE>
+        <![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfBizTalkMessageBoxHostCountersHostQueueSuspendedMsgsLengthALL -Operator 'gt' -Threshold 1 -IsTrendOnly $True
+         ]]>
+      </CODE>
+    </THRESHOLD>
+    -->
+    <CHART CHARTTITLE="\BizTalk:Message Box:Host Counters(*)\Host Queue - Suspended Msgs - Length" ISTHRESHOLDSADDED="True" DATASOURCE="\BizTalk:Message Box:Host Counters(*)\Host Queue - Suspended Msgs - Length" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfBizTalkMessageBoxHostCountersHostQueueSuspendedMsgsLengthALL -MinThreshold 1 -MaxThreshold 9.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+  </ANALYSIS>
+  <ANALYSIS NAME="BizTalk Dehydrating Orchestrations" ENABLED="True" CATEGORY="XLANG/s Orchestrations" PRIMARYDATASOURCE="\XLANG/s Orchestrations(*)\Dehydrating orchestrations" ID="{bf44c6f4-40ce-4b2b-8f7d-bf07eb7c4268}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[When many long-running business processes are running at the same time, memory and performance are potential issues. The orchestration engine addresses these issues by "dehydrating" and "rehydrating" orchestration instances.<BR>
+<BR>
+Dehydration is the process of serializing the state of an orchestration into a SQL Server database. Rehydration is the reverse of this process: deserializing the last running state of an orchestration from the database. Dehydration is used to minimize the use of system resources by reducing the number of orchestrations that have to be instantiated in memory at one time. Therefore, dehyrations save memory consumption, but are relatively expensive operations to perform.<BR>
+<BR>
+This analysis checks for dehydrations of 10 or more occurring. If so, BizTalk may be running out of memory (either virtual or physical), there are a high number of orchestrations waiting on messages, or the dehydration settings are not set properly.<BR>
+<BR>
+<B>References:</B><BR>
+Orchestration Dehydration and Rehydration<BR>
+<A HREF="http://msdn2.microsoft.com/en-us/library/aa995563.aspx">http://msdn2.microsoft.com/en-us/library/aa995563.aspx</A>
+]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\XLANG/s Orchestrations(*)\Dehydrating orchestrations" COLLECTIONVARNAME="CollectionOfXLANGsOrchestrationsDehydratingorchestrationsALL" EXPRESSIONPATH="\XLANG/s Orchestrations(*)\Dehydrating orchestrations" DATATYPE="Integer" />
+    <THRESHOLD NAME="BizTalk: 10 or more dehydrations are occuring" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfXLANGsOrchestrationsDehydratingorchestrationsALL -Operator 'gt' -Threshold 10
+         ]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="BizTalk: 20 or more dehydrations are occuring" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfXLANGsOrchestrationsDehydratingorchestrationsALL -Operator 'gt' -Threshold 20
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\XLANG/s Orchestrations(*)\Dehydrating orchestrations" ISTHRESHOLDSADDED="True" DATASOURCE="\XLANG/s Orchestrations(*)\Dehydrating orchestrations" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfXLANGsOrchestrationsDehydratingorchestrationsALL -MinThreshold 10 -MaxThreshold 20 -UseMaxValue $False
+        ]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfXLANGsOrchestrationsDehydratingorchestrationsALL -MinThreshold 20 -MaxThreshold 29.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+  </ANALYSIS>
+  <ANALYSIS NAME="BizTalk Idle Orchestrations" ENABLED="True" CATEGORY="XLANG/s Orchestrations" PRIMARYDATASOURCE="\XLANG/s Orchestrations(*)\Idle orchestrations" ID="{cddb0d49-53c8-478f-8dcc-b06f3ba43999}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Number of idle orchestration instances currently hosted by the host instance. This refers to orchestrations that are not making progress but are not dehydratable, as when the orchestration is blocked waiting for a receive, listen, or delay in an atomic transaction. If a large number of non-deydratable orchestrations accumulate, then BizTalk may run out of memory.<BR>
+<BR>
+Dehydration is the process of serializing the state of an orchestration into a SQL Server database. Rehydration is the reverse of this process: deserializing the last running state of an orchestration from the database. Dehydration is used to minimize the use of system resources by reducing the number of orchestrations that have to be instantiated in memory at one time. The engine dehydrates the instance by saving the state, and frees up the memory required by the instance. By dehydrating dormant orchestration instances, the engine makes it possible for a large number of long-running business processes to run concurrently on the same computer.<BR>
+<BR>
+This analysis checks for an increasing trend of 1 idle orchestration per hour.<BR>
+<BR>
+<B>References:</B><BR>
+Orchestration Dehydration and Rehydration<BR>
+<A HREF="http://msdn2.microsoft.com/en-us/library/aa995563.aspx">http://msdn2.microsoft.com/en-us/library/aa995563.aspx</A>]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\XLANG/s Orchestrations(*)\Idle orchestrations" COLLECTIONVARNAME="CollectionOfXLANGsOrchestrationsIdleorchestrationsALL" EXPRESSIONPATH="\XLANG/s Orchestrations(*)\Idle orchestrations" DATATYPE="Integer" />
+    <THRESHOLD NAME="BizTalk: An increasing trend of more than 1 idle orchestration per hour" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfXLANGsOrchestrationsIdleorchestrationsALL -Operator 'gt' -Threshold 1 -IsTrendOnly $True
+         ]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="BizTalk: An increasing trend of more than 10 idle orchestrations per hour" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfXLANGsOrchestrationsIdleorchestrationsALL -Operator 'gt' -Threshold 10 -IsTrendOnly $True
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\XLANG/s Orchestrations(*)\Idle orchestrations" ISTHRESHOLDSADDED="True" DATASOURCE="\XLANG/s Orchestrations(*)\Idle orchestrations" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfXLANGsOrchestrationsIdleorchestrationsALL -MinThreshold 1 -MaxThreshold 10 -UseMaxValue $False
+        ]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfXLANGsOrchestrationsIdleorchestrationsALL -MinThreshold 10 -MaxThreshold 11.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+  </ANALYSIS>
+  <ANALYSIS NAME="BizTalk Private Bytes" ENABLED="True" CATEGORY="XLANG/s Orchestrations" PRIMARYDATASOURCE="\XLANG/s Orchestrations(*)\Megabytes allocated private memory" ID="{e4ab7e94-ff7a-45ed-ba70-5abb5bf657c8}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[This is the megabytes of allocated private memory for the host instance and comparable to the \Process(*)\Private BytesÂ performance counter.<BR>
+<BR>
+This analysis determines if any of the host instances are consuming a large size of the system's memory and if the host instance is increasing in memory consumption over time. A host instance consuming large portions of memory is okay as long as the it returns the memory back to the system. Look for increasing trends in the chart. An increasing trend over a long period of time could indicate a memory leak. Private Bytes is the current size, in bytes, of memory that a process has allocated that cannot be shared with other processes. <BR>
+<BR>
+This analysis checks for a 10MBâ„¢s per hour increasing trend. Use this analysis in correlation with the Available Memory analysis and the Memory Leak Analysis.<BR>
+<BR>
+Also, keep in mind that newly started host instances will initially appear as a memory leak when it is simply normal start up behavior. A memory leak is when a process continues to consume memory and not releasing memory over a long period of time.<BR>
+<BR>
+If you suspect a memory leak condition, then read the Memory Growth in BizTalk MessagingÂ article below. Otherwise, install and use the Debug Diag tool. For more information on the Debug Diag Tool, see the references section.<BR>
+<BR>
+<B>References:</B><BR>
+Debug Diagnostic Tool v1.1<BR>
+<A HREF="http://www.microsoft.com/downloads/details.aspx?FamilyID=28bd5941-c458-46f1-b24d-f60151d875a3&displaylang=en">http://www.microsoft.com/downloads/details.aspx?FamilyID=28bd5941-c458-46f1-b24d-f60151d875a3&displaylang=en</A><BR>
+Memory Growth in BizTalk Messaging<BR>
+<A HREF="http://blogs.msdn.com/biztalkperformance/archive/2005/04/16/408866.aspx">http://blogs.msdn.com/biztalkperformance/archive/2005/04/16/408866.aspx</A> 
+
+]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\XLANG/s Orchestrations(*)\Megabytes allocated private memory" COLLECTIONVARNAME="CollectionOfXLANGsOrchestrationsMegabytesallocatedprivatememoryALL" EXPRESSIONPATH="\XLANG/s Orchestrations(*)\Megabytes allocated private memory" DATATYPE="Integer" />
+    <THRESHOLD NAME="An increasing trend of 10MB's or more per hour in this BizTalk host instance" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfXLANGsOrchestrationsMegabytesallocatedprivatememoryALL -Operator 'gt' -Threshold 10 -IsTrendOnly $True
+         ]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="An increasing trend of 100MB's or more per hour in this BizTalk host instance" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfXLANGsOrchestrationsMegabytesallocatedprivatememoryALL -Operator 'gt' -Threshold 100 -IsTrendOnly $True
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\XLANG/s Orchestrations(*)\Megabytes allocated private memory" ISTHRESHOLDSADDED="False" DATASOURCE="\XLANG/s Orchestrations(*)\Megabytes allocated private memory" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="BizTalk Virtual Bytes" ENABLED="True" CATEGORY="XLANG/s Orchestrations" PRIMARYDATASOURCE="\XLANG/s Orchestrations(*)\Megabytes allocated virtual memory" ID="{652a405d-3c65-424b-b572-77e7257decf1}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[This is the megabytes reserved for virtual memory for the host instance. This analysis determines if any of the host instances are consuming a large size of the system's memory and if the host instance is increasing in memory consumption over time. A host instance consuming large portions of memory is okay as long as it returns the memory back to the system. Look for increasing trends in the chart. An increasing trend over a long period of time could indicate a memory leak.<BR>
+<BR>
+This analysis checks for a 10MBâ„¢s per hour increasing trend in virtual bytes. Use this analysis in correlation with the Available Memory analysis and the Memory Leak Analysis.<BR>
+<BR>
+Also, keep in mind that newly started host instances will initially appear as a memory leak when it is simply normal start up behavior. A memory leak is when a process continues to consume memory and not releasing memory over a long period of time.<BR>
+<BR>
+If you suspect a memory leak condition, then read the Memory Growth in BizTalk MessagingÂ article below. Otherwise, install and use the Debug Diag tool. For more information on the Debug Diag Tool, see the references section.<BR>
+<BR>
+<B>References:</B><BR>
+Memory Growth in BizTalk Messaging<BR>
+<A HREF="http://blogs.msdn.com/biztalkperformance/archive/2005/04/16/408866.aspx">http://blogs.msdn.com/biztalkperformance/archive/2005/04/16/408866.aspx</A><BR>
+Debug Diagnostic Tool v1.1<BR>
+<A HREF="http://www.microsoft.com/downloads/details.aspx?FamilyID=28bd5941-c458-46f1-b24d-f60151d875a3&displaylang=en">http://www.microsoft.com/downloads/details.aspx?FamilyID=28bd5941-c458-46f1-b24d-f60151d875a3&displaylang=en</A>]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\XLANG/s Orchestrations(*)\Megabytes allocated virtual memory" COLLECTIONVARNAME="CollectionOfXLANGsOrchestrationsMegabytesallocatedvirtualmemoryALL" EXPRESSIONPATH="\XLANG/s Orchestrations(*)\Megabytes allocated virtual memory" DATATYPE="Integer" />
+    <THRESHOLD NAME="An increasing trend of 10MB's or more per hour in this BizTalk host instance" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfXLANGsOrchestrationsMegabytesallocatedvirtualmemoryALL -Operator 'gt' -Threshold 10 -IsTrendOnly $True
+         ]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="An increasing trend of 100MB's or more per hour in this BizTalk host instance" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfXLANGsOrchestrationsMegabytesallocatedvirtualmemoryALL -Operator 'gt' -Threshold 100 -IsTrendOnly $True
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\XLANG/s Orchestrations(*)\Megabytes allocated virtual memory" ISTHRESHOLDSADDED="False" DATASOURCE="\XLANG/s Orchestrations(*)\Megabytes allocated virtual memory" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="BizTalk MessageBox Database Connection Failures" ENABLED="True" CATEGORY="XLANG/s Orchestrations" PRIMARYDATASOURCE="\XLANG/s Orchestrations(*)\MessageBox databases connection failures" ID="{f6dc9e5e-f4be-4b77-9dc7-af69b9f50d42}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[This performance counter is the number of attempted database connections that failed since the host instance started. If the SQL Server service hosting the BizTalk databases becomes unavailable for any reason, the database cluster transfers resources from the active computer to the passive computer. During this failover process, the BizTalk Server service instances experience database connection failures and automatically restart to reconnect to the databases. The functioning database computer (previously the passive computer) begins processing the database connections after assuming the resources during failover.<BR>
+<BR>
+DBNetLib (Database Network Library) errors occur when the BizTalk Server runtime is unable to communicate with either the MessageBox or Management databases. When this occurs, the BizTalk Server runtime instance that catches the exception shuts down and then cycles every minute to check to see if the database is available. See the references section for more information on this topic.<BR>
+<BR>
+When a client initiates a TCP/IP socket connection to a server, the client typically connects to a specific port on the server and requests that the server respond to the client over an ephemeral, or short lived, TCP or UDP port. On Windows Server 2003 and Windows XP the default range of ephemeral ports used by client applications is from 1025 through 5000. Under certain conditions it is possible that the available ports in the default range will be exhausted. See the references section for more information on this topic.<BR>
+<BR>
+This analysis checks for any occurrence of database connection failures. Database connection failures are critical because BizTalk cannot function without the database. If the cause of the database connection failure is unknown, then consider the topics listed above and/or contact Microsoft Support to determine the nature of the connectivity failure.<BR>
+<BR>
+<B>References:</B><BR>
+Scaled-Out Databases<BR>
+<A HREF="http://msdn2.microsoft.com/en-us/library/aa561513.aspx">http://msdn2.microsoft.com/en-us/library/aa561513.aspx</A><BR>
+Avoiding DBNETLIB Exceptions<BR>
+<A HREF="http://msdn2.microsoft.com/en-us/library/aa560429.aspx"></A>http://msdn2.microsoft.com/en-us/library/aa560429.aspx<BR>
+Avoiding TCP/IP Port Exhaustion<BR>
+<A HREF="http://msdn2.microsoft.com/en-us/library/aa560610.aspx">http://msdn2.microsoft.com/en-us/library/aa560610.aspx</A>]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\XLANG/s Orchestrations(*)\MessageBox databases connection failures" COLLECTIONVARNAME="CollectionOfXLANGsOrchestrationsMessageBoxdatabasesconnectionfailuresALL" EXPRESSIONPATH="\XLANG/s Orchestrations(*)\MessageBox databases connection failures" DATATYPE="Integer" />
+    <THRESHOLD NAME="BizTalk: MessageBox database connection failures are occuring" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfXLANGsOrchestrationsMessageBoxdatabasesconnectionfailuresALL -Operator 'gt' -Threshold 0
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\XLANG/s Orchestrations(*)\MessageBox databases connection failures" ISTHRESHOLDSADDED="True" DATASOURCE="\XLANG/s Orchestrations(*)\MessageBox databases connection failures" CHARTLABELS="instance">
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfXLANGsOrchestrationsMessageBoxdatabasesconnectionfailuresALL -MinThreshold 1 -MaxThreshold 1.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+  </ANALYSIS>
+  <ANALYSIS NAME="BizTalk Orchestrations Discarded" ENABLED="True" CATEGORY="XLANG/s Orchestrations" PRIMARYDATASOURCE="\XLANG/s Orchestrations(*)\Orchestrations discarded/sec" ID="{f59fd5f9-676f-4607-89c3-5303dcc90734}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Number of orchestration instances discarded from memory since the host instance started. An orchestration can be discarded if the engine fails to persist its state.<BR>
+<BR>
+This analysis checks for any discarded messages. See the references section for more information regarding discarded messages.<BR>
+<BR>
+<B>References:</B><BR>
+BizTalk Core Engine's WebLog<BR>
+<A HREF="http://blogs.msdn.com/biztalk_core_engine/archive/2004/06/30/169430.aspx">http://blogs.msdn.com/biztalk_core_engine/archive/2004/06/30/169430.aspx</A>]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\XLANG/s Orchestrations(*)\Orchestrations discarded/sec" COLLECTIONVARNAME="CollectionOfXLANGsOrchestrationsOrchestrationsdiscardedsecALL" EXPRESSIONPATH="\XLANG/s Orchestrations(*)\Orchestrations discarded/sec" DATATYPE="Integer" />
+    <THRESHOLD NAME="REPLACEME" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfXLANGsOrchestrationsOrchestrationsdiscardedsecALL -Operator 'gt' -Threshold 0
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\XLANG/s Orchestrations(*)\Orchestrations discarded/sec" ISTHRESHOLDSADDED="True" DATASOURCE="\XLANG/s Orchestrations(*)\Orchestrations discarded/sec" CHARTLABELS="instance">
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfXLANGsOrchestrationsOrchestrationsdiscardedsecALL -MinThreshold 1 -MaxThreshold 1.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+  </ANALYSIS>
+  <ANALYSIS NAME="BizTalk Orchestrations Resident in Memory" ENABLED="True" CATEGORY="XLANG/s Orchestrations" PRIMARYDATASOURCE="\XLANG/s Orchestrations(*)\Orchestrations resident in-memory" ID="{97197f18-6d0b-4ef4-a18a-2237f1c1e36c}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Number of orchestration instances currently hosted by the host instance.<BR>
+<BR>
+While spikes or bursts of orchestrations resident in memory may be considered normal an increasing trend could indicate a pile upÂ of orchestrations in memory. An increasing trend over time may occur when BizTalk is unable to dehydrate messages/orchestration instances, therefore try to correlate this counter with XLANG/s Orchestrations(?)\Dehydratable orchestrations where the question mark (?) is the same counter instance as this counter. If there is a high number of orchestrations resident in memory and if there is a low number of dehydratable orchestrations, then your orchestrations are likely Idle in memory and may cause a memory leak condition. Use this analysis in correlation with \XLANG/s Orchestrations(*)\Idle orchestrationsÂ if present. An increasing trend in BizTalk Idle Orchestrations is a better indicator of memory leaks due to the inability to dehydrate orchestration instances.<BR>
+<BR>
+This analysis checks for an increasing trend in orchestrations resident in memory and if more than 50% of the orchestrations resident in memory are not dehydratable.<BR>
+<BR>
+<B>References:</B><BR>
+Orchestration Engine Performance Counters<BR>
+<A HREF="http://msdn2.microsoft.com/en-us/library/aa561431.aspx">http://msdn2.microsoft.com/en-us/library/aa561431.aspx</A><BR>
+Orchestration Dehydration and Rehydration<BR>
+<A HREF="http://msdn2.microsoft.com/en-us/library/aa995563.aspx">http://msdn2.microsoft.com/en-us/library/aa995563.aspx</A>]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\XLANG/s Orchestrations(*)\Orchestrations resident in-memory" COLLECTIONVARNAME="CollectionOfXLANGsOrchestrationsOrchestrationsresidentinmemoryALL" EXPRESSIONPATH="\XLANG/s Orchestrations(*)\Orchestrations resident in-memory" DATATYPE="Integer" />
+    <DATASOURCE TYPE="CounterLog" NAME="\XLANG/s Orchestrations(*)\Dehydratable orchestrations" COLLECTIONVARNAME="CollectionOfXLANGsOrchestrationsDehydratableorchestrationsALL" EXPRESSIONPATH="\XLANG/s Orchestrations(*)\Dehydratable orchestrations" DATATYPE="integer" />
+    <DATASOURCE TYPE="Generated" NAME="\PAL Generated(*)\Percentage of Dehydratable Orchectrations in Memory" EXPRESSIONPATH="\PAL Generated(*)\Percentage of Dehydratable Orchectrations in Memory" COLLECTIONVARNAME="CollectionOfPalGeneratedPercentageOfDehydratableOrchectrationsInMemory" DATATYPE="Integer">
+      <CODE><![CDATA[
+          $CollectionOfPalGeneratedPercentageOfDehydratableOrchectrationsInMemory = @{}
+          For ($a=0;$a -lt $CollectionOfXLANGsOrchestrationsOrchestrationsresidentinmemoryALL.Count;$a++)
+          {
+            $m = 0
+            $sInstanceNameForXLANGsOrchestrationsOrchestrationsresidentinmemoryALLWithComputer = "$($CollectionOfXLANGsOrchestrationsOrchestrationsresidentinmemoryALL[$a].CounterComputer)" + '/' + "$($CollectionOfXLANGsOrchestrationsOrchestrationsresidentinmemoryALL[$a].CounterInstance)"
+            #// Match up the same instance.
+            For ($b=0;$b -lt $CollectionOfXLANGsOrchestrationsDehydratableorchestrationsALL.Count;$b++)
+            {
+              $sInstanceNameForXLANGsOrchestrationsDehydratableorchestrationsALLWithComputer = "$($CollectionOfXLANGsOrchestrationsDehydratableorchestrationsALL[$a].CounterComputer)" + '/' + "$($CollectionOfXLANGsOrchestrationsDehydratableorchestrationsALL[$a].CounterInstance)"
+              If ($sInstanceNameForXLANGsOrchestrationsOrchestrationsresidentinmemoryALLWithComputer -eq $sInstanceNameForXLANGsOrchestrationsDehydratableorchestrationsALLWithComputer)
+              {
+                $m = $b
+              }
+            }
+            $blValues = New-Object System.Collections.ArrayList
+            For ($v=0;$v -lt $CollectionOfXLANGsOrchestrationsOrchestrationsresidentinmemoryALL[$a].Value.Count;$v++)
+            {
+              If ((IsGreaterThanZero $CollectionOfXLANGsOrchestrationsOrchestrationsresidentinmemoryALL[$a].Value[$v]) -and (IsGreaterThanZero $CollectionOfXLANGsOrchestrationsDehydratableorchestrationsALL[$m].Value[$v]))
+              {
+                If (($CollectionOfXLANGsOrchestrationsOrchestrationsresidentinmemoryALL[$a].Value[$v] -gt 1) -and ($CollectionOfXLANGsOrchestrationsDehydratableorchestrationsALL[$m].Value[$v] -gt 1))
+                {
+                  [int]$iRatio = $([double]$CollectionOfXLANGsOrchestrationsDehydratableorchestrationsALL[$m].Value[$v] / [double]$CollectionOfXLANGsOrchestrationsOrchestrationsresidentinmemoryALL[$a].Value[$v]) * 100
+                }
+                Else
+                {
+                  $iRatio = 0
+                }
+                [void] $blValues.Add($iRatio)
+              }
+              Else
+              {
+                [void] $blValues.Add(0)
+              }
+            }
+            $sGeneratedInstanceName = "\\$($CollectionOfXLANGsOrchestrationsOrchestrationsresidentinmemoryALL[$a].CounterComputer)\PAL Generated($($sInstanceNameForXLANGsOrchestrationsOrchestrationsresidentinmemoryALLWithComputer))\Percentage of Dehydratable Orchectrations in Memory"
+            $CollectionOfPalGeneratedPercentageOfDehydratableOrchectrationsInMemory.Add($sGeneratedInstanceName,$blValues)
+          }
+        ]]></CODE>
+    </DATASOURCE>
+    <THRESHOLD NAME="More than 50 percent of orchestrations resident in-memory are not dehydratable" CONDITION="Warning" COLOR="Yellow" PRIORITY="50" ID="">
+      <CODE><![CDATA[        
+          For ($i=0;$i -lt $CollectionOfXLANGsOrchestrationsOrchestrationsresidentinmemoryALL.Count;$i++)
+          {
+            $CounterInstanceOfXLANGsOrchestrationsOrchestrationsresidentinmemoryALL = $CollectionOfXLANGsOrchestrationsOrchestrationsresidentinmemoryALL[$i]
+            $CounterInstanceOfXLANGsOrchestrationsDehydratableorchestrationsALL = $CollectionOfXLANGsOrchestrationsDehydratableorchestrationsALL[$i]
+            For ($t=0;$t -lt $alQuantizedTime.Count;$t++)
+            {
+              $IsMinThresholdBroken = $False
+              $IsAvgThresholdBroken = $False
+              $IsMaxThresholdBroken = $False
+              $IsTrendThresholdBroken = $False
+              $IsMinEvaluated = $False
+              $IsAvgEvaluated = $False
+              $IsMaxEvaluated = $False
+              $IsTrendEvaluated = $False
+            
+              If ((IsGreaterThanZero $CounterInstanceOfXLANGsOrchestrationsOrchestrationsresidentinmemoryALL.Avg) -and (IsGreaterThanZero $CounterInstanceOfXLANGsOrchestrationsDehydratableorchestrationsALL.Avg))
+              {
+                If (($CounterInstanceOfXLANGsOrchestrationsOrchestrationsresidentinmemoryALL.Avg -gt 10) -and ($CounterInstanceOfXLANGsOrchestrationsDehydratableorchestrationsALL.Avg -gt 10))
+                {
+                  $FiftyPercentOfOrcsResidentInMemory = $CounterInstanceOfXLANGsOrchestrationsOrchestrationsresidentinmemoryALL.Avg * 0.50
+                  If ($CounterInstanceOfXLANGsOrchestrationsDehydratableorchestrationsALL.Avg -lt $FiftyPercentOfOrcsResidentInMemory)
+                  {
+                    $IsAvgThresholdBroken = $True
+                    $IsAvgEvaulated = $True
+                  }
+                }
+              }
+              
+              If ((IsGreaterThanZero $CounterInstanceOfXLANGsOrchestrationsOrchestrationsresidentinmemoryALL.Max) -and (IsGreaterThanZero $CounterInstanceOfXLANGsOrchestrationsDehydratableorchestrationsALL.Max))
+              {
+                If (($CounterInstanceOfXLANGsOrchestrationsOrchestrationsresidentinmemoryALL.Max -gt 10) -and ($CounterInstanceOfXLANGsOrchestrationsDehydratableorchestrationsALL.Max -gt 10))
+                {
+                  $FiftyPercentOfOrcsResidentInMemory = $CounterInstanceOfXLANGsOrchestrationsOrchestrationsresidentinmemoryALL.Max * 0.50
+                  If ($CounterInstanceOfXLANGsOrchestrationsDehydratableorchestrationsALL.Max -lt $FiftyPercentOfOrcsResidentInMemory)
+                  {
+                    $IsMaxThresholdBroken = $True
+                    $IsMaxEvaulated = $True
+                  }
+                }
+              }              
+              
+              If (($IsMinThresholdBroken -eq $True) -or ($IsAvgThresholdBroken -eq $True) -or ($IsMaxThresholdBroken -eq $True) -or ($IsTrendThresholdBroken -eq $True))
+              {
+                  CreateAlert -TimeSliceIndex $t -CounterInstanceObject $CounterInstanceOfXLANGsOrchestrationsOrchestrationsresidentinmemoryALL -IsMinThresholdBroken $IsMinThresholdBroken -IsAvgThresholdBroken $IsAvgThresholdBroken -IsMaxThresholdBroken $IsMaxThresholdBroken -IsTrendThresholdBroken $IsTrendThresholdBroken -IsMinEvaluated $IsMinEvaulated -IsAvgEvaluated $IsAvgEvaulated -IsMaxEvaluated $IsMaxEvaulated -IsTrendEvaluated $IsTrendEvaulated
+              }
+            }
+          }
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\XLANG/s Orchestrations(*)\Orchestrations resident in-memory" ISTHRESHOLDSADDED="False" DATASOURCE="\XLANG/s Orchestrations(*)\Orchestrations resident in-memory" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="BizTalk Orchestration Suspended/second" ENABLED="True" CATEGORY="XLANG/s Orchestrations" PRIMARYDATASOURCE="\XLANG/s Orchestrations(*)\Orchestrations suspended/sec" ID="{ca78fbf9-8608-4900-bc55-33e90dd16636}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[A suspended message is an instance of a message or orchestration that BizTalk Server has stopped processing, due to an error in the system or the message. Generally, suspended instances caused by system errors are resumable upon resolution of the system issue. Often, suspended instances due to a message problem are not resumable, and the message itself must be fixed and resubmitted to the BizTalk Server system.<BR>
+<BR>
+This analysis checks for any suspended messages/orchestrations.<BR>
+<BR>
+<B>References:</B><BR>
+BizTalk Server 2004: Monitoring and Troubleshooting<BR>
+<A HREF="http://msdn2.microsoft.com/en-us/library/ms942197.aspx">http://msdn2.microsoft.com/en-us/library/ms942197.aspx</A>]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\XLANG/s Orchestrations(*)\Orchestrations suspended/sec" COLLECTIONVARNAME="CollectionOfXLANGsOrchestrationsOrchestrationssuspendedsecALL" EXPRESSIONPATH="\XLANG/s Orchestrations(*)\Orchestrations suspended/sec" DATATYPE="Integer" />
+    <THRESHOLD NAME="BizTalk: Suspended orchestrations detected" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfXLANGsOrchestrationsOrchestrationssuspendedsecALL -Operator 'gt' -Threshold 0
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\XLANG/s Orchestrations(*)\Orchestrations suspended/sec" ISTHRESHOLDSADDED="True" DATASOURCE="\XLANG/s Orchestrations(*)\Orchestrations suspended/sec" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfXLANGsOrchestrationsOrchestrationssuspendedsecALL -MinThreshold 1 -MaxThreshold 9.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+  </ANALYSIS>
+  <ANALYSIS NAME="BizTalk Pending Messages" ENABLED="True" CATEGORY="XLANG/s Orchestrations" PRIMARYDATASOURCE="\XLANG/s Orchestrations(*)\Pending messages" ID="{70ef4422-5ea2-4b88-b4cd-c0bda10bc20c}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[This is the number of received messages for which receipt has not yet been acknowledged to the message box. Pending Messages are messages which have been pulled into memory and delivered to the XLANG orchestration that have not yet been processed. This has nothing to do with data loss.  Delivering a message to an orchestration is a multi-step process and is simply an instance of the message residing in the spool table in the database. These pending messages count as In-Process messages, therefore having a large number of them in memory could cause memory throttling on the system. Adjusting the Internal Message Queue Size setting would help with controlling the number of pending messages while In-Process Messages Per CPU setting has an impact on when throttling will invoke when a high number of pending messages occurs. These setting are found in the Host properties in the BizTalk Administration Console.<BR>
+<BR>
+This analysis checks only shows statistics for this counter.<BR>
+<BR>
+<B>References:</B><BR>
+Orchestration Engine Performance Counters<BR>
+<A HREF="http://msdn2.microsoft.com/en-us/library/aa561431.aspx">http://msdn2.microsoft.com/en-us/library/aa561431.aspx</A>]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\XLANG/s Orchestrations(*)\Pending messages" COLLECTIONVARNAME="CollectionOfXLANGsOrchestrationsPendingmessagesALL" EXPRESSIONPATH="\XLANG/s Orchestrations(*)\Pending messages" DATATYPE="Integer" />
+    <THRESHOLD NAME="BizTalk: Pending messages detected" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfXLANGsOrchestrationsPendingmessagesALL -Operator 'gt' -Threshold 0
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\XLANG/s Orchestrations(*)\Pending messages" ISTHRESHOLDSADDED="True" DATASOURCE="\XLANG/s Orchestrations(*)\Pending messages" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfXLANGsOrchestrationsPendingmessagesALL -MinThreshold 1 -MaxThreshold 9.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+  </ANALYSIS>
+  <ANALYSIS NAME="BizTalk Persistence Points/second" ENABLED="True" CATEGORY="XLANG/s Orchestrations" PRIMARYDATASOURCE="\XLANG/s Orchestrations(*)\Persistence points/sec" ID="{a73409ec-196b-46dc-80e3-f988bcca4578}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Average number of orchestration instances persisted per second.<BR>
+<BR>
+The orchestration engine saves the state of a running orchestration instance at various points. If it needs to rehydrate the orchestration instance, start up from a controlled shutdown, or recover from an unexpected shutdown, it will run the orchestration instance from the last persistence point, as though nothing else had occurred. In order to persist an orchestration instance, all object instances that your orchestration refers to directly or indirectly (as through other objects) must be serializable for your orchestration state to be persisted. As message-persistence frequency (the number of times that data needs to be persisted) increases, overall performance decreases. In effect, each persistence point is a round trip to the database, so whenever possible reduce the frequency of persistence points by avoiding or consolidating persistence points when possible. See the references below for more information regarding when persistence points occur.<BR>
+<BR>
+This analysis checks for more than 10 persistence points per second on average. This is a general starting point.<BR>
+<BR>
+<B>References:</B><BR>
+Persistence in Orchestrations<BR>
+<A HREF="http://msdn2.microsoft.com/en-us/library/aa559440.aspx">http://msdn2.microsoft.com/en-us/library/aa559440.aspx</A><BR>
+Persistence and the Orchestration Engine<BR>
+<A HREF="http://msdn2.microsoft.com/en-us/library/aa547090.aspx">http://msdn2.microsoft.com/en-us/library/aa547090.aspx</A>]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\XLANG/s Orchestrations(*)\Persistence points/sec" COLLECTIONVARNAME="CollectionOfXLANGsOrchestrationsPersistencepointssecALL" EXPRESSIONPATH="\XLANG/s Orchestrations(*)\Persistence points/sec" DATATYPE="Integer" />
+    <THRESHOLD NAME="More than 10 persistence points processed per second" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfXLANGsOrchestrationsPersistencepointssecALL -Operator 'gt' -Threshold 10
+         ]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="More than 100 persistence points processed per second" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfXLANGsOrchestrationsPersistencepointssecALL -Operator 'gt' -Threshold 100
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\XLANG/s Orchestrations(*)\Persistence points/sec" ISTHRESHOLDSADDED="True" DATASOURCE="\XLANG/s Orchestrations(*)\Persistence points/sec" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfXLANGsOrchestrationsPersistencepointssecALL -MinThreshold 10 -MaxThreshold 100 -UseMaxValue $False
+        ]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfXLANGsOrchestrationsPersistencepointssecALL -MinThreshold 100 -MaxThreshold 109.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+  </ANALYSIS>
+  <ANALYSIS NAME="BizTalk Transactional Scopes Aborted" ENABLED="True" CATEGORY="XLANG/s Orchestrations" PRIMARYDATASOURCE="\XLANG/s Orchestrations(*)\Transactional scopes aborted/sec" ID="{d1a311eb-e3b2-49d8-af5a-c79c7d5018f5}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[This is the number of long-running or atomic scopes that have been aborted since the host instance started. A transactional scope abort is a failure that occurs in a transaction scope within an orchestration. It is important to understand that the compensation handler of a scope is invoked only if the scope completed successfully, but then is required to be undone because a surrounding scope has decided to abort (due to failures that may occur later in the process). Also, there is no "auto" rollback of state in case of a transaction abort. You can achieve this programmatically through the exception and compensation handlers.<BR>
+<BR>
+Transactional scope aborts should not normally occur in a production environment, therefore this analysis checks for the occurrence of any transactional scopes aborted.<BR>
+<BR>
+<B>References:</B><BR>
+Transactions Across BizTalk Server 2004<BR>
+<A HREF="http://msdn2.microsoft.com/en-us/library/ms942198.aspx">http://msdn2.microsoft.com/en-us/library/ms942198.aspx</A>]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\XLANG/s Orchestrations(*)\Transactional scopes aborted/sec" COLLECTIONVARNAME="CollectionOfXLANGsOrchestrationsTransactionalscopesabortedsecALL" EXPRESSIONPATH="\XLANG/s Orchestrations(*)\Transactional scopes aborted/sec" DATATYPE="Integer" />
+    <THRESHOLD NAME="BizTalk: aborted transactional scopes detected" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfXLANGsOrchestrationsTransactionalscopesabortedsecALL -Operator 'gt' -Threshold 0
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\XLANG/s Orchestrations(*)\Transactional scopes aborted/sec" ISTHRESHOLDSADDED="True" DATASOURCE="\XLANG/s Orchestrations(*)\Transactional scopes aborted/sec" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfXLANGsOrchestrationsTransactionalscopesabortedsecALL -MinThreshold 1 -MaxThreshold 1.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+  </ANALYSIS>
+  <ANALYSIS NAME="BizTalk Transactional Scopes Compensated" ENABLED="True" CATEGORY="XLANG/s Orchestrations" PRIMARYDATASOURCE="\XLANG/s Orchestrations(*)\Transactional scopes compensated/sec" ID="{f41818a8-9517-47bc-b111-030882cac3ec}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[Compensation can be thought of as a process to do a logical undo of the work that has been successfully committed in response to some error condition. It is important to understand that the compensation handler of a scope is invoked only if the scope completed successfully, but then is required to be undone because a surrounding scope has decided to abort (due to failures that may occur later in the process). Also, there is no "auto" rollback of state in case of a transaction abort. You can achieve this programmatically through the exception and compensation handlers.<BR>
+<BR>
+Transactional scope compensations should not normally occur in a production environment, therefore this analysis checks for the occurrence of any transactional scopes aborted.<BR>
+<BR>
+<B>References:</B><BR>
+Transactions Across BizTalk Server 2004<BR>
+<A HREF="http://msdn2.microsoft.com/en-us/library/ms942198.aspx">http://msdn2.microsoft.com/en-us/library/ms942198.aspx</A>]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\XLANG/s Orchestrations(*)\Transactional scopes compensated/sec" COLLECTIONVARNAME="CollectionOfXLANGsOrchestrationsTransactionalscopescompensatedsecALL" EXPRESSIONPATH="\XLANG/s Orchestrations(*)\Transactional scopes compensated/sec" DATATYPE="Integer" />
+    <THRESHOLD NAME="BizTalk: compensated transactional scopes detected" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $CollectionOfXLANGsOrchestrationsTransactionalscopescompensatedsecALL -Operator 'gt' -Threshold 0
+         ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\XLANG/s Orchestrations(*)\Transactional scopes compensated/sec" ISTHRESHOLDSADDED="True" DATASOURCE="\XLANG/s Orchestrations(*)\Transactional scopes compensated/sec" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $CollectionOfXLANGsOrchestrationsTransactionalscopescompensatedsecALL -MinThreshold 1 -MaxThreshold 1.999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+  </ANALYSIS>
+  <ANALYSIS NAME="BizTalk Orchestrations Completed/second" ENABLED="True" CATEGORY="XLANG/s Orchestrations" PRIMARYDATASOURCE="\XLANG/s Orchestrations(*)\Orchestrations completed/sec" ID="{f4c4023f-da64-4d24-b910-cc1acd4aa563}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[This is the number of BizTalk orchestrations that have completed per second. This is a good indicator as to how much throughput BizTalk is processing.<BR>
+<BR>
+This analysis provides statistics only.<BR>
+<BR>
+<B>References:</B><BR>
+BizTalk Server 2006: Scalability Case Study Using the SOAP Adapter in BizTalk Server 2006<BR>
+<A HREF="http://msdn2.microsoft.com/en-us/library/aa972198.aspx">http://msdn2.microsoft.com/en-us/library/aa972198.aspx</A>]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\XLANG/s Orchestrations(*)\Orchestrations completed/sec" COLLECTIONVARNAME="XLANGsOrchestrationsOrchestrationscompletedsecALL" EXPRESSIONPATH="\XLANG/s Orchestrations(*)\Orchestrations completed/sec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\XLANG/s Orchestrations(*)\Orchestrations completed/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\XLANG/s Orchestrations(*)\Orchestrations completed/sec" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <ANALYSIS NAME="BizTalk:Messaging ID Process" ENABLED="True" CATEGORY="BizTalk:Messaging" PRIMARYDATASOURCE="\BizTalk:Messaging(*)\ID Process" ID="{535dd938-15c9-424c-a07a-2e5201618171}" FROMALLCOUNTERSTATS="False">
+    <DESCRIPTION><![CDATA[The process identifier for this host instance]]></DESCRIPTION>
+    <DATASOURCE TYPE="CounterLog" NAME="\BizTalk:Messaging(*)\ID Process" COLLECTIONVARNAME="BizTalkMessagingIDProcessALL" EXPRESSIONPATH="\BizTalk:Messaging(*)\ID Process" DATATYPE="integer" />
+    <CHART CHARTTITLE="\BizTalk:Messaging(*)\ID Process" ISTHRESHOLDSADDED="False" DATASOURCE="\BizTalk:Messaging(*)\ID Process" CHARTLABELS="instance" />
+  </ANALYSIS>
+  <INHERITANCE FILEPATH="IIS.xml" />
+  <INHERITANCE FILEPATH="DotNet.xml" />
+  <INHERITANCE FILEPATH="SQLServer.xml" />
+  <INHERITANCE FILEPATH="SystemOverview.xml" />
+</PAL>
