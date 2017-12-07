@@ -1,7 +1,26 @@
 ﻿#requires -Version 2.0
-param($Log='SamplePerfmonLog.blg',$ThresholdFile="QuickSystemOverview.xml",$AnalysisInterval='AUTO',$IsOutputHtml=$True,$IsOutputXml=$False,$HtmlOutputFileName="[LogFileName]_PAL_[DateTimeStamp].htm",$XmlOutputFileName="[LogFileName]_PAL_[DateTimeStamp].xml",$OutputDir="[My Documents]\PAL Reports",$AllCounterStats=$False,$BeginTime=$null,$EndTime=$null,[System.Int32] $NumberOfThreads=1,$IsLowPriority=$False,$DisplayReport=$True)
+param(
+	$Log='SamplePerfmonLog.blg',
+	$ThresholdFile="QuickSystemOverview.xml",
+	$AnalysisInterval='AUTO',
+	$IsOutputHtml=$True,
+	$IsOutputXml=$False,
+	$HtmlOutputFileName="[LogFileName]_PAL_[DateTimeStamp].htm",
+	$XmlOutputFileName="[LogFileName]_PAL_[DateTimeStamp].xml",
+	$OutputDir="[My Documents]\PAL Reports",
+	$AllCounterStats=$False,
+	$BeginTime=$null,
+	$EndTime=$null,
+	[System.Int32] $NumberOfThreads=1,
+	$IsLowPriority=$False,
+	$DisplayReport=$True,
+	$ClearLog=$True
+)
 Set-StrictMode -Version 2
-cls
+if($ClearLog){
+	cls
+	$Error.Clear()
+}
 #//
 #// PAL v2.7
 #// Written by Clint Huffman (clinth@microsoft.com)
@@ -12,8 +31,7 @@ cls
 #// Global changable variables
 #///////////////////////////////
 
-$Error.Clear()
-$Version = '2.7.5'
+$Version = '2.7.7'
 $AutoAnalysisIntervalNumberOfTimeSlices = 30
 
 #// Chart Settings
@@ -507,14 +525,9 @@ Function ProcessArgs
 Function StartDebugLogFile
 {
     param($sDirectoryPath, $iAttempt)
-	If ($iAttempt -eq 0) 
-	{
-        $sFilePath = $sDirectoryPath + "\PAL.log"
-    }
-	Else
-	{
-        $sFilePath = $sDirectoryPath + "\PAL" + $iAttempt + ".log"
-    }
+	
+	$timestamp = $((Get-Date).ToFileTimeUtc())
+    $sFilePath = $sDirectoryPath + "\PAL-$timestamp-$iAttempt.log"
 	$erroractionpreference = "SilentlyContinue"
     
 	Trap
@@ -893,9 +906,13 @@ Function InheritFromThresholdFiles
     #// Inherit from other threshold files.
     ForEach ($XmlInheritance in $XmlThresholdFile.SelectNodes('//INHERITANCE'))
     {
-        If ($(Test-FileExists $XmlInheritance.FilePath) -eq $True)
+		$inheritedXml = $($XmlInheritance.FilePath)
+		if(-not ([string]::IsNullOrWhiteSpace($inheritedXml))){
+			$inheritedXml =  Resolve-Path "$PSScriptRoot\$inheritedXml"
+		}
+        If ($(Test-FileExists $inheritedXml) -eq $True)
         {
-            $XmlInherited = [xml] (Get-Content $XmlInheritance.FilePath)
+            $XmlInherited = [xml] (Get-Content $inheritedXml)
             ForEach ($XmlInheritedAnalysisNode in $XmlInherited.selectNodes('//ANALYSIS'))
             {
                 $bFound = $False            
@@ -938,11 +955,14 @@ Function InheritFromThresholdFiles
                 }
             }
             
-    		If ($global:oXml.ThresholdFilePathLoadHistory.Contains($XmlInheritance.FilePath) -eq $False)
+    		If ($global:oXml.ThresholdFilePathLoadHistory.Contains($inheritedXml) -eq $False)
     		{
-    			InheritFromThresholdFiles $XmlInheritance.FilePath
+    			InheritFromThresholdFiles $inheritedXml
     		}
         }
+		elseif(-not [string]::IsNullOrWhiteSpace($inheritedXml)){
+			Write-Warning "Unable to locate inherited file $inheritedXml..."
+		}
     }
 }
 
@@ -1374,16 +1394,13 @@ Function PrepareCounterLogs
     }
     Write-Host ''
 
-    ConstructCounterDataArray
-    GetCounterList
-
     If ($global:oPal.ArgsProcessed.AllCounterStats -eq $True)
     {
         $global:oXml.XmlAnalyses = AddAllCountersFromPerfmonLog -XmlAnalysis $global:oXml.XmlAnalyses -sPerfLogFilePath $global:sFirstCounterLogFilePath
     }
 
-    #ConstructCounterDataArray
-    #GetCounterList
+    ConstructCounterDataArray
+    GetCounterList
 
     #// Sort the counter list
     $c = $global:oPal.LogCounterList.GetEnumerator() | Sort-Object
@@ -2233,7 +2250,7 @@ Function LoadCounterDataIntoXml
         $oBatch = $BatchesOfThreadJobs[$t]
         $sText = "Number of jobs passed into Thread($t): $(@($oBatch).Count)"
         Write-Host `t$sText
-        $oJobReturn = Start-Job -FilePath .\PalGenerateMultiCounterStats.ps1 -ArgumentList $oBatch, $global:oPal.QuantizedIndex, $global:oPal.ArgsProcessed.AnalysisInterval, $global:oPal.ArgsProcessed.IsLowPriority, $t
+        $oJobReturn = Start-Job -FilePath "$PSScriptRoot\PalGenerateMultiCounterStats.ps1" -ArgumentList $oBatch, $global:oPal.QuantizedIndex, $global:oPal.ArgsProcessed.AnalysisInterval, $global:oPal.ArgsProcessed.IsLowPriority, $t
     }
 
     $iTesting = 0
@@ -2554,7 +2571,7 @@ Function GenerateDataSourceData
    {                    
 		$aValue = $global:htVariables[$XmlGeneratedDataSource.COLLECTIONVARNAME][$sKey]
 
-        $oStats = .\PalGenerateCounterStats.ps1 $aValue $global:oPal.QuantizedIndex $($XmlGeneratedDataSource.DATATYPE) $global:oPal.ArgsProcessed.AnalysisInterval $global:oPal.ArgsProcessed.IsLowPriority
+        $oStats = & "$PSScriptRoot\PalGenerateCounterStats.ps1" $aValue $global:oPal.QuantizedIndex $($XmlGeneratedDataSource.DATATYPE) $global:oPal.ArgsProcessed.AnalysisInterval $global:oPal.ArgsProcessed.IsLowPriority
 
         $oCtr = CounterPathToObject -sCounterPath $sKey
         AddToCounterInstanceStatsArrayList $sKey $oPal.aTime $aValue $oPal.QuantizedTime $oStats.QuantizedMinValues $oStats.QuantizedAvgValues $oStats.QuantizedMaxValues $oStats.QuantizedTrendValues $oCtr.Computer $oCtr.Object $oCtr.Name $oCtr.Instance $oStats.Min $oStats.Avg $oStats.Max $oStats.Trend $oStats.StdDev $oStats.PercentileSeventyth $oStats.PercentileEightyth $oStats.PercentileNinetyth    
