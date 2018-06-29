@@ -14,22 +14,9 @@
 [forks]:https://github.com/clinthuffman/PAL/network
 [issues]:https://github.com/clinthuffman/PAL/issues
 
-
-If you wish to install the PAL tool, then download `PAL_Setup_2.7.7_x64.zip`. It contains the Microsoft installer files.
-If you just want to run it without installation, then download `PAL_FlatFiles_2.7.7_x64.zip`.
-
-To download the latest PAL tool, click the respective PAL*.zip file, and then click View Raw to begin the download.
-Go to Properties of the zip file, click Unblock, and then click OK.
-Extract the zip file.
-Run PALWizard.exe to use the PAL Wizard tool. Otherwise, use PAL.ps1 directly.
-
-All other folders contain source code.
-
-
 ## Project Description
 Ever have a performance problem, but don't know what performance counters to collect or how to analyze them?
 The PAL (Performance Analysis of Logs) tool is a powerful tool that reads in a performance monitor counter log and analyzes it using known thresholds.
-
 
 ## Features
  - Thresholds files for most of the major Microsoft products such as IIS, MOSS, SQL Server, BizTalk, Exchange, and Active Directory.
@@ -37,3 +24,15 @@ The PAL (Performance Analysis of Logs) tool is a powerful tool that reads in a p
  - A GUI editor for creating or editing your own threshold files.
  - Creates an HTML based report for ease of copy/pasting into other applications.
  - Analyzes performance counter logs for thresholds using thresholds that change their criteria based on the computer's role or hardware specs.
+
+## How to download
+If you wish to install the PAL tool, then download `PAL_Setup`. It contains the Microsoft installer files.
+If you just want to run it without installation, then download `PAL_FlatFile`.
+
+Both files can be downloaded from the [releases section](https://github.com/clinthuffman/PAL/releases)
+
+## How to use
+Run PALWizard.exe to use the PAL Wizard tool. Otherwise, use PAL.ps1 directly.
+
+## Feedback
+Your feedback is welcome via the [issues section](https://github.com/clinthuffman/PAL/issues)
