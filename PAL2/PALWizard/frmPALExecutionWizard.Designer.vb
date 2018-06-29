@@ -23,131 +23,131 @@ Partial Class frmPALExecutionWizard
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmPALExecutionWizard))
-        Me.TabControl = New System.Windows.Forms.TabControl
-        Me.TabPageWelcome = New System.Windows.Forms.TabPage
-        Me.LinkLabelSupport = New System.Windows.Forms.LinkLabel
-        Me.LinkLabelAboutTheAuthorClintH = New System.Windows.Forms.LinkLabel
-        Me.LinkLabelEmailClint = New System.Windows.Forms.LinkLabel
-        Me.lblAboutTheAuthor = New System.Windows.Forms.Label
-        Me.LinkLabelClinthBlog = New System.Windows.Forms.LinkLabel
-        Me.PictureBox1 = New System.Windows.Forms.PictureBox
-        Me.lblv2 = New System.Windows.Forms.Label
-        Me.LinkLabelLicense = New System.Windows.Forms.LinkLabel
-        Me.LinkLabelURL = New System.Windows.Forms.LinkLabel
-        Me.lblQuestionsOrProblems = New System.Windows.Forms.Label
-        Me.lblPAL = New System.Windows.Forms.Label
-        Me.btnNextOnPageWelcome = New System.Windows.Forms.Button
-        Me.lblWelcome = New System.Windows.Forms.Label
-        Me.TabPageCounterLog = New System.Windows.Forms.TabPage
-        Me.GroupBoxBeginTimeEndTime = New System.Windows.Forms.GroupBox
-        Me.lblDateTimeRangeNote = New System.Windows.Forms.Label
-        Me.lblEndTime = New System.Windows.Forms.Label
-        Me.lblBeginTime = New System.Windows.Forms.Label
-        Me.DateTimePickerEndTime = New System.Windows.Forms.DateTimePicker
-        Me.DateTimePickerBeginTime = New System.Windows.Forms.DateTimePicker
-        Me.CheckBoxRestrictToADateTimeRange = New System.Windows.Forms.CheckBox
-        Me.ComboBoxRunLogFile = New System.Windows.Forms.ComboBox
-        Me.lblStep1 = New System.Windows.Forms.Label
-        Me.lblRunLogPath = New System.Windows.Forms.Label
-        Me.btnPreviousOnPageCounterLog = New System.Windows.Forms.Button
-        Me.btnFileBrowse = New System.Windows.Forms.Button
-        Me.btnNextOnPageCounterLog = New System.Windows.Forms.Button
-        Me.TabPageThresholdFile = New System.Windows.Forms.TabPage
-        Me.Label6 = New System.Windows.Forms.Label
-        Me.ListBoxOfThresholdFileInheritanceRecursion = New System.Windows.Forms.ListBox
-        Me.lblThresholdFileInheritanceNote = New System.Windows.Forms.Label
-        Me.btnListBoxOfThresholdFileInheritanceDown = New System.Windows.Forms.Button
-        Me.btnListBoxOfThresholdFileInheritanceUp = New System.Windows.Forms.Button
-        Me.btnThresholdFileInheritanceRemove = New System.Windows.Forms.Button
-        Me.btnThresholdFileInheritanceAdd = New System.Windows.Forms.Button
-        Me.lblThresholdFileInheritance = New System.Windows.Forms.Label
-        Me.ListBoxOfThresholdFileInheritance = New System.Windows.Forms.ListBox
-        Me.lblStep3 = New System.Windows.Forms.Label
-        Me.lblThresholdFileContentOwners = New System.Windows.Forms.Label
-        Me.txtThresholdFileContentOwners = New System.Windows.Forms.TextBox
-        Me.btnPreviousOnPageThresholdFile = New System.Windows.Forms.Button
-        Me.btnExportThresholdFileToPerfmonTemplate = New System.Windows.Forms.Button
-        Me.btnNextOnPageThresholdFile = New System.Windows.Forms.Button
-        Me.Label2 = New System.Windows.Forms.Label
-        Me.ComboBoxAnalysisCollection = New System.Windows.Forms.ComboBox
-        Me.txtAnalysisCollectionDescription = New System.Windows.Forms.TextBox
-        Me.lblThresholdFileName = New System.Windows.Forms.Label
-        Me.btnEditThresholdFile = New System.Windows.Forms.Button
-        Me.lblAnalysisCollectionName = New System.Windows.Forms.Label
-        Me.txtThresholdFileName = New System.Windows.Forms.TextBox
-        Me.TabPageQuestions = New System.Windows.Forms.TabPage
-        Me.txtQuestionAnswerResults = New System.Windows.Forms.TextBox
-        Me.Label5 = New System.Windows.Forms.Label
-        Me.btnPreviousOnPageQuestions = New System.Windows.Forms.Button
-        Me.btnNextOnPageQuestions = New System.Windows.Forms.Button
-        Me.GroupBoxQuestionVariableNames = New System.Windows.Forms.GroupBox
-        Me.ListBoxQuestions = New System.Windows.Forms.ListBox
-        Me.Label1 = New System.Windows.Forms.Label
-        Me.txtQuestion = New System.Windows.Forms.TextBox
-        Me.Label3 = New System.Windows.Forms.Label
-        Me.ComboBoxQuestionAnswer = New System.Windows.Forms.ComboBox
-        Me.txtQuestionAnswer = New System.Windows.Forms.TextBox
-        Me.Label4 = New System.Windows.Forms.Label
-        Me.TabPageAnalysisInterval = New System.Windows.Forms.TabPage
-        Me.GroupBoxAllCounterStats = New System.Windows.Forms.GroupBox
-        Me.lblAllCounterStats = New System.Windows.Forms.Label
-        Me.CheckBoxAllCounterstats = New System.Windows.Forms.CheckBox
-        Me.GroupBoxAnalysisInterval = New System.Windows.Forms.GroupBox
-        Me.lblStep2 = New System.Windows.Forms.Label
-        Me.lblSecs = New System.Windows.Forms.Label
-        Me.ComboBoxInterval = New System.Windows.Forms.ComboBox
-        Me.lblRunInterval = New System.Windows.Forms.Label
-        Me.btnPreviousOnPageAnalysisInterval = New System.Windows.Forms.Button
-        Me.btnNextOnPageAnalysisInterval = New System.Windows.Forms.Button
-        Me.TabPageOutputOptions = New System.Windows.Forms.TabPage
-        Me.GroupBoxXMLOutput = New System.Windows.Forms.GroupBox
-        Me.txtFullXMLOutputFileName = New System.Windows.Forms.TextBox
-        Me.lblFullXMLOutputPathLabel = New System.Windows.Forms.Label
-        Me.lblXMLFileNameLabel = New System.Windows.Forms.Label
-        Me.txtXMLOutputFileName = New System.Windows.Forms.TextBox
-        Me.CheckBoxXMLOutput = New System.Windows.Forms.CheckBox
-        Me.txtOutputDirectoryPath = New System.Windows.Forms.TextBox
-        Me.btnOutputDirectoryBrowse = New System.Windows.Forms.Button
-        Me.GroupBoxHTMLOutput = New System.Windows.Forms.GroupBox
-        Me.txtFullHTMLOutputFileName = New System.Windows.Forms.TextBox
-        Me.lblFullHTMLOutputDirectoryLabel = New System.Windows.Forms.Label
-        Me.lblHTMLReportFileName = New System.Windows.Forms.Label
-        Me.txtHTMLOutputFileName = New System.Windows.Forms.TextBox
-        Me.CheckBoxHTMLOutput = New System.Windows.Forms.CheckBox
-        Me.lblOutputDirectory = New System.Windows.Forms.Label
-        Me.lblOutputDirectoryDescription = New System.Windows.Forms.Label
-        Me.btnPreviousOnPageOutputOptions = New System.Windows.Forms.Button
-        Me.btnNextOnPageOutputOptions = New System.Windows.Forms.Button
-        Me.TabPageQueue = New System.Windows.Forms.TabPage
-        Me.btnRemoveLastFromQueue = New System.Windows.Forms.Button
-        Me.GroupBoxQueue = New System.Windows.Forms.GroupBox
-        Me.txtBatchText = New System.Windows.Forms.TextBox
-        Me.btnPreviousOnPageQueue = New System.Windows.Forms.Button
-        Me.lblStep5 = New System.Windows.Forms.Label
-        Me.btnNextOnPageQueue = New System.Windows.Forms.Button
-        Me.TabPageExecute = New System.Windows.Forms.TabPage
-        Me.GroupBoxNumberOfThreads = New System.Windows.Forms.GroupBox
-        Me.lblNumberOfThreads = New System.Windows.Forms.Label
-        Me.CheckBoxRunAsLowPriority = New System.Windows.Forms.CheckBox
-        Me.lblThreadingHelp = New System.Windows.Forms.Label
-        Me.TextBoxExecNumberOfThreads = New System.Windows.Forms.TextBox
-        Me.RadExecuteQueue = New System.Windows.Forms.RadioButton
-        Me.RadExecuteAndRunWizardAgain = New System.Windows.Forms.RadioButton
-        Me.RadAddMoreToQueue = New System.Windows.Forms.RadioButton
-        Me.lblExecute = New System.Windows.Forms.Label
-        Me.btnPreviousOnPageExecute = New System.Windows.Forms.Button
-        Me.btnNextOnPageExecute = New System.Windows.Forms.Button
-        Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog
-        Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog
-        Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog
-        Me.ListBoxTemp = New System.Windows.Forms.ListBox
-        Me.lblQuestion = New System.Windows.Forms.Label
-        Me.txtQuestionDELETE = New System.Windows.Forms.TextBox
-        Me.lblQuestionAnswerValueString = New System.Windows.Forms.Label
-        Me.ComboBoxQuestionAnswerDELETE = New System.Windows.Forms.ComboBox
-        Me.txtQuestionAnswerDELETE = New System.Windows.Forms.TextBox
-        Me.lblQuestionAnswerValueBoolean = New System.Windows.Forms.Label
-        Me.btnAutoDetectThresholdFile = New System.Windows.Forms.Button
+        Me.TabControl = New System.Windows.Forms.TabControl()
+        Me.TabPageWelcome = New System.Windows.Forms.TabPage()
+        Me.LinkLabelSupport = New System.Windows.Forms.LinkLabel()
+        Me.LinkLabelAboutTheAuthorClintH = New System.Windows.Forms.LinkLabel()
+        Me.LinkLabelEmailClint = New System.Windows.Forms.LinkLabel()
+        Me.lblAboutTheAuthor = New System.Windows.Forms.Label()
+        Me.LinkLabelClinthBlog = New System.Windows.Forms.LinkLabel()
+        Me.PictureBox1 = New System.Windows.Forms.PictureBox()
+        Me.lblv2 = New System.Windows.Forms.Label()
+        Me.LinkLabelLicense = New System.Windows.Forms.LinkLabel()
+        Me.LinkLabelURL = New System.Windows.Forms.LinkLabel()
+        Me.lblQuestionsOrProblems = New System.Windows.Forms.Label()
+        Me.lblPAL = New System.Windows.Forms.Label()
+        Me.btnNextOnPageWelcome = New System.Windows.Forms.Button()
+        Me.lblWelcome = New System.Windows.Forms.Label()
+        Me.TabPageCounterLog = New System.Windows.Forms.TabPage()
+        Me.GroupBoxBeginTimeEndTime = New System.Windows.Forms.GroupBox()
+        Me.lblDateTimeRangeNote = New System.Windows.Forms.Label()
+        Me.lblEndTime = New System.Windows.Forms.Label()
+        Me.lblBeginTime = New System.Windows.Forms.Label()
+        Me.DateTimePickerEndTime = New System.Windows.Forms.DateTimePicker()
+        Me.DateTimePickerBeginTime = New System.Windows.Forms.DateTimePicker()
+        Me.CheckBoxRestrictToADateTimeRange = New System.Windows.Forms.CheckBox()
+        Me.ComboBoxRunLogFile = New System.Windows.Forms.ComboBox()
+        Me.lblStep1 = New System.Windows.Forms.Label()
+        Me.lblRunLogPath = New System.Windows.Forms.Label()
+        Me.btnPreviousOnPageCounterLog = New System.Windows.Forms.Button()
+        Me.btnFileBrowse = New System.Windows.Forms.Button()
+        Me.btnNextOnPageCounterLog = New System.Windows.Forms.Button()
+        Me.TabPageThresholdFile = New System.Windows.Forms.TabPage()
+        Me.btnAutoDetectThresholdFile = New System.Windows.Forms.Button()
+        Me.Label6 = New System.Windows.Forms.Label()
+        Me.ListBoxOfThresholdFileInheritanceRecursion = New System.Windows.Forms.ListBox()
+        Me.lblThresholdFileInheritanceNote = New System.Windows.Forms.Label()
+        Me.btnListBoxOfThresholdFileInheritanceDown = New System.Windows.Forms.Button()
+        Me.btnListBoxOfThresholdFileInheritanceUp = New System.Windows.Forms.Button()
+        Me.btnThresholdFileInheritanceRemove = New System.Windows.Forms.Button()
+        Me.btnThresholdFileInheritanceAdd = New System.Windows.Forms.Button()
+        Me.lblThresholdFileInheritance = New System.Windows.Forms.Label()
+        Me.ListBoxOfThresholdFileInheritance = New System.Windows.Forms.ListBox()
+        Me.lblStep3 = New System.Windows.Forms.Label()
+        Me.lblThresholdFileContentOwners = New System.Windows.Forms.Label()
+        Me.txtThresholdFileContentOwners = New System.Windows.Forms.TextBox()
+        Me.btnPreviousOnPageThresholdFile = New System.Windows.Forms.Button()
+        Me.btnExportThresholdFileToPerfmonTemplate = New System.Windows.Forms.Button()
+        Me.btnNextOnPageThresholdFile = New System.Windows.Forms.Button()
+        Me.Label2 = New System.Windows.Forms.Label()
+        Me.ComboBoxAnalysisCollection = New System.Windows.Forms.ComboBox()
+        Me.txtAnalysisCollectionDescription = New System.Windows.Forms.TextBox()
+        Me.lblThresholdFileName = New System.Windows.Forms.Label()
+        Me.btnEditThresholdFile = New System.Windows.Forms.Button()
+        Me.lblAnalysisCollectionName = New System.Windows.Forms.Label()
+        Me.txtThresholdFileName = New System.Windows.Forms.TextBox()
+        Me.TabPageQuestions = New System.Windows.Forms.TabPage()
+        Me.txtQuestionAnswerResults = New System.Windows.Forms.TextBox()
+        Me.Label5 = New System.Windows.Forms.Label()
+        Me.btnPreviousOnPageQuestions = New System.Windows.Forms.Button()
+        Me.btnNextOnPageQuestions = New System.Windows.Forms.Button()
+        Me.GroupBoxQuestionVariableNames = New System.Windows.Forms.GroupBox()
+        Me.ListBoxQuestions = New System.Windows.Forms.ListBox()
+        Me.Label1 = New System.Windows.Forms.Label()
+        Me.txtQuestion = New System.Windows.Forms.TextBox()
+        Me.Label3 = New System.Windows.Forms.Label()
+        Me.ComboBoxQuestionAnswer = New System.Windows.Forms.ComboBox()
+        Me.txtQuestionAnswer = New System.Windows.Forms.TextBox()
+        Me.Label4 = New System.Windows.Forms.Label()
+        Me.TabPageAnalysisInterval = New System.Windows.Forms.TabPage()
+        Me.GroupBoxAllCounterStats = New System.Windows.Forms.GroupBox()
+        Me.lblAllCounterStats = New System.Windows.Forms.Label()
+        Me.CheckBoxAllCounterstats = New System.Windows.Forms.CheckBox()
+        Me.GroupBoxAnalysisInterval = New System.Windows.Forms.GroupBox()
+        Me.lblStep2 = New System.Windows.Forms.Label()
+        Me.lblSecs = New System.Windows.Forms.Label()
+        Me.ComboBoxInterval = New System.Windows.Forms.ComboBox()
+        Me.lblRunInterval = New System.Windows.Forms.Label()
+        Me.btnPreviousOnPageAnalysisInterval = New System.Windows.Forms.Button()
+        Me.btnNextOnPageAnalysisInterval = New System.Windows.Forms.Button()
+        Me.TabPageOutputOptions = New System.Windows.Forms.TabPage()
+        Me.GroupBoxXMLOutput = New System.Windows.Forms.GroupBox()
+        Me.txtFullXMLOutputFileName = New System.Windows.Forms.TextBox()
+        Me.lblFullXMLOutputPathLabel = New System.Windows.Forms.Label()
+        Me.lblXMLFileNameLabel = New System.Windows.Forms.Label()
+        Me.txtXMLOutputFileName = New System.Windows.Forms.TextBox()
+        Me.CheckBoxXMLOutput = New System.Windows.Forms.CheckBox()
+        Me.txtOutputDirectoryPath = New System.Windows.Forms.TextBox()
+        Me.btnOutputDirectoryBrowse = New System.Windows.Forms.Button()
+        Me.GroupBoxHTMLOutput = New System.Windows.Forms.GroupBox()
+        Me.txtFullHTMLOutputFileName = New System.Windows.Forms.TextBox()
+        Me.lblFullHTMLOutputDirectoryLabel = New System.Windows.Forms.Label()
+        Me.lblHTMLReportFileName = New System.Windows.Forms.Label()
+        Me.txtHTMLOutputFileName = New System.Windows.Forms.TextBox()
+        Me.CheckBoxHTMLOutput = New System.Windows.Forms.CheckBox()
+        Me.lblOutputDirectory = New System.Windows.Forms.Label()
+        Me.lblOutputDirectoryDescription = New System.Windows.Forms.Label()
+        Me.btnPreviousOnPageOutputOptions = New System.Windows.Forms.Button()
+        Me.btnNextOnPageOutputOptions = New System.Windows.Forms.Button()
+        Me.TabPageQueue = New System.Windows.Forms.TabPage()
+        Me.btnRemoveLastFromQueue = New System.Windows.Forms.Button()
+        Me.GroupBoxQueue = New System.Windows.Forms.GroupBox()
+        Me.txtBatchText = New System.Windows.Forms.TextBox()
+        Me.btnPreviousOnPageQueue = New System.Windows.Forms.Button()
+        Me.lblStep5 = New System.Windows.Forms.Label()
+        Me.btnNextOnPageQueue = New System.Windows.Forms.Button()
+        Me.TabPageExecute = New System.Windows.Forms.TabPage()
+        Me.GroupBoxNumberOfThreads = New System.Windows.Forms.GroupBox()
+        Me.lblNumberOfThreads = New System.Windows.Forms.Label()
+        Me.CheckBoxRunAsLowPriority = New System.Windows.Forms.CheckBox()
+        Me.lblThreadingHelp = New System.Windows.Forms.Label()
+        Me.TextBoxExecNumberOfThreads = New System.Windows.Forms.TextBox()
+        Me.RadExecuteQueue = New System.Windows.Forms.RadioButton()
+        Me.RadExecuteAndRunWizardAgain = New System.Windows.Forms.RadioButton()
+        Me.RadAddMoreToQueue = New System.Windows.Forms.RadioButton()
+        Me.lblExecute = New System.Windows.Forms.Label()
+        Me.btnPreviousOnPageExecute = New System.Windows.Forms.Button()
+        Me.btnNextOnPageExecute = New System.Windows.Forms.Button()
+        Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
+        Me.FolderBrowserDialog1 = New System.Windows.Forms.FolderBrowserDialog()
+        Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog()
+        Me.ListBoxTemp = New System.Windows.Forms.ListBox()
+        Me.lblQuestion = New System.Windows.Forms.Label()
+        Me.txtQuestionDELETE = New System.Windows.Forms.TextBox()
+        Me.lblQuestionAnswerValueString = New System.Windows.Forms.Label()
+        Me.ComboBoxQuestionAnswerDELETE = New System.Windows.Forms.ComboBox()
+        Me.txtQuestionAnswerDELETE = New System.Windows.Forms.TextBox()
+        Me.lblQuestionAnswerValueBoolean = New System.Windows.Forms.Label()
         Me.TabControl.SuspendLayout()
         Me.TabPageWelcome.SuspendLayout()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -171,8 +171,8 @@ Partial Class frmPALExecutionWizard
         'TabControl
         '
         Me.TabControl.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.TabControl.Appearance = System.Windows.Forms.TabAppearance.FlatButtons
         Me.TabControl.Controls.Add(Me.TabPageWelcome)
         Me.TabControl.Controls.Add(Me.TabPageCounterLog)
@@ -292,10 +292,10 @@ Partial Class frmPALExecutionWizard
         Me.LinkLabelURL.AutoSize = True
         Me.LinkLabelURL.Location = New System.Drawing.Point(14, 274)
         Me.LinkLabelURL.Name = "LinkLabelURL"
-        Me.LinkLabelURL.Size = New System.Drawing.Size(126, 13)
+        Me.LinkLabelURL.Size = New System.Drawing.Size(182, 13)
         Me.LinkLabelURL.TabIndex = 4
         Me.LinkLabelURL.TabStop = True
-        Me.LinkLabelURL.Text = "http://pal.codeplex.com/"
+        Me.LinkLabelURL.Text = "https://github.com/clinthuffman/PAL"
         '
         'lblQuestionsOrProblems
         '
@@ -332,8 +332,8 @@ Partial Class frmPALExecutionWizard
         Me.lblWelcome.Name = "lblWelcome"
         Me.lblWelcome.Size = New System.Drawing.Size(420, 141)
         Me.lblWelcome.TabIndex = 0
-        Me.lblWelcome.Text = "Welcome to the Performance Analysis of Logs (PAL) tool analysis wizard. This wiza" & _
-            "rd will guide you through the process of analyzing your log file(s)."
+        Me.lblWelcome.Text = "Welcome to the Performance Analysis of Logs (PAL) tool analysis wizard. This wiza" &
+    "rd will guide you through the process of analyzing your log file(s)."
         '
         'TabPageCounterLog
         '
@@ -515,6 +515,15 @@ Partial Class frmPALExecutionWizard
         Me.TabPageThresholdFile.Text = "Threshold File"
         Me.TabPageThresholdFile.UseVisualStyleBackColor = True
         '
+        'btnAutoDetectThresholdFile
+        '
+        Me.btnAutoDetectThresholdFile.Location = New System.Drawing.Point(426, 79)
+        Me.btnAutoDetectThresholdFile.Name = "btnAutoDetectThresholdFile"
+        Me.btnAutoDetectThresholdFile.Size = New System.Drawing.Size(92, 23)
+        Me.btnAutoDetectThresholdFile.TabIndex = 57
+        Me.btnAutoDetectThresholdFile.Text = "Auto-detect"
+        Me.btnAutoDetectThresholdFile.UseVisualStyleBackColor = True
+        '
         'Label6
         '
         Me.Label6.Location = New System.Drawing.Point(172, 312)
@@ -598,9 +607,9 @@ Partial Class frmPALExecutionWizard
         Me.lblStep3.Name = "lblStep3"
         Me.lblStep3.Size = New System.Drawing.Size(414, 72)
         Me.lblStep3.TabIndex = 32
-        Me.lblStep3.Text = "Choose a threshold file that is appropriate for the computer(s) on which the log " & _
-            "was captured. If the computer(s) have multiple products or roles, then change th" & _
-            "e inheritance to include all of them."
+        Me.lblStep3.Text = "Choose a threshold file that is appropriate for the computer(s) on which the log " &
+    "was captured. If the computer(s) have multiple products or roles, then change th" &
+    "e inheritance to include all of them."
         '
         'lblThresholdFileContentOwners
         '
@@ -729,8 +738,8 @@ Partial Class frmPALExecutionWizard
         'txtQuestionAnswerResults
         '
         Me.txtQuestionAnswerResults.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.txtQuestionAnswerResults.Location = New System.Drawing.Point(15, 55)
         Me.txtQuestionAnswerResults.Multiline = True
         Me.txtQuestionAnswerResults.Name = "txtQuestionAnswerResults"
@@ -1182,8 +1191,8 @@ Partial Class frmPALExecutionWizard
         'GroupBoxQueue
         '
         Me.GroupBoxQueue.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.GroupBoxQueue.Controls.Add(Me.txtBatchText)
         Me.GroupBoxQueue.Location = New System.Drawing.Point(9, 60)
         Me.GroupBoxQueue.Name = "GroupBoxQueue"
@@ -1195,8 +1204,8 @@ Partial Class frmPALExecutionWizard
         'txtBatchText
         '
         Me.txtBatchText.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.txtBatchText.Location = New System.Drawing.Point(6, 19)
         Me.txtBatchText.Multiline = True
         Me.txtBatchText.Name = "txtBatchText"
@@ -1222,9 +1231,9 @@ Partial Class frmPALExecutionWizard
         Me.lblStep5.Name = "lblStep5"
         Me.lblStep5.Size = New System.Drawing.Size(593, 35)
         Me.lblStep5.TabIndex = 20
-        Me.lblStep5.Text = "The queue (batch file) below will execute the PAL.ps1 (Powershell) script which w" & _
-            "ill analyze your log(s). The batch file will be created at %temp%\PAL_{GUID}.bat" & _
-            "."
+        Me.lblStep5.Text = "The queue (batch file) below will execute the PAL.ps1 (Powershell) script which w" &
+    "ill analyze your log(s). The batch file will be created at %temp%\PAL_{GUID}.bat" &
+    "."
         '
         'btnNextOnPageQueue
         '
@@ -1321,8 +1330,8 @@ Partial Class frmPALExecutionWizard
         Me.RadExecuteAndRunWizardAgain.Name = "RadExecuteAndRunWizardAgain"
         Me.RadExecuteAndRunWizardAgain.Size = New System.Drawing.Size(433, 46)
         Me.RadExecuteAndRunWizardAgain.TabIndex = 9
-        Me.RadExecuteAndRunWizardAgain.Text = "Execute and Restart: Execute the current queue/batch file and create a new one. M" & _
-            "ore than one instance of PAL running at the same time is supported."
+        Me.RadExecuteAndRunWizardAgain.Text = "Execute and Restart: Execute the current queue/batch file and create a new one. M" &
+    "ore than one instance of PAL running at the same time is supported."
         Me.RadExecuteAndRunWizardAgain.UseVisualStyleBackColor = True
         '
         'RadAddMoreToQueue
@@ -1332,8 +1341,8 @@ Partial Class frmPALExecutionWizard
         Me.RadAddMoreToQueue.Name = "RadAddMoreToQueue"
         Me.RadAddMoreToQueue.Size = New System.Drawing.Size(425, 17)
         Me.RadAddMoreToQueue.TabIndex = 8
-        Me.RadAddMoreToQueue.Text = "Add to Queue: Do not execute yet. I want to add more items to the queue/batch fil" & _
-            "e. "
+        Me.RadAddMoreToQueue.Text = "Add to Queue: Do not execute yet. I want to add more items to the queue/batch fil" &
+    "e. "
         Me.RadAddMoreToQueue.UseVisualStyleBackColor = True
         '
         'lblExecute
@@ -1342,9 +1351,9 @@ Partial Class frmPALExecutionWizard
         Me.lblExecute.Name = "lblExecute"
         Me.lblExecute.Size = New System.Drawing.Size(440, 59)
         Me.lblExecute.TabIndex = 6
-        Me.lblExecute.Text = "Thank you. You have provided enough information to process the log. Click Finish " & _
-            "to begin executing the analysis. Optionally, you can run this wizard again to re" & _
-            "use some of the same settings." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10)
+        Me.lblExecute.Text = "Thank you. You have provided enough information to process the log. Click Finish " &
+    "to begin executing the analysis. Optionally, you can run this wizard again to re" &
+    "use some of the same settings." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10)
         '
         'btnPreviousOnPageExecute
         '
@@ -1434,15 +1443,6 @@ Partial Class frmPALExecutionWizard
         Me.lblQuestionAnswerValueBoolean.Size = New System.Drawing.Size(45, 13)
         Me.lblQuestionAnswerValueBoolean.TabIndex = 20
         Me.lblQuestionAnswerValueBoolean.Text = "Answer:"
-        '
-        'btnAutoDetectThresholdFile
-        '
-        Me.btnAutoDetectThresholdFile.Location = New System.Drawing.Point(426, 79)
-        Me.btnAutoDetectThresholdFile.Name = "btnAutoDetectThresholdFile"
-        Me.btnAutoDetectThresholdFile.Size = New System.Drawing.Size(92, 23)
-        Me.btnAutoDetectThresholdFile.TabIndex = 57
-        Me.btnAutoDetectThresholdFile.Text = "Auto-detect"
-        Me.btnAutoDetectThresholdFile.UseVisualStyleBackColor = True
         '
         'frmPALExecutionWizard
         '

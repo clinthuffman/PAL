@@ -19,7 +19,7 @@ Public Class frmPALExecutionWizard
     Dim oCommandsQueue As New PALFunctions.PALCommandQueueObject
     Const DEFAULT_OUTPUT_DIRECTORY As String = "[My Documents]\PAL Reports"
     Dim iUB As Integer = -1 'Upper bound of oCommandQueue.aCommandQueues 
-    Const PAL_VERSION As String = "v2.7.5"
+
 
     Private Function AutoDetectMatchCounterObjectsInLogToThresholdFiles(ByRef ListOfCounterObjectsFromCounterLog As List(Of String))
         Dim sArgs As String
@@ -176,7 +176,7 @@ Public Class frmPALExecutionWizard
     Private Sub frmPALExecutionWizard_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         Dim bFoundPalPs1 As Boolean
         bFoundPalPs1 = False
-        Me.Text = "PAL Wizard " & PAL_VERSION
+        Me.Text = "PAL Wizard " & Me.GetType.Assembly.GetName.Version.ToString()
         'PALScriptInstallDirectory = My.Computer.FileSystem.CurrentDirectory
         PALScriptInstallDirectory = Path.GetDirectoryName(Application.ExecutablePath)
         bFoundPalPs1 = CheckForPalPs1(PALScriptInstallDirectory)
@@ -196,17 +196,17 @@ Public Class frmPALExecutionWizard
         AllCounterStats = False
         IsLowPriority = True
         LinkLabelURL.Links.Remove(LinkLabelURL.Links(0))
-        LinkLabelURL.Links.Add(0, LinkLabelURL.Text.Length, "http://pal.codeplex.com")
+        LinkLabelURL.Links.Add(0, LinkLabelURL.Text.Length, "https://github.com/clinthuffman/PAL")
         LinkLabelLicense.Links.Remove(LinkLabelLicense.Links(0))
-        LinkLabelLicense.Links.Add(0, LinkLabelLicense.Text.Length, "http://pal.codeplex.com/license")
+        LinkLabelLicense.Links.Add(0, LinkLabelLicense.Text.Length, "https://github.com/clinthuffman/PAL/blob/master/LICENSE")
         LinkLabelEmailClint.Links.Remove(LinkLabelEmailClint.Links(0))
         LinkLabelEmailClint.Links.Add(0, LinkLabelEmailClint.Text.Length, "mailto:clinth@microsoft.com")
         LinkLabelClinthBlog.Links.Remove(LinkLabelClinthBlog.Links(0))
-        LinkLabelClinthBlog.Links.Add(0, LinkLabelClinthBlog.Text.Length, "http://blogs.technet.com/clinth")
+        LinkLabelClinthBlog.Links.Add(0, LinkLabelClinthBlog.Text.Length, "https://blogs.technet.microsoft.com/clinth/")
         LinkLabelAboutTheAuthorClintH.Links.Remove(LinkLabelAboutTheAuthorClintH.Links(0))
-        LinkLabelAboutTheAuthorClintH.Links.Add(0, LinkLabelAboutTheAuthorClintH.Text.Length, "http://blogs.technet.com/clinth/archive/2009/12/03/about-the-author-clint-huffman.aspx")
+        LinkLabelAboutTheAuthorClintH.Links.Add(0, LinkLabelAboutTheAuthorClintH.Text.Length, "https://blogs.technet.microsoft.com/clinth/2009/12/03/about-the-author-clint-huffman/")
         LinkLabelSupport.Links.Remove(LinkLabelSupport.Links(0))
-        LinkLabelSupport.Links.Add(0, LinkLabelSupport.Text.Length, "http://pal.codeplex.com/workitem/list/basic")
+        LinkLabelSupport.Links.Add(0, LinkLabelSupport.Text.Length, "https://github.com/clinthuffman/PAL/issues")
         bLowPriorityExecution = True
     End Sub
 

@@ -22,10 +22,10 @@ Partial Class AboutDialog
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.TableLayoutPanel1 = New System.Windows.Forms.TableLayoutPanel
-        Me.OK_Button = New System.Windows.Forms.Button
-        Me.lblAboutText = New System.Windows.Forms.Label
-        Me.LinkLabel1 = New System.Windows.Forms.LinkLabel
+        Me.TableLayoutPanel1 = New System.Windows.Forms.TableLayoutPanel()
+        Me.OK_Button = New System.Windows.Forms.Button()
+        Me.lblAboutText = New System.Windows.Forms.Label()
+        Me.LinkLabel1 = New System.Windows.Forms.LinkLabel()
         Me.TableLayoutPanel1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -66,10 +66,10 @@ Partial Class AboutDialog
         Me.LinkLabel1.Cursor = System.Windows.Forms.Cursors.IBeam
         Me.LinkLabel1.Location = New System.Drawing.Point(13, 93)
         Me.LinkLabel1.Name = "LinkLabel1"
-        Me.LinkLabel1.Size = New System.Drawing.Size(156, 13)
+        Me.LinkLabel1.Size = New System.Drawing.Size(182, 13)
         Me.LinkLabel1.TabIndex = 2
         Me.LinkLabel1.TabStop = True
-        Me.LinkLabel1.Text = "http://www.codeplex.com/PAL"
+        Me.LinkLabel1.Text = "https://github.com/clinthuffman/PAL"
         '
         'AboutDialog
         '

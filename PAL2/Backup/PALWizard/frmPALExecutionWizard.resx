@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="lblQuestionsOrProblems.Text" xml:space="preserve">
+    <value>Written by Clint Huffman (clinth@microsoft.com) and various other contributors.
+If you have any questions, problems, or feedback with this tool, then please post it to the discussion forum at http://pal.codeplex.com
+This software is licensed "as-is." You bear the risk of using it. The contributors give no express warranties, guarantees or conditions.</value>
+  </data>
+  <data name="lblStep1.Text" xml:space="preserve">
+    <value>Choose a performance counter log file (*.blg or *.csv):
+
+Multiple log files can be merged by separating them with semicolons, but this may produce unpredictable results. The same thresholds are used on each computer found in the log.</value>
+  </data>
+  <data name="Label5.Text" xml:space="preserve">
+    <value>The threshold file you have choosen has questions that need to be answered in regards to the data the perfmon log was captured. Click each question on the left and answer the question on the right. Answers revert to default when a different threshold file is chosen.</value>
+  </data>
+  <data name="lblAllCounterStats.Text" xml:space="preserve">
+    <value>Enable this option if you want the PAL tool to process all of the counters found in the counter log. PAL will chart each counter instance and provide statistics on them. Processing all of the counter instances in the log(s) can be resource intensive.</value>
+  </data>
+  <data name="lblStep2.Text" xml:space="preserve">
+    <value>The is the time interval in seconds used to divide the counter log into equal parts or "time slices" each with a min, max, avg, and trend value. The analysis interval determines the number of data points in each time slice. The time slices must be larger than the log's sample interval.
+
+Choose AUTO to automatically separate the log(s) into 30 timeslices. </value>
+  </data>
+  <data name="lblOutputDirectoryDescription.Text" xml:space="preserve">
+    <value>Specify a directory to create output files. Choose a directory that your user account has write access to such as a directory under your "My Documents" folder or your Desktop.  
+
+Note: Items with surrounding square brackets "[]" will be replaced by runtime values of the same name.</value>
+  </data>
+  <data name="lblThreadingHelp.Text" xml:space="preserve">
+    <value>This is the number of PowerShell sessions/threads that will be created to analyze the counter log. Default is equal to the number of logical processors on this system due to the high processor usage during analysis. If this system is not dedicated to PAL analysis, then execution as a low priority and/or reduction of the threads is recommended.
+</value>
+  </data>
+  <metadata name="OpenFileDialog1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
+  <metadata name="FolderBrowserDialog1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>159, 17</value>
+  </metadata>
+  <metadata name="SaveFileDialog1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>330, 17</value>
+  </metadata>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        AAABAAIAICAQAAAAAADoAgAAJgAAABAQEAAAAAAAKAEAAA4DAAAoAAAAIAAAAEAAAAABAAQAAAAAAIAC
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAgAAAAICAAIAAAACAAIAAgIAAAICAgADAwMAAAAD/AAD/
+        AAAA//8A/wAAAP8A/wD//wAA////AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACIiI+IiI+IiI+IiI+IiAAAiIiPiIiPiIiPiIiPiIgAAI
+        iIj4iIj4iIj4iIj4iIAAAIiI+IiI+IiI+IiI+IiAAAAIiPiIiPiIiPiIiPiIgAAPAP////8AD///////
+        //AACIAA+IgACAAI+IiI+IiAAAiIgAiICPiICPiIiACIgAAIiIgIiAj4iAD4iIAAiIAACIiIAIAI+IiA
+        CIiA8AiAAAiIiPAIiPiIiAAAgPgAgAAP////D///////8AD/8PAACYiI+IiI+IiI+IgA+ICAAAmYiPiI
+        iPiIiPiIiPiAAAAImZj4iIn4iIj4iIj4iAAACIiY+YiZmIiI+IiZ+IgAAAiImZmZmJmZiPiJmfiIgAAP
+        ////////+Zn/mYmf//AACIiI+IiI+IiJmZiImZmAAAiIiPiIiPiIiPmYiPiJkAAIiIj4iIj4iIj4iIj4
+        iJAACIiI+IiI+IiI+IiI+IiAAAiIiPiIiPiIiPiIiPiIgAAP//////////////////AACIiI+IiI+IiI
+        +IiI+IiAAAiIiPiIiPiIiPiIiPiIgAAIiIj4iIj4iIj4iIj4iIAACIiI+IiI+IiI+IiI+IiA/////999
+        99//////QAAAAcAAAAHAAAABwAAAAcAAAAHAAAABQAAAAcAAAAHAAAABwAAAAcAAAAHAAAABQAAAAcAA
+        AAHAAAABwAAAAcAAAAHAAAABQAAAAcAAAAHAAAABwAAAAcAAAAHAAAABQAAAAcAAAAHAAAABwAAAAcAA
+        AAEoAAAAEAAAACAAAAABAAQAAAAAAMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAgAAAAICAAIAA
+        AACAAIAAgIAAAICAgADAwMAAAAD/AAD/AAAA//8A/wAAAP8A/wD//wAA////AAAAAAAAAAAAAAAAAAAA
+        AAAAiPiPiPiPiAAA+I+I+I+IAP8P//////AAiAAPAAiPCACI+A8I8ICIAJ//8P//AP8AifiPmPiAiACI
+        mImJmI+IAP+Zn//5+Z8AiPiPiPmfmACI+I+I+I+JAP////////8AiPiPiPiPiACI+I+I+I+IttsAAAAA
+        AACAAAAAgAAAAAAAAACAAAAAgAAAAAAAAACAAAAAgAAAAAAAAACAAAAAgAAAAAAAAACAAAAAgAAAAA==
+</value>
+  </data>
+</root>

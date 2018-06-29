@@ -1,0 +1,291 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{7AF66ECB-B503-413C-B76C-11821D01EDF8}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <StartupObject>PALWizard.My.MyApplication</StartupObject>
+    <RootNamespace>PALWizard</RootNamespace>
+    <AssemblyName>PALWizard</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <MyType>WindowsForms</MyType>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <OptionExplicit>On</OptionExplicit>
+    <OptionCompare>Binary</OptionCompare>
+    <OptionStrict>Off</OptionStrict>
+    <OptionInfer>On</OptionInfer>
+    <ApplicationManifest>My Project\app.manifest</ApplicationManifest>
+    <ApplicationIcon>PAL.ICO</ApplicationIcon>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>2.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>PALWizard.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>PALWizard.xml</DocumentationFile>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Drawing" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Windows.Forms" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AboutDialog.Designer.vb">
+      <DependentUpon>AboutDialog.vb</DependentUpon>
+    </Compile>
+    <Compile Include="AboutDialog.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PleaseWait.Designer.vb">
+      <DependentUpon>PleaseWait.vb</DependentUpon>
+    </Compile>
+    <Compile Include="PleaseWait.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmAddCounters.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmAddDataSourceCounter.Designer.vb">
+      <DependentUpon>frmAddDataSourceCounter.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmAddDataSourceCounter.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmAddDataSourceGenerated.Designer.vb">
+      <DependentUpon>frmAddDataSourceGenerated.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmAddDataSourceGenerated.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmAddThreshold.Designer.vb">
+      <DependentUpon>frmAddThreshold.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmAddThreshold.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmChart.Designer.vb">
+      <DependentUpon>frmChart.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmChart.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmEditDataSourceCounter.Designer.vb">
+      <DependentUpon>frmEditDataSourceCounter.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmEditDataSourceCounter.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmEditThresholdFileProperties.Designer.vb">
+      <DependentUpon>frmEditThresholdFileProperties.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmEditThresholdFileProperties.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmEditThresholds.Designer.vb">
+      <DependentUpon>frmEditThresholds.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmEditThresholds.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmNewAnalysis.Designer.vb">
+      <DependentUpon>frmNewAnalysis.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmNewAnalysis.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmPALEditor.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmPALExecutionWizard.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmPALExecutionWizard.Designer.vb">
+      <DependentUpon>frmPALExecutionWizard.vb</DependentUpon>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmQuestions.Designer.vb">
+      <DependentUpon>frmQuestions.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmQuestions.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmSoftwareDependencyNeeded.Designer.vb">
+      <DependentUpon>frmSoftwareDependencyNeeded.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmSoftwareDependencyNeeded.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <Compile Include="My Project\Application.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="AboutDialog.resx">
+      <DependentUpon>AboutDialog.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PleaseWait.resx">
+      <DependentUpon>PleaseWait.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmAddCounters.resx">
+      <DependentUpon>frmAddCounters.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmAddDataSourceCounter.resx">
+      <DependentUpon>frmAddDataSourceCounter.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmAddDataSourceGenerated.resx">
+      <DependentUpon>frmAddDataSourceGenerated.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmAddThreshold.resx">
+      <DependentUpon>frmAddThreshold.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmChart.resx">
+      <DependentUpon>frmChart.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmEditDataSourceCounter.resx">
+      <DependentUpon>frmEditDataSourceCounter.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmEditThresholdFileProperties.resx">
+      <DependentUpon>frmEditThresholdFileProperties.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmEditThresholds.resx">
+      <DependentUpon>frmEditThresholds.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmNewAnalysis.resx">
+      <DependentUpon>frmNewAnalysis.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmPALEditor.resx">
+      <DependentUpon>frmPALEditor.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmPALExecutionWizard.resx">
+      <DependentUpon>frmPALExecutionWizard.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmQuestions.resx">
+      <DependentUpon>frmQuestions.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmSoftwareDependencyNeeded.resx">
+      <DependentUpon>frmSoftwareDependencyNeeded.vb</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="My Project\app.manifest" />
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.vb</LastGenOutput>
+    </None>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <CustomToolNamespace>My</CustomToolNamespace>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PALFunctions\PALFunctions.vbproj">
+      <Project>{E425B7F1-07C9-4D27-AC80-5A195C387449}</Project>
+      <Name>PALFunctions</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="PAL.ICO" />
+    <None Include="Resources\ClintHuffmanGamerPic.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 2.0 %28x86%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.0 %28x86%29</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="bin\Debug\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
