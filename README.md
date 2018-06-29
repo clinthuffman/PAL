@@ -36,3 +36,6 @@ Run PALWizard.exe to use the PAL Wizard tool. Otherwise, use PAL.ps1 directly.
 
 ## Feedback
 Your feedback is welcome via the [issues section](https://github.com/clinthuffman/PAL/issues)
+
+## Contributing
+Your contributions are very welcome by submitting a Pull Request.
