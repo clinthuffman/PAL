@@ -24,6 +24,9 @@ The PAL (Performance Analysis of Logs) tool is a powerful tool that reads in a p
  - A GUI editor for creating or editing your own threshold files.
  - Creates an HTML based report for ease of copy/pasting into other applications.
  - Analyzes performance counter logs for thresholds using thresholds that change their criteria based on the computer's role or hardware specs.
+ 
+ ## Requirements
+ The current stable release version requires the Microsoft .NET 2.0 framework feature to be enabled on the Windows device. The pre-release version is compiled against the Microsoft .NET Framework 4.6.2 and typically does not require Windows OS features to be enabled specifically for this tool.
 
 ## How to download
 If you wish to install the PAL tool, then download `PAL_Setup`. It contains the Microsoft installer files.
