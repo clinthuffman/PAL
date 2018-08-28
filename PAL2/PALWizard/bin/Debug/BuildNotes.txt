@@ -1,3 +1,6 @@
+*v2.7.7.1*
+* *Threshold file update:* Added support for Windows 10 and Windows Server operating systems to QuickSystemOverview.xml. Changed most of the OS selections to be OS Version and then architecture (i.e. Windows 10 64-bit). Changed default Physical Memory option from 4 GB to 16 GB.
+
 *v2.7.7*
 * *Bug fix:* Fixed a bug referring to CollectionOfProcessorPercentProcessorTime and "Unexpected token 'All.Count' in expression or statement."
 * *Threshold file update:* The SQL Server 2014 threshold file was updated with a fix to "Analysis SQLServer:Resource Pool Stats Used memory (KB) was not iterating properly" by Pedro Lopes.

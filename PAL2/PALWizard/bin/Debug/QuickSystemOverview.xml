@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0"?>
 <PAL PALVERSION="2.0" NAME="Quick System Overview" DESCRIPTION="Quick base operating system performance analysis. Use this for a high level analysis. This threshold file does not contain the Process object to help reduce overhead." CONTENTOWNERS="Clint Huffman" FEEDBACKEMAILADDRESS="clinth@microsoft.com" VERSION="1.9" LANGUAGE="English" LANGUAGECODE="en">
-  <QUESTION QUESTIONVARNAME="OS" DATATYPE="options" DEFAULTVALUE="64-bit Windows Server 2008 R2" OPTIONS="32-bit Windows XP,64-bit Windows XP,32-bit Windows Server 2003,64-bit Windows Server 2003,32-bit Windows Vista,64-bit Windows Vista,32-bit Windows Server 2008,64-bit Windows Server 2008,32-bit Windows 7,64-bit Windows 7,64-bit Windows Server 2008 R2,32-bit Windows 8,64-bit Windows 8,64-bit Windows Server 2012">What operating system and architecture?                           Use the following Powershell command to get the value:     gwmi Win32_OperatingSystem | Select OSArchitecture, Caption</QUESTION>
-  <QUESTION QUESTIONVARNAME="PhysicalMemory" DATATYPE="string" DEFAULTVALUE="4">How much physical memory (RAM) in GB?                          Use the following Powershell command to get the value: gwmi Win32_ComputerSystem | % {$_.TotalPhysicalMemory /1GB}</QUESTION>
+  <QUESTION QUESTIONVARNAME="OS" DATATYPE="options" DEFAULTVALUE="Windows Server" OPTIONS="Windows Server,Windows Server 2016,Windows 10 32-bit,Windows 10 64-bit,Windows Server 2012 R2,Windows Server 2012,Windows 8 32-bit,Windows 8 64-bit,Windows 7 32-bit,Windows 7 64-bit,Windows Server 2008 R2,Windows Server 2008 32-bit,Windows Server 2008 64-bit,Windows Vista 32-bit,Windows Vista 64-bit,Windows Server 2003 32-bit,Windows Server 2003 64-bit,Windows XP 32-bit,Windows XP 64-bit">What operating system and architecture?                           Use the following Powershell command to get the value:     gwmi Win32_OperatingSystem | Select OSArchitecture, Caption</QUESTION>
+  <QUESTION QUESTIONVARNAME="PhysicalMemory" DATATYPE="string" DEFAULTVALUE="16">How much physical memory (RAM) in GB?                          Use the following Powershell command to get the value: gwmi Win32_ComputerSystem | % {$_.TotalPhysicalMemory /1GB}</QUESTION>
   <QUESTION QUESTIONVARNAME="UserVa" DATATYPE="string" DEFAULTVALUE="2048">If *32-bit*, what is the size of the user mode virtual address space in MB?                                                                     This is ignored if 64-bit. UserVa is the value of the /USERVA boot.ini switch commonly associated with the /3GB switch or it is the value of the IncreaseUserVa setting on Windows Vista and Windows Server 2008 and later. Use the following Powershell command to get the value:                                                                                   gwmi Win32_OperatingSystem | % {$_.MaxProcessMemorySize / 1MB}</QUESTION>
   <ANALYSIS NAME="Memory Available MBytes" ENABLED="True" CATEGORY="Memory" PRIMARYDATASOURCE="\Memory\Available MBytes" ID="{798f674d-5173-4115-a051-4589dde82bea}">
     <DATASOURCE TYPE="CounterLog" NAME="\Memory\Available MBytes" EXPRESSIONPATH="\Memory\Available MBytes" COLLECTIONVARNAME="CollectionOfAvailableMBytes" DATATYPE="Integer" />
@@ -1079,7 +1079,8 @@ How to determine the appropriate page file size for 64-bit versions of Windows S
   <ANALYSIS NAME="Memory Pool Non-Paged Bytes" ENABLED="True" CATEGORY="Memory" PRIMARYDATASOURCE="\Memory\Pool Nonpaged Bytes" ID="{8eb3c4cb-b877-4878-9882-5654fea10320}" FROMALLCOUNTERSTATS="False">
     <DATASOURCE TYPE="CounterLog" NAME="\Memory\Pool Nonpaged Bytes" COLLECTIONVARNAME="MemoryPoolNonpagedBytes" EXPRESSIONPATH="\Memory\Pool Nonpaged Bytes" DATATYPE="Integer" />
     <THRESHOLD NAME="More than 60% of Pool Non-Paged Kernel Memory Used" CONDITION="Warning" COLOR="Yellow" PRIORITY="50" ID="">
-      <CODE><![CDATA[
+      <CODE>
+    <![CDATA[
 $iPhysicalMemory = $([Math]::Round($PhysicalMemory,0))
 If ($iPhysicalMemory -eq 0)
 {$iPhysicalMemory = 1}
@@ -1088,7 +1089,7 @@ $OS = [string] $OS.ToUpper()
 
 switch ($OS)
 {
-  '32-BIT WINDOWS XP'
+  'WINDOWS XP 32-BIT'
   {
 	  If ($UserVa -gt 2048) #// If /3GB
 	  {$iMemPoolMax = 128 * 1MB}
@@ -1100,12 +1101,12 @@ switch ($OS)
 	  }
   }
   
-  '64-BIT WINDOWS XP'
+  'WINDOWS XP 64-BIT'
   {
     $iMemPoolMax = $iPhysicalMemory * 0.75
   }
   
-  '32-BIT WINDOWS SERVER 2003'
+  'WINDOWS SERVER 2003 32-BIT'
   {
 	  If ($UserVa -gt 2048) #// If /3GB
 	  {$iMemPoolMax = 128 * 1MB}
@@ -1117,12 +1118,12 @@ switch ($OS)
 	  }
   }
   
-  '64-BIT WINDOWS SERVER 2003'
+  'WINDOWS SERVER 2003 64-BIT'
   {
     $iMemPoolMax = $iPhysicalMemory * 0.75
   }
 
-  '32-BIT WINDOWS VISTA'
+  'WINDOWS VISTA 32-BIT'
   {
 		If ($UserVa -gt 2048) #// If /3GB
 		{
@@ -1141,7 +1142,7 @@ switch ($OS)
 		}
   }
   
-  '64-BIT WINDOWS VISTA'
+  'WINDOWS VISTA 64-BIT'
   {
 	  #// 75 percent of RAM or 128 GB, whichever is smaller
 	  $iMemPoolMax = ($iPhysicalMemory * 0.75)
@@ -1149,7 +1150,7 @@ switch ($OS)
 	  {$iMemPoolMax = 128GB}
   }
 
-  '32-BIT WINDOWS SERVER 2008'
+  'WINDOWS SERVER 2008 32-BIT'
   {
 	  If ($UserVa -gt 2048) #// If /3GB
 	  {
@@ -1168,7 +1169,7 @@ switch ($OS)
 	  }
   }
   
-  '64-BIT WINDOWS SERVER 2008'
+  'WINDOWS SERVER 2008 64-BIT'
   {
 	  #// 75 percent of RAM or 128 GB, whichever is smaller
 	  $iMemPoolMax = ($iPhysicalMemory * 0.75)
@@ -1176,7 +1177,7 @@ switch ($OS)
 	  {$iMemPoolMax = 128GB}
   }
 
-  '32-BIT WINDOWS 7'
+  'WINDOWS 7 32-BIT'
   {
 		If ($UserVa -gt 2048) #// If /3GB
 		{
@@ -1195,7 +1196,7 @@ switch ($OS)
 		}
   }
   
-  '64-BIT WINDOWS 7'
+  'WINDOWS 7 64-BIT'
   {
 	  #// 75 percent of RAM or 128 GB, whichever is smaller
 	  $iMemPoolMax = ($iPhysicalMemory * 0.75)
@@ -1203,7 +1204,7 @@ switch ($OS)
 	  {$iMemPoolMax = 128GB}
   }
   
-	'64-BIT WINDOWS SERVER 2008 R2'
+	'WINDOWS SERVER 2008 R2 64-BIT'
 	{
 	  #// 75 percent of RAM or 128 GB, whichever is smaller
 	  $iMemPoolMax = ($iPhysicalMemory * 0.75)
@@ -1211,7 +1212,7 @@ switch ($OS)
 	  {$iMemPoolMax = 128GB}
 	}
   
-  '32-BIT WINDOWS 8'
+  'WINDOWS 8 32-BIT'
   {
 	  If ($UserVa -gt 2048) #// If /3GB
 	  {
@@ -1230,28 +1231,22 @@ switch ($OS)
 	  }
   }
   
-  '64-BIT WINDOWS 8'
-  {
-	  #// RAM or 128 GB, which ever is smaller
-	  $iMemPoolMax = $iPhysicalMemory
+	default
+	{
+	  #// 75 percent of RAM or 128 GB, whichever is smaller
+	  $iMemPoolMax = ($iPhysicalMemory * 0.75)
 	  If ($iMemPoolMax -gt 128GB)
 	  {$iMemPoolMax = 128GB}
-  }
+	} 
   
-	'64-BIT WINDOWS SERVER 2012'
-	{
-		#// RAM or 128 GB, which ever is smaller
-		$iMemPoolMax = $iPhysicalMemory
-		If ($iMemPoolMax -gt 128GB)
-		{$iMemPoolMax = 128GB}
-	}
 }
 $SixtyPercentOfMemoryPoolMaximum = $iMemPoolMax * 0.60
 StaticThreshold -CollectionOfCounterInstances $MemoryPoolNonpagedBytes -Operator 'gt' -Threshold $SixtyPercentOfMemoryPoolMaximum
  ]]></CODE>
     </THRESHOLD>
     <THRESHOLD NAME="More than 80% of Pool Non-Paged Kernel Memory Used" CONDITION="Critical" COLOR="Red" PRIORITY="100" ID="">
-      <CODE><![CDATA[
+      <CODE>
+    <![CDATA[
 $iPhysicalMemory = $([Math]::Round($PhysicalMemory,0))
 If ($iPhysicalMemory -eq 0)
 {$iPhysicalMemory = 1}
@@ -1260,7 +1255,7 @@ $OS = [string] $OS.ToUpper()
 
 switch ($OS)
 {
-  '32-BIT WINDOWS XP'
+  'WINDOWS XP 32-BIT'
   {
 	  If ($UserVa -gt 2048) #// If /3GB
 	  {$iMemPoolMax = 128 * 1MB}
@@ -1272,12 +1267,12 @@ switch ($OS)
 	  }
   }
   
-  '64-BIT WINDOWS XP'
+  'WINDOWS XP 64-BIT'
   {
     $iMemPoolMax = $iPhysicalMemory * 0.75
   }
   
-  '32-BIT WINDOWS SERVER 2003'
+  'WINDOWS SERVER 2003 32-BIT'
   {
 	  If ($UserVa -gt 2048) #// If /3GB
 	  {$iMemPoolMax = 128 * 1MB}
@@ -1289,12 +1284,12 @@ switch ($OS)
 	  }
   }
   
-  '64-BIT WINDOWS SERVER 2003'
+  'WINDOWS SERVER 2003 64-BIT'
   {
     $iMemPoolMax = $iPhysicalMemory * 0.75
   }
 
-  '32-BIT WINDOWS VISTA'
+  'WINDOWS VISTA 32-BIT'
   {
 		If ($UserVa -gt 2048) #// If /3GB
 		{
@@ -1313,7 +1308,7 @@ switch ($OS)
 		}
   }
   
-  '64-BIT WINDOWS VISTA'
+  'WINDOWS VISTA 64-BIT'
   {
 	  #// 75 percent of RAM or 128 GB, whichever is smaller
 	  $iMemPoolMax = ($iPhysicalMemory * 0.75)
@@ -1321,7 +1316,7 @@ switch ($OS)
 	  {$iMemPoolMax = 128GB}
   }
 
-  '32-BIT WINDOWS SERVER 2008'
+  'WINDOWS SERVER 2008 32-BIT'
   {
 	  If ($UserVa -gt 2048) #// If /3GB
 	  {
@@ -1340,7 +1335,7 @@ switch ($OS)
 	  }
   }
   
-  '64-BIT WINDOWS SERVER 2008'
+  'WINDOWS SERVER 2008 64-BIT'
   {
 	  #// 75 percent of RAM or 128 GB, whichever is smaller
 	  $iMemPoolMax = ($iPhysicalMemory * 0.75)
@@ -1348,7 +1343,7 @@ switch ($OS)
 	  {$iMemPoolMax = 128GB}
   }
 
-  '32-BIT WINDOWS 7'
+  'WINDOWS 7 32-BIT'
   {
 		If ($UserVa -gt 2048) #// If /3GB
 		{
@@ -1367,7 +1362,7 @@ switch ($OS)
 		}
   }
   
-  '64-BIT WINDOWS 7'
+  'WINDOWS 7 64-BIT'
   {
 	  #// 75 percent of RAM or 128 GB, whichever is smaller
 	  $iMemPoolMax = ($iPhysicalMemory * 0.75)
@@ -1375,7 +1370,7 @@ switch ($OS)
 	  {$iMemPoolMax = 128GB}
   }
   
-	'64-BIT WINDOWS SERVER 2008 R2'
+	'WINDOWS SERVER 2008 R2 64-BIT'
 	{
 		#// 75 percent of RAM or 128 GB, whichever is smaller
 		$iMemPoolMax = ($iPhysicalMemory * 0.75)
@@ -1383,7 +1378,7 @@ switch ($OS)
 		{$iMemPoolMax = 128GB}
 	}
   
-  '32-BIT WINDOWS 8'
+  'WINDOWS 8 32-BIT'
   {
 	  If ($UserVa -gt 2048) #// If /3GB
 	  {
@@ -1402,18 +1397,10 @@ switch ($OS)
 	  }
   }
   
-  '64-BIT WINDOWS 8'
-  {
-	  #// RAM or 128 GB, which ever is smaller
-	  $iMemPoolMax = $iPhysicalMemory
-	  If ($iMemPoolMax -gt 128GB)
-	  {$iMemPoolMax = 128GB}
-  }
-  
-	'64-BIT WINDOWS SERVER 2012'
+	default
 	{
-		#// RAM or 128 GB, which ever is smaller
-		$iMemPoolMax = $iPhysicalMemory
+		#// 75 percent of RAM or 128 GB, whichever is smaller
+		$iMemPoolMax = ($iPhysicalMemory * 0.75)
 		If ($iMemPoolMax -gt 128GB)
 		{$iMemPoolMax = 128GB}
 	}
@@ -1425,7 +1412,8 @@ StaticThreshold -CollectionOfCounterInstances $MemoryPoolNonpagedBytes -Operator
     </THRESHOLD>
     <CHART CHARTTITLE="\Memory\Pool Nonpaged Bytes" ISTHRESHOLDSADDED="True" DATASOURCE="\Memory\Pool Nonpaged Bytes" CHARTLABELS="instance">
       <SERIES NAME="Warning">
-        <CODE><![CDATA[
+        <CODE>
+    <![CDATA[
 $iPhysicalMemory = $([Math]::Round($PhysicalMemory,0))
 If ($iPhysicalMemory -eq 0)
 {$iPhysicalMemory = 1}
@@ -1433,7 +1421,7 @@ $iPhysicalMemory = $iPhysicalMemory * 1GB
 $OS = [string] $OS.ToUpper()
 switch ($OS)
 {
-  '32-BIT WINDOWS XP'
+  'WINDOWS XP 32-BIT'
   {
 	  If ($UserVa -gt 2048) #// If /3GB
 	  {$iMemPoolMax = 128 * 1MB}
@@ -1445,12 +1433,12 @@ switch ($OS)
 	  }
   }
   
-  '64-BIT WINDOWS XP'
+  'WINDOWS XP 64-BIT'
   {
     $iMemPoolMax = $iPhysicalMemory * 0.75
   }
   
-  '32-BIT WINDOWS SERVER 2003'
+  'WINDOWS SERVER 2003 32-BIT'
   {
 	  If ($UserVa -gt 2048) #// If /3GB
 	  {$iMemPoolMax = 128 * 1MB}
@@ -1462,12 +1450,12 @@ switch ($OS)
 	  }
   }
   
-  '64-BIT WINDOWS SERVER 2003'
+  'WINDOWS SERVER 2003 64-BIT'
   {
     $iMemPoolMax = $iPhysicalMemory * 0.75
   }
 
-  '32-BIT WINDOWS VISTA'
+  'WINDOWS VISTA 32-BIT'
   {
 		If ($UserVa -gt 2048) #// If /3GB
 		{
@@ -1486,7 +1474,7 @@ switch ($OS)
 		}
   }
   
-  '64-BIT WINDOWS VISTA'
+  'WINDOWS VISTA 64-BIT'
   {
 	  #// 75 percent of RAM or 128 GB, whichever is smaller
 	  $iMemPoolMax = ($iPhysicalMemory * 0.75)
@@ -1494,7 +1482,7 @@ switch ($OS)
 	  {$iMemPoolMax = 128GB}
   }
 
-  '32-BIT WINDOWS SERVER 2008'
+  'WINDOWS SERVER 2008 32-BIT'
   {
 	  If ($UserVa -gt 2048) #// If /3GB
 	  {
@@ -1513,7 +1501,7 @@ switch ($OS)
 	  }
   }
   
-  '64-BIT WINDOWS SERVER 2008'
+  'WINDOWS SERVER 2008 64-BIT'
   {
 	  #// 75 percent of RAM or 128 GB, whichever is smaller
 	  $iMemPoolMax = ($iPhysicalMemory * 0.75)
@@ -1521,7 +1509,7 @@ switch ($OS)
 	  {$iMemPoolMax = 128GB}
   }
 
-  '32-BIT WINDOWS 7'
+  'WINDOWS 7 32-BIT'
   {
 		If ($UserVa -gt 2048) #// If /3GB
 		{
@@ -1540,7 +1528,7 @@ switch ($OS)
 		}
   }
   
-  '64-BIT WINDOWS 7'
+  'WINDOWS 7 64-BIT'
   {
 	  #// 75 percent of RAM or 128 GB, whichever is smaller
 	  $iMemPoolMax = ($iPhysicalMemory * 0.75)
@@ -1548,7 +1536,7 @@ switch ($OS)
 	  {$iMemPoolMax = 128GB}
   }
   
-	'64-BIT WINDOWS SERVER 2008 R2'
+	'WINDOWS SERVER 2008 R2 64-BIT'
 	{
 		#// 75 percent of RAM or 128 GB, whichever is smaller
 		$iMemPoolMax = ($iPhysicalMemory * 0.75)
@@ -1556,7 +1544,7 @@ switch ($OS)
 		{$iMemPoolMax = 128GB}
 	}
   
-  '32-BIT WINDOWS 8'
+  'WINDOWS 8 32-BIT'
   {
 	  If ($UserVa -gt 2048) #// If /3GB
 	  {
@@ -1575,18 +1563,10 @@ switch ($OS)
 	  }
   }
   
-  '64-BIT WINDOWS 8'
-  {
-	  #// RAM or 128 GB, which ever is smaller
-	  $iMemPoolMax = $iPhysicalMemory
-	  If ($iMemPoolMax -gt 128GB)
-	  {$iMemPoolMax = 128GB}
-  }
-  
-	'64-BIT WINDOWS SERVER 2012'
+	default
 	{
-		#// RAM or 128 GB, which ever is smaller
-		$iMemPoolMax = $iPhysicalMemory
+		#// 75 percent of RAM or 128 GB, whichever is smaller
+		$iMemPoolMax = ($iPhysicalMemory * 0.75)
 		If ($iMemPoolMax -gt 128GB)
 		{$iMemPoolMax = 128GB}
 	}
@@ -1598,7 +1578,8 @@ StaticChartThreshold -CollectionOfCounterInstances $MemoryPoolNonpagedBytes -Min
         ]]></CODE>
       </SERIES>
       <SERIES NAME="Critical">
-        <CODE><![CDATA[
+        <CODE>
+    <![CDATA[
 $iPhysicalMemory = $([Math]::Round($PhysicalMemory,0))
 If ($iPhysicalMemory -eq 0)
 {$iPhysicalMemory = 1}
@@ -1606,7 +1587,7 @@ $iPhysicalMemory = $iPhysicalMemory * 1GB
 $OS = [string] $OS.ToUpper()
 switch ($OS)
 {
-  '32-BIT WINDOWS XP'
+  'WINDOWS XP 32-BIT'
   {
 	  If ($UserVa -gt 2048) #// If /3GB
 	  {$iMemPoolMax = 128 * 1MB}
@@ -1618,12 +1599,12 @@ switch ($OS)
 	  }
   }
   
-  '64-BIT WINDOWS XP'
+  'WINDOWS XP 64-BIT'
   {
     $iMemPoolMax = $iPhysicalMemory * 0.75
   }
   
-  '32-BIT WINDOWS SERVER 2003'
+  'WINDOWS SERVER 2003 32-BIT'
   {
 	  If ($UserVa -gt 2048) #// If /3GB
 	  {$iMemPoolMax = 128 * 1MB}
@@ -1635,12 +1616,12 @@ switch ($OS)
 	  }
   }
   
-  '64-BIT WINDOWS SERVER 2003'
+  'WINDOWS SERVER 2003 64-BIT'
   {
     $iMemPoolMax = $iPhysicalMemory * 0.75
   }
 
-  '32-BIT WINDOWS VISTA'
+  'WINDOWS VISTA 32-BIT'
   {
 		If ($UserVa -gt 2048) #// If /3GB
 		{
@@ -1659,7 +1640,7 @@ switch ($OS)
 		}
   }
   
-  '64-BIT WINDOWS VISTA'
+  'WINDOWS VISTA 64-BIT'
   {
 	  #// 75 percent of RAM or 128 GB, whichever is smaller
 	  $iMemPoolMax = ($iPhysicalMemory * 0.75)
@@ -1667,7 +1648,7 @@ switch ($OS)
 	  {$iMemPoolMax = 128GB}
   }
 
-  '32-BIT WINDOWS SERVER 2008'
+  'WINDOWS SERVER 2008 32-BIT'
   {
 	  If ($UserVa -gt 2048) #// If /3GB
 	  {
@@ -1686,7 +1667,7 @@ switch ($OS)
 	  }
   }
   
-  '64-BIT WINDOWS SERVER 2008'
+  'WINDOWS SERVER 2008 64-BIT'
   {
 	  #// 75 percent of RAM or 128 GB, whichever is smaller
 	  $iMemPoolMax = ($iPhysicalMemory * 0.75)
@@ -1694,7 +1675,7 @@ switch ($OS)
 	  {$iMemPoolMax = 128GB}
   }
 
-  '32-BIT WINDOWS 7'
+  'WINDOWS 7 32-BIT'
   {
 		If ($UserVa -gt 2048) #// If /3GB
 		{
@@ -1713,7 +1694,7 @@ switch ($OS)
 		}
   }
   
-  '64-BIT WINDOWS 7'
+  'WINDOWS 7 64-BIT'
   {
 	  #// 75 percent of RAM or 128 GB, whichever is smaller
 	  $iMemPoolMax = ($iPhysicalMemory * 0.75)
@@ -1721,7 +1702,7 @@ switch ($OS)
 	  {$iMemPoolMax = 128GB}
   }
   
-	'64-BIT WINDOWS SERVER 2008 R2'
+	'WINDOWS SERVER 2008 R2 64-BIT'
 	{
 		#// 75 percent of RAM or 128 GB, whichever is smaller
 		$iMemPoolMax = ($iPhysicalMemory * 0.75)
@@ -1729,7 +1710,7 @@ switch ($OS)
 		{$iMemPoolMax = 128GB}
 	}
   
-  '32-BIT WINDOWS 8'
+  'WINDOWS 8 32-BIT'
   {
 	  If ($UserVa -gt 2048) #// If /3GB
 	  {
@@ -1748,21 +1729,13 @@ switch ($OS)
 	  }
   }
   
-  '64-BIT WINDOWS 8'
-  {
-	  #// RAM or 128 GB, which ever is smaller
-	  $iMemPoolMax = $iPhysicalMemory
-	  If ($iMemPoolMax -gt 128GB)
-	  {$iMemPoolMax = 128GB}
-  }
-  
-	'64-BIT WINDOWS SERVER 2012'
+	default
 	{
-		#// RAM or 128 GB, which ever is smaller
-		$iMemPoolMax = $iPhysicalMemory
+		#// 75 percent of RAM or 128 GB, whichever is smaller
+		$iMemPoolMax = ($iPhysicalMemory * 0.75)
 		If ($iMemPoolMax -gt 128GB)
 		{$iMemPoolMax = 128GB}
-cd	}
+	}
 }
 
 $EightyPercentOfMemoryPoolMaximum = ($iMemPoolMax * 0.80)
@@ -1799,7 +1772,8 @@ Ruling Out Memory-Bound Problems<BR>
     <DATASOURCE TYPE="CounterLog" NAME="\Memory\Pool Paged Bytes" COLLECTIONVARNAME="MemoryPoolPagedBytes" EXPRESSIONPATH="\Memory\Pool Paged Bytes" DATATYPE="Integer" />
     <DATASOURCE TYPE="CounterLog" NAME="\Memory\Commit Limit" EXPRESSIONPATH="\Memory\Commit Limit" COLLECTIONVARNAME="CollectionOfMemoryCommitLimit" DATATYPE="integer" />
     <THRESHOLD NAME="More than 60% of Pool Paged Kernel Memory Used" CONDITION="Warning" COLOR="Yellow" PRIORITY="50" ID="">
-      <CODE><![CDATA[
+      <CODE>
+      <![CDATA[
 $iPhysicalMemory = $([Math]::Round($PhysicalMemory,0))
 If ($iPhysicalMemory -eq 0)
 {$iPhysicalMemory = 1}
@@ -1807,7 +1781,7 @@ $iPhysicalMemory = $iPhysicalMemory * 1GB
 $OS = [string] $OS.ToUpper()
 	switch ($OS)
 	{
-		'32-BIT WINDOWS XP'
+		'WINDOWS XP 32-BIT'
 		{
 			If ($UserVa -gt 2048) #// If /3GB and DynamicMemory of 1 TB assumed
 			{$iMemPoolMax = 158 * 1MB}
@@ -1819,7 +1793,7 @@ $OS = [string] $OS.ToUpper()
 				Else {$iMemPoolMax = 354 * 1MB}
 			}
     }
-		'64-BIT WINDOWS XP'
+		'WINDOWS XP 64-BIT'
 		{
       switch ($($iPhysicalMemory))
       {
@@ -1858,7 +1832,7 @@ $OS = [string] $OS.ToUpper()
         default {$iMemPoolMax = 54180MB}
       }
 		}
-		'32-BIT WINDOWS SERVER 2003'
+		'WINDOWS SERVER 2003 32-BIT'
 		{
 			If ($UserVa -gt 2048) #// If /3GB and DynamicMemory of 1 TB assumed
 			{$iMemPoolMax = 158 * 1MB}
@@ -1870,7 +1844,7 @@ $OS = [string] $OS.ToUpper()
 				Else {$iMemPoolMax = 354 * 1MB}
 			}
     }
-		'64-BIT WINDOWS SERVER 2003'
+		'WINDOWS SERVER 2003 64-BIT'
 		{
       switch ($($iPhysicalMemory))
       {
@@ -1910,7 +1884,7 @@ $OS = [string] $OS.ToUpper()
       }
 		}
     
-		'32-BIT WINDOWS VISTA'
+		'WINDOWS VISTA 32-BIT'
 		{
 			If ($UserVa -gt 2048) #// If /3GB
 			{
@@ -1927,13 +1901,13 @@ $OS = [string] $OS.ToUpper()
 			}
     }
     
-    '64-BIT WINDOWS VISTA'
+    'WINDOWS VISTA 64-BIT'
     {
 			#// 128 GB or system commit limit whichever is smaller
 			$iMemPoolMax = 128GB
     }
 
-		'32-BIT WINDOWS SERVER 2008'
+		'WINDOWS SERVER 2008 32-BIT'
 		{
 			If ($UserVa -gt 2048) #// If /3GB
 			{
@@ -1950,13 +1924,13 @@ $OS = [string] $OS.ToUpper()
 			}
 		}
     
-		'64-BIT WINDOWS SERVER 2008'
+		'WINDOWS SERVER 2008 64-BIT'
 		{
 		  #// 128 GB or system commit limit whichever is smaller
 		  $iMemPoolMax = 128GB
 		}
 
-    '32-BIT WINDOWS 7'
+    'WINDOWS 7 32-BIT'
     {
 		  If ($UserVa -gt 2048) #// If /3GB
 		  {
@@ -1973,19 +1947,19 @@ $OS = [string] $OS.ToUpper()
 		  }
     }
     
-    '64-BIT WINDOWS 7'
+    'WINDOWS 7 64-BIT'
     {
 	    #// 128 GB or system commit limit whichever is smaller
 	    $iMemPoolMax = 128GB
     }
 
-		'64-BIT WINDOWS SERVER 2008 R2'
+		'WINDOWS SERVER 2008 R2 64-BIT'
 		{
 			#// 128 GB or system commit limit whichever is smaller
 			$iMemPoolMax = 128GB
 		}
     
-    '32-BIT WINDOWS 8'
+    'WINDOWS 8 32-BIT'
     {
 			If ($UserVa -gt 2048) #// If /3GB
 			{
@@ -2001,17 +1975,11 @@ $OS = [string] $OS.ToUpper()
 				$iMemPoolMax = 2GB
 			}
     }
-
-    '64-BIT WINDOWS 8'
-    {
-			#// 384 GB or system commit limit whichever is smaller
-			$iMemPoolMax = 384GB
-    }
     
-		'64-BIT WINDOWS SERVER 2012'
+		default
 		{
-			#// 384 GB or system commit limit whichever is smaller
-			$iMemPoolMax = 384GB
+			#// 128 GB or system commit limit whichever is smaller
+			$iMemPoolMax = 128GB
 		}
 	}
 
@@ -2021,7 +1989,8 @@ StaticThreshold -CollectionOfCounterInstances $MemoryPoolPagedBytes -Operator 'g
          ]]></CODE>
     </THRESHOLD>
     <THRESHOLD NAME="More than 80% of Pool Paged Kernel Memory Used" CONDITION="Critical" COLOR="Red" PRIORITY="100" ID="">
-      <CODE><![CDATA[
+      <CODE>
+      <![CDATA[
 $iPhysicalMemory = $([Math]::Round($PhysicalMemory,0))
 If ($iPhysicalMemory -eq 0)
 {$iPhysicalMemory = 1}
@@ -2029,7 +1998,7 @@ $iPhysicalMemory = $iPhysicalMemory * 1GB
 $OS = [string] $OS.ToUpper()
 	switch ($OS)
 	{
-		'32-BIT WINDOWS XP'
+		'WINDOWS XP 32-BIT'
 		{
 			If ($UserVa -gt 2048) #// If /3GB and DynamicMemory of 1 TB assumed
 			{$iMemPoolMax = 158 * 1MB}
@@ -2041,7 +2010,7 @@ $OS = [string] $OS.ToUpper()
 				Else {$iMemPoolMax = 354 * 1MB}
 			}
     }
-		'64-BIT WINDOWS XP'
+		'WINDOWS XP 64-BIT'
 		{
       switch ($($iPhysicalMemory))
       {
@@ -2080,7 +2049,7 @@ $OS = [string] $OS.ToUpper()
         default {$iMemPoolMax = 54180MB}
       }
 		}
-		'32-BIT WINDOWS SERVER 2003'
+		'WINDOWS SERVER 2003 32-BIT'
 		{
 			If ($UserVa -gt 2048) #// If /3GB and DynamicMemory of 1 TB assumed
 			{$iMemPoolMax = 158 * 1MB}
@@ -2092,7 +2061,7 @@ $OS = [string] $OS.ToUpper()
 				Else {$iMemPoolMax = 354 * 1MB}
 			}
     }
-		'64-BIT WINDOWS SERVER 2003'
+		'WINDOWS SERVER 2003 64-BIT'
 		{
       switch ($($iPhysicalMemory))
       {
@@ -2132,7 +2101,7 @@ $OS = [string] $OS.ToUpper()
       }
 		}
     
-		'32-BIT WINDOWS VISTA'
+		'WINDOWS VISTA 32-BIT'
 		{
 			If ($UserVa -gt 2048) #// If /3GB
 			{
@@ -2149,13 +2118,13 @@ $OS = [string] $OS.ToUpper()
 			}
     }
     
-    '64-BIT WINDOWS VISTA'
+    'WINDOWS VISTA 64-BIT'
     {
 			#// 128 GB or system commit limit whichever is smaller
 			$iMemPoolMax = 128GB
     }
 
-		'32-BIT WINDOWS SERVER 2008'
+		'WINDOWS SERVER 2008 32-BIT'
 		{
 			If ($UserVa -gt 2048) #// If /3GB
 			{
@@ -2172,13 +2141,13 @@ $OS = [string] $OS.ToUpper()
 			}
 		}
     
-		'64-BIT WINDOWS SERVER 2008'
+		'WINDOWS SERVER 2008 64-BIT'
 		{
 		  #// 128 GB or system commit limit whichever is smaller
 		  $iMemPoolMax = 128GB
 		}
 
-    '32-BIT WINDOWS 7'
+    'WINDOWS 7 32-BIT'
     {
 		  If ($UserVa -gt 2048) #// If /3GB
 		  {
@@ -2195,19 +2164,19 @@ $OS = [string] $OS.ToUpper()
 		  }
     }
     
-    '64-BIT WINDOWS 7'
+    'WINDOWS 7 64-BIT'
     {
 	    #// 128 GB or system commit limit whichever is smaller
 	    $iMemPoolMax = 128GB
     }
 
-		'64-BIT WINDOWS SERVER 2008 R2'
+		'WINDOWS SERVER 2008 R2 64-BIT'
 		{
 			#// 128 GB or system commit limit whichever is smaller
 			$iMemPoolMax = 128GB
 		}
     
-    '32-BIT WINDOWS 8'
+    'WINDOWS 8 32-BIT'
     {
 			If ($UserVa -gt 2048) #// If /3GB
 			{
@@ -2223,17 +2192,11 @@ $OS = [string] $OS.ToUpper()
 				$iMemPoolMax = 2GB
 			}
     }
-
-    '64-BIT WINDOWS 8'
-    {
-			#// 384 GB or system commit limit whichever is smaller
-			$iMemPoolMax = 384GB
-    }
     
-		'64-BIT WINDOWS SERVER 2012'
+		default
 		{
-			#// 384 GB or system commit limit whichever is smaller
-			$iMemPoolMax = 384GB
+			#// 128 GB or system commit limit whichever is smaller
+			$iMemPoolMax = 128GB
 		}
 	}
 
@@ -2243,7 +2206,8 @@ StaticThreshold -CollectionOfCounterInstances $MemoryPoolPagedBytes -Operator 'g
     </THRESHOLD>
     <CHART CHARTTITLE="\Memory\Pool Paged Bytes" ISTHRESHOLDSADDED="True" DATASOURCE="\Memory\Pool Paged Bytes" CHARTLABELS="instance">
       <SERIES NAME="Warning">
-        <CODE><![CDATA[
+        <CODE>
+      <![CDATA[
 $iPhysicalMemory = $([Math]::Round($PhysicalMemory,0))
 If ($iPhysicalMemory -eq 0)
 {$iPhysicalMemory = 1}
@@ -2251,7 +2215,7 @@ $iPhysicalMemory = $iPhysicalMemory * 1GB
 $OS = [string] $OS.ToUpper()
 	switch ($OS)
 	{
-		'32-BIT WINDOWS XP'
+		'WINDOWS XP 32-BIT'
 		{
 			If ($UserVa -gt 2048) #// If /3GB and DynamicMemory of 1 TB assumed
 			{$iMemPoolMax = 158 * 1MB}
@@ -2264,7 +2228,7 @@ $OS = [string] $OS.ToUpper()
 			}
     }
     
-		'64-BIT WINDOWS XP'
+		'WINDOWS XP 64-BIT'
 		{
       switch ($($iPhysicalMemory))
       {
@@ -2303,7 +2267,7 @@ $OS = [string] $OS.ToUpper()
         default {$iMemPoolMax = 54180MB}
       }
 		}
-		'32-BIT WINDOWS SERVER 2003'
+		'WINDOWS SERVER 2003 32-BIT'
 		{
 			If ($UserVa -gt 2048) #// If /3GB and DynamicMemory of 1 TB assumed
 			{$iMemPoolMax = 158 * 1MB}
@@ -2315,7 +2279,7 @@ $OS = [string] $OS.ToUpper()
 				Else {$iMemPoolMax = 354 * 1MB}
 			}
     }
-		'64-BIT WINDOWS SERVER 2003'
+		'WINDOWS SERVER 2003 64-BIT'
 		{
       switch ($($iPhysicalMemory))
       {
@@ -2355,7 +2319,7 @@ $OS = [string] $OS.ToUpper()
       }
 		}
     
-		'32-BIT WINDOWS VISTA'
+		'WINDOWS VISTA 32-BIT'
 		{
 			If ($UserVa -gt 2048) #// If /3GB
 			{
@@ -2372,13 +2336,13 @@ $OS = [string] $OS.ToUpper()
 			}
     }
     
-    '64-BIT WINDOWS VISTA'
+    'WINDOWS VISTA 64-BIT'
     {
 			#// 128 GB or system commit limit whichever is smaller
 			$iMemPoolMax = 128GB
     }
 
-		'32-BIT WINDOWS SERVER 2008'
+		'WINDOWS SERVER 2008 32-BIT'
 		{
 			If ($UserVa -gt 2048) #// If /3GB
 			{
@@ -2395,13 +2359,13 @@ $OS = [string] $OS.ToUpper()
 			}
 		}
     
-		'64-BIT WINDOWS SERVER 2008'
+		'WINDOWS SERVER 2008 64-BIT'
 		{
 		  #// 128 GB or system commit limit whichever is smaller
 		  $iMemPoolMax = 128GB
 		}
 
-    '32-BIT WINDOWS 7'
+    'WINDOWS 7 32-BIT'
     {
 		  If ($UserVa -gt 2048) #// If /3GB
 		  {
@@ -2418,19 +2382,19 @@ $OS = [string] $OS.ToUpper()
 		  }
     }
     
-    '64-BIT WINDOWS 7'
+    'WINDOWS 7 64-BIT'
     {
 	    #// 128 GB or system commit limit whichever is smaller
 	    $iMemPoolMax = 128GB
     }
 
-		'64-BIT WINDOWS SERVER 2008 R2'
+		'WINDOWS SERVER 2008 R2 64-BIT'
 		{
 			#// 128 GB or system commit limit whichever is smaller
 			$iMemPoolMax = 128GB
 		}
     
-    '32-BIT WINDOWS 8'
+    'WINDOWS 8 32-BIT'
     {
 			If ($UserVa -gt 2048) #// If /3GB
 			{
@@ -2446,17 +2410,11 @@ $OS = [string] $OS.ToUpper()
 				$iMemPoolMax = 2GB
 			}
     }
-
-    '64-BIT WINDOWS 8'
-    {
-			#// 384 GB or system commit limit whichever is smaller
-			$iMemPoolMax = 384GB
-    }
     
-		'64-BIT WINDOWS SERVER 2012'
+		default
 		{
-			#// 384 GB or system commit limit whichever is smaller
-			$iMemPoolMax = 384GB
+			#// 128 GB or system commit limit whichever is smaller
+			$iMemPoolMax = 128GB
 		}
 	}
 
@@ -2466,7 +2424,8 @@ StaticChartThreshold -CollectionOfCounterInstances $MemoryPoolPagedBytes -MinThr
         ]]></CODE>
       </SERIES>
       <SERIES NAME="Critical">
-        <CODE><![CDATA[
+        <CODE>
+  <![CDATA[
 $iPhysicalMemory = $([Math]::Round($PhysicalMemory,0))
 If ($iPhysicalMemory -eq 0)
 {$iPhysicalMemory = 1}
@@ -2474,7 +2433,7 @@ $iPhysicalMemory = $iPhysicalMemory * 1GB
 $OS = [string] $OS.ToUpper()
 	switch ($OS)
 	{
-		'32-BIT WINDOWS XP'
+		'WINDOWS XP 32-BIT'
 		{
 			If ($UserVa -gt 2048) #// If /3GB and DynamicMemory of 1 TB assumed
 			{$iMemPoolMax = 158 * 1MB}
@@ -2486,7 +2445,7 @@ $OS = [string] $OS.ToUpper()
 				Else {$iMemPoolMax = 354 * 1MB}
 			}
     }
-		'64-BIT WINDOWS XP'
+		'WINDOWS XP 64-BIT'
 		{
       switch ($($iPhysicalMemory))
       {
@@ -2525,7 +2484,7 @@ $OS = [string] $OS.ToUpper()
         default {$iMemPoolMax = 54180MB}
       }
 		}
-		'32-BIT WINDOWS SERVER 2003'
+		'WINDOWS SERVER 2003 32-BIT'
 		{
 			If ($UserVa -gt 2048) #// If /3GB and DynamicMemory of 1 TB assumed
 			{$iMemPoolMax = 158 * 1MB}
@@ -2537,7 +2496,7 @@ $OS = [string] $OS.ToUpper()
 				Else {$iMemPoolMax = 354 * 1MB}
 			}
     }
-		'64-BIT WINDOWS SERVER 2003'
+		'WINDOWS SERVER 2003 64-BIT'
 		{
       switch ($($iPhysicalMemory))
       {
@@ -2577,7 +2536,7 @@ $OS = [string] $OS.ToUpper()
       }
 		}
     
-		'32-BIT WINDOWS VISTA'
+		'WINDOWS VISTA 32-BIT'
 		{
 			If ($UserVa -gt 2048) #// If /3GB
 			{
@@ -2594,13 +2553,13 @@ $OS = [string] $OS.ToUpper()
 			}
     }
     
-    '64-BIT WINDOWS VISTA'
+    'WINDOWS VISTA 64-BIT'
     {
 			#// 128 GB or system commit limit whichever is smaller
 			$iMemPoolMax = 128GB
     }
 
-		'32-BIT WINDOWS SERVER 2008'
+		'WINDOWS SERVER 2008 32-BIT'
 		{
 			If ($UserVa -gt 2048) #// If /3GB
 			{
@@ -2617,13 +2576,13 @@ $OS = [string] $OS.ToUpper()
 			}
 		}
     
-		'64-BIT WINDOWS SERVER 2008'
+		'WINDOWS SERVER 2008 64-BIT'
 		{
 		  #// 128 GB or system commit limit whichever is smaller
 		  $iMemPoolMax = 128GB
 		}
 
-    '32-BIT WINDOWS 7'
+    'WINDOWS 7 32-BIT'
     {
 		  If ($UserVa -gt 2048) #// If /3GB
 		  {
@@ -2640,19 +2599,19 @@ $OS = [string] $OS.ToUpper()
 		  }
     }
     
-    '64-BIT WINDOWS 7'
+    'WINDOWS 7 64-BIT'
     {
 	    #// 128 GB or system commit limit whichever is smaller
 	    $iMemPoolMax = 128GB
     }
 
-		'64-BIT WINDOWS SERVER 2008 R2'
+		'WINDOWS SERVER 2008 R2 64-BIT'
 		{
 			#// 128 GB or system commit limit whichever is smaller
 			$iMemPoolMax = 128GB
 		}
     
-    '32-BIT WINDOWS 8'
+    'WINDOWS 8 32-BIT'
     {
 			If ($UserVa -gt 2048) #// If /3GB
 			{
@@ -2669,16 +2628,10 @@ $OS = [string] $OS.ToUpper()
 			}
     }
 
-    '64-BIT WINDOWS 8'
-    {
-			#// 384 GB or system commit limit whichever is smaller
-			$iMemPoolMax = 384GB
-    }
-    
-		'64-BIT WINDOWS SERVER 2012'
+		default
 		{
-			#// 384 GB or system commit limit whichever is smaller
-			$iMemPoolMax = 384GB
+			#// 128 GB or system commit limit whichever is smaller
+			$iMemPoolMax = 128GB
 		}
 	}
 
