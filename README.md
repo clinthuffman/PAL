@@ -29,8 +29,9 @@ The PAL (Performance Analysis of Logs) tool is a powerful tool that reads in a p
  The current stable release version requires the Microsoft .NET 2.0 framework feature to be enabled on the Windows device. The pre-release version is compiled against the Microsoft .NET Framework 4.6.2 and typically does not require Windows OS features to be enabled specifically for this tool.
 
 ## How to download
-If you wish to install the PAL tool, then download `PAL_Setup`. It contains the Microsoft installer files.
-If you just want to run it without installation, then download `PAL_FlatFile`.
+If you wish to install the PAL tool, then download `PAL_Setup`. It contains the Microsoft installer files. Right-click and go to Properties of the zip file, select Unblock, and then click OK. Extract the zip file to a new, empty folder, and then run Setup.
+
+If you just want to run it without installation, then download `PAL_FlatFile`. Right-click and go to Properties of the zip file, select Unblock, and then click OK. Extract the zip file to a new, empty folder, and then run PALWizard.exe to use the tool.
 
 Both files can be downloaded from the [releases section](https://github.com/clinthuffman/PAL/releases)
 
