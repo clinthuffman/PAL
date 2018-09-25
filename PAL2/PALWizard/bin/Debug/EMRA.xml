@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+﻿<?xml version="1.0"?>
 <PAL PALXMLVERSION="2.0" NAME="EMRA" DESCRIPTION="" CONTENTOWNERS="James Turner" FEEDBACKEMAILADDRESS="jaturn@microsoft.com" VERSION="1.0">
   <ANALYSIS NAME="\Processor(_Total)\% Processor Time" ENABLED="True" CATEGORY="Processor" ID="{d69adc74-99ca-4975-abfe-88ebfbd4a677}" FROMALLCOUNTERSTATS="False">
     <DATASOURCE TYPE="CounterLog" NAME="\Processor(_Total)\% Processor Time" COLLECTIONVARNAME="CollectionOfProcessorPercentProcessorTime_Total" EXPRESSIONPATH="\Processor(_Total)\% Processor Time" NUMBEROFSAMPLESVARNAME="NumberOfSamplesProcessorPercentProcessorTime_Total" MINVARNAME="MinProcessorPercentProcessorTime_Total" AVGVARNAME="AvgProcessorPercentProcessorTime_Total" MAXVARNAME="MaxProcessorPercentProcessorTime_Total" TRENDVARNAME="TrendProcessorPercentProcessorTime_Total" DATATYPE="round3" />

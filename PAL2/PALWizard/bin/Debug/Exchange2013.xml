@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+﻿<?xml version="1.0"?>
 <PAL PALVERSION="2.0" NAME="Microsoft Exchange 2013" DESCRIPTION="Analyzes Exchange 2013 data to aid troubleshooting and system health reporting. Thresholds are referenced at the following link: https://technet.microsoft.com/en-us/library/dn904093%28v=exchg.150%29.aspx" VERSION="1.0" CONTENTOWNERS="Adrian Moore" FEEDBACKEMAILADDRESS="admoore@microsoft.com">
   <ANALYSIS NAME="MSExchange ADAccess Domain Controllers LDAP Read Time" ENABLED="True" CATEGORY="MSExchange ADAccess Domain Controllers" PRIMARYDATASOURCE="\MSExchange ADAccess Domain Controllers\LDAP Read Time" ID="6be20a1d-71b0-49ee-9e47-94c745e96d50" FROMALLCOUNTERSTATS="False">
     <DATASOURCE TYPE="CounterLog" NAME="\MSExchange ADAccess Domain Controllers\LDAP Read Time" COLLECTIONVARNAME="CollectionOfMSExchangeADAccessDomainControllersLDAPReadTime" EXPRESSIONPATH="\MSExchange ADAccess Domain Controllers\LDAP Read Time" TRENDVARNAME="TrendMSExchangeADAccessDomainControllersLDAPReadTime" DATATYPE="integer" />

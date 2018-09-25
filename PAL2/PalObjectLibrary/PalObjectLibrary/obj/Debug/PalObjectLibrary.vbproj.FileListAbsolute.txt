@@ -1,9 +1,0 @@
-C:\Users\clinth\Documents\~MyDocs\~Projects\PAL_PS\PalObjectLibrary\PalObjectLibrary\bin\Debug\PalObjectLibrary.dll
-C:\Users\clinth\Documents\~MyDocs\~Projects\PAL_PS\PalObjectLibrary\PalObjectLibrary\bin\Debug\PalObjectLibrary.pdb
-C:\Users\clinth\Documents\~MyDocs\~Projects\PAL_PS\PalObjectLibrary\PalObjectLibrary\bin\Debug\PalObjectLibrary.xml
-C:\Users\clinth\Documents\~MyDocs\~Projects\PAL_PS\PalObjectLibrary\PalObjectLibrary\obj\Debug\ResolveAssemblyReference.cache
-C:\Users\clinth\Documents\~MyDocs\~Projects\PAL_PS\PalObjectLibrary\PalObjectLibrary\obj\Debug\PalObjectLibrary.Resources.resources
-C:\Users\clinth\Documents\~MyDocs\~Projects\PAL_PS\PalObjectLibrary\PalObjectLibrary\obj\Debug\PalObjectLibrary.vbproj.GenerateResource.Cache
-C:\Users\clinth\Documents\~MyDocs\~Projects\PAL_PS\PalObjectLibrary\PalObjectLibrary\obj\Debug\PalObjectLibrary.dll
-C:\Users\clinth\Documents\~MyDocs\~Projects\PAL_PS\PalObjectLibrary\PalObjectLibrary\obj\Debug\PalObjectLibrary.xml
-C:\Users\clinth\Documents\~MyDocs\~Projects\PAL_PS\PalObjectLibrary\PalObjectLibrary\obj\Debug\PalObjectLibrary.pdb

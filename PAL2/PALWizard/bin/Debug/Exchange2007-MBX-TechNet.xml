@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+﻿<?xml version="1.0"?>
 <PAL NAME="Microsoft Exchange 2007 - Mailbox (TechNet)" DESCRIPTION="Includes counters and thresholds for the Exchange Server 2007 Mailbox role based on the following product documentation: http://technet.microsoft.com/en-us/library/bb201689%28v=exchg.80%29" VERSION="1.0" PALVERSION="2.0" CONTENTOWNERS="Kevan Brown" FEEDBACKEMAILADDRESS="kbrown@smartronix.com">
   <QUESTION QUESTIONVARNAME="DatabaseDisks" DATATYPE="string" DEFAULTVALUE="">Which volumes contain Exchange database files (*.edb files)? Seperate each volume with a semi-colon (;) e.g. E:;F:;G:</QUESTION>
   <QUESTION QUESTIONVARNAME="LogDisks" DATATYPE="string" DEFAULTVALUE="">Which volumes contain Exchange transaction log files (*.log files)? Seperate each volume with a semi-colon (;) e.g. E:;F:;G:</QUESTION>

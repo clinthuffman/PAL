@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+﻿<?xml version="1.0"?>
 <PAL PALVERSION="2.0" NAME="SharePoint Server 2013" DESCRIPTION="General performance counters to assist in identifying SharePoint 2010 specific performance issues" CONTENTOWNERS="Aaron Saikovski" FEEDBACKEMAILADDRESS="asaikov@microsoft.com" VERSION="1.1" LANGUAGE="English" LANGUAGECODE="en">
   <ANALYSIS NAME="SharePoint Foundation Current Page Requests" ENABLED="True" CATEGORY="SharePoint Foundation" PRIMARYDATASOURCE="\SharePoint Foundation(*)\Current Page Requests" ID="3e0c046a-2f6f-4515-b9d9-a6d4bda74cd0" FROMALLCOUNTERSTATS="False">
     <DESCRIPTION><![CDATA[The number of current requests in processing]]></DESCRIPTION>

@@ -19,7 +19,7 @@ Public Class frmPALExecutionWizard
     Dim oCommandsQueue As New PALFunctions.PALCommandQueueObject
     Const DEFAULT_OUTPUT_DIRECTORY As String = "[My Documents]\PAL Reports"
     Dim iUB As Integer = -1 'Upper bound of oCommandQueue.aCommandQueues 
-    Const PAL_VERSION As String = "v2.7.5"
+    Const PAL_VERSION As String = "v2.8.1"
 
     Private Function AutoDetectMatchCounterObjectsInLogToThresholdFiles(ByRef ListOfCounterObjectsFromCounterLog As List(Of String))
         Dim sArgs As String
@@ -196,17 +196,13 @@ Public Class frmPALExecutionWizard
         AllCounterStats = False
         IsLowPriority = True
         LinkLabelURL.Links.Remove(LinkLabelURL.Links(0))
-        LinkLabelURL.Links.Add(0, LinkLabelURL.Text.Length, "http://pal.codeplex.com")
+        LinkLabelURL.Links.Add(0, LinkLabelURL.Text.Length, "http://github.com/clinthuffman/PAL")
         LinkLabelLicense.Links.Remove(LinkLabelLicense.Links(0))
-        LinkLabelLicense.Links.Add(0, LinkLabelLicense.Text.Length, "http://pal.codeplex.com/license")
-        LinkLabelEmailClint.Links.Remove(LinkLabelEmailClint.Links(0))
-        LinkLabelEmailClint.Links.Add(0, LinkLabelEmailClint.Text.Length, "mailto:clinth@microsoft.com")
-        LinkLabelClinthBlog.Links.Remove(LinkLabelClinthBlog.Links(0))
-        LinkLabelClinthBlog.Links.Add(0, LinkLabelClinthBlog.Text.Length, "http://blogs.technet.com/clinth")
+        LinkLabelLicense.Links.Add(0, LinkLabelLicense.Text.Length, "https://github.com/clinthuffman/PAL/blob/master/LICENSE")
         LinkLabelAboutTheAuthorClintH.Links.Remove(LinkLabelAboutTheAuthorClintH.Links(0))
         LinkLabelAboutTheAuthorClintH.Links.Add(0, LinkLabelAboutTheAuthorClintH.Text.Length, "http://blogs.technet.com/clinth/archive/2009/12/03/about-the-author-clint-huffman.aspx")
         LinkLabelSupport.Links.Remove(LinkLabelSupport.Links(0))
-        LinkLabelSupport.Links.Add(0, LinkLabelSupport.Text.Length, "http://pal.codeplex.com/workitem/list/basic")
+        LinkLabelSupport.Links.Add(0, LinkLabelSupport.Text.Length, "https://github.com/clinthuffman/PAL/issues")
         bLowPriorityExecution = True
     End Sub
 
@@ -266,10 +262,11 @@ Public Class frmPALExecutionWizard
         Dim sDir As String
         Dim aFileParts() As String
         Dim i As Integer
-        OpenFileDialog1.Filter = "Log files (*.blg, *.csv, *.tsv)|*.blg;*.csv;*.tsv|All Files (*.*)|*.*"
+        OpenFileDialog1.Filter = "Log files (*.blg, *.csv)|*.blg;*.csv|All Files (*.*)|*.*"
         OpenFileDialog1.FileName = ""
         If OpenFileDialog1.ShowDialog() = DialogResult.OK Then
-            ComboBoxRunLogFile.Text = Join(OpenFileDialog1.FileNames, ";")
+            'ComboBoxRunLogFile.Text = Join(OpenFileDialog1.FileNames, ";")
+            txtCounterLogFilePath.Text = Join(OpenFileDialog1.FileNames, ";")
         End If
         aFileParts = Split(OpenFileDialog1.FileNames(0), "\")
         sDir = "."
@@ -282,7 +279,7 @@ Public Class frmPALExecutionWizard
                 End If
             End If
         Next
-        ReadBlgFilesIntoMemory(sDir)
+        'ReadBlgFilesIntoMemory(sDir)
     End Sub
 
     Sub ReadBlgFilesIntoMemory(ByVal sDir)
@@ -291,10 +288,12 @@ Public Class frmPALExecutionWizard
         If sDir = "" Then
             sDir = "."
         End If
-        ComboBoxRunLogFile.Items.Clear()
+        'ComboBoxRunLogFile.Items.Clear()
+        txtCounterLogFilePath.Text = ""
         oFiles = My.Computer.FileSystem.GetFiles(sDir, FileIO.SearchOption.SearchTopLevelOnly, "*.blg")
         For Each sFile In oFiles
-            ComboBoxRunLogFile.Items.Add(sFile)
+            'ComboBoxRunLogFile.Items.Add(sFile)
+            txtCounterLogFilePath.Text = sFile
         Next
     End Sub
 
@@ -361,7 +360,7 @@ Public Class frmPALExecutionWizard
     End Sub
 
     Sub RefreshCounterLogPage()
-        ReadBlgFilesIntoMemory(".")
+        'ReadBlgFilesIntoMemory(".")
     End Sub
 
     Private Sub TabControl_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles TabControl.SelectedIndexChanged
@@ -619,7 +618,7 @@ Public Class frmPALExecutionWizard
     End Function
 
     Function IsCounterLogDataValid()
-        If ComboBoxRunLogFile.Text = "" Then
+        If txtCounterLogFilePath.Text = "" Then
             MsgBox("Please specify a valid counter log path.")
             Return False
         Else
@@ -627,9 +626,9 @@ Public Class frmPALExecutionWizard
         End If
     End Function
 
-    Private Sub ComboBoxRunLogFile_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles ComboBoxRunLogFile.TextChanged
+    Private Sub txtCounterLogFilePath_TextChanged(sender As Object, e As EventArgs) Handles txtCounterLogFilePath.TextChanged
         Dim i As Integer
-        CounterLogPaths = ComboBoxRunLogFile.Text
+        CounterLogPaths = txtCounterLogFilePath.Text
         i = oCommandsQueue.aCommandQueue.GetUpperBound(0)
         oCommandsQueue.aCommandQueue(i).CounterLogPaths = CounterLogPaths
 
@@ -694,7 +693,7 @@ Public Class frmPALExecutionWizard
     End Sub
 
     Private Sub btnExportThresholdFileToPerfmonTemplate_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnExportThresholdFileToPerfmonTemplate.Click
-        MsgBox("I highly recommend using the PAL Collector script (powershell) to create data collector sets instead of using templates. Go to http://aka.ms/PalCollector.", MsgBoxStyle.OkOnly, "PAL Collector Notification")
+        'MsgBox("I highly recommend using the PAL Collector script (powershell) to create data collector sets instead of using templates. Go to http://aka.ms/PalCollector.", MsgBoxStyle.OkOnly, "PAL Collector Notification")
         ExportToThresholdFileToPerfmonTemplate()
     End Sub
 
@@ -878,11 +877,11 @@ Public Class frmPALExecutionWizard
         Dim oCounterLogFile As PALFunctions.PALCounterLogFileObject
         lblDateTimeRangeNote.Text = "Status: Please wait. Retrieving time range from counter log using Relog.exe from command line..."
         lblDateTimeRangeNote.Update()
-        oCounterLogFile = GetCounterLogInformation(ComboBoxRunLogFile.Text)
+        oCounterLogFile = GetCounterLogInformation(txtCounterLogFilePath.Text)
         If oCounterLogFile.dBeginTime <> "#12:00:00 AM#" Then
             DateTimePickerBeginTime.Value = oCounterLogFile.dBeginTime
             DateTimePickerEndTime.Value = oCounterLogFile.dEndTime
-            lblDateTimeRangeNote.Text = "Status: Done"
+            lblDateTimeRangeNote.Text = "Status: Ready"
             lblDateTimeRangeNote.Update()
         Else
             lblDateTimeRangeNote.Text = "Status: An error occurred retrieving time range from counter log using Relog.exe from command line."
@@ -1044,21 +1043,6 @@ Public Class frmPALExecutionWizard
         End Select
     End Sub
 
-    Private Sub ComboBoxQuestionAnswer_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ComboBoxQuestionAnswer.SelectedIndexChanged
-
-        Select Case ComboBoxQuestionAnswer.Text
-            Case "True"
-                dctQuestionCollection(sSelectedQuestion).bAnswer = True
-                dctQuestionCollection(sSelectedQuestion).sAnswer = "True"
-            Case "False"
-                dctQuestionCollection(sSelectedQuestion).bAnswer = False
-                dctQuestionCollection(sSelectedQuestion).sAnswer = "False"
-            Case Else
-                dctQuestionCollection(sSelectedQuestion).sAnswer = ComboBoxQuestionAnswer.Text
-        End Select
-        RefreshQueuePage()
-    End Sub
-
     Private Sub txtQuestionAnswer_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtQuestionAnswer.TextChanged
         If txtQuestionAnswer.Text <> "" Then
             dctQuestionCollection(sSelectedQuestion).sAnswer = txtQuestionAnswer.Text
@@ -1071,12 +1055,12 @@ Public Class frmPALExecutionWizard
         RefreshQueuePage()
     End Sub
 
-    Private Sub LinkLabelClinthBlog_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles LinkLabelClinthBlog.LinkClicked
+    Private Sub LinkLabelClinthBlog_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs)
         Dim sInfo As New ProcessStartInfo(e.Link.LinkData.ToString())
         Process.Start(sInfo)
     End Sub
 
-    Private Sub LinkLabelEmailClint_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles LinkLabelEmailClint.LinkClicked
+    Private Sub LinkLabelEmailClint_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs)
         Dim sInfo As New ProcessStartInfo(e.Link.LinkData.ToString())
         Process.Start(sInfo)
     End Sub
@@ -1293,6 +1277,20 @@ Public Class frmPALExecutionWizard
                 UpdateThresholdFile()
             End If
         End If
+    End Sub
+
+    Private Sub ComboBoxQuestionAnswer_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ComboBoxQuestionAnswer.SelectedIndexChanged
+        Select Case ComboBoxQuestionAnswer.Text
+            Case "True"
+                dctQuestionCollection(sSelectedQuestion).bAnswer = True
+                dctQuestionCollection(sSelectedQuestion).sAnswer = "True"
+            Case "False"
+                dctQuestionCollection(sSelectedQuestion).bAnswer = False
+                dctQuestionCollection(sSelectedQuestion).sAnswer = "False"
+            Case Else
+                dctQuestionCollection(sSelectedQuestion).sAnswer = ComboBoxQuestionAnswer.Text
+        End Select
+        RefreshQueuePage()
     End Sub
 
     Private Sub btnListBoxOfThresholdFileInheritanceDown_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnListBoxOfThresholdFileInheritanceDown.Click

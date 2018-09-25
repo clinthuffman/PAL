@@ -1,4 +1,4 @@
-<PAL NAME="Microsoft Exchange 2007" DESCRIPTION="Use this for general analysis of all Exchange 2007 Roles." CONTENTOWNERS="Mike Lagase" FEEDBACKEMAILADDRESS="mikelag@microsoft.com" VERSION="1.0" PALVERSION="2.0" LANGUAGE="English" LANGUAGECODE="en">
+﻿<PAL NAME="Microsoft Exchange 2007" DESCRIPTION="Use this for general analysis of all Exchange 2007 Roles." CONTENTOWNERS="Mike Lagase" FEEDBACKEMAILADDRESS="mikelag@microsoft.com" VERSION="1.0" PALVERSION="2.0" LANGUAGE="English" LANGUAGECODE="en">
   <INHERITANCE FILEPATH="QuickSystemOverview.xml" />
   <INHERITANCE FILEPATH="IIS.xml" />
   <ANALYSIS NAME="LogicalDisk Read Latency Analysis" ENABLED="True" CATEGORY="LogicalDisk" PRIMARYDATASOURCE="\LogicalDisk(*)\Avg. Disk sec/Read" ID="{dfb21d00-cf83-49e7-bf63-3d82db3d63c3}" FROMALLCOUNTERSTATS="False">

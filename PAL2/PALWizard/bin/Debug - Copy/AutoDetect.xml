@@ -1,4 +1,0 @@
-<?xml version="1.0"?>
-<PAL PALVERSION="2.0" NAME="Auto-Detect" DESCRIPTION="This setting will automatically detect the counters in the counter log and choose threshold files that apply to it." CONTENTOWNERS="Clint Huffman" FEEDBACKEMAILADDRESS="clinth@microsoft.com" VERSION="0.1" LANGUAGE="English" LANGUAGECODE="en">
-  <INHERITANCE FILEPATH="SystemOverview.xml" />
-</PAL>

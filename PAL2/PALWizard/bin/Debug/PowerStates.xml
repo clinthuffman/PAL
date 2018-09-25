@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+﻿<?xml version="1.0"?>
 <PAL PALVERSION="2.0" NAME="Windows power states" DESCRIPTION="Analyzes the power states of the operating system to identify areas of improvement." VERSION="1.0" CONTENTOWNERS="Clint Huffman" FEEDBACKEMAILADDRESS="clinth@microsoft.com">
   <ANALYSIS NAME="Power Meter Power" ENABLED="True" CATEGORY="Power Meter" PRIMARYDATASOURCE="\Power Meter(*)\Power" ID="80a7fa25-af6c-44d8-b9bd-ba6477c51e58" FROMALLCOUNTERSTATS="False">
     <DATASOURCE TYPE="CounterLog" NAME="\Power Meter(*)\Power" COLLECTIONVARNAME="CollectionOfPowerMeterPower" EXPRESSIONPATH="\Power Meter(*)\Power" TRENDVARNAME="TrendPowerMeterPower" DATATYPE="integer">

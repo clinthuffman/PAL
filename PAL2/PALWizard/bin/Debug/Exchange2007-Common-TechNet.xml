@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+﻿<?xml version="1.0"?>
 <PAL NAME="Microsoft Exchange 2007 - Common (TechNet)" DESCRIPTION="Includes counters and thresholds common across all Exchange Server 2007 roles based on the following product documentation: http://technet.microsoft.com/en-us/library/cc671175%28v=exchg.80%29" VERSION="1.0" PALVERSION="2.0" CONTENTOWNERS="Kevan Brown" FEEDBACKEMAILADDRESS="kbrown@smartronix.com">
   <ANALYSIS NAME="Processor % Processor Time" ENABLED="False" CATEGORY="Processor" PRIMARYDATASOURCE="\Processor(_Total)\% Processor Time" ID="7e4142dd-37a9-45ff-bd4e-4eeab19d0484" FROMALLCOUNTERSTATS="False">
     <DATASOURCE TYPE="CounterLog" NAME="\Processor(_Total)\% Processor Time" COLLECTIONVARNAME="CollectionOfProcessorPercentProcessorTime" EXPRESSIONPATH="\Processor(_Total)\% Processor Time" TRENDVARNAME="TrendProcessorPercentProcessorTime" DATATYPE="integer" />

@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+﻿<?xml version="1.0"?>
 <PAL PALVERSION="2.0" NAME="Microsoft Lync Server 2013 - Mediation" DESCRIPTION="Performance counter thresholds for Microsoft Lync Server 2013 Mediation Server." VERSION="1.0" CONTENTOWNERS="Doug Deitterick" FEEDBACKEMAILADDRESS="dodeitte@microsoft.com">
   <ANALYSIS NAME="LS:MediationServer - Media Relay - Candidates Missing" ENABLED="True" CATEGORY="LS:MediationServer - Media Relay" PRIMARYDATASOURCE="\LS:MediationServer - Media Relay\- Candidates Missing" ID="0c42e9a4-c458-4068-9a18-a81fb1aff2d7" FROMALLCOUNTERSTATS="False">
     <DESCRIPTION><![CDATA[Number of times Media stack does not have Media relay candidates.]]></DESCRIPTION>

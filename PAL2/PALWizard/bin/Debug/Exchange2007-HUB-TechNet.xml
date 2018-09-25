@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+﻿<?xml version="1.0"?>
 <PAL NAME="Microsoft Exchange 2007 - HUB (TechNet)" DESCRIPTION="Includes counters and thresholds for the Exchange Server 2007 Hub Transport server role based on the following product documentation: http://technet.microsoft.com/en-us/library/bb201704%28v=exchg.80%29" VERSION="1.0" PALVERSION="2.0" CONTENTOWNERS="Kevan Brown" FEEDBACKEMAILADDRESS="kbrown@smartronix.com">
   <ANALYSIS NAME="Hub Transport - LogicalDisk Avg. Disk sec/Read" ENABLED="True" CATEGORY="LogicalDisk" PRIMARYDATASOURCE="\LogicalDisk(*)\Avg. Disk sec/Read" ID="92ea0162-16d2-4060-8585-67f7c9ae57f0" FROMALLCOUNTERSTATS="False">
     <DATASOURCE TYPE="CounterLog" NAME="\LogicalDisk(*)\Avg. Disk sec/Read" COLLECTIONVARNAME="CollectionOfLogicalDiskAvgDisksecRead" EXPRESSIONPATH="\LogicalDisk(*)\Avg. Disk sec/Read" TRENDVARNAME="TrendLogicalDiskAvgDisksecRead" DATATYPE="round3">
@@ -537,7 +537,7 @@ For ($i=0;$i -lt $CollectionOfPhysicalDiskAvgDisksecWrite.Count;$i++)
 <p>Total number of version buckets allocated</p>
 <p>Shows the default backpressure values as listed in the edgetransport.exe.config file.</p>
 <p>Exchange 2007 release to manufacturing (RTM) version - Medium=60, High=100</p>
-<p>Exchange 2007 SP1 version – Medium=120, High=200</p>
+<p>Exchange 2007 SP1 version â€“ Medium=120, High=200</p>
 <p>For more database cache size guidance, see <a href="http://go.microsoft.com/fwlink/?LinkId=121590" target="_new">New maximum database cache size guidance for Exchange 2007 Hub Transport server role</a>.</p>
 <p><strong>TechNet Exchange Guidance:</strong></p>
 <p>For Exchange Server 2007 Hub Transport servers, this value should be less than 200 at all times.</p>]]></DESCRIPTION>

@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+﻿<?xml version="1.0"?>
 <PAL PALVERSION="2.0" NAME="Calculated Disk IOPS" DESCRIPTION="A quick overview of the system with calculated disk IOPS." CONTENTOWNERS="Clint Huffman" FEEDBACKEMAILADDRESS="clinth@microsoft.com" VERSION="1.8" LANGUAGE="English" LANGUAGECODE="en">
   <QUESTION QUESTIONVARNAME="RAID5Drives" DATATYPE="string" DEFAULTVALUE="NULL">List the physical disks that are using RAID5 separated by commas (,). Example: D,E,F. If you don't know, then use the default of NULL.</QUESTION>
   <QUESTION QUESTIONVARNAME="RAID1Drives" DATATYPE="string" DEFAULTVALUE="NULL">List the physical disks that are using RAID1, RAID0+1, or RAID10 separated by commas (,). Example: D,E,F. If you don't know, then use the default of NULL.</QUESTION>

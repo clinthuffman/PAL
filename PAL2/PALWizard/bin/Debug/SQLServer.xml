@@ -1,4 +1,4 @@
-<PAL NAME="Microsoft SQL Server 2005/2008" DESCRIPTION="Performance counter thresholds for Microsoft SQL Server 2005/2008." CONTENTOWNERS="David Pless" FEEDBACKEMAILADDRESS="dpless@microsoft.com" VERSION="1.1.4.1" PALVERSION="2.0" LANGUAGE="English" LANGUAGECODE="en">
+﻿<PAL NAME="Microsoft SQL Server 2005/2008" DESCRIPTION="Performance counter thresholds for Microsoft SQL Server 2005/2008." CONTENTOWNERS="David Pless" FEEDBACKEMAILADDRESS="dpless@microsoft.com" VERSION="1.1.4.1" PALVERSION="2.0" LANGUAGE="English" LANGUAGECODE="en">
   <ANALYSIS NAME="Process % Privileged Time" ENABLED="True" CATEGORY="Process" PRIMARYDATASOURCE="\Process(sqlservr)\% Privileged Time" ID="{827ecf3b-78aa-4611-8262-438e85213ae8}" FROMALLCOUNTERSTATS="False">
     <DATASOURCE TYPE="CounterLog" NAME="\Process(sqlservr)\% Privileged Time" COLLECTIONVARNAME="CollectionOfProcessPercentPrivilegedTimesqlservr" EXPRESSIONPATH="\Process(sqlservr)\% Privileged Time" DATATYPE="integer" />
     <THRESHOLD NAME="SQL Server is using more than 20% privileged (kernel) mode CPU usage" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
@@ -502,7 +502,7 @@ Workfiles Created/Sec the number of work files created per second. Work files ar
 Ensure that TempDB is not a bottleneck and is following best practices.
 If you determine that the throughput of your application has degraded because of contention in allocation structures, you can use the following techniques to minimize it.
 Evaluate your application and the query plans to see if you can minimize the creation of work tables and temporary tables. Monitor the perfmon counters as described in Monitoring contention caused by DML operations. Then, use SQL Profiler to correlate the values of these counters with the currently running queries. This helps you identify the queries that are causing the contention in allocation structures. 
-Divide tempdb into multiple data files of equal size. These multiple files donâ€™t necessarily be on different disks/spindles unless you are also encountering I/O bottlenecks as well. The general recommendation is to have one file per CPU because only one thread is active per CPU at one time. SQL Server allocates pages for tempdb objects in a round-robin fashion (also referred to as proportional fill) so that the latches on PFS and SGAM pages are distributed among multiple files. This is supported both in SQL Server 2000 and SQL Server 2005. There are improvements to the proportional fill algorithm in SQL Server 2005.
+Divide tempdb into multiple data files of equal size. These multiple files donÃ¢â‚¬â„¢t necessarily be on different disks/spindles unless you are also encountering I/O bottlenecks as well. The general recommendation is to have one file per CPU because only one thread is active per CPU at one time. SQL Server allocates pages for tempdb objects in a round-robin fashion (also referred to as proportional fill) so that the latches on PFS and SGAM pages are distributed among multiple files. This is supported both in SQL Server 2000 and SQL Server 2005. There are improvements to the proportional fill algorithm in SQL Server 2005.
 Use TF-1118. Under this trace flag SQL Server allocates full extents to each tempdb object, thereby eliminating the contention on SGAM page. This is done at the expense of some waste of disk space in tempdb. This trace flag has been available since SQL Server 2000. With improvements in tempdb object caching in SQL Server 2005, there should be significantly less contention in allocation structures. If you see contention in SGAM pages, you may want to use this trace flag. Cached tempdb objects may not always be available. For example, cached tempdb objects are destroyed when the query plan with which they are associated is recompiled or removed from the procedure cache.
 
 <BR><B>Reference:</B>
@@ -736,7 +736,7 @@ http://msdn.microsoft.com/en-us/library/ms189628.aspx
       </SERIES>
     </CHART>
     <DESCRIPTION><![CDATA[<B>SQLServer_Buffer Manager Page Reads_sec</B>
-<BR><BR><B>Description:</B> Number of physical database page reads issued per second. Number of physical database page reads issued. 80 â€“ 90 per second is normal, anything that is above indicates indexing or memory constraint.
+<BR><BR><B>Description:</B> Number of physical database page reads issued per second. Number of physical database page reads issued. 80 Ã¢â‚¬â€œ 90 per second is normal, anything that is above indicates indexing or memory constraint.
 <BR><B>Threshold: </B>
 <BR><B>Informational:</B> Page Reads/sec > 90
 <BR><B>Next Steps:</B>
@@ -765,7 +765,7 @@ Note: Before adjusting the fill factor, at a database level compare the SQL Serv
       </SERIES>
     </CHART>
     <DESCRIPTION><![CDATA[<B>SQLServer_Buffer Manager Page Writes_sec</B>
-<BR><BR><B>Description:</B> Number of physical database page writes issued per second.  80 â€“ 90 per second is normal, anything above, check the lazy writer/sec and Checkpoint pages/sec counter, if these counters are relatively high then, this indicates a memory constraint.
+<BR><BR><B>Description:</B> Number of physical database page writes issued per second.  80 Ã¢â‚¬â€œ 90 per second is normal, anything above, check the lazy writer/sec and Checkpoint pages/sec counter, if these counters are relatively high then, this indicates a memory constraint.
 <BR><B>Threshold:</B>
 <BR><B>Informational:</B> Page Writes/sec > 90
 <BR><B>Next Steps:</B>

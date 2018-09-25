@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+﻿<?xml version="1.0"?>
 <PAL NAME="Microsoft Exchange 2007 - EDGE (TechNet)" DESCRIPTION="Includes counters and thresholds for the Exchange Server 2007 Edge Transport role based on the following product documentation: http://technet.microsoft.com/en-us/library/ee532088%28v=exchg.80%29" VERSION="1.0" PALVERSION="2.0" CONTENTOWNERS="Kevan Brown" FEEDBACKEMAILADDRESS="kbrown@smartronix.com">
   <ANALYSIS NAME="MSExchangeTransport Queues Aggregate Delivery Queue Length (All Queues)" ENABLED="True" CATEGORY="MSExchangeTransport Queues" PRIMARYDATASOURCE="\MSExchangeTransport Queues(_total)\Aggregate Delivery Queue Length (All Queues)" ID="3429bea6-e1ad-4f36-971d-5b8f84db8101" FROMALLCOUNTERSTATS="False">
     <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeTransport Queues(_total)\Aggregate Delivery Queue Length (All Queues)" COLLECTIONVARNAME="CollectionOfMSExchangeTransportQueuesAggregateDeliveryQueueLengthAllQueues" EXPRESSIONPATH="\MSExchangeTransport Queues(_total)\Aggregate Delivery Queue Length (All Queues)" TRENDVARNAME="TrendMSExchangeTransportQueuesAggregateDeliveryQueueLengthAllQueues" DATATYPE="integer" />
@@ -750,7 +750,7 @@ For ($i=0;$i -lt $CollectionOfPhysicalDiskAvgDisksecWrite.Count;$i++)
     <CHART CHARTTITLE="\MSExchange Attachment Filtering\Messages Filtered/sec" ISTHRESHOLDSADDED="False" DATASOURCE="\MSExchange Attachment Filtering\Messages Filtered/sec" CHARTLABELS="instance" />
     <DESCRIPTION><![CDATA[<p></p><p>Messages Filtered per second is the number of messages per second that the attachment filtering agent blocked, attachment-stripped or silent deleted. If this rate rises greatly beyond what is "normal" for the Exchange server, it may indicate that the organization is being flooded with malicious e-mail.</p>
 <p><strong>TechNet Exchange Counter Description:</strong></p>
-<p>Shows the number of messages per second that the attachment filtering agent blocked, stripped of attachments, or silently deleted. If this rate rises greatly beyond what is “normal” for the Exchange server, it may indicate that the organization is being flooded with malicious e-mail.</p>
+<p>Shows the number of messages per second that the attachment filtering agent blocked, stripped of attachments, or silently deleted. If this rate rises greatly beyond what is â€œnormalâ€ for the Exchange server, it may indicate that the organization is being flooded with malicious e-mail.</p>
 <p><strong>TechNet Exchange Guidance:</strong></p>
 <p>Not applicable.</p>]]></DESCRIPTION>
   </ANALYSIS>

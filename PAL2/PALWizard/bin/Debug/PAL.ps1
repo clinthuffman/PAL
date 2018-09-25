@@ -1,37 +1,19 @@
 ﻿#requires -Version 2.0
-param(
-	$Log='SamplePerfmonLog.blg',
-	$ThresholdFile="QuickSystemOverview.xml",
-	$AnalysisInterval='AUTO',
-	$IsOutputHtml=$True,
-	$IsOutputXml=$False,
-	$HtmlOutputFileName="[LogFileName]_PAL_[DateTimeStamp].htm",
-	$XmlOutputFileName="[LogFileName]_PAL_[DateTimeStamp].xml",
-	$OutputDir="[My Documents]\PAL Reports",
-	$AllCounterStats=$False,
-	$BeginTime=$null,
-	$EndTime=$null,
-	[System.Int32] $NumberOfThreads=1,
-	$IsLowPriority=$False,
-	$DisplayReport=$True,
-	$ClearLog=$True
-)
+param($Log='SamplePerfmonLog.blg',$ThresholdFile="QuickSystemOverview.xml",$AnalysisInterval='AUTO',$IsOutputHtml=$True,$IsOutputXml=$False,$HtmlOutputFileName="[LogFileName]_PAL_[DateTimeStamp].htm",$XmlOutputFileName="[LogFileName]_PAL_[DateTimeStamp].xml",$OutputDir="[My Documents]\PAL Reports",$AllCounterStats=$False,$BeginTime=$null,$EndTime=$null,[System.Int32] $NumberOfThreads=1,$IsLowPriority=$False,$DisplayReport=$True)
 Set-StrictMode -Version 2
-if($ClearLog){
-	cls
-	$Error.Clear()
-}
+cls
 #//
-#// PAL v2.7
-#// Written by Clint Huffman (clinth@microsoft.com)
+#// PAL v2.8
+#// Written by Clint Huffman (clinthuffman@hotmail.com)
 #// This tool is not supported by Microsoft. 
-#// Please post all of your support questions to the PAL web site at http://pal.codeplex.com
+#// Please post all of your support questions to the PAL web site at http://github.com/clinthuffman/PAL
 
 #////////////////////////////////
 #// Global changable variables
 #///////////////////////////////
 
-$Version = '2.7.7'
+$Error.Clear()
+$Version = '2.8.1'
 $AutoAnalysisIntervalNumberOfTimeSlices = 30
 
 #// Chart Settings
@@ -57,7 +39,6 @@ $global:ScriptExecutionBeginTime = (Get-Date)
 $global:oOverallProgress = ''
 $global:OverallActiveAnalysis = ''
 $global:ErrorNumber = 0
-$global:sLogFileName = ''
 
 #///////////////
 #// Functions
@@ -68,6 +49,33 @@ Function Test-Property
     #// Provided by Jeffrey Snover
 	param ([Parameter(Position=0,Mandatory=1)]$InputObject,[Parameter(Position=1,Mandatory=1)]$Name)
 	[Bool](Get-Member -InputObject $InputObject -Name $Name -MemberType *Property)
+}
+
+function Decode-XmlEscapeValues
+{
+    param([string] $Value)
+    $Value = $Value -Replace '&amp;','&'
+    $Value = $Value -Replace '&quot;','"'
+    $Value = $Value -Replace '&lt;','<'
+    $Value = $Value -Replace '&gt;','>'
+    Return $Value
+}
+
+Function OpenHtmlReport
+{
+    param([string] $HtmlOutputFileName = '')
+
+    $HtmlOutputFileName
+    If ($(Test-Property $global:oPal -Name 'ArgsProcessed') -eq $True)
+    {
+        If (($global:oPal.ArgsProcessed.DisplayReport -eq $false) -or ($global:oPal.ArgsProcessed.IsOutputHtml -eq $False))
+        {
+            #// Don't automatically open the report or error.
+            Return
+        }
+    }
+    #// The ambersand is needed because there might be spaces in the file path to the HTML report.
+    Invoke-Expression -Command "&'$HtmlOutputFileName'"
 }
 
 Function WriteErrorToHtmlAndShow
@@ -137,7 +145,7 @@ Function WriteErrorToHtmlAndShow
     '<TABLE CELLPADDING=10 WIDTH="100%"><TR><TD BGCOLOR="#000000">' >> $h
     '<FONT COLOR="#FFFFFF" FACE="Tahoma" SIZE="5"><STRONG>Error processing "' + $($Log) + '"</STRONG></FONT><BR><BR>' >> $h
     '<FONT COLOR="#FFFFFF" FACE="Tahoma" SIZE="2"><STRONG>Report Generated at: ' + "$((get-date).tostring($global:sDateTimePattern))" + '</STRONG></FONT>' >> $h
-    '</TD><TD><A HREF="http://pal.codeplex.com"><FONT COLOR="#000000" FACE="Tahoma" SIZE="10">PAL</FONT><FONT COLOR="#000000" FACE="Tahoma" SIZE="5">v2</FONT></A></FONT>' >> $h
+    '</TD><TD><A HREF="http://github.com/clinthuffman/PAL"><FONT COLOR="#000000" FACE="Tahoma" SIZE="10">PAL</FONT><FONT COLOR="#000000" FACE="Tahoma" SIZE="5">v2</FONT></A></FONT>' >> $h
     '</TD></TR></TABLE>' >> $h
     '<BR>' >> $h
     "$global:oOverallProgress, $global:OverallActiveAnalysis" >> $h
@@ -159,7 +167,7 @@ Function WriteErrorToHtmlAndShow
     "IsLowPriority: $IsLowPriority<BR>" >> $h
     "DisplayReport: $DisplayReport<BR>" >> $h
     '<BR>' >> $h
-    '<BR>Please contact the PAL tool team with this error by posting it to <A HREF="http://pal.codeplex.com">pal.codeplex.com</A>. Thank you!<BR><BR>For detailed information, please look at the script execution log at <A HREF="file://' + $($global:oPal.Session.DebugLog) + '">' + $($global:oPal.Session.DebugLog) + '</A><BR>' >> $h
+    '<BR>Please contact the PAL tool team with this error by posting it to <A HREF="http://github.com/clinthuffman/PAL">GitHub.com/clinthuffman/PAL</A>. Thank you!<BR><BR>For detailed information, please look at the script execution log at <A HREF="file://' + $($global:oPal.Session.DebugLog) + '">' + $($global:oPal.Session.DebugLog) + '</A><BR>' >> $h
     '</HTML>' >> $h
     OpenHtmlReport -HtmlOutputFileName $h
 
@@ -261,7 +269,7 @@ Function InitializeGlobalVariables()
     $oScriptFileObject = Get-Item -Path $MyInvocation.ScriptName
     Add-Member -InputObject $global:oPal -MemberType NoteProperty -Name 'ScriptFileLastModified' -Value $oScriptFileObject.LastWriteTime
     $Legal = 'The information and actions by this tool is provided "as is" and is intended for information purposes only. The authors and contributors of this tool take no responsibility for damages or losses incurred by use of this tool.'
-    $sTempString = "PAL " + $global:oPal.Version + " (http://pal.codeplex.com)`nWritten by: Clint Huffman (clinth@microsoft.com) and other contributors.`nLast Modified: " + $global:oPal.ScriptFileLastModified + "`n$Legal`n"
+    $sTempString = "PAL " + $global:oPal.Version + " (http://github.com/clinthuffman/PAL)`nWritten by: Clint Huffman (clinthuffman@hotmail.com) and other contributors.`nLast Modified: " + $global:oPal.ScriptFileLastModified + "`n$Legal`n"
     Add-Member -InputObject $global:oPal -MemberType NoteProperty -Name 'MainHeader' -Value $sTempString
     Add-Member -InputObject $global:oPal -MemberType NoteProperty -Name 'QuestionVariables' -Value @{}
 
@@ -292,16 +300,16 @@ Function GlobalizationCheck
 {
     $sDisplayName = (Get-Culture).DisplayName
 	Write-Host "Your locale is set to: $sDisplayName"
-	If ($($sDisplayName.Contains('English')) -eq $false)
-	{
-        $global:bEnglishLocale = $false
-        Write-Host 'Your locale is not English. PAL unfortunately must be running under an English locale. Setting it to English-US.'
-        Set-EnglishLocales
-	}
-    Else
-    {
-        $global:bEnglishLocale = $true
-    }
+	#If ($($sDisplayName.Contains('English')) -eq $false)
+	#{
+    #    $global:bEnglishLocale = $false
+    #    Write-Host 'Your locale is not English. PAL unfortunately must be running under an English locale. Setting it to English-US.'
+    #    Set-EnglishLocales
+	#}
+    #Else
+    #{
+    #    $global:bEnglishLocale = $true
+    #}
 }
 
 Function ConvertTextTrueFalse($str)
@@ -525,9 +533,14 @@ Function ProcessArgs
 Function StartDebugLogFile
 {
     param($sDirectoryPath, $iAttempt)
-	
-	$timestamp = $((Get-Date).ToFileTimeUtc())
-    $sFilePath = $sDirectoryPath + "\PAL-$timestamp-$iAttempt.log"
+	If ($iAttempt -eq 0) 
+	{
+        $sFilePath = $sDirectoryPath + "\PAL.log"
+    }
+	Else
+	{
+        $sFilePath = $sDirectoryPath + "\PAL" + $iAttempt + ".log"
+    }
 	$erroractionpreference = "SilentlyContinue"
     
 	Trap
@@ -751,9 +764,6 @@ Function GetFirstPerfmonLogFileName()
 	}
 	# Remove the file extension
 	$sString = $sString.SubString(0,$sString.Length - 4)
-
-    $global:sLogFileName = $sString
-
 	Return $sString
 }
 
@@ -838,7 +848,7 @@ Function CreateFileSystemResources()
 Function ReadThresholdFileIntoMemory
 {
 	param($sThresholdFilePath)	
-	[xml] (Get-Content $sThresholdFilePath)	
+	[xml] (Get-Content $sThresholdFilePath -Encoding UTF8)	
 }
 
 Function CreateXmlObject
@@ -895,7 +905,7 @@ Function InheritFromThresholdFiles
 {
     param($sThresholdFilePath)
     
-    $XmlThresholdFile = [xml] (Get-Content $sThresholdFilePath)
+    $XmlThresholdFile = [xml] (Get-Content $sThresholdFilePath -Encoding UTF8)
     CheckPalXmlThresholdFileVersion -XmlThresholdFile $XmlThresholdFile
     #// Add it to the threshold file load history, so that we don't get into an endless loop of inheritance.
     If ($global:oXml.ThresholdFilePathLoadHistory.Contains($sThresholdFilePath) -eq $False)
@@ -906,27 +916,19 @@ Function InheritFromThresholdFiles
     #// Inherit from other threshold files.
     ForEach ($XmlInheritance in $XmlThresholdFile.SelectNodes('//INHERITANCE'))
     {
-		$inheritedXml = $($XmlInheritance.FilePath)
-		if(-not ([string]::IsNullOrWhiteSpace($inheritedXml))){
-			$inheritedXml =  Resolve-Path "$PSScriptRoot\$inheritedXml"
-		}
-        If ($(Test-FileExists $inheritedXml) -eq $True)
+        If ($(Test-FileExists $XmlInheritance.FilePath) -eq $True)
         {
-            $XmlInherited = [xml] (Get-Content $inheritedXml)
+            $XmlInherited = [xml] (Get-Content $XmlInheritance.FilePath -Encoding UTF8)
             ForEach ($XmlInheritedAnalysisNode in $XmlInherited.selectNodes('//ANALYSIS'))
             {
                 $bFound = $False            
                 ForEach ($XmlAnalysisNode in $global:oXml.XmlAnalyses.SelectNodes('//ANALYSIS'))
                 {
-                    If (($(Test-property -InputObject $XmlInheritedAnalysisNode -Name 'ID') -eq $True) -and ($(Test-property -InputObject $XmlAnalysisNode -Name 'ID') -eq $True))
+                    If ($XmlInheritedAnalysisNode.ID -eq $XmlAnalysisNode.ID)
                     {
-                        If ($XmlInheritedAnalysisNode.ID -eq $XmlAnalysisNode.ID)
-                        {
-                            $bFound = $True
-                            Break
-                        }
+                        $bFound = $True
+                        Break
                     }
-
                     If ($XmlInheritedAnalysisNode.NAME -eq $XmlAnalysisNode.NAME)
                     {
                         $bFound = $True
@@ -955,14 +957,11 @@ Function InheritFromThresholdFiles
                 }
             }
             
-    		If ($global:oXml.ThresholdFilePathLoadHistory.Contains($inheritedXml) -eq $False)
+    		If ($global:oXml.ThresholdFilePathLoadHistory.Contains($XmlInheritance.FilePath) -eq $False)
     		{
-    			InheritFromThresholdFiles $inheritedXml
+    			InheritFromThresholdFiles $XmlInheritance.FilePath
     		}
         }
-		elseif(-not [string]::IsNullOrWhiteSpace($inheritedXml)){
-			Write-Warning "Unable to locate inherited file $inheritedXml..."
-		}
     }
 }
 
@@ -1154,26 +1153,33 @@ Function MergeConvertFilterPerfmonLogs
 			}
 			$sTemp = $sTemp.Trim()
 
-            If ($global:oPal.ArgsProcessed.AllCounterStats -eq $True)
-            {
-                $sCommand = $('relog.exe ' + "`"$sTemp`"" + ' -f csv -o ' + "`"$($global:oPal.RelogedLogFilePath)`"")
-            }
-            Else
-            {
-                $sCommand = $('relog.exe ' + "`"$sTemp`"" + ' -cf ' + "`"$($global:oPal.Session.CounterListFilePath)`"" + ' -f csv -o ' + "`"$($global:oPal.RelogedLogFilePath)`"")
-            }
+            #// Dont filter anymore. Filtering causes problems with counter language translation
+            $sCommand = $('relog.exe ' + "`"$sTemp`"" + ' -f csv -o ' + "`"$($global:oPal.RelogedLogFilePath)`"")
+
+            #If ($global:oPal.ArgsProcessed.AllCounterStats -eq $True)
+            #{
+            #    $sCommand = $('relog.exe ' + "`"$sTemp`"" + ' -f csv -o ' + "`"$($global:oPal.RelogedLogFilePath)`"")
+            #}
+            #Else
+            #{
+            #    $sCommand = $('relog.exe ' + "`"$sTemp`"" + ' -cf ' + "`"$($global:oPal.Session.CounterListFilePath)`"" + ' -f csv -o ' + "`"$($global:oPal.RelogedLogFilePath)`"")
+            #}
 		}
 		Else
 		{
             $global:sFirstCounterLogFilePath = $sPerfmonLogPaths
-            If ($global:oPal.ArgsProcessed.AllCounterStats -eq $True)
-            {
-                $sCommand = $('relog.exe ' + "`"$sPerfmonLogPaths`"" + ' -f csv -o ' + "`"$($global:oPal.RelogedLogFilePath)`"" + ' -y')
-            }
-            Else
-            {
-                $sCommand = 'relog.exe ' + "`"$sPerfmonLogPaths`"" + ' -cf ' + "`"$($global:oPal.Session.CounterListFilterFilePath)`"" + ' -f csv -o ' + "`"$($global:oPal.RelogedLogFilePath)`"" + ' -y'
-            }
+
+            #// Dont filter anymore. Filtering causes problems with counter language translation
+            $sCommand = $('relog.exe ' + "`"$sPerfmonLogPaths`"" + ' -f csv -o ' + "`"$($global:oPal.RelogedLogFilePath)`"" + ' -y')
+
+            #If ($global:oPal.ArgsProcessed.AllCounterStats -eq $True)
+            #{
+            #    $sCommand = $('relog.exe ' + "`"$sPerfmonLogPaths`"" + ' -f csv -o ' + "`"$($global:oPal.RelogedLogFilePath)`"" + ' -y')
+            #}
+            #Else
+            #{
+            #    $sCommand = 'relog.exe ' + "`"$sPerfmonLogPaths`"" + ' -cf ' + "`"$($global:oPal.Session.CounterListFilterFilePath)`"" + ' -f csv -o ' + "`"$($global:oPal.RelogedLogFilePath)`"" + ' -y'
+            #}
 		}
 	}
 	Else
@@ -1479,16 +1485,12 @@ Function GenerateXmlCounterList
         
         $sCounterPath = $c[$i]
         $oCtr = CounterPathToObject -sCounterPath $sCounterPath
-        $sCounterObject = ''
-        if ($(Test-Property -InputObject $oCtr -Name 'Computer') -eq $True)
-        {
-    	    $sCounterComputer = $oCtr.Computer
-            $sCounterObject = $oCtr.Object
-            $sCounterName = $oCtr.Name
-            $sCounterInstance = $oCtr.Instance
-        }
+    	$sCounterComputer = $oCtr.Computer
+        $sCounterObject = $oCtr.Object
+        $sCounterName = $oCtr.Name
+        $sCounterInstance = $oCtr.Instance
 
-        If (($sCounterObject -ne $null) -and ($sCounterObject -ne ''))
+        If ($sCounterObject -ne $null)
         {
             $IsCounterComputerFound = $False
             $IsCounterObjectFound = $False
@@ -1683,10 +1685,171 @@ Function Test-XmlBoolAttribute
     }
 }
 
+function IsCounterObjectLangMatch
+{
+    param([xml] $xmlCounterLang, [string] $CounterObjectEnUs, [string] $CounterObject)
+
+    [bool] $IsCounterObjectMatch = $false
+    foreach ($CounterLangObject in $xmlCounterLang.CounterLang.ChildNodes)
+    {
+        if ($CounterLangObject.enus -eq $CounterObjectEnUs)
+        {
+            if ((Decode-XmlEscapeValues -Value $CounterLangObject.csCZ) -eq $CounterObject) {$IsCounterObjectMatch = $true}
+            if ((Decode-XmlEscapeValues -Value $CounterLangObject.deDE) -eq $CounterObject) {$IsCounterObjectMatch = $true}
+            if ((Decode-XmlEscapeValues -Value $CounterLangObject.esES) -eq $CounterObject) {$IsCounterObjectMatch = $true}
+            if ((Decode-XmlEscapeValues -Value $CounterLangObject.frFR) -eq $CounterObject) {$IsCounterObjectMatch = $true}
+            if ((Decode-XmlEscapeValues -Value $CounterLangObject.huHU) -eq $CounterObject) {$IsCounterObjectMatch = $true}
+            if ((Decode-XmlEscapeValues -Value $CounterLangObject.itIT) -eq $CounterObject) {$IsCounterObjectMatch = $true}
+            if ((Decode-XmlEscapeValues -Value $CounterLangObject.jaJP) -eq $CounterObject) {$IsCounterObjectMatch = $true}
+            if ((Decode-XmlEscapeValues -Value $CounterLangObject.koKR) -eq $CounterObject) {$IsCounterObjectMatch = $true}
+            if ((Decode-XmlEscapeValues -Value $CounterLangObject.nlNL) -eq $CounterObject) {$IsCounterObjectMatch = $true}
+            if ((Decode-XmlEscapeValues -Value $CounterLangObject.plPL) -eq $CounterObject) {$IsCounterObjectMatch = $true}
+            if ((Decode-XmlEscapeValues -Value $CounterLangObject.ptBR) -eq $CounterObject) {$IsCounterObjectMatch = $true}
+            if ((Decode-XmlEscapeValues -Value $CounterLangObject.ptPT) -eq $CounterObject) {$IsCounterObjectMatch = $true}
+            if ((Decode-XmlEscapeValues -Value $CounterLangObject.ruRU) -eq $CounterObject) {$IsCounterObjectMatch = $true}
+            if ((Decode-XmlEscapeValues -Value $CounterLangObject.svSE) -eq $CounterObject) {$IsCounterObjectMatch = $true}
+            if ((Decode-XmlEscapeValues -Value $CounterLangObject.trTR) -eq $CounterObject) {$IsCounterObjectMatch = $true}
+            if ((Decode-XmlEscapeValues -Value $CounterLangObject.zhCN) -eq $CounterObject) {$IsCounterObjectMatch = $true}
+            Return $IsCounterObjectMatch
+        }
+    }
+    Return $IsCounterObjectMatch
+}
+
+function IsCounterNameLangMatch
+{
+    param([xml] $xmlCounterLang, [string] $CounterObjectEnUs, [string] $CounterNameEnUs, [string] $CounterName)
+    [bool] $IsMatch = $false
+    foreach ($CounterLangObject in $xmlCounterLang.CounterLang.ChildNodes)
+    {
+        if ($CounterLangObject.enus -eq $CounterObjectEnUs)
+        {
+            foreach ($CounterLangName in $CounterLangObject.ChildNodes)
+            {
+                if ($CounterLangName.enus -eq $CounterNameEnUs)
+                {
+                    if ((Decode-XmlEscapeValues -Value $CounterLangName.csCZ) -eq $CounterName) {$IsMatch = $true}
+                    if ((Decode-XmlEscapeValues -Value $CounterLangName.deDE) -eq $CounterName) {$IsMatch = $true}
+                    if ((Decode-XmlEscapeValues -Value $CounterLangName.esES) -eq $CounterName) {$IsMatch = $true}
+                    if ((Decode-XmlEscapeValues -Value $CounterLangName.frFR) -eq $CounterName) {$IsMatch = $true}
+                    if ((Decode-XmlEscapeValues -Value $CounterLangName.huHU) -eq $CounterName) {$IsMatch = $true}
+                    if ((Decode-XmlEscapeValues -Value $CounterLangName.itIT) -eq $CounterName) {$IsMatch = $true}
+                    if ((Decode-XmlEscapeValues -Value $CounterLangName.jaJP) -eq $CounterName) {$IsMatch = $true}
+                    if ((Decode-XmlEscapeValues -Value $CounterLangName.koKR) -eq $CounterName) {$IsMatch = $true}
+                    if ((Decode-XmlEscapeValues -Value $CounterLangName.nlNL) -eq $CounterName) {$IsMatch = $true}
+                    if ((Decode-XmlEscapeValues -Value $CounterLangName.plPL) -eq $CounterName) {$IsMatch = $true}
+                    if ((Decode-XmlEscapeValues -Value $CounterLangName.ptBR) -eq $CounterName) {$IsMatch = $true}
+                    if ((Decode-XmlEscapeValues -Value $CounterLangName.ptPT) -eq $CounterName) {$IsMatch = $true}
+                    if ((Decode-XmlEscapeValues -Value $CounterLangName.ruRU) -eq $CounterName) {$IsMatch = $true}
+                    if ((Decode-XmlEscapeValues -Value $CounterLangName.svSE) -eq $CounterName) {$IsMatch = $true}
+                    if ((Decode-XmlEscapeValues -Value $CounterLangName.trTR) -eq $CounterName) {$IsMatch = $true}
+                    if ((Decode-XmlEscapeValues -Value $CounterLangName.zhCN) -eq $CounterName) {$IsMatch = $true}
+                    Return $IsMatch
+                }
+            }
+        }
+    }
+    Return $IsMatch
+}
+
+function Get-CounterObjectLanguage
+{
+    param([xml] $XmlCounterLang, [string] $CounterObject)
+
+    [string] $DetectedLanguage = 'enUS'
+    [bool] $IsFound = $False
+
+    foreach ($XmlCounterLangObject in $XmlCounterLang.CounterLang.ChildNodes)
+    {
+        if ((Decode-XmlEscapeValues -Value $XmlCounterLangObject.csCZ) -eq $CounterObject) {$DetectedLanguage = 'csCZ';$IsFound = $True}
+        if ((Decode-XmlEscapeValues -Value $XmlCounterLangObject.deDE) -eq $CounterObject) {$DetectedLanguage = 'deDE';$IsFound = $True}
+        if ((Decode-XmlEscapeValues -Value $XmlCounterLangObject.esES) -eq $CounterObject) {$DetectedLanguage = 'esES';$IsFound = $True}
+        if ((Decode-XmlEscapeValues -Value $XmlCounterLangObject.frFR) -eq $CounterObject) {$DetectedLanguage = 'frFR';$IsFound = $True}
+        if ((Decode-XmlEscapeValues -Value $XmlCounterLangObject.huHU) -eq $CounterObject) {$DetectedLanguage = 'huHU';$IsFound = $True}
+        if ((Decode-XmlEscapeValues -Value $XmlCounterLangObject.itIT) -eq $CounterObject) {$DetectedLanguage = 'itIT';$IsFound = $True}
+        if ((Decode-XmlEscapeValues -Value $XmlCounterLangObject.jaJP) -eq $CounterObject) {$DetectedLanguage = 'jaJP';$IsFound = $True}
+        if ((Decode-XmlEscapeValues -Value $XmlCounterLangObject.koKR) -eq $CounterObject) {$DetectedLanguage = 'koKR';$IsFound = $True}
+        if ((Decode-XmlEscapeValues -Value $XmlCounterLangObject.nlNL) -eq $CounterObject) {$DetectedLanguage = 'nlNL';$IsFound = $True}
+        if ((Decode-XmlEscapeValues -Value $XmlCounterLangObject.plPL) -eq $CounterObject) {$DetectedLanguage = 'plPL';$IsFound = $True}
+        if ((Decode-XmlEscapeValues -Value $XmlCounterLangObject.ptBR) -eq $CounterObject) {$DetectedLanguage = 'ptBR';$IsFound = $True}
+        if ((Decode-XmlEscapeValues -Value $XmlCounterLangObject.ptPT) -eq $CounterObject) {$DetectedLanguage = 'ptPT';$IsFound = $True}
+        if ((Decode-XmlEscapeValues -Value $XmlCounterLangObject.ruRU) -eq $CounterObject) {$DetectedLanguage = 'ruRU';$IsFound = $True}
+        if ((Decode-XmlEscapeValues -Value $XmlCounterLangObject.svSE) -eq $CounterObject) {$DetectedLanguage = 'svSE';$IsFound = $True}
+        if ((Decode-XmlEscapeValues -Value $XmlCounterLangObject.trTR) -eq $CounterObject) {$DetectedLanguage = 'trTR';$IsFound = $True}
+        if ((Decode-XmlEscapeValues -Value $XmlCounterLangObject.zhCN) -eq $CounterObject) {$DetectedLanguage = 'zhCN';$IsFound = $True}
+        if ($IsFound -eq $True) {Return $DetectedLanguage}
+    }
+    Return $DetectedLanguage
+}
+
+function Get-CounterTranslations
+{
+    param([xml] $xmlCounterLang, [string] $CounterObjectEnUs, [string] $CounterNameEnUs)
+    $oTranslations = New-Object System.Object
+
+    foreach ($CounterLangObject in $xmlCounterLang.CounterLang.SelectNodes('//CounterObject'))
+    {
+        if ($CounterLangObject.enus -eq $CounterObjectEnUs)
+        {
+            Add-Member -InputObject $oTranslations -MemberType NoteProperty -Name 'csCZ' -Value (Decode-XmlEscapeValues -Value $CounterLangObject.csCZ)
+            Add-Member -InputObject $oTranslations -MemberType NoteProperty -Name 'deDE' -Value (Decode-XmlEscapeValues -Value $CounterLangObject.deDE)
+            Add-Member -InputObject $oTranslations -MemberType NoteProperty -Name 'enUS' -Value (Decode-XmlEscapeValues -Value $CounterLangObject.enUS)
+            Add-Member -InputObject $oTranslations -MemberType NoteProperty -Name 'esES' -Value (Decode-XmlEscapeValues -Value $CounterLangObject.esES)
+            Add-Member -InputObject $oTranslations -MemberType NoteProperty -Name 'frFR' -Value (Decode-XmlEscapeValues -Value $CounterLangObject.frFR)
+            Add-Member -InputObject $oTranslations -MemberType NoteProperty -Name 'huHU' -Value (Decode-XmlEscapeValues -Value $CounterLangObject.huHU)
+            Add-Member -InputObject $oTranslations -MemberType NoteProperty -Name 'itIT' -Value (Decode-XmlEscapeValues -Value $CounterLangObject.itIT)
+            Add-Member -InputObject $oTranslations -MemberType NoteProperty -Name 'jaJP' -Value (Decode-XmlEscapeValues -Value $CounterLangObject.jaJP)
+            Add-Member -InputObject $oTranslations -MemberType NoteProperty -Name 'koKR' -Value (Decode-XmlEscapeValues -Value $CounterLangObject.koKR)
+            Add-Member -InputObject $oTranslations -MemberType NoteProperty -Name 'nlNL' -Value (Decode-XmlEscapeValues -Value $CounterLangObject.nlNL)
+            Add-Member -InputObject $oTranslations -MemberType NoteProperty -Name 'plPL' -Value (Decode-XmlEscapeValues -Value $CounterLangObject.plPL)
+            Add-Member -InputObject $oTranslations -MemberType NoteProperty -Name 'ptBR' -Value (Decode-XmlEscapeValues -Value $CounterLangObject.ptBR)
+            Add-Member -InputObject $oTranslations -MemberType NoteProperty -Name 'ptPT' -Value (Decode-XmlEscapeValues -Value $CounterLangObject.ptPT)
+            Add-Member -InputObject $oTranslations -MemberType NoteProperty -Name 'ruRU' -Value (Decode-XmlEscapeValues -Value $CounterLangObject.ruRU)
+            Add-Member -InputObject $oTranslations -MemberType NoteProperty -Name 'svSE' -Value (Decode-XmlEscapeValues -Value $CounterLangObject.svSE)
+            Add-Member -InputObject $oTranslations -MemberType NoteProperty -Name 'trTR' -Value (Decode-XmlEscapeValues -Value $CounterLangObject.trTR)
+            Add-Member -InputObject $oTranslations -MemberType NoteProperty -Name 'zhCN' -Value (Decode-XmlEscapeValues -Value $CounterLangObject.zhCN)
+            
+            foreach ($XmlCounterNames in $CounterLangObject.SelectNodes('./CounterName'))
+            {
+                if ($CounterNameEnUs -eq $XmlCounterNames.enUS)
+                {
+                    #$oCounterNameTranslation = New-Object pscustomobject
+                    $oCounterNameTranslation = New-Object System.Object
+                    Add-Member -InputObject $oCounterNameTranslation -MemberType NoteProperty -Name 'csCZ' -Value (Decode-XmlEscapeValues -Value $XmlCounterNames.csCZ)
+                    Add-Member -InputObject $oCounterNameTranslation -MemberType NoteProperty -Name 'deDE' -Value (Decode-XmlEscapeValues -Value $XmlCounterNames.deDE)
+                    Add-Member -InputObject $oCounterNameTranslation -MemberType NoteProperty -Name 'enUS' -Value (Decode-XmlEscapeValues -Value $XmlCounterNames.enUS)
+                    Add-Member -InputObject $oCounterNameTranslation -MemberType NoteProperty -Name 'esES' -Value (Decode-XmlEscapeValues -Value $XmlCounterNames.esES)
+                    Add-Member -InputObject $oCounterNameTranslation -MemberType NoteProperty -Name 'frFR' -Value (Decode-XmlEscapeValues -Value $XmlCounterNames.frFR)
+                    Add-Member -InputObject $oCounterNameTranslation -MemberType NoteProperty -Name 'huHU' -Value (Decode-XmlEscapeValues -Value $XmlCounterNames.huHU)
+                    Add-Member -InputObject $oCounterNameTranslation -MemberType NoteProperty -Name 'itIT' -Value (Decode-XmlEscapeValues -Value $XmlCounterNames.itIT)
+                    Add-Member -InputObject $oCounterNameTranslation -MemberType NoteProperty -Name 'jaJP' -Value (Decode-XmlEscapeValues -Value $XmlCounterNames.jaJP)
+                    Add-Member -InputObject $oCounterNameTranslation -MemberType NoteProperty -Name 'koKR' -Value (Decode-XmlEscapeValues -Value $XmlCounterNames.koKR)
+                    Add-Member -InputObject $oCounterNameTranslation -MemberType NoteProperty -Name 'nlNL' -Value (Decode-XmlEscapeValues -Value $XmlCounterNames.nlNL)
+                    Add-Member -InputObject $oCounterNameTranslation -MemberType NoteProperty -Name 'plPL' -Value (Decode-XmlEscapeValues -Value $XmlCounterNames.plPL)
+                    Add-Member -InputObject $oCounterNameTranslation -MemberType NoteProperty -Name 'ptBR' -Value (Decode-XmlEscapeValues -Value $XmlCounterNames.ptBR)
+                    Add-Member -InputObject $oCounterNameTranslation -MemberType NoteProperty -Name 'ptPT' -Value (Decode-XmlEscapeValues -Value $XmlCounterNames.ptPT)
+                    Add-Member -InputObject $oCounterNameTranslation -MemberType NoteProperty -Name 'ruRU' -Value (Decode-XmlEscapeValues -Value $XmlCounterNames.ruRU)
+                    Add-Member -InputObject $oCounterNameTranslation -MemberType NoteProperty -Name 'svSE' -Value (Decode-XmlEscapeValues -Value $XmlCounterNames.svSE)
+                    Add-Member -InputObject $oCounterNameTranslation -MemberType NoteProperty -Name 'trTR' -Value (Decode-XmlEscapeValues -Value $XmlCounterNames.trTR)
+                    Add-Member -InputObject $oCounterNameTranslation -MemberType NoteProperty -Name 'zhCN' -Value (Decode-XmlEscapeValues -Value $XmlCounterNames.zhCN)
+                    Add-Member -InputObject $oTranslations -MemberType NoteProperty -Name 'CounterName' -Value $oCounterNameTranslation
+                    Return $oTranslations
+                }
+            }            
+        }
+    }
+    Return $oTranslations
+}
+
 Function GetRawDataSourceData($XmlDataSource)
 {
     [bool] $IsAtLeastOneCounterInstanceFound = $False
     $htCounterIndexes = @()
+
+    if ((Test-Path -Path 'CounterLang.xml') -eq $True)
+    {
+        $xmlCounterLang = [xml] (Get-Content -Path 'CounterLang.xml' -Encoding UTF8)
+    }    
 
     $oCtr = CounterPathToObject -sCounterPath $XmlDataSource.EXPRESSIONPATH
     $oReCtr = $oCtr
@@ -1694,6 +1857,8 @@ Function GetRawDataSourceData($XmlDataSource)
     $sDsCounterName = $oCtr.Name
     $sDsCounterInstance = $oCtr.Instance
 	$iCounterIndexInCsv = 0
+
+    $oDsCounterTranslations = Get-CounterTranslations -xmlCounterLang $xmlCounterLang -CounterObjectEnUs $sDsCounterObject -CounterNameEnUs $sDsCounterName
 
     If ($(Test-XmlBoolAttribute -InputObject $XmlDataSource -Name 'ISCOUNTEROBJECTREGULAREXPRESSION') -eq $True)
     {
@@ -1732,7 +1897,7 @@ Function GetRawDataSourceData($XmlDataSource)
     :CounterComputerLoop ForEach ($XmlCounterComputerNode in $global:oXml.XmlCounterLogCounterInstanceList.SelectNodes('//COUNTERCOMPUTER'))
     {
         :CounterObjectLoop ForEach ($XmlCounterObjectNode in $XmlCounterComputerNode.ChildNodes)
-        {
+        {            
             $IsCounterObjectMatch = $False
             If ($IsCounterObjectRegularExpression -eq $True)
             {
@@ -1748,6 +1913,44 @@ Function GetRawDataSourceData($XmlDataSource)
                     $IsCounterObjectMatch = $True
                 }
             }
+
+            #// Try counter object language match
+
+            if (($sDsCounterObject -eq 'LogicalDisk') -and ($XmlCounterObjectNode.NAME -eq 'LogicalDisk'))
+            {
+                $blah = $True
+            }
+
+            if ($IsCounterObjectMatch -eq $False)
+            {
+                if (Test-Property -InputObject $oDsCounterTranslations -Name 'enUS')
+                {
+                    If ($oDsCounterTranslations.enUS -ne '')
+                    {
+                        Switch ($XmlCounterObjectNode.NAME)
+                        {
+                            $oDsCounterTranslations.csCZ {$IsCounterObjectMatch = $True}
+                            $oDsCounterTranslations.deDE {$IsCounterObjectMatch = $True}
+                            $oDsCounterTranslations.enUS {$IsCounterObjectMatch = $True}
+                            $oDsCounterTranslations.esES {$IsCounterObjectMatch = $True}
+                            $oDsCounterTranslations.frFR {$IsCounterObjectMatch = $True}
+                            $oDsCounterTranslations.huHU {$IsCounterObjectMatch = $True}
+                            $oDsCounterTranslations.itIT {$IsCounterObjectMatch = $True}
+                            $oDsCounterTranslations.jaJP {$IsCounterObjectMatch = $True}
+                            $oDsCounterTranslations.koKR {$IsCounterObjectMatch = $True}
+                            $oDsCounterTranslations.nlNL {$IsCounterObjectMatch = $True}
+                            $oDsCounterTranslations.plPL {$IsCounterObjectMatch = $True}
+                            $oDsCounterTranslations.ptBR {$IsCounterObjectMatch = $True}
+                            $oDsCounterTranslations.ptPT {$IsCounterObjectMatch = $True}
+                            $oDsCounterTranslations.ruRU {$IsCounterObjectMatch = $True}
+                            $oDsCounterTranslations.svSE {$IsCounterObjectMatch = $True}
+                            $oDsCounterTranslations.trTR {$IsCounterObjectMatch = $True}
+                            $oDsCounterTranslations.zhCN {$IsCounterObjectMatch = $True}
+                        }
+                    }
+                }
+            }
+
             If ($IsCounterObjectMatch -eq $True)
             {
                 :CounterNameLoop ForEach ($XmlCounterNameNode in $XmlCounterObjectNode.ChildNodes)
@@ -1767,6 +1970,40 @@ Function GetRawDataSourceData($XmlDataSource)
                             $IsCounterNameMatch = $True
                         }
                     }
+
+                    if ($IsCounterNameMatch -eq $False)
+                    {
+                        if (Test-Property -InputObject $oDsCounterTranslations -Name 'CounterName')
+                        {
+                            if (Test-Property -InputObject $oDsCounterTranslations.CounterName -Name 'enUS')
+                            {
+                                If ($oDsCounterTranslations.CounterName.enUS -ne '')
+                                {
+                                    Switch ($XmlCounterNameNode.NAME)
+                                    {
+                                        $oDsCounterTranslations.CounterName.csCZ {$IsCounterNameMatch = $True}
+                                        $oDsCounterTranslations.CounterName.deDE {$IsCounterNameMatch = $True}
+                                        $oDsCounterTranslations.CounterName.enUS {$IsCounterNameMatch = $True}
+                                        $oDsCounterTranslations.CounterName.esES {$IsCounterNameMatch = $True}
+                                        $oDsCounterTranslations.CounterName.frFR {$IsCounterNameMatch = $True}
+                                        $oDsCounterTranslations.CounterName.huHU {$IsCounterNameMatch = $True}
+                                        $oDsCounterTranslations.CounterName.itIT {$IsCounterNameMatch = $True}
+                                        $oDsCounterTranslations.CounterName.jaJP {$IsCounterNameMatch = $True}
+                                        $oDsCounterTranslations.CounterName.koKR {$IsCounterNameMatch = $True}
+                                        $oDsCounterTranslations.CounterName.nlNL {$IsCounterNameMatch = $True}
+                                        $oDsCounterTranslations.CounterName.plPL {$IsCounterNameMatch = $True}
+                                        $oDsCounterTranslations.CounterName.ptBR {$IsCounterNameMatch = $True}
+                                        $oDsCounterTranslations.CounterName.ptPT {$IsCounterNameMatch = $True}
+                                        $oDsCounterTranslations.CounterName.ruRU {$IsCounterNameMatch = $True}
+                                        $oDsCounterTranslations.CounterName.svSE {$IsCounterNameMatch = $True}
+                                        $oDsCounterTranslations.CounterName.trTR {$IsCounterNameMatch = $True}
+                                        $oDsCounterTranslations.CounterName.zhCN {$IsCounterNameMatch = $True}
+                                    }
+                                }
+                            }
+                        }
+                    }
+
                     If ($IsCounterNameMatch -eq $True)
                     {
                         :CounterInstanceLoop ForEach ($XmlCounterInstanceNode in $XmlCounterNameNode.ChildNodes)
@@ -1895,27 +2132,7 @@ Function GetCounterDataFromPerfmonLog($iCounterIndexInCsv)
     
     For ($i=1;$i -lt $global:oPal.LogCounterData.Count;$i++)
     {
-        #Write-Output $i
-        If ($iCounterIndexInCsv -eq 0)
-        {
-            #// This data is expected to be time stamps as type string.
-            [System.String] $dValue = $global:oPal.LogCounterData[$i][$iCounterIndexInCsv]
-            [void] $aValues.Add($dValue)
-        }
-        Else
-        {
-            #// This data is expected to be counter values as type Double.
-            $sValue = $global:oPal.LogCounterData[$i][$iCounterIndexInCsv]
-            If ($(IsNumeric -Value $sValue) -eq $True)
-            {
-                [System.Double] $dValue = $global:oPal.LogCounterData[$i][$iCounterIndexInCsv]
-            }
-            Else
-            {
-                [System.String] $dValue = '-'
-            }            
-            [void] $aValues.Add($dValue)
-        }
+        [void] $aValues.Add($($global:oPal.LogCounterData[$i][$iCounterIndexInCsv]))
     }
 	$aValues
 }
@@ -1997,82 +2214,79 @@ Function AddCounterStatsToXmlCounterInstances
 
         If ($XmlDataSource.TYPE -eq 'CounterLog')
         {
-            If (@($oDataSource.CounterInstances).Count -gt 0)
-            {
-                ForEach ($oCounterInstance in @($oDataSource.CounterInstances))
-                {            
-                    If (@($XmlDataSource.COUNTERINSTANCE).Count -gt 1)
-                    {
-                        $XmlCounterInstance = $XmlDataSource.COUNTERINSTANCE[$oCounterInstance.XmlNodeIndex]
-                    }
-                    Else
-                    {
-                        $XmlCounterInstance = $XmlDataSource.COUNTERINSTANCE
-                    }
-
-                    If ($oCounterInstance.oStats.Min -is [System.Double])
-                    {$XmlCounterInstance.SetAttribute("MIN", $($oCounterInstance.oStats.Min))}
-                    Else {$XmlCounterInstance.SetAttribute("MIN","")}
-        
-                    If ($oCounterInstance.oStats.Avg -is [System.Double])
-                    {$XmlCounterInstance.SetAttribute("AVG", $($oCounterInstance.oStats.Avg))}
-                    Else {$XmlCounterInstance.SetAttribute("AVG","")}
-        
-                    If ($oCounterInstance.oStats.Max -is [System.Double])
-                    {$XmlCounterInstance.SetAttribute("MAX", $($oCounterInstance.oStats.Max))}
-                    Else {$XmlCounterInstance.SetAttribute("MAX","")}
-
-                    If ($oCounterInstance.oStats.Trend -is [System.Double])
-                    {$XmlCounterInstance.SetAttribute("TREND", $($oCounterInstance.oStats.Trend))}
-                    Else {$XmlCounterInstance.SetAttribute("TREND","")}
-        
-                    If ($oCounterInstance.oStats.StdDev -is [System.Double])
-                    {$XmlCounterInstance.SetAttribute("STDDEV", $($oCounterInstance.oStats.StdDev))}
-                    Else {$XmlCounterInstance.SetAttribute("STDDEV","")}
-        
-                    If ($oCounterInstance.oStats.PercentileSeventyth -is [System.Double])
-                    {$XmlCounterInstance.SetAttribute("PERCENTILESEVENTYTH", $($oCounterInstance.oStats.PercentileSeventyth))}
-                    Else {$XmlCounterInstance.SetAttribute("PERCENTILESEVENTYTH","")}
-        
-                    If ($oCounterInstance.oStats.PercentileEightyth -is [System.Double])
-                    {$XmlCounterInstance.SetAttribute("PERCENTILEEIGHTYTH", $($oCounterInstance.oStats.PercentileEightyth))}
-                    Else {$XmlCounterInstance.SetAttribute("PERCENTILEEIGHTYTH","")}
-        
-                    If ($oCounterInstance.oStats.PercentileNinetyth -is [System.Double])
-                    {$XmlCounterInstance.SetAttribute("PERCENTILENINETYTH", $($oCounterInstance.oStats.PercentileNinetyth))}
-                    Else {$XmlCounterInstance.SetAttribute("PERCENTILENINETYTH","")}
-        
-                    If (($oCounterInstance.oStats.QuantizedMinValues -is [System.Collections.ArrayList]) -and ($oCounterInstance.oStats.QuantizedMinValues -ne $null))
-                    {
-                        [string] $sStringValues = [string]::Join(',',$($oCounterInstance.oStats.QuantizedMinValues))
-                        $XmlCounterInstance.SetAttribute("QUANTIZEDMIN", $sStringValues)
-                    }
-                    Else {$XmlCounterInstance.SetAttribute("QUANTIZEDMIN","")}
-        
-                    If (($oCounterInstance.oStats.QuantizedAvgValues -is [System.Collections.ArrayList]) -and ($oCounterInstance.oStats.QuantizedAvgValues -ne $null))
-                    {
-                        [string] $sStringValues = [string]::Join(',',$($oCounterInstance.oStats.QuantizedAvgValues))
-                        $XmlCounterInstance.SetAttribute("QUANTIZEDAVG", $sStringValues)
-                    }
-                    Else {$XmlCounterInstance.SetAttribute("QUANTIZEDAVG","")}
-        
-                    If (($oCounterInstance.oStats.QuantizedMaxValues -is [System.Collections.ArrayList]) -and ($oCounterInstance.oStats.QuantizedMaxValues -ne $null))
-                    {
-                        [string] $sStringValues = [string]::Join(',',$($oCounterInstance.oStats.QuantizedMaxValues))
-                        $XmlCounterInstance.SetAttribute("QUANTIZEDMAX", $sStringValues)
-                    }
-                    Else {$XmlCounterInstance.SetAttribute("QUANTIZEDMAX","")}
-        
-                    If (($oCounterInstance.oStats.QuantizedTrendValues -is [System.Collections.ArrayList]) -and ($oCounterInstance.oStats.QuantizedTrendValues -ne $null))
-                    {
-                        [string] $sStringValues = [string]::Join(',',$($oCounterInstance.oStats.QuantizedTrendValues))
-                        $XmlCounterInstance.SetAttribute("QUANTIZEDTREND", $sStringValues)
-                    }
-                    Else {$XmlCounterInstance.SetAttribute("QUANTIZEDTREND","")}
-
-                    $oCtr = CounterPathToObject -sCounterPath $oCounterInstance.Path
-                    AddToCounterInstanceStatsArrayList $oCounterInstance.Path $oPal.aTime $oCounterInstance.aValues $oPal.QuantizedTime $($oCounterInstance.oStats.QuantizedMinValues) $($oCounterInstance.oStats.QuantizedAvgValues) $($oCounterInstance.oStats.QuantizedMaxValues) $($oCounterInstance.oStats.QuantizedTrendValues) $oCtr.Computer $oCtr.Object $oCtr.Name $oCtr.Instance $($oCounterInstance.oStats.Min) $($oCounterInstance.oStats.Avg) $($oCounterInstance.oStats.Max) $($oCounterInstance.oStats.Trend) $($oCounterInstance.oStats.StdDev) $($oCounterInstance.oStats.PercentileSeventyth) $($oCounterInstance.oStats.PercentileEightyth) $($oCounterInstance.oStats.PercentileNinetyth)
+            ForEach ($oCounterInstance in @($oDataSource.CounterInstances))
+            {            
+                If (@($XmlDataSource.COUNTERINSTANCE).Count -gt 1)
+                {
+                    $XmlCounterInstance = $XmlDataSource.COUNTERINSTANCE[$oCounterInstance.XmlNodeIndex]
                 }
+                Else
+                {
+                    $XmlCounterInstance = $XmlDataSource.COUNTERINSTANCE
+                }
+
+                If ($oCounterInstance.oStats.Min -is [System.Double])
+                {$XmlCounterInstance.SetAttribute("MIN", $($oCounterInstance.oStats.Min))}
+                Else {$XmlCounterInstance.SetAttribute("MIN","")}
+        
+                If ($oCounterInstance.oStats.Avg -is [System.Double])
+                {$XmlCounterInstance.SetAttribute("AVG", $($oCounterInstance.oStats.Avg))}
+                Else {$XmlCounterInstance.SetAttribute("AVG","")}
+        
+                If ($oCounterInstance.oStats.Max -is [System.Double])
+                {$XmlCounterInstance.SetAttribute("MAX", $($oCounterInstance.oStats.Max))}
+                Else {$XmlCounterInstance.SetAttribute("MAX","")}
+
+                If ($oCounterInstance.oStats.Trend -is [System.Double])
+                {$XmlCounterInstance.SetAttribute("TREND", $($oCounterInstance.oStats.Trend))}
+                Else {$XmlCounterInstance.SetAttribute("TREND","")}
+        
+                If ($oCounterInstance.oStats.StdDev -is [System.Double])
+                {$XmlCounterInstance.SetAttribute("STDDEV", $($oCounterInstance.oStats.StdDev))}
+                Else {$XmlCounterInstance.SetAttribute("STDDEV","")}
+        
+                If ($oCounterInstance.oStats.PercentileSeventyth -is [System.Double])
+                {$XmlCounterInstance.SetAttribute("PERCENTILESEVENTYTH", $($oCounterInstance.oStats.PercentileSeventyth))}
+                Else {$XmlCounterInstance.SetAttribute("PERCENTILESEVENTYTH","")}
+        
+                If ($oCounterInstance.oStats.PercentileEightyth -is [System.Double])
+                {$XmlCounterInstance.SetAttribute("PERCENTILEEIGHTYTH", $($oCounterInstance.oStats.PercentileEightyth))}
+                Else {$XmlCounterInstance.SetAttribute("PERCENTILEEIGHTYTH","")}
+        
+                If ($oCounterInstance.oStats.PercentileNinetyth -is [System.Double])
+                {$XmlCounterInstance.SetAttribute("PERCENTILENINETYTH", $($oCounterInstance.oStats.PercentileNinetyth))}
+                Else {$XmlCounterInstance.SetAttribute("PERCENTILENINETYTH","")}
+        
+                If (($oCounterInstance.oStats.QuantizedMinValues -is [System.Collections.ArrayList]) -and ($oCounterInstance.oStats.QuantizedMinValues -ne $null))
+                {
+                    [string] $sStringValues = [string]::Join(',',$($oCounterInstance.oStats.QuantizedMinValues))
+                    $XmlCounterInstance.SetAttribute("QUANTIZEDMIN", $sStringValues)
+                }
+                Else {$XmlCounterInstance.SetAttribute("QUANTIZEDMIN","")}
+        
+                If (($oCounterInstance.oStats.QuantizedAvgValues -is [System.Collections.ArrayList]) -and ($oCounterInstance.oStats.QuantizedAvgValues -ne $null))
+                {
+                    [string] $sStringValues = [string]::Join(',',$($oCounterInstance.oStats.QuantizedAvgValues))
+                    $XmlCounterInstance.SetAttribute("QUANTIZEDAVG", $sStringValues)
+                }
+                Else {$XmlCounterInstance.SetAttribute("QUANTIZEDAVG","")}
+        
+                If (($oCounterInstance.oStats.QuantizedMaxValues -is [System.Collections.ArrayList]) -and ($oCounterInstance.oStats.QuantizedMaxValues -ne $null))
+                {
+                    [string] $sStringValues = [string]::Join(',',$($oCounterInstance.oStats.QuantizedMaxValues))
+                    $XmlCounterInstance.SetAttribute("QUANTIZEDMAX", $sStringValues)
+                }
+                Else {$XmlCounterInstance.SetAttribute("QUANTIZEDMAX","")}
+        
+                If (($oCounterInstance.oStats.QuantizedTrendValues -is [System.Collections.ArrayList]) -and ($oCounterInstance.oStats.QuantizedTrendValues -ne $null))
+                {
+                    [string] $sStringValues = [string]::Join(',',$($oCounterInstance.oStats.QuantizedTrendValues))
+                    $XmlCounterInstance.SetAttribute("QUANTIZEDTREND", $sStringValues)
+                }
+                Else {$XmlCounterInstance.SetAttribute("QUANTIZEDTREND","")}
+
+                $oCtr = CounterPathToObject -sCounterPath $oCounterInstance.Path
+                AddToCounterInstanceStatsArrayList $oCounterInstance.Path $oPal.aTime $oCounterInstance.aValues $oPal.QuantizedTime $($oCounterInstance.oStats.QuantizedMinValues) $($oCounterInstance.oStats.QuantizedAvgValues) $($oCounterInstance.oStats.QuantizedMaxValues) $($oCounterInstance.oStats.QuantizedTrendValues) $oCtr.Computer $oCtr.Object $oCtr.Name $oCtr.Instance $($oCounterInstance.oStats.Min) $($oCounterInstance.oStats.Avg) $($oCounterInstance.oStats.Max) $($oCounterInstance.oStats.Trend) $($oCounterInstance.oStats.StdDev) $($oCounterInstance.oStats.PercentileSeventyth) $($oCounterInstance.oStats.PercentileEightyth) $($oCounterInstance.oStats.PercentileNinetyth)
             }
         }
     }
@@ -2122,12 +2336,11 @@ Function AddCompletedJobBatchToXmlCounterInstances
 Function UpdateOverallProgress
 {
     param([string] $Status='')
-
     $global:iOverallCompletion++
     $iPercentComplete = ConvertToDataType $(($global:iOverallCompletion / 17) * 100) 'integer'
     If ($iPercentComplete -gt 100){$iPercentComplete = 100}
     $sComplete = "PAL $Version Progress: $iPercentComplete%... $Status"
-    Write-Progress -activity "Overall progress: $global:sLogFileName" -status $sComplete -percentcomplete $iPercentComplete -id 1;
+    Write-Progress -activity 'Overall progress...' -status $sComplete -percentcomplete $iPercentComplete -id 1;
     $global:oOverallProgress = 'Overall progress... Status: ' + "$($Status)" + ', ' + "$($sComplete)"
 }
 
@@ -2250,7 +2463,7 @@ Function LoadCounterDataIntoXml
         $oBatch = $BatchesOfThreadJobs[$t]
         $sText = "Number of jobs passed into Thread($t): $(@($oBatch).Count)"
         Write-Host `t$sText
-        $oJobReturn = Start-Job -FilePath "$PSScriptRoot\PalGenerateMultiCounterStats.ps1" -ArgumentList $oBatch, $global:oPal.QuantizedIndex, $global:oPal.ArgsProcessed.AnalysisInterval, $global:oPal.ArgsProcessed.IsLowPriority, $t
+        $oJobReturn = Start-Job -FilePath .\PalGenerateMultiCounterStats.ps1 -ArgumentList $oBatch, $global:oPal.QuantizedIndex, $global:oPal.ArgsProcessed.AnalysisInterval, $global:oPal.ArgsProcessed.IsLowPriority, $t
     }
 
     $iTesting = 0
@@ -2571,7 +2784,7 @@ Function GenerateDataSourceData
    {                    
 		$aValue = $global:htVariables[$XmlGeneratedDataSource.COLLECTIONVARNAME][$sKey]
 
-        $oStats = & "$PSScriptRoot\PalGenerateCounterStats.ps1" $aValue $global:oPal.QuantizedIndex $($XmlGeneratedDataSource.DATATYPE) $global:oPal.ArgsProcessed.AnalysisInterval $global:oPal.ArgsProcessed.IsLowPriority
+        $oStats = .\PalGenerateCounterStats.ps1 $aValue $global:oPal.QuantizedIndex $($XmlGeneratedDataSource.DATATYPE) $global:oPal.ArgsProcessed.AnalysisInterval $global:oPal.ArgsProcessed.IsLowPriority
 
         $oCtr = CounterPathToObject -sCounterPath $sKey
         AddToCounterInstanceStatsArrayList $sKey $oPal.aTime $aValue $oPal.QuantizedTime $oStats.QuantizedMinValues $oStats.QuantizedAvgValues $oStats.QuantizedMaxValues $oStats.QuantizedTrendValues $oCtr.Computer $oCtr.Object $oCtr.Name $oCtr.Instance $oStats.Min $oStats.Avg $oStats.Max $oStats.Trend $oStats.StdDev $oStats.PercentileSeventyth $oStats.PercentileEightyth $oStats.PercentileNinetyth    
@@ -2814,10 +3027,7 @@ Function MakeNumeric
     }
     Else
     {
-    	If ($(IsNumeric -Value $Values) -eq $True)
-    	{
-            [Void] $alNewArray.Add([System.Double]$Values)
-        }
+        [Void] $alNewArray.Add([System.Double]$Values)
     }
     $alNewArray
 }
@@ -2828,34 +3038,15 @@ Function ReduceArrayValuesToMax
 
     $ChartMaxLimit = MakeNumeric -Values $ChartMaxLimit
     $iValues = MakeNumeric -Values $aValues
-    
-    if ($iValues -eq $null)
+    For ($i=0;$i -le $iValues.GetUpperBound(0);$i++)
     {
-        Return $aValues
-    }
-
-    if ($(Test-Property -InputObject $iValues -Name 'Count') -eq $True)
-    {
-        If ($iValues.Count -gt 0)
+        
+        If ($iValues[$i] -gt $ChartMaxLimit)
         {
-            For ($i=0;$i -le $iValues.GetUpperBound(0);$i++)
-            {        
-                If ($iValues[$i] -gt $ChartMaxLimit)
-                {
-                    $iValues[$i] = $ChartMaxLimit
-                }
-            }
-            Return $iValues
-        }
-        Else
-        {
-            Return $aValues
+            $iValues[$i] = $ChartMaxLimit
         }
     }
-    Else
-    {
-        Return $aValues
-    }
+    Return $iValues
 }
 
 Function ExtractSqlNamedInstanceFromCounterObjectPath
@@ -3232,10 +3423,7 @@ Function GeneratePalChart
                                 $CounterLabel = $XmlDataSourceCounterInstance.COUNTERCOMPUTER + "/" + $XmlDataSourceCounterInstance.COUNTERINSTANCE
                             }
                         }
-                        If ($($htCounterValues.ContainsKey($CounterLabel)) -eq $False)
-                        {
-                            [void] $htCounterValues.Add($CounterLabel,$aValues)
-                        }
+                        [void] $htCounterValues.Add($CounterLabel,$aValues)
                     }
                 }
             }
@@ -3327,10 +3515,7 @@ Function GeneratePalChart
                             $CounterLabel = $XmlDataSourceCounterInstance.COUNTERCOMPUTER + "/" + $XmlDataSourceCounterInstance.COUNTERINSTANCE
                         }
                     }
-                    If ($($htCounterValues.ContainsKey($CounterLabel)) -eq $False)
-                    {
-                        [void] $htCounterValues.Add($CounterLabel,$aValues)
-                    }
+                    [void] $htCounterValues.Add($CounterLabel,$aValues)
                 }
             }   
         }
@@ -3440,11 +3625,9 @@ Function AddToVariablesAndCodeReplacements
     #// Add to htVariables
     If ($global:htVariables.ContainsKey($sCollectionVarName) -eq $False)
     {
-        If ($($global:htVariables.ContainsKey($sCollectionVarName)) -eq $False)
-        {
-            [void] $global:htVariables.Add($sCollectionVarName, $(New-Object System.Collections.ArrayList))
-        }
+        [void] $global:htVariables.Add($sCollectionVarName, $(New-Object System.Collections.ArrayList))
     }
+
     
     If ($global:htCounterInstanceStats.ContainsKey($sCounterInstancePath) -eq $True)
     {
@@ -3463,11 +3646,7 @@ Function AddToVariablesAndCodeReplacements
         }
         If ($IsFound -eq $False)
         {
-            $oTemp = $global:htVariables[$sCollectionVarName]
-            If ($oTemp.Contains($oCounterInstance) -eq $False)
-            {
-                [void] $global:htVariables[$sCollectionVarName].Add($oCounterInstance)
-            }            
+            [void] $global:htVariables[$sCollectionVarName].Add($oCounterInstance)
         }
     }
 
@@ -4079,7 +4258,7 @@ Function StaticThreshold
                     #/////////////////////////
                     #// IsMinThresholdBroken
                     #/////////////////////////
-                    If (($oCounterInstance.QuantizedMin[$t] -ne '-') -and ($oCounterInstance.QuantizedMin[$t] -ne $null) -and ($oCounterInstance.QuantizedMin[$t] -ne -1))
+                    If (($oCounterInstance.QuantizedMin[$t] -ne '-') -and ($oCounterInstance.QuantizedMin[$t] -ne $null))
                     {
                         If ($oCounterInstance.QuantizedMin[$t] -is [System.Char])
                         {
@@ -4140,7 +4319,7 @@ Function StaticThreshold
                     #/////////////////////////
                     #// IsAvgThresholdBroken
                     #/////////////////////////
-                    If (($oCounterInstance.QuantizedAvg[$t] -ne '-') -and ($oCounterInstance.QuantizedAvg[$t] -ne $null) -and ($oCounterInstance.QuantizedAvg[$t] -ne -1))
+                    If (($oCounterInstance.QuantizedAvg[$t] -ne '-') -and ($oCounterInstance.QuantizedAvg[$t] -ne $null))
                     {
                         If ($oCounterInstance.QuantizedAvg[$t] -is [System.Char])
                         {
@@ -4201,7 +4380,7 @@ Function StaticThreshold
                     #/////////////////////////
                     #// IsMaxThresholdBroken
                     #/////////////////////////
-                    If (($oCounterInstance.QuantizedMax[$t] -ne '-') -and ($oCounterInstance.QuantizedMax[$t] -ne $null) -and ($oCounterInstance.QuantizedMax[$t] -ne -1))
+                    If (($oCounterInstance.QuantizedMax[$t] -ne '-') -and ($oCounterInstance.QuantizedMax[$t] -ne $null))
                     {
                         If ($oCounterInstance.QuantizedMax[$t] -is [System.Char])
                         {
@@ -4373,7 +4552,7 @@ Function ProcessThreshold
     }
     Else
     {
-        $global:ThresholdAnalysisID = [System.GUID]::NewGUID()
+        $global:ThresholdAnalysisID = Get-GUID
     }
     
     ForEach ($XmlCode in $XmlThreshold.SelectNodes("./CODE"))
@@ -4434,7 +4613,7 @@ Function GetCategoryList
                 If ($alCategoryList.Contains($XmlAnalysisNode.CATEGORY) -eq $False)
                 {
                     [void] $alCategoryList.Add($XmlAnalysisNode.CATEGORY)
-                }
+                }            
             }
         }
     }
@@ -4626,7 +4805,7 @@ Function GenerateHtml
     '<FONT COLOR="#FFFFFF" FACE="Tahoma" SIZE="5"><STRONG>Analysis of "' + $(GetLogNameFromLogParameter) + '"</STRONG></FONT><BR><BR>' >> $h
     ## Updated to format with globalised date time JonnyG 2010-06-11
     '<FONT COLOR="#FFFFFF" FACE="Tahoma" SIZE="2"><STRONG>Report Generated at: ' + "$((get-date).tostring($global:sDateTimePattern))" + '</STRONG></FONT>' >> $h
-    '</TD><TD><A HREF="http://pal.codeplex.com"><FONT COLOR="#000000" FACE="Tahoma" SIZE="10">PAL</FONT><FONT COLOR="#000000" FACE="Tahoma" SIZE="5">v2</FONT></A></FONT>' >> $h
+    '</TD><TD><A HREF="http://github.com/clinthuffman/PAL"><FONT COLOR="#000000" FACE="Tahoma" SIZE="10">PAL</FONT><FONT COLOR="#000000" FACE="Tahoma" SIZE="5">v2</FONT></A></FONT>' >> $h
     '</TD></TR></TABLE>' >> $h
     '<BR>' >> $h
 
@@ -5254,27 +5433,6 @@ Function SaveXmlReport
     }    
 }
 
-Function OpenHtmlReport
-{
-    param([string] $HtmlOutputFileName = '')
-
-    $HtmlOutputFileName
-    If ($(Test-Property $global:oPal -Name 'ArgsProcessed') -eq $True)
-    {
-        
-        If ($(Test-Property $global:oPal.ArgsProcessed -Name 'DisplayReport') -eq $True)
-        {
-            If (($global:oPal.ArgsProcessed.DisplayReport -eq $false) -or ($global:oPal.ArgsProcessed.IsOutputHtml -eq $False))
-            {
-                #// Don't automatically open the report or error.
-                Return
-            }
-        }
-    }
-    #// The ambersand is needed because there might be spaces in the file path to the HTML report.
-    Invoke-Expression -Command "&'$HtmlOutputFileName'"
-}
-
 #//////////////
 #// Main
 #/////////////
@@ -5292,11 +5450,10 @@ if([Reflection.Assembly]::LoadWithPartialName("System.Windows.Forms.DataVisualiz
 }
 
 $global:iOverallCompletion = 0
-
-Write-Progress -activity "Overall progress: $global:sLogFileName" -status 'Progress: 0%... SetThreadPriority' -percentcomplete 0 -id 1
+Write-Progress -activity 'Overall progress...' -status 'Progress: 0%... SetThreadPriority' -percentcomplete 0 -id 1
     SetThreadPriority
     InitializeGlobalVariables
-    StartDebugLogFile $global:oPal.Session.UserTempDirectory 0
+    #StartDebugLogFile $global:oPal.Session.UserTempDirectory 0
     ShowMainHeader
     GlobalizationCheck
 UpdateOverallProgress -Status 'ProcessArgs'
@@ -5342,4 +5499,4 @@ UpdateOverallProgress -Status 'Saving the XML report'
     SaveXmlReport
 Write-Progress -activity 'Overall progress...' -Completed -id 1 -Status 'Progress: 100%'
     OpenHtmlReport -HtmlOutputFileName $($global:oPal.ArgsProcessed.HtmlOutputFileName)
-    StopDebugLogFile
+    #StopDebugLogFile

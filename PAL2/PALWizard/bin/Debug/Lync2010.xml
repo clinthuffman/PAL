@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+﻿<?xml version="1.0"?>
 <PAL PALVERSION="2.0" NAME="Microsoft Lync 2010" DESCRIPTION="Created by using data from the Lync 2010 Key Health Indicators published in the Microsoft Lync Networking Guide. (http://aka.ms/lyncnetguide)" VERSION="3.0" CONTENTOWNERS="Matthew Wade" FEEDBACKEMAILADDRESS="mawade@microsoft.com">
   <ANALYSIS NAME="LS:CAA - 00 - Operations CAA - 000 - Incomplete calls per sec" ENABLED="True" CATEGORY="Conferencing" PRIMARYDATASOURCE="\LS:CAA - 00 - Operations\CAA - 000 - Incomplete calls per sec" ID="bd0f853b-7caa-4eba-8259-a26c2fdad7d2" FROMALLCOUNTERSTATS="False">
     <DATASOURCE TYPE="CounterLog" NAME="\LS:CAA - 00 - Operations\CAA - 000 - Incomplete calls per sec" COLLECTIONVARNAME="CollectionOfLSCAA00OperationsCAA000Incompletecallspersec" EXPRESSIONPATH="\LS:CAA - 00 - Operations\CAA - 000 - Incomplete calls per sec" TRENDVARNAME="TrendLSCAA00OperationsCAA000Incompletecallspersec" DATATYPE="integer" />
@@ -62,7 +62,7 @@ StaticThreshold -CollectionOfCounterInstances $CollectionOfLSUSrv26ConferenceMcu
 StaticThreshold -CollectionOfCounterInstances $CollectionOfLSUSrv01DBStoreUSrv002QueueLatencyUSrv002QueueLatencymsec -Operator 'ge' -Threshold 100
 ]]></CODE>
     </THRESHOLD>
-    <DESCRIPTION><![CDATA[Queue latency is the amount of time (in milliseconds) that it takes for a request to leave the Front End Server’s queue toward the back-end database. 
+    <DESCRIPTION><![CDATA[Queue latency is the amount of time (in milliseconds) that it takes for a request to leave the Front End Serverâ€™s queue toward the back-end database. 
 
 If this value by itself is high, you may have be encountering a network problem between FE->SQL.
 

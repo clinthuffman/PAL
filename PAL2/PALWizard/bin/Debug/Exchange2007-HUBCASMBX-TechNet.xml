@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+﻿<?xml version="1.0"?>
 <PAL NAME="Microsoft Exchange 2007 - HUB/CAS/MBX (TechNet)" DESCRIPTION="Includes counters and thresholds for the Exchange Server 2007 Client Acccess Server, Hub Transport, and Mailbox roles based on the following product documentation: http://technet.microsoft.com/en-us/library/bb201674%28v=exchg.80%29 and http://technet.microsoft.com/en-us/library/bb201704%28v=exchg.80%29 and http://technet.microsoft.com/en-us/library/bb201689%28v=exchg.80%29" VERSION="1.0" PALVERSION="2.0" CONTENTOWNERS="Kevan Brown" FEEDBACKEMAILADDRESS="kbrown@smartronix.com">
   <ANALYSIS NAME="Client Access - LogicalDisk Disk Reads/sec" ENABLED="False" CATEGORY="LogicalDisk" PRIMARYDATASOURCE="\LogicalDisk(_Total)\Disk Reads/sec" ID="80255f09-4a58-4d63-af48-6a609d7286a9" FROMALLCOUNTERSTATS="False">
     <DATASOURCE TYPE="CounterLog" NAME="\LogicalDisk(_Total)\Disk Reads/sec" COLLECTIONVARNAME="CollectionOfLogicalDiskDiskReadssec" EXPRESSIONPATH="\LogicalDisk(_Total)\Disk Reads/sec" TRENDVARNAME="TrendLogicalDiskDiskReadssec" DATATYPE="integer" />

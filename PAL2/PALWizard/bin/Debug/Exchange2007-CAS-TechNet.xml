@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+﻿<?xml version="1.0"?>
 <PAL NAME="Microsoft Exchange 2007 - CAS (TechNet)" DESCRIPTION="Includes counters and thresholds for the Exchange Server 2007 Client Acccess Server role based on the following product documentation: http://technet.microsoft.com/en-us/library/bb201674%28v=exchg.80%29" VERSION="1.0" PALVERSION="2.0" CONTENTOWNERS="Kevan Brown" FEEDBACKEMAILADDRESS="kbrown@smartronix.com">
   <ANALYSIS NAME="MSExchange Availability Service\Availability Requests  Availability Requests (sec)" ENABLED="True" CATEGORY="MSExchange Availability Service" PRIMARYDATASOURCE="\MSExchange Availability Service\Availability Requests (sec)" ID="79d0e7d3-8d63-41f1-9ef8-a3aa866774ae" FROMALLCOUNTERSTATS="False">
     <DATASOURCE TYPE="CounterLog" NAME="\MSExchange Availability Service\Availability Requests (sec)" COLLECTIONVARNAME="CollectionOfMSExchangeAvailabilityServiceAvailabilityRequestsAvailabilityRequestssec" EXPRESSIONPATH="\MSExchange Availability Service\Availability Requests (sec)" TRENDVARNAME="TrendMSExchangeAvailabilityServiceAvailabilityRequestsAvailabilityRequestssec" DATATYPE="integer" />

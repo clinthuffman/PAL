@@ -1,4 +1,4 @@
-<PAL NAME="Dynamics AX 40/2009" DESCRIPTION="Performance counter thresholds for Dynamics AX 40/2009." CONTENTOWNERS="Dick Wenning" FEEDBACKEMAILADDRESS="dwenning@promentum.nl" VERSION="1.0.9." PALVERSION="2.0" LANGUAGE="English" LANGUAGECODE="en">
+﻿<PAL NAME="Dynamics AX 40/2009" DESCRIPTION="Performance counter thresholds for Dynamics AX 40/2009." CONTENTOWNERS="Dick Wenning" FEEDBACKEMAILADDRESS="dwenning@promentum.nl" VERSION="1.0.9." PALVERSION="2.0" LANGUAGE="English" LANGUAGECODE="en">
   <INHERITANCE FILEPATH="SystemOverview.xml" />
   <ANALYSIS NAME="Microsoft Dynamics AX Object Server Actice Sessions" ENABLED="True" CATEGORY="Microsoft Dynamics AX Object Server" PRIMARYDATASOURCE="\Microsoft Dynamics AX Object Server(*)\Active Sessions" ID="{d9dc0232-e730-4420-aa50-b294f934ce8c}" FROMALLCOUNTERSTATS="False">
     <DESCRIPTION><![CDATA[The number of currently Active server Sessions]]></DESCRIPTION>

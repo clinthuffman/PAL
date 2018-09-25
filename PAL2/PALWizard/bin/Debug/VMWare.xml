@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+﻿<?xml version="1.0"?>
 <PAL NAME="VMWare" DESCRIPTION="Display of VMWare guest VM Processor and VM Memory counters" VERSION="1.0" CONTENTOWNERS="Jeff Stokes" FEEDBACKEMAILADDRESS="jeff.stokes@microsoft.com" LANGUAGE="English" LANGUAGECODE="en" PALVERSION="2.0">
   <ANALYSIS NAME="Memory Active in MB" ENABLED="True" CATEGORY="VM Memory" PRIMARYDATASOURCE="\VM Memory\Memory Active in MB" ID="158d7c0d-4864-4523-9474-34af2edcfbbf" FROMALLCOUNTERSTATS="False">
     <DESCRIPTION><![CDATA[The estimated amount of memory the virtual machine is actively using.]]></DESCRIPTION>

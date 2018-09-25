@@ -1,4 +1,4 @@
-<PAL NAME="Microsoft OCS 2007 R2 - Edge" DESCRIPTION="Performance counter thresholds for Microsoft Office Communications Server 2007 R2 Edge Server." CONTENTOWNERS="Doug Deitterick" FEEDBACKEMAILADDRESS="dodeitte@microsoft.com" VERSION="2.0" PALVERSION="2.0" LANGUAGE="English" LANGUAGECODE="en">
+﻿<PAL NAME="Microsoft OCS 2007 R2 - Edge" DESCRIPTION="Performance counter thresholds for Microsoft Office Communications Server 2007 R2 Edge Server." CONTENTOWNERS="Doug Deitterick" FEEDBACKEMAILADDRESS="dodeitte@microsoft.com" VERSION="2.0" PALVERSION="2.0" LANGUAGE="English" LANGUAGECODE="en">
   <INHERITANCE FILEPATH="QuickSystemOverview.xml" />
   <ANALYSIS NAME="A/V Auth - 00 - Requests - 003 - Bad Requests Received/sec" ENABLED="True" CATEGORY="A/V Auth - 00 - Requests" PRIMARYDATASOURCE="\A/V Auth - 00 - Requests\- 003 - Bad Requests Received/sec" ID="{c0a1fe3b-cf31-4476-af6b-7ac9266ef77d}" FROMALLCOUNTERSTATS="False">
     <DESCRIPTION><![CDATA[The number of bad requests received/sec]]></DESCRIPTION>

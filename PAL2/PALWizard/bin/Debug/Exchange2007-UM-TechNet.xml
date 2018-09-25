@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+﻿<?xml version="1.0"?>
 <PAL NAME="Microsoft Exchange 2007 - UM (TechNet)" DESCRIPTION="Includes counters and thresholds for the Exchange Server 2007 Unified Messaging role based on the following product documentation: http://technet.microsoft.com/en-us/library/bb201671%28v=exchg.80%29" VERSION="1.0" PALVERSION="2.0" CONTENTOWNERS="Kevan Brown" FEEDBACKEMAILADDRESS="kbrown@smartronix.com">
   <ANALYSIS NAME="MSExchangeUMAvailability Call Answer Queued Messages" ENABLED="True" CATEGORY="MSExchangeUMAvailability" PRIMARYDATASOURCE="\MSExchangeUMAvailability\Call Answer Queued Messages" ID="88d684db-1ef2-45de-854c-8cba252484a7" FROMALLCOUNTERSTATS="False">
     <DATASOURCE TYPE="CounterLog" NAME="\MSExchangeUMAvailability\Call Answer Queued Messages" COLLECTIONVARNAME="CollectionOfMSExchangeUMAvailabilityCallAnswerQueuedMessages" EXPRESSIONPATH="\MSExchangeUMAvailability\Call Answer Queued Messages" TRENDVARNAME="TrendMSExchangeUMAvailabilityCallAnswerQueuedMessages" DATATYPE="integer" />

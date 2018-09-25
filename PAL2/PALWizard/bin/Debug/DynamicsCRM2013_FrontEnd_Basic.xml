@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+﻿<?xml version="1.0"?>
 <PAL PALVERSION="2.0" NAME="Dynamics CRM 2013 Front-End Role" DESCRIPTION="Basic Monitoring for the Dynamics CRM 2013 Front-End role" VERSION="1.0" CONTENTOWNERS="Stephane Dorrekens" FEEDBACKEMAILADDRESS="stephane.dorrekens@realdolmen.com">
   <ANALYSIS NAME="CRM Server Failed Internal Organization Service Requests" ENABLED="True" CATEGORY="CRM Server" PRIMARYDATASOURCE="\CRM Server(*)\Failed Internal Organization Service Requests" ID="a3a38993-aebf-4bec-b407-89bdb8024efa" FROMALLCOUNTERSTATS="False">
     <DATASOURCE TYPE="CounterLog" NAME="\CRM Server(*)\Failed Internal Organization Service Requests" COLLECTIONVARNAME="CollectionOfCRMServerFailedInternalOrganizationServiceRequests" EXPRESSIONPATH="\CRM Server(*)\Failed Internal Organization Service Requests" TRENDVARNAME="TrendCRMServerFailedInternalOrganizationServiceRequests" DATATYPE="integer" />

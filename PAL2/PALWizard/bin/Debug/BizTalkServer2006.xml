@@ -1,4 +1,4 @@
-<PAL NAME="Microsoft BizTalk Server 2006/2009/2010" DESCRIPTION="Use this threshold file when analyzing Microsoft BizTalk Server 2006, 2009, and 2010 - Includes analysis of the .NET Framework and Microsoft SQL Server." CONTENTOWNERS="Clint Huffman" FEEDBACKEMAILADDRESS="clinth@microsoft.com" VERSION="1.5.8.2" PALVERSION="2.0" LANGUAGE="English" LANGUAGECODE="en">
+﻿<PAL NAME="Microsoft BizTalk Server 2006/2009/2010" DESCRIPTION="Use this threshold file when analyzing Microsoft BizTalk Server 2006, 2009, and 2010 - Includes analysis of the .NET Framework and Microsoft SQL Server." CONTENTOWNERS="Clint Huffman" FEEDBACKEMAILADDRESS="clinth@microsoft.com" VERSION="1.5.8.2" PALVERSION="2.0" LANGUAGE="English" LANGUAGECODE="en">
   <ANALYSIS NAME="BizTalk Messaging Publishing Throttling State" ENABLED="True" CATEGORY="BizTalk:Message Agent" PRIMARYDATASOURCE="\BizTalk:Message Agent(*)\Message publishing throttling state" ID="{39a3d27e-7d54-4d21-871a-05ed7bfe3683}" FROMALLCOUNTERSTATS="False">
     <DESCRIPTION><![CDATA[The BizTalk message publishing throttling state is one of the primary indicators of throttling. It is a flag indicating whether the system is throttling message publishing (affecting XLANG message processing and inbound transports).The throttling condition is indicated by the numeric value of the counter. Here is a list of the values and their respective meaning:<BR>
 <BR>
@@ -1395,7 +1395,7 @@ Orchestration Dehydration and Rehydration<BR>
               
               If (($IsMinThresholdBroken -eq $True) -or ($IsAvgThresholdBroken -eq $True) -or ($IsMaxThresholdBroken -eq $True) -or ($IsTrendThresholdBroken -eq $True))
               {
-                  CreateAlert -TimeSliceIndex $t -CounterInstanceObject $CounterInstanceOfXLANGsOrchestrationsOrchestrationsresidentinmemoryALL -IsMinThresholdBroken $IsMinThresholdBroken -IsAvgThresholdBroken $IsAvgThresholdBroken -IsMaxThresholdBroken $IsMaxThresholdBroken -IsTrendThresholdBroken $IsTrendThresholdBroken -IsMinEvaluated $IsMinEvaulated -IsAvgEvaluated $IsAvgEvaulated -IsMaxEvaluated $IsMaxEvaulated -IsTrendEvaluated $IsTrendEvaulated
+                  CreateAlert -TimeSliceIndex $t -CounterInstanceObject $CounterInstanceOfXLANGsOrchestrationsOrchestrationsresidentinmemoryALL -IsMinThresholdBroken $IsMinThresholdBroken -IsAvgThresholdBroken $IsAvgThresholdBroken -IsMaxThresholdBroken $IsMaxThresholdBroken -IsTrendThresholdBroken $IsTrendThresholdBroken -IsMinEvaluated $IsMinEvaluated -IsAvgEvaluated $IsAvgEvaulated -IsMaxEvaluated $IsMaxEvaulated -IsTrendEvaluated $IsTrendEvaulated
               }
             }
           }
@@ -1549,8 +1549,4 @@ BizTalk Server 2006: Scalability Case Study Using the SOAP Adapter in BizTalk Se
     <DATASOURCE TYPE="CounterLog" NAME="\BizTalk:Messaging(*)\ID Process" COLLECTIONVARNAME="BizTalkMessagingIDProcessALL" EXPRESSIONPATH="\BizTalk:Messaging(*)\ID Process" DATATYPE="integer" />
     <CHART CHARTTITLE="\BizTalk:Messaging(*)\ID Process" ISTHRESHOLDSADDED="False" DATASOURCE="\BizTalk:Messaging(*)\ID Process" CHARTLABELS="instance" />
   </ANALYSIS>
-  <INHERITANCE FILEPATH="IIS.xml" />
-  <INHERITANCE FILEPATH="DotNet.xml" />
-  <INHERITANCE FILEPATH="SQLServer.xml" />
-  <INHERITANCE FILEPATH="SystemOverview.xml" />
 </PAL>

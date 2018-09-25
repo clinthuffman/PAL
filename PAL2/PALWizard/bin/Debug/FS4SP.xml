@@ -1,4 +1,4 @@
-<PAL NAME="Microsoft FAST Search Server 2010 for SharePoint" DESCRIPTION="Performance analysis of Microsoft FAST Search Server 2010 for SharePoint instances" CONTENTOWNERS="Alex Windel" FEEDBACKEMAILADDRESS="awindel@microsoft.com" VERSION="1.0.1" PALVERSION="2.0" LANGUAGE="English" LANGUAGECODE="en">
+﻿<PAL NAME="Microsoft FAST Search Server 2010 for SharePoint" DESCRIPTION="Performance analysis of Microsoft FAST Search Server 2010 for SharePoint instances" CONTENTOWNERS="Alex Windel" FEEDBACKEMAILADDRESS="awindel@microsoft.com" VERSION="1.0.1" PALVERSION="2.0" LANGUAGE="English" LANGUAGECODE="en">
   <INHERITANCE FILEPATH="SystemOverview.xml" />
   <INHERITANCE FILEPATH="IIS.xml" />
   <INHERITANCE FILEPATH="SQLServer.xml" />

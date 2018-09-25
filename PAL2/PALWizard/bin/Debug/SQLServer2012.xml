@@ -1,4 +1,4 @@
-<PAL NAME="Microsoft SQL Server 2012" DESCRIPTION="Performance counter thresholds for Microsoft SQL Server 2012." CONTENTOWNERS="David Pless and Pedro Lopes" FEEDBACKEMAILADDRESS="dpless@microsoft.com" VERSION="1.0" PALVERSION="2.0" LANGUAGE="English" LANGUAGECODE="en">
+﻿<PAL NAME="Microsoft SQL Server 2012" DESCRIPTION="Performance counter thresholds for Microsoft SQL Server 2012." CONTENTOWNERS="David Pless and Pedro Lopes" FEEDBACKEMAILADDRESS="dpless@microsoft.com" VERSION="1.0" PALVERSION="2.0" LANGUAGE="English" LANGUAGECODE="en">
   <ANALYSIS NAME="Process % Privileged Time" ENABLED="True" CATEGORY="Process" PRIMARYDATASOURCE="\Process(sqlservr)\% Privileged Time" ID="{827ecf3b-78aa-4611-8262-438e85213ae8}" FROMALLCOUNTERSTATS="False">
     <DATASOURCE TYPE="CounterLog" NAME="\Process(sqlservr)\% Privileged Time" COLLECTIONVARNAME="CollectionOfProcessPercentPrivilegedTimesqlservr" EXPRESSIONPATH="\Process(sqlservr)\% Privileged Time" DATATYPE="integer" />
     <THRESHOLD NAME="SQL Server is using more than 20% privileged (kernel) mode CPU usage" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
@@ -2572,7 +2572,7 @@ Number of bytes sent to the remote availability replica per second
 <BR>
 Number of milliseconds transaction termination waited for acknowledgement per second.
 <BR>
-The Replica:Transaction Delay counter measures the primary replica’s wait for acknowledgement that the transaction has committed at the secondary replica database in order to commit its own transaction. Since Asynchronous Commit Mode does not require acknowledgment to commit the transaction, this counter reports 0 when measured against a database in asynchronous commit mode. 
+The Replica:Transaction Delay counter measures the primary replicaâ€™s wait for acknowledgement that the transaction has committed at the secondary replica database in order to commit its own transaction. Since Asynchronous Commit Mode does not require acknowledgment to commit the transaction, this counter reports 0 when measured against a database in asynchronous commit mode. 
 <BR>
 When there are multiple secondaries, this is a measure of the total time all transactions waited on the secondary acknowledgement. 
 <B>Note:</B> This counter should be viewed on the Primary replica

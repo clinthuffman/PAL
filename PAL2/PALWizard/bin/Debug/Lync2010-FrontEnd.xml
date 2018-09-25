@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+﻿<?xml version="1.0"?>
 <PAL PALVERSION="2.0" NAME="Microsoft Lync Server 2010 - Front End" DESCRIPTION="Performance counter thresholds for Microsoft Lync Server 2010 Front End Server." VERSION="1.0" CONTENTOWNERS="Doug Deitterick" FEEDBACKEMAILADDRESS="dodeitte@microsoft.com">
   <ANALYSIS NAME="LS:USrv - 01 - DBStore\USrv - 002 - Queue Latency  USrv - 002 - Queue Latency (msec)" ENABLED="True" CATEGORY="LS:USrv - 01 - DBStore" PRIMARYDATASOURCE="\LS:USrv - 01 - DBStore\USrv - 002 - Queue Latency (msec)" ID="30b80109-6046-4298-a98e-01a9f56f673f" FROMALLCOUNTERSTATS="False">
     <DATASOURCE TYPE="CounterLog" NAME="\LS:USrv - 01 - DBStore\USrv - 002 - Queue Latency (msec)" COLLECTIONVARNAME="CollectionOfLSUSrv01DBStoreUSrv002QueueLatencyUSrv002QueueLatencymsec" EXPRESSIONPATH="\LS:USrv - 01 - DBStore\USrv - 002 - Queue Latency (msec)" TRENDVARNAME="TrendLSUSrv01DBStoreUSrv002QueueLatencyUSrv002QueueLatencymsec" DATATYPE="integer" />

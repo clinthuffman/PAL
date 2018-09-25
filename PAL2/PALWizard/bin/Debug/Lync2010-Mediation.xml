@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+﻿<?xml version="1.0"?>
 <PAL PALVERSION="2.0" NAME="Microsoft Lync Server 2010 - Mediation" DESCRIPTION="Performance counter thresholds for Microsoft Lync Server 2010 Mediation Server." VERSION="1.0" CONTENTOWNERS="Doug Deitterick" FEEDBACKEMAILADDRESS="dodeitte@microsoft.com">
   <ANALYSIS NAME="LS:MediationServer - 02 - Media Relay - 000 - Candidates Missing" ENABLED="True" CATEGORY="LS:MediationServer - 02 - Media Relay" PRIMARYDATASOURCE="\LS:MediationServer - 02 - Media Relay\- 000 - Candidates Missing" ID="fefed49b-06be-4cfd-a431-bf2b3c70df25" FROMALLCOUNTERSTATS="False">
     <DATASOURCE TYPE="CounterLog" NAME="\LS:MediationServer - 02 - Media Relay\- 000 - Candidates Missing" COLLECTIONVARNAME="CollectionOfLSMediationServer02MediaRelay000CandidatesMissing" EXPRESSIONPATH="\LS:MediationServer - 02 - Media Relay\- 000 - Candidates Missing" TRENDVARNAME="TrendLSMediationServer02MediaRelay000CandidatesMissing" DATATYPE="integer" />

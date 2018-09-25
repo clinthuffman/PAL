@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <PAL NAME="VMWare View Connection Server Performance" DESCRIPTION="Display VMWare View Connection Server VM Processor and VM Memory counters, plus VDM stats" VERSION="1.0" CONTENTOWNERS="Josh Townsend" FEEDBACKEMAILADDRESS="josh@vmtoday.com" LANGUAGE="English" LANGUAGECODE="en" PALVERSION="2.0">
     <ANALYSIS NAME="All Sessions" ENABLED="True" CATEGORY="VMware View Connection Server" PRIMARYDATASOURCE="\VMware VDM\All Sessions" ID="6b036653-f13a-4583-bbc8-a216c1f5802e" FROMALLCOUNTERSTATS="False">
 		<DESCRIPTION><![CDATA[Total numberof all View sessions active over the sampling period.<br>

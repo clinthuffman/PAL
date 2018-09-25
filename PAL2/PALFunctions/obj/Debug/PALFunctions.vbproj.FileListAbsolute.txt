@@ -61,3 +61,12 @@ C:\Users\Clint Huffman\Documents\SkyDrive\Projects\PAL2\PALFunctions\obj\Debug\P
 C:\Users\Clint Huffman\Documents\SkyDrive\Projects\PAL2\PALFunctions\obj\Debug\PALFunctions.dll
 C:\Users\Clint Huffman\Documents\SkyDrive\Projects\PAL2\PALFunctions\obj\Debug\PALFunctions.xml
 C:\Users\Clint Huffman\Documents\SkyDrive\Projects\PAL2\PALFunctions\obj\Debug\PALFunctions.pdb
+C:\Users\clint\Desktop\PALPro\PALFunctions\bin\Debug\PALFunctions.dll
+C:\Users\clint\Desktop\PALPro\PALFunctions\bin\Debug\PALFunctions.pdb
+C:\Users\clint\Desktop\PALPro\PALFunctions\bin\Debug\PALFunctions.xml
+C:\Users\clint\Desktop\PALPro\PALFunctions\obj\Debug\PALFunctions.Resources.resources
+C:\Users\clint\Desktop\PALPro\PALFunctions\obj\Debug\PALFunctions.vbproj.GenerateResource.Cache
+C:\Users\clint\Desktop\PALPro\PALFunctions\obj\Debug\PALFunctions.vbproj.CoreCompileInputs.cache
+C:\Users\clint\Desktop\PALPro\PALFunctions\obj\Debug\PALFunctions.dll
+C:\Users\clint\Desktop\PALPro\PALFunctions\obj\Debug\PALFunctions.xml
+C:\Users\clint\Desktop\PALPro\PALFunctions\obj\Debug\PALFunctions.pdb

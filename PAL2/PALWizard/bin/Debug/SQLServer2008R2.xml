@@ -1,4 +1,4 @@
-<PAL NAME="Microsoft SQL Server 2008 / R2" DESCRIPTION="Performance counter thresholds for Microsoft SQL Server 2005/2008." CONTENTOWNERS="David Pless" FEEDBACKEMAILADDRESS="dpless@microsoft.com" VERSION="2.0" PALVERSION="2.0" LANGUAGE="English" LANGUAGECODE="en">
+﻿<PAL NAME="Microsoft SQL Server 2008 / R2" DESCRIPTION="Performance counter thresholds for Microsoft SQL Server 2005/2008." CONTENTOWNERS="David Pless" FEEDBACKEMAILADDRESS="dpless@microsoft.com" VERSION="2.0" PALVERSION="2.0" LANGUAGE="English" LANGUAGECODE="en">
   <ANALYSIS NAME="Process % Privileged Time" ENABLED="True" CATEGORY="Process" PRIMARYDATASOURCE="\Process(sqlservr)\% Privileged Time" ID="{827ecf3b-78aa-4611-8262-438e85213ae8}" FROMALLCOUNTERSTATS="False">
     <DATASOURCE TYPE="CounterLog" NAME="\Process(sqlservr)\% Privileged Time" COLLECTIONVARNAME="CollectionOfProcessPercentPrivilegedTimesqlservr" EXPRESSIONPATH="\Process(sqlservr)\% Privileged Time" DATATYPE="integer" />
     <THRESHOLD NAME="SQL Server is using more than 20% privileged (kernel) mode CPU usage" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
@@ -2033,7 +2033,7 @@ The amount of memory that is in use. This may include both physical and virtual 
 <BR>
 The number of buffers spooled to disk.
 
-“Buffers spooled” has an initial value of 0. When it goes above 0, it indicates that the engine has started memory swapping. 
+â€œBuffers spooledâ€ has an initial value of 0. When it goes above 0, it indicates that the engine has started memory swapping. 
 
 In this case, it is recommended to set Data Flow Task properties BLOBTempStoragePath and BufferTempStoragePath appropriately for maximal I/O bandwidth. 
 
@@ -2050,9 +2050,9 @@ In this case, it is recommended to set Data Flow Task properties BLOBTempStorage
     <DESCRIPTION><![CDATA[<B>SQLServer:SSIS Pipeline 10.0 Flat buffers in use</B>
 <BR>The number of flat memory buffers in use throughout the pipeline.
 <BR>
-“Buffers in use”, “Flat buffers in use” and “Private buffers in use” are useful to discover leaks. During package execution time, you will see these counters fluctuating. But once the package finishes execution, their values should return to the same value as what they were before the execution. Otherwise, buffers are leaked. In occasions like that, it is recommended to contact Microsoft PSS. 
+â€œBuffers in useâ€, â€œFlat buffers in useâ€ and â€œPrivate buffers in useâ€ are useful to discover leaks. During package execution time, you will see these counters fluctuating. But once the package finishes execution, their values should return to the same value as what they were before the execution. Otherwise, buffers are leaked. In occasions like that, it is recommended to contact Microsoft PSS. 
 
-“Rows read” and “Rows written” show how many rows the entire Data Flow has processed. They give you an overall idea about the execution progress. 
+â€œRows readâ€ and â€œRows writtenâ€ show how many rows the entire Data Flow has processed. They give you an overall idea about the execution progress. 
 ]]></DESCRIPTION>
   </ANALYSIS>
   <ANALYSIS NAME="SQLServer:SSIS Pipeline 10.0 Buffers in use" ENABLED="True" CATEGORY="SQLServer:SSIS Pipeline 10.0" PRIMARYDATASOURCE="\SQLServer:SSIS Pipeline 10.0\Buffers in use" ID="72000a72-2bba-414e-8fe2-8b0027f33d5d" FROMALLCOUNTERSTATS="False">
@@ -2062,9 +2062,9 @@ In this case, it is recommended to set Data Flow Task properties BLOBTempStorage
 <BR>
 The number of pipeline buffers in use throughout the pipeline.
 <BR>
-“Buffers in use”, “Flat buffers in use” and “Private buffers in use” are useful to discover leaks. During package execution time, you will see these counters fluctuating. But once the package finishes execution, their values should return to the same value as what they were before the execution. Otherwise, buffers are leaked. In occasions like that, it is recommended to contact Microsoft PSS. 
+â€œBuffers in useâ€, â€œFlat buffers in useâ€ and â€œPrivate buffers in useâ€ are useful to discover leaks. During package execution time, you will see these counters fluctuating. But once the package finishes execution, their values should return to the same value as what they were before the execution. Otherwise, buffers are leaked. In occasions like that, it is recommended to contact Microsoft PSS. 
 
-“Rows read” and “Rows written” show how many rows the entire Data Flow has processed. They give you an overall idea about the execution progress. 
+â€œRows readâ€ and â€œRows writtenâ€ show how many rows the entire Data Flow has processed. They give you an overall idea about the execution progress. 
 ]]></DESCRIPTION>
   </ANALYSIS>
   <ANALYSIS NAME="SQLServer:SSIS Pipeline 10.0 Private buffers in use" ENABLED="True" CATEGORY="SQLServer:SSIS Pipeline 10.0" PRIMARYDATASOURCE="\SQLServer:SSIS Pipeline 10.0\Private buffers in use" ID="459c7cb8-c2b6-4641-ae91-99aab2b3d2f9" ISCOUNTEROBJECTREGULAREXPRESSION="True" ISCOUNTERNAMEREGULAREXPRESSION="False" ISCOUNTERINSTANCEREGULAREXPRESSION="False" REGULAREXPRESSIONCOUNTERPATH="\(MSSQL|SQLServer).*:SSIS Pipeline 10.0 Private buffers in use" FROMALLCOUNTERSTATS="False">
@@ -2074,9 +2074,9 @@ The number of pipeline buffers in use throughout the pipeline.
 <BR>
 The number of private transformation buffers in use throughout the pipeline.
 <BR>
-“Buffers in use”, “Flat buffers in use” and “Private buffers in use” are useful to discover leaks. During package execution time, you will see these counters fluctuating. But once the package finishes execution, their values should return to the same value as what they were before the execution. Otherwise, buffers are leaked. In occasions like that, it is recommended to contact Microsoft PSS. 
+â€œBuffers in useâ€, â€œFlat buffers in useâ€ and â€œPrivate buffers in useâ€ are useful to discover leaks. During package execution time, you will see these counters fluctuating. But once the package finishes execution, their values should return to the same value as what they were before the execution. Otherwise, buffers are leaked. In occasions like that, it is recommended to contact Microsoft PSS. 
 
-“Rows read” and “Rows written” show how many rows the entire Data Flow has processed. They give you an overall idea about the execution progress. 
+â€œRows readâ€ and â€œRows writtenâ€ show how many rows the entire Data Flow has processed. They give you an overall idea about the execution progress. 
 ]]></DESCRIPTION>
   </ANALYSIS>
   <ANALYSIS NAME="SQLServer:Resource Pool Stats Max memory (KB)" ENABLED="True" CATEGORY="SQLServer:Resource Pool Stats" PRIMARYDATASOURCE="\SQLServer:Resource Pool Stats(*)\Max memory (KB)" ID="6d23a90d-3d6f-49c9-b0cd-ac47e62d9b2b" FROMALLCOUNTERSTATS="False">

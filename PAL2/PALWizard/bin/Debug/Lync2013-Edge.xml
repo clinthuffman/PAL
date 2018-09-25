@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+﻿<?xml version="1.0"?>
 <PAL PALVERSION="2.0" NAME="Microsoft Lync Server 2013 - Edge" DESCRIPTION="Performance counter thresholds for Microsoft Lync Server 2013 Edge Server." VERSION="1.0" CONTENTOWNERS="Doug Deitterick" FEEDBACKEMAILADDRESS="dodeitte@microsoft.com">
   <ANALYSIS NAME="LS:A/V Auth - Requests - Bad Requests Received/sec" ENABLED="True" CATEGORY="LS:A/V Auth - Requests" PRIMARYDATASOURCE="\LS:A/V Auth - Requests\- Bad Requests Received/sec" ID="4198c89c-ea7d-4ac9-9f24-b0c6fe1675f7" FROMALLCOUNTERSTATS="False">
     <DESCRIPTION><![CDATA[The number of bad requests received/sec]]></DESCRIPTION>

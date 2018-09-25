@@ -1,3 +1,16 @@
+*v2.8.1*
+* *Threshold File Update:* All threshold files have been converted to UTF-8 to help support globalization.
+* *Locale Update:* English and non-English locales are supported now.
+* *Performance Optimzation:* Counter translation for counter logs recorded in non-English languages is now more efficient and faster.
+* *.NET Framework update:* PAL now uses the Microsoft .NET Framework 4.7.2.
+* *PAL Wizard update:* Several updates to the PAL Wizard user interface.
+
+*v2.8.0*
+* *New Feature:* Non-English counter log support added. Added support for counter logs recordered in Chinese, Czech (Czech Republic), Dutch (Netherlands), French (France), German (Germany), Hungarian (Hungary), Italian (Italy), Japanese (Japan), Korean (Korea), Polish (Poland), Portuguese (Brazil), Portuguese (Portugal), Russian (Russia), Spanish (Spain), Swedish (Sweden), and Turkish (Turkey).
+* *Performance:* Removed counter log filtering which reduced the size of the counter log in order to add support for non-English languages. Analysis of logs might take longer.
+* *Known Bug:* Analyses that use regular expressions such as SQL Server named instances might not work with non-English counter logs.
+* *Threshold File Update:* The All threshold file has been not been updated in many years and has been removed. Use the Auto-Detect feature instead.
+
 *v2.7.7.1*
 * *Threshold file update:* Added support for Windows 10 and Windows Server operating systems to QuickSystemOverview.xml. Changed most of the OS selections to be OS Version and then architecture (i.e. Windows 10 64-bit). Changed default Physical Memory option from 4 GB to 16 GB.
 

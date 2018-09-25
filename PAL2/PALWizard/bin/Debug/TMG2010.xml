@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+﻿<?xml version="1.0"?>
 <PAL PALVERSION="2.0" NAME="TMG 2010" DESCRIPTION="General threshold file for Microsoft Thread Managment Gateway (TMG) 2010" CONTENTOWNERS="Zbigniew Kukowski" FEEDBACKEMAILADDRESS="Zbigniew.Kukowski@microsoft.com" VERSION="2.6">
   <ANALYSIS NAME="Netlogon Semaphore Waiters" ENABLED="True" CATEGORY="Netlogon" PRIMARYDATASOURCE="\Netlogon(_Total)\Semaphore Waiters" ID="163e3b2f-baf8-44c8-9ab3-dbbd72757653" FROMALLCOUNTERSTATS="False">
     <DATASOURCE TYPE="CounterLog" NAME="\Netlogon(_Total)\Semaphore Waiters" COLLECTIONVARNAME="CollectionOfNetlogonSemaphoreWaiters" EXPRESSIONPATH="\Netlogon(_Total)\Semaphore Waiters" TRENDVARNAME="TrendNetlogonSemaphoreWaiters" DATATYPE="integer" />
@@ -292,7 +292,7 @@ StaticThreshold -CollectionOfCounterInstances $CollectionOfForefrontTMGWebProxyA
 StaticThreshold -CollectionOfCounterInstances $CollectionOfForefrontTMGWebProxyAverageMillisecondsrequest -Operator 'gt' -Threshold 30000
 ]]></CODE>
     </THRESHOLD>
-    <DESCRIPTION><![CDATA[Shows the mean number of milliseconds required to service a Web Proxy client request, not including requests serviced by the Secure Sockets Layer (SSL) tunnel. This counter can be monitored at peak and off-peak times to get a comprehensive picture of the rate at which client requests are being serviced. A counter with a value that is too high might indicate that the TMG computer is having difficulty in handling all requests and that requests are being delayed. It shouldn’t be over 30000 for longer than couple minutes. Review policy and check whether it is possible to use stateful filtering instead of application filtering for traffic that is considered harmless.]]></DESCRIPTION>
+    <DESCRIPTION><![CDATA[Shows the mean number of milliseconds required to service a Web Proxy client request, not including requests serviced by the Secure Sockets Layer (SSL) tunnel. This counter can be monitored at peak and off-peak times to get a comprehensive picture of the rate at which client requests are being serviced. A counter with a value that is too high might indicate that the TMG computer is having difficulty in handling all requests and that requests are being delayed. It shouldnâ€™t be over 30000 for longer than couple minutes. Review policy and check whether it is possible to use stateful filtering instead of application filtering for traffic that is considered harmless.]]></DESCRIPTION>
   </ANALYSIS>
   <ANALYSIS NAME="Forefront TMG Web Proxy Current Cache Fetches Average Milliseconds/request" ENABLED="True" CATEGORY="Forefront TMG Web Proxy" PRIMARYDATASOURCE="\Forefront TMG Web Proxy\Current Cache Fetches Average Milliseconds/request" ID="23c8e36a-82d8-4f5d-87a6-b1aaae8c1d21" FROMALLCOUNTERSTATS="False">
     <DESCRIPTION><![CDATA[The mean number of milliseconds required to service a Web Proxy client request from cache (not including tunneled requests for HTTPS or SNEWS).]]></DESCRIPTION>
@@ -511,7 +511,7 @@ If over 10 could indicates an attack from Firewall clients or congestion on the 
 StaticThreshold -CollectionOfCounterInstances $CollectionOfForefrontTMGFirewallServicePendingDNSResolutions -Operator 'ge' -Threshold 1
 ]]></CODE>
     </THRESHOLD>
-    <DESCRIPTION><![CDATA[Shows the number of Winsock gteaddrinfo() calls pending. These are calls used to resolve host DNS domain names and IP addresses for firewall service connections. Pending DNS resolutions can impact pending TCP connections. Windows should perform resolutions quickly & reliably – especially for domain-based DNS.]]></DESCRIPTION>
+    <DESCRIPTION><![CDATA[Shows the number of Winsock gteaddrinfo() calls pending. These are calls used to resolve host DNS domain names and IP addresses for firewall service connections. Pending DNS resolutions can impact pending TCP connections. Windows should perform resolutions quickly & reliably â€“ especially for domain-based DNS.]]></DESCRIPTION>
   </ANALYSIS>
   <ANALYSIS NAME="Forefront TMG Firewall Service Pending TCP Connections" ENABLED="True" CATEGORY="Forefront TMG Firewall Service" PRIMARYDATASOURCE="\Forefront TMG Firewall Service\Pending TCP Connections" ID="504d40f2-47f5-4599-ae51-3f8692c10a0f" FROMALLCOUNTERSTATS="False">
     <DATASOURCE TYPE="CounterLog" NAME="\Forefront TMG Firewall Service\Pending TCP Connections" COLLECTIONVARNAME="CollectionOfForefrontTMGFirewallServicePendingTCPConnections" EXPRESSIONPATH="\Forefront TMG Firewall Service\Pending TCP Connections" TRENDVARNAME="TrendForefrontTMGFirewallServicePendingTCPConnections" DATATYPE="integer" />

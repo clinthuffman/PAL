@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+﻿<?xml version="1.0"?>
 <PAL PALVERSION="2.0" NAME="Dynamics CRM 2013 Back End Role" DESCRIPTION="Basic Monitoring for the Dynamics CRM 2013 Back End role" VERSION="1.0" CONTENTOWNERS="Stephane Dorrekens" FEEDBACKEMAILADDRESS="stephane.dorrekens@realdolmen.com">
   <ANALYSIS NAME="CRM Async Service Workflow Operations Outstanding" ENABLED="True" CATEGORY="CRM Async Service (Workflows)" PRIMARYDATASOURCE="\CRM Async Service(mscrmasyncservice)\Workflow Operations Outstanding" ID="46ba5268-38b3-49be-8a38-7bee3e5cdd02" FROMALLCOUNTERSTATS="False">
     <DATASOURCE TYPE="CounterLog" NAME="\CRM Async Service(mscrmasyncservice)\Workflow Operations Outstanding" COLLECTIONVARNAME="CollectionOfCRMAsyncServiceWorkflowOperationsOutstanding" EXPRESSIONPATH="\CRM Async Service(mscrmasyncservice)\Workflow Operations Outstanding" TRENDVARNAME="TrendCRMAsyncServiceWorkflowOperationsOutstanding" DATATYPE="integer" />

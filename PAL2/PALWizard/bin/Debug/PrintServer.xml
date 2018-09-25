@@ -1,5 +1,5 @@
-<?xml version="1.0"?>
-<PAL NAME="Windows® Print Server" DESCRIPTION="Print server counters and analysis." VERSION="1.0" CONTENTOWNERS="Chad Schultz" FEEDBACKEMAILADDRESS="chad.a@microsoft.com" LANGUAGE="English" LANGUAGECODE="en" PALVERSION="2.0">
+﻿<?xml version="1.0"?>
+<PAL NAME="WindowsÂ® Print Server" DESCRIPTION="Print server counters and analysis." VERSION="1.0" CONTENTOWNERS="Chad Schultz" FEEDBACKEMAILADDRESS="chad.a@microsoft.com" LANGUAGE="English" LANGUAGECODE="en" PALVERSION="2.0">
   <ANALYSIS NAME="Print Queue Out of Paper Errors" ENABLED="True" CATEGORY="Print Queue" PRIMARYDATASOURCE="\Print Queue(_Total)\Out of Paper Errors" ID="7aa9fe90-b84c-4e2c-9809-fabdb47d2d01" FROMALLCOUNTERSTATS="False">
     <DATASOURCE TYPE="CounterLog" NAME="\Print Queue(_Total)\Out of Paper Errors" COLLECTIONVARNAME="CollectionOfPrintQueueOutofPaperErrors" EXPRESSIONPATH="\Print Queue(_Total)\Out of Paper Errors" TRENDVARNAME="TrendPrintQueueOutofPaperErrors" DATATYPE="integer" />
     <CHART CHARTTITLE="\Print Queue(_Total)\Out of Paper Errors" ISTHRESHOLDSADDED="False" DATASOURCE="\Print Queue(_Total)\Out of Paper Errors" CHARTLABELS="instance" />

@@ -1,4 +1,4 @@
-<PAL NAME=".NET Framework v1.1 or greater" DESCRIPTION="Analysis of .NET Framework v1.1 or greater applications." CONTENTOWNERS="Clint Huffman" FEEDBACKEMAILADDRESS="clinth@microsoft.com" VERSION="1.3.2" PALVERSION="2.0" LANGUAGE="English" LANGUAGECODE="en">
+﻿<PAL NAME=".NET Framework v1.1 or greater" DESCRIPTION="Analysis of .NET Framework v1.1 or greater applications." CONTENTOWNERS="Clint Huffman" FEEDBACKEMAILADDRESS="clinth@microsoft.com" VERSION="1.3.2" PALVERSION="2.0" LANGUAGE="English" LANGUAGECODE="en">
   <ANALYSIS NAME=".NET CLR Exceptions / Second" ENABLED="True" CATEGORY=".NET CLR Exceptions" PRIMARYDATASOURCE="\.NET CLR Exceptions(*)\# of Exceps Thrown / sec" ID="{6a1ef2b8-d9c2-420b-aec4-ab351e7a35cd}" FROMALLCOUNTERSTATS="False">
     <DATASOURCE TYPE="CounterLog" NAME="\.NET CLR Exceptions(*)\# of Exceps Thrown / sec" COLLECTIONVARNAME="CollectionOfNETCLRExceptionsNumberOfExcepsThrownsecALL" EXPRESSIONPATH="\.NET CLR Exceptions(*)\# of Exceps Thrown / sec" DATATYPE="Integer" />
     <THRESHOLD NAME="More than 10 .NET CLR Exceptions Thrown / sec" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">

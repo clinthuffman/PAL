@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+﻿<?xml version="1.0"?>
 <PAL PALVERSION="2.0" NAME="Microsoft Lync Server 2010 - Monitoring/Archiving" DESCRIPTION="Performance counter thresholds for Microsoft Lync Server 2010 Monitor/Archiving Server." VERSION="1.0" CONTENTOWNERS="Doug Deitterick" FEEDBACKEMAILADDRESS="dodeitte@microsoft.com">
   <ANALYSIS NAME="LS:CDR Service - 00 - DBCdr\CDR Service - 002 - Queue Latency  CDR Service - 002 - Queue Latency (msec)" ENABLED="True" CATEGORY="LS:CDR Service - 00 - DBCdr" PRIMARYDATASOURCE="\LS:CDR Service - 00 - DBCdr\CDR Service - 002 - Queue Latency (msec)" ID="44f7fde4-9115-4467-9abd-e9401fbd43c1" FROMALLCOUNTERSTATS="False">
     <DESCRIPTION><![CDATA[The average time (in milliseconds) a request is held in the database queue.]]></DESCRIPTION>

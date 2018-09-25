@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+﻿<?xml version="1.0"?>
 <PAL PALVERSION="2.0" NAME="Active Server Pages" DESCRIPTION="This threshold file displays and analyzes specific Active Server Page counters." CONTENTOWNERS="Clint Huffman" FEEDBACKEMAILADDRESS="clinth@microsoft.com" VERSION="1.0">
   <ANALYSIS NAME="Active Server Pages Errors/Sec" ENABLED="True" CATEGORY="Active Server Pages" PRIMARYDATASOURCE="\Active Server Pages\Errors/Sec" ID="6db12b82-11db-4f2c-aa7e-cdb4be26e055" FROMALLCOUNTERSTATS="False">
     <DATASOURCE TYPE="CounterLog" NAME="\Active Server Pages\Errors/Sec" COLLECTIONVARNAME="CollectionOfActiveServerPagesErrorsSec" EXPRESSIONPATH="\Active Server Pages\Errors/Sec" TRENDVARNAME="TrendActiveServerPagesErrorsSec" DATATYPE="integer" />

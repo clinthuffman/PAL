@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+﻿<?xml version="1.0"?>
 <PAL NAME="UAG 2010" DESCRIPTION="Thresholds for Microsoft Forefront Unified Access Gateway (UAG) 2010. Beta version. " VERSION="0.2" PALVERSION="2.0" CONTENTOWNERS="Zbigniew Kukowski" FEEDBACKEMAILADDRESS="zkukow@microsoft.com">
   <ANALYSIS NAME="ASP.NET Application Restarts" ENABLED="False" CATEGORY="IIS Engine" PRIMARYDATASOURCE="\ASP.NET\Application Restarts" ID="c84224ac-092f-4442-9d6e-bfd452c1b53e" FROMALLCOUNTERSTATS="False">
     <DATASOURCE TYPE="CounterLog" NAME="\ASP.NET\Application Restarts" COLLECTIONVARNAME="CollectionOfASPNETApplicationRestarts" EXPRESSIONPATH="\ASP.NET\Application Restarts" TRENDVARNAME="TrendASPNETApplicationRestarts" DATATYPE="integer" />

@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+﻿<?xml version="1.0"?>
 <PAL PALVERSION="2.0" NAME="System Overview" DESCRIPTION="General operating system performance analysis. Use this for a general analysis for any Windows computer." CONTENTOWNERS="Clint Huffman" FEEDBACKEMAILADDRESS="clinth@microsoft.com" VERSION="1.2.2" LANGUAGE="English" LANGUAGECODE="en">
   <ANALYSIS NAME="Process Private Bytes" ENABLED="True" CATEGORY="Process" PRIMARYDATASOURCE="\Process(*)\Private Bytes" ID="{bf135d67-22c5-4839-b039-3b8c0e587cd8}" FROMALLCOUNTERSTATS="False">
     <DATASOURCE TYPE="CounterLog" NAME="\Process(*)\Private Bytes" COLLECTIONVARNAME="ProcessPrivateBytes" EXPRESSIONPATH="\Process(*)\Private Bytes" DATATYPE="integer">

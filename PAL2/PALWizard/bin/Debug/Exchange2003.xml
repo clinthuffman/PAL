@@ -1,4 +1,4 @@
-<PAL NAME="Microsoft Exchange 2003" DESCRIPTION="General Exchange 2003 Server performance analysis. Created by Mike Lagase" CONTENTOWNERS="Mike Lagase" FEEDBACKEMAILADDRESS="mikelag@microsoft.com" VERSION="2.0" PALVERSION="2.0" LANGUAGE="English" LANGUAGECODE="en">
+﻿<PAL NAME="Microsoft Exchange 2003" DESCRIPTION="General Exchange 2003 Server performance analysis. Created by Mike Lagase" CONTENTOWNERS="Mike Lagase" FEEDBACKEMAILADDRESS="mikelag@microsoft.com" VERSION="2.0" PALVERSION="2.0" LANGUAGE="English" LANGUAGECODE="en">
   <ANALYSIS NAME="LogicalDisk Read Latency Analysis" ENABLED="True" CATEGORY="LogicalDisk" PRIMARYDATASOURCE="\LogicalDisk(*)\Avg. Disk sec/Read" ID="{dfb21d00-cf83-49e7-bf63-3d82db3d63c3}" FROMALLCOUNTERSTATS="False">
     <DATASOURCE TYPE="CounterLog" NAME="\LogicalDisk(*)\Avg. Disk sec/Read" COLLECTIONVARNAME="LogicalDiskAvgDisksecReadALL" EXPRESSIONPATH="\LogicalDisk(*)\Avg. Disk sec/Read" DATATYPE="round3">
       <EXCLUDE INSTANCE="_Total" />
@@ -467,7 +467,7 @@ The categorizer performs the following core operations:
 - Expands distribution lists if that is required. <br>
 - Determines whether the message is for local or remote delivery<br>
 <br><br>
-This error indicates that there may be problems with server or network performance, Directory Service Access (DSAccess), the Active DirectoryÃ‚Â® directory service, or outages with key servers in the Exchange Server organization. An increase in the Categorizer Queue Length counter may indicate a either a slow response or no response in consulting Active Directory or in handing off messages for local delivery or SMTP. This might cause delayed mail delivery.
+This error indicates that there may be problems with server or network performance, Directory Service Access (DSAccess), the Active DirectoryÃƒâ€šÃ‚Â® directory service, or outages with key servers in the Exchange Server organization. An increase in the Categorizer Queue Length counter may indicate a either a slow response or no response in consulting Active Directory or in handing off messages for local delivery or SMTP. This might cause delayed mail delivery.
 
 ]]></DESCRIPTION>
   </ANALYSIS>
