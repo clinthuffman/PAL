@@ -31,6 +31,8 @@ Execute the the PAL icon in your Start Programs menu or run the PAL.ps1 script f
 
 -DisplayReport
 
+-ClearLog: (Optional) Indicates whether PAL should clear the PowerShell log before executing.
+
 -AllCounterStats: (Optional) System.Boolean This is a new feature in PAL v2.0 which tells PAL to chart all performance counters found in the log. *Warning:* This can be resource intensive. If omitted, False is assumed - meaning PAL will only chart and analyze counters found in the PAL threshold file specified in the ThresholdFile argument.
 
 -OutputDir: (Optional) System.String This is the directory path of the directory location create the output of the tool.

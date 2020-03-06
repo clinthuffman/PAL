@@ -1,7 +1,26 @@
 ﻿#requires -Version 2.0
-param($Log='SamplePerfmonLog.blg',$ThresholdFile="QuickSystemOverview.xml",$AnalysisInterval='AUTO',$IsOutputHtml=$True,$IsOutputXml=$False,$HtmlOutputFileName="[LogFileName]_PAL_[DateTimeStamp].htm",$XmlOutputFileName="[LogFileName]_PAL_[DateTimeStamp].xml",$OutputDir="[My Documents]\PAL Reports",$AllCounterStats=$False,$BeginTime=$null,$EndTime=$null,[System.Int32] $NumberOfThreads=1,$IsLowPriority=$False,$DisplayReport=$True)
+param(
+	$Log='SamplePerfmonLog.blg',
+	$ThresholdFile="QuickSystemOverview.xml",
+	$AnalysisInterval='AUTO',
+	$IsOutputHtml=$True,
+	$IsOutputXml=$False,
+	$HtmlOutputFileName="[LogFileName]_PAL_[DateTimeStamp].htm",
+	$XmlOutputFileName="[LogFileName]_PAL_[DateTimeStamp].xml",
+	$OutputDir="[My Documents]\PAL Reports",
+	$AllCounterStats=$False,
+	$BeginTime=$null,
+	$EndTime=$null,
+	[System.Int32] $NumberOfThreads=1,
+	$IsLowPriority=$False,
+	$DisplayReport=$True,
+	$ClearLog=$True
+)
 Set-StrictMode -Version 2
-cls
+if($ClearLog){
+	cls
+	$Error.Clear()
+}
 #//
 #// PAL v2.8
 #// Written by Clint Huffman (clinthuffman@hotmail.com)
@@ -12,7 +31,6 @@ cls
 #// Global changable variables
 #///////////////////////////////
 
-$Error.Clear()
 $Version = '2.8.1'
 $AutoAnalysisIntervalNumberOfTimeSlices = 30
 
@@ -533,13 +551,14 @@ Function ProcessArgs
 Function StartDebugLogFile
 {
     param($sDirectoryPath, $iAttempt)
+    $timestamp = $((Get-Date).ToFileTimeUtc())
 	If ($iAttempt -eq 0) 
 	{
-        $sFilePath = $sDirectoryPath + "\PAL.log"
+        $sFilePath = $sDirectoryPath + "\PAL-$timestamp.log"
     }
 	Else
 	{
-        $sFilePath = $sDirectoryPath + "\PAL" + $iAttempt + ".log"
+        $sFilePath = $sDirectoryPath + "\PAL-$timestamp-$iAttempt.log"
     }
 	$erroractionpreference = "SilentlyContinue"
     
@@ -916,9 +935,13 @@ Function InheritFromThresholdFiles
     #// Inherit from other threshold files.
     ForEach ($XmlInheritance in $XmlThresholdFile.SelectNodes('//INHERITANCE'))
     {
-        If ($(Test-FileExists $XmlInheritance.FilePath) -eq $True)
+        $inheritedXml = $($XmlInheritance.FilePath)
+        If(-not ([string]::IsNullOrWhiteSpace($inheritedXml))){
+            $inheritedXml = Resolve-Path "$PSScriptRoot\$inheritedXml"
+        }
+        If ($(Test-FileExists $inheritedXml) -eq $True)
         {
-            $XmlInherited = [xml] (Get-Content $XmlInheritance.FilePath -Encoding UTF8)
+            $XmlInherited = [xml] (Get-Content $inheritedXml -Encoding UTF8)
             ForEach ($XmlInheritedAnalysisNode in $XmlInherited.selectNodes('//ANALYSIS'))
             {
                 $bFound = $False            
@@ -957,11 +980,14 @@ Function InheritFromThresholdFiles
                 }
             }
             
-    		If ($global:oXml.ThresholdFilePathLoadHistory.Contains($XmlInheritance.FilePath) -eq $False)
+    		If ($global:oXml.ThresholdFilePathLoadHistory.Contains($inheritedXml) -eq $False)
     		{
-    			InheritFromThresholdFiles $XmlInheritance.FilePath
+    			InheritFromThresholdFiles $inheritedXml
     		}
         }
+        elseif(-not [string]::IsNullOrWhiteSpace($inheritedXml)){
+			Write-Warning "Unable to locate inherited file $inheritedXml..."
+		}
     }
 }
 
@@ -1845,10 +1871,12 @@ Function GetRawDataSourceData($XmlDataSource)
 {
     [bool] $IsAtLeastOneCounterInstanceFound = $False
     $htCounterIndexes = @()
+    
+    $counterLangPath = "$PSScriptRoot\CounterLang.xml"
 
-    if ((Test-Path -Path 'CounterLang.xml') -eq $True)
+    if ((Test-Path -Path $counterLangPath) -eq $True)
     {
-        $xmlCounterLang = [xml] (Get-Content -Path 'CounterLang.xml' -Encoding UTF8)
+        $xmlCounterLang = [xml] (Get-Content -Path $counterLangPath -Encoding UTF8)
     }    
 
     $oCtr = CounterPathToObject -sCounterPath $XmlDataSource.EXPRESSIONPATH
@@ -5453,7 +5481,7 @@ $global:iOverallCompletion = 0
 Write-Progress -activity 'Overall progress...' -status 'Progress: 0%... SetThreadPriority' -percentcomplete 0 -id 1
     SetThreadPriority
     InitializeGlobalVariables
-    #StartDebugLogFile $global:oPal.Session.UserTempDirectory 0
+    StartDebugLogFile $global:oPal.Session.UserTempDirectory 0
     ShowMainHeader
     GlobalizationCheck
 UpdateOverallProgress -Status 'ProcessArgs'
@@ -5499,4 +5527,4 @@ UpdateOverallProgress -Status 'Saving the XML report'
     SaveXmlReport
 Write-Progress -activity 'Overall progress...' -Completed -id 1 -Status 'Progress: 100%'
     OpenHtmlReport -HtmlOutputFileName $($global:oPal.ArgsProcessed.HtmlOutputFileName)
-    #StopDebugLogFile
+    StopDebugLogFile
