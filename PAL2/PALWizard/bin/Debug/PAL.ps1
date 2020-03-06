@@ -936,9 +936,9 @@ Function InheritFromThresholdFiles
     ForEach ($XmlInheritance in $XmlThresholdFile.SelectNodes('//INHERITANCE'))
     {
         $inheritedXml = $($XmlInheritance.FilePath)
-		if(-not ([string]::IsNullOrWhiteSpace($inheritedXml))){
-			$inheritedXml = Resolve-Path "$PSScriptRoot\$inheritedXml"
-		}
+        If(-not ([string]::IsNullOrWhiteSpace($inheritedXml))){
+            $inheritedXml = Resolve-Path "$PSScriptRoot\$inheritedXml"
+        }
         If ($(Test-FileExists $inheritedXml) -eq $True)
         {
             $XmlInherited = [xml] (Get-Content $inheritedXml -Encoding UTF8)
