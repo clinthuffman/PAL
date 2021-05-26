@@ -1,0 +1,111 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PAL PALVERSION="2.0" NAME="Citrix XenApp" DESCRIPTION="Citrix XenApp analyzer." CONTENTOWNERS="Nicholas Vasile / Rick Berry" FEEDBACKEMAILADDRESS="tools@citrix.com" VERSION="1.0" LANGUAGE="English" LANGUAGECODE="en">
+  <ANALYSIS NAME="Citrix MetaFrame Presentation Server Resolution WorkItem Queue Ready Count" ENABLED="True" CATEGORY="Citrix MetaFrame Presentation Server" PRIMARYDATASOURCE="\Citrix MetaFrame Presentation Server\Resolution WorkItem Queue Ready Count" ID="4e992f47-f4f2-49fc-997e-797dc2201906" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\Citrix MetaFrame Presentation Server\Resolution WorkItem Queue Ready Count" COLLECTIONVARNAME="CollectionOfCitrixMetaFramePresentationServerResolutionWorkItemQueueReadyCount" EXPRESSIONPATH="\Citrix MetaFrame Presentation Server\Resolution WorkItem Queue Ready Count" TRENDVARNAME="TrendCitrixMetaFramePresentationServerResolutionWorkItemQueueReadyCount" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Citrix MetaFrame Presentation Server\Resolution WorkItem Queue Ready Count" ISTHRESHOLDSADDED="True" DATASOURCE="\Citrix MetaFrame Presentation Server\Resolution WorkItem Queue Ready Count" CHARTLABELS="instance">
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $CollectionOfCitrixMetaFramePresentationServerResolutionWorkItemQueueReadyCount -MinThreshold 0.5 -MaxThreshold 9.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="IMA Resolution Work Items greater than 0." CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[#// Use PowerShell code to create alerts when the conditions for this threshold are met.
+#// Optionally use the variables listed above in the Variables list box.
+#// If the condition for this threshold is a static value, then use the StaticThreshold() function.
+#// Otherwise, you will need to manually loop through the counter instance collection object.
+#// The counter instance collection object has a unique name for each counter data source in this analysis.
+#// See the variables in the Variables list box above for more information on the counter instance collection object.
+
+#// Here is a ready to use example on how to use the StaticThreshold() function to define a threshold:
+StaticThreshold -CollectionOfCounterInstances $CollectionOfCitrixMetaFramePresentationServerResolutionWorkItemQueueReadyCount -Operator 'gt' -Threshold 0
+
+#// The -Operator parameter accepts gt for greater than, ge for greater than or equal to, lt for less than,
+#//  and le for less than or equal to. -Threshold is the static value for the threshold.]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The IMA service consists of multiple thread pools dedicated to specific tasks. This counter measures the number of pending requests that are handled by the thread pool responsible for XenApp application resolutions, where the least-loaded server is calculated when a user launches a new application. A value above 0 indicates that requests are being queued while IMA handles other requests. Reference: Improving Farm Performance and Resiliency with Hotfix Rollup Pack 3 http://support.citrix.com/article/CTX119922]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Citrix MetaFrame Presentation Server WorkItem Queue Ready Count" ENABLED="True" CATEGORY="Citrix MetaFrame Presentation Server" PRIMARYDATASOURCE="\Citrix MetaFrame Presentation Server\WorkItem Queue Ready Count" ID="eae3d9ad-349c-4d3c-b96a-b663d958eb5a" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\Citrix MetaFrame Presentation Server\WorkItem Queue Ready Count" COLLECTIONVARNAME="CollectionOfCitrixMetaFramePresentationServerWorkItemQueueReadyCount" EXPRESSIONPATH="\Citrix MetaFrame Presentation Server\WorkItem Queue Ready Count" TRENDVARNAME="TrendCitrixMetaFramePresentationServerWorkItemQueueReadyCount" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Citrix MetaFrame Presentation Server\WorkItem Queue Ready Count" ISTHRESHOLDSADDED="True" DATASOURCE="\Citrix MetaFrame Presentation Server\WorkItem Queue Ready Count" CHARTLABELS="instance">
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $CollectionOfCitrixMetaFramePresentationServerWorkItemQueueReadyCount -MinThreshold 0.5 -MaxThreshold 9.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="IMA Work Items Ready greater than 0." CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[#// Use PowerShell code to create alerts when the conditions for this threshold are met.
+#// Optionally use the variables listed above in the Variables list box.
+#// If the condition for this threshold is a static value, then use the StaticThreshold() function.
+#// Otherwise, you will need to manually loop through the counter instance collection object.
+#// The counter instance collection object has a unique name for each counter data source in this analysis.
+#// See the variables in the Variables list box above for more information on the counter instance collection object.
+
+#// Here is a ready to use example on how to use the StaticThreshold() function to define a threshold:
+StaticThreshold -CollectionOfCounterInstances $CollectionOfCitrixMetaFramePresentationServerWorkItemQueueReadyCount -Operator 'gt' -Threshold 0
+
+#// The -Operator parameter accepts gt for greater than, ge for greater than or equal to, lt for less than,
+#//  and le for less than or equal to. -Threshold is the static value for the threshold.]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The IMA service consists of multiple thread pools dedicated to specific tasks. This counter measures the number of pending requests that are handled by the thread pool that handles re-occurring XenApp tasks such as load updates. A value above 0 indicates that requests are being queued while IMA handles other requests. Reference: Improving Farm Performance and Resiliency with Hotfix Rollup Pack 3 http://support.citrix.com/article/CTX119922]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Citrix MetaFrame Presentation Server Data Store Connection Failure" ENABLED="True" CATEGORY="Citrix MetaFrame Presentation Server" PRIMARYDATASOURCE="\Citrix MetaFrame Presentation Server\Data Store Connection Failure" ID="17a5f9f9-bf93-40ea-9eac-1b9db367a686" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\Citrix MetaFrame Presentation Server\Data Store Connection Failure" COLLECTIONVARNAME="CollectionOfCitrixMetaFramePresentationServerDataStoreConnectionFailure" EXPRESSIONPATH="\Citrix MetaFrame Presentation Server\Data Store Connection Failure" TRENDVARNAME="TrendCitrixMetaFramePresentationServerDataStoreConnectionFailure" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Citrix MetaFrame Presentation Server\Data Store Connection Failure" ISTHRESHOLDSADDED="True" DATASOURCE="\Citrix MetaFrame Presentation Server\Data Store Connection Failure" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $CollectionOfCitrixMetaFramePresentationServerDataStoreConnectionFailure -MinThreshold 0.5 -MaxThreshold 9.999 -IsOperatorGreaterThan $True -UseMaxValue $False]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="The server was unable to communicate with the data store database." CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCitrixMetaFramePresentationServerDataStoreConnectionFailure -Operator 'gt' -Threshold 0
+
+]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[XenApp stores configuration information such as the list of published applications, Citrix administrators and farm settings in the data store database. This counter reports number of minutes that the server running Presentation Server was disconnected from the data store. While XenApp can continue to deliver applications to users while the database is down, limited changes can be made.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Citrix MetaFrame Presentation Server Number of busy XML threads" ENABLED="True" CATEGORY="Citrix MetaFrame Presentation Server" PRIMARYDATASOURCE="\Citrix MetaFrame Presentation Server\Number of busy XML threads" ID="2edeec54-401f-4dd0-8b8e-b42669f76763" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\Citrix MetaFrame Presentation Server\Number of busy XML threads" COLLECTIONVARNAME="CollectionOfCitrixMetaFramePresentationServerNumberofbusyXMLthreads" EXPRESSIONPATH="\Citrix MetaFrame Presentation Server\Number of busy XML threads" TRENDVARNAME="TrendCitrixMetaFramePresentationServerNumberofbusyXMLthreads" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Citrix MetaFrame Presentation Server\Number of busy XML threads" ISTHRESHOLDSADDED="True" DATASOURCE="\Citrix MetaFrame Presentation Server\Number of busy XML threads" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $CollectionOfCitrixMetaFramePresentationServerNumberofbusyXMLthreads -MinThreshold 10 -MaxThreshold 14.99 -IsOperatorGreaterThan $True -UseMaxValue $False]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $CollectionOfCitrixMetaFramePresentationServerNumberofbusyXMLthreads -MinThreshold 15 -MaxThreshold 19.99 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="The number of busy XML threads is greater than or equal to 10." CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCitrixMetaFramePresentationServerNumberofbusyXMLthreads -Operator 'ge' -Threshold 10
+
+]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="The number of busy XML threads is equal to 16." CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCitrixMetaFramePresentationServerNumberofbusyXMLthreads -Operator 'eq' -Threshold 16]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The Citrix XML Service is used to login users as well as list and launch published applications. This counter measures the number of user requests currently being processed. There are 16 worker threads in the Citrix XML Service. A count of 16 or more shows that XML requests are not being processed in a timely manner.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Citrix Licensing License Server Connection Failure" ENABLED="True" CATEGORY="Citrix Licensing" PRIMARYDATASOURCE="\Citrix Licensing\License Server Connection Failure" ID="7377a38e-c3ff-43f4-9bae-d610b519ef73" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\Citrix Licensing\License Server Connection Failure" COLLECTIONVARNAME="CollectionOfCitrixLicensingLicenseServerConnectionFailure" EXPRESSIONPATH="\Citrix Licensing\License Server Connection Failure" TRENDVARNAME="TrendCitrixLicensingLicenseServerConnectionFailure" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Citrix Licensing\License Server Connection Failure" ISTHRESHOLDSADDED="True" DATASOURCE="\Citrix Licensing\License Server Connection Failure" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $CollectionOfCitrixLicensingLicenseServerConnectionFailure -MinThreshold 0.5 -MaxThreshold 23.99 -IsOperatorGreaterThan $True -UseMaxValue $False]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $CollectionOfCitrixLicensingLicenseServerConnectionFailure -MinThreshold 24 -MaxThreshold 29.999 -IsOperatorGreaterThan $True -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="The connection to the Citrix License Server was interrupted." CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCitrixLicensingLicenseServerConnectionFailure -Operator 'gt' -Threshold 0
+
+]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="The connection to the Citrix License server was interrupted for at least 24 hours." CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $CollectionOfCitrixLicensingLicenseServerConnectionFailure -Operator 'ge' -Threshold 1440
+
+]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[License information for XenApp is stored on a server with the Citrix Licensing software installed. XenApp checks out licenses from the Citrix License Server when users connect. XenApp provides, “grace period,” functionality to allow users to connect to XenApp for limited amounts of time when the XenApp server is unable to contact the Citrix License Server. All license files generated after August 19th, 2004 have a grace period of 30 days (720 hours) and license files generated before that have a grace period of 4 days (96 hours).
+
+This Counter measures the number of minutes that XenApp has been disconnected from the License Server.
+
+Reference: 
+http://support.citrix.com/article/CTX105103]]></DESCRIPTION>
+  </ANALYSIS>
+  <INHERITANCE FILEPATH="" />
+</PAL>

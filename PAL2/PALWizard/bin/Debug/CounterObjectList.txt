@@ -1,7 +1,0 @@
-LogicalDisk
-PhysicalDisk
-System
-Memory
-Network Interface
-Process
-Processor

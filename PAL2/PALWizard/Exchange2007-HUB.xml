@@ -1,0 +1,1416 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PAL NAME="Microsoft Exchange 2007 - HUB" DESCRIPTION="Use this for general analysis of the Exchange 2007 Hub Role. For the latest XML updates for this tool, go to http://blogs.technet.com/mikelag/archive/2008/08/20/xml-updates-for-the-pal-tool.aspx&#xD;&#xA;" CONTENTOWNERS="Mike Lagase" FEEDBACKEMAILADDRESS="paltool@microsoft.com;mikelag@microsoft.com" VERSION="1.0" LANGUAGE="English" LANGUAGECODE="en" PALVERSION="2.0">
+  <ANALYSIS NAME="LogicalDisk Read Latency Analysis" ENABLED="True" CATEGORY="LogicalDisk" PRIMARYDATASOURCE="\LogicalDisk(*)\Avg. Disk sec/Read" ID="{dfb21d00-cf83-49e7-bf63-3d82db3d63c3}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\LogicalDisk(*)\Avg. Disk sec/Read" COLLECTIONVARNAME="LogicalDiskAvgDisksecReadALL" EXPRESSIONPATH="\LogicalDisk(*)\Avg. Disk sec/Read" DATATYPE="round3">
+      <EXCLUDE INSTANCE="_Total" />
+    </DATASOURCE>
+    <THRESHOLD NAME="Greater than 10ms logical disk READ response times" CONDITION="Warning" COLOR="#FFFF00" PRIORITY="52" ID="">
+      <CODE><![CDATA[StaticThreshold -CollectionOfCounterInstances $LogicalDiskAvgDisksecReadALL -Operator 'gt' -Threshold 0.010
+         ]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="Greater than 20ms logical disk READ response times" CONDITION="Critical" COLOR="Red" PRIORITY="100" ID="">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $LogicalDiskAvgDisksecReadALL -Operator 'gt' -Threshold 0.020
+        ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\LogicalDisk(*)\Avg. Disk sec/Read" ISTHRESHOLDSADDED="True" DATASOURCE="\LogicalDisk(*)\Avg. Disk sec/Read" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $LogicalDiskAvgDisksecReadALL -MinThreshold 0.010 -MaxThreshold 0.020 -UseMaxValue $False
+        ]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[
+          StaticChartThreshold -CollectionOfCounterInstances $LogicalDiskAvgDisksecReadALL -MinThreshold 0.020 -MaxThreshold 0.029999 -UseMaxValue $True
+        ]]></CODE>
+      </SERIES>
+    </CHART>
+    <DESCRIPTION><![CDATA[Avg. Disk sec/Read is the average time, in seconds, of a read of data to the disk. This analysis determines if any of the physical disks are responding slowly.<BR>
+<BR>
+If the response times are greater than <B>.010 (10 milliseconds)</B>, then the disk subsystem is keeping up with demand, but does not have much overhead left.<BR>
+<BR>
+If the response times are greater than <B>.020 (20 milliseconds)</B>, then noticeable slow downs and performance issues affecting users may be occurring.<BR>
+<BR>
+<B>Reference:</B><BR>
+Ruling Out Disk-Bound Problems<BR>
+<A HREF="http://technet.microsoft.com/en-us/library/5bcdd349-dcc6-43eb-9dc3-54175f7061ad.aspx">http://technet.microsoft.com/en-us/library/5bcdd349-dcc6-43eb-9dc3-54175f7061ad.aspx</A><BR>
+Monitoring Mailbox Servers<BR>
+<A HREF="http://technet.microsoft.com/en-us/library/bb201689(EXCHG.80).aspx">http://technet.microsoft.com/en-us/library/bb201689(EXCHG.80).aspx</A><BR>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="LogicalDisk Write Latency Analysis" ENABLED="True" CATEGORY="LogicalDisk" PRIMARYDATASOURCE="\LogicalDisk(*)\Avg. Disk sec/Write" ID="{28eaa0b2-0bc2-41f8-8c27-9045b597d001}" FROMALLCOUNTERSTATS="False">
+    <DATASOURCE TYPE="CounterLog" NAME="\LogicalDisk(*)\Avg. Disk sec/Write" COLLECTIONVARNAME="LogicalDiskAvgDisksecWriteALL" EXPRESSIONPATH="\LogicalDisk(*)\Avg. Disk sec/Write" DATATYPE="round3">
+      <EXCLUDE INSTANCE="_Total" />
+    </DATASOURCE>
+    <THRESHOLD NAME="Greater than 10ms logical disk WRITE response times" CONDITION="Warning" COLOR="Yellow" PRIORITY="50" ID="">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+         StaticThreshold -CollectionOfCounterInstances $LogicalDiskAvgDisksecWriteALL -Operator 'gt' -Threshold 0.010
+         ]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="Greater than 20ms logical disk WRITE response times" CONDITION="Critical" COLOR="Red" PRIORITY="100" ID="">
+      <DESCRIPTION><![CDATA[ ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        StaticThreshold -CollectionOfCounterInstances $LogicalDiskAvgDisksecWriteALL -Operator 'gt' -Threshold 0.020
+        ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTITLE="\LogicalDisk(*)\Avg. Disk sec/Write" ISTHRESHOLDSADDED="True" DATASOURCE="\LogicalDisk(*)\Avg. Disk sec/Write" CHARTLABELS="instance">
+      <SERIES NAME="Warning">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $LogicalDiskAvgDisksecWriteALL -MinThreshold 0.010 -MaxThreshold 0.020 -UseMaxValue $False        ]]></CODE>
+      </SERIES>
+      <SERIES NAME="Critical">
+        <CODE><![CDATA[StaticChartThreshold -CollectionOfCounterInstances $LogicalDiskAvgDisksecWriteALL -MinThreshold 0.020 -MaxThreshold 0.029999 -UseMaxValue $True]]></CODE>
+      </SERIES>
+    </CHART>
+    <THRESHOLD NAME="Greater than 900ms - Slower than a 3.5 inch floppy drive" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[#// Use PowerShell code to create alerts when the conditions for this threshold are met.
+#// Optionally use the variables listed above in the Variables list box.
+#// If the condition for this threshold is a static value, then use the StaticThreshold() function.
+#// Otherwise, you will need to manually loop through the counter instance collection object.
+#// The counter instance collection object has a unique name for each counter data source in this analysis.
+#// See the variables in the Variables list box above for more information on the counter instance collection object.
+
+#// Here is a ready to use example on how to use the StaticThreshold() function to define a threshold:
+StaticThreshold -CollectionOfCounterInstances $LogicalDiskAvgDisksecWriteALL -Operator 'gt' -Threshold 0.9
+#// The -Operator parameter accepts gt for greater than, ge for greater than or equal to, lt for less than,
+#//  and le for less than or equal to. -Threshold is the static value for the threshold.]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[Avg. Disk sec/Write is the average time, in seconds, of a write of data to the disk. This analysis determines if any of the physical disks are responding slowly.<BR>
+<BR>
+If the response times are greater than <B>.010 (15 milliseconds)</B>, then the disk subsystem is keeping up with demand, but does not have much overhead left.<BR>
+<BR>
+If the response times are greater than <B>.020 (25 milliseconds)</B>, then noticeable slow downs and performance issues affecting users may be occurring.<BR>
+<BR>
+<B>Reference:</B><BR>
+Ruling Out Disk-Bound Problems<BR>
+<A HREF="http://technet.microsoft.com/en-us/library/5bcdd349-dcc6-43eb-9dc3-54175f7061ad.aspx">http://technet.microsoft.com/en-us/library/5bcdd349-dcc6-43eb-9dc3-54175f7061ad.aspx</A><BR>
+Monitoring Mailbox Servers<BR>
+<A HREF="http://technet.microsoft.com/en-us/library/bb201689(EXCHG.80).aspx">http://technet.microsoft.com/en-us/library/bb201689(EXCHG.80).aspx</A><BR>
+<BR>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Processor Utilization Analysis" ENABLED="True" ANALYZECOUNTER="\Processor(*)\% Processor Time" CATEGORY="Processor">
+    <!--
+    COUNTER: All of the counters to be as a datasource for analysis. At least one counter (the AnalyzeCounter in the Analsysis) must be defined here.
+      NAME: Name of the counter. An asterick (*) or a specific instance name can be used. 
+        - An asterick (*) indicates all instances of the counter.
+        - The (*) indicates the respective instance names will be compared.
+      MINVARNAME: The name of the variable which will be assigned the minimum value of the time interval being analyzed.
+      AVGVARNAME: The name of the variable which will be assigned the average value of the time interval being analyzed.
+      MAXVARNAME: The name of the variable which will be assigned the maximum value of the time interval being analyzed.
+      TRENDVARNAME: [NOT IMPLEMENTED] The name of the variable which will be assigned the trend value of the time interval being analyzed.
+      All variable names (VARNAME's) must be unique to the Analysis node.
+      DATATYPE: This is the datatype that the counter values will be converted to:
+        - Supported valued: absolute, byte, double, integer, long, single
+        - Default datatype is double.
+    -->
+    <!-- DESCRIPTION: The description of the analysis. -->
+    <COUNTER NAME="\Processor(*)\% Processor Time" MINVARNAME="MinProcessor" AVGVARNAME="AvgProcessor" MAXVARNAME="MaxProcessor" TRENDVARNAME="TrendProcessor" DATATYPE="Integer" />
+    <!--
+    THRESHOLD: This is used to compare the value of the analyzed counter to a condition. If the condition is true, then the COLOR will be used to highlight the value.
+      NAME: [NOT USED YET]
+      CONDITION: This is the text that will show next to the values breaking the threshold.
+      PRIORITY: This is used to determine which threshold is more important. The higher the number the more important.
+        For example, a Warning is typically 50 and Critical is 100. Since the 100 is higher the Critical will be the threshold that shows because it's more important than the Warning level of 50.
+      COLOR: This is the HTML color (BGCOLOR attribute) behind the value if this threshold is exceeded.
+      CODE: Within the <CODE></CODE> tags. This is the VBScript code that will be evaluated against the analyzed counter values.
+       - VBScript code is required when creating new threholds.
+       - Here is where you use the Min, Avg, and Max variable names specified in the COUNTER node.
+       - IsMinThresholdBroken, IsAvgThresholdBroken, IsMaxThresholdBroken, and/or IsTrendTresholdBroken must be evaluated to a True or False without quotes.
+       - The CDATA tag must be in place to prevent a malformed XML document when using greater than and less than signs.
+      DESCRIPTION: This is the description that shows in the report. 
+       - This should describe what the code section is analyzing.
+       - HTML tags such as bold "<B>" can be used to allow HTML formatting in the report as long as the CDATA tag is used.
+    -->
+    <THRESHOLD NAME="High average processor utilization - more than 75% CPU utilization" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[If the total processor time is greater than <b>75%</B> consumed on average, then the system is borderline on a processor bottleneck.        ]]></DESCRIPTION>
+      <CODE><![CDATA[If AvgProcessor > 75 Then
+ 			IsAvgThresholdBroken = True
+			End If
+
+			If MaxProcessor > 75 Then
+ 			IsMaxThresholdBroken = True
+			End If
+        ]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="Very high average processor utilization - more than 90% CPU utilization" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[If the total processor time is greater than <B>90%</B> consumed on average, then the system has a clear processor bottleneck.        ]]></DESCRIPTION>
+      <CODE><![CDATA[If AvgProcessor > 90 Then
+ 			IsAvgThresholdBroken = True
+			End If
+
+			If MaxProcessor > 90 Then
+ 			IsMaxThresholdBroken = True
+			End If
+        ]]></CODE>
+    </THRESHOLD>
+    <!--
+    CHART: This is the value which will be used in the chart (graph) in the report.      
+      - This is typically the same as the Analyze counter.
+      - This value will always be averaged by time interval.
+      - An asterick (*) or a specific instance name can be used.
+      - An asterick (*) indicates all instances of the counter will be charted.
+      CHARTTYPE: The set of available chart types depends on the version of the Microsoft Office Web Components installed on the local computer.
+      CATEGORIES: Display category labels along the category axis.
+      DATATYPE: This is the datatype that the counter values will be converted to:
+        - Supported valued: absolute, byte, double, integer, long, single
+        - Default datatype is double.
+       CHARTTYPE         <chart type>       : Chart type; one of: Line,
+                                              LineMarkers, LineStacked,
+                                              LineStackedMarkers, LineStacked100,
+                                              LineStacked100Markers, Line3D,
+                                              LineOverlapped3D, LineStacked3D,
+                                              LineStacked1003D, SmoothLine,
+                                              SmoothLineMarkers, SmoothLineStacked
+                                              , SmoothLineStackedMarkers,
+                                              SmoothLineStacked100, SmoothLineStac
+                                              ked100Markers, BarClustered,
+                                              BarStacked, BarStacked100, Bar3D,
+                                              BarClustered3D, BarStacked3D,
+                                              BarStacked1003D, ColumnClustered,
+                                              ColumnStacked, ColumnStacked100,
+                                              Column3D, ColumnClustered3D,
+                                              ColumnStacked3D, ColumnStacked1003D,
+                                              Pie, PieExploded, PieStacked, Pie3D,
+                                              PieExploded3D, ScatterMarkers,
+                                              ScatterSmoothLine, ScatterSmoothLine
+                                              Markers, ScatterLine, ScatterLineMar
+                                              kers, ScatterLineFilled, Bubble,
+                                              BubbleLine, Area, AreaStacked,
+                                              AreaStacked100, Area3D, AreaOverlapp
+                                              ed3D, AreaStacked3D, AreaStacked1003
+                                              D, Doughnut, DoughnutExploded,
+                                              RadarLine, RadarLineMarkers,
+                                              RadarLineFilled, RadarSmoothLine,
+                                              RadarSmoothLineMarkers, StockHLC,
+                                              StockOHLC, PolarMarkers, PolarLine,
+                                              PolarLineMarkers, PolarSmoothLine,
+                                              PolarSmoothLineMarkers [default
+                                              value=Line]
+       CATEGORIES        ON|OFF|AUTO        : Display categories along the X-Axis;
+                                              if AUTO, will display categories if
+                                              the fields in the first column are
+                                              STRING values [default value=AUTO]
+       MAXCATEGORYLABELS <max categories>   : Maximum number of category labels
+                                              displayed along the X-Axis (0=auto,
+                                              -1=unlimited) [default value=0]
+       LEGEND            ON|OFF|AUTO        : Print legend for each series; if
+                                              AUTO, will print legend if there are
+                                              2 or more series [default
+                                              value=AUTO]
+       VALUES            ON|OFF|AUTO        : Print value labels; if AUTO, will
+                                              decide based on the chart type
+                                              [default value=AUTO]
+       GROUPSIZE         <width>x<height>   : Image size [default value=640x480]
+       CHARTTITLE        <any string>       : Title of this chart; if 'Auto' and 1
+                                              series only, will use the series'
+                                              field name [default value=Auto]
+       OTSFORMAT         <timestamp format> : Format in which TIMESTAMP fields are
+                                              rendered [default value=yyyy-MM-dd      
+       TEXT              <CHART>Text</CHART>: The variable name of the counter to 
+                                              chart.
+    -->
+    <CHART CHARTTYPE="Line" CATEGORIES="AUTO" MAXCATEGORYLABELS="0" LEGEND="ON" VALUES="AUTO" GROUPSIZE="640x480" OTSFORMAT="MM/dd hh:mm" CHARTTITLE="\Processor(*)\% Processor Time" DATASOURCE="\Processor(*)\% Processor Time" DATATYPE="Integer" ORDERBY="ASC" />
+    <DESCRIPTION><![CDATA[% Processor Time is the percentage of elapsed time that the processor spends to execute a non-Idle thread. It is calculated by measuring the duration of the idle thread is active in the sample interval, and subtracting that time from interval duration.  (Each processor has an idle thread that consumes cycles when no other threads are ready to run). This counter is the primary indicator of processor activity, and displays the average percentage of busy time observed during the sample interval. It is calculated by monitoring the time that the service is inactive, and subtracting that value from 100%.
+
+This analysis checks for utilization greater than 60% on each individual processor. If so, determine if it is high user mode CPU or high privileged mode. If high privileged mode CPU is suspected, then see the Privileged Mode CPU Analysis. If a user-mode processor bottleneck is suspected, then consider using a process profiler to analyze the functions causing the high CPU consumption. See “How To: Identify Functions causing a High User-mode CPU Bottleneck for Server Applications in a Production Environment” article in the references section for more information.<BR>
+<BR>
+If a user-mode processor bottleneck is suspected, then consider using a process profiler to analyze the functions causing the high CPU consumption. See “How To: Identify Functions causing a High User-mode CPU Bottleneck for Server Applications in a Production Environment” article in the references section for more information.<BR>
+<BR>
+<B>References:</B><BR>
+Measuring .NET Application Performance<BR>
+http://msdn2.microsoft.com/en-us/library/ms998579.aspx<BR>
+<BR>
+How To: Identify Functions causing a High User-mode CPU Bottleneck for Server Applications in a Production Environment http://www.codeplex.com/PerfTesting/Wiki/View.aspx?title=How%20To%3a%20Identify%20a%20Disk%20Performance%20Bottleneck%20Using%20SPA&referringTitle=How%20Tos ]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Network Utilization Analysis" ENABLED="True" ANALYZECOUNTER="\Network Interface(*)\Bytes Total/sec" CATEGORY="Network">
+    <COUNTER NAME="\Network Interface(*)\Bytes Total/sec" MINVARNAME="MinNetworkInterfaceBytesTotalPerSec" AVGVARNAME="AvgNetworkInterfaceBytesTotalPerSec" MAXVARNAME="MaxNetworkInterfaceBytesTotalPerSec" TRENDVARNAME="TrendNetworkInterfaceBytesTotalPerSec" DATATYPE="Integer" />
+    <COUNTER NAME="\Network Interface(*)\Current Bandwidth" MINVARNAME="MinNetworkInterfaceCurrentBandwidth" AVGVARNAME="AvgNetworkInterfaceCurrentBandwidth" MAXVARNAME="MaxNetworkInterfaceCurrentBandwidth" TRENDVARNAME="TrendNetworkInterfaceCurrentBandwidth" DATATYPE="Integer" />
+    <THRESHOLD NAME="High average network utilization - more than 50%" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[Checks to see if <B>50%</B> or more of the total network utilization is being used. If so, then the computer is using a lot of network bandwidth.
+        ]]></DESCRIPTION>
+      <CODE><![CDATA[Dim BitsPerSec, PercentOfNetworkUtilized, PercentNetworkUtilizationThreshold
+If AvgNetworkInterfaceBytesTotalPerSec > 0 AND AvgNetworkInterfaceCurrentBandwidth > 0 Then
+ PercentNetworkUtilizationThreshold = 50
+ BitsPerSec = Round(AvgNetworkInterfaceBytesTotalPerSec) * 8
+ PercentOfNetworkUtilized = (BitsPerSec * 100) / AvgNetworkInterfaceCurrentBandwidth
+ If AvgNetworkInterfaceBytesTotalPerSec > 0 Then
+   If PercentOfNetworkUtilized > PercentNetworkUtilizationThreshold Then
+     IsAvgThresholdBroken = True
+   End If
+ End If
+End If]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="Very high average network utilization - more than 80%" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[Checks to see if <B>80%</B> or more of the total network utilization is being used. If so, then the computer is using a lot of network bandwidth.
+        ]]></DESCRIPTION>
+      <CODE><![CDATA[Dim BitsPerSec, PercentOfNetworkUtilized, PercentNetworkUtilizationThreshold
+If AvgNetworkInterfaceBytesTotalPerSec > 0 AND AvgNetworkInterfaceCurrentBandwidth > 0 Then
+ PercentNetworkUtilizationThreshold = 80
+ BitsPerSec = Round(AvgNetworkInterfaceBytesTotalPerSec) * 8
+ PercentOfNetworkUtilized = (BitsPerSec * 100) / AvgNetworkInterfaceCurrentBandwidth
+ If AvgNetworkInterfaceBytesTotalPerSec > 0 Then
+   If PercentOfNetworkUtilized > PercentNetworkUtilizationThreshold Then
+     IsAvgThresholdBroken = True
+   End If
+ End If
+End If]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTYPE="Line" CATEGORIES="AUTO" MAXCATEGORYLABELS="0" LEGEND="ON" VALUES="AUTO" GROUPSIZE="640x480" OTSFORMAT="MM/dd hh:mm" CHARTTITLE="\Network Interface(*)\Bytes Total/sec" DATASOURCE="\Network Interface(*)\Bytes Total/sec" DATATYPE="Integer" />
+    <DESCRIPTION><![CDATA[Bytes Total/sec is the rate at which bytes are sent and received over each network adapter, including framing characters. Network Interface\Bytes Received/sec is a sum of Network Interface\Bytes Received/sec and Network Interface\Bytes Sent/sec. This counter indicates the rate at which bytes are sent and received over each network adapter. This counter helps you know whether the traffic at your network adapter is saturated and if you need to add another network adapter. How quickly you can identify a problem depends on the type of network you have as well as whether you share bandwidth with other applications.<BR>
+<BR>
+This analysis converts Bytes Total/sec to bits and compares it to the current bandwidth of the network adapter to calculate network utilization. Next, it checks for utilization above 50%.
+<BR>
+<B>Reference:</B><BR>
+Measuring .NET Application Performance<BR>
+<A HREF="http://msdn2.microsoft.com/en-us/library/ms998579.aspx">http://msdn2.microsoft.com/en-us/library/ms998579.aspx</A><BR>
+<BR>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Processor Queue Length" ENABLED="True" ANALYZECOUNTER="\System\Processor Queue Length" CATEGORY="Processor">
+    <COUNTER NAME="\System\Processor Queue Length" MINVARNAME="MinQueue" AVGVARNAME="AvgQueue" MAXVARNAME="MaxQueue" TRENDVARNAME="TrendQueue" DATATYPE="Integer" />
+    <THRESHOLD NAME="Each processor has 10 or more threads waiting" CONDITION="WARNING" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[
+        Determines if the average processor queue length exceeds the <B>number of processors</B> by 10. If this threshold is broken, then the processor(s) may be at capacity.
+        ]]></DESCRIPTION>
+      <CODE><![CDATA[If AvgQueue => (NumberOfProcessors * 10) Then
+  IsAvgThresholdBroken = True
+End If
+If MaxQueue => (NumberOfProcessors * 10) Then
+  IsMaxThresholdBroken = True
+End If
+        ]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="Each processor has 20 or more threads waiting" CONDITION="CRITICAL" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[
+        Determines if the average processor queue length exceeds <B>twenty times the number of processors</B>. If this threshold is broken, then the processor(s) are beyond capacity.
+        ]]></DESCRIPTION>
+      <CODE><![CDATA[
+        If AvgQueue => (NumberOfProcessors * 20) Then
+  			IsAvgThresholdBroken = True
+				End If
+				If MaxQueue => (NumberOfProcessors * 20) Then
+  			IsMaxThresholdBroken = True
+				End If
+        ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTYPE="Line" CATEGORIES="AUTO" MAXCATEGORYLABELS="0" LEGEND="ON" VALUES="AUTO" GROUPSIZE="640x480" OTSFORMAT="MM/dd hh:mm" CHARTTITLE="\System\Processor Queue Length" DATASOURCE="\System\Processor Queue Length" DATATYPE="Integer" />
+    <DESCRIPTION><![CDATA[Processor Queue Length is the number of threads in the processor queue.  Unlike the disk counters, this counter counters, this counter shows ready threads only, not threads that are running.  There is a single queue for processor time even on computers with multiple processors. Therefore, if a computer has multiple processors, you need to divide this value by the number of processors servicing the workload. A sustained processor queue of less than 10 threads per processor is normally acceptable, dependent of the workload.<BR>
+<BR>
+This analysis determines if the average processor queue length exceeds the number of processors. If so, then this could indicate a processor bottleneck. Use this analysis in correlation with Privileged Mode CPU Analysis and “Excessive Processor Use by Process” analysis.<BR>
+<BR>
+If there are more tasks ready to run than there are processors, threads queue up. The processor queue is the collection of threads that are ready but not able to be executed by the processor because another active thread is currently executing. A sustained or recurring queue of more threads than number of processors is a good indication of a processor bottleneck.<BR>
+<BR>
+You can use this counter in conjunction with the Processor\% Processor Time counter to determine if your application can benefit from more CPUs. There is a single queue for processor time, even on multiprocessor computers. Therefore, in a multiprocessor computer, divide the Processor Queue Length (PQL) value by the number of processors servicing the workload.<BR>
+<BR>
+If the CPU is very busy (90 percent and higher utilization) and the PQL average is consistently higher than the number of processors, then you may have a processor bottleneck that could benefit from additional CPUs. Or, you could reduce the number of threads and queue more at the application level. This will cause less context switching, and less context switching is good for reducing CPU load. The common reason for a high PQL with low CPU utilization is that requests for processor time arrive randomly and threads demand irregular amounts of time from the processor. This means that the processor is not a bottleneck but that it is your threading logic that needs to be improved.<BR>
+<BR>
+If a user-mode processor bottleneck is suspected, then consider using a process profiler to analyze the functions causing the high CPU consumption. See “How To: Identify Functions causing a High User-mode CPU Bottleneck for Server Applications in a Production Environment” article in the references section for more information.<BR>
+<BR>
+<B>Reference:</B><BR>
+Measuring .NET Application Performance<BR>
+<A HREF="http://msdn2.microsoft.com/en-us/library/ms998579.aspx">http://msdn2.microsoft.com/en-us/library/ms998579.aspx</A><BR>
+<BR>
+How To: Identify Functions causing a High User-mode CPU Bottleneck for Server Applications in a Production Environment http://www.codeplex.com/PerfTesting/Wiki/View.aspx?title=How%20To%3a%20Identify%20a%20Disk%20Performance%20Bottleneck%20Using%20SPA&referringTitle=How%20Tos ]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Privileged Mode CPU Analysis" ENABLED="True" ANALYZECOUNTER="\Processor(*)\% Privileged Time" CATEGORY="Processor">
+    <COUNTER NAME="\Processor(*)\% Processor Time" MINVARNAME="MinProcessor" AVGVARNAME="AvgProcessor" MAXVARNAME="MaxProcessor" TRENDVARNAME="TrendProcessor" DATATYPE="Integer">
+      <EXCLUDE INSTANCE="_Total" />
+    </COUNTER>
+    <COUNTER NAME="\Processor(*)\% Privileged Time" MINVARNAME="MinPrivProcessor" AVGVARNAME="AvgPrivProcessor" MAXVARNAME="MaxPrivProcessor" TRENDVARNAME="TrendPrivProcessor" DATATYPE="Integer">
+      <EXCLUDE INSTANCE="_Total" />
+    </COUNTER>
+    <THRESHOLD NAME="More than 30% CPU in Privileged Mode CPU - This may indicate a high I/O issue" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[If the privileged mode CPU is greater than <B>30%</B> of the total CPU and if total CPU exceeds 50%, then this threshold will break. This theshold indicates that the system is beginning to spend too much time in system I/O. This is sometimes an indicator that there is another system bottleneck elsewhere such as too many threads, too little memory, high latency disks or network, etc.]]></DESCRIPTION>
+      <CODE><![CDATA[Dim PercentageOfPrivilegedModeCPUToTotalCPU
+                
+If AvgPrivProcessor > 0 Then
+ PercentageOfPrivilegedModeCPUToTotalCPU = (AvgPrivProcessor * 100) / AvgProcessor        
+ If PercentageOfPrivilegedModeCPUToTotalCPU > 30 AND AvgProcessor > 50 Then
+  IsAvgThresholdBroken = True
+ End If
+End If]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="Spike of more than 30% CPU in Privileged Mode CPU - This may indicate a spike of high I/O" CONDITION="Warning" COLOR="#FFFF00" PRIORITY="40">
+      <DESCRIPTION><![CDATA[If the privileged mode CPU is greater than <B>30%</B> of the total CPU and if total CPU exceeds 50%, then this threshold will break. This theshold indicates that the system is spending too much time in system I/O. This is sometimes an indicator that there is another system bottleneck elsewhere such as too many threads, too little memory, high latency disks or network, etc.        ]]></DESCRIPTION>
+      <CODE><![CDATA[Dim PercentageOfPrivilegedModeCPUToTotalCPU
+                
+If MaxPrivProcessor > 0 Then
+ PercentageOfPrivilegedModeCPUToTotalCPU = (MaxPrivProcessor * 100) / MaxProcessor
+ If PercentageOfPrivilegedModeCPUToTotalCPU > 30 AND MaxProcessor > 50 Then
+  IsMaxThresholdBroken = True
+ End If
+End If]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTYPE="Line" CATEGORIES="AUTO" MAXCATEGORYLABELS="0" LEGEND="ON" VALUES="AUTO" GROUPSIZE="640x480" OTSFORMAT="MM/dd hh:mm" CHARTTITLE="\Processor(*)\% Privileged Time" DATASOURCE="\Processor(*)\% Privileged Time" DATATYPE="Integer">
+      <EXCLUDE INSTANCE="_Total" />
+    </CHART>
+    <DESCRIPTION><![CDATA[This counter indicates the percentage of time a thread runs in privileged mode. When your application calls operating system functions (for example to perform file or network I/O or to allocate memory), these operating system functions are executed in privileged mode.<BR>
+<BR>
+High privileged mode CPU indicates that computer is spending too much time in system I/O versus real (user mode) work. % Privileged Time is the percentage of elapsed time that the process threads spent executing code in privileged mode.  When a Windows system service in called, the service will often run in privileged mode to gain access to system-private data. Such data is protected from access by threads executing in user mode. Calls to the system can be explicit or implicit, such as page faults or interrupts. Unlike some early operating systems, Windows uses process boundaries for subsystem protection in addition to the traditional protection of user and privileged modes. Some work done by Windows on behalf of the application might appear in other subsystem processes in addition to the privileged time in the process.<BR>
+<BR>
+This analysis checks to see if privileged mode CPU is consuming more than 30% of total CPU. If so, then the CPU consumption is likely caused by another bottleneck other than the processor such as network, memory, or disk I/O.<BR>
+<BR>
+<B>References:</B><BR>
+Measuring .NET Application Performance<BR>
+<A HREF="http://msdn2.microsoft.com/en-us/library/ms998579.aspx">http://msdn2.microsoft.com/en-us/library/ms998579.aspx</A>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Network Output Queue Length Analysis" ENABLED="True" ANALYZECOUNTER="\Network Interface(*)\Output Queue Length" CATEGORY="Network">
+    <COUNTER NAME="\Network Interface(*)\Output Queue Length" MINVARNAME="MinOutputQueueLength" AVGVARNAME="AvgOutputQueueLength" MAXVARNAME="MaxOutputQueueLength" TRENDVARNAME="TrendOutputQueueLength" DATATYPE="Integer" />
+    <THRESHOLD NAME="High Network I/O - more than 1 thread waiting on network I/O" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[Checks to see if the output queue length is greater than <B>1</B>. If so, this system's network is nearing capacity. Consider analyzing network traffic to determine why network I/O is nearing capacity such as *chatty* network services and/or large data transfers.
+        ]]></DESCRIPTION>
+      <CODE><![CDATA[If AvgOutputQueueLength > 1 Then
+  IsAvgThresholdBroken = True
+End If]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="Very high network I/O - more than 2 threads waiting on network I/O" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[Checks to see if the output queue length is greater than <B>2</B>. If so, this system's network is over capacity. Consider analyzing network traffic to determine why network I/O is nearing capacity such as *chatty* network services and/or large data transfers.
+        ]]></DESCRIPTION>
+      <CODE><![CDATA[If AvgOutputQueueLength > 2 Then
+  IsAvgThresholdBroken = True
+End If
+  
+        ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTYPE="Line" CATEGORIES="AUTO" MAXCATEGORYLABELS="0" LEGEND="ON" VALUES="AUTO" GROUPSIZE="640x480" OTSFORMAT="MM/dd hh:mm" CHARTTITLE="\Network Interface(*)\Output Queue Length" DATASOURCE="\Network Interface(*)\Output Queue Length" DATATYPE="Integer" />
+    <DESCRIPTION><![CDATA[This analysis checks to see how many threads are waiting on the network adapter. If there are a lot of threads waiting on the network adapter, then the system is most likely saturating the network I/O most likely due to network latency or network bandwidth.<BR>
+<BR>
+Output Queue Length is the length of the output packet queue (in packets). If this is longer than two, there are delays and the bottleneck should be found and eliminated, if possible. Since the requests are queued by the Network Driver Interface Specification (NDIS) in this implementation, this will always be 0.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="High Context Switching" ENABLED="True" ANALYZECOUNTER="\System\Context Switches/sec" CATEGORY="Processor">
+    <COUNTER NAME="\Processor(_Total)\% Processor Time" MINVARNAME="MinProcessor" AVGVARNAME="AvgProcessor" MAXVARNAME="MaxProcessor" TRENDVARNAME="TrendProcessor" DATATYPE="Integer" />
+    <COUNTER NAME="\Processor(_Total)\% Privileged Time" MINVARNAME="MinPrivProcessor" AVGVARNAME="AvgPrivProcessor" MAXVARNAME="MaxPrivProcessor" TRENDVARNAME="TrendPrivProcessor" DATATYPE="Integer" />
+    <COUNTER NAME="\System\Context Switches/sec" MINVARNAME="MinContextSwitchesPerSec" AVGVARNAME="AvgContextSwitchesPerSec" MAXVARNAME="MaxContextSwitchesPerSec" TRENDVARNAME="TrendContextSwitchesPerSec" DATATYPE="Integer" />
+    <THRESHOLD NAME="High context switches/sec - more than 5000 context switches/sec per processor and more than 20% privilged mode CPU" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[If the privileged mode CPU is greater than <B>20%</B> of the total CPU and if total CPU exceeds <B>50%</B> and if the average context switches per sec is greater than <B>5000</B> per processor, then this threshold will break. This theshold indicates that the system is beginning to spend too much time in context switching. Consider reducing the number of processes and the number of threads.]]></DESCRIPTION>
+      <CODE><![CDATA[
+        Dim PercentageOfPrivilegedModeCPUToTotalCPU
+        ' Check to see if any of the values are zero to avoid divide by zero errors.
+        If AvgPrivProcessor > 0 AND AvgProcessor > 0 AND AvgContextSwitchesPerSec > 0 AND NumberOfProcessors > 0 Then
+          PercentageOfPrivilegedModeCPUToTotalCPU = (AvgPrivProcessor * 100) / AvgProcessor
+          If PercentageOfPrivilegedModeCPU > 20 AND AvgProcessor > 50 AND (AvgContextSwitchesPerSec / NumberOfProcessors) > 5000 Then
+            IsAvgThresholdBroken = True
+          End If
+        End If
+      ]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="Very high context switches/sec - more than 15,000 context switches per second per processor and more than 20% of total CPU is in privileged mode" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[If the privileged mode CPU is greater than <B>20%</B> of the total CPU and if total CPU exceeds <B>50%</B> and if the average context switches per sec is greater than <B>15,000</B> per processor, then this threshold will break. This theshold indicates that the system is beginning to spend too much time in context switching. Consider reducing the number of processes and the number of threads.]]></DESCRIPTION>
+      <CODE><![CDATA[
+        Dim PercentageOfPrivilegedModeCPUToTotalCPU
+        If AvgPrivProcessor > 0 AND AvgProcessor > 0 AND AvgContextSwitchesPerSec > 0 AND NumberOfProcessors > 0 Then
+          PercentageOfPrivilegedModeCPUToTotalCPU = (AvgPrivProcessor * 100) / AvgProcessor
+          If PercentageOfPrivilegedModeCPUToTotalCPU > 20 AND AvgProcessor > 50 AND (AvgContextSwitchesPerSec / NumberOfProcessors) > 15000 Then
+            IsAvgThresholdBroken = True
+          End If
+        End If
+        ]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTYPE="Line" CATEGORIES="AUTO" MAXCATEGORYLABELS="0" LEGEND="ON" VALUES="AUTO" GROUPSIZE="640x480" OTSFORMAT="MM/dd hh:mm" CHARTTITLE="\System\Context Switches/sec" DATASOURCE="\System\Context Switches/sec" DATATYPE="Integer" />
+    <DESCRIPTION><![CDATA[High context switching is only a problem if privileged mode CPU and overall CPU is high as well. This analysis checks for high CPU, high privileged mode CPU, and high system context switches per sec.<BR>
+<BR>
+Threshold: As a general rule, context switching rates of less than 5,000 per second per processor are not worth worrying about. If context switching rates exceed 15,000 per second per processor, then there is a constraint.<BR>
+<BR>
+Significance: Context switching happens when a higher priority thread preempts a lower priority thread that is currently running or when a high priority thread blocks. High levels of context switching can occur when many threads share the same priority level. This often indicates that there are too many threads competing for the processors on the system. If you do not see much processor utilization and you see very low levels of context switching, it could indicate that threads are blocked.<BR>
+<BR>
+<B>Reference:</B><BR>
+Measuring .NET Application Performance<BR>
+<A HREF="http://msdn2.microsoft.com/en-us/library/ms998579.aspx">http://msdn2.microsoft.com/en-us/library/ms998579.aspx</A><BR>
+<BR>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Excessive Processor Use by Processes" ENABLED="True" ANALYZECOUNTER="\Process(*)\% Processor Time" CATEGORY="Processor">
+    <COUNTER NAME="\Process(*)\% Processor Time" MINVARNAME="MinPercentProcessorTime" AVGVARNAME="AvgPercentProcessorTime" MAXVARNAME="MaxPercentProcessorTime" TRENDVARNAME="TrendPercentProcessorTime" DATATYPE="Integer">
+      <EXCLUDE INSTANCE="_Total" />
+      <EXCLUDE INSTANCE="System" />
+      <EXCLUDE INSTANCE="Idle" />
+    </COUNTER>
+    <THRESHOLD NAME="Significant Processor Use Suspected - more than 60% CPU utilization" CONDITION="Warning" COLOR="Yellow" PRIORITY="50">
+      <DESCRIPTION><![CDATA[Checks for any process using CPU greater than <B>60%</B>. If so, the process should be studied further to determine why it is consuming so much CPU.        ]]></DESCRIPTION>
+      <CODE><![CDATA[Dim AvgProcessorTimeDividedByNumberOfProcessors, MaxProcessorTimeDividedByNumberOfProcessors
+If AvgPercentProcessorTime > 0 AND MaxPercentProcessorTime > 0 AND NumberOfProcessors > 0 Then
+ AvgProcessorTimeDividedByNumberOfProcessors = AvgPercentProcessorTime / NumberOfProcessors
+ MaxProcessorTimeDividedByNumberOfProcessors = MaxPercentProcessorTime / NumberOfProcessors
+ If AvgProcessorTimeDividedByNumberOfProcessors > 60 Then
+  IsAvgThresholdBroken = True
+ End If
+ If MaxProcessorTimeDividedByNumberOfProcessors > 60 Then
+  IsMaxThresholdBroken = True
+ End If
+End If
+        ]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="Excessive Processor Use Suspected - more than 80% CPU utilization" CONDITION="Critical" COLOR="Red" PRIORITY="100">
+      <DESCRIPTION><![CDATA[Checks for any process using CPU greater than <B>80%</B>. If so, the process should be studied further to determine why it is consuming so much CPU.
+        ]]></DESCRIPTION>
+      <CODE><![CDATA[Dim AvgProcessorTimeDividedByNumberOfProcessors, MaxProcessorTimeDividedByNumberOfProcessors
+If AvgPercentProcessorTime > 0 AND MaxPercentProcessorTime > 0 AND NumberOfProcessors > 0 Then
+ AvgProcessorTimeDividedByNumberOfProcessors = AvgPercentProcessorTime / NumberOfProcessors
+ MaxProcessorTimeDividedByNumberOfProcessors = MaxPercentProcessorTime / NumberOfProcessors
+ If AvgProcessorTimeDividedByNumberOfProcessors > 80 Then
+  IsAvgThresholdBroken = True
+ End If
+ If MaxProcessorTimeDividedByNumberOfProcessors > 80 Then
+  IsMaxThresholdBroken = True
+ End If
+End If]]></CODE>
+    </THRESHOLD>
+    <CHART CHARTTYPE="Line" CATEGORIES="AUTO" MAXCATEGORYLABELS="0" LEGEND="ON" VALUES="AUTO" GROUPSIZE="640x480" OTSFORMAT="MM/dd hh:mm" CHARTTITLE="\Process(*)\% Processor Time" DATASOURCE="\Process(*)\% Processor Time" DATATYPE="Integer">
+      <EXCLUDE INSTANCE="_Total" />
+      <EXCLUDE INSTANCE="System" />
+      <EXCLUDE INSTANCE="Idle" />
+    </CHART>
+    <DESCRIPTION><![CDATA[This analysis checks all of the processes to determine if any of the processes are consuming a large amount of CPU.<BR>
+<BR>
+If a user-mode processor bottleneck is suspected, then consider using a process profiler to analyze the functions causing the high CPU consumption. See “How To: Identify Functions causing a High User-mode CPU Bottleneck for Server Applications in a Production Environment” article in the references section for more information.<BR>
+<BR>
+<b>Role Specific</b><br>
+<br>
+- Process(MSExchangeMailboxAssistants*)\%Processor Time should be less than 5% of overll CPU<br>
+<br>
+- Process(msftefd*)\%Processor Time should be less than 10% of what the store process is consuming. <b>Note:</b> If indexing is running and overall CPU is greater than 80%, then msfte should backoff it's CPU usage if that threshold is hit.<br>
+<br>
+<B>References:</B><BR>
+Measuring .NET Application Performance<BR>
+http://msdn2.microsoft.com/en-us/library/ms998579.aspx<BR>
+<BR>
+How To: Identify Functions causing a High User-mode CPU Bottleneck for Server Applications in a Production Environment http://www.codeplex.com/PerfTesting/Wiki/View.aspx?title=How%20To%3a%20Identify%20a%20Disk%20Performance%20Bottleneck%20Using%20SPA&referringTitle=How%20Tos ]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Interrupt Time" ENABLED="True" ANALYZECOUNTER="\Processor(*)\% Interrupt Time" CATEGORY="Processor">
+    <COUNTER NAME="\Processor(*)\% Interrupt Time" MINVARNAME="MinProcessor_PercentInterruptTime" AVGVARNAME="AvgProcessor_PercentInterruptTime" MAXVARNAME="MaxProcessor_PercentInterruptTime" TRENDVARNAME="TrendProcessor_PercentInterruptTime" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Processor(*)\% Interrupt Time" OTSFORMAT="MM/dd hh:mm" GROUPSIZE="640x480" CATEGORIES="AUTO" DATATYPE="integer" LEGEND="ON" MAXCATEGORYLABELS="0" CHARTTYPE="Line" VALUES="AUTO" DATASOURCE="\Processor(*)\% Interrupt Time" />
+    <THRESHOLD NAME="High CPU Interrupt Time - more than 30% interrupt time" CONDITION="Warning" COLOR="#FFFF00" PRIORITY="50">
+      <DESCRIPTION><![CDATA[A high amount of % Interrupt Time in the processor could indicate a hardware or driver problem.]]></DESCRIPTION>
+      <CODE><![CDATA[If AvgProcessor_PercentInterruptTime > 30 Then
+ IsAvgThreshold = True
+End If]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="Very high CPU Interrupt Time - more than 50% interrupt time" CONDITION="Critical" COLOR="#FF0000" PRIORITY="100">
+      <DESCRIPTION><![CDATA[A very high amount of % Interrupt Time in the processor could indicate a hardware or driver problem.]]></DESCRIPTION>
+      <CODE><![CDATA[If AvgProcessor_PercentInterruptTime > 50 Then
+ IsAvgThreshold = True
+End If]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[% Interrupt Time is the time the processor spends receiving and servicing hardware interrupts during sample intervals. This value is an indirect indicator of the activity of devices that generate interrupts, such as the system clock, the mouse, disk drivers, data communication lines, network interface cards and other peripheral devices. These devices normally interrupt the processor when they have completed a task or require attention. Normal thread execution is suspended during interrupts. Most system clocks interrupt the processor every 10 milliseconds, creating a background of interrupt activity. A dramatic increase in this counter indicates potential hardware problems.<BR>
+<BR>
+This analysis checks for % Interrupt Time greater than 30%. If this occurs, then consider updating devices drivers for hardware that correlates to this alert.<BR>
+<BR>
+<B>References:</B><BR>
+Measuring .NET Application Performance<BR>
+<A HREF="http://msdn2.microsoft.com/en-us/library/ms998579.aspx">http://msdn2.microsoft.com/en-us/library/ms998579.aspx</A>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Paging File % Usage" ENABLED="True" ANALYZECOUNTER="\Paging File(*)\% Usage" CATEGORY="Paging File">
+    <COUNTER NAME="\Paging File(*)\% Usage" MINVARNAME="MinPagingFile_PercentUsage" AVGVARNAME="AvgPagingFile_PercentUsage" MAXVARNAME="MaxPagingFile_PercentUsage" TRENDVARNAME="TrendPagingFile_PercentUsage" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Paging File(*)\% Usage" OTSFORMAT="MM/dd hh:mm" GROUPSIZE="640x480" CATEGORIES="AUTO" DATATYPE="integer" LEGEND="ON" MAXCATEGORYLABELS="0" CHARTTYPE="Line" VALUES="AUTO" DATASOURCE="\Paging File(*)\% Usage" ORDERBY="ASC" />
+    <THRESHOLD NAME="More than 70% PageFile usage" CONDITION="Warning" COLOR="#FFFF00" PRIORITY="50">
+      <DESCRIPTION><![CDATA[More than 70% PageFile usage]]></DESCRIPTION>
+      <CODE><![CDATA[If AvgPagingFile_PercentUsage > 70 Then
+ IsAvgThresholdBroken = True
+End If
+
+If MaxPagingFile_PercentUsage > 70 Then
+ IsMaxThresholdBroken = True
+End If]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The amount of the Page File instance in use in percent.  See also Process\\Page File Bytes.<BR>
+<BR>
+This analysis checks if the percentage of usage is greater than 70%.<BR>
+<BR>
+<B>Reference:</B><BR>
+How to determine the appropriate page file size for 64-bit versions of Windows Server 2003 or Windows XP<BR>
+<A HREF="http://support.microsoft.com/kb/889654">http://support.microsoft.com/kb/889654</A><BR>
+<BR>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Paging File % Usage Peak" ENABLED="True" ANALYZECOUNTER="\Paging File(*)\% Usage Peak" CATEGORY="Paging File">
+    <COUNTER NAME="\Paging File(*)\% Usage Peak" MINVARNAME="MinPagingFile_PercentUsagePeak" AVGVARNAME="AvgPagingFile_PercentUsagePeak" MAXVARNAME="MaxPagingFile_PercentUsagePeak" TRENDVARNAME="TrendPagingFile_PercentUsagePeak" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Paging File(*)\% Usage Peak" OTSFORMAT="MM/dd hh:mm" GROUPSIZE="640x480" CATEGORIES="AUTO" DATATYPE="integer" LEGEND="ON" MAXCATEGORYLABELS="0" CHARTTYPE="Line" VALUES="AUTO" DATASOURCE="\Paging File(*)\% Usage Peak" ORDERBY="ASC" />
+    <THRESHOLD NAME="More than 70% PageFile Peak usage" CONDITION="Warning" COLOR="#FFFF00" PRIORITY="50">
+      <DESCRIPTION><![CDATA[More than 70% PageFile Peak usage]]></DESCRIPTION>
+      <CODE><![CDATA[If AvgPagingFile_PercentUsagePeak > 70 Then
+ IsAvgThresholdBroken = True
+End If
+
+If MaxPagingFile_PercentUsagePeak > 70 Then
+ IsMaxThresholdBroken = True
+End If]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[The peak usage of the Page File instance in percent.  See also Process\\Page File Bytes Peak.<BR>
+<BR>
+<B>Reference:</B><BR>
+How to determine the appropriate page file size for 64-bit versions of Windows Server 2003 or Windows XP<BR>
+<A HREF="http://support.microsoft.com/kb/889654">http://support.microsoft.com/kb/889654</A><BR>
+<BR>]]></DESCRIPTION>
+  </ANALYSIS>
+  <!--ASP.NET-->
+  <ANALYSIS NAME="MSExchange ADAccess Domain Controllers LDAP Search Time" ENABLED="True" ANALYZECOUNTER="\MSExchange ADAccess Domain Controllers(*)\LDAP Search Time" CATEGORY="MSExchange ADAccess Domain Controllers">
+    <COUNTER NAME="\MSExchange ADAccess Domain Controllers(*)\LDAP Search Time" MINVARNAME="MinMSExchangeADAccessDomainControllers_LDAPSearchTime" AVGVARNAME="AvgMSExchangeADAccessDomainControllers_LDAPSearchTime" MAXVARNAME="MaxMSExchangeADAccessDomainControllers_LDAPSearchTime" TRENDVARNAME="TrendMSExchangeADAccessDomainControllers_LDAPSearchTime" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange ADAccess Domain Controllers(*)\LDAP Search Time" OTSFORMAT="MM/dd hh:mm" GROUPSIZE="640x480" CATEGORIES="AUTO" DATATYPE="integer" LEGEND="ON" MAXCATEGORYLABELS="0" CHARTTYPE="Line" VALUES="AUTO" DATASOURCE="\MSExchange ADAccess Domain Controllers(*)\LDAP Search Time" />
+    <THRESHOLD NAME="Average LDAP Search times - greater than 50ms" CONDITION="Warning" COLOR="#FFFF00" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[If AvgMSExchangeADAccessDomainControllers_LDAPSearchTime >50 Then
+IsAvgThresholdBroken = True
+End If
+
+]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="Average LDAP Search times - greater than 100ms" CONDITION="Critical" COLOR="#FF0000" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[If AvgMSExchangeADAccessDomainControllers_LDAPSearchTime >100 Then
+IsAvgThresholdBroken = True
+End If
+]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="Average LDAP Search Times - greater than 500ms" CONDITION="Critical" COLOR="#FF0000" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[If MaxMSExchangeADAccessDomainControllers_LDAPSearchTime > 500 Then
+IsMaxThresholdBroken = True
+End If]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[LDAP Search Time is the time (in ms) taken to send an LDAP search request and receive a response]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange ADAccess Caches LDAP Searches/Sec" ENABLED="True" ANALYZECOUNTER="\MSExchange ADAccess Caches(*)\LDAP Searches/Sec" CATEGORY="MSExchange ADAccess Caches">
+    <DESCRIPTION><![CDATA[LDAP Searches/Sec is the number of LDAP search requests issued per second.]]></DESCRIPTION>
+    <COUNTER NAME="\MSExchange ADAccess Caches(*)\LDAP Searches/Sec" MINVARNAME="MinMSExchangeADAccessCaches_LDAPSearchesSec" AVGVARNAME="AvgMSExchangeADAccessCaches_LDAPSearchesSec" MAXVARNAME="MaxMSExchangeADAccessCaches_LDAPSearchesSec" TRENDVARNAME="TrendMSExchangeADAccessCaches_LDAPSearchesSec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange ADAccess Caches(*)\LDAP Searches/Sec" OTSFORMAT="MM/dd hh:mm" GROUPSIZE="640x480" CATEGORIES="AUTO" DATATYPE="integer" LEGEND="ON" MAXCATEGORYLABELS="0" CHARTTYPE="Line" VALUES="AUTO" DATASOURCE="\MSExchange ADAccess Caches(*)\LDAP Searches/Sec" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange ADAccess Domain Controllers LDAP Read Time" ENABLED="True" ANALYZECOUNTER="\MSExchange ADAccess Domain Controllers(*)\LDAP Read Time" CATEGORY="MSExchange ADAccess Domain Controllers">
+    <DESCRIPTION><![CDATA[LDAP Read Time for a given DC is the time (in ms) taken to send an LDAP read request to the specified DC and receive a response]]></DESCRIPTION>
+    <COUNTER NAME="\MSExchange ADAccess Domain Controllers(*)\LDAP Read Time" MINVARNAME="MinMSExchangeADAccessDomainControllers_LDAPReadTime" AVGVARNAME="AvgMSExchangeADAccessDomainControllers_LDAPReadTime" MAXVARNAME="MaxMSExchangeADAccessDomainControllers_LDAPReadTime" TRENDVARNAME="TrendMSExchangeADAccessDomainControllers_LDAPReadTime" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange ADAccess Domain Controllers(*)\LDAP Read Time" OTSFORMAT="MM/dd hh:mm" GROUPSIZE="640x480" CATEGORIES="AUTO" DATATYPE="integer" LEGEND="ON" MAXCATEGORYLABELS="0" CHARTTYPE="Line" VALUES="AUTO" DATASOURCE="\MSExchange ADAccess Domain Controllers(*)\LDAP Read Time" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange ADAccess Processes LDAP Read Time" ENABLED="True" ANALYZECOUNTER="\MSExchange ADAccess Processes(*)\LDAP Read Time" CATEGORY="MSExchange ADAccess Processes">
+    <COUNTER NAME="\MSExchange ADAccess Processes(*)\LDAP Read Time" MINVARNAME="MinMSExchangeADAccessProcesses_LDAPReadTime" AVGVARNAME="AvgMSExchangeADAccessProcesses_LDAPReadTime" MAXVARNAME="MaxMSExchangeADAccessProcesses_LDAPReadTime" TRENDVARNAME="TrendMSExchangeADAccessProcesses_LDAPReadTime" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange ADAccess Processes(*)\LDAP Read Time" OTSFORMAT="MM/dd hh:mm" GROUPSIZE="640x480" CATEGORIES="AUTO" DATATYPE="integer" LEGEND="ON" MAXCATEGORYLABELS="0" CHARTTYPE="Line" VALUES="AUTO" DATASOURCE="\MSExchange ADAccess Processes(*)\LDAP Read Time" />
+    <DESCRIPTION><![CDATA[LDAP Read Time is the time (in ms) taken to send an LDAP read request and receive a response]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange ADAccess Processes LDAP Search Time" ENABLED="True" ANALYZECOUNTER="\MSExchange ADAccess Processes(*)\LDAP Search Time" CATEGORY="MSExchange ADAccess Processes">
+    <COUNTER NAME="\MSExchange ADAccess Processes(*)\LDAP Search Time" MINVARNAME="MinMSExchangeADAccessProcesses_LDAPSearchTime" AVGVARNAME="AvgMSExchangeADAccessProcesses_LDAPSearchTime" MAXVARNAME="MaxMSExchangeADAccessProcesses_LDAPSearchTime" TRENDVARNAME="TrendMSExchangeADAccessProcesses_LDAPSearchTime" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange ADAccess Processes(*)\LDAP Search Time" OTSFORMAT="MM/dd hh:mm" GROUPSIZE="640x480" CATEGORIES="AUTO" DATATYPE="integer" LEGEND="ON" MAXCATEGORYLABELS="0" CHARTTYPE="Line" VALUES="AUTO" DATASOURCE="\MSExchange ADAccess Processes(*)\LDAP Search Time" />
+    <THRESHOLD NAME="Average LDAP Search times - greater than 50ms" CONDITION="Warning" COLOR="#FFFF00" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[If AvgMSExchangeADAccessProcesses_LDAPSearchTime >50 Then
+IsAvgThresholdBroken = True
+End If
+]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="Average LDAP Search times - greater than 100ms" CONDITION="Critical" COLOR="#FF0000" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[If AvgMSExchangeADAccessProcesses_LDAPSearchTime >100 Then
+IsAvgThresholdBroken = True
+End If
+]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="Average LDAP Search times - greater than 500ms" CONDITION="Critical" COLOR="#FF0000" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[If MaxMSExchangeADAccessProcesses_LDAPSearchTime > 500 Then
+IsMaxThresholdBroken = True
+End If]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[LDAP Search Time is the time (in ms) taken to send an LDAP search request and receive a response]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange ADAccess Domain Controllers LDAP Searches timed out per minute" ENABLED="True" ANALYZECOUNTER="\MSExchange ADAccess Domain Controllers(*)\LDAP Searches timed out per minute" CATEGORY="MSExchange ADAccess Domain Controllers">
+    <COUNTER NAME="\MSExchange ADAccess Domain Controllers(*)\LDAP Searches timed out per minute" MINVARNAME="MinMSExchangeADAccessDomainControllers_LDAPSearchestimedoutperminute" AVGVARNAME="AvgMSExchangeADAccessDomainControllers_LDAPSearchestimedoutperminute" MAXVARNAME="MaxMSExchangeADAccessDomainControllers_LDAPSearchestimedoutperminute" TRENDVARNAME="TrendMSExchangeADAccessDomainControllers_LDAPSearchestimedoutperminute" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange ADAccess Domain Controllers(*)\LDAP Searches timed out per minute" OTSFORMAT="MM/dd hh:mm" GROUPSIZE="640x480" CATEGORIES="AUTO" DATATYPE="integer" LEGEND="ON" MAXCATEGORYLABELS="0" CHARTTYPE="Line" VALUES="AUTO" DATASOURCE="\MSExchange ADAccess Domain Controllers(*)\LDAP Searches timed out per minute" />
+    <THRESHOLD NAME="LDAP Searches timed out per minute - greater than 10" CONDITION="Warning" COLOR="#FFFF00" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[If AvgMSExchangeADAccessDomainControllers_LDAPSearchestimedoutperminute > 10 Then
+IsAvgThresholdBroken = True
+End If
+
+If MaxMSExchangeADAccessDomainControllers_LDAPSearchestimedoutperminute >10 Then
+IsMaxThresholdBroken = True
+End If
+]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="LDAP Searches timed out per minute - greater than 20" CONDITION="Critical" COLOR="#FF0000" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[If AvgMSExchangeADAccessDomainControllers_LDAPSearchestimedoutperminute > 20 Then
+IsAvgThresholdBroken = True
+End If
+
+If MaxMSExchangeADAccessDomainControllers_LDAPSearchestimedoutperminute >20 Then
+IsMaxThresholdBroken = True
+End If
+]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[LDAP Searches timed out per minute is the number of LDAP searches returned LDAP_TIMEOUT during the last minute<br>
+<br>
+This counter is indicitive of an overloaded domain controller or there are network connectivity problems to the DC.<br>
+<br>
+]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange ADAccess Domain Controllers Long running LDAP operations/Min" ENABLED="True" ANALYZECOUNTER="\MSExchange ADAccess Domain Controllers(*)\Long running LDAP operations/Min" CATEGORY="MSExchange ADAccess Domain Controllers">
+    <COUNTER NAME="\MSExchange ADAccess Domain Controllers(*)\Long running LDAP operations/Min" MINVARNAME="MinMSExchangeADAccessDomainControllers_LongrunningLDAPoperationsMin" AVGVARNAME="AvgMSExchangeADAccessDomainControllers_LongrunningLDAPoperationsMin" MAXVARNAME="MaxMSExchangeADAccessDomainControllers_LongrunningLDAPoperationsMin" TRENDVARNAME="TrendMSExchangeADAccessDomainControllers_LongrunningLDAPoperationsMin" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange ADAccess Domain Controllers(*)\Long running LDAP operations/Min" OTSFORMAT="MM/dd hh:mm" GROUPSIZE="640x480" CATEGORIES="AUTO" DATATYPE="integer" LEGEND="ON" MAXCATEGORYLABELS="0" CHARTTYPE="Line" VALUES="AUTO" DATASOURCE="\MSExchange ADAccess Domain Controllers(*)\Long running LDAP operations/Min" />
+    <THRESHOLD NAME="Long Running LDAP operations/min - greater than 50" CONDITION="Warning" COLOR="#FFFF00" PRIORITY="50">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[If AvgMSExchangeADAccessDomainControllers_LongrunningLDAPoperationsMin > 50 Then
+IsAvgThresholdBroken = True
+End If
+
+If AvgMSExchangeADAccessDomainControllers_LongrunningLDAPoperationsMin >50 Then
+IsMaxThresholdBroken = True
+End If
+]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="Long Running LDAP operations/min - greater than 100" CONDITION="Critical" COLOR="#FF0000" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[If AvgMSExchangeADAccessDomainControllers_LongrunningLDAPoperationsMin > 100 Then
+IsAvgThresholdBroken = True
+End If
+
+If AvgMSExchangeADAccessDomainControllers_LongrunningLDAPoperationsMin >100 Then
+IsMaxThresholdBroken = True
+End If]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[Long running LDAP operations/Min is the number of LDAP operations on this DC that took longer than the specified threshold per minute (default threshold is 15 seconds)<br>
+<br>
+This counter is useful for determining domain controller latencies that may affect overall Exchange performance.<br>
+<br>
+]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange ADAccess Domain Controllers LDAP Search calls/Sec" ENABLED="True" ANALYZECOUNTER="\MSExchange ADAccess Domain Controllers(*)\LDAP Search calls/Sec" CATEGORY="MSExchange ADAccess Domain Controllers">
+    <COUNTER NAME="\MSExchange ADAccess Domain Controllers(*)\LDAP Search calls/Sec" MINVARNAME="MinMSExchangeADAccessDomainControllers_LDAPSearchcallsSec" AVGVARNAME="AvgMSExchangeADAccessDomainControllers_LDAPSearchcallsSec" MAXVARNAME="MaxMSExchangeADAccessDomainControllers_LDAPSearchcallsSec" TRENDVARNAME="TrendMSExchangeADAccessDomainControllers_LDAPSearchcallsSec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange ADAccess Domain Controllers(*)\LDAP Search calls/Sec" OTSFORMAT="MM/dd hh:mm" GROUPSIZE="640x480" CATEGORIES="AUTO" DATATYPE="integer" LEGEND="ON" MAXCATEGORYLABELS="0" CHARTTYPE="Line" VALUES="AUTO" DATASOURCE="\MSExchange ADAccess Domain Controllers(*)\LDAP Search calls/Sec" />
+    <DESCRIPTION><![CDATA[LDAP Search calls/Sec is the number of Depth 1 or 2 LDAP Search calls made by this process per second<br>
+<br>
+This counter is useful to determine if there is an increase in LDAP calls to the domain controllers possibly affecting overall latency on the server.<br>
+<br>
+]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeMailSubmission Hub Servers In Retry" ENABLED="True" ANALYZECOUNTER="\MSExchangeMailSubmission(*)\Hub Servers In Retry" CATEGORY="MSExchangeMailSubmission">
+    <DESCRIPTION><![CDATA[Hub Servers In Retry is the number of hub servers in retry.]]></DESCRIPTION>
+    <COUNTER NAME="\MSExchangeMailSubmission(*)\Hub Servers In Retry" MINVARNAME="MinMSExchangeMailSubmission_HubServersInRetry" AVGVARNAME="AvgMSExchangeMailSubmission_HubServersInRetry" MAXVARNAME="MaxMSExchangeMailSubmission_HubServersInRetry" TRENDVARNAME="TrendMSExchangeMailSubmission_HubServersInRetry" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeMailSubmission(*)\Hub Servers In Retry" OTSFORMAT="MM/dd hh:mm" GROUPSIZE="640x480" CATEGORIES="AUTO" DATATYPE="integer" LEGEND="ON" MAXCATEGORYLABELS="0" CHARTTYPE="Line" VALUES="AUTO" DATASOURCE="\MSExchangeMailSubmission(*)\Hub Servers In Retry" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Process % Processor Time" ENABLED="True" ANALYZECOUNTER="\Process(*)\% Processor Time" CATEGORY="Process">
+    <DESCRIPTION><![CDATA[% Processor Time is the percentage of elapsed time that all of process threads used the processor to execution instructions. An instruction is the basic unit of execution in a computer, a thread is the object that executes instructions, and a process is the object created when a program is run. Code executed to handle some hardware interrupts and trap conditions are included in this count.]]></DESCRIPTION>
+    <COUNTER NAME="\Process(*)\% Processor Time" MINVARNAME="MinProcess_PercentProcessorTime" AVGVARNAME="AvgProcess_PercentProcessorTime" MAXVARNAME="MaxProcess_PercentProcessorTime" TRENDVARNAME="TrendProcess_PercentProcessorTime" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Process(*)\% Processor Time" OTSFORMAT="MM/dd hh:mm" GROUPSIZE="640x480" CATEGORIES="AUTO" DATATYPE="integer" LEGEND="ON" MAXCATEGORYLABELS="0" CHARTTYPE="Line" VALUES="AUTO" DATASOURCE="\Process(*)\% Processor Time" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Database Database Page Fault Stalls/sec" ENABLED="True" ANALYZECOUNTER="\MSExchange Database(*)\Database Page Fault Stalls/sec" CATEGORY="MSExchange Database">
+    <COUNTER NAME="\MSExchange Database(*)\Database Page Fault Stalls/sec" MINVARNAME="MinMSExchangeDatabase_DatabasePageFaultStallssec" AVGVARNAME="AvgMSExchangeDatabase_DatabasePageFaultStallssec" MAXVARNAME="MaxMSExchangeDatabase_DatabasePageFaultStallssec" TRENDVARNAME="TrendMSExchangeDatabase_DatabasePageFaultStallssec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Database(*)\Database Page Fault Stalls/sec" OTSFORMAT="MM/dd hh:mm" GROUPSIZE="640x480" CATEGORIES="AUTO" DATATYPE="integer" LEGEND="ON" MAXCATEGORYLABELS="0" CHARTTYPE="Line" VALUES="AUTO" DATASOURCE="\MSExchange Database(*)\Database Page Fault Stalls/sec" />
+    <THRESHOLD NAME="Disk Bottleneck Detected" CONDITION="Critical" COLOR="#FF0000" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[If AvgMSExchangeDatabase_DatabasePageFaultStallssec > 1 Then
+IsAvgThresholdBroken = True
+End If
+
+If MaxMSExchangeDatabase_DatabasePageFaultStallssec > 1 Then
+IsMaxThresholdBroken = True
+End If
+]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[Database Page Fault Stalls/sec is the rate of page faults that cannot be serviced because there are no pages available for allocation from the database cache.  If this counter is non-zero most of the time, the clean threshold may be too low.<br>
+
+<p>If this value is non-zero, this indicates that the database is not able to flush dirty pages to the database file fast enough to make pages free for new page allocations.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Database ==&gt; Instances I/O Database Reads Average Latency" ENABLED="True" ANALYZECOUNTER="\MSExchange Database ==&gt; Instances(*)\I/O Database Reads Average Latency" CATEGORY="MSExchange Database ==&gt; Instances">
+    <COUNTER NAME="\MSExchange Database ==&gt; Instances(*)\I/O Database Reads Average Latency" MINVARNAME="MinMSExchangeDatabase_Instances_IODatabaseReadsAverageLatency" AVGVARNAME="AvgMSExchangeDatabase_Instances_IODatabaseReadsAverageLatency" MAXVARNAME="MaxMSExchangeDatabase_Instances_IODatabaseReadsAverageLatency" TRENDVARNAME="TrendMSExchangeDatabase_Instances_IODatabaseReadsAverageLatency" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Database ==&gt; Instances(*)\I/O Database Reads Average Latency" OTSFORMAT="MM/dd hh:mm" GROUPSIZE="640x480" CATEGORIES="AUTO" DATATYPE="integer" LEGEND="ON" MAXCATEGORYLABELS="0" CHARTTYPE="Line" VALUES="AUTO" DATASOURCE="\MSExchange Database ==&gt; Instances(*)\I/O Database Reads Average Latency" />
+    <DESCRIPTION><![CDATA[I/O Database Reads Average Latency is the average length of time,  in milliseconds, per database read operation.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Database ==&gt; Instances I/O Database Writes Average Latency" ENABLED="True" ANALYZECOUNTER="\MSExchange Database ==&gt; Instances(*)\I/O Database Writes Average Latency" CATEGORY="MSExchange Database ==&gt; Instances">
+    <COUNTER NAME="\MSExchange Database ==&gt; Instances(*)\I/O Database Writes Average Latency" MINVARNAME="MinMSExchangeDatabase_Instances_IODatabaseWritesAverageLatency" AVGVARNAME="AvgMSExchangeDatabase_Instances_IODatabaseWritesAverageLatency" MAXVARNAME="MaxMSExchangeDatabase_Instances_IODatabaseWritesAverageLatency" TRENDVARNAME="TrendMSExchangeDatabase_Instances_IODatabaseWritesAverageLatency" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Database ==&gt; Instances(*)\I/O Database Writes Average Latency" OTSFORMAT="MM/dd hh:mm" GROUPSIZE="640x480" CATEGORIES="AUTO" DATATYPE="integer" LEGEND="ON" MAXCATEGORYLABELS="0" CHARTTYPE="Line" VALUES="AUTO" DATASOURCE="\MSExchange Database ==&gt; Instances(*)\I/O Database Writes Average Latency" />
+    <DESCRIPTION><![CDATA[I/O Database Writes Average Latency is the average length of time,  in milliseconds, per database write operation.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Server Pool Nonpaged Failures" ENABLED="True" ANALYZECOUNTER="\Server\Pool Nonpaged Failures" CATEGORY="Server">
+    <DESCRIPTION><![CDATA[The number of times allocations from nonpaged pool have failed.  Indicates that the computer's physical memory is too small.]]></DESCRIPTION>
+    <COUNTER NAME="\Server\Pool Nonpaged Failures" MINVARNAME="MinServer_PoolNonpagedFailures" AVGVARNAME="AvgServer_PoolNonpagedFailures" MAXVARNAME="MaxServer_PoolNonpagedFailures" TRENDVARNAME="TrendServer_PoolNonpagedFailures" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Server\Pool Nonpaged Failures" OTSFORMAT="MM/dd hh:mm" GROUPSIZE="640x480" CATEGORIES="AUTO" DATATYPE="integer" LEGEND="ON" MAXCATEGORYLABELS="0" CHARTTYPE="Line" VALUES="AUTO" DATASOURCE="\Server\Pool Nonpaged Failures" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Server Pool Paged Failures" ENABLED="True" ANALYZECOUNTER="\Server\Pool Paged Failures" CATEGORY="Server">
+    <COUNTER NAME="\Server\Pool Paged Failures" MINVARNAME="MinServer_PoolPagedFailures" AVGVARNAME="AvgServer_PoolPagedFailures" MAXVARNAME="MaxServer_PoolPagedFailures" TRENDVARNAME="TrendServer_PoolPagedFailures" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Server\Pool Paged Failures" OTSFORMAT="MM/dd hh:mm" GROUPSIZE="640x480" CATEGORIES="AUTO" DATATYPE="integer" LEGEND="ON" MAXCATEGORYLABELS="0" CHARTTYPE="Line" VALUES="AUTO" DATASOURCE="\Server\Pool Paged Failures" />
+    <DESCRIPTION><![CDATA[The number of times allocations from paged pool have failed.  Indicates that the computer's physical memory or paging file are too small.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeMailSubmission Successful Submissions Per Second" ENABLED="True" ANALYZECOUNTER="\MSExchangeMailSubmission(*)\Successful Submissions Per Second" CATEGORY="MSExchangeMailSubmission">
+    <DESCRIPTION><![CDATA[Successful Submissions Per Second]]></DESCRIPTION>
+    <COUNTER NAME="\MSExchangeMailSubmission(*)\Successful Submissions Per Second" MINVARNAME="MinMSExchangeMailSubmission_SuccessfulSubmissionsPerSecond" AVGVARNAME="AvgMSExchangeMailSubmission_SuccessfulSubmissionsPerSecond" MAXVARNAME="MaxMSExchangeMailSubmission_SuccessfulSubmissionsPerSecond" TRENDVARNAME="TrendMSExchangeMailSubmission_SuccessfulSubmissionsPerSecond" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeMailSubmission(*)\Successful Submissions Per Second" OTSFORMAT="MM/dd hh:mm" GROUPSIZE="640x480" CATEGORIES="AUTO" DATATYPE="integer" LEGEND="ON" MAXCATEGORYLABELS="0" CHARTTYPE="Line" VALUES="AUTO" DATASOURCE="\MSExchangeMailSubmission(*)\Successful Submissions Per Second" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeMailSubmission Failed Submissions Per Second" ENABLED="True" ANALYZECOUNTER="\MSExchangeMailSubmission(*)\Failed Submissions Per Second" CATEGORY="MSExchangeMailSubmission">
+    <COUNTER NAME="\MSExchangeMailSubmission(*)\Failed Submissions Per Second" MINVARNAME="MinMSExchangeMailSubmission_FailedSubmissionsPerSecond" AVGVARNAME="AvgMSExchangeMailSubmission_FailedSubmissionsPerSecond" MAXVARNAME="MaxMSExchangeMailSubmission_FailedSubmissionsPerSecond" TRENDVARNAME="TrendMSExchangeMailSubmission_FailedSubmissionsPerSecond" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeMailSubmission(*)\Failed Submissions Per Second" OTSFORMAT="MM/dd hh:mm" GROUPSIZE="640x480" CATEGORIES="AUTO" DATATYPE="integer" LEGEND="ON" MAXCATEGORYLABELS="0" CHARTTYPE="Line" VALUES="AUTO" DATASOURCE="\MSExchangeMailSubmission(*)\Failed Submissions Per Second" />
+    <DESCRIPTION><![CDATA[Failed Submissions Per Second]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeMailSubmission Temporary Submission Failures/sec" ENABLED="True" ANALYZECOUNTER="\MSExchangeMailSubmission(*)\Temporary Submission Failures/sec" CATEGORY="MSExchangeMailSubmission">
+    <COUNTER NAME="\MSExchangeMailSubmission(*)\Temporary Submission Failures/sec" MINVARNAME="MinMSExchangeMailSubmission_TemporarySubmissionFailuressec" AVGVARNAME="AvgMSExchangeMailSubmission_TemporarySubmissionFailuressec" MAXVARNAME="MaxMSExchangeMailSubmission_TemporarySubmissionFailuressec" TRENDVARNAME="TrendMSExchangeMailSubmission_TemporarySubmissionFailuressec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeMailSubmission(*)\Temporary Submission Failures/sec" OTSFORMAT="MM/dd hh:mm" GROUPSIZE="640x480" CATEGORIES="AUTO" DATATYPE="integer" LEGEND="ON" MAXCATEGORYLABELS="0" CHARTTYPE="Line" VALUES="AUTO" DATASOURCE="\MSExchangeMailSubmission(*)\Temporary Submission Failures/sec" />
+    <DESCRIPTION><![CDATA[Temporary Submission Failures per second is the number of temporary submission failures per second.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Process IO Write Bytes/sec" ENABLED="True" ANALYZECOUNTER="\Process(EdgeTransport)\IO Write Bytes/sec" CATEGORY="Process">
+    <DESCRIPTION><![CDATA[The rate at which the process is writing bytes to I/O operations. This counter counts all I/O activity generated by the process to include file, network and device I/Os.]]></DESCRIPTION>
+    <COUNTER NAME="\Process(EdgeTransport)\IO Write Bytes/sec" MINVARNAME="MinProcess_IOWriteBytessec" AVGVARNAME="AvgProcess_IOWriteBytessec" MAXVARNAME="MaxProcess_IOWriteBytessec" TRENDVARNAME="TrendProcess_IOWriteBytessec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Process(EdgeTransport)\IO Write Bytes/sec" OTSFORMAT="MM/dd hh:mm" GROUPSIZE="640x480" CATEGORIES="AUTO" DATATYPE="integer" LEGEND="ON" MAXCATEGORYLABELS="0" CHARTTYPE="Line" VALUES="AUTO" DATASOURCE="\Process(EdgeTransport)\IO Write Bytes/sec" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Process IO Data Bytes/sec" ENABLED="True" ANALYZECOUNTER="\Process(EdgeTransport)\IO Data Bytes/sec" CATEGORY="Process">
+    <DESCRIPTION><![CDATA[The rate at which the process is reading and writing bytes in I/O operations. This counter counts all I/O activity generated by the process to include file, network and device I/Os.]]></DESCRIPTION>
+    <COUNTER NAME="\Process(EdgeTransport)\IO Data Bytes/sec" MINVARNAME="MinProcess_IODataBytessec" AVGVARNAME="AvgProcess_IODataBytessec" MAXVARNAME="MaxProcess_IODataBytessec" TRENDVARNAME="TrendProcess_IODataBytessec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Process(EdgeTransport)\IO Data Bytes/sec" OTSFORMAT="MM/dd hh:mm" GROUPSIZE="640x480" CATEGORIES="AUTO" DATATYPE="integer" LEGEND="ON" MAXCATEGORYLABELS="0" CHARTTYPE="Line" VALUES="AUTO" DATASOURCE="\Process(EdgeTransport)\IO Data Bytes/sec" />
+  </ANALYSIS>
+  <ANALYSIS NAME="Process IO Read Bytes/sec" ENABLED="True" ANALYZECOUNTER="\Process(EdgeTransport)\IO Read Bytes/sec" CATEGORY="Process">
+    <DESCRIPTION><![CDATA[The rate at which the process is reading bytes from I/O operations. This counter counts all I/O activity generated by the process to include file, network and device I/Os.]]></DESCRIPTION>
+    <COUNTER NAME="\Process(EdgeTransport)\IO Read Bytes/sec" MINVARNAME="MinProcess_IOReadBytessec" AVGVARNAME="AvgProcess_IOReadBytessec" MAXVARNAME="MaxProcess_IOReadBytessec" TRENDVARNAME="TrendProcess_IOReadBytessec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Process(EdgeTransport)\IO Read Bytes/sec" OTSFORMAT="MM/dd hh:mm" GROUPSIZE="640x480" CATEGORIES="AUTO" DATATYPE="integer" LEGEND="ON" MAXCATEGORYLABELS="0" CHARTTYPE="Line" VALUES="AUTO" DATASOURCE="\Process(EdgeTransport)\IO Read Bytes/sec" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeTransport Queues Messages Submitted Per Second" ENABLED="True" ANALYZECOUNTER="\MSExchangeTransport Queues(_total)\Messages Submitted Per Second" CATEGORY="MSExchangeTransport Queues">
+    <DESCRIPTION><![CDATA[Messages Submitted Per Second is the number of messages enqueued in the submission queue per second.]]></DESCRIPTION>
+    <COUNTER NAME="\MSExchangeTransport Queues(_total)\Messages Submitted Per Second" MINVARNAME="MinMSExchangeTransportQueues_MessagesSubmittedPerSecond" AVGVARNAME="AvgMSExchangeTransportQueues_MessagesSubmittedPerSecond" MAXVARNAME="MaxMSExchangeTransportQueues_MessagesSubmittedPerSecond" TRENDVARNAME="TrendMSExchangeTransportQueues_MessagesSubmittedPerSecond" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeTransport Queues(_total)\Messages Submitted Per Second" OTSFORMAT="MM/dd hh:mm" GROUPSIZE="640x480" CATEGORIES="AUTO" DATATYPE="integer" LEGEND="ON" MAXCATEGORYLABELS="0" CHARTTYPE="Line" VALUES="AUTO" DATASOURCE="\MSExchangeTransport Queues(_total)\Messages Submitted Per Second" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeTransport Queues Messages Completed Delivery Per Second" ENABLED="True" ANALYZECOUNTER="\MSExchangeTransport Queues(_total)\Messages Completed Delivery Per Second" CATEGORY="MSExchangeTransport Queues">
+    <DESCRIPTION><![CDATA[Messages Completed Delivery Per Second is the number of messages delivery per second.]]></DESCRIPTION>
+    <COUNTER NAME="\MSExchangeTransport Queues(_total)\Messages Completed Delivery Per Second" MINVARNAME="MinMSExchangeTransportQueues_MessagesCompletedDeliveryPerSecond" AVGVARNAME="AvgMSExchangeTransportQueues_MessagesCompletedDeliveryPerSecond" MAXVARNAME="MaxMSExchangeTransportQueues_MessagesCompletedDeliveryPerSecond" TRENDVARNAME="TrendMSExchangeTransportQueues_MessagesCompletedDeliveryPerSecond" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeTransport Queues(_total)\Messages Completed Delivery Per Second" OTSFORMAT="MM/dd hh:mm" GROUPSIZE="640x480" CATEGORIES="AUTO" DATATYPE="integer" LEGEND="ON" MAXCATEGORYLABELS="0" CHARTTYPE="Line" VALUES="AUTO" DATASOURCE="\MSExchangeTransport Queues(_total)\Messages Completed Delivery Per Second" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeTransport Queues Active Mailbox Delivery Queue Length" ENABLED="True" ANALYZECOUNTER="\MSExchangeTransport Queues(_total)\Active Mailbox Delivery Queue Length" CATEGORY="MSExchangeTransport Queues">
+    <COUNTER NAME="\MSExchangeTransport Queues(_total)\Active Mailbox Delivery Queue Length" MINVARNAME="MinMSExchangeTransportQueues_ActiveMailboxDeliveryQueueLength" AVGVARNAME="AvgMSExchangeTransportQueues_ActiveMailboxDeliveryQueueLength" MAXVARNAME="MaxMSExchangeTransportQueues_ActiveMailboxDeliveryQueueLength" TRENDVARNAME="TrendMSExchangeTransportQueues_ActiveMailboxDeliveryQueueLength" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeTransport Queues(_total)\Active Mailbox Delivery Queue Length" OTSFORMAT="MM/dd hh:mm" GROUPSIZE="640x480" CATEGORIES="AUTO" DATATYPE="integer" LEGEND="ON" MAXCATEGORYLABELS="0" CHARTTYPE="Line" VALUES="AUTO" DATASOURCE="\MSExchangeTransport Queues(_total)\Active Mailbox Delivery Queue Length" />
+    <THRESHOLD NAME="Active Mailbox Delivery Queue Length greater than 250" CONDITION="Critical" COLOR="#FF0000" PRIORITY="100">
+      <DESCRIPTION><![CDATA[This checks to see if the Active Mailbox Delivery Queue Length is greater than <B>250</B>. Messages in this queue are destined for a Mailbox server.
+
+To resolve this problem, do one or more of the following:
+
+Use the Exchange Mail Flow Troubleshooter to troubleshoot this issue. When running the tool, under <B>What Symptom are you seeing?</B>, click <B>Messages are backing up in one or more queues on a server</B>. The Mail flow Troubleshooter is located under the <B>Toolbox</B> node of Microsoft Exchange Management Console.
+
+Review the System and Application event logs for related events.]]></DESCRIPTION>
+      <CODE><![CDATA[If AvgMSExchangeTransportQueues_ActiveMailboxDeliveryQueueLength > 249 Then
+   IsAvgThresholdBroken = True
+End If
+
+If MaxMSExchangeTransportQueues_ActiveMailboxDeliveryQueueLength > 249 Then
+   IsMaxThresholdBroken = True
+End If]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="Active Mailbox Delivery Queue Length greater than 200" CONDITION="Warning" COLOR="#FFFF00" PRIORITY="50">
+      <DESCRIPTION><![CDATA[This checks to see if the Active Mailbox Delivery Queue Length is greater than <B>200</B>. Messages in this queue are destined for a Mailbox server.
+]]></DESCRIPTION>
+      <CODE><![CDATA[If AvgMSExchangeTransportQueues_ActiveMailboxDeliveryQueueLength > 199 Then
+   IsAvgThresholdBroken = True
+End If
+
+If MaxMSExchangeTransportQueues_ActiveMailboxDeliveryQueueLength > 199 Then
+   IsMaxThresholdBroken = True
+End If]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[Active Mailbox Delivery Queue Length is the number of items in the active mailbox queues.<br>
+<br>
+Messages in this queue are destined for a Mailbox server.<br>
+<br>
+]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeTransport Queues Active Non-Smtp Delivery Queue Length" ENABLED="True" ANALYZECOUNTER="\MSExchangeTransport Queues(_total)\Active Non-Smtp Delivery Queue Length" CATEGORY="MSExchangeTransport Queues">
+    <DESCRIPTION><![CDATA[Active Non-Smtp Delivery Queue Length is the number of items in the active Non-Smtp queues.]]></DESCRIPTION>
+    <COUNTER NAME="\MSExchangeTransport Queues(_total)\Active Non-Smtp Delivery Queue Length" MINVARNAME="MinMSExchangeTransportQueues_ActiveNon-SmtpDeliveryQueueLength" AVGVARNAME="AvgMSExchangeTransportQueues_ActiveNon-SmtpDeliveryQueueLength" MAXVARNAME="MaxMSExchangeTransportQueues_ActiveNon-SmtpDeliveryQueueLength" TRENDVARNAME="TrendMSExchangeTransportQueues_ActiveNon-SmtpDeliveryQueueLength" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeTransport Queues(_total)\Active Non-Smtp Delivery Queue Length" OTSFORMAT="MM/dd hh:mm" GROUPSIZE="640x480" CATEGORIES="AUTO" DATATYPE="integer" LEGEND="ON" MAXCATEGORYLABELS="0" CHARTTYPE="Line" VALUES="AUTO" DATASOURCE="\MSExchangeTransport Queues(_total)\Active Non-Smtp Delivery Queue Length" />
+    <THRESHOLD NAME="Active Non-Smtp Delivery Queue Length greater than 250" CONDITION="Critical" COLOR="#FF0000" PRIORITY="100">
+      <DESCRIPTION><![CDATA[This checks to see if the Active Non-Smtp Delivery Queue Length is greater than <B>250</B>. The Non-Smtp Delivery Queue is associated with the queue for <B>Foreign Connectors</B>. A Foreign Connector is added by using the new-ForeignConnector cmdlet or by a 3rd-party Exchange 2007 application.
+
+To resolve this problem, do one or more of the following:
+
+Use the Exchange Mail Flow Troubleshooter to troubleshoot this issue. When running the tool, under <B>What Symptom are you seeing?</B>, click <B>Messages are backing up in one or more queues on a server</B>. The Mail flow Troubleshooter is located under the <B>Toolbox</B> node of Microsoft Exchange Management Console.
+
+Review the System and Application event logs for related events.]]></DESCRIPTION>
+      <CODE><![CDATA[If AvgMSExchangeTransportQueues_ActiveNon-SmtpDeliveryQueueLength > 249 Then
+   IsAvgThresholdBroken = True
+End If
+
+If MaxMSExchangeTransportQueues_ActiveNon-SmtpDeliveryQueueLength > 249 Then
+   IsMaxThresholdBroken = True
+End If]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="Active Non-Smtp Delivery Queue Length greater than 200." CONDITION="Warning" COLOR="#FFFF00" PRIORITY="50">
+      <DESCRIPTION><![CDATA[This checks to see if the Active Non-Smtp Delivery Queue Length is greater than <B>200</B>. The Non-Smtp Delivery Queue is associated with the queue for <B>Foreign Connectors</B>. A Foreign Connector is added by using the new-ForeignConnector cmdlet or by a 3rd-party Exchange 2007 application.
+
+To resolve this problem, do one or more of the following:
+
+Use the Exchange Mail Flow Troubleshooter to troubleshoot this issue. When running the tool, under <B>What Symptom are you seeing?</B>, click <B>Messages are backing up in one or more queues on a server</B>. The Mail flow Troubleshooter is located under the <B>Toolbox</B> node of Microsoft Exchange Management Console.
+
+Review the System and Application event logs for related events.]]></DESCRIPTION>
+      <CODE><![CDATA[If AvgMSExchangeTransportQueues_ActiveNon-SmtpDeliveryQueueLength > 199 Then
+   IsAvgThresholdBroken = True
+End If
+
+If MaxMSExchangeTransportQueues_ActiveNon-SmtpDeliveryQueueLength > 199 Then
+   IsMaxThresholdBroken = True
+End If]]></CODE>
+    </THRESHOLD>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeTransport Queues Active Remote Delivery Queue Length" ENABLED="True" ANALYZECOUNTER="\MSExchangeTransport Queues(_total)\Active Remote Delivery Queue Length" CATEGORY="MSExchangeTransport Queues">
+    <COUNTER NAME="\MSExchangeTransport Queues(_total)\Active Remote Delivery Queue Length" MINVARNAME="MinMSExchangeTransportQueues_ActiveRemoteDeliveryQueueLength" AVGVARNAME="AvgMSExchangeTransportQueues_ActiveRemoteDeliveryQueueLength" MAXVARNAME="MaxMSExchangeTransportQueues_ActiveRemoteDeliveryQueueLength" TRENDVARNAME="TrendMSExchangeTransportQueues_ActiveRemoteDeliveryQueueLength" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeTransport Queues(_total)\Active Remote Delivery Queue Length" OTSFORMAT="MM/dd hh:mm" GROUPSIZE="640x480" CATEGORIES="AUTO" DATATYPE="integer" LEGEND="ON" MAXCATEGORYLABELS="0" CHARTTYPE="Line" VALUES="AUTO" DATASOURCE="\MSExchangeTransport Queues(_total)\Active Remote Delivery Queue Length" />
+    <THRESHOLD NAME="Active Remote Delivery Queue Length greater than 200" CONDITION="Warning" COLOR="#FFFF00" PRIORITY="50">
+      <DESCRIPTION><![CDATA[This checks to see if the Active Remote Delivery Queue Length is greater than 200.
+
+]]></DESCRIPTION>
+      <CODE><![CDATA[If AvgMSExchangeTransportQueues_ActiveRemoteDeliveryQueueLength > 199 Then
+   IsAvgThresholdBroken = True
+End If
+
+If MaxMSExchangeTransportQueues_ActiveRemoteDeliveryQueueLength > 199 Then
+   IsMaxThresholdBroken = True
+End If]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="Active Remote Delivery Queue Length greater than 350" CONDITION="Critical" COLOR="#FF0000" PRIORITY="100">
+      <DESCRIPTION><![CDATA[This checks to see if the Active Remote Delivery Queue Length is greater than 350]]></DESCRIPTION>
+      <CODE><![CDATA[If AvgMSExchangeTransportQueues_ActiveRemoteDeliveryQueueLength > 349 Then
+   IsAvgThresholdBroken = True
+End If
+
+If MaxMSExchangeTransportQueues_ActiveRemoteDeliveryQueueLength > 349 Then
+   IsMaxThresholdBroken = True
+End If]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[Active Remote Delivery Queue Length is the number of items in the active remote delivery queues.<br>
+<br>
+<p>To resolve this problem, do one or more of the following:</p>
+<ul>
+    <li>Use the Exchange Mail Flow Troubleshooter to troubleshoot this issue. When running the tool, under <strong>What Symptom are you seeing?</strong>, click <strong>Messages are backing up in one or more queues on a server</strong>. The Mail flow Troubleshooter is located under the <strong>Toolbox</strong> node of Microsoft Exchange Management Console.</li>
+    <li>Review the System and Application event logs for related events.</li>
+</ul>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeTransport Queues Retry Mailbox Delivery Queue Length" ENABLED="True" ANALYZECOUNTER="\MSExchangeTransport Queues(_total)\Retry Mailbox Delivery Queue Length" CATEGORY="MSExchangeTransport Queues">
+    <COUNTER NAME="\MSExchangeTransport Queues(_total)\Retry Mailbox Delivery Queue Length" MINVARNAME="MinMSExchangeTransportQueues_RetryMailboxDeliveryQueueLength" AVGVARNAME="AvgMSExchangeTransportQueues_RetryMailboxDeliveryQueueLength" MAXVARNAME="MaxMSExchangeTransportQueues_RetryMailboxDeliveryQueueLength" TRENDVARNAME="TrendMSExchangeTransportQueues_RetryMailboxDeliveryQueueLength" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeTransport Queues(_total)\Retry Mailbox Delivery Queue Length" OTSFORMAT="MM/dd hh:mm" GROUPSIZE="640x480" CATEGORIES="AUTO" DATATYPE="integer" LEGEND="ON" MAXCATEGORYLABELS="0" CHARTTYPE="Line" VALUES="AUTO" DATASOURCE="\MSExchangeTransport Queues(_total)\Retry Mailbox Delivery Queue Length" />
+    <THRESHOLD NAME="Retry Mailbox Delivery Queue Length greater than 100" CONDITION="Warning" COLOR="#FFFF00" PRIORITY="50">
+      <DESCRIPTION><![CDATA[This checks to see if the Retry Mailbox Delivery Queue Length is greater than 100. ]]></DESCRIPTION>
+      <CODE><![CDATA[If AvgMSExchangeTransportQueues_RetryMailboxDeliveryQueueLength > 99 Then
+   IsAvgThresholdBroken = True
+End If
+
+If MaxMSExchangeTransportQueues_RetryMailboxDeliveryQueueLength > 99 Then
+   IsMaxThresholdBroken = True
+End If]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="Retry Mailbox Delivery Queue Length greater than 250" CONDITION="Critical" COLOR="#FF0000" PRIORITY="100">
+      <DESCRIPTION><![CDATA[This checks to see if the Retry Mailbox Delivery Queue Length is greater than 250. ]]></DESCRIPTION>
+      <CODE><![CDATA[If AvgMSExchangeTransportQueues_RetryMailboxDeliveryQueueLength > 249 Then
+   IsAvgThresholdBroken = True
+End If
+
+If MaxMSExchangeTransportQueues_RetryMailboxDeliveryQueueLength > 249 Then
+   IsMaxThresholdBroken = True
+End If]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[Retry Mailbox Delivery Queue Length is the number of items in retry in the retry mailbox queues.
+<p>The Retry Mailbox Delivery Queue Length performance counter measures the number of messages currently in the retry mailbox delivery queue. Messages in this queue are in a retry state because an issue prevented their delivery. If the issue is transient, a subsequent attempt to send the message may be successful.</p>
+<p>Messages that cannot be successfully delivered are subject to various retry, resubmit, and expiration deadlines based on the message's source and destination. Retry is a renewed connection attempt with the destination domain, smart host, or Mailbox server. Resubmit is the act of sending messages back to the Submission queue for the categorizer to reprocess. The message is said to &quot;time-out&quot;, or expire, after all delivery efforts have failed during a specified period of time. After a message expires, the sender is notified of the delivery failure. Then the message is deleted from the queue.</p>
+<p>In all three cases of retry, resubmit, or expire, you can manually intervene before the automatic actions are performed on the messages.</p>
+<p>This problem may be caused by any of the following:</p>
+<ul>
+    <li>A domain that you send a large amount of e-mail to is down or experiencing problems.</li>
+    <li>A computer on your network may be infected with a virus which is sending messages through your Exchange servers.</li>
+    <li>Your DNS server may have some issue resolving fully qualified domain names (FQDNs) to IP addresses.</li>
+    <li>There may be a network connectivity issue that is preventing your server from properly connecting to destination servers or the Internet. Some possible issues that could effect your connection are:</li>
+    <li>Router or routing issues between your server and the destination.</li>
+    <li>Proxy or gateway server issues.</li>
+    <li>Internet Service providers (ISP) issues such as a cut line, downed system, routing issues, global disturbance, or some other issue.</li>
+</ul>
+<p>Determine the root cause of the issue by doing one or more of the following:</p>
+<ul>
+    <li>Check the destination where the retry messages are being sent to. If the messages are all addressed to a single domain, or small number of domains, verify that the specified domains are valid and functional using the steps detailed in <a href="http://technet.microsoft.com/en-za/library/bb123686(en-us).aspx">http://technet.microsoft.com/en-za/library/bb123686(en-us).aspx</a>.</li>
+    <li>Verify that there are no computers on your network that are infected with a virus which is sending messages through your Exchange server(s). Check where the retry messages are being sent to, if there a large number of messages addressed to companies that you do not know or do not regularly work with, or with unusual subject lines that look to be spam in nature. Take steps to remove the virus from the infected computer, or remove the computer from your network.</li>
+    <li>Confirm that your DNS server can resolve the FQDNs of the affected domain's mail exchanger (MX) resource records to IP by using the NSLOOKUP command as described in <a href="http://technet.microsoft.com/en-us/library/cc740171.aspx">http://technet.microsoft.com/en-us/library/cc740171.aspx</a>.</li>
+    <li>Confirm that there are no network connectivity issues preventing your server from properly connecting to destination servers or the Internet. After you have isolated and corrected the issue, manually submit again any messages that are located in the mailbox delivery queues. To do this, use either the Queue Viewer or the Retry-Queue cmdlet and specify the Resubmit parameter. For information about how to retry sending a message, see <a href="http://technet.microsoft.com/en-za/library/bb124568(en-us).aspx">http://technet.microsoft.com/en-za/library/bb124568(en-us).aspx</a>.</li>
+</ul>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeTransport Queues Retry Non-Smtp Delivery Queue Length" ENABLED="True" ANALYZECOUNTER="\MSExchangeTransport Queues(_total)\Retry Non-Smtp Delivery Queue Length" CATEGORY="MSExchangeTransport Queues">
+    <COUNTER NAME="\MSExchangeTransport Queues(_total)\Retry Non-Smtp Delivery Queue Length" MINVARNAME="MinMSExchangeTransportQueues_RetryNon-SmtpDeliveryQueueLength" AVGVARNAME="AvgMSExchangeTransportQueues_RetryNon-SmtpDeliveryQueueLength" MAXVARNAME="MaxMSExchangeTransportQueues_RetryNon-SmtpDeliveryQueueLength" TRENDVARNAME="TrendMSExchangeTransportQueues_RetryNon-SmtpDeliveryQueueLength" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeTransport Queues(_total)\Retry Non-Smtp Delivery Queue Length" OTSFORMAT="MM/dd hh:mm" GROUPSIZE="640x480" CATEGORIES="AUTO" DATATYPE="integer" LEGEND="ON" MAXCATEGORYLABELS="0" CHARTTYPE="Line" VALUES="AUTO" DATASOURCE="\MSExchangeTransport Queues(_total)\Retry Non-Smtp Delivery Queue Length" />
+    <THRESHOLD NAME="Retry Non-Smtp Delivery Queue Length greater than 100" CONDITION="Warning" COLOR="#FFFF00" PRIORITY="50">
+      <DESCRIPTION><![CDATA[This checks to see if the Retry Non-Smtp Delivery Queue Length is greater than 100]]></DESCRIPTION>
+      <CODE><![CDATA[If AvgMSExchangeTransportQueues_RetryNon-SmtpDeliveryQueueLength > 99 Then
+   IsAvgThresholdBroken = True
+End If
+
+If MaxMSExchangeTransportQueues_RetryNon-SmtpDeliveryQueueLength > 99 Then
+   IsMaxThresholdBroken = True
+End If]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="Retry Non-Smtp Delivery Queue Length greater than 250" CONDITION="Critical" COLOR="#FF0000" PRIORITY="100">
+      <DESCRIPTION><![CDATA[This checks to see if the Retry Non-Smtp Delivery Queue Length is greater than 250.]]></DESCRIPTION>
+      <CODE><![CDATA[If AvgMSExchangeTransportQueues_RetryNon-SmtpDeliveryQueueLength > 99 Then
+   IsAvgThresholdBroken = True
+End If
+
+If MaxMSExchangeTransportQueues_RetryNon-SmtpDeliveryQueueLength > 99 Then
+   IsMaxThresholdBroken = True
+End If]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[Retry Non-Smtp Delivery Queue Length is the number of items in rety in the Non-Smtp queues.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeTransport Queues Retry Remote Delivery Queue Length" ENABLED="True" ANALYZECOUNTER="\MSExchangeTransport Queues(_total)\Retry Remote Delivery Queue Length" CATEGORY="MSExchangeTransport Queues">
+    <COUNTER NAME="\MSExchangeTransport Queues(_total)\Retry Remote Delivery Queue Length" MINVARNAME="MinMSExchangeTransportQueues_RetryRemoteDeliveryQueueLength" AVGVARNAME="AvgMSExchangeTransportQueues_RetryRemoteDeliveryQueueLength" MAXVARNAME="MaxMSExchangeTransportQueues_RetryRemoteDeliveryQueueLength" TRENDVARNAME="TrendMSExchangeTransportQueues_RetryRemoteDeliveryQueueLength" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeTransport Queues(_total)\Retry Remote Delivery Queue Length" OTSFORMAT="MM/dd hh:mm" GROUPSIZE="640x480" CATEGORIES="AUTO" DATATYPE="integer" LEGEND="ON" MAXCATEGORYLABELS="0" CHARTTYPE="Line" VALUES="AUTO" DATASOURCE="\MSExchangeTransport Queues(_total)\Retry Remote Delivery Queue Length" />
+    <THRESHOLD NAME="Retry Remote Delivery Queue Length greater than 250" CONDITION="Critical" COLOR="#FF0000" PRIORITY="100">
+      <DESCRIPTION><![CDATA[This checks to see if the Retry Remote Delivery Queue Length is greater than 250]]></DESCRIPTION>
+      <CODE><![CDATA[If AvgMSExchangeTransportQueues_RetryRemoteDeliveryQueueLength > 249 Then
+   IsAvgThresholdBroken = True
+End If
+
+If MaxMSExchangeTransportQueues_RetryRemoteDeliveryQueueLength > 249 Then
+   IsMaxThresholdBroken = True
+End If]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="Retry Remote Delivery Queue Length greater than 100" CONDITION="Warning" COLOR="#FFFF00" PRIORITY="50">
+      <DESCRIPTION><![CDATA[This checks to see if the Retry Remote Delivery Queue Length is greater than 100]]></DESCRIPTION>
+      <CODE><![CDATA[If AvgMSExchangeTransportQueues_RetryRemoteDeliveryQueueLength > 99 Then
+   IsAvgThresholdBroken = True
+End If
+
+If MaxMSExchangeTransportQueues_RetryRemoteDeliveryQueueLength > 99 Then
+   IsMaxThresholdBroken = True
+End If]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[Retry Remote Delivery Queue Length is the number of items in retry in the remote delivery queues.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeTransport Queues Submission Queue Length" ENABLED="True" ANALYZECOUNTER="\MSExchangeTransport Queues(_total)\Submission Queue Length" CATEGORY="MSExchangeTransport Queues">
+    <COUNTER NAME="\MSExchangeTransport Queues(_total)\Submission Queue Length" MINVARNAME="MinMSExchangeTransportQueues_SubmissionQueueLength" AVGVARNAME="AvgMSExchangeTransportQueues_SubmissionQueueLength" MAXVARNAME="MaxMSExchangeTransportQueues_SubmissionQueueLength" TRENDVARNAME="TrendMSExchangeTransportQueues_SubmissionQueueLength" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeTransport Queues(_total)\Submission Queue Length" OTSFORMAT="MM/dd hh:mm" GROUPSIZE="640x480" CATEGORIES="AUTO" DATATYPE="integer" LEGEND="ON" MAXCATEGORYLABELS="0" CHARTTYPE="Line" VALUES="AUTO" DATASOURCE="\MSExchangeTransport Queues(_total)\Submission Queue Length" />
+    <THRESHOLD NAME="Submission Queue Length greater than 250" CONDITION="Critical" COLOR="#FF0000" PRIORITY="100">
+      <DESCRIPTION><![CDATA[This checks to see if the Submission Queue Length is greater than 250]]></DESCRIPTION>
+      <CODE><![CDATA[If AvgMSExchangeTransportQueues_SubmissionQueueLength > 249 Then
+   IsAvgThresholdBroken = True
+End If
+
+If MaxMSExchangeTransportQueues_SubmissionQueueLength > 249 Then
+   IsMaxThresholdBroken = True
+End If]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="Submission Queue Length greater than 100" CONDITION="Warning" COLOR="#FFFF00" PRIORITY="50">
+      <DESCRIPTION><![CDATA[This checks to see if the Submission Queue Length is greater than 100.]]></DESCRIPTION>
+      <CODE><![CDATA[If AvgMSExchangeTransportQueues_SubmissionQueueLength > 99 Then
+   IsAvgThresholdBroken = True
+End If
+
+If MaxMSExchangeTransportQueues_SubmissionQueueLength > 99 Then
+   IsMaxThresholdBroken = True
+End If]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[Submission Queue Length is the number of items in the submission queue.
+<p>The Submission Queue Length performance counter measures the number of messages currently in the submission queue. Messages in this queue are in a retry state because an issue prevented their submission to the categorizer. The categorizer is responsible for doing things such as querying the Active Directory domain controllers in order to determine where the recipient of the message resides or determining the members of a distribution group. It is also responsible for running transport agents and rules and determining the optimal path a message should take. If the issue is transient, a subsequent attempt to submit the message may be successful.</p>
+<p>A sustained high Submission Queue Length value may indicate that an excessive amount of inbound messages have over-loaded the categorizer. It may also indicate that there is an issue with message categorization. Message resubmission sends undelivered messages back to the submission queue to be processed again by the categorizer.</p>
+<p>A sustained high Submission Queue Length may be caused by one or more of the following:</p>
+<ul>
+    <li>The server is being over-utilized and does not have enough resources to satisfy all of the current requests. This situation may occur if there are more messages being submitted for transport then the server can handle. Similarly, it may also occur if many messages are being resubmitted for categorization.</li>
+    <li>There is a problem with a custom transport agent or rule, or a third-party transport agent or rule.</li>
+    <li>Or there is an issue querying an Active Directory domain controller either due to permission or network related issues or the domain controller may be experiencing performance issues of its own.</li>
+</ul>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeTransport Queues Unreachable Queue Length" ENABLED="True" ANALYZECOUNTER="\MSExchangeTransport Queues(_total)\Unreachable Queue Length" CATEGORY="MSExchangeTransport Queues">
+    <COUNTER NAME="\MSExchangeTransport Queues(_total)\Unreachable Queue Length" MINVARNAME="MinMSExchangeTransportQueues_UnreachableQueueLength" AVGVARNAME="AvgMSExchangeTransportQueues_UnreachableQueueLength" MAXVARNAME="MaxMSExchangeTransportQueues_UnreachableQueueLength" TRENDVARNAME="TrendMSExchangeTransportQueues_UnreachableQueueLength" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeTransport Queues(_total)\Unreachable Queue Length" OTSFORMAT="MM/dd hh:mm" GROUPSIZE="640x480" CATEGORIES="AUTO" DATATYPE="integer" LEGEND="ON" MAXCATEGORYLABELS="0" CHARTTYPE="Line" VALUES="AUTO" DATASOURCE="\MSExchangeTransport Queues(_total)\Unreachable Queue Length" />
+    <THRESHOLD NAME="Unreachable Queue Length greater than 100" CONDITION="Warning" COLOR="#FFFF00" PRIORITY="50">
+      <DESCRIPTION><![CDATA[This checks to see if the Unreachable Queue Length is greater than 100]]></DESCRIPTION>
+      <CODE><![CDATA[If AvgMSExchangeTransportQueues_UnreachableQueueLength > 99 Then
+   IsAvgThresholdBroken = True
+End If
+
+If MaxMSExchangeTransportQueues_UnreachableQueueLength > 99 Then
+   IsMaxThresholdBroken = True
+End If]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="Unreachable Queue Length greater than 250" CONDITION="Critical" COLOR="#FF0000" PRIORITY="100">
+      <DESCRIPTION><![CDATA[This checks to see if the Unreachable Queue Length is greater than 250. ]]></DESCRIPTION>
+      <CODE><![CDATA[If AvgMSExchangeTransportQueues_UnreachableQueueLength > 249 Then
+   IsAvgThresholdBroken = True
+End If
+
+If MaxMSExchangeTransportQueues_UnreachableQueueLength > 249 Then
+   IsMaxThresholdBroken = True
+End If]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[Unreachable Queue Length is the number of items in the unreachable queues.
+<p>The categorizer sends messages to the unreachable queue when there is no known route to their destinations. Typically, an unreachable destination is caused by a configuration error that affects the delivery path. For example, the messages will be sent to the unreachable queue if the following conditions are true:</p>
+<ul>
+    <li>There are messages in the &quot;Contoso.com&quot; remote delivery queue.</li>
+    <li>You delete the Send connector that is used to reach the Contoso.com domain.</li>
+</ul>
+<p>By default, the messages in the unreachable queue have the status of Ready. Messages remain in the unreachable queue until they are manually resubmitted by an administrator, removed by an administrator, an Active Directory Exchange topology configuration change is detected or the value specified in the MessageExpirationTimeOut parameter passes.</p>
+<p>To resolve this problem, determine what messages are in the queue and then determine their destination. Using this information correct any configuration issues and ensure that a delivery path exists for these messages. Finally, resubmit the messages in the unreachable message queue. You can do this by using Exchange Queue Viewer or by running the Resume-Message cmdlet in the Exchange Management Shell.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeTransport Dumpster Dumpster Size" ENABLED="True" ANALYZECOUNTER="\MSExchangeTransport Dumpster\Dumpster Size" CATEGORY="MSExchangeTransport Dumpster">
+    <DESCRIPTION><![CDATA[Item Size is the total size  (in bytes) of mail items that are currently in the Transport Dumpster on this server.]]></DESCRIPTION>
+    <COUNTER NAME="\MSExchangeTransport Dumpster\Dumpster Size" MINVARNAME="MinMSExchangeTransportDumpster_DumpsterSize" AVGVARNAME="AvgMSExchangeTransportDumpster_DumpsterSize" MAXVARNAME="MaxMSExchangeTransportDumpster_DumpsterSize" TRENDVARNAME="TrendMSExchangeTransportDumpster_DumpsterSize" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeTransport Dumpster\Dumpster Size" OTSFORMAT="MM/dd hh:mm" GROUPSIZE="640x480" CATEGORIES="AUTO" DATATYPE="integer" LEGEND="ON" MAXCATEGORYLABELS="0" CHARTTYPE="Line" VALUES="AUTO" DATASOURCE="\MSExchangeTransport Dumpster\Dumpster Size" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeTransport Dumpster Dumpster Inserts/sec" ENABLED="True" ANALYZECOUNTER="\MSExchangeTransport Dumpster\Dumpster Inserts/sec" CATEGORY="MSExchangeTransport Dumpster">
+    <DESCRIPTION><![CDATA[Insert Rate is the rate at which items are inserted into the Transport Dumpster on this server.]]></DESCRIPTION>
+    <COUNTER NAME="\MSExchangeTransport Dumpster\Dumpster Inserts/sec" MINVARNAME="MinMSExchangeTransportDumpster_DumpsterInsertssec" AVGVARNAME="AvgMSExchangeTransportDumpster_DumpsterInsertssec" MAXVARNAME="MaxMSExchangeTransportDumpster_DumpsterInsertssec" TRENDVARNAME="TrendMSExchangeTransportDumpster_DumpsterInsertssec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeTransport Dumpster\Dumpster Inserts/sec" OTSFORMAT="MM/dd hh:mm" GROUPSIZE="640x480" CATEGORIES="AUTO" DATATYPE="integer" LEGEND="ON" MAXCATEGORYLABELS="0" CHARTTYPE="Line" VALUES="AUTO" DATASOURCE="\MSExchangeTransport Dumpster\Dumpster Inserts/sec" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeTransport Dumpster Dumpster Item Count" ENABLED="True" ANALYZECOUNTER="\MSExchangeTransport Dumpster\Dumpster Item Count" CATEGORY="MSExchangeTransport Dumpster">
+    <DESCRIPTION><![CDATA[Item Count is the total number of mail  items that are currently in the Transport Dumpster on this server.]]></DESCRIPTION>
+    <COUNTER NAME="\MSExchangeTransport Dumpster\Dumpster Item Count" MINVARNAME="MinMSExchangeTransportDumpster_DumpsterItemCount" AVGVARNAME="AvgMSExchangeTransportDumpster_DumpsterItemCount" MAXVARNAME="MaxMSExchangeTransportDumpster_DumpsterItemCount" TRENDVARNAME="TrendMSExchangeTransportDumpster_DumpsterItemCount" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeTransport Dumpster\Dumpster Item Count" OTSFORMAT="MM/dd hh:mm" GROUPSIZE="640x480" CATEGORIES="AUTO" DATATYPE="integer" LEGEND="ON" MAXCATEGORYLABELS="0" CHARTTYPE="Line" VALUES="AUTO" DATASOURCE="\MSExchangeTransport Dumpster\Dumpster Item Count" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeTransport Dumpster Dumpster Deletes/sec" ENABLED="True" ANALYZECOUNTER="\MSExchangeTransport Dumpster\Dumpster Deletes/sec" CATEGORY="MSExchangeTransport Dumpster">
+    <DESCRIPTION><![CDATA[Delete Rate is the rate at which items are deleted from the Transport Dumpster on this server.]]></DESCRIPTION>
+    <COUNTER NAME="\MSExchangeTransport Dumpster\Dumpster Deletes/sec" MINVARNAME="MinMSExchangeTransportDumpster_DumpsterDeletessec" AVGVARNAME="AvgMSExchangeTransportDumpster_DumpsterDeletessec" MAXVARNAME="MaxMSExchangeTransportDumpster_DumpsterDeletessec" TRENDVARNAME="TrendMSExchangeTransportDumpster_DumpsterDeletessec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeTransport Dumpster\Dumpster Deletes/sec" OTSFORMAT="MM/dd hh:mm" GROUPSIZE="640x480" CATEGORIES="AUTO" DATATYPE="integer" LEGEND="ON" MAXCATEGORYLABELS="0" CHARTTYPE="Line" VALUES="AUTO" DATASOURCE="\MSExchangeTransport Dumpster\Dumpster Deletes/sec" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeTransport Database Stream writes/sec" ENABLED="True" ANALYZECOUNTER="\MSExchangeTransport Database(*)\Stream writes/sec" CATEGORY="MSExchangeTransport Database">
+    <DESCRIPTION><![CDATA[This counter should only be used if Microsoft Product Support services advises that they need this information to troubleshoot a complex ESE-related performance issue.]]></DESCRIPTION>
+    <COUNTER NAME="\MSExchangeTransport Database(*)\Stream writes/sec" MINVARNAME="MinMSExchangeTransportDatabase_Streamwritessec" AVGVARNAME="AvgMSExchangeTransportDatabase_Streamwritessec" MAXVARNAME="MaxMSExchangeTransportDatabase_Streamwritessec" TRENDVARNAME="TrendMSExchangeTransportDatabase_Streamwritessec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeTransport Database(*)\Stream writes/sec" OTSFORMAT="MM/dd hh:mm" GROUPSIZE="640x480" CATEGORIES="AUTO" DATATYPE="integer" LEGEND="ON" MAXCATEGORYLABELS="0" CHARTTYPE="Line" VALUES="AUTO" DATASOURCE="\MSExchangeTransport Database(*)\Stream writes/sec" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeTransport Database Stream read/sec" ENABLED="True" ANALYZECOUNTER="\MSExchangeTransport Database(*)\Stream read/sec" CATEGORY="MSExchangeTransport Database">
+    <DESCRIPTION><![CDATA[This counter should only be used if Microsoft Product Support services advises that they need this information to troubleshoot a complex ESE-related performance issue.]]></DESCRIPTION>
+    <COUNTER NAME="\MSExchangeTransport Database(*)\Stream read/sec" MINVARNAME="MinMSExchangeTransportDatabase_Streamreadsec" AVGVARNAME="AvgMSExchangeTransportDatabase_Streamreadsec" MAXVARNAME="MaxMSExchangeTransportDatabase_Streamreadsec" TRENDVARNAME="TrendMSExchangeTransportDatabase_Streamreadsec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeTransport Database(*)\Stream read/sec" OTSFORMAT="MM/dd hh:mm" GROUPSIZE="640x480" CATEGORIES="AUTO" DATATYPE="integer" LEGEND="ON" MAXCATEGORYLABELS="0" CHARTTYPE="Line" VALUES="AUTO" DATASOURCE="\MSExchangeTransport Database(*)\Stream read/sec" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeTransport Database MailItem begin commit/sec" ENABLED="True" ANALYZECOUNTER="\MSExchangeTransport Database(*)\MailItem begin commit/sec" CATEGORY="MSExchangeTransport Database">
+    <DESCRIPTION><![CDATA[This counter should only be used if Microsoft Product Support services advises that they need this information to troubleshoot a complex ESE-related performance issue.]]></DESCRIPTION>
+    <COUNTER NAME="\MSExchangeTransport Database(*)\MailItem begin commit/sec" MINVARNAME="MinMSExchangeTransportDatabase_MailItembegincommitsec" AVGVARNAME="AvgMSExchangeTransportDatabase_MailItembegincommitsec" MAXVARNAME="MaxMSExchangeTransportDatabase_MailItembegincommitsec" TRENDVARNAME="TrendMSExchangeTransportDatabase_MailItembegincommitsec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeTransport Database(*)\MailItem begin commit/sec" OTSFORMAT="MM/dd hh:mm" GROUPSIZE="640x480" CATEGORIES="AUTO" DATATYPE="integer" LEGEND="ON" MAXCATEGORYLABELS="0" CHARTTYPE="Line" VALUES="AUTO" DATASOURCE="\MSExchangeTransport Database(*)\MailItem begin commit/sec" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeTransport Batch Point Transactions committed/sec" ENABLED="True" ANALYZECOUNTER="\MSExchangeTransport Batch Point(*)\Transactions committed/sec" CATEGORY="MSExchangeTransport Batch Point">
+    <COUNTER NAME="\MSExchangeTransport Batch Point(*)\Transactions committed/sec" MINVARNAME="MinMSExchangeTransportBatchPoint_Transactionscommittedsec" AVGVARNAME="AvgMSExchangeTransportBatchPoint_Transactionscommittedsec" MAXVARNAME="MaxMSExchangeTransportBatchPoint_Transactionscommittedsec" TRENDVARNAME="TrendMSExchangeTransportBatchPoint_Transactionscommittedsec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeTransport Batch Point(*)\Transactions committed/sec" OTSFORMAT="MM/dd hh:mm" GROUPSIZE="640x480" CATEGORIES="AUTO" DATATYPE="integer" LEGEND="ON" MAXCATEGORYLABELS="0" CHARTTYPE="Line" VALUES="AUTO" DATASOURCE="\MSExchangeTransport Batch Point(*)\Transactions committed/sec" />
+    <DESCRIPTION><![CDATA[This counter should only be used if Microsoft Product Support services advises that they need this information to troubleshoot a complex ESE-related performance issue.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Extensibility Agents Average Agent Processing Time (sec)" ENABLED="True" ANALYZECOUNTER="\MSExchange Extensibility Agents(*)\Average Agent Processing Time (sec)" CATEGORY="MSExchange Extensibility Agents">
+    <COUNTER NAME="\MSExchange Extensibility Agents(*)\Average Agent Processing Time (sec)" MINVARNAME="MinMSExchangeExtensibilityAgents_AverageAgentProcessingTimesec" AVGVARNAME="AvgMSExchangeExtensibilityAgents_AverageAgentProcessingTimesec" MAXVARNAME="MaxMSExchangeExtensibilityAgents_AverageAgentProcessingTimesec" TRENDVARNAME="TrendMSExchangeExtensibilityAgents_AverageAgentProcessingTimesec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Extensibility Agents(*)\Average Agent Processing Time (sec)" OTSFORMAT="MM/dd hh:mm" GROUPSIZE="640x480" CATEGORIES="AUTO" DATATYPE="integer" LEGEND="ON" MAXCATEGORYLABELS="0" CHARTTYPE="Line" VALUES="AUTO" DATASOURCE="\MSExchange Extensibility Agents(*)\Average Agent Processing Time (sec)" />
+    <THRESHOLD NAME="Extensibility agent taking longer than expected to process messages - greater than 20" CONDITION="Warning" COLOR="#FFFF00" PRIORITY="50">
+      <DESCRIPTION><![CDATA[Shows the average agent processing time in seconds per event.
+
+]]></DESCRIPTION>
+      <CODE><![CDATA[If AvgMSExchangeExtensibilityAgents_AverageAgentProcessingTimesec > 20 Then
+   IsAvgThresholdBroken = True
+End If
+
+If MaxMSExchangeExtensibilityAgents_AverageAgentProcessingTimesec > 20 Then
+   IsMaxThresholdBroken = True
+End If]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[Average agent processing time in seconds per event.<BR>
+<BR>
+Sustained higher latencies may indicate a hung agent.<BR>
+<BR>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Extensibility Agents Total Agent Invocations" ENABLED="True" ANALYZECOUNTER="\MSExchange Extensibility Agents(*)\Total Agent Invocations" CATEGORY="MSExchange Extensibility Agents">
+    <COUNTER NAME="\MSExchange Extensibility Agents(*)\Total Agent Invocations" MINVARNAME="MinMSExchangeExtensibilityAgents_TotalAgentInvocations" AVGVARNAME="AvgMSExchangeExtensibilityAgents_TotalAgentInvocations" MAXVARNAME="MaxMSExchangeExtensibilityAgents_TotalAgentInvocations" TRENDVARNAME="TrendMSExchangeExtensibilityAgents_TotalAgentInvocations" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Extensibility Agents(*)\Total Agent Invocations" OTSFORMAT="MM/dd hh:mm" GROUPSIZE="640x480" CATEGORIES="AUTO" DATATYPE="integer" LEGEND="ON" MAXCATEGORYLABELS="0" CHARTTYPE="Line" VALUES="AUTO" DATASOURCE="\MSExchange Extensibility Agents(*)\Total Agent Invocations" />
+    <DESCRIPTION><![CDATA[Total number of agent invocations since the last restart.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Store Driver Inbound: MessageDeliveryAttempts" ENABLED="True" ANALYZECOUNTER="\MSExchange Store Driver(_total)\Inbound: MessageDeliveryAttempts" CATEGORY="MSExchange Store Driver">
+    <DESCRIPTION><![CDATA[Inbound: Message Delivery Attempts is the number of attempt for delivering transport mailitem.]]></DESCRIPTION>
+    <COUNTER NAME="\MSExchange Store Driver(_total)\Inbound: MessageDeliveryAttempts" MINVARNAME="MinMSExchangeStoreDriver_InboundMessageDeliveryAttempts" AVGVARNAME="AvgMSExchangeStoreDriver_InboundMessageDeliveryAttempts" MAXVARNAME="MaxMSExchangeStoreDriver_InboundMessageDeliveryAttempts" TRENDVARNAME="TrendMSExchangeStoreDriver_InboundMessageDeliveryAttempts" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Store Driver(_total)\Inbound: MessageDeliveryAttempts" OTSFORMAT="MM/dd hh:mm" GROUPSIZE="640x480" CATEGORIES="AUTO" DATATYPE="integer" LEGEND="ON" MAXCATEGORYLABELS="0" CHARTTYPE="Line" VALUES="AUTO" DATASOURCE="\MSExchange Store Driver(_total)\Inbound: MessageDeliveryAttempts" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Store Driver Inbound: MessageDeliveryAttemptsPerSecond" ENABLED="True" ANALYZECOUNTER="\MSExchange Store Driver(_total)\Inbound: MessageDeliveryAttemptsPerSecond" CATEGORY="MSExchange Store Driver">
+    <DESCRIPTION><![CDATA[Inbound: Message Delivery Attempts Per Second is the number of attempts for delivering transport mailitem per second.]]></DESCRIPTION>
+    <COUNTER NAME="\MSExchange Store Driver(_total)\Inbound: MessageDeliveryAttemptsPerSecond" MINVARNAME="MinMSExchangeStoreDriver_InboundMessageDeliveryAttemptsPerSecond" AVGVARNAME="AvgMSExchangeStoreDriver_InboundMessageDeliveryAttemptsPerSecond" MAXVARNAME="MaxMSExchangeStoreDriver_InboundMessageDeliveryAttemptsPerSecond" TRENDVARNAME="TrendMSExchangeStoreDriver_InboundMessageDeliveryAttemptsPerSecond" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Store Driver(_total)\Inbound: MessageDeliveryAttemptsPerSecond" OTSFORMAT="MM/dd hh:mm" GROUPSIZE="640x480" CATEGORIES="AUTO" DATATYPE="integer" LEGEND="ON" MAXCATEGORYLABELS="0" CHARTTYPE="Line" VALUES="AUTO" DATASOURCE="\MSExchange Store Driver(_total)\Inbound: MessageDeliveryAttemptsPerSecond" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeTransport Queues Aggregate Delivery Queue Length (All Queues)" ENABLED="True" ANALYZECOUNTER="\MSExchangeTransport Queues(_total)\Aggregate Delivery Queue Length (All Queues)" CATEGORY="MSExchangeTransport Queues">
+    <COUNTER NAME="\MSExchangeTransport Queues(_total)\Aggregate Delivery Queue Length (All Queues)" MINVARNAME="MinMSExchangeTransportQueues_AggregateDeliveryQueueLengthAllQueues" AVGVARNAME="AvgMSExchangeTransportQueues_AggregateDeliveryQueueLengthAllQueues" MAXVARNAME="MaxMSExchangeTransportQueues_AggregateDeliveryQueueLengthAllQueues" TRENDVARNAME="TrendMSExchangeTransportQueues_AggregateDeliveryQueueLengthAllQueues" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeTransport Queues(_total)\Aggregate Delivery Queue Length (All Queues)" OTSFORMAT="MM/dd hh:mm" GROUPSIZE="640x480" CATEGORIES="AUTO" DATATYPE="integer" LEGEND="ON" MAXCATEGORYLABELS="0" CHARTTYPE="Line" VALUES="AUTO" DATASOURCE="\MSExchangeTransport Queues(_total)\Aggregate Delivery Queue Length (All Queues)" />
+    <THRESHOLD NAME="Aggregate Delivery Queue Length for all queues greater than 3000" CONDITION="Warning" COLOR="#FFFF00" PRIORITY="50">
+      <DESCRIPTION><![CDATA[This checks to see if the Aggregate Delivery Queue Length for all queues is greater than 3000. ]]></DESCRIPTION>
+      <CODE><![CDATA[If MaxMSExchangeTransportQueues_AggregateDeliveryQueueLengthAllQueues > 2999 Then
+  IsMaxThresholdBroken = True
+End If
+
+If AvgMSExchangeTransportQueues_AggregateDeliveryQueueLengthAllQueues > 2999 Then
+  IsAvgThresholdBroken = True
+End If
+]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="Aggregate Delivery Queue Length for all queues greater than 5000" CONDITION="Critical" COLOR="#FF0000" PRIORITY="100">
+      <DESCRIPTION><![CDATA[This checks to see if the Aggregate Delivery Queue Length for all queues is greater than 5000. This alert indicates that the total number of messages in all queues is more than 5000.]]></DESCRIPTION>
+      <CODE><![CDATA[If MaxMSExchangeTransportQueues_AggregateDeliveryQueueLengthAllQueues > 4999 Then
+  IsMaxThresholdBroken = True
+End If
+
+If AvgMSExchangeTransportQueues_AggregateDeliveryQueueLengthAllQueues > 4999 Then
+  IsAvgThresholdBroken = True
+End If]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[Aggregate Delivery Queue Length (All Queues) is the number of items queued for delivery in all queues.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeTransport Queues Largest Delivery Queue Length" ENABLED="True" ANALYZECOUNTER="\MSExchangeTransport Queues(_total)\Largest Delivery Queue Length" CATEGORY="MSExchangeTransport Queues">
+    <COUNTER NAME="\MSExchangeTransport Queues(_total)\Largest Delivery Queue Length" MINVARNAME="MinMSExchangeTransportQueues_LargestDeliveryQueueLength" AVGVARNAME="AvgMSExchangeTransportQueues_LargestDeliveryQueueLength" MAXVARNAME="MaxMSExchangeTransportQueues_LargestDeliveryQueueLength" TRENDVARNAME="TrendMSExchangeTransportQueues_LargestDeliveryQueueLength" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeTransport Queues(_total)\Largest Delivery Queue Length" OTSFORMAT="MM/dd hh:mm" GROUPSIZE="640x480" CATEGORIES="AUTO" DATATYPE="integer" LEGEND="ON" MAXCATEGORYLABELS="0" CHARTTYPE="Line" VALUES="AUTO" DATASOURCE="\MSExchangeTransport Queues(_total)\Largest Delivery Queue Length" />
+    <THRESHOLD NAME="Largest Delivery Queue Length greater than 200" CONDITION="Warning" COLOR="#FFFF00" PRIORITY="50">
+      <DESCRIPTION><![CDATA[This checks to see if the Largest Delivery Queue Length is greater than 200. ]]></DESCRIPTION>
+      <CODE><![CDATA[If AvgMSExchangeTransportQueues_LargestDeliveryQueueLength > 200 Then
+  IsMaxThresholdBroken = True
+End If
+
+If MaxMSExchangeTransportQueues_LargestDeliveryQueueLength > 200 Then
+  IsAvgThresholdBroken = True
+End If]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[Largest Delivery Queue Length is the number of messages in the largest delivery queue.
+<p>The Largest Delivery Queue Length performance counter represents the number of e-mail messages that are queued to a given Exchange Hub Transport server or Edge Transport server.</p>
+<p>When this value is high, the server cannot establish a SMTP session to the other Hub Transport or Edge Transport server. Other symptoms you may experience when this threshold is reached are reduced intra-site, inter-site, and external mail flow. This alert may be caused by one or more of the following conditions:</p>
+<ul>
+    <li>Problem with a specific Hub Transport server or Edge Transport server. For example, one or more required services may not be running.</li>
+    <li>Issues with network connectivity, routers, or firewalls.</li>
+</ul>
+<p>To resolve this problem, do one or more of the following:</p>
+<ul>
+    <li>Run the Microsoft Exchange Mail Flow Troubleshooter. To access the Mail Flow Troubleshooter, click Toolbox in the Exchange Management Console.</li>
+    <li>Use the Nslookup command-line tool to verify that external or remote domains have valid mail exchanger (MX) records.</li>
+    <li>Use Telnet to verify that external or remote domain mail exchangers respond to telnet to port 25. For more information, see <a href="http://technet.microsoft.com/en-za/library/bb123686(en-us).aspx">http://technet.microsoft.com/en-za/library/bb123686(en-us).aspx</a>.</li>
+</ul>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeTransport Queues Poison Queue Length" ENABLED="True" ANALYZECOUNTER="\MSExchangeTransport Queues(_total)\Poison Queue Length" CATEGORY="MSExchangeTransport Queues">
+    <COUNTER NAME="\MSExchangeTransport Queues(_total)\Poison Queue Length" MINVARNAME="MinMSExchangeTransportQueues_PoisonQueueLength" AVGVARNAME="AvgMSExchangeTransportQueues_PoisonQueueLength" MAXVARNAME="MaxMSExchangeTransportQueues_PoisonQueueLength" TRENDVARNAME="TrendMSExchangeTransportQueues_PoisonQueueLength" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeTransport Queues(_total)\Poison Queue Length" OTSFORMAT="MM/dd hh:mm" GROUPSIZE="640x480" CATEGORIES="AUTO" DATATYPE="integer" LEGEND="ON" MAXCATEGORYLABELS="0" CHARTTYPE="Line" VALUES="AUTO" DATASOURCE="\MSExchangeTransport Queues(_total)\Poison Queue Length" />
+    <THRESHOLD NAME="Poison Queue Length greater than 0" CONDITION="Warning" COLOR="#FFFF00" PRIORITY="50">
+      <DESCRIPTION><![CDATA[This checks to see if the Poison Queue Length is greater than 0. ]]></DESCRIPTION>
+      <CODE><![CDATA[If AvgMSExchangeTransportQueues_PoisonQueueLength > 0 Then
+  IsMaxThresholdBroken = True
+End If
+
+If MaxMSExchangeTransportQueues_PoisonQueueLength > 0 Then
+  IsAvgThresholdBroken = True
+End If]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="Poison Queue Length greater than 5" CONDITION="Critical" COLOR="#FF0000" PRIORITY="100">
+      <DESCRIPTION><![CDATA[This checks to see if the Poison Queue Length is greater than 5. ]]></DESCRIPTION>
+      <CODE><![CDATA[If AvgMSExchangeTransportQueues_PoisonQueueLength > 5 Then
+  IsMaxThresholdBroken = True
+End If
+
+If MaxMSExchangeTransportQueues_PoisonQueueLength > 5 Then
+  IsAvgThresholdBroken = True
+End If]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[Poison Message Queue Length is the number of messages in the poison message queue.
+<p>Messages in the poison message queue are in a permanently suspended state.</p>
+<p>The poison message queue contains messages that are determined to be potentially harmful to the Microsoft Exchange Server 2007 server after causing a server failure. The messages may be genuinely harmful in their content and format. Alternatively, they may be the results of a poorly-written agent that has caused the Exchange server to fail when it processed the supposedly bad messages.</p>
+<p>Messages remain in the poison message queue until they are manually resumed or removed by an administrator. The messages in the poison message queue are never automatically resumed or expired.</p>
+<p>To resolve this problem, resubmit or remove the messages from the poison message queue.. You can resubmit the messages by using the Exchange Queue Viewer or by running the Resume-Message cmdlet. You can remove messages by using Queue Viewer or by running the Remove-Message cmdlet.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Store Driver Inbound: LocalDeliveryCallsPerSecond" ENABLED="True" ANALYZECOUNTER="\MSExchange Store Driver(_total)\Inbound: LocalDeliveryCallsPerSecond" CATEGORY="MSExchange Store Driver">
+    <DESCRIPTION><![CDATA[Inbound: Local Delivery Calls Per Second is the number of local delivery attempts per second.]]></DESCRIPTION>
+    <COUNTER NAME="\MSExchange Store Driver(_total)\Inbound: LocalDeliveryCallsPerSecond" MINVARNAME="MinMSExchangeStoreDriver_InboundLocalDeliveryCallsPerSecond" AVGVARNAME="AvgMSExchangeStoreDriver_InboundLocalDeliveryCallsPerSecond" MAXVARNAME="MaxMSExchangeStoreDriver_InboundLocalDeliveryCallsPerSecond" TRENDVARNAME="TrendMSExchangeStoreDriver_InboundLocalDeliveryCallsPerSecond" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Store Driver(_total)\Inbound: LocalDeliveryCallsPerSecond" OTSFORMAT="MM/dd hh:mm" GROUPSIZE="640x480" CATEGORIES="AUTO" DATATYPE="integer" LEGEND="ON" MAXCATEGORYLABELS="0" CHARTTYPE="Line" VALUES="AUTO" DATASOURCE="\MSExchange Store Driver(_total)\Inbound: LocalDeliveryCallsPerSecond" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Store Driver Outbound: Submitted Mail Items Per Second" ENABLED="True" ANALYZECOUNTER="\MSExchange Store Driver(_total)\Outbound: Submitted Mail Items Per Second" CATEGORY="MSExchange Store Driver">
+    <COUNTER NAME="\MSExchange Store Driver(_total)\Outbound: Submitted Mail Items Per Second" MINVARNAME="MinMSExchangeStoreDriver_OutboundSubmittedMailItemsPerSecond" AVGVARNAME="AvgMSExchangeStoreDriver_OutboundSubmittedMailItemsPerSecond" MAXVARNAME="MaxMSExchangeStoreDriver_OutboundSubmittedMailItemsPerSecond" TRENDVARNAME="TrendMSExchangeStoreDriver_OutboundSubmittedMailItemsPerSecond" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Store Driver(_total)\Outbound: Submitted Mail Items Per Second" OTSFORMAT="MM/dd hh:mm" GROUPSIZE="640x480" CATEGORIES="AUTO" DATATYPE="integer" LEGEND="ON" MAXCATEGORYLABELS="0" CHARTTYPE="Line" VALUES="AUTO" DATASOURCE="\MSExchange Store Driver(_total)\Outbound: Submitted Mail Items Per Second" />
+    <DESCRIPTION><![CDATA[Outbound: Submitted Mail Items Per Second is the number of mail items per second being submitted.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeTransport SmtpReceive Average bytes/message" ENABLED="True" ANALYZECOUNTER="\MSExchangeTransport SmtpReceive(_total)\Average bytes/message" CATEGORY="MSExchangeTransport SmtpReceive">
+    <DESCRIPTION><![CDATA[Average Bytes/Message is the average number of message bytes per inbound message received.]]></DESCRIPTION>
+    <COUNTER NAME="\MSExchangeTransport SmtpReceive(_total)\Average bytes/message" MINVARNAME="MinMSExchangeTransportSmtpReceive_Averagebytesmessage" AVGVARNAME="AvgMSExchangeTransportSmtpReceive_Averagebytesmessage" MAXVARNAME="MaxMSExchangeTransportSmtpReceive_Averagebytesmessage" TRENDVARNAME="TrendMSExchangeTransportSmtpReceive_Averagebytesmessage" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeTransport SmtpReceive(_total)\Average bytes/message" OTSFORMAT="MM/dd hh:mm" GROUPSIZE="640x480" CATEGORIES="AUTO" DATATYPE="integer" LEGEND="ON" MAXCATEGORYLABELS="0" CHARTTYPE="Line" VALUES="AUTO" DATASOURCE="\MSExchangeTransport SmtpReceive(_total)\Average bytes/message" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeTransport SmtpReceive Messages Received/sec" ENABLED="True" ANALYZECOUNTER="\MSExchangeTransport SmtpReceive(_total)\Messages Received/sec" CATEGORY="MSExchangeTransport SmtpReceive">
+    <COUNTER NAME="\MSExchangeTransport SmtpReceive(_total)\Messages Received/sec" MINVARNAME="MinMSExchangeTransportSmtpReceive_MessagesReceivedsec" AVGVARNAME="AvgMSExchangeTransportSmtpReceive_MessagesReceivedsec" MAXVARNAME="MaxMSExchangeTransportSmtpReceive_MessagesReceivedsec" TRENDVARNAME="TrendMSExchangeTransportSmtpReceive_MessagesReceivedsec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeTransport SmtpReceive(_total)\Messages Received/sec" OTSFORMAT="MM/dd hh:mm" GROUPSIZE="640x480" CATEGORIES="AUTO" DATATYPE="integer" LEGEND="ON" MAXCATEGORYLABELS="0" CHARTTYPE="Line" VALUES="AUTO" DATASOURCE="\MSExchangeTransport SmtpReceive(_total)\Messages Received/sec" />
+    <DESCRIPTION><![CDATA[Messages Received/sec is the number of messages received by the SMTP server each second.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchangeTransport SmtpSend Messages Sent/sec" ENABLED="True" ANALYZECOUNTER="\MSExchangeTransport SmtpSend(_total)\Messages Sent/sec" CATEGORY="MSExchangeTransport SmtpSend">
+    <DESCRIPTION><![CDATA[Messages Sent/sec is the number of messages sent by the SMTP Send connector each second.]]></DESCRIPTION>
+    <COUNTER NAME="\MSExchangeTransport SmtpSend(_total)\Messages Sent/sec" MINVARNAME="MinMSExchangeTransportSmtpSend_MessagesSentsec" AVGVARNAME="AvgMSExchangeTransportSmtpSend_MessagesSentsec" MAXVARNAME="MaxMSExchangeTransportSmtpSend_MessagesSentsec" TRENDVARNAME="TrendMSExchangeTransportSmtpSend_MessagesSentsec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchangeTransport SmtpSend(_total)\Messages Sent/sec" OTSFORMAT="MM/dd hh:mm" GROUPSIZE="640x480" CATEGORIES="AUTO" DATATYPE="integer" LEGEND="ON" MAXCATEGORYLABELS="0" CHARTTYPE="Line" VALUES="AUTO" DATASOURCE="\MSExchangeTransport SmtpSend(_total)\Messages Sent/sec" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Store Driver Inbound: Recipients Delivered Per Second" ENABLED="True" ANALYZECOUNTER="\MSExchange Store Driver(_total)\Inbound: Recipients Delivered Per Second" CATEGORY="MSExchange Store Driver">
+    <DESCRIPTION><![CDATA[Recipients delivered per second]]></DESCRIPTION>
+    <COUNTER NAME="\MSExchange Store Driver(_total)\Inbound: Recipients Delivered Per Second" MINVARNAME="MinMSExchangeStoreDriver_InboundRecipientsDeliveredPerSecond" AVGVARNAME="AvgMSExchangeStoreDriver_InboundRecipientsDeliveredPerSecond" MAXVARNAME="MaxMSExchangeStoreDriver_InboundRecipientsDeliveredPerSecond" TRENDVARNAME="TrendMSExchangeStoreDriver_InboundRecipientsDeliveredPerSecond" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Store Driver(_total)\Inbound: Recipients Delivered Per Second" OTSFORMAT="MM/dd hh:mm" GROUPSIZE="640x480" CATEGORIES="AUTO" DATATYPE="integer" LEGEND="ON" MAXCATEGORYLABELS="0" CHARTTYPE="Line" VALUES="AUTO" DATASOURCE="\MSExchange Store Driver(_total)\Inbound: Recipients Delivered Per Second" />
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Database ==&gt; Instances I/O Log Writes/sec" ENABLED="True" ANALYZECOUNTER="\MSExchange Database ==&gt; Instances(edgetransport/Transport Mail Database)\I/O Log Writes/sec" CATEGORY="MSExchange Database ==&gt; Instances">
+    <COUNTER NAME="\MSExchange Database ==&gt; Instances(edgetransport/Transport Mail Database)\I/O Log Writes/sec" MINVARNAME="MinMSExchangeDatabase_Instances_IOLogWritessec" AVGVARNAME="AvgMSExchangeDatabase_Instances_IOLogWritessec" MAXVARNAME="MaxMSExchangeDatabase_Instances_IOLogWritessec" TRENDVARNAME="TrendMSExchangeDatabase_Instances_IOLogWritessec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Database ==&gt; Instances(edgetransport/Transport Mail Database)\I/O Log Writes/sec" OTSFORMAT="MM/dd hh:mm" GROUPSIZE="640x480" CATEGORIES="AUTO" DATATYPE="integer" LEGEND="ON" MAXCATEGORYLABELS="0" CHARTTYPE="Line" VALUES="AUTO" DATASOURCE="\MSExchange Database ==&gt; Instances(edgetransport/Transport Mail Database)\I/O Log Writes/sec" />
+    <DESCRIPTION><![CDATA[I/O Log Writes/sec is the rate of logfile write operations completed.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Database ==&gt; Instances I/O Log Reads/sec" ENABLED="True" ANALYZECOUNTER="\MSExchange Database ==&gt; Instances(edgetransport/Transport Mail Database)\I/O Log Reads/sec" CATEGORY="MSExchange Database ==&gt; Instances">
+    <COUNTER NAME="\MSExchange Database ==&gt; Instances(edgetransport/Transport Mail Database)\I/O Log Reads/sec" MINVARNAME="MinMSExchangeDatabase_Instances_IOLogReadssec" AVGVARNAME="AvgMSExchangeDatabase_Instances_IOLogReadssec" MAXVARNAME="MaxMSExchangeDatabase_Instances_IOLogReadssec" TRENDVARNAME="TrendMSExchangeDatabase_Instances_IOLogReadssec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Database ==&gt; Instances(edgetransport/Transport Mail Database)\I/O Log Reads/sec" OTSFORMAT="MM/dd hh:mm" GROUPSIZE="640x480" CATEGORIES="AUTO" DATATYPE="integer" LEGEND="ON" MAXCATEGORYLABELS="0" CHARTTYPE="Line" VALUES="AUTO" DATASOURCE="\MSExchange Database ==&gt; Instances(edgetransport/Transport Mail Database)\I/O Log Reads/sec" />
+    <DESCRIPTION><![CDATA[I/O Log Reads/sec is the rate of logfile read operations completed.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Database ==&gt; Instances Version buckets allocated" ENABLED="True" ANALYZECOUNTER="\MSExchange Database ==&gt; Instances(edgetransport/Transport Mail Database)\Version buckets allocated" CATEGORY="MSExchange Database ==&gt; Instances">
+    <COUNTER NAME="\MSExchange Database ==&gt; Instances(edgetransport/Transport Mail Database)\Version buckets allocated" MINVARNAME="MinMSExchangeDatabase_Instances_Versionbucketsallocated" AVGVARNAME="AvgMSExchangeDatabase_Instances_Versionbucketsallocated" MAXVARNAME="MaxMSExchangeDatabase_Instances_Versionbucketsallocated" TRENDVARNAME="TrendMSExchangeDatabase_Instances_Versionbucketsallocated" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Database ==&gt; Instances(edgetransport/Transport Mail Database)\Version buckets allocated" OTSFORMAT="MM/dd hh:mm" GROUPSIZE="640x480" CATEGORIES="AUTO" DATATYPE="integer" LEGEND="ON" MAXCATEGORYLABELS="0" CHARTTYPE="Line" VALUES="AUTO" DATASOURCE="\MSExchange Database ==&gt; Instances(edgetransport/Transport Mail Database)\Version buckets allocated" />
+    <THRESHOLD NAME="Transport database Version Buckets Allocated greater than 120" CONDITION="Warning" COLOR="#FFFF00" PRIORITY="50">
+      <DESCRIPTION><![CDATA[The Version buckets allocated performance counter indicates the number of buckets of version store memory that are currently being used. ]]></DESCRIPTION>
+      <CODE><![CDATA[If AvgMSExchangeDatabase_Instances_Versionbucketsallocated > 119 Then
+   IsAvgThresholdBroken = True
+End If
+
+If MaxMSExchangeDatabase_Instances_Versionbucketsallocated > 119 Then
+   IsMaxThresholdBroken = True
+End If]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="Transport database Version Buckets Allocated greater than 200" CONDITION="Critical" COLOR="#FF0000" PRIORITY="100">
+      <DESCRIPTION><![CDATA[The Version buckets allocated performance counter indicates the number of buckets of version store memory that are currently being used.]]></DESCRIPTION>
+      <CODE><![CDATA[If AvgMSExchangeDatabase_Instances_Versionbucketsallocated > 199 Then
+   IsAvgThresholdBroken = True
+End If
+
+If MaxMSExchangeDatabase_Instances_Versionbucketsallocated > 199 Then
+   IsMaxThresholdBroken = True
+End If]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[Total number of version buckets allocated
+<p>The Version buckets allocated performance counter indicates the number of buckets of version store memory that are currently being used. A version bucket is a 16 kilobyte (KB) chunk of the version store. The version store is an allocation of memory where database transactions are held until they can be written to disk. A list of changes that are made to the message queue database is kept in memory until those changes can be committed to a transaction log. Then the list is committed to the message queue database itself. These outstanding message queue database transactions that are kept in memory are known as version buckets.</p>
+<p>This alert indicates that you have more than <strong>120 </strong>version buckets allocated. This alert usually indicates that you have a database transaction that is taking a long time to be saved to disk.</p>
+<p>The number of version buckets may increase to unacceptably high levels because of virus issues, problems with the message queue database integrity, or hard disk drive performance.</p>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Database ==&gt; Instances I/O Database Reads/sec" ENABLED="True" ANALYZECOUNTER="\MSExchange Database ==&gt; Instances(edgetransport/Transport Mail Database)\I/O Database Reads/sec" CATEGORY="MSExchange Database ==&gt; Instances">
+    <COUNTER NAME="\MSExchange Database ==&gt; Instances(edgetransport/Transport Mail Database)\I/O Database Reads/sec" MINVARNAME="MinMSExchangeDatabase_Instances_IODatabaseReadssec" AVGVARNAME="AvgMSExchangeDatabase_Instances_IODatabaseReadssec" MAXVARNAME="MaxMSExchangeDatabase_Instances_IODatabaseReadssec" TRENDVARNAME="TrendMSExchangeDatabase_Instances_IODatabaseReadssec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Database ==&gt; Instances(edgetransport/Transport Mail Database)\I/O Database Reads/sec" OTSFORMAT="MM/dd hh:mm" GROUPSIZE="640x480" CATEGORIES="AUTO" DATATYPE="integer" LEGEND="ON" MAXCATEGORYLABELS="0" CHARTTYPE="Line" VALUES="AUTO" DATASOURCE="\MSExchange Database ==&gt; Instances(edgetransport/Transport Mail Database)\I/O Database Reads/sec" />
+    <DESCRIPTION><![CDATA[I/O Database Reads/sec is the rate of database read operations completed.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Database ==&gt; Instances I/O Database Writes/sec" ENABLED="True" ANALYZECOUNTER="\MSExchange Database ==&gt; Instances(edgetransport/Transport Mail Database)\I/O Database Writes/sec" CATEGORY="MSExchange Database ==&gt; Instances">
+    <COUNTER NAME="\MSExchange Database ==&gt; Instances(edgetransport/Transport Mail Database)\I/O Database Writes/sec" MINVARNAME="MinMSExchangeDatabase_Instances_IODatabaseWritessec" AVGVARNAME="AvgMSExchangeDatabase_Instances_IODatabaseWritessec" MAXVARNAME="MaxMSExchangeDatabase_Instances_IODatabaseWritessec" TRENDVARNAME="TrendMSExchangeDatabase_Instances_IODatabaseWritessec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Database ==&gt; Instances(edgetransport/Transport Mail Database)\I/O Database Writes/sec" OTSFORMAT="MM/dd hh:mm" GROUPSIZE="640x480" CATEGORIES="AUTO" DATATYPE="integer" LEGEND="ON" MAXCATEGORYLABELS="0" CHARTTYPE="Line" VALUES="AUTO" DATASOURCE="\MSExchange Database ==&gt; Instances(edgetransport/Transport Mail Database)\I/O Database Writes/sec" />
+    <DESCRIPTION><![CDATA[I/O Database Writes/sec is the rate of database write operations completed.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Database ==&gt; Instances Log Record Stalls/sec - Transport" ENABLED="True" ANALYZECOUNTER="\MSExchange Database ==&gt; Instances(edgetransport/Transport Mail Database)\Log Record Stalls/sec" CATEGORY="MSExchange Database ==&gt; Instances">
+    <COUNTER NAME="\MSExchange Database ==&gt; Instances(edgetransport/Transport Mail Database)\Log Record Stalls/sec" MINVARNAME="MinMSExchangeDatabase_Instances_LogRecordStallssec" AVGVARNAME="AvgMSExchangeDatabase_Instances_LogRecordStallssec" MAXVARNAME="MaxMSExchangeDatabase_Instances_LogRecordStallssec" TRENDVARNAME="TrendMSExchangeDatabase_Instances_LogRecordStallssec" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Database ==&gt; Instances(edgetransport/Transport Mail Database)\Log Record Stalls/sec" OTSFORMAT="MM/dd hh:mm" GROUPSIZE="640x480" CATEGORIES="AUTO" DATATYPE="integer" LEGEND="ON" MAXCATEGORYLABELS="0" CHARTTYPE="Line" VALUES="AUTO" DATASOURCE="\MSExchange Database ==&gt; Instances(edgetransport/Transport Mail Database)\Log Record Stalls/sec" />
+    <THRESHOLD NAME="Transport database log records not being processed in a timely fashion - greater than 10" CONDITION="Warning" COLOR="#FFFF00" PRIORITY="50">
+      <DESCRIPTION><![CDATA[Shows the number of log records for the Edge/Hub Transport database that cannot be added to the log buffers per second because they are full. If this counter is non-zero most of the time, the log buffer size may be a bottleneck.]]></DESCRIPTION>
+      <CODE><![CDATA[If AvgMSExchangeDatabase_Instances_LogRecordStallssec > 10 Then
+   IsAvgThresholdBroken = True
+End If        
+
+If MaxMSExchangeDatabase_Instances_LogRecordStallssec > 10 Then
+   IsMaxThresholdBroken = True
+End If
+]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="Transport database high log record stalls due to server performance issues - greater than 100" CONDITION="Critical" COLOR="#FF0000" PRIORITY="100">
+      <DESCRIPTION><![CDATA[Shows the number of log records for the Edge/Hub Transport database that cannot be added to the log buffers per second because they are full. If this counter is non-zero most of the time, the log buffer size may be a bottleneck.]]></DESCRIPTION>
+      <CODE><![CDATA[If AvgMSExchangeDatabase_Instances_LogRecordStallssec > 100 Then
+   IsAvgThresholdBroken = True
+End If        
+
+If MaxMSExchangeDatabase_Instances_LogRecordStallssec >100 Then
+   IsMaxThresholdBroken = True
+End If
+]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[Shows the number of log records for the Edge/Hub Transport database that cannot be added to the log buffers per second because they are full. If this counter is non-zero most of the time, the log buffer size may be a bottleneck.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Database ==&gt; Instances Log Threads Waiting" ENABLED="True" ANALYZECOUNTER="\MSExchange Database ==&gt; Instances(edgetransport/Transport Mail Database)\Log Threads Waiting" CATEGORY="MSExchange Database ==&gt; Instances">
+    <COUNTER NAME="\MSExchange Database ==&gt; Instances(edgetransport/Transport Mail Database)\Log Threads Waiting" MINVARNAME="MinMSExchangeDatabase_Instances_LogThreadsWaiting" AVGVARNAME="AvgMSExchangeDatabase_Instances_LogThreadsWaiting" MAXVARNAME="MaxMSExchangeDatabase_Instances_LogThreadsWaiting" TRENDVARNAME="TrendMSExchangeDatabase_Instances_LogThreadsWaiting" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Database ==&gt; Instances(edgetransport/Transport Mail Database)\Log Threads Waiting" OTSFORMAT="MM/dd hh:mm" GROUPSIZE="640x480" CATEGORIES="AUTO" DATATYPE="integer" LEGEND="ON" MAXCATEGORYLABELS="0" CHARTTYPE="Line" VALUES="AUTO" DATASOURCE="\MSExchange Database ==&gt; Instances(edgetransport/Transport Mail Database)\Log Threads Waiting" />
+    <THRESHOLD NAME="Transport database log threads not being processed in a timely manner - greater than 10" CONDITION="Warning" COLOR="#FFFF00" PRIORITY="50">
+      <DESCRIPTION><![CDATA[Shows the number of threads waiting for their data to be written to the log to complete an update of the database. If this number is too high, the log may be a bottleneck.]]></DESCRIPTION>
+      <CODE><![CDATA[If AvgMSExchangeDatabase_Instances_LogThreadsWaiting > 10 Then
+    IsAvgThresholdBroken = True
+End If        
+
+If AvgMSExchangeDatabase_Instances_LogThreadsWaiting > 10 Then
+  IsMaxThresholdBroken = True
+End If]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[Log Threads Waiting is the number of threads waiting for their data to be written to the log in order to complete an update of the database.  If this number is too high, the log may be a bottleneck.]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Database ==&gt; Instances Log Generation Checkpoint Depth - Transport" ENABLED="True" ANALYZECOUNTER="\MSExchange Database ==&gt; Instances(edgetransport/Transport Mail Database)\Log Generation Checkpoint Depth" CATEGORY="MSExchange Database ==&gt; Instances">
+    <COUNTER NAME="\MSExchange Database ==&gt; Instances(edgetransport/Transport Mail Database)\Log Generation Checkpoint Depth" MINVARNAME="MinMSExchangeDatabase_Instances_LogGenerationCheckpointDepth" AVGVARNAME="AvgMSExchangeDatabase_Instances_LogGenerationCheckpointDepth" MAXVARNAME="MaxMSExchangeDatabase_Instances_LogGenerationCheckpointDepth" TRENDVARNAME="TrendMSExchangeDatabase_Instances_LogGenerationCheckpointDepth" DATATYPE="integer" />
+    <CHART CHARTTITLE="\MSExchange Database ==&gt; Instances(edgetransport/Transport Mail Database)\Log Generation Checkpoint Depth" OTSFORMAT="MM/dd hh:mm" GROUPSIZE="640x480" CATEGORIES="AUTO" DATATYPE="integer" LEGEND="ON" MAXCATEGORYLABELS="0" CHARTTYPE="Line" VALUES="AUTO" DATASOURCE="\MSExchange Database ==&gt; Instances(edgetransport/Transport Mail Database)\Log Generation Checkpoint Depth" />
+    <THRESHOLD NAME="Transport Database Log Generation Checkpoint Depth greater than 500" CONDITION="Warning" COLOR="#FFFF00" PRIORITY="50">
+      <DESCRIPTION><![CDATA[The Log Generation Checkpoint Depth performance counter represents the work, in a count of log files, that will need to be redone or undone to the database files if the process crashes.]]></DESCRIPTION>
+      <CODE><![CDATA[If AvgMSExchangeDatabase_Instances_LogGenerationCheckpointDepth > 500 Then
+   IsAvgThresholdBroken = True
+End If
+
+If MaxMSExchangeDatabase_Instances_LogGenerationCheckpointDepth > 500 Then
+   IsMaxThresholdBroken = True
+End If]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="Transport Database Log Generation Checkpoint Depth greater than 1000" CONDITION="Critical" COLOR="#FF0000" PRIORITY="100">
+      <DESCRIPTION><![CDATA[The Log Generation Checkpoint Depth performance counter represents the work, in a count of log files, that will need to be redone or undone to the database files if the process crashes.]]></DESCRIPTION>
+      <CODE><![CDATA[If AvgMSExchangeDatabase_Instances_LogGenerationCheckpointDepth > 1000 Then
+   IsAvgThresholdBroken = True
+End If
+
+If MaxMSExchangeDatabase_Instances_LogGenerationCheckpointDepth > 1000 Then
+   IsMaxThresholdBroken = True
+End If]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[Log Generation Checkpoint Depth represents the amount of work, in count of log files, that will need to be redone or undone to the database file(s) if the process crashes.
+<p>When this alert is triggered, messages are being received faster than they can be written to the transport queue database. Other symptoms that may occur when this threshold is reached are reduced intra-site, inter-site, and external mail flow. This problem may be caused by one or more of the following conditions:</p>
+<ul>
+    <li>Message volume is exceeding server capacity.</li>
+    <li>Applications other than Microsoft Exchange Server are accessing or placing file locks on the transaction log files.</li>
+    <li>Hard disks are not performing at a level to meet the disk I/O requirements of your Exchange environment.</li>
+</ul>
+<p>To resolve this problem, do one or more of the following:</p>
+<ul>
+    <li>Run the Microsoft Exchange Mail Flow Troubleshooter. To access the Mail Flow Troubleshooter, click <strong>Toolbox</strong> in the Exchange Management Console.</li>
+    <li>If you believe that an application is accessing or placing locks on the transaction log files, stop running the suspected application to determine if that is the cause of the problem. In addition, consider configuring the application so that it does not access the Microsoft Exchange folder and all subfolders.</li>
+    <li>Evaluate disk I/O performance. For information about how to monitor disk performance with Performance Monitor, see Microsoft Knowledge Base article <a href="http://support.microsoft.com/kb/102020">http://support.microsoft.com/kb/102020</a>.</li>
+</ul>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Network Interface Packets Outbound Errors" ENABLED="True" ANALYZECOUNTER="\Network Interface(*)\Packets Outbound Errors" CATEGORY="Network">
+    <COUNTER NAME="\Network Interface(*)\Packets Outbound Errors" MINVARNAME="MinNetworkInterface_PacketsOutboundErrors" AVGVARNAME="AvgNetworkInterface_PacketsOutboundErrors" MAXVARNAME="MaxNetworkInterface_PacketsOutboundErrors" TRENDVARNAME="TrendNetworkInterface_PacketsOutboundErrors" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Network Interface(*)\Packets Outbound Errors" OTSFORMAT="MM/dd hh:mm" GROUPSIZE="640x480" CATEGORIES="AUTO" DATATYPE="integer" LEGEND="ON" MAXCATEGORYLABELS="0" CHARTTYPE="Line" VALUES="AUTO" DATASOURCE="\Network Interface(*)\Packets Outbound Errors" />
+    <THRESHOLD NAME="Network Interface Packet Errors occurring" CONDITION="Critical" COLOR="#FF0000" PRIORITY="100">
+      <DESCRIPTION><![CDATA[]]></DESCRIPTION>
+      <CODE><![CDATA[If AvgNetworkInterface_PacketsOutboundErrors >1 Then
+  IsAvgThresholdBroken = True
+End If
+If MaxNetworkInterface_PacketsOutboundErrors >1 Then
+  IsMaxThresholdBroken = True
+End If
+
+]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[Packets Outbound Errors is the number of outbound packets that could not be transmitted because of errors.<BR>
+<BR>
+If errors are occuring during this analysis, network connectivity could be affected with a potential for random Outlook RPC dialog boxes. See <A HREF="http://technet.microsoft.com/en-us/library/aa997363.aspx">http://technet.microsoft.com/en-us/library/aa997363.aspx</A> and <A HREF="http://technet.microsoft.com/en-us/library/aa995850.asp">http://technet.microsoft.com/en-us/library/aa995850.asp</A> for more information<BR>]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="MSExchange Database ==&gt; Instances Log Generation Checkpoint Depth - MBX" ENABLED="True" ANALYZECOUNTER="\MSExchange Database ==&gt; Instances(*)\Log Generation Checkpoint Depth" CATEGORY="MSExchange Database ==&gt; Instances">
+    <COUNTER NAME="\MSExchange Database ==&gt; Instances(*)\Log Generation Checkpoint Depth" MINVARNAME="MinMSExchangeDatabase==&gt;Instances_LogGenerationCheckpointDepth" AVGVARNAME="AvgMSExchangeDatabase==&gt;Instances_LogGenerationCheckpointDepth" MAXVARNAME="MaxMSExchangeDatabase==&gt;Instances_LogGenerationCheckpointDepth" TRENDVARNAME="TrendMSExchangeDatabase==&gt;Instances_LogGenerationCheckpointDepth" DATATYPE="integer">
+      <EXCLUDE INSTANCE="edgetransport/Transport Mail Database" />
+      <EXCLUDE INSTANCE="edgetransport/IP Filtering Database" />
+      <EXCLUDE INSTANCE="edgetransport/Sender Reputation Database" />
+    </COUNTER>
+    <CHART CHARTTITLE="\MSExchange Database ==&gt; Instances(*)\Log Generation Checkpoint Depth" OTSFORMAT="MM/dd hh:mm" GROUPSIZE="640x480" CATEGORIES="AUTO" DATATYPE="integer" LEGEND="ON" MAXCATEGORYLABELS="0" CHARTTYPE="Line" VALUES="AUTO" DATASOURCE="\MSExchange Database ==&gt; Instances(*)\Log Generation Checkpoint Depth" />
+    <THRESHOLD NAME="Mailbox Storage Group Log Generation Checkpoint Depth greater than 250" CONDITION="Warning" COLOR="#FFFF00" PRIORITY="50">
+      <DESCRIPTION><![CDATA[Log Generation Checkpoint Depth represents the amount of work, in count of log files, that will need to be redone or undone to the database file(s) if the process crashes.]]></DESCRIPTION>
+      <CODE><![CDATA[If AvgMSExchangeDatabase==>Instances_LogGenerationCheckpointDepth > 250 Then
+IsAvgThresholdBroken = True
+End If
+
+If MaxMSExchangeDatabase==>Instances_LogGenerationCheckpointDepth > 250 Then
+IsMaxThresholdBroken = True
+End If
+
+]]></CODE>
+    </THRESHOLD>
+    <THRESHOLD NAME="Mailbox Storage Group Log Generation Checkpoint Depth greater than 500 - Mailbox" CONDITION="Critical" COLOR="#FF0000" PRIORITY="100">
+      <DESCRIPTION><![CDATA[Log Generation Checkpoint Depth represents the amount of work, in count of log files, that will need to be redone or undone to the database file(s) if the process crashes.]]></DESCRIPTION>
+      <CODE><![CDATA[If AvgMSExchangeDatabase==>Instances_LogGenerationCheckpointDepth > 500 Then
+IsAvgThresholdBroken = True
+End If
+
+If MaxMSExchangeDatabase==>Instances_LogGenerationCheckpointDepth > 500 Then
+IsMaxThresholdBroken = True
+End If
+]]></CODE>
+    </THRESHOLD>
+    <DESCRIPTION><![CDATA[Log Generation Checkpoint Depth represents the amount of work, in count of log files, that will need to be redone or undone to the database file(s) if the process crashes.<br>
+
+<p>The Log Generation Checkpoint Depth performance counter reports the number of transaction log files that have not yet been saved to the database. This number represents the number of transaction log files that must be replayed to the database if the Microsoft Exchange Information Store service process (Store.exe) stops and needs to be restarted. As the log file generation depth increases, the Exchange Information Store startup time increases. If the transaction log file depth of a storage group reaches 5,000, the Extensible Storage Engine (ESE) dismounts all the databases that are in the affected storage group.</p>
+<p>This alert indicates that the checkpoint depth is greater than 2500. The transaction log file depth may grow during periods when the server is busy. However, large values typically occur when there is a failure or when a backup fails.</p>
+<p><strong>User Action:</strong><br />
+To resolve this error, do one or more of the following:</p>
+<ul>
+    <li>Check if there is a failure, or if there is any application causing the Exchange Information Store to fail. Resolve the cause of the failure&nbsp;so that the checkpoint depth will start to decrease.</li>
+    <li>Check if there is a backup process that has failed.</li>
+</ul>
+
+]]></DESCRIPTION>
+  </ANALYSIS>
+  <ANALYSIS NAME="Memory Committed Bytes" ENABLED="True" ANALYZECOUNTER="\Memory\Committed Bytes" CATEGORY="Network">
+    <COUNTER NAME="\Memory\Committed Bytes" MINVARNAME="MinMemory_CommittedBytes" AVGVARNAME="AvgMemory_CommittedBytes" MAXVARNAME="MaxMemory_CommittedBytes" TRENDVARNAME="TrendMemory_CommittedBytes" DATATYPE="integer" />
+    <CHART CHARTTITLE="\Memory\Committed Bytes" OTSFORMAT="MM/dd hh:mm" GROUPSIZE="640x480" CATEGORIES="AUTO" DATATYPE="integer" LEGEND="ON" MAXCATEGORYLABELS="0" CHARTTYPE="Line" VALUES="AUTO" DATASOURCE="\Memory\Committed Bytes" ORDERBY="ASC" />
+    <COUNTER NAME="\Memory\Commit Limit" MINVARNAME="MinMemoryCommitLimit" AVGVARNAME="AvgMemoryCommitLimit" MAXVARNAME="MaxMemoryCommitLimit" TRENDVARNAME="TrendMemoryCommitLimit" DATATYPE="integer" />
+    <DESCRIPTION><![CDATA[Committed Bytes is the amount of committed virtual memory, in bytes. Committed memory is the physical memory which has space reserved on the disk paging file(s). There can be one or more paging files on each physical drive. This counter displays the last observed value only; it is not an average.]]></DESCRIPTION>
+  </ANALYSIS>
+  <INHERITANCE FILEPATH="" />
+</PAL>
