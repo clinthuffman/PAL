@@ -581,23 +581,21 @@ Public Class PALFunctions
         sLogName = sLogName.Replace("(", "")
         sLogName = sLogName.Replace(")", "")
 
-        sOutput = "" & _
-        "<?xml version=" & Chr(34) & "1.0" & Chr(34) & " encoding=" & Chr(34) & "UTF-8" & Chr(34) & "?>" & vbNewLine & _
-        "<?Copyright (c) Microsoft Corporation. All rights reserved.?>" & vbNewLine & _
-        "<DataCollectorSet>" & vbNewLine & _
-        "<Name>" & sLogName & "</Name>" & vbNewLine & _
-        "<DisplayName>@%systemroot%\system32\wdc.dll,#10026</DisplayName>" & vbNewLine & _
-        "<Description>@%systemroot%\system32\wdc.dll,#10027</Description>" & vbNewLine & _
-        "<Keyword>CPU</Keyword>" & vbNewLine & _
-        "<Keyword>Memory</Keyword>" & vbNewLine & _
-        "<Keyword>Disk</Keyword>" & vbNewLine & _
-        "<Keyword>Network</Keyword>" & vbNewLine & _
-        "<Keyword>Performance</Keyword>" & vbNewLine & _
-        "<RootPath>%systemdrive%\perflogs\System\Performance</RootPath>" & vbNewLine & _
-        "<SubdirectoryFormat>3</SubdirectoryFormat>" & vbNewLine & _
-        "<SubdirectoryFormatPattern>yyyyMMdd\-NNNNNN</SubdirectoryFormatPattern>" & vbNewLine & _
-        "<PerformanceCounterDataCollector>" & vbNewLine & _
-        "    <Name>" & sLogName & "</Name>" & vbNewLine & _
+        sOutput = "" &
+        "<?xml version=" & Chr(34) & "1.0" & Chr(34) & " encoding=" & Chr(34) & "UTF-16" & Chr(34) & "?>" & vbNewLine &
+        "<?Copyright (c) Microsoft Corporation. All rights reserved.?>" & vbNewLine &
+        "<DataCollectorSet>" & vbNewLine &
+        "<Name>" & sLogName & "</Name>" & vbNewLine &
+        "<Keyword>CPU</Keyword>" & vbNewLine &
+        "<Keyword>Memory</Keyword>" & vbNewLine &
+        "<Keyword>Disk</Keyword>" & vbNewLine &
+        "<Keyword>Network</Keyword>" & vbNewLine &
+        "<Keyword>Performance</Keyword>" & vbNewLine &
+        "<RootPath>%systemdrive%\perflogs\System\Performance</RootPath>" & vbNewLine &
+        "<SubdirectoryFormat>3</SubdirectoryFormat>" & vbNewLine &
+        "<SubdirectoryFormatPattern>yyyyMMdd\-NNNNNN</SubdirectoryFormatPattern>" & vbNewLine &
+        "<PerformanceCounterDataCollector>" & vbNewLine &
+        "    <Name>" & sLogName & "</Name>" & vbNewLine &
         "    <SampleInterval>15</SampleInterval>" & vbNewLine
         For i = 0 To ListOfCounters.Count - 1
             ListOfCounters(i) = ListOfCounters(i).Replace("&", "&amp;")
