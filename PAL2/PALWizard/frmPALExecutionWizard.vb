@@ -1084,7 +1084,7 @@ Public Class frmPALExecutionWizard
             Case WINSEVEN
                 sPerfmonLogTemplateBody = oPALFunctions.ExportThresholdFileToDataCollectorTemplate(ThresholdFilePath)
                 If sPerfmonLogTemplateBody <> "" Then
-                    My.Computer.FileSystem.WriteAllText(SaveFileDialog1.FileName, sPerfmonLogTemplateBody, False)
+                    My.Computer.FileSystem.WriteAllText(SaveFileDialog1.FileName, sPerfmonLogTemplateBody, False, System.Text.Encoding.Unicode)
                 End If
             Case LOGMAN
                 sPerfmonLogTemplateBody = oPALFunctions.ExportThresholdFileToLogmanCounterListFile(ThresholdFilePath)
