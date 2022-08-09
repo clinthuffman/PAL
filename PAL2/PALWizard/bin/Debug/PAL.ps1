@@ -33,6 +33,7 @@ if($ClearLog){
 
 $Version = '2.8.1'
 $AutoAnalysisIntervalNumberOfTimeSlices = 30
+$WriteProgressFrequencyMs = 5000
 
 #// Chart Settings
 $CHART_LINE_THICKNESS = 3 #// 2 is thin, 3 is normal, 4 is thick
@@ -1397,7 +1398,7 @@ Function AddAllCountersFromPerfmonLog
             [void] $htCounterExpressions.Add($XmlAnalysisNode.PRIMARYDATASOURCE,"")
         }
     }
-    
+    $sw = [System.Diagnostics.Stopwatch]::StartNew()
     For ($i=0;$i -lt $global:oPal.LogCounterList.GetUpperBound(0);$i++)
     {
         $sCounterExpression = ConvertCounterNameToExpressionPath $global:oPal.LogCounterList[$i]
@@ -1406,8 +1407,11 @@ Function AddAllCountersFromPerfmonLog
             CreateXmlAnalysisNodeFromCounterPath $sCounterExpression
             [void] $htCounterExpressions.Add($sCounterExpression,"")
         }
-        $PercentComplete = CalculatePercentage -Number $i -Total $global:oPal.LogCounterList.GetUpperBound(0)
-        Write-Progress -activity 'Importing the counter list as new analyses...' -status '% Complete:' -percentcomplete $PercentComplete -id 2;
+        if ($sw.Elapsed.TotalMilliseconds -ge $WriteProgressFrequencyMs) {
+            $PercentComplete = CalculatePercentage -Number $i -Total $global:oPal.LogCounterList.GetUpperBound(0)
+            Write-Progress -activity 'Importing the counter list as new analyses...' -status '% Complete:' -percentcomplete $PercentComplete -id 2;
+            $sw.Restart()
+        }
     }
     Write-Progress -activity 'Importing the counter list as new threshold analyses' -status '% Complete:' -Completed -id 2
     Write-Host 'Done!'
@@ -1499,15 +1503,18 @@ Function ConvertToDataType
 Function GenerateXmlCounterList
 {
     #// This function converts the raw text based counter list into an XML document organized by counter properties for better performance.
-
+    $sw = [System.Diagnostics.Stopwatch]::StartNew()
     $c = $global:oPal.LogCounterList
     
     [xml] $global:oXml.XmlCounterLogCounterInstanceList = "<PAL></PAL>"
     For ($i=0;$i -le $c.GetUpperBound(0);$i++)
     {
-        $PercentComplete = CalculatePercentage -Number $i -Total $c.GetUpperBound(0)
-        $sComplete = "Progress: $(ConvertToDataType $PercentComplete 'integer')% (Counter $i of $($c.GetUpperBound(0)))"
-        write-progress -activity 'Generating counter index to improve performance...' -status $sComplete -percentcomplete $PercentComplete -id 2;
+        if ($sw.Elapsed.TotalMilliseconds -ge $WriteProgressFrequencyMs) {
+            $PercentComplete = CalculatePercentage -Number $i -Total $c.GetUpperBound(0)
+            $sComplete = "Progress: $(ConvertToDataType $PercentComplete 'integer')% (Counter $i of $($c.GetUpperBound(0)))"
+            write-progress -activity 'Generating counter index to improve performance...' -status $sComplete -percentcomplete $PercentComplete -id 2;
+            $sw.Restart()
+        }
         
         $sCounterPath = $c[$i]
         $oCtr = CounterPathToObject -sCounterPath $sCounterPath
@@ -2138,13 +2145,17 @@ Function ConstructCounterDataArray
 			$iPerfmonCsvIndexHeight = $iPerfmonCsvIndexHeight - 1
 		} until ($($oCSVFile[$iPerfmonCsvIndexHeight].Contains(',')) -eq $true)	
 	}
+    $sw = [System.Diagnostics.Stopwatch]::StartNew()
 	For ($i=0;$i -le $iPerfmonCsvIndexHeight;$i++)
 	{
 		$aLine = $oCSVFile[$i].Trim('"') -split '","'
 		[void] $global:oPal.LogCounterData.Add($aLine)
-        $PercentComplete = CalculatePercentage -Number $i -Total $iPerfmonCsvIndexHeight
-        $sComplete = "Progress: $(ConvertToDataType $PercentComplete 'integer')% (Counter $i of $iPerfmonCsvIndexHeight)"
-        write-progress -activity 'Importing counter data into memory...' -status $sComplete -percentcomplete $PercentComplete -id 2
+        if ($sw.Elapsed.TotalMilliseconds -ge $WriteProgressFrequencyMs) {
+            $PercentComplete = CalculatePercentage -Number $i -Total $iPerfmonCsvIndexHeight
+            $sComplete = "Progress: $(ConvertToDataType $PercentComplete 'integer')% (Counter $i of $iPerfmonCsvIndexHeight)"
+            write-progress -activity 'Importing counter data into memory...' -status $sComplete -percentcomplete $PercentComplete -id 2
+            $sw.Restart()
+        }
 	}
     $sComplete = "Progress: 100% (Counter $iPerfmonCsvIndexHeight of $iPerfmonCsvIndexHeight)"
     write-progress -activity 'Importing counter data into memory...' -status $sComplete -Completed -id 2
@@ -2395,15 +2406,18 @@ Function LoadCounterDataIntoXml
     $sComplete = '(Analysis: 0 of ' + $iNumberOfAnalyses + ')'
     Write-Progress -activity 'Preparing the thread engine...' -status $sComplete -percentcomplete $iPercentComplete -id 2;
     $iAnalysisNumber = 0
-
+    $sw = [System.Diagnostics.Stopwatch]::StartNew()
     ForEach ($XmlAnalysisInstance in $global:oXml.XmlAnalyses.SelectNodes("//ANALYSIS"))
     {   
         If (($(Test-XmlBoolAttribute -InputObject $XmlAnalysisInstance -Name 'ENABLED') -eq $True) -and ($(Test-XmlBoolAttribute -InputObject $XmlAnalysisInstance -Name 'AllCountersFound') -eq $True))
         {
             $iAnalysisNumber++
-            $iPercentComplete = ConvertToDataType $(($iAnalysisNumber / $iNumberOfAnalyses) * 100) 'integer'
-            $sComplete = '(Analysis: '  + $iAnalysisNumber  + ' of ' + $iNumberOfAnalyses + ')'
-            Write-Progress -activity 'Preparing the thread engine...' -status $sComplete -percentcomplete $iPercentComplete -id 2;
+            if ($sw.Elapsed.TotalMilliseconds -ge $WriteProgressFrequencyMs) {
+                $iPercentComplete = ConvertToDataType $(($iAnalysisNumber / $iNumberOfAnalyses) * 100) 'integer'
+                $sComplete = '(Analysis: '  + $iAnalysisNumber  + ' of ' + $iNumberOfAnalyses + ')'
+                Write-Progress -activity 'Preparing the thread engine...' -status $sComplete -percentcomplete $iPercentComplete -id 2;
+                $sw.Restart()
+            }
 
             $oCollectionOfDataSources = New-Object System.Collections.ArrayList
 
@@ -2905,6 +2919,7 @@ Function GenerateDataSources
         {
             If ($(Test-XmlBoolAttribute -InputObject $XmlAnalysisInstance -Name 'AllCountersFound') -eq $True)
             {
+                $sw = [System.Diagnostics.Stopwatch]::StartNew()
                 ForEach ($XmlDataSource in $XmlAnalysisInstance.SelectNodes('./DATASOURCE'))
             	{
                     If ($XmlDataSource.TYPE -eq 'Generated')
@@ -2915,9 +2930,12 @@ Function GenerateDataSources
         			    #//$global:htCodeReplacements = @{}
                         PrepareGeneratedCodeReplacements -XmlAnalysisInstance $XmlAnalysisInstance
             			GenerateDataSourceData -XmlGeneratedDataSource $XmlDataSource
-                        $iPercentComplete = ConvertToDataType $(($iDsNum / $iNumOfGeneratedCounters) * 100) 'integer'
-                        $sComplete = "Progress: $iPercentComplete% (Datasource $iDsNum of $iNumOfGeneratedCounters)"
-                        Write-Progress -activity "Creating generated counter data..." -status $sComplete -percentcomplete $iPercentComplete -id 2;
+                        if ($sw.Elapsed.TotalMilliseconds -ge $WriteProgressFrequencyMs) {
+                            $iPercentComplete = ConvertToDataType $(($iDsNum / $iNumOfGeneratedCounters) * 100) 'integer'
+                            $sComplete = "Progress: $iPercentComplete% (Datasource $iDsNum of $iNumOfGeneratedCounters)"
+                            Write-Progress -activity "Creating generated counter data..." -status $sComplete -percentcomplete $iPercentComplete -id 2;
+                            $sw.Restart()
+                        }
                         $iDsNum++
                     }
             	}
